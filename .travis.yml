@@ -1,0 +1,10 @@
+language: r
+sudo: required
+dist: trusty
+
+addons:
+  apt:
+    packages:
+      - libgdal-dev
+      - libgeos-dev
+      - libproj-dev
