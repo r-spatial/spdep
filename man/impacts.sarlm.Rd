@@ -146,6 +146,7 @@ mobj3 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed",
 method="spam", control=list(fdHess=TRUE))
 summary(impacts(mobj3, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
 }
+\dontrun{
 data(boston, package="spData")
 Wb <- as(nb2listw(boston.soi), "CsparseMatrix")
 trMatb <- trW(Wb, type="mult")
@@ -172,6 +173,7 @@ mobj <- lagsarlm(form, house, lw, type="mixed",
 summary(mobj)
 moobj <- impacts(mobj, tr=trMat, R=1000)
 summary(moobj, zstats=TRUE, short=TRUE)
+}
 }
 }
 \keyword{spatial}

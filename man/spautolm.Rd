@@ -129,6 +129,7 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 
 \seealso{\code{\link[stats]{optimize}}, \code{\link{errorsarlm}}, \code{\link{do_ldet}}}
 \examples{
+\dontrun{
 if (require(foreign, quietly=TRUE)) {
 example(NY_data, package="spData")
 lm0 <- lm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata)
@@ -148,7 +149,6 @@ sqrt(diag(esar1f$fdHess))
 system.time(esar1M <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
  data=nydata, listw=listw_NY, family="SAR", method="Matrix", verbose=TRUE))
 summary(esar1M)
-\dontrun{
 system.time(esar1M <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
  data=nydata, listw=listw_NY, family="SAR", method="Matrix", verbose=TRUE,
  control=list(super=TRUE)))
@@ -235,6 +235,7 @@ summary(ecarIVaw)
 nc.sids$fitIV <- append(fitted.values(ecarIVaw), NA, outl-1)
 spplot(nc.sids, c("fitIV"), cuts=12) # Cressie 1993, p. 565
 }
+\dontrun{
 data(oldcol)
 COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb, style="W"))
@@ -247,6 +248,7 @@ gp1 <- spautolm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2)
  + I(RM^2) + AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), 
  data=boston.c, nb2listw(boston.soi), family="SMA")
 summary(gp1)
+}
 }
 }
 \keyword{spatial}
