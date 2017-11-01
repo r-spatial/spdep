@@ -1,0 +1,107 @@
+Spatial dependence: weighting schemes, statistics and models
+
+A collection of functions to create spatial weights matrix objects from
+polygon contiguities, from point patterns by distance and tesselations,
+for summarising these objects, and for permitting their use in spatial
+data analysis; a collection of tests for spatial autocorrelation,
+including global Moran's I, Geary's C, Hubert/Mantel general cross product
+statistic, Empirical Bayes estimates and spatial Index, and Getis/Ord G,
+local Moran's I and Getis/Ord G, saddlepoint approximations for global
+and local Moran's I; and functions for estimating spatial simultaneous
+autoregressive (SAR) lag and error models, weighted and unweighted
+SAR and CAR spatial regression models, and GM SAR error models.
+
+This file is intended to clarify ownership and copyright: where
+possible individual files also carry brief copyright notices. 
+
+Copyrights
+==========
+
+Files: src/dnn.c and src/knearneigh.c are based on code taken from:
+class/class.c by W. N. Venables and B. D. Ripley  Copyright (C) 1994-9
+
+Files: src/dfs_comp.c, src/gabriel.c, src/relative.c, R/components.R,
+R/gabrielneigh.R, R/graph2nb.R, R/nboperations.R, R/relneigh.R, R/soi.R,
+man/compon.Rd, man/graphneigh.Rd, man/nboperations.Rd are copyright (c)
+2001 by Nicholas Lewin-Koh and are subject to the licence at the foot
+of this file.
+
+File: R/lag.spsarlm.R is copyright (c) 1998-2002 by Roger Bivand and Andrew
+Bernat, and is subject to the licence at the foot of this file.
+
+File: R/globalG.R is copyright (c) 2002 by Hisaji ONO and Roger Bivand, 
+and is subject to the licence at the foot of this file.
+
+Files: R/mtlocalmoran.R and R/mtmoran.R are copyright (c) 2002 by Roger
+Bivand and Michael Tiefelsdorf, and are subject to the licence at the
+foot of this file.
+
+File: R/EBI.R is copyright (c) 2003 by Roger Bivand and Marilio Carvalho, 
+and is subject to the licence at the foot of this file.
+
+File: R/p.adjustSP.R is copyright (c) 2004 by Roger Bivand and Danlin Yu, 
+and is subject to the licence at the foot of this file.
+
+File: R/autocov.R is copyright (c) 2005 by Carsten F. Dormann and Roger Bivand, 
+and is subject to the licence at the foot of this file.
+
+File: R/kpgm_new.R is copyright (c) 2005 by Luc Anselin and Roger Bivand, 
+and is subject to the licence at the foot of this file.
+
+File: R/SpatialFiltering.R is copyright (c) 2005 by Yongwan Chun, Michael 
+Tiefelsdorf and Roger Bivand, and is subject to the licence at the foot 
+of this file.
+
+Files: data/afcon.rda, data/columbus.rda, data/oldcon.rda,
+data/nc.sids.rda are derived by permission from SpaceStat data files
+prepared by Luc Anselin; they were downloaded from:
+
+http://www.spacestat.com/data.htm#data
+
+under the following conditions: "All data sets are provided as is,
+and no warranties, expressed or implied are made as to the correctness
+and fitness for a purpose. Proper citation of the source of the data in
+published work would be appreciated."
+
+File: data/eire.rda is derived from data sets made available by Michael
+Tiefelsdorf based on sources named in man/eire.Rd, and downloaded from:
+
+http://geog-www.sbs.ohio-state.edu/faculty/tiefelsdorf/GeoStat.htm
+
+File: data/auckland.rda is derived from data sets included with INFOMAP 
+in Bailey T, Gatrell A (1995) Interactive Spatial Data Analysis, Harlow: 
+Longman, and is used with permission of the authors.
+
+File: data/NY_data.rda  is derived from data sets for Waller, L. and
+C. Gotway (2004) Applied Spatial Statistics for Public Health Data,
+New York: John Wiley and Sons, and is used with permission of the authors.
+
+Other files in the data directory are derived from sources given on
+their help pages.
+
+All other files are copyright (c) 1998-2005 Roger S. Bivand and
+are subject to the licence at the foot of this file.
+
+Licence
+=======
+
+    This is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
+
+
+The file COPYING in the R top-level directory is a copy of the "GNU
+General Public License".
+
+Roger.Bivand@nhh.no
+

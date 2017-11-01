@@ -1,0 +1,49 @@
+Obs,State_name,Fipsno
+1,Alabama,1
+2,Arizona,4
+3,Arkansas,5
+4,California,6
+5,Colorado,8
+6,Connecticut,9
+7,Delaware,10
+8,Florida,12
+9,Georgia,13
+10,Idaho,16
+11,Illinois,17
+12,Indiana,18
+13,Iowa,19
+14,Kansas,20
+15,Kentucky,21
+16,Louisiana,22
+17,Maine,23
+18,Maryland,24
+19,Massachusetts,25
+20,Michigan,26
+21,Minnesota,27
+22,Mississippi,28
+23,Missouri,29
+24,Montana,30
+25,Nebraska,31
+26,Nevada,32
+27,New Hampshire,33
+28,New Jersey,34
+29,New Mexico,35
+30,New York,36
+31,North Carolina,37
+32,North Dakota,38
+33,Ohio,39
+34,Oklahoma,40
+35,Oregon,41
+36,Pennsylvania,42
+37,Rhode Island,44
+38,South Carolina,45
+39,South Dakota,46
+40,Tennessee,47
+41,Texas,48
+42,Utah,49
+43,Vermont,50
+44,Virginia,51
+45,Washington,53
+46,West Virginia,54
+47,Wisconsin,55
+48,Wyoming,56

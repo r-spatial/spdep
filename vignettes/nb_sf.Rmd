@@ -1,0 +1,581 @@
+---
+title: "Creating Neighbours using sf objects"
+author: "Roger Bivand"
+output:
+  html_document:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Creating Neighbours using sf objects}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Creating Neighbours using sf objects
+
+## Introduction
+
+This vignette tracks the legacy nb vignette, which was based on part of the first (2008) edition of ASDAR. It adds hints to the code in the nb vignette to use the sf vector representation instead of the sp vector representation to create neighbour objects. 
+
+## Summary
+
+This is a summary of the results below:
+
+- In general, if you need to reproduce results from using sp objects in spdep, coerce sf objects to sp objects before constructing neighbour objects (particularly if polygon centroids are used for point representation).
+
+- Further, for new work, you can either coerce from sf to sp objects and just use spdep to create nb objects, or use sf functions to create sparse geometry binary predicate objects and coerce these to neighbour objects.
+
+- Polygon validity matters: sf geometries need to be valid; sp geometries (and their use in spdep) pre-date OGC SF validity.
+
+- sf functions (st_relate, st_is_within_distance, st_centroid, etc.) appear to be an order of magnitude slower than equivalent sp/spdep/rgeos functions (poly2nb, dnearneigh, gCentroid, etc.)
+
+- sf functions appear to scale linearly in n, like sp/spdep functions
+
+## Data set
+
+We'll use the whole NY 8 county set of boundaries, as they challenge the implementations more than just the Syracuse subset. The description of the input geometries from ADSAR is: New York leukemia: used and documented extensively in Waller and Gotway (2004) and with data made available in Chap. 9 of [http://web1.sph.emory.edu/users/lwaller/ch9index.htm]
+(http://web1.sph.emory.edu/users/lwaller/ch9index.htm); the data import process is described in the help file of NY_data in spdep; geometries downloaded from the CIESIN server at [ftp.ciesin.columbia.edu](ftp.ciesin.columbia.edu), file /pub/census/usa/tiger/ny/bna_st/t8_36.zip, and extensively edited; a zip archive NY_data.zip of shapefiles and a GAL format neighbours list is on the book website. Further, the zipfile is now at: [a new location requiring login]
+(http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip). The object listw_NY is directly imported from nyadjwts.dbf on the Waller & Gotway (2004) chapter 9 website.
+
+The version of the New York 8 counties geometries used in ASDAR and included as a shapefile in spdep was converted from the original BNA file using an external utility program to convert to MapInfo format and converted on from there using GDAL 1.4.1 (the OGR BNA driver was not then available; it entered OGR at 1.5.0, release at the end of 2007), and contains invalid geometries. What was found in mid-2007 was that included villages were in/excluded by in-out umbilical cords to the boundary of the enclosing tract, when the underlying BNA file was first converted to MapInfo (holes could not exist then).
+
+Here we will use a GPKG file created as follows (rgdal could also be used with the same output; GDAL here is built with GEOS, so the BNA vector driver will use geometry tests: The BNA driver supports reading of polygons with holes or lakes. It determines what is a hole or a lake only from geometrical analysis (inclusion, non-intersection tests) and ignores completely the notion of polygon winding (whether the polygon edges are described clockwise or counter-clockwise). GDAL must be built with GEOS enabled to make geometry test work.):
+
+```{r, eval=FALSE}
+library(sf)
+sf_bna <- st_read("t8_36.bna", stringsAsFactors=FALSE)
+table(st_is_valid(sf_bna))
+sf_bna$AREAKEY <- gsub("\\.", "", sf_bna$Primary.ID)
+data(NY_data, package="spData")
+key <- as.character(nydata$AREAKEY)
+sf_bna1 <- sf_bna[match(key, sf_bna$AREAKEY), c("AREAKEY")]
+sf_bna2 <- merge(sf_bna1, nydata, by="AREAKEY")
+sf_bna2_utm18 <- st_transform(sf_bna2, "+proj=utm +zone=18 +datum=NAD27")
+st_write(sf_bna2_utm18, "NY8_bna_utm18.gpkg")
+```
+
+
+## nb and listw objects (copied from the nb_igraph vignette)
+
+Since the **spdep** package was created, *spatial weights* objects have been constructed as lists with three components and a few attributes, in old-style class `listw` objects. The first component of a `listw` object is an `nb` object, a list of `n` integer vectors, with at least a character vector `region.id` attribute with `n` unique values (like the `row.names` of a `data.frame` object); `n` is the number of spatial entities. Component `i` of this list contains the integer identifiers of the neighbours of `i` as a sorted vector with no duplication and values in `1:n`; if `i` has no neighbours, the component is a vector of length `1` with value `0L`. The `nb` object may contain an attribute indicating whether it is symmetric or not, that is whether `i` is a neighbour of `j` implies that `j` is a neighbour of `i`. Some neighbour definitions are symmetric by construction, such as contiguities or distance thresholds, others are asymmetric, such as `k`-nearest neighbours. The `nb` object redundantly stores both `i`-`j` and `j`-`i` links.
+
+The second component of a `listw` object is a list of `n` numeric vectors, each of the same length as the corresponding non-zero vectors in the `nb`object. These give the values of the spatial weights for each `i`-`j` neighbour pair. It is often the case that while the neighbours are symmetric by construction, the weights are not, as for example when weights are *row-standardised* by dividing each row of input weights by the count of neighbours or cardinality of the neighbour set of `i`. In the `nb2listw`function, it is also possible to pass through general weights, such as inverse distances, shares of boundary lengths and so on.
+
+The third component of a `listw` object records the `style` of the weights as a character code, with `"B"` for binary weights taking values zero or one (only one is recorded), `"W"` for row-standardised weights, and so on. In order to subset `listw` objects, knowledge of the `style` may be necessary.
+
+## Comparison of sp and sf approaches
+
+First some housekeeping and setup to permit this vignette to be built when packages are missing or out-of-date:
+
+```{r, echo=FALSE}
+rv <- R.Version()
+dothis <- TRUE
+if (rv$major > "3" || (rv$major == "3" && !(rv$minor >= "3.0"))) dothis=FALSE
+```
+
+```{r, echo=dothis, eval=dothis}
+if (!suppressPackageStartupMessages(require(sf, quietly=TRUE))) {
+  message("install the sf package")
+  dothis <- FALSE
+}
+if (dothis) sf_extSoftVersion()
+```
+
+```{r, echo=dothis, eval=dothis}
+if (!suppressPackageStartupMessages(require(rgdal, quietly=TRUE))) {
+  message("install the rgdal package")
+  dothis <- FALSE
+}
+if (dothis) {
+  if (exists("rgdal_extSoftVersion")) rgdal_extSoftVersion()
+  else getGDALVersionInfo()
+}
+```
+
+```{r, echo=dothis, eval=dothis}
+if (!suppressPackageStartupMessages(require(rgeos, quietly=TRUE))) {
+  message("install the rgeos package")
+  dothis <- FALSE
+}
+if (dothis) {
+  if (exists("rgeos_extSoftVersion")) rgeos_extSoftVersion()
+  else version_GEOS()
+}
+```
+
+Let us read the GPKG file with valid geometries in to 'sf' and 'sp' objects:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sf <- st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData"), quiet=TRUE)
+table(st_is_valid(NY8_sf))
+```
+
+```{r, echo=dothis, eval=dothis}
+NY8_sp <- readOGR(system.file("shapes/NY8_bna_utm18.gpkg", package="spData"), verbose=FALSE)
+table(gIsValid(NY8_sp, byid=TRUE))
+```
+
+### Contiguity neighbours for polygon support
+
+Here we first generate a queen contiguity nb object using the legacy spdep approach. This first either uses a pre-computed list of vectors of probable neighbours or finds intersecting bounding boxes internally. Then the points on the boundaries of each set of polygons making up an observation are checked for a distance less than snap to any of the points of the set of polygons making up an observation included in the set of candidate neighbours. Because contiguity is symmetric, only i to j contiguities are tested. A queen contiguity is found as soon as one point matches, a rook contiguity as soon as two points match:
+
+```{r, echo=dothis, eval=dothis}
+suppressPackageStartupMessages(library(spdep))
+reps <- 10
+eps <- sqrt(.Machine$double.eps)
+system.time(for(i in 1:reps) NY8_sp_1_nb <- poly2nb(NY8_sp, queen=TRUE, snap=eps))/reps
+```
+
+```{r, echo=dothis, eval=dothis}
+NY8_sp_1_nb
+```
+
+Using rgeos STR trees to check the intersection of envelopes (bounding boxes) is much faster than the internal method in poly2nb for large n. Because contiguity is symmetric by definition, the queries only return intersections for higher indices.
+
+```{r, echo=dothis, eval=dothis}
+STRQ <-system.time(for(i in 1:reps) a2 <- gUnarySTRtreeQuery(NY8_sp))/reps
+system.time(for(i in 1:reps) NY8_sp_1_fB_nb <- poly2nb(NY8_sp, queen=TRUE, snap=eps, foundInBox=a2))/reps + STRQ
+```
+
+```{r, echo=dothis, eval=dothis}
+all.equal(NY8_sp_1_fB_nb, NY8_sp_1_nb, check.attributes=FALSE)
+```
+
+Using sf::st_relate, we can define an un-snapped relational pattern for queen contiguities:
+
+```{r, echo=dothis, eval=dothis}
+st_queen <- function(a, b = a) st_relate(a, b, pattern = "F***T****")
+```
+
+The output from st_queen is a list with attributes:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for(i in 1:reps) NY8_sf_1_sgbp <- st_queen(NY8_sf))/reps
+```
+
+As we can see, the sf-based contiguity test is an order of magnitude slower than spdep::poly2nb; fortunately, it also scales linearly in the number of observations. spdep::poly2nb uses two heuristics, first to find candidate neighbours from intersecting bounding boxes, and second to use the symmetry of the relationship to halve the number of remaining tests. This means that performance is linear in n, but with overhead for identifying candidates, and back-filling symmetric neighbours. Further, spdep::poly2nb stops searching for queen contiguity as soon as the first neighbour point is found within snap distance (if not identical, which is tested first); second neighbour point for rook contiguities. spdep::poly2nb was heavily optimised when written, as processor speed was a major constraint at that time. 
+
+The addition of STR tree queries to identify candidates permits the construction of contiguous neighbour objects for quite large objects, for example the ZCTA 2016 shapefile with 33144 features. sf::st_read imports the data in about 3 s., rgdal::readOGR in under 8 s; in both cases the polygon geometries are valid. Finding the candidate neighbours with rgeos::gUnarySTRtreeQuery takes 4.5 s, and spdep::poly2nb a further 4.4 s. So for the sp variant, the total time is about 17 s., and using sf::st_read 3 s. and coercion to sp 7.5 s., then rgeos::gUnarySTRtreeQuery 4.5 s, and spdep::poly2nb 4.4 s., in total about 20 s. Running st_queen defined above using sf::st_relate takes about 136 s. for a total of 139 s. to generate a queen neighbour object. The contiguity neighbour objects using st_queen and spdep::poly2nb are identical.
+
+Using sf::st_is_within_distance to emulate the snap= argument in spdep::poly2nb is very time-consuming; it takes more than 70 s. to run:
+
+```{r, echo=dothis, eval=dothis, eval=FALSE}
+system.time(for (i in 1:reps) NY8_sf_dist_nb <- st_is_within_distance(NY8_sf, NY8_sf, dist=eps))/reps
+```
+
+After removal of self-contiguities yields the same sets of neighbours.
+
+```{r, echo=dothis, eval=dothis, eval=FALSE}
+NY8_sf_dist_nb1 <- lapply(1:length(NY8_sf_dist_nb), function(i) NY8_sf_dist_nb[[i]][-match(i, NY8_sf_dist_nb[[i]])])
+all.equal(NY8_sf_dist_nb1, NY8_sp_1_nb, check.attributes=FALSE)
+```
+
+We can convert an object of class sgbp (sparse geometry binary predicate) to nb in this way, taking care to represent observations with no neighbours with integer 0:
+
+```{r, echo=dothis, eval=dothis}
+as.nb.sgbp <- function(x, ...) {
+  attrs <- attributes(x)
+  x <- lapply(x, function(i) { if(length(i) == 0L) 0L else i } )
+  attributes(x) <- attrs
+  class(x) <- "nb"
+  x
+}
+```
+
+The neighbour objects produced by st_queen and spdep::poly2nb contain the same sets of neighbours:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sf_1_nb <- as.nb.sgbp(NY8_sf_1_sgbp)
+all.equal(NY8_sf_1_nb, NY8_sp_1_nb, check.attributes=FALSE)
+```
+To get around the time penalty of using GEOS functions in sf to find contiguous neighbours, we may coerce to the sp representation first:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for(i in 1:reps) as(NY8_sf, "Spatial"))/reps
+```
+
+It is the use of GEOS functionality that costs time, as we can see by using rgeos::gTouches:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for(i in 1:reps) sp_touches <- gTouches(NY8_sp, byid=TRUE, returnDense=FALSE))/reps
+```
+
+```{r, echo=dothis, eval=dothis}
+all.equal(sp_touches, NY8_sp_1_nb, check.attributes=FALSE)
+```
+
+or equivalently sf::st_touches with very similar timings, like those of sf::st_relate in st_queen:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for(i in 1:reps) NY8_sf_1_touch <- st_touches(NY8_sf, NY8_sf))/reps
+```
+
+```{r, echo=dothis, eval=dothis}
+class(NY8_sf_1_touch) <- "sgbp"
+all.equal(as.nb.sgbp(NY8_sf_1_touch), NY8_sp_1_nb, check.attributes=FALSE)
+```
+
+The output objects are the same, once again. What we now have as queen contiguity neighbours are:
+
+```{r, echo=dothis, eval=dothis}
+plot(NY8_sp, border="grey", lwd=0.5)
+plot(NY8_sp_1_nb, coordinates(NY8_sp), points=FALSE, add=TRUE, lwd=0.7)
+```
+
+### Contiguity neighbours from invalid polygons
+
+Next, we explore a further possible source of differences in neighbour object reproduction, using the original version of the tract boundaries used in ASDAR, but with some invalid geometries as mentioned earlier:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sp_old <- readOGR(system.file("shapes/NY8_utm18.shp", package="spData"), verbose=FALSE)
+if (suppressPackageStartupMessages(require(rgeos, quietly=TRUE))) suppressWarnings(table(gIsValid(NY8_sp_old, byid=TRUE)))
+```
+
+We can see that there are a number of differences between the neighbour sets derived from the fully valid geometries and the older partly invalid set:
+
+```{r, echo=dothis, eval=dothis}
+try(NY8_sp_old_1_nb <- poly2nb(NY8_sp_old), silent = TRUE)
+all.equal(NY8_sp_old_1_nb, NY8_sp_1_nb, check.attributes=FALSE)
+```
+spdep::poly2nb does not object to using invalid geometries, as it only uses the boundary points defining the polygons (as do the rgeos STR tree construction and query functions, because points are sufficient to construct bounding boxes).
+
+Using the standard "trick", we can buffer by 0 to try to make the geometries valid:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sp_old_buf <- gBuffer(NY8_sp_old, width=0, byid=TRUE)
+table(gIsValid(NY8_sp_old_buf, byid=TRUE))
+```
+Hoverver, in doing this, we change the geometries, so the new sets of neighbours still differ from those made with the valid geometries in the same ways as before imposing validity:
+
+```{r, echo=dothis, eval=dothis}
+try(NY8_sp_old_1_nb_buf <- poly2nb(NY8_sp_old_buf), silent = TRUE)
+all.equal(NY8_sp_old_1_nb_buf, NY8_sp_1_nb, check.attributes=FALSE)
+```
+
+Tne neighbour sets are the same for the old boundaries with or without imposing validity:
+
+```{r, echo=dothis, eval=dothis}
+all.equal(NY8_sp_old_1_nb_buf, NY8_sp_old_1_nb, check.attributes=FALSE)
+```
+
+Using the sf route, we also see invalid geometries:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sf_old <- st_read(system.file("shapes/NY8_utm18.shp", package="spData"), quiet=TRUE)
+suppressWarnings(table(st_is_valid(NY8_sf_old)))
+```
+On trying to find contiguities, sf::st_relate fails:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sf_old_1_sgbp <- try(st_queen(NY8_sf_old), silent = TRUE)
+if (class(NY8_sf_old_1_sgbp) == "try-error") cat(NY8_sf_old_1_sgbp)
+```
+Using the buffer by 0 approach, we can impose validity:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sf_old_buf <- st_buffer(NY8_sf_old, dist=0)
+table(st_is_valid(NY8_sf_old_buf))
+```
+We can now find the neighbours, but with differences from the sets found from the valid polygons:
+
+```{r, echo=dothis, eval=dothis}
+try(NY8_sf_old_1_nb_buf <- st_queen(NY8_sf_old_buf), silent = TRUE)
+all.equal(NY8_sf_old_1_nb_buf, NY8_sf_1_nb, check.attributes=FALSE)
+```
+There are also differences between the sets found when imposing validity on the sf and sp routes.
+
+```{r, echo=dothis, eval=dothis}
+all.equal(NY8_sf_old_1_nb_buf, NY8_sp_old_1_nb_buf, check.attributes=FALSE)
+```
+
+## Point-based neighbours
+
+### Finding points for polygon objects
+
+Getting a 2D matrix of centroid coordinates (centroids of largest exterior ring) from SpatialPolygons* is just 'coordinates', which takes trivial time because the values are computed (as label points) when the objects are constructed:
+
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) coords <-  coordinates(NY8_sp))/reps
+```
+'row.names' gives the IDs (from feature FIDs if read with 'rgdal::readOGR'):
+
+```{r, echo=dothis, eval=dothis}
+IDs <- row.names(NY8_sp)
+is.projected(NY8_sp)
+```
+
+We can use 'st_centroid' to get the centroids; if the sf object is sfc_MULTIPOLYGON, the 'of_largest_polygon' attribute should be set to replicate sp 'coordinates' behaviour. Curiously, st_centroid is quite time-consuming:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) if (class(st_geometry(NY8_sf))[1] == "sfc_MULTIPOLYGON") {
+  NY8_pt_sf <- st_centroid(st_geometry(NY8_sf), of_largest_polygon=TRUE)
+} else {
+  NY8_pt_sf <- st_centroid(st_geometry(NY8_sf))
+})/reps
+```
+
+
+```{r, echo=dothis, eval=dothis}
+if (!isTRUE(all.equal(st_crs(NY8_pt_sf), st_crs(NY8_sf)))) st_crs(NY8_pt_sf) <- st_crs(NY8_sf)
+class(st_geometry(NY8_pt_sf))[1]
+```
+
+Before getting the coordinate matrix, we need to drop any Z or M coordinates:
+
+```{r, echo=dothis, eval=dothis}
+zm <- class(st_geometry(NY8_pt_sf)[[1]])[1]
+if (zm %in% c("XYM", "XYZM"))
+  NY8_pt_sf <- st_zm(NY8_pt_sf, drop=TRUE, what="ZM")
+if (zm %in% c("XYZ"))
+  NY8_pt_sf <- st_zm(NY8_pt_sf, drop=TRUE, what="ZM")
+```
+
+
+We need to check whether coordinates are planar or not:
+
+```{r, echo=dothis, eval=dothis}
+st_is_longlat(NY8_pt_sf)
+```
+
+Then 'st_coordinates' can be used to get the coordinate matrix (here simply copying-out 2D point coordinates):
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) coords_sf <- st_coordinates(NY8_pt_sf))/reps
+```
+
+Unfortunately, the coordinate matrices differ:
+
+```{r, echo=dothis, eval=dothis}
+all.equal(coords, coords_sf, check.attributes=FALSE, scale=1)
+```
+
+The sp route derives the point coordinate values from the centroid of the largest member polygon of the observation, treated as its exterior ring. In sf, and qualifying to request the centroid of the largest POLYGON in a MULTIPOLYGON object, the centroid takes account of possible interior rings. Both are centroids, but the sp coordinates method for Polygons objects returns that of the largest (not metric, treating coordinates as planar) exterior ring, while the sf centroid function takes account of interior rings:
+
+```{r, echo=dothis, eval=dothis}
+diffs2d <- coords - coords_sf
+diffs1d <- apply(diffs2d, 1, function(x) mean(abs(x)))
+diffs <- unname(which(diffs1d > 1e-3))
+cbind(coords, coords_sf)[diffs, c(1,3,2,4)]
+```
+
+```{r, echo=dothis, eval=dothis}
+all.equal(coords[-diffs,], coords_sf[-diffs,], check.attributes=FALSE)
+```
+
+```{r, echo=dothis, eval=dothis}
+plot(NY8_sp[diffs,])
+points(coords[diffs,], pch=3, col="red")
+points(coords_sf[diffs,], pch=4, col="blue")
+```
+
+The reason for the discrepancy is that the label point (a.k.a. centroid) returned by sp::coordinates for Polygons objects takes the centroid gross of holes. This is not done by sf::st_centroid, nor by rgeos::gCentroid (which is much quicker than st_centroid even when using the same underlying GEOS code and converting to GEOS SF representation internally):
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) gcoords <- coordinates(gCentroid(NY8_sp, byid=TRUE)))/reps
+```
+The output coordinates are still off, but much less:
+
+```{r, echo=dothis, eval=dothis}
+all.equal(coords_sf, gcoords, check.attributes=FALSE, scale=1)
+```
+The affected objects are not those with holes, and probably discrepancies between the sp and sf object implementations of the GEOS function may be disregarded.
+
+```{r, echo=dothis, eval=dothis}
+gdiffs2d <- gcoords - coords_sf
+gdiffs1d <- apply(gdiffs2d, 1, function(x) mean(abs(x)))
+gdiffs <- unname(which(gdiffs1d > 1e-3))
+cbind(gcoords, coords_sf)[gdiffs, c(1,3,2,4)]
+```
+
+
+```{r, echo=dothis, eval=dothis}
+plot(NY8_sp[gdiffs,])
+points(coords[gdiffs,], pch=3, col="red")
+points(coords_sf[gdiffs,], pch=4, col="blue")
+```
+
+### Graph-based neighbours
+
+
+From this, we can check the graph-based neighbours (planar coordinates only):
+
+```{r, echo=dothis, eval=dothis}
+suppressPackageStartupMessages(require(deldir))
+NY84_nb <- tri2nb(coords, row.names=IDs)
+if (require(rgeos, quietly=TRUE) && require(RANN, quietly=TRUE)) {
+  NY85_nb <- graph2nb(soi.graph(NY84_nb, coords), row.names=IDs)
+} else NY85_nb <- NULL
+NY86_nb <- graph2nb(gabrielneigh(coords), row.names=IDs)
+NY87_nb <- graph2nb(relativeneigh(coords), row.names=IDs)
+```
+
+Using 'st_triangulate' is unsatisfactory, as is 'rgeos::gDelaunayTriangulation' because they do not maintain node order, see the example in '?rgeos::gDelaunayTriangulation' for details:
+
+```{r, echo=dothis, eval=dothis}
+NY84_nb_sf <- tri2nb(coords_sf)
+isTRUE(all.equal(NY84_nb_sf, NY84_nb, check.attributes=FALSE))
+```
+
+The 'soi.graph' function may be re-written to use sf functionality internally, but for now just the triangulation and coordinates:
+
+```{r, echo=dothis, eval=dothis}
+if (require(rgeos, quietly=TRUE) && require(RANN, quietly=TRUE)) {
+  NY85_nb_sf <- graph2nb(soi.graph(NY84_nb_sf, coords_sf))
+} else NY85_nb_sf <- NULL
+if (!is.null(NY85_nb_sf) && !is.null(NY85_nb)) {
+  isTRUE(all.equal(NY85_nb_sf, NY85_nb, check.attributes=FALSE))
+}
+```
+
+The discrepancy is for one of the polygons with a hole:
+
+```{r, echo=dothis, eval=dothis}
+if (!is.null(NY85_nb_sf) && !is.null(NY85_nb)) {
+  diffs <- diffnb(NY85_nb_sf, NY85_nb)
+  wdiffs <- which(card(NY85_nb_sf) != card(NY85_nb))
+  wdiffs
+}
+```
+
+```{r, echo=dothis, eval=dothis}
+if (!is.null(NY85_nb_sf) && !is.null(NY85_nb)) {
+  c(dist(rbind(coords[97,], coords_sf[97,])))
+}
+```
+
+Here the difference between the points is enough to remove the triangulation link between 97 and 99 under the sphere of influence criterion.
+
+```{r, echo=dothis, eval=dothis}
+if (!is.null(NY85_nb_sf) && !is.null(NY85_nb)) {
+  plot(NY8_sp[wdiffs,], border="grey30", lwd=2)
+  plot(NY8_sp, border="grey80", add=TRUE)
+  plot(diffs, coordinates(NY8_sp), points=FALSE, add=TRUE, lwd=2)
+  plot(NY85_nb, coordinates(NY8_sp), points=FALSE, add=TRUE, col="red")
+  text(coordinates(NY8_sp), IDs, pos=1)
+}
+```
+
+If we use the GEOS-based coordinates, the distance is reduced to zero:
+
+```{r, echo=dothis, eval=dothis}
+c(dist(rbind(gcoords[97,], coords_sf[97,])))
+```
+
+and the neighbour objects are the same. Using rgeos::gCentroid centroids rather than sp label points would be the choice to make for new work:
+
+```{r, echo=dothis, eval=dothis}
+NY84g_nb <- tri2nb(gcoords, row.names=IDs)
+if (require(rgeos, quietly=TRUE) && require(RANN, quietly=TRUE)) {
+  NY85g_nb <- graph2nb(soi.graph(NY84g_nb, gcoords), row.names=IDs)
+} else NY85g_nb <- NULL
+if (!is.null(NY85_nb_sf) && !is.null(NY85_nb)) {
+  isTRUE(all.equal(NY85_nb_sf, NY85g_nb, check.attributes=FALSE))
+}
+```
+
+If we coerce from sf to sp representation before extracting point coordinates, we get:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) coords_sf_sp <- coordinates(as(NY8_sf, "Spatial")))/reps
+```
+It turns out that the geometries are identical after coercion (as we would expect from obtaining the same contiguity neighbours above):
+
+```{r, echo=dothis, eval=dothis}
+all.equal(as(NY8_sp, "SpatialPolygons"), as(as(NY8_sf, "Spatial"),"SpatialPolygons"))
+```
+so we can reproduce the sp-based label points by coercing first; if we need to reproduce existing work, this is the best choice:
+
+```{r, echo=dothis, eval=dothis}
+all.equal(coords_sf_sp, coords)
+```
+The remaining two graph-based methods appear to be less sensitive to the differences between the coordinates:
+
+```{r, echo=dothis, eval=dothis}
+NY86_nb_sf <- graph2nb(gabrielneigh(coords_sf))
+isTRUE(all.equal(NY86_nb_sf, NY86_nb, check.attributes=FALSE))
+```
+
+```{r, echo=dothis, eval=dothis}
+NY87_nb_sf <- graph2nb(relativeneigh(coords_sf))
+isTRUE(all.equal(NY87_nb_sf, NY87_nb, check.attributes=FALSE))
+```
+
+### K-nearest neighbours
+
+K-nearest neighbours use the coordinate matrices, and can handle Great Circle distances, but this is not demonstrated here, as the data set used is planar:
+
+```{r, echo=dothis, eval=dothis}
+NY88_nb <- knn2nb(knearneigh(coords, k=1), row.names=IDs)
+NY88_nb_sf <- knn2nb(knearneigh(coords_sf, k=1))
+isTRUE(all.equal(NY88_nb_sf, NY88_nb, check.attributes=FALSE))
+```
+
+While the first nearest neighbours are found correctly for this data set, the same sensitivity is present with regard to coordinate position at larger k:
+
+```{r, echo=dothis, eval=dothis}
+NY89_nb <- knn2nb(knearneigh(coords, k=4), row.names=IDs)
+NY89_nb_sf <- knn2nb(knearneigh(coords_sf, k=2))
+isTRUE(all.equal(NY89_nb_sf, NY89_nb, check.attributes=FALSE))
+```
+
+### Distance neighbours
+
+Distance neighbours need a threshold - `nbdists` shows the maximum distance to first nearest neighbour:
+
+```{r, echo=dothis, eval=dothis}
+dsts <- unlist(nbdists(NY88_nb_sf, coords_sf))
+summary(dsts)
+max_1nn <- max(dsts)
+```
+
+`dnearneigh` can also handle Great Circle distances, but this is not demonstrated here, as the data set used is planar:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) NY811_nb <- dnearneigh(coords, d1=0, d2=0.75*max_1nn, row.names=IDs))/reps
+```
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) NY811_nb_sf <- dnearneigh(coords_sf, d1=0, d2=0.75*max_1nn))/reps
+```
+
+```{r, echo=dothis, eval=dothis}
+isTRUE(all.equal(NY811_nb_sf, NY811_nb, check.attributes=FALSE))
+```
+
+We could use more sf functionality, but it is an order of magnitude slower, through buffering all points by the threshold while distance is symmetric, so i to j and j to i are equal. Buffering also presupposes planar coordinates. In addition, the point itself intersects, so has to be removed:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) {NY811_buf <- st_buffer(NY8_pt_sf, dist=0.75*max_1nn, nQuadSegs=30)
+NY811_nb_sf_buff0 <- st_intersects(NY811_buf, NY8_pt_sf)
+NY811_nb_sf_buff <- lapply(1:length(NY811_nb_sf_buff0), function(i) NY811_nb_sf_buff0[[i]][-match(i, NY811_nb_sf_buff0[[i]])])})/reps
+```
+
+And it does not match:
+
+```{r, echo=dothis, eval=dothis}
+all.equal(as.nb.sgbp(NY811_nb_sf_buff), NY811_nb, check.attributes=FALSE)
+```
+
+This time the problem is in the number of line segments in each buffer circle quadrant, so if we smooth the circle, things get better:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) {NY811_buf <- st_buffer(NY8_pt_sf, dist=0.75*max_1nn, nQuadSegs=90)
+NY811_nb_sf_buff0 <- st_intersects(NY811_buf, NY8_pt_sf)
+NY811_nb_sf_buff <- lapply(1:length(NY811_nb_sf_buff0), function(i) NY811_nb_sf_buff0[[i]][-match(i, NY811_nb_sf_buff0[[i]])])})/reps
+```
+
+```{r, echo=dothis, eval=dothis}
+all.equal(as.nb.sgbp(NY811_nb_sf_buff), NY811_nb, check.attributes=FALSE)
+```
+
+We can do the same with sf::st_is_within_distance too:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) {NY811_nb_sf_dist0 <- st_is_within_distance(NY8_pt_sf, NY8_pt_sf, dist=0.75*max_1nn)
+NY811_nb_sf_dist <- lapply(1:length(NY811_nb_sf_dist0), function(i) NY811_nb_sf_dist0[[i]][-match(i, NY811_nb_sf_dist0[[i]])])})/reps
+```
+
+
+```{r, echo=dothis, eval=dothis}
+all.equal(as.nb.sgbp(NY811_nb_sf_dist), NY811_nb, check.attributes=FALSE)
+```

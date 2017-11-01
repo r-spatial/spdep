@@ -1,0 +1,240 @@
+useDynLib(spdep)
+
+import(spData)
+importFrom(stats, model.matrix, model.response, aggregate, optimize, optim, nlminb, influence.measures, lag, punif, na.fail, as.formula, terms, lm, model.extract, coefficients, residuals, var, deviance, integrate, summary.lm, coef, pchisq, logLik, gaussian, pnorm, model.weights, model.offset, glm.fit, sd, predict, formula, lm.fit, anova, ppois, model.frame, AIC, qnorm, napredict, nlm, optimHess, resid, fitted, weighted.residuals, weights, naresid, rnorm, optimise, uniroot, mahalanobis, dist, p.adjust, density, fitted.values, delete.response, printCoefmat, quantile, na.omit, cor, predict.lm)
+importFrom("stats", "dbeta", "rchisq", "runif")
+importFrom(nlme, fdHess)
+importFrom(deldir, deldir)
+importFrom(boot, boot)
+importFrom(MASS, mvrnorm)
+importFrom(coda, as.mcmc, HPDinterval)
+importFrom(splines, interpSpline)
+importFrom(graphics, par, locator, lines, text, plot.new, plot.window, segments, points, identify, symbols, abline, hist, arrows, axis, stem)
+importFrom(utils, write.table, object.size, read.table, read.csv, packageDescription)
+importFrom(grDevices, rainbow)
+if (.Platform$OS.type == "windows") importFrom(grDevices, bringToTop)
+
+if (R.version$major >= 3) {
+  if (R.version$major == 3 && R.version$minor < 3) {
+    import(Matrix)
+  } else if (R.version$major == 3 && R.version$minor >= 3) {
+    import(Matrix, except=c("expm"))
+  } else if(R.version$major > 3)
+    import(Matrix, except=c("expm"))
+} else {
+  import(Matrix)
+}
+importFrom(LearnBayes, rwmetrop)
+importFrom(gmodels, estimable)
+importFrom(expm, expAtv, expm)
+
+import(sp)
+import(methods)
+
+exportMethods(coerce)
+
+export(EBImoran.mc, probmap, choynowski, EBest, EBlocal, LR.sarlm, 
+	LR1.sarlm, Wald1.sarlm, airdist, card, rookcell, 
+	queencell, mrc2vi, vi2mrc, cell2nb, n.comp.nb, diffnb,
+	dnearneigh, droplinks, eigenw, errorsarlm, lmSLX, create_WX,
+        predict.SLX, gabrielneigh, geary.test,
+	geary, geary.mc, globalG.test, graph2nb, joincount.test, joincount.mc,
+	joincount.multi, print.jcmulti,
+	knearneigh, knn2nb, lagsarlm, listw2sn, sn2listw, read.gwt2nb,
+	write.sn2gwt, lm.LMtests, lm.morantest, localG, localmoran, moran,
+	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
+	nb2listw, nb2mat, listw2mat, mat2listw, invIrM, invIrW, nbdists, nblag,
+	nblag_cumul, poly2nb, read.gal, write.nb.gal, read.geoda, relativeneigh,
+	soi.graph, sp.correlogram, sp.mantel.mc, set.spChkOption, chkIDs,
+	get.spChkOption, spNamedVec, tri2nb,
+	spweights.constants, lag.listw, listw2U, listw2star, is.symmetric.nb,
+	sym.attr.nb, include.self, make.sym.nb, union.nb, intersect.nb,
+	setdiff.nb, complement.nb, Szero, spdep, print.nb, summary.nb, 
+	plot.nb, edit.nb, subset.nb, summary.listw, print.listw, subset.listw,
+	plot.Gabriel, plot.relative, print.jclist, print.LMtestlist, 
+	plot.mc.sim, as.data.frame.localmoransad, print.localmoransad, 
+	summary.localmoransad, print.summary.localmoransad, print.moransad, 
+	summary.moransad, print.summary.moransad, print.spcor, plot.spcor, 
+	print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm, 
+	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
+	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm,
+	write.sn2dat, read.dat2listw, nb2blocknb, p.adjustSP,
+#	asMatrixCsrListw, asMatrixCsrI, asMatrixCsrIrW, asListwMatrixCsr, 
+	is.symmetric.glist, similar.listw, nb2lines, listw2lines, df2sn, 
+	plot.listw, aggregate.nb, old.make.sym.nb, Hausman.test)
+
+export(set.VerboseOption, get.VerboseOption, set.ZeroPolicyOption, 
+        get.ZeroPolicyOption)
+export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
+        set.ClusterOption, get.ClusterOption)
+
+export(spautolm, residuals.spautolm, deviance.spautolm, coef.spautolm, 
+	fitted.spautolm, print.spautolm, summary.spautolm, LR1.spautolm, 
+	logLik.spautolm, print.summary.spautolm, autocov_dist, GMerrorsar,
+        gstsls, GMargminImage,
+	residuals.gmsar, deviance.gmsar, coef.gmsar, fitted.gmsar, 
+	print.gmsar, summary.gmsar, 
+	print.summary.gmsar, SpatialFiltering, print.SFResult, fitted.SFResult,
+	ME, print.ME_res, fitted.ME_res, stsls, print.stsls, summary.stsls,
+	print.summary.stsls, residuals.stsls, coef.stsls, deviance.stsls)
+
+export(nb2WB, listw2WB, as_dgRMatrix_listw, as_dsTMatrix_listw, as_dsCMatrix_I,
+	as_dsCMatrix_IrW, Jacobian_W, powerWeights, nb2INLA)
+
+export(lm.morantest.exact, print.moranex, localmoran.exact, localmoran.exact.alt, print.localmoranex, as.data.frame.localmoranex)
+
+export(as.spam.listw)
+
+export(mstree, nbcosts, nbcost, plot.mst, plot.skater, prunecost, ssw, prunemst, skater)
+
+export(aple, aple.mc, aple.plot, localAple)
+
+export(trW, impacts, intImpacts)
+
+export(lagmess, sacsarlm)
+
+export(mom_calc, mom_calc_int2)
+
+export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
+        Matrix_setup, LU_setup, Matrix_J_setup, spam_update_setup,
+        moments_setup, SE_classic_setup, SE_whichMin_setup, SE_interp_setup,
+        LU_prepermutate_setup, eigen_pre_setup)
+
+export(jacobianSetup, can.be.simmed)
+
+export(griffith_sone, subgraph_eigenw)
+
+export(MCMCsamp)
+
+export(tolerance.nb, Rotation)
+
+export(lextrB, lextrW, lextrS, l_max)
+
+export(lee.mc, lee, lee.test)
+
+export(spBreg_lag)
+
+#import(maptools)
+
+S3method(print, nb)
+S3method(summary, nb)
+S3method(plot, nb)
+S3method(edit, nb)
+S3method(subset, nb)
+S3method(aggregate, nb)
+
+S3method(summary, listw)
+S3method(print, listw)
+S3method(plot, listw)
+S3method(subset, listw)
+S3method(lag, listw)
+
+S3method(plot, Gabriel)
+S3method(plot, relative)
+
+S3method(print, jclist)
+S3method(print, jcmulti)
+S3method(print, LMtestlist)
+S3method(summary, LMtestlist)
+S3method(print, LMtestlist.summary)
+S3method(plot, mc.sim)
+
+S3method(as.data.frame, localmoransad)
+S3method(print, localmoransad)
+S3method(summary, localmoransad)
+S3method(print, summary.localmoransad)
+
+S3method(print, moransad)
+S3method(summary, moransad)
+S3method(print, summary.moransad)
+
+S3method(print, moranex)
+S3method(print, localmoranex)
+S3method(as.data.frame, localmoranex)
+
+S3method(print, spcor)
+S3method(plot, spcor)
+
+S3method(print, sarlm)
+S3method(summary, sarlm)
+S3method(residuals, sarlm)
+S3method(deviance, sarlm)
+S3method(coef, sarlm)
+S3method(vcov, sarlm)
+S3method(fitted, sarlm)
+S3method(logLik, sarlm)
+S3method(anova, sarlm)
+S3method(predict, sarlm)
+S3method(impacts, sarlm)
+S3method(Hausman.test, sarlm)
+S3method(MCMCsamp, sarlm)
+
+S3method(impacts, MCMC_sar_g)
+
+S3method(impacts, SLX)
+S3method(predict, SLX)
+
+S3method(print, summary.sarlm)
+S3method(print, sarlm.pred)
+S3method(as.data.frame, sarlm.pred)
+
+S3method(residuals, spautolm)
+S3method(deviance, spautolm)
+S3method(coef, spautolm)
+S3method(fitted, spautolm)
+S3method(print, spautolm)
+S3method(summary, spautolm)
+S3method(logLik, spautolm)
+S3method(MCMCsamp, spautolm)
+
+S3method(print, summary.spautolm)
+
+S3method(residuals, gmsar)
+S3method(deviance, gmsar)
+S3method(coef, gmsar)
+S3method(fitted, gmsar)
+S3method(print, gmsar)
+S3method(summary, gmsar)
+S3method(Hausman.test, gmsar)
+S3method(impacts, gmsar)
+
+S3method(print, summary.gmsar)
+
+S3method(fitted, SFResult)
+S3method(print, SFResult)
+S3method(fitted, ME_res)
+S3method(print, ME_res)
+
+S3method(residuals, stsls)
+S3method(deviance, stsls)
+S3method(coef, stsls)
+S3method(print, stsls)
+S3method(summary, stsls)
+S3method(impacts, stsls)
+
+S3method(print, summary.stsls)
+
+S3method(plot, mst)
+S3method(plot, skater)
+
+S3method(print, lagImpact)
+S3method(plot, lagImpact)
+S3method(summary, lagImpact)
+S3method(HPDinterval, lagImpact)
+export(HPDinterval.lagImpact)
+S3method(print, summary.lagImpact)
+
+S3method(print, WXImpact)
+S3method(summary, WXImpact)
+S3method(print, summary.WXImpact)
+
+S3method(print, lagmess)
+S3method(summary, lagmess)
+S3method(print, summary.lagmess)
+S3method(residuals, lagmess)
+S3method(deviance, lagmess)
+S3method(coef, lagmess)
+S3method(fitted, lagmess)
+S3method(logLik, lagmess)
+S3method(impacts, lagmess)
+

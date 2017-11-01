@@ -1,0 +1,66 @@
+0.4-01	Added dependence on Matrix, added Matrix methods to lagsarlm and 
+	errorsarlm as well as spautolm, add nb2WB, other fixes
+0.3-28	Changes to ensure that class "nb" objects conform to specification, 
+	with only integer values (including a single zero for no neighbours).
+	Thanks to Prof. Brian Ripley for reporting problem.
+0.3-25	Added tol.solve= argument to spautolm() and tidied symmetry-checking 
+	for family="CAR", method="full" in the same function (thanks to 
+	Sam Veloz); by profiling and moving type checking, poly2nb() 
+	runs faster (thanks to Hisaji Ono).
+0.3-22	Fixed polylist object formats; added Moran eigenvector 
+	filtering for glm() models in function ME(), which reproduces the
+	results of SpatialFiltering() for the lag case; added family= argument 
+	to EBest to cover non-rare case (contributed by Olaf Berke).
+0.3-20 Fix for method="SparseM" when memory allocation in chol() failed
+0.3-17 Added function spautolm for weighted and unweighted SAR and CAR spatial
+	regression, Luc Anselin's implementation of the Kelejian-Prucha
+	GM error SAR estimator, and a function with examples by Carsten Dormann
+	for generating autocovariates for adding to various models. Otherwise
+	a couple of small fixes, and a first attempt to let poly2nb() work 
+	with sp polygons. It also includes SpatialFiltering by Yongwan Chun 
+	and Michael Tiefelsdorf for semi-parametric spatial filtering.
+0.3-13 Addition of an example for nb2listw to show how the glist= argument
+	can be used to exclude neighbour links based on observation pair 
+	criteria (houses neighbours with reference to sales price if sold
+	after neighbour - by definition asymmetric); poly2nb(queen=FALSE)
+	was falsely reporting rook neighbours where the only shared point
+	was the first (and last) coordinate of one of the polygons - the first
+	coordinate is now omitted.
+
+0.3-12 Small fixes to suit 2.1.0 (gsub patterns, colortype= in vignette)
+
+0.3-9 Removal of the Berkeley sparse code; correction of a bug found by
+	Yong Cai inn subset.nb() which was wrong when the neighbour
+	list had no-neighbour entities.
+
+0.3-* Introduction of dependence on the SparseM package, and use of the 
+	determinant function there for the Jacobian
+
+0.2-23 Added machine fuzz to max distance in dnearneigh()
+
+0.2-18 Removed read.shape() from example(nc.sids) because of odd problems 
+	building Windows binary for CRAN, polylist object and centroids 
+	added to nc.sids.rda.
+
+0.2-17 Further changes to poly2nb() reducing a 40 hour run for 44K polygons 
+	in Australia to 11 hours. Added p.adjustSP() with Danlin Yu for 
+	adjusting p-values for local statistics.
+
+0.2-16 Added text to help page for tri2nb() to show ways of triangulating 
+	on a grid; added nb2blocknb to fill out an nb object with spatial
+	"replications" that have to neighbour each other; poly2nb() altered
+	to use the pythag() C function internally, rather than creating several 	large matrices - this should alleviate memory problems.
+
+0.2-14 Dependency on R-1.9.0 because findInterval() in R altered to help 
+	with map class interval finding, making a modified local copy
+	superfluous.
+
+earlier briefly:
+
+because spdep depends on the maptools package, it must be present for 
+	spdep to load correctly.
+
+all after 0.2-5: error in errorsarlm() and lagsarlm() corrected - 
+	the error was the silent assumption that all lagged intercepts
+	followed "W" style weights, not the actual weights being used.
+
