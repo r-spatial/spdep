@@ -1,6 +1,7 @@
 language: r
 sudo: required
 dist: trusty
+cache: packages
 
 addons:
   apt:
@@ -8,4 +9,4 @@ addons:
       - libgdal-dev
       - libgeos-dev
       - libproj-dev
-
+      - libudunits2-dev
