@@ -7,3 +7,11 @@ before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
   - sudo apt-get --yes --force-yes update -qq
   - sudo apt-get install --yes libudunits2-dev libproj-dev libgeos-dev libgdal-dev
+
+notifications:
+  email:
+    recipients:
+      - one@example.com
+      - other@example.com
+    on_success: never # default: change
+    on_failure: always # default: always
