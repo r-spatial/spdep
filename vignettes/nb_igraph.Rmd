@@ -29,6 +29,17 @@ library(spdep)
 The legacy Columbus OH data set has 49 spatial entities, polygons, defined as the boundaries of policing districts in the city. **spdep** suggests **maptools** for portability, but in regular applications, **rgdal** should be used, because it handles coordinate reference systems more gracefully. We see that the shapefile-based entity IDs are zero-based:
 
 ```{r}
+dothis <- TRUE
+if (!suppressPackageStartupMessages(require(rgdal, quietly=TRUE))) {
+  message("install the rgdal package")
+  dothis <- FALSE
+}
+if (dothis) {
+  if (exists("rgdal_extSoftVersion")) rgdal_extSoftVersion()
+  else getGDALVersionInfo()
+}
+
+```{r, echo=dothis, eval=dothis}
 library(rgdal)
 columbus <- readOGR(system.file("shapes/columbus.shp", package="spData")[1])
 row.names(columbus)[1:10]
@@ -38,7 +49,7 @@ row.names(columbus)[1:10]
 
 Contiguous neighbours are often used for polygonal spatial entities, here with the **poly2nb** function defaulting to the *queen* criterion - entities are neighbours if they share a boundary point. We see that the entity IDs are copied across to the `nb` object:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 nb_q <- poly2nb(columbus)
 nb_q
 attr(nb_q, "region.id")[1:10]
@@ -47,7 +58,7 @@ is.symmetric.nb(nb_q)
 
 In order to make the object more complicated, let us drop the neighbour links for the 21st entity (noting that the print method reports the ID of the entity with no neighbours, not its number in `1:n`), and plot the resulting map of neighbours:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 col2 <- droplinks(nb_q, 21)
 nb_q[[21]]
 col2[[21]]
@@ -63,7 +74,7 @@ plot(col2, coords, add=TRUE)
 
 At present only `listw` objects can be coerced to objects of classes defined in **Matrix**. Because the `style` is lost on coercion, it may not be possible to reconstruct spatial weights as the sparse matrix representation does not preserve it. We will start with symmetric binary weights, first creating a spatial weights object, and signalling that one entity has no neighbours with the `zero.policy` argument (default false). The matrix and graph representations of no-neighbour entities are not obvious.
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 nb_B <- nb2listw(col2, style="B", zero.policy=TRUE)
 nb_B$style
 ```
@@ -72,7 +83,7 @@ nb_B$style
 
 **spdep** provides coercion methods from `listw` to the `"symmetricMatrix"`, `"RsparseMatrix"` and `"CsparseMatrix"` classes defined in **Matrix**. The `"RsparseMatrix"` is the representation that is most similar to `listw`, as it is row-based, but it is used less frequently in operations on sparse matrices. The entity IDs are passed using sparse matrix row and column names at present. Here we believe that our `listw` object can be represented as a symmetric matrix, storing only a triangle rather than both `i`-`j` and `j`-`i` weights. The coercion method does check whether symmetry is present before proceeding:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 B <- as(nb_B, "symmetricMatrix")
 all(B == t(B))
 str(B)
@@ -80,7 +91,7 @@ rownames(B)[1:10]
 ```
 Let us now try to retreive the list of neighbours from the symmetric sparse matrix. At present, we have to coerce from one **Matrix** internal representation to another in order to get to the `"dgCMatrix"` format used inside `mat2listw`, so we coerce to `"dgTMatrix"` from `"dsTMatrix"`. The style is not retreived automatically, but is set to `"M"` to indicate conversion from a matrix. The neighbour links are retreived correctly, as are the IDs:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 nb_B1 <- mat2listw(as(B, "dgTMatrix"))
 nb_B1$style
 all.equal(nb_B1$neighbours, col2, check.attributes=FALSE)
@@ -91,14 +102,14 @@ all.equal(attr(nb_B1$neighbours, "region.id"), attr(nb_B$neighbours, "region.id"
 
 An initial reason for implementing support for sparse weights matrices in **spdep** was to permit the calculation of the log determinant term in spatial regressions for larger data sets. Using the eigenvalue approach with for example `eigenw` is limited by the need to operate on dense matrices in memory to solve the eigenproblem:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 rho <- 0.1
 sum(log(1 - rho * eigenw(nb_B)))
 ```
 
 When `n` is large, this may become impractical and/or time-consuming, but does permit the rapid calculation of values of the log determinant for differing values of the spatial coefficient \( \rho \). The **Matrix** package provides many `determinant` methods, here for a `"dsCMatrix"` resulting from subtracting a `"dsCMatrix"`, the product of a scalar and a `"dsTMatrix"`, from a `"ddiMatrix"`. The value of the log determinant follows, calling a sparse Cholesky decomposition internally for suitable input matrices.
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 n <- nrow(B)
 I <- Diagonal(n)
 class(I - rho * B)
@@ -107,7 +118,7 @@ c(determinant(I - rho * B, logarithm=TRUE)$modulus)
 
 The computation of a sparse Cholesky decomposition for each value of the spatial coefficient \( \rho \) may be avoided by updating a pre-computed object; this approach provides fast and accurate log determinants for larger (but not very large) data sets:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 nW <- -B
 nChol <- Cholesky(nW, Imult=8)
 n * log(rho) + (2 * c(determinant(update(nChol, nW, 1/rho))$modulus))
@@ -117,7 +128,7 @@ n * log(rho) + (2 * c(determinant(update(nChol, nW, 1/rho))$modulus))
 
 The use of row-standardisation leads to asymmetry even if the underlying neighbours are symmetric, unless all entities have matching numbers of neighbours (for example a regular grid on a torus):
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 nb_W <- nb2listw(col2, style="W", zero.policy=TRUE)
 W <- as(nb_W, "CsparseMatrix")
 str(W)
@@ -125,7 +136,7 @@ all(W == t(W))
 ```
 The `lag` method for `listw` objects is often used to create spatially lagged values, and returns the same values as the vector given by the product of the sparse general matrix and an input numeric vector. Note that by setting `zero.policy` to `TRUE`, the spatial lag of entity 21, which has no neighbours, is zero by construction:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 set.seed(1)
 x <- runif(n)
 r1 <- as.numeric(W %*% x)
@@ -139,7 +150,7 @@ c(x[21], r1[21])
 
 Calculating the log determinant for asymmetric weights (here with symmetric neighbours and symmetry induced by non-constant numbers of neighbours) may be carried out using eigenvalues as before, but the result may be a complex vector (here it is not, as discussed below). The appropriate `determinant` method for `"dgCMatrix"` objects uses an LU decomposition internally: 
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 rho <- 0.5
 sum(log(1 - rho * eigenw(nb_W)))
 class(I - rho * W)
@@ -148,7 +159,7 @@ c(determinant(I - rho * W, logarithm=TRUE)$modulus)
 
 We can show the internal workings of the method as:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 LU <- lu(I - rho * W)
 sum(log(abs(diag(slot(LU, "U")))))
 ```
@@ -157,13 +168,13 @@ sum(log(abs(diag(slot(LU, "U")))))
 
 The `nb2listw` function stores components that can be employed to transform the asymmetric weights matrix to symmetry by similarity, permitting the same log determinant to be computed using less costly numerical methods. The `"W"` style used the cardinalities of neighbour sets (row sums) to introduce row standardisation, and they are stored as an attribute:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 d <- attr(nb_W$weights, "comp")$d
 all.equal(d, card(col2))
 ```
 If we first restore the row-standarised matrix to its binary form (which must be symmetric), we can pre- and post-multiply by the square roots of the inverted neighbour counts, yielding a symmetric matrix with the appropriate properties:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 dW <- Diagonal(n, d) %*% W
 all(dW == t(dW))
 isd <- Diagonal(n, 1/sqrt(d))
@@ -179,7 +190,7 @@ As can be seen, the division by the square root of zero for entity 21 is not a p
 
 In spatial regression, the domain of the spatial coefficient is given by the inverse of the maximum and minimum eigenvalues. When `n` is moderate, we have the eigenvalues anyway, so the interval for line search is available without extra effort. When `n` is somewhat larger, use may be made of the `arpack` function in **igraph**. The function is not stable and requires manual tuning, so its use is commented out here:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 1/range(eigenw(nb_B))
 library(igraph)
 #f2 <- function(x, extra=NULL) {as.vector(B %*% x)}
@@ -194,7 +205,7 @@ library(igraph)
 
 In this case, the results are trivial with small `n` and a symmetric sparse matrix. It can be challenging to find the `maxiter=` cutoff for larger `n`; the `which="BE"` argument takes both ends here.
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 1/range(eigenw(nb_W))
 f2 <- function(x, extra=NULL) {as.vector(W %*% x)}
 #1/arpack(f2, sym=FALSE, options=list(n=n, nev=1, ncv=8, which="LR", maxiter=200))$values
@@ -212,7 +223,7 @@ For asymmetric matrices, we need to go to each end separately, so finding the do
 
 First we'll see how to get from sparse matrices to graphs. The mode of a symmetric matrix is `"undirected"` by definition:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 class(B)
 object.size(B)
 library(igraph)
@@ -224,7 +235,7 @@ object.size(g1)
 
 We can also convert this graph pack to the same matrix, but note that `get.adjacency` chooses a particular class of sparse matrix to be returned, so that the conversion process typically leads many matrices to fewer graph types, and back to fewer matrix types:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 B1 <- get.adjacency(g1)
 class(B1)
 object.size(B1)
@@ -235,7 +246,7 @@ all.equal(B, as(as(B1, "dgTMatrix"), "symmetricMatrix"))
 
 A simple example of using **igraph** to do the same as an existing **spdep** function is Nicholas Lewin-Koh's `n.comp.nb` from the early days of the package. It is useful to know whether an `nb` object is divided up into separate subgraphs, and which entities are members of which such subgraph.
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 res <- n.comp.nb(col2)
 table(res$comp.id)
 ```
@@ -244,7 +255,7 @@ table(res$comp.id)
 
 The same result can be obtained using the `clusters` function in **igraph**:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 c1 <- clusters(g1)
 c1$no == res$nc
 all.equal(c1$membership, res$comp.id)
@@ -253,7 +264,7 @@ all.equal(c1$csize, c(table(res$comp.id)), check.attributes=FALSE)
 
 The same holds for the row-standardised variant:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 W <- as(nb2listw(col2, style="W", zero.policy=TRUE), "CsparseMatrix")
 g1W <- graph.adjacency(W, mode="directed", weighted="W")
 c1W <- clusters(g1W)
@@ -263,7 +274,7 @@ all.equal(c1W$membership, res$comp.id)
 
 Finding shortest paths between spatial entities across a given graph is a way to express closeness. If the graph is connected, that is that it is possible to traverse the graph edges from any node to any other, the longest shortest path is then a useful measure. In **igraph**, the `is.connected` function tells us tells us that our graph is not connected, as we know from the figure above. The diameter measure is then the diameter of the largest component subgraph. Note that this generates an `n` x `n` matrix:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 is.connected(g1)
 dg1 <- diameter(g1)
 dg1
@@ -275,7 +286,7 @@ str(sp_mat)
 
 If we do the same in **spdep**, using `nblag` to a maximum number of lag orders - the diameter, but which is unknown in advance (the largest lag order for which the number of links is greater than zero), we run into the problem of how to represent missing neighbour information. 
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 nbl10 <- nblag(col2, maxlag=10)
 vals <- sapply(nbl10, function(x) sum(card(x)))
 zero <- which(vals == 0)
@@ -283,7 +294,7 @@ zero[1]-1
 ```
 If we insert zero into the weights matrix where there is no connection using `zero.policy=TRUE`, we generate a zero shortest path. If we are to create a matrix that matches the one produced by `shortest.paths`, we need to set all these non-structural zeros to infinity (the length of the path between unconnected nodes), and re-instate structural zeros on the diagonal:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 lmat <- lapply(nbl10[1:(zero[1]-1)], nb2mat, style="B", zero.policy=TRUE)
 mat <- matrix(0, n, n)
 for (i in seq(along=lmat)) mat = mat + i*lmat[[i]]
@@ -298,7 +309,7 @@ Another area in which a graph representation might prove useful is in trying to 
 
 The internal function find_q1_q2 returns the number of non-singleton components, and the number of these that meet this condition. It does this for each block/subgraph by testing the condition until it meets w[j,k] > 0, at which point it breaks. Smirnov and Anselin (2009) state that rook neighbours on a regular grid meet the condition:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 nb_r <- cell2nb(7, 7, type="rook")
 nb_rW <- nb2listw(nb_r, style="W")
 spdep:::find_q1_q2(nb_rW)
@@ -306,13 +317,13 @@ spdep:::find_q1_q2(nb_rW)
 
 One block/graph component is found, and this one meets the cyclical matrix condition, as also shown by the domain:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 1/range(Re(eigenw(similar.listw(nb_rW))))
 ```
 
 This does not apply to the spatial weights we have been using above, with two non-singleton components, neither meeting the cyclical matrix condition:
 
-```{r}
+```{r, echo=dothis, eval=dothis}
 spdep:::find_q1_q2(nb_W)
 1/range(Re(eigenw(similar.listw(nb_W))))
 ```
