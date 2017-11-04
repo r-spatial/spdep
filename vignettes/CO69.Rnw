@@ -99,8 +99,12 @@ available by Michael Tiefelsdorf, is used as a starting point:
 \begin{footnotesize}
 <<echo=TRUE,eval=TRUE,results=hide>>= 
 library(spdep)
-require(rgdal)
-eire <- readOGR(system.file("shapes/eire.shp", package="spData")[1])
+if (require(rgdal, quietly=TRUE)) {
+  eire <- readOGR(system.file("shapes/eire.shp", package="spData")[1])
+} else {
+  require(maptools, quietly=TRUE)
+  eire <- readShapeSpatial(system.file("shapes/eire.shp", package="spData")[1])
+}
 row.names(eire) <- as.character(eire$names)
 proj4string(eire) <- CRS("+proj=utm +zone=30 +ellps=airy +units=km")
 @

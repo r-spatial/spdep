@@ -33,6 +33,7 @@ as.spam.listw(listw)
 \seealso{\code{\link{nb2listw}}}
 
 \examples{
+if (require(rgdal, quietly=TRUE)) {
 example(columbus)
 col.listw <- nb2listw(col.gal.nb)
 col.listw$neighbours[[1]]
@@ -42,6 +43,7 @@ str(col.sn)
 \dontrun{
 col.sp <- as.spam.listw(col.listw)
 str(col.sp)
+}
 }
 }
 \keyword{spatial}

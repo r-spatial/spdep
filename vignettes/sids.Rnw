@@ -95,8 +95,12 @@ and are assumed to use the NAD27 datum.
 <<echo=TRUE,eval=TRUE>>= 
 library(sp)
 library(spdep)
-library(rgdal)
-nc <- readOGR(system.file("shapes/sids.shp", package="spData")[1])
+if (require(rgdal, quietly=TRUE)) {
+  nc <- readOGR(system.file("shapes/sids.shp", package="spData")[1])
+} else {
+  require(maptools, quietly=TRUE)
+  nc <- readShapeSpatial(system.file("shapes/sids.shp", package="spData")[1])
+}
 proj4string(nc) <- CRS("+proj=longlat +datum=NAD27")
 row.names(nc) <- as.character(nc$FIPSNO)
 @

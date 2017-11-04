@@ -47,6 +47,7 @@ Dordrecht: Kluwer, pp. 121--122.
 
 \seealso{\code{\link{errorsarlm}}, \code{\link{lagsarlm}}}
 \examples{
+if (require(rgdal, quietly=TRUE)) {
 example(columbus)
 error.col <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus,
  nb2listw(col.gal.nb))
@@ -56,6 +57,7 @@ bptest.sarlm(error.col, studentize=FALSE)
 lm.target <- lm(error.col$tary ~ error.col$tarX - 1)
 if (require(lmtest) && require(sandwich)) {
   coeftest(lm.target, vcov=vcovHC(lm.target, type="HC0"), df=Inf)
+}
 }
 }
 }

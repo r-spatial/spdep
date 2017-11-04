@@ -39,7 +39,8 @@ df2sn(df, i="i", i_ID="i_ID", j="j", wt="wt")
 \seealso{\code{\link{sn2listw}}, \code{\link[maptools]{readShapeLines}}}
 
 \examples{
-require(maptools)
+#require(maptools)
+if (require(rgdal, quietly=TRUE)) {
 example(columbus)
 coords <- coordinates(columbus)
 res <- listw2lines(nb2listw(col.gal.nb), coords)
@@ -49,6 +50,6 @@ writeLinesShape(res, fn=fn)
 inMap <- readShapeLines(fn)
 summary(inMap)
 diffnb(sn2listw(df2sn(as(inMap, "data.frame")))$neighbours, col.gal.nb)
-}
+}}
 \keyword{spatial}
 
