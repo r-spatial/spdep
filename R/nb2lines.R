@@ -12,8 +12,8 @@ nb2lines <- function(nb, wts, coords, proj4string=CRS(as.character(NA))) {
 	totlinks <- sum(cardnb)
 	ll <- vector(mode="list", length=totlinks)
 	df <- data.frame(i=integer(totlinks), j=integer(totlinks),
-		i_ID=I(character(totlinks)), j_ID=I(character(totlinks)),
-		wt=numeric(totlinks))
+		i_ID=character(totlinks), j_ID=character(totlinks),
+		wt=numeric(totlinks), stringsAsFactors=FALSE)
 	line = 1
 	for (i in 1:n) {
 		if (cardnb[i] > 0) {
