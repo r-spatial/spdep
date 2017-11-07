@@ -177,7 +177,7 @@ summary(ecar1wf)
 system.time(ecar1wM <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
  data=nydata, listw=listw_NY, weights=POP8, family="CAR", method="Matrix"))
 summary(ecar1wM)
-}
+}}
 if (require(rgdal, quietly=TRUE)) {
 example(nc.sids, package="spData")
 ft.SID74 <- sqrt(1000)*(sqrt(nc.sids$SID74/nc.sids$BIR74) +
@@ -250,6 +250,6 @@ gp1 <- spautolm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2)
 summary(gp1)
 }
 }
-}
+
 \keyword{spatial}
 
