@@ -3,7 +3,7 @@
 
 localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail, 
 	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
-	spChk=NULL, sokal98=FALSE) {
+	spChk=NULL) {
         stopifnot(is.vector(x))
 	if (!inherits(listw, "listw"))
 		stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -35,27 +35,29 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
         else Prname <- "Pr(z < 0)"
 	colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname)
 	xx <- mean(x, na.rm=NAOK)
-	z <- x - xx
+	z <- x - xx 
 	lz <- lag.listw(listw, z, zero.policy=zero.policy, NAOK=NAOK)
+
 	if (mlvar) s2 <- sum(z^2, na.rm=NAOK)/n
-	else s2 <- sum(z^2, na.rm=NAOK)/(n-1)
+	else s2 <- sum(z^2, na.rm=NAOK)/(n-1) 
+
 	res[,1] <- (z/s2) * lz
-	Wi <- sapply(listw$weights, sum)
-	res[,2] <- -Wi / (n-1)
-	if (!mlvar) s2 <- sum(z^2, na.rm=NAOK)/n
-	b2 <- (sum(z^4, na.rm=NAOK)/n)/(s2^2)
-	Wi2 <- sapply(listw$weights, function(x) sum(x^2))
+	Wi <- sapply(listw$weights, sum) 
+	res[,2] <- -Wi / (n-1) 
+
+	if (mlvar) b2 <- (sum(z^4, na.rm=NAOK)/n)/(s2^2)
+        else b2 <- (sum(z^4, na.rm=NAOK)/(n-1))/(s2^2) 
+        
+	Wi2 <- sapply(listw$weights, function(x) sum(x^2)) 
 	A <- (n-b2) / (n-1)
 	B <- (2*b2 - n) / ((n-1)*(n-2))
-        if (sokal98) {
-            res[,3] <- A*Wi2 + B*(Wi^2 - Wi2) - res[,2]^2
-        } else {
-	    C <- Wi^2 / ((n-1)^2)
-	    Wikh2 <- sapply(listw$weights, function(x) {
-		ifelse(is.null(x), 0, 1 - crossprod(x,x))
-	    })
-	    res[,3] <- A*Wi2 + B*Wikh2 - C
-        }
+        res[,3] <- A*Wi2 + B*(Wi^2 - Wi2) - res[,2]^2
+# Changed to Sokal (1998) VIi
+#	 C <- Wi^2 / ((n-1)^2) # == res[,2]^2
+#	 Wikh2 <- sapply(listw$weights, function(x) {
+#	   if(is.null(x)) 0 else 1 - (crossprod(x,x))
+#	 })
+#        res[,3] <- A*Wi2 + B*Wikh2 - C
 	res[,4] <- (res[,1] - res[,2]) / sqrt(res[,3])
         if (alternative == "two.sided") pv <- 2 * pnorm(abs(res[,4]), 
 	    lower.tail=FALSE)
