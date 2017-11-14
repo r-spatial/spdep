@@ -41,7 +41,7 @@ write.sn2dat(sn, file)
 \examples{
 data(baltimore, package="spData")
 STATION <- baltimore$STATION
-gwt1 <- read.gwt2nb(system.file("etc/weights/baltk4.GWT", package="spdep")[1],
+gwt1 <- read.gwt2nb(system.file("weights/baltk4.GWT", package="spData")[1],
  STATION)
 cat(paste("Neighbours list symmetry;", is.symmetric.nb(gwt1, FALSE, TRUE),
  "\n"))
