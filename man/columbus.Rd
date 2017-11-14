@@ -9,6 +9,9 @@
 \description{
 The data set is now part of the spData package
 }
+\examples{
+example(columbus, package="spData")
+}
 
 
 \keyword{datasets}
