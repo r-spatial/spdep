@@ -1,10 +1,10 @@
-# Copyright 2002-3 by Hisaji ONO and Roger Bivand 
+# Copyright 2002-2017 by Hisaji ONO and Roger Bivand 
 #
 # General G Statistics
 #
 #
 globalG.test <- function(x, listw, zero.policy=NULL,
-	alternative="greater", spChk=NULL, adjust.n=TRUE, B1correct=TRUE, adjust.x=TRUE) {
+	alternative="greater", spChk=NULL, adjust.n=TRUE, B1correct=TRUE, adjust.x=TRUE, Arc_all_x=FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -40,9 +40,11 @@ globalG.test <- function(x, listw, zero.policy=NULL,
         if (adjust.x) ax <- x[card(listw$neighbours) > 0L]
         else ax <- x
 
-	G <- (t(x) %*% lag.listw(listw, x, zero.policy=zero.policy)) /
-		(sum(ax %x% ax) - (t(ax) %*% ax))
-
+        numer <- (t(x) %*% lag.listw(listw, x, zero.policy=zero.policy))
+        if (Arc_all_x) denom <- (sum(x %x% ax) - crossprod(ax))
+        else denom <- (sum(ax %x% ax) - crossprod(ax))
+	G <- numer / denom
+		
 	E.G <- S0 / (n * n1)
 
 	B0 <- ((nn - 3*n + 3)*S1) - (n*S2) + (3*S02)

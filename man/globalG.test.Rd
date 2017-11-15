@@ -7,7 +7,7 @@ The global G statistic for spatial autocorrelation, complementing the local Gi L
 }
 \usage{
 globalG.test(x, listw, zero.policy=NULL, alternative="greater",
- spChk=NULL, adjust.n=TRUE, B1correct=TRUE, adjust.x=TRUE)
+ spChk=NULL, adjust.n=TRUE, B1correct=TRUE, adjust.x=TRUE, Arc_all_x=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -18,6 +18,7 @@ globalG.test(x, listw, zero.policy=NULL, alternative="greater",
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}
   \item{B1correct}{default TRUE, if TRUE, the erratum referenced below: "On page 195, the coefficient of W2 in B1, (just below center of the page) should be 6,  not 3." is applied; if FALSE, 3 is used (as in CrimeStat IV)}
   \item{adjust.x}{default TRUE, if TRUE, x values of observations with no neighbours are omitted in the denominator of G}
+  \item{Arc_all_x}{default FALSE, if Arc_all_x=TRUE and adjust.x=TRUE, use the full x vector in part of the denominator term for G}
 }
 
 \value{
