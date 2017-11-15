@@ -27,10 +27,10 @@ globalG.test <- function(x, listw, zero.policy=NULL,
 
 	wc <- spweights.constants(listw, zero.policy=zero.policy, 
 		adjust.n=adjust.n)
-	n1 <- n - 1
-	n2 <- n - 2
-	n3 <- n - 3
-	nn <- n * n
+	n1 <- wc$n1
+	n2 <- wc$n2
+	n3 <- wc$n3
+	nn <- wc$nn
 	S0 <- wc$S0
 	S1 <- wc$S1
 	S2 <- wc$S2
