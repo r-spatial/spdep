@@ -41,8 +41,14 @@ globalG.test <- function(x, listw, zero.policy=NULL,
         else ax <- x
 
         numer <- (t(x) %*% lag.listw(listw, x, zero.policy=zero.policy))
-        if (Arc_all_x) denom <- (sum(x %x% ax) - crossprod(ax))
-        else denom <- (sum(ax %x% ax) - crossprod(ax))
+        if (Arc_all_x) {
+          outer_prod <- sapply(ax, function(axi) sum(x*axi))
+#(sum(x %x% ax)
+        } else {
+          outer_prod <- sapply(ax, function(axi) sum(ax*axi))
+#(sum(ax %x% ax)
+        }
+        denom <- sum(outer_prod) - crossprod(ax)
 	G <- numer / denom
 		
 	E.G <- S0 / (n * n1)
