@@ -12,7 +12,7 @@ a Bonferroni-type test is suggested in the references, where tables of
 critical values may be found (see also details below).
 }
 \usage{
-localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE)
+localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE, GeoDa=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -20,6 +20,7 @@ localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE)
   \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{return_internals}{default FALSE, if TRUE, return internal values of G, EI and VG as as attribute matrix}
+  \item{GeoDa}{default FALSE, if TRUE, drop x values for no-neighbour and self-neighbour only observations from all summations}
 }
 \details{
 If the neighbours member of listw has a "self.included" attribute set

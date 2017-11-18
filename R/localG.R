@@ -1,7 +1,7 @@
 # Copyright 2001-3 by Roger Bivand 
 #
 
-localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE) {
+localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE, GeoDa=FALSE) {
 	if (!inherits(listw, "listw"))
 		stop(paste(deparse(substitute(listw)), "is not a listw object"))
 	if (!is.numeric(x))
@@ -20,6 +20,15 @@ localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALS
 	if (!is.null(attr(listw$neighbours, "self.included")) &&
 		attr(listw$neighbours, "self.included")) gstari <- TRUE
 	lx <- lag.listw(listw, x, zero.policy=zero.policy)
+        if (GeoDa) {
+            if (gstari) {
+                x_star <- sum(x[card(listw$neighbours) > 1L])
+            } else {
+                x_star <- sum(x[card(listw$neighbours) > 0L])
+            }
+        } else {
+            x_star <- sum(x)
+        }
 	if (gstari) {
 		xibar <- rep(mean(x), n)
 		si2 <- rep(sum(scale(x, scale=FALSE)^2)/n, n)
@@ -39,11 +48,11 @@ localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALS
         res <- res / sqrt(VG)
         if (return_internals) {
           if (gstari) {
-            attr(res, "internals") <- cbind(G=lx/sum(c(x)),
-              EG=EG/sum(c(x)), VG=VG/sum(c(x))^2)
+            attr(res, "internals") <- cbind(G=lx/x_star,
+              EG=EG/x_star, VG=VG/x_star^2)
           } else {
-            attr(res, "internals") <- cbind(G=lx/(sum(c(x))-c(x)),
-              EG=EG/(sum(c(x))-c(x)), VG=VG/(sum(c(x))-c(x))^2)
+            attr(res, "internals") <- cbind(G=lx/(x_star-c(x)),
+              EG=EG/(x_star-c(x)), VG=VG/(x_star-c(x))^2)
           }
 	}
         attr(res, "gstari") <- gstari
