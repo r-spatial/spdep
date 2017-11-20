@@ -42,7 +42,7 @@ Description: A collection of functions to create spatial weights matrix
   tessellations, for summarizing these objects, and for permitting their
   use in spatial data analysis, including regional aggregation by minimum
   spanning tree; a collection of tests for spatial 'autocorrelation',
-  including global 'Moran's I', 'APLE', 'Geary's C', 'Hubert/Mantel' general cross
+  including global 'Morans I', 'APLE', 'Gearys C', 'Hubert/Mantel' general cross
   product statistic, Empirical Bayes estimates and 'Assunção/Reis' Index,
   'Getis/Ord' G and multicoloured join count statistics, local 'Moran's I'
   and 'Getis/Ord' G, 'saddlepoint' approximations  and exact tests for global
