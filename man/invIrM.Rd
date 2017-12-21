@@ -58,7 +58,8 @@ if (FALSE) {
 x <- apply(x, 2, scale)
 st <- apply(x, 2, function(x) shapiro.test(x)$p.value)
 x <- x[, (st > 0.2 & st < 0.8)]
-x <- apply(x, 2, function(v) residuals(spautolm(v ~ 1, listw=lw, method="eigen", control=list(pre_eig=e, fdHess=FALSE))))
+x <- apply(x, 2, function(v) residuals(spautolm(v ~ 1, listw=lw,
+ method="eigen", control=list(pre_eig=e, fdHess=FALSE))))
 x <- apply(x, 2, scale)
 }
 res0 <- apply(invIrM(nb7rt, rho=0.0, method="chol",
