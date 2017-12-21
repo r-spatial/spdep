@@ -31,6 +31,8 @@ powerWeights(W, rho, order=250, X, tol=.Machine$double.eps^(3/5))
 \details{
 The \code{invIrW} function generates the full weights matrix V, checks that rho lies in its feasible range between 1/min(eigen(V)) and 1/max(eigen(V)), and returns the nxn inverted matrix \deqn{(I - \rho V)^{-1}}. With method=\dQuote{chol} (only for a listw object), Cholesky decomposition is used, thanks to contributed code by Markus Reder and Werner Mueller.
 
+Note that, in some situations in simulation, it may matter that the random vector from \code{rnorm} or similar will not be exactly N(0, 1), and it will also contain random amounts of spatial autocorrelection itself, which will mix with the spatial autocorrelection injected by the process operator \deqn{(I - \rho V)^{-1}}. In addition, it will not follow the stipulated distribution exactly either, so that several steps may be needed to scale the random vector, to remove artefacts coming from its deviance from distributional parameters, and to remove random spatial autocorrelation - see the examples below. Thanks to Rune Østergaard Pedersen for bring up this question.
+
 The \code{powerWeights} function uses power series summation to cumulate the product \deqn{(I - \rho V)^{-1} \%*\% X} from \deqn{(I + \rho V + (\rho V)^2 + \dots) \%*\% X}, which can be done by storing only sparse V and several matrices of the same dimensions as X. This makes it possible to handle larger spatial weights matrices, but is sensitive to the power weights order and the tolerance arguments when the spatial coefficient is close to its bounds, leading to incorrect estimates of the implied inverse matrix.
 }
 \value{
@@ -45,10 +47,20 @@ Before version 0.6-10, \code{powerWeights} only worked correctly for positive rh
 \seealso{\code{\link{nb2listw}}}
 
 \examples{
-
 nb7rt <- cell2nb(7, 7, torus=TRUE)
+lw <- nb2listw(nb7rt, style="W")
+e <- eigenw(lw)
 set.seed(1)
-x <- matrix(rnorm(500*length(nb7rt)), nrow=length(nb7rt))
+x <- matrix(sample(rnorm(500*length(nb7rt))), nrow=length(nb7rt))
+if (FALSE) {
+# Only needed in some simulation settings where the input and
+# output distributions must agree in all but autocorrelation
+x <- apply(x, 2, scale)
+st <- apply(x, 2, function(x) shapiro.test(x)$p.value)
+x <- x[, (st > 0.2 & st < 0.8)]
+x <- apply(x, 2, function(v) residuals(spautolm(v ~ 1, listw=lw, method="eigen", control=list(pre_eig=e, fdHess=FALSE))))
+x <- apply(x, 2, scale)
+}
 res0 <- apply(invIrM(nb7rt, rho=0.0, method="chol",
  feasible=TRUE) \%*\% x, 2, function(x) var(x)/length(x))
 res2 <- apply(invIrM(nb7rt, rho=0.2, method="chol",
