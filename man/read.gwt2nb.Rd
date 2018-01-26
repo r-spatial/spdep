@@ -26,7 +26,7 @@ write.sn2dat(sn, file)
   \item{legacy}{default FALSE; if TRUE, header has single field with number of observations only}
 }
 \details{
- Now attempts to honour the region.id argument given when reading GWT files. 
+Attempts to honour the region.id argument given when reading GWT files. If the region IDs given in \code{region.id=} do not match the origins or destinations in the GWT file, an error will be thrown reporting \code{Error: !anyNA(reg*dij) is not TRUE} where '*' may be \sQuote{o} for origins or \sQuote{d} for destinations.
 }
 \value{
   \code{read.gwt2nb} returns a neighbour "nb" object with the generalised weights stored as a list element called "dlist" of the "GeoDa" attribute.

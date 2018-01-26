@@ -31,7 +31,10 @@ read.gwt2nb <- function(file, region.id=NULL) {
 	odij <- read.table(file, skip=1)
 	    # convert region.id to order
 	regodij <- match(odij[,1], region.id)
+# 7 anmolter 2018-01-26
+        stopifnot(!anyNA(regodij))
 	regddij <- match(odij[,2], region.id)
+        stopifnot(!anyNA(regddij))
 	odij <- cbind(regodij, regddij, odij[,3])
 	qorder <- order(odij[,1],odij[,2])
 	odij <- odij[qorder,]

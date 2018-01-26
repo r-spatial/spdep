@@ -28,6 +28,7 @@ SEXP lagw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy,
                 nas = 0;
 		for (j=0; j<INTEGER_POINTER(card)[i]; j++) {
 		    k = INTEGER_POINTER(VECTOR_ELT(nb, i))[j];
+                    if (k > n || k <= 0) error("weights index out of range");
 		    wt = NUMERIC_POINTER(VECTOR_ELT(weights, i))[j];
 		    tmp = NUMERIC_POINTER(x)[k-ROFFSET];
 		    if (R_FINITE(tmp)) sum += tmp * wt;
