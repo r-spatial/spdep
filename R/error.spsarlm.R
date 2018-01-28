@@ -463,7 +463,7 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, zero.p
         if (attr(mt, "intercept") == 1L) {
             lm.model <- lm(formula(paste("y ~ ", paste(colnames(x)[-1], collapse="+"))), data=as.data.frame(x), weights=weights)
         } else {
-            lm.model <- lm(formula(paste("y ~ ", paste(colnames(x), collapse="+"))), data=as.data.frame(x), weights=weights)
+            lm.model <- lm(formula(paste("y ~ 0 + ", paste(colnames(x), collapse="+"))), data=as.data.frame(x), weights=weights)
         }
         sum_lm_model <- summary.lm(lm.model, correlation = FALSE)
         mixedImps <- NULL
