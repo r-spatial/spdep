@@ -459,8 +459,12 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, zero.p
 
         WX <- create_WX(x, listw, zero.policy=zero.policy, prefix="lag")
         x <- cbind(x, WX)
-        lm.model <- lm(y ~ x - 1, weights=weights)
-
+# 180128 Mark L. Burkey summary.lm error for SLX object
+        if (attr(mt, "intercept") == 1L) {
+            lm.model <- lm(formula(paste("y ~ ", paste(colnames(x)[-1], collapse="+"))), data=as.data.frame(x), weights=weights)
+        } else {
+            lm.model <- lm(formula(paste("y ~ ", paste(colnames(x), collapse="+"))), data=as.data.frame(x), weights=weights)
+        }
         sum_lm_model <- summary.lm(lm.model, correlation = FALSE)
         mixedImps <- NULL
 	K <- ifelse(isTRUE(grep("\\(Intercept\\)",
