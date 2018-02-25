@@ -114,6 +114,8 @@ export(lee.mc, lee, lee.test)
 
 export(spBreg_lag)
 
+export(LOSH, LOSH.cs, LOSH.mc)
+
 #import(maptools)
 
 S3method(print, nb)
