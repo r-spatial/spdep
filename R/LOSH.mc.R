@@ -59,9 +59,9 @@ LOSH.mc <- function(x, listw, a = 2, nsim = 99, zero.policy = NULL, na.action = 
   ncpus <- ifelse(is.null(cores), 1L, cores)
   cl <- NULL
   if (parallel == "snow") {
-    cl <- makeCluster(get.coresOption())
-    clusterExport(cl, list("LOSH", "lag.listw"), envir = environment())
-    on.exit(stopCluster(cl))
+    cl <- parallel::makeCluster(get.coresOption())
+    parallel::clusterExport(cl, list("LOSH", "lag.listw"), envir = environment())
+    on.exit(parallel::stopCluster(cl))
     if (is.null(cl)) {
       parallel <- "no"
       warning("no cluster in ClusterOption, parallel set to no")
