@@ -31,6 +31,7 @@ Authors@R:c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Biv
 	person("Gianfranco", "Piras", role = "ctb"),
 	person("Markus", "Reder", role = "ctb"),
 	person("Michael", "Tiefelsdorf", role = "ctb"),
+	person("René", "Westerholt", role="ctb"),
 	person("Danlin", "Yu", role = "ctb"))
 Depends: R (>= 3.0.0), methods, sp (>= 1.0), Matrix (>= 1.0.12), spData (>= 0.2.6.0)
 Imports: LearnBayes, deldir, boot (>= 1.3-1), splines, coda, nlme, MASS, stats, gmodels, expm, graphics, grDevices, utils
@@ -45,8 +46,9 @@ Description: A collection of functions to create spatial weights matrix
   including global 'Morans I', 'APLE', 'Gearys C', 'Hubert/Mantel' general cross
   product statistic, Empirical Bayes estimates and 'Assunção/Reis' Index,
   'Getis/Ord' G and multicoloured join count statistics, local 'Moran's I'
-  and 'Getis/Ord' G, 'saddlepoint' approximations  and exact tests for global
-  and local 'Moran's I'; and functions for estimating spatial simultaneous
+  and 'Getis/Ord' G, 'saddlepoint' approximations, exact tests for global
+  and local 'Moran's I' and 'LOSH' local indicators of spatial heteroscedasticity;
+  and functions for estimating spatial simultaneous
   'autoregressive' ('SAR') lag and error models, impact measures for lag
   models, weighted and 'unweighted' 'SAR' and 'CAR' spatial regression models,
   semi-parametric and Moran 'eigenvector' spatial filtering, 'GM SAR' error
