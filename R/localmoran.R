@@ -3,7 +3,7 @@
 
 localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail, 
 	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
-	spChk=NULL) {
+	spChk=NULL, adjust.x=FALSE) {
         stopifnot(is.vector(x))
 	if (!inherits(listw, "listw"))
 		stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -34,7 +34,11 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
         else if (alternative == "greater") Prname <- "Pr(z > 0)"
         else Prname <- "Pr(z < 0)"
 	colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname)
-	xx <- mean(x, na.rm=NAOK)
+	if (adjust.x) {
+	  xx <- mean(x[card(listw$neighbours) > 0L], na.rm=NAOK)
+	} else {
+	  xx <- mean(x, na.rm=NAOK)
+	}
 	z <- x - xx 
 	lz <- lag.listw(listw, z, zero.policy=zero.policy, NAOK=NAOK)
 
