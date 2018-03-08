@@ -45,13 +45,13 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 
 	if (mlvar) {
           if (adjust.x) {
-            s2 <- sum(z[nc]^2, na.rm=NAOK)/length(nc)
+            s2 <- sum(z[nc]^2, na.rm=NAOK)/sum(nc)
           } else {
             s2 <- sum(z^2, na.rm=NAOK)/n
           }
 	} else {
           if (adjust.x) {
-            s2 <- sum(z[nc]^2, na.rm=NAOK)/(length(nc)-1) 
+            s2 <- sum(z[nc]^2, na.rm=NAOK)/(sum(nc)-1) 
           } else {
             s2 <- sum(z^2, na.rm=NAOK)/(n-1) 
           }
@@ -62,13 +62,13 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 
 	if (mlvar)  {
           if (adjust.x) {
-            b2 <- (sum(z[nc]^4, na.rm=NAOK)/length(nc))/(s2^2)
+            b2 <- (sum(z[nc]^4, na.rm=NAOK)/sum(nc))/(s2^2)
           } else {
             b2 <- (sum(z^4, na.rm=NAOK)/n)/(s2^2)
           }
 	} else {
           if (adjust.x) {
-            b2 <- (sum(z[nc]^4, na.rm=NAOK)/(length(nc)-1))/(s2^2) 
+            b2 <- (sum(z[nc]^4, na.rm=NAOK)/(sum(nc)-1))/(s2^2) 
           } else {
             b2 <- (sum(z^4, na.rm=NAOK)/(n-1))/(s2^2)
           }
