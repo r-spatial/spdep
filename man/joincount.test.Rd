@@ -38,7 +38,7 @@ A list with class \code{jclist} of lists with class \code{htest} for each of the
   \item{method}{a character string giving the method used.}
   \item{data.name}{a character string giving the name(s) of the data.}
 }
-\references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 20.}
+\references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, pp. 19-20.}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 \note{The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, \code{listw2U()} can be used to make the matrix symmetric. In non-symmetric weights matrix cases, the variance of the test statistic may be negative.
 }
