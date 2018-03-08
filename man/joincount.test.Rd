@@ -13,8 +13,8 @@ factors, and results may be checked against those of \code{joincount.mc}
 permutations.
 }
 \usage{
-joincount.test(fx, listw, zero.policy=NULL, alternative="greater", spChk=NULL,
- adjust.n=TRUE)
+joincount.test(fx, listw, zero.policy=NULL, alternative="greater",
+ sampling="nonfree", spChk=NULL, adjust.n=TRUE)
 \method{print}{jclist}(x, ...)
 }
 \arguments{
@@ -22,6 +22,7 @@ joincount.test(fx, listw, zero.policy=NULL, alternative="greater", spChk=NULL,
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".}
+  \item{sampling}{default \dQuote{nonfree}, may be \dQuote{free}}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted consistently (up to and including spdep 0.3-28 the adjustment was inconsistent - thanks to Tomoki NAKAYA for a careful bug report)}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{x}{object to be printed}
@@ -49,6 +50,7 @@ data(oldcol)
 HICRIME <- cut(COL.OLD$CRIME, breaks=c(0,35,80), labels=c("low","high"))
 names(HICRIME) <- rownames(COL.OLD)
 joincount.test(HICRIME, nb2listw(COL.nb, style="B"))
+joincount.test(HICRIME, nb2listw(COL.nb, style="B"), sampling="free")
 joincount.test(HICRIME, nb2listw(COL.nb, style="C"))
 joincount.test(HICRIME, nb2listw(COL.nb, style="S"))
 joincount.test(HICRIME, nb2listw(COL.nb, style="W"))

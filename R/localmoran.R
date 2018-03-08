@@ -42,15 +42,36 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 	z <- x - xx 
 	lz <- lag.listw(listw, z, zero.policy=zero.policy, NAOK=NAOK)
 
-	if (mlvar) s2 <- sum(z^2, na.rm=NAOK)/n
-	else s2 <- sum(z^2, na.rm=NAOK)/(n-1) 
-
+	if (mlvar) {
+          if (adjust.x) {
+            s2 <- sum(z[card(listw$neighbours) > 0L]^2, na.rm=NAOK)/n
+          } else {
+            s2 <- sum(z^2, na.rm=NAOK)/n
+          }
+	} else {
+          if (adjust.x) {
+            s2 <- sum(z[card(listw$neighbours) > 0L]^2, na.rm=NAOK)/(n-1) 
+          } else {
+            s2 <- sum(z^2, na.rm=NAOK)/(n-1) 
+          }
+        }
 	res[,1] <- (z/s2) * lz
 	Wi <- sapply(listw$weights, sum) 
 	res[,2] <- -Wi / (n-1) 
 
-	if (mlvar) b2 <- (sum(z^4, na.rm=NAOK)/n)/(s2^2)
-        else b2 <- (sum(z^4, na.rm=NAOK)/(n-1))/(s2^2) 
+	if (mlvar)  {
+          if (adjust.x) {
+            b2 <- (sum(z[card(listw$neighbours) > 0L]^4, na.rm=NAOK)/n)/(s2^2)
+          } else {
+            b2 <- (sum(z^4, na.rm=NAOK)/n)/(s2^2)
+          }
+	} else {
+          if (adjust.x) {
+            b2 <- (sum(z[card(listw$neighbours) > 0L]^4, na.rm=NAOK)/(n-1))/(s2^2) 
+          } else {
+            b2 <- (sum(z^4, na.rm=NAOK)/(n-1))/(s2^2)
+          }
+        }
         
 	Wi2 <- sapply(listw$weights, function(x) sum(x^2)) 
 	A <- (n-b2) / (n-1)

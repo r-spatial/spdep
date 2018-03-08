@@ -15,13 +15,14 @@ joincount <- function(dums, listw) {
 }
 
 joincount.test <- function(fx, listw, zero.policy=NULL,
-	alternative="greater", #adjust.n=TRUE, 
+	alternative="greater", sampling="nonfree",  
 	spChk=NULL, adjust.n=TRUE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
-	if (!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
+	sampling <- match.arg(sampling, c("nonfree", "free"))
+        if (!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
 		"is not a listw object"))
 	if (!is.factor(fx)) stop(paste(deparse(substitute(x)),
 		"is not a factor"))
@@ -57,13 +58,21 @@ joincount.test <- function(fx, listw, zero.policy=NULL,
 #		wc$n2 <- N-2
 #		wc$n3 <- N-3
 #	}
-	Ejc <- (wc$S0*(ntab*(ntab-1))) / (2*N*wc$n1)
-	Vjc <- (wc$S1*(ntab*(ntab-1))) / (N*wc$n1)
-	Vjc <- Vjc + (((wc$S2 - 2*wc$S1)*ntab*(ntab-1)*(ntab-2)) /
+        if (sampling == "nonfree") {
+	  Ejc <- (wc$S0*(ntab*(ntab-1))) / (2*N*wc$n1) # CO 1981 p. 20 (1.31)
+	  Vjc <- (wc$S1*(ntab*(ntab-1))) / (N*wc$n1)
+	  Vjc <- Vjc + (((wc$S2 - 2*wc$S1)*ntab*(ntab-1)*(ntab-2)) /
 		(N*wc$n1*wc$n2))
-	Vjc <- Vjc + (((S02 + wc$S1 - wc$S2)*ntab*(ntab-1)*(ntab-2)*
+	  Vjc <- Vjc + (((S02 + wc$S1 - wc$S2)*ntab*(ntab-1)*(ntab-2)*
 		(ntab-3)) / (N*wc$n1*wc$n2*wc$n3))
-	Vjc <- (0.25 * Vjc) - Ejc^2
+	  Vjc <- (0.25 * Vjc) - Ejc^2 # CO 1981 p. 20 (1.32)
+        } else if (sampling == "free") {
+          p <- ntab/n
+          Ejc <- (wc$S0*(p^2))/2 # CO 1981 p. 20 (1.25)
+          Vjc <- ((wc$S1*(p^2)) + 
+            ((wc$S2-2*wc$S1)*(p^3)) +
+            ((wc$S1-wc$S2)*(p^4)))/4 # CO 1981 p. 20 (1.26)
+        } else stop("sampling must be nonfree or free")
 	for (i in 1:nBB) {
 		estimate <- c(BB5[i], Ejc[i], Vjc[i])
 		names(estimate) <- c("Same colour statistic",
@@ -80,7 +89,8 @@ joincount.test <- function(fx, listw, zero.policy=NULL,
 		    if (!is.finite(p.value) || p.value < 0 || p.value > 1) 
 		      warning("Out-of-range p-value: reconsider test arguments")
 		}
-		method <- "Join count test under nonfree sampling"
+		method <- paste0("Join count test under ", sampling,
+                  " sampling")
 		data.name <- paste(deparse(substitute(fx)), "\nweights:",
 			deparse(substitute(listw)), "\n")
 		res[[i]] <- list(statistic=statistic, p.value=p.value,
