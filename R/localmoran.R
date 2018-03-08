@@ -35,7 +35,8 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
         else Prname <- "Pr(z < 0)"
 	colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname)
 	if (adjust.x) {
-	  xx <- mean(x[card(listw$neighbours) > 0L], na.rm=NAOK)
+          nc <- card(listw$neighbours) > 0L
+	  xx <- mean(x[nc], na.rm=NAOK)
 	} else {
 	  xx <- mean(x, na.rm=NAOK)
 	}
@@ -44,13 +45,13 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 
 	if (mlvar) {
           if (adjust.x) {
-            s2 <- sum(z[card(listw$neighbours) > 0L]^2, na.rm=NAOK)/n
+            s2 <- sum(z[nc]^2, na.rm=NAOK)/length(nc)
           } else {
             s2 <- sum(z^2, na.rm=NAOK)/n
           }
 	} else {
           if (adjust.x) {
-            s2 <- sum(z[card(listw$neighbours) > 0L]^2, na.rm=NAOK)/(n-1) 
+            s2 <- sum(z[nc]^2, na.rm=NAOK)/(length(nc)-1) 
           } else {
             s2 <- sum(z^2, na.rm=NAOK)/(n-1) 
           }
@@ -61,13 +62,13 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 
 	if (mlvar)  {
           if (adjust.x) {
-            b2 <- (sum(z[card(listw$neighbours) > 0L]^4, na.rm=NAOK)/n)/(s2^2)
+            b2 <- (sum(z[nc]^4, na.rm=NAOK)/length(nc))/(s2^2)
           } else {
             b2 <- (sum(z^4, na.rm=NAOK)/n)/(s2^2)
           }
 	} else {
           if (adjust.x) {
-            b2 <- (sum(z[card(listw$neighbours) > 0L]^4, na.rm=NAOK)/(n-1))/(s2^2) 
+            b2 <- (sum(z[nc]^4, na.rm=NAOK)/(length(nc)-1))/(s2^2) 
           } else {
             b2 <- (sum(z^4, na.rm=NAOK)/(n-1))/(s2^2)
           }
