@@ -7,7 +7,8 @@
 }
 \usage{
 moran.test(x, listw, randomisation=TRUE, zero.policy=NULL,
- alternative="greater", rank = FALSE, na.action=na.fail, spChk=NULL, adjust.n=TRUE)
+ alternative="greater", rank = FALSE, na.action=na.fail, spChk=NULL,
+ adjust.n=TRUE, drop.EI2=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -19,6 +20,7 @@ moran.test(x, listw, randomisation=TRUE, zero.policy=NULL,
   \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. If \code{na.pass} is used, zero is substituted for NA values in calculating the spatial lag}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}
+  \item{drop.EI2}{default FALSE, if TRUE, emulate CrimeStat <= 4.02}
 }
 
 
