@@ -1,4 +1,4 @@
-# Copyright 2002-2017 by Hisaji ONO and Roger Bivand 
+# Copyright 2002-2018 by Hisaji ONO and Roger Bivand 
 #
 # General G Statistics
 #

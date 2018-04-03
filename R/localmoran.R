@@ -1,4 +1,4 @@
-# Copyright 2001-12 by Roger Bivand
+# Copyright 2001-18 by Roger Bivand
 #
 
 localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail, 

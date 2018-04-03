@@ -1,4 +1,4 @@
-# Copyright 2001-3 by Roger Bivand 
+# Copyright 2001-18 by Roger Bivand 
 #
 
 localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE, GeoDa=FALSE) {

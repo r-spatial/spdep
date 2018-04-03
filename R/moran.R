@@ -1,4 +1,4 @@
-# Copyright 2001-5 by Roger Bivand 
+# Copyright 2001-18 by Roger Bivand 
 #
 
 moran <- function(x, listw, n, S0, zero.policy=NULL, NAOK=FALSE) {
