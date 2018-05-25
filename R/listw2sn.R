@@ -9,7 +9,7 @@ as.spam.listw <- function(listw) {
         rpts <- as.integer(cumsum(c(1, card(listw$neighbours))))
         W <- new("spam", entries=W_sn$weights, colindices=W_sn$to,
             rowpointers=rpts, dimension=as.integer(c(N, N)))
-        stopifnot(spam::validspamobject(W))
+        stopifnot(spam::validate_spam(W))
         return(W)
     } else stop("spam not available")
 }
