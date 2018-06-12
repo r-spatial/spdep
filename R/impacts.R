@@ -210,7 +210,7 @@ summary.WXImpact <- function(object, ..., adjust_k=FALSE) {
 
 
 
-impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL,
+impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
   tol=1e-6, empirical=FALSE, Q=NULL) {
     if (is.null(listw) && !is.null(obj$listw_style) && 
             obj$listw_style != "W")
@@ -234,7 +234,7 @@ impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL,
     drop2beta <- 1
     res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
-        type="lag", tr=tr, R=R, listw=listw, tol=tol, empirical=empirical,
+        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical,
         Q=Q, icept=icept, iicept=iicept, p=p)
     attr(res, "iClass") <- class(obj)
     if (!is.null(obj$robust)) {
@@ -245,7 +245,7 @@ impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL,
 }
 
 impacts.gmsar <- function(obj, ..., n=NULL, tr=NULL, R=NULL, listw=NULL,
-  tol=1e-6, empirical=FALSE, Q=NULL) {
+  evalues=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
     stopifnot(obj$type == "SARAR") 
     if (is.null(listw) && !is.null(obj$listw_style) && 
             obj$listw_style != "W")
@@ -273,7 +273,7 @@ impacts.gmsar <- function(obj, ..., n=NULL, tr=NULL, R=NULL, listw=NULL,
     drop2beta <- 1
     res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
-        type="lag", tr=tr, R=R, listw=listw, tol=tol, empirical=empirical,
+        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical,
         Q=Q, icept=icept, iicept=iicept, p=p)
     attr(res, "iClass") <- class(obj)
     res
@@ -284,6 +284,25 @@ lagImpacts <- function(T, g, P) {
     PT <- P %*% T
     direct <- apply(apply(PT, 1, function(x) x*g), 2, sum)
     total <- c(apply(P, 1, sum) * sum(g))
+    indirect <- total - direct
+    names(direct) <- names(total)
+    list(direct=direct, indirect=indirect, total=total)
+}
+
+lagImpacts_e <- function(rho, P, n, evalues) { # beta[-icept] == P
+#          ate <- gamma[3]/(1-gamma[1]) # 3 not 2
+#          ade <- (gamma[3]*sum(1/(1-gamma[1]*omgi)))/ss # 3 not 2
+
+# FIXME mixed
+#    for (i in 1:p) {
+#        SWr <- SW %*% (P[i,1]*diag(n) + P[i,2]*W)
+#        direct[i] <- sum(diag(SWr))/n
+#        total[i] <- sum(SWr)/n
+#    }
+ 
+
+    direct <- (P*sum(1/(1-rho*evalues)))/n
+    total <- P/(1-rho)
     indirect <- total - direct
     names(direct) <- names(total)
     list(direct=direct, indirect=indirect, total=total)
@@ -301,7 +320,8 @@ lagDistrImpacts <- function(T, g, P, q=10) {
     list(direct=direct, indirect=indirect, total=total)
 }
 
-processSample <- function(x, irho, drop2beta, type, iicept, icept, T, Q, q) {
+processSample <- function(x, irho, drop2beta, type, iicept, icept, T, Q, q,
+    evalues) {
     g <- x[irho]^(0:q)
     beta <- x[-drop2beta]
     if (type == "lag" || type == "sac") {
@@ -320,7 +340,12 @@ processSample <- function(x, irho, drop2beta, type, iicept, icept, T, Q, q) {
         if (p %% 2 != 0) stop("non-matched coefficient pairs")
         P <- cbind(b1[1:(p/2)], b1[((p/2)+1):p])
     }
-    res <- lagImpacts(T, g, P)
+    if (is.null(evalues)) {
+        res <- lagImpacts(T, g, P)
+    } else {
+        res <- lagImpacts_e(x[irho], P, length(evalues), evalues)
+    }
+
     if (!is.null(Q)) {
         Qres <- lagDistrImpacts(T, g, P, q=as.integer(Q))
         attr(res, "Qres") <- Qres
@@ -375,10 +400,21 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
 }
 
 intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
-    interval, type, tr, R, listw, tol, empirical, Q, icept, iicept, p,
+    interval, type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p,
     mess=FALSE, samples=NULL) {
-    if (is.null(listw) && is.null(tr))
-        stop("either tr or listw must be given")
+    if (is.null(evalues)) {
+        if (is.null(listw) && is.null(tr))
+            stop("either tr or listw must be given")
+    } else {
+        if (!is.null(listw)) {
+            warning("evalues given: listw will be ignored")
+            listw <-NULL
+        }
+        if (!is.null(tr)) {
+            warning("evalues given: listw will be ignored")
+            tr <- NULL
+        }
+    }
     timings <- list()
     .ptime_start <- proc.time()
     if (is.null(listw)) {
@@ -389,7 +425,15 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
         if (type == "mixed" || type == "sacmixed") {
             T <- rbind(T, tr/n)
         }
-        res <- lagImpacts(T, g, P)
+        if (is.null(evalues)) {
+            res <- lagImpacts(T, g, P)
+            cmethod <- "trace"
+        } else {
+            if (type == "mixed" || type == "sacmixed")
+                stop("eigenvalue mixed impacts not available")
+            if (length(evalues) != n) stop("wrong eigenvalue vector length")
+            res <- lagImpacts_e(rho, P, n, evalues)
+            cmethod <- "evalues"        }
         if (!is.null(Q)) {
             if (!is.numeric(Q) || length(Q) > 1L) stop("Invalid Q argument")
             if (Q > length(tr)) stop("Q larger than length of tr")
@@ -414,7 +458,7 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
 # type, iicept, icept, T, Q
             sres <- apply(samples, 1, processSample, irho=irho,
                 drop2beta=drop2beta, type=type, iicept=iicept,
-                icept=icept, T=T, Q=Q, q=q)
+                icept=icept, T=T, Q=Q, q=q, evalues=evalues)
             timings[["process_samples"]] <- proc.time() - .ptime_start
             .ptime_start <- proc.time()
 # 100928 Eelke Folmer
@@ -457,7 +501,7 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
             timings[["postprocess_samples"]] <- proc.time() - .ptime_start
             res <- list(res=res, sres=ssres)
         }
-        attr(res, "method") <- "trace"
+        attr(res, "method") <- cmethod
     } else {
 # added checks 140304
         stopifnot(length(listw$neighbours) == n)
@@ -516,8 +560,8 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
     res
 }
 
-impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, useHESS=NULL,
-  tol=1e-6, empirical=FALSE, Q=NULL) {
+impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
+  useHESS=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
     if (obj$type == "error") {
         if (obj$etype == "emixed") {
             return(impactSDEM(obj))
@@ -612,7 +656,7 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, useHESS=NULL,
     }
     res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=interval,
-        type=obj$type, tr=tr, R=R, listw=listw, tol=tol, empirical=empirical,
+        type=obj$type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical,
         Q=Q, icept=icept, iicept=iicept, p=p)
     attr(res, "useHESS") <- usingHESS
     attr(res, "insert") <- iNsert

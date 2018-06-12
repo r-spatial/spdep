@@ -221,8 +221,8 @@ logLik.lagmess <- function (object, ...)
 #    res <- list(lmobj=lmobj, alpha=alpha, alphase=alphase, rho=rho, bestmess=bestmess, q=q, start=start, na.action=na.act, nullLL=nullLL, use_expm=use_expm, mess_hess=mess_hess)
 
 
-impacts.lagmess <- function(obj, ..., R=NULL, listw=NULL, 
-  tol=1e-6, empirical=FALSE) {
+impacts.lagmess <- function(obj, ..., R=NULL, listw=NULL, tol=1e-6,
+    empirical=FALSE) {
     if (!is.null(R)) stopifnot(!is.null(obj$mess_hess))
     stopifnot(!is.null(listw))
     timings <- list()
