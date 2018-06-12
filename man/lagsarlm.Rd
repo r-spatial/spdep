@@ -182,15 +182,17 @@ Bernat for contributions to the asymptotic standard error code.}
 
 \examples{
 data(oldcol)
-COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), method="eigen", quiet=FALSE)
+listw <- nb2listw(COL.nb, style="W")
+ev <- eigenw(listw)
+COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw=listw,
+ method="eigen", quiet=FALSE, control=list(pre_eig=ev))
 summary(COL.lag.eig, correlation=TRUE)
 COL.lag.eig$fdHess
 COL.lag.eig$resvar
-W <- as(nb2listw(COL.nb), "CsparseMatrix")
+W <- as(listw, "CsparseMatrix")
 trMatc <- trW(W, type="mult")
 COL.lag.eig1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), control=list(fdHess=TRUE), trs=trMatc)
+ listw=listw, control=list(fdHess=TRUE, pre_eig=ev), trs=trMatc)
 COL.lag.eig1$fdHess
 system.time(COL.lag.M <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb), method="Matrix", quiet=FALSE))
@@ -233,11 +235,12 @@ trs=trMatb)
 summary(gp2mMi)
 }
 summary(COL.lag.eig)
-COL.lag.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"))
-summary(COL.lag.Bayes)
 set.seed(1)
+COL.lag.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw=listw)
+summary(COL.lag.Bayes)
 summary(impacts(COL.lag.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
+summary(impacts(COL.lag.Bayes, evalues=ev), short=TRUE, zstats=TRUE)
 \dontrun{
 data(elect80, package="spData")
 lw <- nb2listw(e80_queen, zero.policy=TRUE)
