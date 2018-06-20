@@ -17,7 +17,7 @@
 }
 
 \value{
-  an nb neighbour object
+  an nb neighbour object, with empty aggregates dropped.
 }
 
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}

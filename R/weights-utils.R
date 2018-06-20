@@ -142,8 +142,11 @@ aggregate.nb <- function(x, IDs, remove.self=TRUE, ...) {
             if (length(nb_short[[i]]) < 1L) nb_short[[i]] <- 0L
         }
     }
+# RSB fix 180620
+    nb_short[sapply(nb_short, length) == 0L] <- 0L
     attr(nb_short, "region.id") <- out_reg.ids
     class(nb_short) <- "nb"
+    if (any(card(nb_short) == 0L)) nb_short <- subset(nb_short, card(nb_short) > 0L)
     nb_short <- sym.attr.nb(nb_short)
     nb_short
 }
