@@ -8,7 +8,6 @@
 
 #define DOUBLE_XMAX DBL_MAX
 
-#define EPS 1e-4		/* relative test of equality of distances */
 
 #define MAX_TIES 1000
 /* Not worth doing this dynamically -- limits k + # ties + fence, in fact */
@@ -23,10 +22,14 @@ knearneigh(int *kin, int *pnte, int *p, double *test, int *res, double *dists,
     double dist, /* tmp,*/ nndist[MAX_TIES];
     double lon1[1], lon2[1], lat1[1], lat2[1], gc[1];
 
+		/* relative test of equality of distances */
+    double eps = 1e-4;
+
 /*
     Use a `fence' in the (k+1)st position to avoid special cases.
     Simple insertion sort will suffice since k will be small.
  */
+    if (ll != 0) eps = eps*eps;
 
     for (npat = 0; npat < nte; npat++) {
         R_CheckUserInterrupt();
@@ -51,7 +54,7 @@ knearneigh(int *kin, int *pnte, int *p, double *test, int *res, double *dists,
 	    }*/
 	    
 /* Use `fuzz' since distance computed could depend on order of coordinates */
-	    if (dist <= nndist[kinit - 1] * (1 + EPS))
+	    if (dist <= nndist[kinit - 1] * (1 + eps))
 		for (k = 0; k <= kn; k++)
 		    if (dist < nndist[k]) {
 			for (k1 = kn; k1 > k; k1--) {
@@ -62,7 +65,7 @@ knearneigh(int *kin, int *pnte, int *p, double *test, int *res, double *dists,
 			pos[k] = j;
 /* Keep an extra distance if the largest current one ties with current kth */
 			if (nndist[kn] <= nndist[kinit - 1])
-			    if (++kn == MAX_TIES - 1)
+			    if (++kn >= MAX_TIES - 1)
 				error("too many ties in knearneigh");
 			break;
 		    }

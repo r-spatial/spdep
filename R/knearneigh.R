@@ -26,6 +26,7 @@ knearneigh <- function(x, k=1, longlat=NULL, RANN=TRUE)
     dimension <- ncol(x)
     if (dimension != 2) stop("knearneigh: only 2D data accepted")
     if (k >= np) stop("knearneigh: fewer data points than k")
+    if (k > (np/3)) warning("k greater than one-third of the number of data points")
 # modified 140117 to handle zerodist points
 # (previous fix only worked for pairs and k>1)
     zd <- zerodist(SpatialPoints(x))
