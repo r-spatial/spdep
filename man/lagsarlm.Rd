@@ -83,6 +83,7 @@ variable in making predictions for the fitting data.
   \item{SElndet}{default NULL, may be used to pass a pre-computed SE toolbox style matrix of coefficients and their lndet values to the "SE_classic" and "SE_whichMin" methods}
   \item{LU_order}{default FALSE; used in \dQuote{LU_prepermutate}, note warnings given for \code{lu} method}
   \item{pre_eig}{default NULL; may be used to pass a pre-computed vector of eigenvalues}
+  \item{OrdVsign}{default 1; used to set the sign of the final component to negative if -1 (alpha times ((sigma squared) squared) in Ord (1975) equation B.1).}
 }}
 
 \section{Extra Bayesian control arguments}{
@@ -185,15 +186,24 @@ data(oldcol)
 listw <- nb2listw(COL.nb, style="W")
 ev <- eigenw(listw)
 COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw=listw,
- method="eigen", quiet=FALSE, control=list(pre_eig=ev))
+ method="eigen", quiet=FALSE, control=list(pre_eig=ev, OrdVsign=1))
 summary(COL.lag.eig, correlation=TRUE)
 COL.lag.eig$fdHess
 COL.lag.eig$resvar
+COL.lag.eigb <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw=listw,
+ method="eigen", control=list(pre_eig=ev, OrdVsign=-1))
+summary(COL.lag.eigb)
+COL.lag.eigb$fdHess
+COL.lag.eigb$resvar
 W <- as(listw, "CsparseMatrix")
 trMatc <- trW(W, type="mult")
 COL.lag.eig1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  listw=listw, control=list(fdHess=TRUE, pre_eig=ev), trs=trMatc)
+summary(COL.lag.eig1)
 COL.lag.eig1$fdHess
+COL.lag.eig$resvar[2,2]
+COL.lag.eigb$resvar[2,2]
+COL.lag.eig1$fdHess[2,2]
 system.time(COL.lag.M <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb), method="Matrix", quiet=FALSE))
 summary(COL.lag.M)

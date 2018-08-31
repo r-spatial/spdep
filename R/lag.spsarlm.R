@@ -13,7 +13,8 @@ lagsarlm <- function(formula, data = list(), listw,
             cheb_q=5, MC_p=16L, MC_m=30L, super=NULL, spamPivot="MMD",
             in_coef=0.1, type="MC", correct=TRUE, trunc=TRUE,
             SE_method="LU", nrho=200, interpn=2000, small_asy=TRUE,
-            small=1500, SElndet=NULL, LU_order=FALSE, pre_eig=NULL)
+            small=1500, SElndet=NULL, LU_order=FALSE, pre_eig=NULL,
+            OrdVsign=1)
         nmsC <- names(con)
         con[(namc <- names(control))] <- control
         if (length(noNms <- namc[!namc %in% nmsC])) 
@@ -56,6 +57,9 @@ lagsarlm <- function(formula, data = list(), listw,
             fdHess <- NULL
         }
         stopifnot(is.logical(con$fdHess))
+        stopifnot(is.numeric(con$OrdVsign))
+        stopifnot(length(con$OrdVsign) == 1)
+        stopifnot(abs(con$OrdVsign) == 1)
 	xcolnames <- colnames(x)
 	K <- ifelse(xcolnames[1] == "(Intercept)", 2, 1)
 	wy <- lag.listw(listw, y, zero.policy=zero.policy)
@@ -166,7 +170,8 @@ lagsarlm <- function(formula, data = list(), listw,
 #			t(AW %*% x %*% coef.rho) %*%
 #			(AW %*% x %*% coef.rho)) + omega*s2^2
 		V <- s2*(s2*tr(crossprod(AW)) +
-			crossprod(AW %*% x %*% coef.rho)) + omega*s2^2
+			crossprod(AW %*% x %*% coef.rho)) +
+                        sign(con$OrdVsign)*omega*s2^2
 		inf1 <- rbind(n/2, s2*tr(AW), t(zero))
 		inf2 <- rbind(s2*tr(AW), V, xtawxb)
 #		xtx <- s2*t(x) %*% x
