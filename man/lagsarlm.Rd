@@ -190,20 +190,31 @@ COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw=listw,
 summary(COL.lag.eig, correlation=TRUE)
 COL.lag.eig$fdHess
 COL.lag.eig$resvar
+# using the apparent sign in Ord (1975, equation B.1) 
 COL.lag.eigb <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw=listw,
  method="eigen", control=list(pre_eig=ev, OrdVsign=-1))
 summary(COL.lag.eigb)
 COL.lag.eigb$fdHess
 COL.lag.eigb$resvar
-W <- as(listw, "CsparseMatrix")
-trMatc <- trW(W, type="mult")
+# force numerical Hessian
 COL.lag.eig1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- listw=listw, control=list(fdHess=TRUE, pre_eig=ev), trs=trMatc)
+ listw=listw, method="Matrix", control=list(small=25))
 summary(COL.lag.eig1)
 COL.lag.eig1$fdHess
+W <- as(listw, "CsparseMatrix")
+trMatc <- trW(W, type="mult")
+# force LeSage & Pace (2008, p. 57) approximation 
+COL.lag.eig1a <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw=listw, method="Matrix", control=list(small=25), trs=trMatc)
+summary(COL.lag.eig1a)
+COL.lag.eig1a$fdHess
 COL.lag.eig$resvar[2,2]
+# using the apparent sign in Ord (1975, equation B.1) 
 COL.lag.eigb$resvar[2,2]
-COL.lag.eig1$fdHess[2,2]
+# force numerical Hessian
+COL.lag.eig1$fdHess[1,1]
+# force LeSage & Pace (2008, p. 57) approximation 
+COL.lag.eig1a$fdHess[2,2]
 system.time(COL.lag.M <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb), method="Matrix", quiet=FALSE))
 summary(COL.lag.M)
