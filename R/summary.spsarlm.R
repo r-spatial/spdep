@@ -4,6 +4,7 @@
 
 print.sarlm <- function(x, ...)
 {
+#FIXME
        if (x$type == "error") if (isTRUE(all.equal(x$lambda, x$interval[1])) ||
             isTRUE(all.equal(x$lambda, x$interval[2]))) 
             warning("lambda on interval bound - results should not be used")
@@ -23,6 +24,7 @@ print.sarlm <- function(x, ...)
 summary.sarlm <- function(object, correlation = FALSE, Nagelkerke=FALSE,
  Hausman=FALSE, adj.se=FALSE, ...)
 {
+#FIXME
 	adj <- NULL
 	if (object$type == "error" || ((object$type == "lag" || 
 		object$type == "mixed" || object$type == "sac" || 

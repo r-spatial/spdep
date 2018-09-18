@@ -14,7 +14,7 @@ The \code{spBreg_lag} function is an early-release version of the Matlab Spatial
 }
 \usage{
 lagsarlm(formula, data = list(), listw, 
-	na.action, type="lag", method="eigen", quiet=NULL, 
+	na.action, Durbin, type, method="eigen", quiet=NULL, 
 	zero.policy=NULL, interval=NULL, tol.solve=1.0e-10, trs=NULL, 
 	control=list())
 spBreg_lag(formula, data = list(), listw, na.action, type="lag",
@@ -28,7 +28,8 @@ By default the variables are taken from the environment which the function
 is called.}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{na.action}{a function (default \code{options("na.action")}), can also be \code{na.omit} or \code{na.exclude} with consequences for residuals and fitted values - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted.}
-  \item{type}{default "lag", may be set to "mixed"; when "mixed", the lagged intercept is dropped for spatial weights style "W", that is row-standardised weights, but otherwise included; \dQuote{Durbin} may be used instead of \dQuote{mixed}}
+  \item{Durbin}{default FALSE (spatial lag model); if TRUE, full spatial Durbin model; if a formula object, the subset of explanatory variables to lag}
+  \item{type}{(use the \sQuote{Durbin=} argument - retained for backwards compatibility only: default "lag", may be set to "mixed"; when "mixed", the lagged intercept is dropped for spatial weights style "W", that is row-standardised weights, but otherwise included; \dQuote{Durbin} may be used instead of \dQuote{mixed}}
   \item{method}{"eigen" (default) - the Jacobian is computed as the product 
 of (1 - rho*eigenvalue) using \code{eigenw}, and "spam" or "Matrix_J" for strictly symmetric weights lists of styles "B" and "C", or made symmetric by similarity (Ord, 1975, Appendix C) if possible for styles "W" and "S", using code from the spam or Matrix packages to calculate the determinant; \dQuote{Matrix} and \dQuote{spam_update} provide updating Cholesky decomposition methods; "LU" provides an alternative sparse matrix decomposition approach. In addition, there are "Chebyshev" and Monte Carlo "MC" approximate log-determinant methods; the Smirnov/Anselin (2009) trace approximation is available as "moments". Three methods: "SE_classic", "SE_whichMin", and "SE_interp" are provided experimentally, the first to attempt to emulate the behaviour of Spatial Econometrics toolbox ML fitting functions. All use grids of log determinant values, and the latter two attempt to ameliorate some features of "SE_classic".
 }
@@ -111,6 +112,7 @@ variable in making predictions for the fitting data.
 \value{
   A list object of class \code{sarlm}
   \item{type}{"lag" or "mixed"}
+  \item{dvars}{vector of length 2, numbers of columns in X and WX; if Durbin is given as a formula, the formula as attribute \dQuote{f} and the indices of }
   \item{rho}{simultaneous autoregressive lag coefficient}
   \item{coefficients}{GLS coefficient estimates}
   \item{rest.se}{asymptotic standard errors if ase=TRUE, otherwise approximate numeriacal Hessian-based values}
@@ -233,6 +235,22 @@ summary(COL.mixed.B, correlation=TRUE)
 COL.mixed.W <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb, style="W"), type="mixed")
 summary(COL.mixed.W, correlation=TRUE)
+COL.mixed.D00 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"), Durbin=TRUE)
+summary(COL.mixed.D00, correlation=TRUE)
+COL.mixed.D00 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"), Durbin=FALSE)
+summary(COL.mixed.D00, correlation=TRUE)
+COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"), Durbin= ~ INC + HOVAL)
+summary(COL.mixed.D1, correlation=TRUE)
+COL.mixed.D1a <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"), Durbin= ~ INC)
+summary(COL.mixed.D1a, correlation=TRUE)
+try(COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"), Durbin= ~ inc + HOVAL))
+try(COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"), Durbin= ~ DISCBD + HOVAL))
 NA.COL.OLD <- COL.OLD
 NA.COL.OLD$CRIME[20:25] <- NA
 COL.lag.NA <- lagsarlm(CRIME ~ INC + HOVAL, data=NA.COL.OLD,

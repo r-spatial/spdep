@@ -30,6 +30,7 @@
   \item{\dots}{further arguments passed to or from other methods}
 }
 \value{
+%FIXME
 The summary function \code{summary.sarlm} returns the \code{sarlm}
 object augmented with a coefficient matrix with probability values
 for coefficient asymptotic standard errors for type="error" and for
