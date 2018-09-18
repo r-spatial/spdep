@@ -241,16 +241,16 @@ COL.mixed.D00 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb, style="W"), Durbin=TRUE,
  control=list(pre_eig=ev))
 summary(COL.mixed.D00)
-COL.mixed.D00 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+COL.mixed.D01 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb, style="W"), Durbin=FALSE,
  control=list(pre_eig=ev))
-summary(COL.mixed.D00)
+summary(COL.mixed.D01)
 COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb, style="W"), Durbin= ~ INC + HOVAL,
  control=list(pre_eig=ev))
 summary(COL.mixed.D1)
 f <- CRIME ~ INC + HOVAL
-COL.mixed.D1 <- lagsarlm(f, data=COL.OLD, nb2listw(COL.nb, style="W"),
+COL.mixed.D2 <- lagsarlm(f, data=COL.OLD, nb2listw(COL.nb, style="W"),
  Durbin=as.formula(delete.response(terms(f))),
  control=list(pre_eig=ev))
 summary(COL.mixed.D1)
