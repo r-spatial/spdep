@@ -91,7 +91,8 @@ lagsarlm <- function(formula, data = list(), listw,
                     inds <- match(substring(colnames(WX), 5,
 	                nchar(colnames(WX))), colnames(x))
                     if (anyNA(inds)) stop("WX variables not in X: ",
-                        paste(colnames(WX)[is.na(inds)], collapse=" "))
+                        paste(substring(colnames(WX), 5,
+                        nchar(colnames(WX)))[is.na(inds)], collapse=" "))
                 }
                 dvars <- c(NCOL(x), NCOL(WX))
                 if (is.formula(Durbin)) {

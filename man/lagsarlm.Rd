@@ -1,4 +1,4 @@
-% Copyright 2002-16 by Roger S. Bivand
+% Copyright 2002-18 by Roger S. Bivand
 \name{lagsarlm}
 \alias{lagsarlm}
 \alias{spBreg_lag}
@@ -228,29 +228,42 @@ summary(COL.lag.sp)
 }
 COL.lag.B <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb, style="B"))
-summary(COL.lag.B, correlation=TRUE)
+summary(COL.lag.B)
 COL.mixed.B <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="B"), type="mixed", tol.solve=1e-9)
-summary(COL.mixed.B, correlation=TRUE)
+ nb2listw(COL.nb, style="B"), type="mixed", tol.solve=1e-9,
+ control=list(pre_eig=ev))
+summary(COL.mixed.B)
 COL.mixed.W <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), type="mixed")
-summary(COL.mixed.W, correlation=TRUE)
+ nb2listw(COL.nb, style="W"), type="mixed",
+ control=list(pre_eig=ev))
+summary(COL.mixed.W)
 COL.mixed.D00 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin=TRUE)
-summary(COL.mixed.D00, correlation=TRUE)
+ nb2listw(COL.nb, style="W"), Durbin=TRUE,
+ control=list(pre_eig=ev))
+summary(COL.mixed.D00)
 COL.mixed.D00 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin=FALSE)
-summary(COL.mixed.D00, correlation=TRUE)
+ nb2listw(COL.nb, style="W"), Durbin=FALSE,
+ control=list(pre_eig=ev))
+summary(COL.mixed.D00)
 COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin= ~ INC + HOVAL)
-summary(COL.mixed.D1, correlation=TRUE)
+ nb2listw(COL.nb, style="W"), Durbin= ~ INC + HOVAL,
+ control=list(pre_eig=ev))
+summary(COL.mixed.D1)
+f <- CRIME ~ INC + HOVAL
+COL.mixed.D1 <- lagsarlm(f, data=COL.OLD, nb2listw(COL.nb, style="W"),
+ Durbin=as.formula(delete.response(terms(f))),
+ control=list(pre_eig=ev))
+summary(COL.mixed.D1)
 COL.mixed.D1a <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin= ~ INC)
-summary(COL.mixed.D1a, correlation=TRUE)
+ nb2listw(COL.nb, style="W"), Durbin= ~ INC,
+ control=list(pre_eig=ev))
+summary(COL.mixed.D1a)
 try(COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin= ~ inc + HOVAL))
+ nb2listw(COL.nb, style="W"), Durbin= ~ inc + HOVAL),
+ control=list(pre_eig=ev))
 try(COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin= ~ DISCBD + HOVAL))
+ nb2listw(COL.nb, style="W"), Durbin= ~ DISCBD + HOVAL),
+ control=list(pre_eig=ev))
 NA.COL.OLD <- COL.OLD
 NA.COL.OLD$CRIME[20:25] <- NA
 COL.lag.NA <- lagsarlm(CRIME ~ INC + HOVAL, data=NA.COL.OLD,
