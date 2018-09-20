@@ -45,6 +45,10 @@ lagsarlm <- function(formula, data = list(), listw,
         if (missing(type)) type <- "lag"
         if (type == "Durbin") type <- "mixed"
         if (missing(Durbin)) Durbin <- ifelse(type == "lag", FALSE, TRUE)
+        if (listw$style != "W" && is.formula(Durbin)) {
+            Durbin <- TRUE
+            warning("formula Durbin requires row-standardised weights; set TRUE")
+        }
         if (is.logical(Durbin) && isTRUE(Durbin)) type <- "mixed"
         if (is.formula(Durbin)) type <- "mixed"
         if (is.logical(Durbin) && !isTRUE(Durbin)) type <- "lag"
@@ -77,9 +81,10 @@ lagsarlm <- function(formula, data = list(), listw,
         dvars <- c(NCOL(x), 0L)
 #FIXME
 	if (is.formula(Durbin) || isTRUE(Durbin)) {
+                prefix <- "lag"
                 if (isTRUE(Durbin)) {
                     WX <- create_WX(x, listw, zero.policy=zero.policy,
-                        prefix="lag")
+                        prefix=prefix)
                 } else {
 	            dmf <- lm(Durbin, data, na.action=na.action, 
 		        method="model.frame")
@@ -87,17 +92,28 @@ lagsarlm <- function(formula, data = list(), listw,
                     if (class(fx) == "try-error") 
                         stop("Durbin variable mis-match")
                     WX <- create_WX(fx, listw, zero.policy=zero.policy,
-                        prefix="lag")
+                        prefix=prefix)
                     inds <- match(substring(colnames(WX), 5,
 	                nchar(colnames(WX))), colnames(x))
                     if (anyNA(inds)) stop("WX variables not in X: ",
                         paste(substring(colnames(WX), 5,
                         nchar(colnames(WX)))[is.na(inds)], collapse=" "))
+                    icept <- grep("(Intercept)", colnames(x))
+                    iicept <- length(icept) > 0L
+                    if (iicept) {
+                        xn <- colnames(x)[-1]
+                    } else {
+                        xn <- colnames(x)
+                    }
+                    wxn <- substring(colnames(WX), nchar(prefix)+2,
+                        nchar(colnames(WX)))
+                    zero_fill <- iicept+length(xn)+which(!(xn %in% wxn))
                 }
                 dvars <- c(NCOL(x), NCOL(WX))
                 if (is.formula(Durbin)) {
                     attr(dvars, "f") <- Durbin
                     attr(dvars, "inds") <- inds
+                    attr(dvars, "zero_fill") <- zero_fill
                 }
 		x <- cbind(x, WX)
 		m <- NCOL(x)
@@ -110,8 +126,15 @@ lagsarlm <- function(formula, data = list(), listw,
 	names(aliased) <- substr(cn, 2, nchar(cn))
 #FIXME
 	if (any(aliased)) {
+          if (is.formula(Durbin)) {
 	    stop("Aliased variables found: ",
                 paste(names(aliased)[aliased], collapse=" "))
+          } else {
+	    warning("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+	    nacoef <- which(aliased)
+		x <- x[,-nacoef]
+          }
 	}
 	LL_null_lm <- logLik(lm(y ~ 1))
 	m <- NCOL(x)

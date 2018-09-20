@@ -73,6 +73,8 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, type="lag",
     cn <- names(aliased)
     names(aliased) <- substr(cn, 2, nchar(cn))
     if (any(aliased)) {
+	warning("Aliased variables found: ",
+            paste(names(aliased)[aliased], collapse=" "))
         nacoef <- which(aliased)
         x <- x[,-nacoef]
     }
@@ -242,6 +244,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, type="lag",
     attr(res, "listw_style") <- listw$style
     attr(res, "lsave") <- lsave
     attr(res, "ll_mean") <- as.vector(ll_mean)
+    attr(res, "aliased") <- aliased
     class(res) <- c("MCMC_sar_g", class(res))
     res
 
