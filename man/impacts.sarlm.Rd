@@ -37,7 +37,7 @@
 \method{HPDinterval}{lagImpact}(obj, prob = 0.95, ..., choice="direct")
 intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
  type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p, mess=FALSE,
- samples=NULL)
+ samples=NULL, zero_fill = NULL)
 }
 \arguments{
   \item{obj}{A spatial regression object created by \code{lagsarlm}, \code{lagmess} or by \code{lmSLX}; in \code{HPDinterval.lagImpact}, a lagImpact object}
@@ -61,7 +61,7 @@ intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
   \item{prob}{Argument passed to \code{HPDinterval.mcmc}: a numeric scalar in the interval (0,1) giving the target probability content of the intervals}
   \item{adjust_k}{adjust ML SDEM standard errors by dividing by (n-k) rather than n}
   \item{rho, beta, P, mu, Sigma, irho, drop2beta, bnames,
-    interval, type, icept, iicept, p, mess, samples}{internal arguments shared inside impacts methods}
+    interval, type, icept, iicept, p, mess, samples, zero_fill}{internal arguments shared inside impacts methods}
 }
 
 \details{If called without \code{R} being set, the method returns the direct, indirect and total impacts for the variables in the model, for the variables themselves in tha spatial lag model case, for the variables and their spatial lags in the spatial Durbin (mixed) model case. The spatial lag impact measures are computed using eq. 2.46 (LeSage and Pace, 2009, p. 38), either using the exact dense matrix (when \code{listw} is given), or traces of powers of the weights matrix (when \code{tr} is given). When the traces are created by powering sparse matrices, the exact and the trace methods should give very similar results, unless the number of powers used is very small, or the spatial coefficient is close to its bounds.
@@ -69,6 +69,8 @@ intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
 If \code{R} is given, simulations will be used to create distributions for the impact measures, provided that the fitted model object contains a coefficient covariance matrix. The simulations are made using \code{\link[MASS]{mvrnorm}} with the coefficients and their covariance matrix from the fitted model.
 
 The simulations are stored as \code{mcmc} objects as defined in the \pkg{coda} package; the objects are used for convenience but are not output by an MCMC process. The simulated values of the coefficients are checked to see that the spatial coefficient remains within its valid interval --- draws outside the interval are discarded.
+
+If a model is fitted with the \dQuote{Durbin=} set to a formula subsetting the explanatory variables, the impacts object returned reports Durbin impacts for variables included in the formula and lag impacts for the other variables.
 
 When \code{Q} and \code{tr} are given, addition impact component results are provided for each step in the traces of powers of the weights matrix up to and including the \code{Q}'th power. This increases computing time because the output object is substantially increased in size in proportion to the size of \code{Q}.
 
@@ -108,9 +110,12 @@ ev <- eigenw(listw)
 lobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw,
  control=list(pre_eig=ev))
 summary(lobj)
-mobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed",
+mobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, Durbin=TRUE,
  control=list(pre_eig=ev))
 summary(mobj)
+mobj1 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, Durbin= ~ INC,
+ control=list(pre_eig=ev))
+summary(mobj1)
 W <- as(listw, "CsparseMatrix")
 trMatc <- trW(W, type="mult")
 trMC <- trW(W, type="MC")
@@ -135,8 +140,11 @@ summary(lobjIQ5, zstats=TRUE, short=TRUE, reportQ=TRUE)
 impacts(mobj, listw=listw)
 impacts(mobj, tr=trMatc)
 impacts(mobj, tr=trMC)
+impacts(mobj1, tr=trMatc)
+impacts(mobj1, listw=listw)
 try(impacts(mobj, evalues=ev))
-summary(impacts(mobj, tr=trMatc, R=200), zstats=TRUE)
+summary(impacts(mobj, tr=trMatc, R=200), short=TRUE, zstats=TRUE)
+summary(impacts(mobj1, tr=trMatc, R=200), short=TRUE, zstats=TRUE)
 xobj <- lmSLX(CRIME ~ INC + HOVAL, columbus, listw)
 summary(impacts(xobj))
 eobj <- errorsarlm(CRIME ~ INC + HOVAL, columbus, listw, etype="emixed")

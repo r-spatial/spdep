@@ -234,8 +234,9 @@ impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
     drop2beta <- 1
     res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
-        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical,
-        Q=Q, icept=icept, iicept=iicept, p=p)
+        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
+        empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
+        zero_fill=NULL)
     attr(res, "iClass") <- class(obj)
     if (!is.null(obj$robust)) {
         attr(res, "robust") <- obj$robust
@@ -273,8 +274,9 @@ impacts.gmsar <- function(obj, ..., n=NULL, tr=NULL, R=NULL, listw=NULL,
     drop2beta <- 1
     res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
-        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical,
-        Q=Q, icept=icept, iicept=iicept, p=p)
+        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
+        empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
+        zero_fill=NULL)
     attr(res, "iClass") <- class(obj)
     res
 }
@@ -320,8 +322,8 @@ lagDistrImpacts <- function(T, g, P, q=10) {
     list(direct=direct, indirect=indirect, total=total)
 }
 
-processSample <- function(x, irho, drop2beta, type, iicept, icept, T, Q, q,
-    evalues) {
+processSample <- function(x, irho, drop2beta, type, iicept, icept, zero_fill,
+    T, Q, q, evalues) {
     g <- x[irho]^(0:q)
     beta <- x[-drop2beta]
     if (type == "lag" || type == "sac") {
@@ -335,6 +337,14 @@ processSample <- function(x, irho, drop2beta, type, iicept, icept, T, Q, q,
           b1 <- beta[-icept]
         } else {
           b1 <- beta
+        }
+#FIXME
+        if (!is.null(zero_fill)) {
+          if (length(zero_fill) > 0L) {
+            for (i in seq(along=sort(zero_fill, decreasing=FALSE))) {
+              b1 <- append(b1, values=0, after=zero_fill[i]-1L)
+            }
+          }
         }
         p <- length(b1)
         if (p %% 2 != 0) stop("non-matched coefficient pairs")
@@ -375,7 +385,7 @@ mixedImpactsExact <- function(SW, P, n, listw) {
 }
 
 processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
-    irho) {
+    irho, zero_fill) {
     rho <- x[irho]
     SW <- invIrW(listw, rho)
     beta <- x[-drop2beta]
@@ -392,6 +402,14 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
         } else {
             b1 <- beta
         }
+#FIXME
+        if (!is.null(zero_fill)) {
+          if (length(zero_fill) > 0L) {
+            for (i in seq(along=sort(zero_fill, decreasing=FALSE))) {
+              b1 <- append(b1, values=0, after=zero_fill[i]-1L)
+            }
+          }
+        }
         p <- length(b1)
         if (p %% 2 != 0) stop("non-matched coefficient pairs")
         P <- cbind(b1[1:(p/2)], b1[((p/2)+1):p])
@@ -401,7 +419,7 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
 
 intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
     interval, type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p,
-    mess=FALSE, samples=NULL) {
+    mess=FALSE, samples=NULL, zero_fill=NULL) {
     if (is.null(evalues)) {
         if (is.null(listw) && is.null(tr))
             stop("either tr or listw must be given")
@@ -458,7 +476,8 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
 # type, iicept, icept, T, Q
             sres <- apply(samples, 1, processSample, irho=irho,
                 drop2beta=drop2beta, type=type, iicept=iicept,
-                icept=icept, T=T, Q=Q, q=q, evalues=evalues)
+                icept=icept, zero_fill=zero_fill, T=T, Q=Q, q=q,
+                evalues=evalues)
             timings[["process_samples"]] <- proc.time() - .ptime_start
             .ptime_start <- proc.time()
 # 100928 Eelke Folmer
@@ -526,7 +545,7 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
 # type, iicept, icept, SW, n, listw
             sres <- apply(samples, 1, processXSample,
                 drop2beta=drop2beta, type=type, iicept=iicept,
-                icept=icept, n=n, listw=listw, irho=irho)
+                icept=icept, n=n, listw=listw, irho=irho, zero_fill=zero_fill)
             timings[["process_samples"]] <- proc.time() - .ptime_start
             .ptime_start <- proc.time()
             if (length(bnames) == 1L) {
@@ -614,6 +633,7 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
     }
     icept <- grep("(Intercept)", names(beta))
     iicept <- length(icept) > 0L
+    zero_fill <- NULL
     if (obj$type == "lag" || obj$type == "sac") {
       if (iicept) {
         P <- matrix(beta[-icept], ncol=1)
@@ -624,10 +644,18 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
       }
       p <- length(beta)
     } else if (obj$type == "mixed" || obj$type == "sacmixed") {
+      if (!is.null(obj$dvars)) zero_fill <- attr(obj$dvars, "zero_fill")
       if (iicept) {
         b1 <- beta[-icept]
       } else {
         b1 <- beta
+      }
+      if (!is.null(zero_fill)) {
+        if (length(zero_fill) > 0L) {
+          for (i in seq(along=sort(zero_fill, decreasing=FALSE))) {
+            b1 <- append(b1, values=0, after=zero_fill[i]-1L)
+          }
+        }
       }
       p <- length(b1)
       if (p %% 2 != 0) stop("non-matched coefficient pairs")
@@ -656,8 +684,9 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
     }
     res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=interval,
-        type=obj$type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical,
-        Q=Q, icept=icept, iicept=iicept, p=p)
+        type=obj$type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
+        empirical=empirical,Q=Q, icept=icept, iicept=iicept, p=p,
+        zero_fill=zero_fill)
     attr(res, "useHESS") <- usingHESS
     attr(res, "insert") <- iNsert
     attr(res, "iClass") <- class(obj)

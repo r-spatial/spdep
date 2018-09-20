@@ -107,7 +107,7 @@ lagsarlm <- function(formula, data = list(), listw,
                     }
                     wxn <- substring(colnames(WX), nchar(prefix)+2,
                         nchar(colnames(WX)))
-                    zero_fill <- iicept+length(xn)+which(!(xn %in% wxn))
+                    zero_fill <- length(xn) + (which(!(xn %in% wxn)))
                 }
                 dvars <- c(NCOL(x), NCOL(WX))
                 if (is.formula(Durbin)) {

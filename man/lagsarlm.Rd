@@ -253,7 +253,7 @@ f <- CRIME ~ INC + HOVAL
 COL.mixed.D2 <- lagsarlm(f, data=COL.OLD, nb2listw(COL.nb, style="W"),
  Durbin=as.formula(delete.response(terms(f))),
  control=list(pre_eig=ev))
-summary(COL.mixed.D1)
+summary(COL.mixed.D2)
 COL.mixed.D1a <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb, style="W"), Durbin= ~ INC,
  control=list(pre_eig=ev))
