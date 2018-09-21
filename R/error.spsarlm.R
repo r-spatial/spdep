@@ -143,7 +143,9 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
 	    warning("Aliased variables found: ",
                 paste(names(aliased)[aliased], collapse=" "))
 	    nacoef <- which(aliased)
-		x <- x[,-nacoef]
+	    x <- x[,-nacoef]
+	    m <- NCOL(x)
+	    xxcolnames <- colnames(x)
           }
 	}
 #
@@ -245,6 +247,7 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
         sum_lm_target <- summary.lm(lm.target, correlation = FALSE)
         emixedImps <- NULL
 	if (etype == "emixed") {
+          if (isTRUE(Durbin)) {
             odd <- (m%/%2) > 0
             if (odd) {
                 m2 <- (m-1)/2
@@ -279,6 +282,9 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
             totImps <- as.matrix(estimable(lm.target, cm)[, 1:2, drop=FALSE])
             emixedImps <- list(dirImps=dirImps, indirImps=indirImps,
                 totImps=totImps)
+          } else (is.formula(Durbin)) {
+          
+          }
         }
         Vs <- sum_lm_target$cov.unscaled
         tarX <- model.matrix(lm.target)
