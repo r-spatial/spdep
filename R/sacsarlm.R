@@ -1,6 +1,6 @@
 # Copyright 2010-12 by Roger Bivand
 sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action, 
-	type="sac", method="eigen", quiet=NULL, zero.policy=NULL, 
+	Durbin, type, method="eigen", quiet=NULL, zero.policy=NULL, 
 	tol.solve=1.0e-10, llprof=NULL, interval1=NULL, interval2=NULL,
         trs1=NULL, trs2=NULL, control=list()) {
         timings <- list()
@@ -14,6 +14,17 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
         if (length(noNms <- namc[!namc %in% nmsC])) 
             warning("unknown names in control: ", paste(noNms, collapse = ", "))
         if (is.null(quiet)) quiet <- !get("verbose", envir = .spdepOptions)
+#FIXME
+        if (missing(type)) type <- "sac"
+        if (type == "Durbin") type <- "sacmixed"
+        if (missing(Durbin)) Durbin <- ifelse(type == "sac", FALSE, TRUE)
+        if (listw$style != "W" && is.formula(Durbin)) {
+            Durbin <- TRUE
+            warning("formula Durbin requires row-standardised weights; set TRUE")
+        }
+        if (is.logical(Durbin) && isTRUE(Durbin)) type <- "sacmixed"
+        if (is.formula(Durbin)) type <- "sacmixed"
+        if (is.logical(Durbin) && !isTRUE(Durbin)) type <- "sac"
 	switch(type, sac = if (!quiet) cat("\nSpatial ARAR model\n"),
 	    sacmixed = if (!quiet) cat("\nSpatial ARAR mixed model (Manski)\n"),
 	    stop("\nUnknown model type\n"))
@@ -61,9 +72,43 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
 	wy <- lag.listw(listw, y, zero.policy=zero.policy)
 	n <- NROW(x)
 	m <- NCOL(x)
-	if (type != "sac") {
-                WX <- create_WX(x, listw, zero.policy=zero.policy,
-                    prefix="lag")
+        dvars <- c(m, 0L)
+#	if (type != "sac") {
+	if (is.formula(Durbin) || isTRUE(Durbin)) {
+                prefix <- "lag"
+                if (isTRUE(Durbin)) {
+                    WX <- create_WX(x, listw, zero.policy=zero.policy,
+                        prefix=prefix)
+                } else {
+	            dmf <- lm(Durbin, data, na.action=na.action, 
+		        method="model.frame")
+                    fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
+                    if (class(fx) == "try-error") 
+                        stop("Durbin variable mis-match")
+                    WX <- create_WX(fx, listw, zero.policy=zero.policy,
+                        prefix=prefix)
+                    inds <- match(substring(colnames(WX), 5,
+	                nchar(colnames(WX))), colnames(x))
+                    if (anyNA(inds)) stop("WX variables not in X: ",
+                        paste(substring(colnames(WX), 5,
+                        nchar(colnames(WX)))[is.na(inds)], collapse=" "))
+                    icept <- grep("(Intercept)", colnames(x))
+                    iicept <- length(icept) > 0L
+                    if (iicept) {
+                        xn <- colnames(x)[-1]
+                    } else {
+                        xn <- colnames(x)
+                    }
+                    wxn <- substring(colnames(WX), nchar(prefix)+2,
+                        nchar(colnames(WX)))
+                    zero_fill <- length(xn) + (which(!(xn %in% wxn)))
+                }
+                dvars <- c(NCOL(x), NCOL(WX))
+                if (is.formula(Durbin)) {
+                    attr(dvars, "f") <- Durbin
+                    attr(dvars, "inds") <- inds
+                    attr(dvars, "zero_fill") <- zero_fill
+                }
 		x <- cbind(x, WX)
 		m <- NCOL(x)
 		rm(WX)
@@ -319,7 +364,7 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
 	call <- match.call()
 	names(r) <- names(y)
 	names(fit) <- names(y)
-	ret <- structure(list(type=type, rho=rho, lambda=lambda,
+	ret <- structure(list(type=type, dvars=dvars, rho=rho, lambda=lambda,
 	    coefficients=coef.sac, rest.se=rest.se, ase=ase,
 	    LL=LL, s2=s2, SSE=SSE, parameters=(p+3), 
             logLik_lm.model=logLik_lm.model, AIC_lm.model=AIC_lm.model,

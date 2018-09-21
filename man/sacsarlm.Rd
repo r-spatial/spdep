@@ -11,7 +11,7 @@
 
 where \eqn{\rho}{rho} and \eqn{\lambda}{lambda} are found by \code{nlminb} or \code{optim()} first, and \eqn{\beta}{beta} and other parameters by generalized least squares subsequently}
 \usage{
-sacsarlm(formula, data = list(), listw, listw2 = NULL, na.action, type="sac",
+sacsarlm(formula, data = list(), listw, listw2 = NULL, na.action, Durbin, type,
  method = "eigen", quiet = NULL, zero.policy = NULL, tol.solve = 1e-10,
  llprof=NULL, interval1=NULL, interval2=NULL, trs1=NULL, trs2=NULL,
  control = list())
@@ -26,7 +26,8 @@ is called}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{listw2}{a \code{listw} object created for example by \code{nb2listw}, if not given, set to the same spatial weights as the \code{listw} argument}
   \item{na.action}{a function (default \code{options("na.action")}), can also be \code{na.omit} or \code{na.exclude} with consequences for residuals and fitted values - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted.}
-  \item{type}{default "sac", may be set to "sacmixed" for the Manski model to include the spatially lagged independent variables added to X using \code{listw}; when "sacmixed", the lagged intercept is dropped for spatial weights style "W", that is row-standardised weights, but otherwise included}
+  \item{Durbin}{default FALSE (SARAR model); if TRUE, full spatial general nested (Manski) model; if a formula object, the subset of explanatory variables to lag}
+  \item{type}{(use the \sQuote{Durbin=} argument - retained for backwards compatibility only) default "sac", may be set to "sacmixed" for the spatial general nested (Manski) model to include the spatially lagged independent variables added to X using \code{listw}; when "sacmixed", the lagged intercept is dropped for spatial weights style "W", that is row-standardised weights, but otherwise included}
   \item{method}{"eigen" (default) - the Jacobian is computed as the product 
 of (1 - rho*eigenvalue) using \code{eigenw}, and "spam" or "Matrix" for strictly symmetric weights lists of styles "B" and "C", or made symmetric by similarity (Ord, 1975, Appendix C) if possible for styles "W" and "S", using code from the spam or Matrix packages to calculate the determinant; "LU" provides an alternative sparse matrix decomposition approach. In addition, there are "Chebyshev" and Monte Carlo "MC" approximate log-determinant methods.}
   \item{quiet}{default NULL, use !verbose global option value; if FALSE, reports function values during optimization.}
@@ -60,7 +61,8 @@ neighbours, if FALSE (default) assign NA - causing \code{sacsarlm()} to terminat
 
 \value{
   A list object of class \code{sarlm}
-  \item{type}{\dQuote{sac}}
+  \item{type}{\dQuote{sac} or \dQuote{sacmixed}}
+  \item{dvars}{vector of length 2, numbers of columns in X and WX; if Durbin is given as a formula, the formula as attribute \dQuote{f}, the indices of the included Wx as \dQuote{inds}, and indices of added zero Wx coefficients as \dQuote{zero_fill}}
   \item{rho}{lag simultaneous autoregressive lag coefficient}
   \item{lambda}{error simultaneous autoregressive error coefficient}
   \item{coefficients}{GLS coefficient estimates}
@@ -112,16 +114,28 @@ Bivand, R. S., Hauke, J., and Kossowski, T. (2013). Computing the Jacobian in Ga
 \code{\link{summary.sarlm}}, \code{\link{eigenw}}, \code{\link{impacts.sarlm}}}
 \examples{
 data(oldcol)
-COL.sacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, 
- nb2listw(COL.nb, style="W"))
-summary(COL.sacW.eig, correlation=TRUE)
-W <- as(nb2listw(COL.nb, style="W"), "CsparseMatrix")
+listw <- nb2listw(COL.nb, style="W")
+ev <- eigenw(listw)
+COL.sacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.sacW.eig)
+W <- as(listw, "CsparseMatrix")
 trMatc <- trW(W, type="mult")
 summary(impacts(COL.sacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
-COL.msacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, 
- nb2listw(COL.nb, style="W"), type="sacmixed")
-summary(COL.msacW.eig, correlation=TRUE)
+COL.msacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ type="sacmixed", control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW.eig)
+set.seed(1)
 summary(impacts(COL.msacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+COL.msacW1.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ Durbin=TRUE, control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW1.eig)
+set.seed(1)
+summary(impacts(COL.msacW1.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+COL.msacW2.eig <- sacsarlm(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD, 
+ listw, Durbin= ~ INC, control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW2.eig)
+summary(impacts(COL.msacW2.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

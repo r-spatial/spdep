@@ -29,7 +29,7 @@ is called.}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{na.action}{a function (default \code{options("na.action")}), can also be \code{na.omit} or \code{na.exclude} with consequences for residuals and fitted values - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted.}
   \item{Durbin}{default FALSE (spatial lag model); if TRUE, full spatial Durbin model; if a formula object, the subset of explanatory variables to lag}
-  \item{type}{(use the \sQuote{Durbin=} argument - retained for backwards compatibility only: default "lag", may be set to "mixed"; when "mixed", the lagged intercept is dropped for spatial weights style "W", that is row-standardised weights, but otherwise included; \dQuote{Durbin} may be used instead of \dQuote{mixed}}
+  \item{type}{(use the \sQuote{Durbin=} argument - retained for backwards compatibility only) default "lag", may be set to "mixed"; when "mixed", the lagged intercept is dropped for spatial weights style "W", that is row-standardised weights, but otherwise included; \dQuote{Durbin} may be used instead of \dQuote{mixed}}
   \item{method}{"eigen" (default) - the Jacobian is computed as the product 
 of (1 - rho*eigenvalue) using \code{eigenw}, and "spam" or "Matrix_J" for strictly symmetric weights lists of styles "B" and "C", or made symmetric by similarity (Ord, 1975, Appendix C) if possible for styles "W" and "S", using code from the spam or Matrix packages to calculate the determinant; \dQuote{Matrix} and \dQuote{spam_update} provide updating Cholesky decomposition methods; "LU" provides an alternative sparse matrix decomposition approach. In addition, there are "Chebyshev" and Monte Carlo "MC" approximate log-determinant methods; the Smirnov/Anselin (2009) trace approximation is available as "moments". Three methods: "SE_classic", "SE_whichMin", and "SE_interp" are provided experimentally, the first to attempt to emulate the behaviour of Spatial Econometrics toolbox ML fitting functions. All use grids of log determinant values, and the latter two attempt to ameliorate some features of "SE_classic".
 }
@@ -112,7 +112,7 @@ variable in making predictions for the fitting data.
 \value{
   A list object of class \code{sarlm}
   \item{type}{"lag" or "mixed"}
-  \item{dvars}{vector of length 2, numbers of columns in X and WX; if Durbin is given as a formula, the formula as attribute \dQuote{f} and the indices of }
+  \item{dvars}{vector of length 2, numbers of columns in X and WX; if Durbin is given as a formula, the formula as attribute \dQuote{f}, the indices of the included Wx as \dQuote{inds}, and indices of added zero Wx coefficients as \dQuote{zero_fill}}
   \item{rho}{simultaneous autoregressive lag coefficient}
   \item{coefficients}{GLS coefficient estimates}
   \item{rest.se}{asymptotic standard errors if ase=TRUE, otherwise approximate numeriacal Hessian-based values}
