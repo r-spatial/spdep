@@ -2,7 +2,7 @@
 #
 
 errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
-        etype="error", method="eigen", quiet=NULL, zero.policy=NULL,
+        Durbin, etype, method="eigen", quiet=NULL, zero.policy=NULL,
         interval=NULL, tol.solve=1.0e-10, trs=NULL, control=list()) {
         timings <- list()
         .ptime_start <- proc.time()
@@ -46,7 +46,17 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
 	    subset <- !(1:length(listw$neighbours) %in% na.act)
 	    listw <- subset(listw, subset, zero.policy=zero.policy)
 	}
-
+        if (missing(etype))etype <- "error"
+        if (etype == "Durbin") etype <- "emixed"
+        if (missing(Durbin)) Durbin <- ifelse(etype == "error", FALSE, TRUE)
+        if (listw$style != "W" && is.formula(Durbin)) {
+            Durbin <- TRUE
+            warning("formula Durbin requires row-standardised weights; set TRUE")
+        }
+        if (is.logical(Durbin) && isTRUE(Durbin)) etype <- "emixed"
+        if (is.formula(Durbin)) etype <- "emixed"
+        if (is.logical(Durbin) && !isTRUE(Durbin)) etype <- "error"
+        
 	switch(etype, error = if (!quiet)
                 cat("\nSpatial autoregressive error model\n"),
 	    emixed = if (!quiet)
@@ -81,9 +91,41 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
             fdHess <- NULL
         }
         stopifnot(is.logical(con$fdHess))
-	if (etype == "emixed") {
-                WX <- create_WX(x, listw, zero.policy=zero.policy,
-                    prefix="lag")
+	if (is.formula(Durbin) || isTRUE(Durbin)) {
+                prefix <- "lag"
+                if (isTRUE(Durbin)) {
+                    WX <- create_WX(x, listw, zero.policy=zero.policy,
+                        prefix=prefix)
+                } else {
+	            dmf <- lm(Durbin, data, na.action=na.action, 
+		        method="model.frame")
+                    fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
+                    if (class(fx) == "try-error") 
+                        stop("Durbin variable mis-match")
+                    WX <- create_WX(fx, listw, zero.policy=zero.policy,
+                        prefix=prefix)
+                    inds <- match(substring(colnames(WX), 5,
+	                nchar(colnames(WX))), colnames(x))
+                    if (anyNA(inds)) stop("WX variables not in X: ",
+                        paste(substring(colnames(WX), 5,
+                        nchar(colnames(WX)))[is.na(inds)], collapse=" "))
+                    icept <- grep("(Intercept)", colnames(x))
+                    iicept <- length(icept) > 0L
+                    if (iicept) {
+                        xn <- colnames(x)[-1]
+                    } else {
+                        xn <- colnames(x)
+                    }
+                    wxn <- substring(colnames(WX), nchar(prefix)+2,
+                        nchar(colnames(WX)))
+                    zero_fill <- length(xn) + (which(!(xn %in% wxn)))
+                }
+                dvars <- c(NCOL(x), NCOL(WX))
+                if (is.formula(Durbin)) {
+                    attr(dvars, "f") <- Durbin
+                    attr(dvars, "inds") <- inds
+                    attr(dvars, "zero_fill") <- zero_fill
+                }
 		x <- cbind(x, WX)
 		m <- NCOL(x)
 		rm(WX)
@@ -94,8 +136,15 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
 	cn <- names(aliased)
 	names(aliased) <- substr(cn, 2, nchar(cn))
 	if (any(aliased)) {
-		nacoef <- which(aliased)
+          if (is.formula(Durbin)) {
+	    stop("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+          } else {
+	    warning("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+	    nacoef <- which(aliased)
 		x <- x[,-nacoef]
+          }
 	}
 #
         sw <- sqrt(weights)
@@ -418,7 +467,7 @@ sar.error.f <- function(lambda, env) {
     ret
 }
 
-lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, zero.policy=NULL) {
+lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin=TRUE, zero.policy=NULL) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -456,9 +505,45 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, zero.p
         if (is.null(weights)) weights <- rep(as.numeric(1), n)
         if (any(is.na(weights))) stop("NAs in weights")
         if (any(weights < 0)) stop("negative weights")
-
-        WX <- create_WX(x, listw, zero.policy=zero.policy, prefix="lag")
-        x <- cbind(x, WX)
+        dvars <- c(NCOL(x), 0L)
+        prefix <- "lag"
+        if (isTRUE(Durbin)) {
+            WX <- create_WX(x, listw, zero.policy=zero.policy,
+               prefix=prefix)
+        } else if (is.formula(Durbin)) {
+	    dmf <- lm(Durbin, data, na.action=na.action, 
+	         method="model.frame")
+            fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
+            if (class(fx) == "try-error") 
+                 stop("Durbin variable mis-match")
+            WX <- create_WX(fx, listw, zero.policy=zero.policy,
+                prefix=prefix)
+            inds <- match(substring(colnames(WX), 5,
+	        nchar(colnames(WX))), colnames(x))
+            if (anyNA(inds)) stop("WX variables not in X: ",
+                paste(substring(colnames(WX), 5,
+                nchar(colnames(WX)))[is.na(inds)], collapse=" "))
+            icept <- grep("(Intercept)", colnames(x))
+            iicept <- length(icept) > 0L
+            if (iicept) {
+                xn <- colnames(x)[-1]
+            } else {
+                xn <- colnames(x)
+            }
+            wxn <- substring(colnames(WX), nchar(prefix)+2,
+                nchar(colnames(WX)))
+            zero_fill <- length(xn) + (which(!(xn %in% wxn)))
+        } else stop("Durbin argument neither TRUE nor formula")
+        dvars <- c(NCOL(x), NCOL(WX))
+        if (is.formula(Durbin)) {
+            attr(dvars, "f") <- Durbin
+            attr(dvars, "inds") <- inds
+            attr(dvars, "zero_fill") <- zero_fill
+        }
+	x <- cbind(x, WX)
+	rm(WX)
+#        WX <- create_WX(x, listw, zero.policy=zero.policy, prefix="lag")
+#        x <- cbind(x, WX)
 # 180128 Mark L. Burkey summary.lm error for SLX object
         colnames(x) <- make.names(colnames(x))
         if (attr(mt, "intercept") == 1L) {
@@ -486,7 +571,7 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, zero.p
                     rownames(cm) <- nclt[2:(m2+1)]
                 } else {
                     rownames(cm) <- nclt[1:m2]
-                 }
+                }
                 for (i in 1:m2) cm[i, c(i+1, i+(m2+1))] <- 1
 # drop bug fix 2016-09-21 Philipp Hunziker
                 dirImps <- sum_lm_model$coefficients[2:(m2+1), 1:2, drop=FALSE]
