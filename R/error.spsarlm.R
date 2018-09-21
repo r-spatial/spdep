@@ -282,9 +282,10 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
             totImps <- as.matrix(estimable(lm.target, cm)[, 1:2, drop=FALSE])
             emixedImps <- list(dirImps=dirImps, indirImps=indirImps,
                 totImps=totImps)
-          } else (is.formula(Durbin)) {
+          } else if (is.formula(Durbin)) {
+#FIXME
           
-          }
+          } else stop("undefined emixed state")
         }
         Vs <- sum_lm_target$cov.unscaled
         tarX <- model.matrix(lm.target)
