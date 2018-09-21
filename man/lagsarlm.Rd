@@ -17,7 +17,7 @@ lagsarlm(formula, data = list(), listw,
 	na.action, Durbin, type, method="eigen", quiet=NULL, 
 	zero.policy=NULL, interval=NULL, tol.solve=1.0e-10, trs=NULL, 
 	control=list())
-spBreg_lag(formula, data = list(), listw, na.action, type="lag",
+spBreg_lag(formula, data = list(), listw, na.action, Durbin, type,
     zero.policy=NULL, control=list())
 }
 \arguments{
@@ -293,6 +293,16 @@ COL.lag.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
 summary(COL.lag.Bayes)
 summary(impacts(COL.lag.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
 summary(impacts(COL.lag.Bayes, evalues=ev), short=TRUE, zstats=TRUE)
+set.seed(1)
+COL.D0.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw=listw, Durbin=TRUE)
+summary(COL.D0.Bayes)
+summary(impacts(COL.D0.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
+set.seed(1)
+COL.D1.Bayes <- spBreg_lag(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD,
+ listw=listw, Durbin= ~ INC)
+summary(COL.D1.Bayes)
+summary(impacts(COL.D1.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
 \dontrun{
 data(elect80, package="spData")
 lw <- nb2listw(e80_queen, zero.policy=TRUE)

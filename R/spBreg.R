@@ -2,7 +2,7 @@
 # James LeSage and R. Kelley Pace (http://www.spatial-econometrics.com/).
 # GSoc 2011 project by Abhirup Mallik mentored by Virgilio Gómez-Rubio
 
-spBreg_lag <- function(formula, data = list(), listw, na.action, type="lag",
+spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     zero.policy=NULL, control=list()) {
     timings <- list()
     .ptime_start <- proc.time()
@@ -58,25 +58,81 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, type="lag",
     if (anyNA(wy)) stop("NAs in lagged dependent variable")
 #create_WX
 # check for dgCMatrix
+    if (missing(type)) type <- "lag"
     if (type == "mixed") {
         type <- "Durbin"
-        warning("type \"mixed\" deprecated, changed to \"Durbin\"")
     }
-    if (type == "Durbin") {
-        WX <- create_WX(x, listw, zero.policy=zero.policy, prefix="lag")
-        x <- cbind(x, WX)
-        rm(WX)
-    } else if (type != "lag") stop("No such type:", type)
+    if (missing(Durbin)) Durbin <- ifelse(type == "lag", FALSE, TRUE)
+    if (listw$style != "W" && is.formula(Durbin)) {
+        Durbin <- TRUE
+        warning("formula Durbin requires row-standardised weights; set TRUE")
+    }
+    if (is.logical(Durbin) && isTRUE(Durbin)) type <- "Durbin"
+    if (is.formula(Durbin)) type <- "Durbin"
+    if (is.logical(Durbin) && !isTRUE(Durbin)) type <- "lag"
+
     m <- ncol(x)
+    dvars <- c(NCOL(x), 0L)
+
+#    if (type == "Durbin") {
+#        WX <- create_WX(x, listw, zero.policy=zero.policy, prefix="lag")
+#FIXME
+    if (is.formula(Durbin) || isTRUE(Durbin)) {
+        prefix <- "lag"
+        if (isTRUE(Durbin)) {
+            WX <- create_WX(x, listw, zero.policy=zero.policy,
+                prefix=prefix)
+        } else {
+            dmf <- lm(Durbin, data, na.action=na.action, 
+	        method="model.frame")
+            fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
+            if (class(fx) == "try-error") 
+                stop("Durbin variable mis-match")
+            WX <- create_WX(fx, listw, zero.policy=zero.policy,
+                prefix=prefix)
+            inds <- match(substring(colnames(WX), 5,
+	        nchar(colnames(WX))), colnames(x))
+            if (anyNA(inds)) stop("WX variables not in X: ",
+                paste(substring(colnames(WX), 5,
+                nchar(colnames(WX)))[is.na(inds)], collapse=" "))
+            icept <- grep("(Intercept)", colnames(x))
+            iicept <- length(icept) > 0L
+            if (iicept) {
+                xn <- colnames(x)[-1]
+            } else {
+                xn <- colnames(x)
+            }
+            wxn <- substring(colnames(WX), nchar(prefix)+2,
+                nchar(colnames(WX)))
+            zero_fill <- length(xn) + (which(!(xn %in% wxn)))
+        }
+        dvars <- c(NCOL(x), NCOL(WX))
+        if (is.formula(Durbin)) {
+            attr(dvars, "f") <- Durbin
+            attr(dvars, "inds") <- inds
+            attr(dvars, "zero_fill") <- zero_fill
+        }
+	x <- cbind(x, WX)
+	m <- NCOL(x)
+	rm(WX)
+    }
+#        x <- cbind(x, WX)
+#        rm(WX)
+#    } else if (type != "lag") stop("No such type:", type)
     lm.base <- lm(y ~ x - 1) # doesn't like dgCMatrix
     aliased <- is.na(coefficients(lm.base))
     cn <- names(aliased)
     names(aliased) <- substr(cn, 2, nchar(cn))
     if (any(aliased)) {
-	warning("Aliased variables found: ",
-            paste(names(aliased)[aliased], collapse=" "))
-        nacoef <- which(aliased)
-        x <- x[,-nacoef]
+          if (is.formula(Durbin)) {
+	    stop("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+          } else {
+	    warning("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+	    nacoef <- which(aliased)
+		x <- x[,-nacoef]
+          }
     }
     m <- ncol(x)
     timings[["set_up"]] <- proc.time() - .ptime_start
@@ -245,6 +301,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, type="lag",
     attr(res, "lsave") <- lsave
     attr(res, "ll_mean") <- as.vector(ll_mean)
     attr(res, "aliased") <- aliased
+    attr(res, "dvars") <- dvars
     class(res) <- c("MCMC_sar_g", class(res))
     res
 
@@ -265,6 +322,7 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     beta <- means[1:(length(means)-2)]
     icept <- grep("(Intercept)", names(beta))
     iicept <- length(icept) > 0L
+    zero_fill <- NULL
     samples <- as.matrix(obj)
     interval <- attr(obj, "control")$interval
     if (attr(obj, "type") == "lag") {
@@ -279,10 +337,21 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
       p <- length(beta)
     } else if (attr(obj, "type") == "Durbin") {
       type <- "mixed"
+      if (!is.null(attr(obj, "dvars"))) {
+          dvars <- attr(obj, "dvars")
+          zero_fill <- attr(dvars, "zero_fill")
+      }
       if (iicept) {
         b1 <- beta[-icept]
       } else {
         b1 <- beta
+      }
+      if (!is.null(zero_fill)) {
+        if (length(zero_fill) > 0L) {
+          for (i in seq(along=sort(zero_fill, decreasing=FALSE))) {
+            b1 <- append(b1, values=0, after=zero_fill[i]-1L)
+          }
+        }
       }
       p <- length(b1)
       if (p %% 2 != 0) stop("non-matched coefficient pairs")
@@ -313,7 +382,8 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=NULL, Sigma=NULL,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=interval,
         type=type, tr=tr, R=R, listw=listw, evalues=evalues, tol=NULL,
-        empirical=NULL, Q=Q, icept=icept, iicept=iicept, p=p, samples=samples)
+        empirical=NULL, Q=Q, icept=icept, iicept=iicept, p=p, samples=samples,
+        zero_fill=zero_fill)
     attr(res, "iClass") <- class(obj)
     res
 
