@@ -104,7 +104,9 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
             }
             wxn <- substring(colnames(WX), nchar(prefix)+2,
                 nchar(colnames(WX)))
-            zero_fill <- length(xn) + (which(!(xn %in% wxn)))
+            zero_fill <- NULL
+            if (length((which(!(xn %in% wxn)))) > 0L)
+                zero_fill <- length(xn) + (which(!(xn %in% wxn)))
         }
         dvars <- c(NCOL(x), NCOL(WX))
         if (is.formula(Durbin)) {
@@ -348,8 +350,9 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
       }
       if (!is.null(zero_fill)) {
         if (length(zero_fill) > 0L) {
-          for (i in seq(along=sort(zero_fill, decreasing=FALSE))) {
-            b1 <- append(b1, values=0, after=zero_fill[i]-1L)
+          s_zero_fill <- sort(zero_fill, decreasing=TRUE)
+          for (i in s_zero_fill) {
+            b1 <- append(b1, values=0, after=i-1L)
           }
         }
       }

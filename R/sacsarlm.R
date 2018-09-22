@@ -101,7 +101,9 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
                     }
                     wxn <- substring(colnames(WX), nchar(prefix)+2,
                         nchar(colnames(WX)))
-                    zero_fill <- length(xn) + (which(!(xn %in% wxn)))
+                    zero_fill <- NULL
+                    if (length((which(!(xn %in% wxn)))) > 0L)
+                        zero_fill <- length(xn) + (which(!(xn %in% wxn)))
                 }
                 dvars <- c(NCOL(x), NCOL(WX))
                 if (is.formula(Durbin)) {

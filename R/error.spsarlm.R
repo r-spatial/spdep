@@ -118,7 +118,9 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
                     }
                     wxn <- substring(colnames(WX), nchar(prefix)+2,
                         nchar(colnames(WX)))
-                    zero_fill <- length(xn) + (which(!(xn %in% wxn)))
+                    zero_fill <- NULL
+                    if (length((which(!(xn %in% wxn)))) > 0L) 
+                        zero_fill <- length(xn) + (which(!(xn %in% wxn)))
                 }
                 dvars <- c(NCOL(x), NCOL(WX))
                 if (is.formula(Durbin)) {
@@ -280,12 +282,56 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
                 }
             }
             totImps <- as.matrix(estimable(lm.target, cm)[, 1:2, drop=FALSE])
-            emixedImps <- list(dirImps=dirImps, indirImps=indirImps,
-                totImps=totImps)
           } else if (is.formula(Durbin)) {
 #FIXME
-          
+              m <- sum(dvars)
+              m2 <- dvars[2]
+              cm <- matrix(0, ncol=m, nrow=m2)
+              for (i in 1:m2) {
+                  cm[i, c(inds[i], i+dvars[1])] <- 1
+              }
+              rownames(cm) <- wxn
+              dirImps <- sum_lm_target$coefficients[2:dvars[1], 1:2,
+                drop=FALSE]
+              rownames(dirImps) <- xn
+              indirImps <- sum_lm_target$coefficients[(dvars[1]+1):m, 1:2,
+                drop=FALSE]
+              if (!is.null(zero_fill)) {
+                if (length(zero_fill) > 0L) {
+                 lres <- vector(mode="list", length=2L)
+                 s_zero_fill <- sort(zero_fill, decreasing=TRUE)
+                 for (j in 1:2) {
+                  jindirImps <- indirImps[, j]
+                  for (i in seq(along=s_zero_fill)) {
+                    jindirImps <- append(jindirImps, values=as.numeric(NA),
+                      after=zero_fill[i]-(dvars[1]-1L))
+                  }
+                  lres[[j]] <- jindirImps
+                 }
+                 indirImps <- do.call("cbind", lres)
+                }
+              }
+              rownames(indirImps) <- xn
+              totImps <- as.matrix(estimable(lm.target, cm)[, 1:2,
+                drop=FALSE])
+              if (!is.null(zero_fill)) {
+                if (length(zero_fill) > 0L) {
+                 lres <- vector(mode="list", length=2L)
+                 for (j in 1:2) {
+                  jtotImps <- totImps[, j]
+                  for (i in seq(along=s_zero_fill)) {
+                    jtotImps <- append(jtotImps,
+                      values=dirImps[zero_fill[i], j], after=zero_fill[i]-1L)
+                  }
+                  lres[[j]] <- jtotImps
+                 }
+                 totImps <- do.call("cbind", lres)
+                }
+              }
+              rownames(totImps) <- xn
           } else stop("undefined emixed state")
+          emixedImps <- list(dirImps=dirImps, indirImps=indirImps,
+              totImps=totImps)
         }
         Vs <- sum_lm_target$cov.unscaled
         tarX <- model.matrix(lm.target)

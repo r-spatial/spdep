@@ -341,8 +341,9 @@ processSample <- function(x, irho, drop2beta, type, iicept, icept, zero_fill,
 #FIXME
         if (!is.null(zero_fill)) {
           if (length(zero_fill) > 0L) {
-            for (i in seq(along=sort(zero_fill, decreasing=FALSE))) {
-              b1 <- append(b1, values=0, after=zero_fill[i]-1L)
+            s_zero_fill <- sort(zero_fill, decreasing=TRUE)
+            for (i in s_zero_fill) {
+              b1 <- append(b1, values=0, after=i-1L)
             }
           }
         }
@@ -405,8 +406,9 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
 #FIXME
         if (!is.null(zero_fill)) {
           if (length(zero_fill) > 0L) {
-            for (i in seq(along=sort(zero_fill, decreasing=FALSE))) {
-              b1 <- append(b1, values=0, after=zero_fill[i]-1L)
+            s_zero_fill <- sort(zero_fill, decreasing=TRUE)
+            for (i in s_zero_fill) {
+              b1 <- append(b1, values=0, after=i-1L)
             }
           }
         }
@@ -652,8 +654,9 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
       }
       if (!is.null(zero_fill)) {
         if (length(zero_fill) > 0L) {
-          for (i in seq(along=sort(zero_fill, decreasing=FALSE))) {
-            b1 <- append(b1, values=0, after=zero_fill[i]-1L)
+          s_zero_fill <- sort(zero_fill, decreasing=TRUE)
+          for (i in s_zero_fill) {
+            b1 <- append(b1, values=0, after=i-1L)
           }
         }
       }
