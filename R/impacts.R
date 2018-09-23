@@ -191,14 +191,17 @@ print.summary.WXImpact <- function(x, ...) {
     invisible(x)
 }
 
-summary.WXImpact <- function(object, ..., adjust_k=FALSE) {
+summary.WXImpact <- function(object, ..., adjust_k=TRUE) {
     stopifnot(is.logical(adjust_k))
     stopifnot(length(adjust_k) == 1L)
     object$mat <- lagImpactMat(object$impacts)
     object$semat <- lagImpactMat(object$se)
     if (adjust_k) {
-        object$semat <- object$semat * (attr(object, "n")/
-            (attr(object, "n") - attr(object, "k")))
+        object$semat <- sqrt((object$semat^2) * ((attr(object, "n") - 
+            attr(object, "k"))/attr(object, "n")))
+        attr(object, "method") <- paste(attr(object, "method"),
+            ", n", sep="")
+    } else {
         attr(object, "method") <- paste(attr(object, "method"),
             ", n-k", sep="")
     }

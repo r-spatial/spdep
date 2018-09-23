@@ -299,12 +299,10 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
               if (!is.null(zero_fill)) {
                 if (length(zero_fill) > 0L) {
                  lres <- vector(mode="list", length=2L)
-                 s_zero_fill <- sort(zero_fill, decreasing=TRUE)
                  for (j in 1:2) {
-                  jindirImps <- indirImps[, j]
-                  for (i in seq(along=s_zero_fill)) {
-                    jindirImps <- append(jindirImps, values=as.numeric(NA),
-                      after=zero_fill[i]-(dvars[1]-1L))
+                  jindirImps <- rep(as.numeric(NA), (dvars[1]-1))
+                  for (i in seq(along=inds)) {
+                    jindirImps[(inds[i]-1)] <- indirImps[i, j]
                   }
                   lres[[j]] <- jindirImps
                  }
@@ -318,10 +316,9 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
                 if (length(zero_fill) > 0L) {
                  lres <- vector(mode="list", length=2L)
                  for (j in 1:2) {
-                  jtotImps <- totImps[, j]
-                  for (i in seq(along=s_zero_fill)) {
-                    jtotImps <- append(jtotImps,
-                      values=dirImps[zero_fill[i], j], after=zero_fill[i]-1L)
+                  jtotImps <- dirImps[, j]
+                  for (i in seq(along=inds)) {
+                    jtotImps[(inds[i]-1)] <- totImps[i, j]
                   }
                   lres[[j]] <- jtotImps
                  }

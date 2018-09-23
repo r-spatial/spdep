@@ -33,7 +33,7 @@
 \method{print}{lagImpact}(x, ..., reportQ=NULL)
 \method{summary}{lagImpact}(object, ..., zstats=FALSE, short=FALSE, reportQ=NULL)
 \method{print}{WXImpact}(x, ...)
-\method{summary}{WXImpact}(object, ..., adjust_k=FALSE)
+\method{summary}{WXImpact}(object, ..., adjust_k=TRUE)
 \method{HPDinterval}{lagImpact}(obj, prob = 0.95, ..., choice="direct")
 intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
  type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p, mess=FALSE,
@@ -59,7 +59,7 @@ intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
   \item{trace}{Argument passed to \code{plot.mcmc}: plot trace plots}
   \item{density}{Argument passed to \code{plot.mcmc}: plot density plots}
   \item{prob}{Argument passed to \code{HPDinterval.mcmc}: a numeric scalar in the interval (0,1) giving the target probability content of the intervals}
-  \item{adjust_k}{adjust ML SDEM standard errors by dividing by (n-k) rather than n}
+  \item{adjust_k}{default TRUE, adjust internal OLS SDEM standard errors by dividing by n rather than (n-k) (default changed and bug fixed after 0.7-8; standard errors now ML in SDEM summary and impacts summary and identical - for SLX use FALSE)}
   \item{rho, beta, P, mu, Sigma, irho, drop2beta, bnames,
     interval, type, icept, iicept, p, mess, samples, zero_fill}{internal arguments shared inside impacts methods}
 }
