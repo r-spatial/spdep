@@ -325,6 +325,7 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     icept <- grep("(Intercept)", names(beta))
     iicept <- length(icept) > 0L
     zero_fill <- NULL
+    dvars <- NULL
     samples <- as.matrix(obj)
     interval <- attr(obj, "control")$interval
     if (attr(obj, "type") == "lag") {
@@ -350,10 +351,18 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
       }
       if (!is.null(zero_fill)) {
         if (length(zero_fill) > 0L) {
-          s_zero_fill <- sort(zero_fill, decreasing=TRUE)
-          for (i in s_zero_fill) {
-            b1 <- append(b1, values=0, after=i-1L)
+          inds <- attr(dvars, "inds")
+          b1_long <- rep(0, 2*(dvars[1]-1L))
+          b1_long[1:(dvars[1]-1L)] <- b1[1:(dvars[1]-1L)]
+          names(b1_long)[1:(dvars[1]-1L)] <- names(b1)[1:(dvars[1]-1)]
+          for (i in seq(along=inds)) {
+            b1_long[(dvars[1]-1L)+(inds[i]-1L)] <- b1[(dvars[1]-1L)+i]
           }
+          b1 <- b1_long
+#          s_zero_fill <- sort(zero_fill, decreasing=TRUE)
+#          for (i in s_zero_fill) {
+#            b1 <- append(b1, values=as.numeric(NA), after=i-1L)
+#          }
         }
       }
       p <- length(b1)
@@ -386,7 +395,7 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=interval,
         type=type, tr=tr, R=R, listw=listw, evalues=evalues, tol=NULL,
         empirical=NULL, Q=Q, icept=icept, iicept=iicept, p=p, samples=samples,
-        zero_fill=zero_fill)
+        zero_fill=zero_fill, dvars=dvars)
     attr(res, "iClass") <- class(obj)
     res
 

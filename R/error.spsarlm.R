@@ -605,16 +605,17 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin
         mixedImps <- NULL
 	K <- ifelse(isTRUE(grep("Intercept",
             names(coefficients(lm.model))[1]) == 1L), 2, 1)
-        m <- length(coefficients(lm.model))
-        odd <- (m%/%2) > 0
-        if (odd) {
-            m2 <- (m-1)/2
-        } else {
-            m2 <- m/2
-        }
-        if (K == 1 && odd) {
+        if (isTRUE(Durbin)) {
+          m <- length(coefficients(lm.model))
+          odd <- (m%/%2) > 0
+          if (odd) {
+              m2 <- (m-1)/2
+          } else {
+              m2 <- m/2
+          }
+          if (K == 1 && odd) {
             warning("model configuration issue: no total impacts")
-        } else {
+          } else {
             cm <- matrix(0, ncol=m, nrow=m2)
             if (K == 2) {
                 if (odd) {
@@ -637,10 +638,57 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin
                 rownames(indirImps) <- rownames(cm)
             }
             totImps <- as.matrix(estimable(lm.model, cm)[, 1:2, drop=FALSE])
-            mixedImps <- list(dirImps=dirImps, indirImps=indirImps,
-                totImps=totImps)
-        }
+          } 
+      } else if (is.formula(Durbin)) {
+#FIXME
+            m <- sum(dvars)
+            m2 <- dvars[2]
+            cm <- matrix(0, ncol=m, nrow=m2)
+            for (i in 1:m2) {
+                cm[i, c(inds[i], i+dvars[1])] <- 1
+            }
+            rownames(cm) <- wxn
+            dirImps <- sum_lm_model$coefficients[2:dvars[1], 1:2,
+              drop=FALSE]
+            rownames(dirImps) <- xn
+            indirImps <- sum_lm_model$coefficients[(dvars[1]+1):m, 1:2,
+              drop=FALSE]
+            if (!is.null(zero_fill)) {
+              if (length(zero_fill) > 0L) {
+               lres <- vector(mode="list", length=2L)
+               for (j in 1:2) {
+                 jindirImps <- rep(as.numeric(NA), (dvars[1]-1))
+                   for (i in seq(along=inds)) {
+                     jindirImps[(inds[i]-1)] <- indirImps[i, j]
+                   }
+                     lres[[j]] <- jindirImps
+                   }
+                   indirImps <- do.call("cbind", lres)
+                 }
+               }
+               rownames(indirImps) <- xn
+               totImps <- as.matrix(estimable(lm.model, cm)[, 1:2,
+                 drop=FALSE])
+               if (!is.null(zero_fill)) {
+                 if (length(zero_fill) > 0L) {
+                   lres <- vector(mode="list", length=2L)
+                   for (j in 1:2) {
+                     jtotImps <- dirImps[, j]
+                     for (i in seq(along=inds)) {
+                       jtotImps[(inds[i]-1)] <- totImps[i, j]
+                     }
+                     lres[[j]] <- jtotImps
+                   }
+                   totImps <- do.call("cbind", lres)
+                  }
+                }
+                rownames(totImps) <- xn
+        } else stop("undefined Durbin state")
+        mixedImps <- list(dirImps=dirImps, indirImps=indirImps,
+            totImps=totImps)
+        
         attr(lm.model, "mixedImps") <- mixedImps
+        attr(lm.model, "dvars") <- dvars
         class(lm.model) <- c("SLX", class(lm.model))
         lm.model
 }

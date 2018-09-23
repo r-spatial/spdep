@@ -191,7 +191,8 @@ print.summary.WXImpact <- function(x, ...) {
     invisible(x)
 }
 
-summary.WXImpact <- function(object, ..., adjust_k=TRUE) {
+summary.WXImpact <- function(object, ...,
+ adjust_k=(attr(object, "type") == "SDEM")) {
     stopifnot(is.logical(adjust_k))
     stopifnot(length(adjust_k) == 1L)
     object$mat <- lagImpactMat(object$impacts)
@@ -239,7 +240,7 @@ impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
         type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
         empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
-        zero_fill=NULL)
+        zero_fill=NULL, dvars=NULL)
     attr(res, "iClass") <- class(obj)
     if (!is.null(obj$robust)) {
         attr(res, "robust") <- obj$robust
@@ -279,7 +280,7 @@ impacts.gmsar <- function(obj, ..., n=NULL, tr=NULL, R=NULL, listw=NULL,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
         type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
         empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
-        zero_fill=NULL)
+        zero_fill=NULL, dvars=NULL)
     attr(res, "iClass") <- class(obj)
     res
 }
@@ -326,7 +327,7 @@ lagDistrImpacts <- function(T, g, P, q=10) {
 }
 
 processSample <- function(x, irho, drop2beta, type, iicept, icept, zero_fill,
-    T, Q, q, evalues) {
+ dvars, T, Q, q, evalues) {
     g <- x[irho]^(0:q)
     beta <- x[-drop2beta]
     if (type == "lag" || type == "sac") {
@@ -344,10 +345,17 @@ processSample <- function(x, irho, drop2beta, type, iicept, icept, zero_fill,
 #FIXME
         if (!is.null(zero_fill)) {
           if (length(zero_fill) > 0L) {
-            s_zero_fill <- sort(zero_fill, decreasing=TRUE)
-            for (i in s_zero_fill) {
-              b1 <- append(b1, values=0, after=i-1L)
+#            s_zero_fill <- sort(zero_fill, decreasing=TRUE)
+            inds <- attr(dvars, "inds")
+            b1_long <- rep(0, 2*(dvars[1]-1))
+            b1_long[1:(dvars[1]-1L)] <- b1[1:(dvars[1]-1)]
+            for (i in seq(along=inds)) {
+              b1_long[(dvars[1]-1L)+(inds[i]-1L)] <- b1[(dvars[1]-1L)+i]
             }
+            b1 <- b1_long
+#            for (i in s_zero_fill) {
+#              b1 <- append(b1, values=0, after=i-1L)
+#            }
           }
         }
         p <- length(b1)
@@ -389,7 +397,7 @@ mixedImpactsExact <- function(SW, P, n, listw) {
 }
 
 processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
-    irho, zero_fill) {
+    irho, zero_fill, dvars) {
     rho <- x[irho]
     SW <- invIrW(listw, rho)
     beta <- x[-drop2beta]
@@ -409,10 +417,17 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
 #FIXME
         if (!is.null(zero_fill)) {
           if (length(zero_fill) > 0L) {
-            s_zero_fill <- sort(zero_fill, decreasing=TRUE)
-            for (i in s_zero_fill) {
-              b1 <- append(b1, values=0, after=i-1L)
+            inds <- attr(dvars, "inds")
+            b1_long <- rep(0, 2*(dvars[1]-1))
+            b1_long[1:(dvars[1]-1L)] <- b1[1:(dvars[1]-1)]
+            for (i in seq(along=inds)) {
+              b1_long[(dvars[1]-1L)+(inds[i]-1L)] <- b1[(dvars[1]-1L)+i]
             }
+            b1 <- b1_long
+#            s_zero_fill <- sort(zero_fill, decreasing=TRUE)
+#            for (i in s_zero_fill) {
+#              b1 <- append(b1, values=0, after=i-1L)
+#            }
           }
         }
         p <- length(b1)
@@ -424,7 +439,7 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
 
 intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
     interval, type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p,
-    mess=FALSE, samples=NULL, zero_fill=NULL) {
+    mess=FALSE, samples=NULL, zero_fill=NULL, dvars=NULL) {
     if (is.null(evalues)) {
         if (is.null(listw) && is.null(tr))
             stop("either tr or listw must be given")
@@ -481,7 +496,7 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
 # type, iicept, icept, T, Q
             sres <- apply(samples, 1, processSample, irho=irho,
                 drop2beta=drop2beta, type=type, iicept=iicept,
-                icept=icept, zero_fill=zero_fill, T=T, Q=Q, q=q,
+                icept=icept, zero_fill=zero_fill, dvars=dvars, T=T, Q=Q, q=q,
                 evalues=evalues)
             timings[["process_samples"]] <- proc.time() - .ptime_start
             .ptime_start <- proc.time()
@@ -550,7 +565,8 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
 # type, iicept, icept, SW, n, listw
             sres <- apply(samples, 1, processXSample,
                 drop2beta=drop2beta, type=type, iicept=iicept,
-                icept=icept, n=n, listw=listw, irho=irho, zero_fill=zero_fill)
+                icept=icept, n=n, listw=listw, irho=irho, zero_fill=zero_fill,
+                dvars=dvars)
             timings[["process_samples"]] <- proc.time() - .ptime_start
             .ptime_start <- proc.time()
             if (length(bnames) == 1L) {
@@ -639,6 +655,7 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
     icept <- grep("(Intercept)", names(beta))
     iicept <- length(icept) > 0L
     zero_fill <- NULL
+    dvars <- obj$dvars
     if (obj$type == "lag" || obj$type == "sac") {
       if (iicept) {
         P <- matrix(beta[-icept], ncol=1)
@@ -649,7 +666,7 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
       }
       p <- length(beta)
     } else if (obj$type == "mixed" || obj$type == "sacmixed") {
-      if (!is.null(obj$dvars)) zero_fill <- attr(obj$dvars, "zero_fill")
+      if (!is.null(dvars)) zero_fill <- attr(dvars, "zero_fill")
       if (iicept) {
         b1 <- beta[-icept]
       } else {
@@ -657,10 +674,17 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
       }
       if (!is.null(zero_fill)) {
         if (length(zero_fill) > 0L) {
-          s_zero_fill <- sort(zero_fill, decreasing=TRUE)
-          for (i in s_zero_fill) {
-            b1 <- append(b1, values=0, after=i-1L)
+          inds <- attr(dvars, "inds")
+          b1_long <- rep(0, 2*(dvars[1]-1))
+          b1_long[1:(dvars[1]-1L)] <- b1[1:(dvars[1]-1)]
+          names(b1_long)[1:(dvars[1]-1L)] <- names(b1)[1:(dvars[1]-1)]
+          for (i in seq(along=inds)) {
+            b1_long[(dvars[1]-1L)+(inds[i]-1L)] <- b1[(dvars[1]-1L)+i]
           }
+          b1 <- b1_long
+#          for (i in s_zero_fill) {
+#            b1 <- append(b1, values=as.numeric(NA), after=i-1L)
+#          }
         }
       }
       p <- length(b1)
@@ -692,7 +716,7 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
         irho=irho, drop2beta=drop2beta, bnames=bnames, interval=interval,
         type=obj$type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
         empirical=empirical,Q=Q, icept=icept, iicept=iicept, p=p,
-        zero_fill=zero_fill)
+        zero_fill=zero_fill, dvars=dvars)
     attr(res, "useHESS") <- usingHESS
     attr(res, "insert") <- iNsert
     attr(res, "iClass") <- class(obj)
