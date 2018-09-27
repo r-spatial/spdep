@@ -18,7 +18,8 @@ where \eqn{\lambda}{lambda} is found by \code{optimize()} first, and \eqn{\beta}
 errorsarlm(formula, data=list(), listw, na.action, weights=NULL,
  Durbin, etype, method="eigen", quiet=NULL, zero.policy=NULL,
  interval = NULL, tol.solve=1.0e-10, trs=NULL, control=list())
-lmSLX(formula, data = list(), listw, na.action, weights=NULL, Durbin=TRUE, zero.policy=NULL)
+lmSLX(formula, data = list(), listw, na.action, weights=NULL,
+ Durbin=TRUE, zero.policy=NULL)
 create_WX(x, listw, zero.policy=NULL, prefix="")
 }
 %- maybe also `usage' for other objects documented here.

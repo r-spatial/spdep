@@ -187,9 +187,12 @@ Bernat for contributions to the asymptotic standard error code.}
 data(oldcol)
 listw <- nb2listw(COL.nb, style="W")
 ev <- eigenw(listw)
+W <- as(listw, "CsparseMatrix")
+trMatc <- trW(W, type="mult")
 COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw=listw,
  method="eigen", quiet=FALSE, control=list(pre_eig=ev, OrdVsign=1))
 summary(COL.lag.eig, correlation=TRUE)
+\dontrun{
 COL.lag.eig$fdHess
 COL.lag.eig$resvar
 # using the apparent sign in Ord (1975, equation B.1) 
@@ -203,8 +206,6 @@ COL.lag.eig1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  listw=listw, method="Matrix", control=list(small=25))
 summary(COL.lag.eig1)
 COL.lag.eig1$fdHess
-W <- as(listw, "CsparseMatrix")
-trMatc <- trW(W, type="mult")
 # force LeSage & Pace (2008, p. 57) approximation 
 COL.lag.eig1a <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  listw=listw, method="Matrix", control=list(small=25), trs=trMatc)
@@ -217,6 +218,7 @@ COL.lag.eigb$resvar[2,2]
 COL.lag.eig1$fdHess[1,1]
 # force LeSage & Pace (2008, p. 57) approximation 
 COL.lag.eig1a$fdHess[2,2]
+}
 system.time(COL.lag.M <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb), method="Matrix", quiet=FALSE))
 summary(COL.lag.M)
@@ -234,35 +236,35 @@ COL.mixed.B <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  control=list(pre_eig=ev))
 summary(COL.mixed.B)
 COL.mixed.W <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), type="mixed",
+ listw, type="mixed",
  control=list(pre_eig=ev))
 summary(COL.mixed.W)
 COL.mixed.D00 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin=TRUE,
+ listw, Durbin=TRUE,
  control=list(pre_eig=ev))
 summary(COL.mixed.D00)
 COL.mixed.D01 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin=FALSE,
+ listw, Durbin=FALSE,
  control=list(pre_eig=ev))
 summary(COL.mixed.D01)
 COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin= ~ INC + HOVAL,
+ listw, Durbin= ~ INC + HOVAL,
  control=list(pre_eig=ev))
 summary(COL.mixed.D1)
 f <- CRIME ~ INC + HOVAL
-COL.mixed.D2 <- lagsarlm(f, data=COL.OLD, nb2listw(COL.nb, style="W"),
+COL.mixed.D2 <- lagsarlm(f, data=COL.OLD, listw,
  Durbin=as.formula(delete.response(terms(f))),
  control=list(pre_eig=ev))
 summary(COL.mixed.D2)
 COL.mixed.D1a <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin= ~ INC,
+ listw, Durbin= ~ INC,
  control=list(pre_eig=ev))
 summary(COL.mixed.D1a)
 try(COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin= ~ inc + HOVAL,
+ listw, Durbin= ~ inc + HOVAL,
  control=list(pre_eig=ev)))
 try(COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="W"), Durbin= ~ DISCBD + HOVAL,
+ listw, Durbin= ~ DISCBD + HOVAL,
  control=list(pre_eig=ev)))
 NA.COL.OLD <- COL.OLD
 NA.COL.OLD$CRIME[20:25] <- NA
@@ -286,7 +288,7 @@ data=boston.c, nb2listw(boston.soi), type="mixed", method="Matrix",
 trs=trMatb)
 summary(gp2mMi)
 }
-summary(COL.lag.eig)
+\dontrun{
 set.seed(1)
 COL.lag.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
  listw=listw)
@@ -298,6 +300,7 @@ COL.D0.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
  listw=listw, Durbin=TRUE)
 summary(COL.D0.Bayes)
 summary(impacts(COL.D0.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
+}
 set.seed(1)
 COL.D1.Bayes <- spBreg_lag(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD,
  listw=listw, Durbin= ~ INC)
