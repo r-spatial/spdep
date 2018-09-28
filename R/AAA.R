@@ -12,6 +12,8 @@ assign("cluster", NULL, envir = .spdepOptions)
 assign("rlecuyerSeed", rep(12345, 6), envir = .spdepOptions)
 assign("listw_is_CsparseMatrix", FALSE, envir = .spdepOptions)
 
+setOldClass(c("listw"))
+
 #.conflicts.OK <- TRUE
 
 #.onLoad <- function(lib, pkg) {
