@@ -31,7 +31,7 @@ A list with class \code{htest} containing the following components:
  the standard deviate.}
   \item{data.name}{a character string giving the name(s) of the data.}
 }
-\references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 21, Cliff, A. D., Ord, J. K. 1973 Spatial Autocorrelation, Pion, pp. 15-16, 21.}
+\references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 21, Cliff, A. D., Ord, J. K. 1973 Spatial Autocorrelation, Pion, pp. 15-16, 21; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 \url{https://doi.org/10.1007/s11749-018-0599-x}}
 
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 

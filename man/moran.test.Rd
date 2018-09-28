@@ -40,7 +40,7 @@ see Tutorial workbook Chapter 22; VI is the second crude moment minus the
 square of the first crude moment. The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, \code{listw2U()} can be used to make the matrix symmetric.
 }
 
-\references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 21.}
+\references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 21; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 \url{https://doi.org/10.1007/s11749-018-0599-x}}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 \seealso{\code{\link{moran}}, \code{\link{moran.mc}}, \code{\link{listw2U}}}
