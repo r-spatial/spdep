@@ -1,4 +1,17 @@
-citHeader("To cite spdep in publications use:")
+citHeader("To cite spdep in publications use one or more of the following as appropriate:")
+
+citEntry(entry = "Article",
+  author = personList(as.person("Roger Bivand"), as.person(David W. S. Wong))
+  title = "Comparing implementations of global and local indicators of spatial association",
+  journal = "TEST",
+  year = "2018",
+  volume = "27",
+  number =  "3",
+  pages = "716--748",
+  url = "https://doi.org/10.1007/s11749-018-0599-x",
+  textVersion = 
+  paste("Bivand, Roger S. and Wong, David W. S. (2018)", "Comparing implementations of global and local indicators of spatial association", "TEST, 27(3), 716-748.", "URL https://doi.org/10.1007/s11749-018-0599-x")
+)
 
 citEntry(entry = "Article",
   title        = "Comparing Implementations of Estimation Methods for Spatial Econometrics",
@@ -28,12 +41,22 @@ citEntry(entry = "Article",
   volume       = "45",
   number       = "2",
   pages        = "150--179",
-  url          = "http://www.jstatsoft.org/v63/i18/",
+  url          = "https://doi.org/10.1111/gean.12008",
 
   textVersion  =
   paste("Bivand, R. S., Hauke, J., and Kossowski, T. (2013).",
         "Computing the Jacobian in Gaussian spatial autoregressive models:",
         "An illustrated comparison of available methods. Geographical",
-        "Analysis, 45(2), 150-179.")
+        "Analysis, 45(2), 150-179.", "URL https://doi.org/10.1111/gean.12008")
 )
-
+citEntry(entry="book",
+  author       = "Roger S. Bivand, Edzer Pebesma and Virgilio Gomez-Rubio",
+  title        = "Applied spatial data analysis with {R}, Second edition",
+  year         = "2013",
+  publisher    = "Springer, NY",
+  url          = "http://www.asdar-book.org/",
+  textVersion = 
+  paste("Roger S. Bivand, Edzer Pebesma, Virgilio Gomez-Rubio, 2013.",
+	"Applied spatial data analysis with R, Second edition. Springer, NY.",
+	"http://www.asdar-book.org/")
+)
