@@ -1,7 +1,7 @@
 citHeader("To cite spdep in publications use one or more of the following as appropriate:")
 
 citEntry(entry = "Article",
-  author = personList(as.person("Roger Bivand"), as.person(David W. S. Wong))
+  author = personList(as.person("Roger Bivand"), as.person("David W. S. Wong")),
   title = "Comparing implementations of global and local indicators of spatial association",
   journal = "TEST",
   year = "2018",
