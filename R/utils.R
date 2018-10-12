@@ -79,6 +79,8 @@ lag.listw <- function(x, var, zero.policy=NULL, NAOK=FALSE, ...) {
 	if (!inherits(listw, "listw")) stop(paste(deparse(substitute(x)),
 		"is not a listw object"))
 	x <- var
+# https://github.com/r-spatial/spdep/issues/19
+        if (!is.vector(x) && !is.matrix(x)) x <- c(x)
 	if (!is.vector(c(x)) && !is.matrix(x)) stop(paste(deparse(substitute(var)),
 		"not a vector or matrix"))
 	if (!is.numeric(x)) stop(paste(deparse(substitute(var)),
@@ -93,7 +95,9 @@ lag.listw <- function(x, var, zero.policy=NULL, NAOK=FALSE, ...) {
 			as.logical(zero.policy), naok=NAOK, PACKAGE="spdep")
 	} else {
 		if (nrow(x) != n) stop("object lengths differ")
-		res <- matrix(0, nrow=nrow(x), ncol=ncol(x))
+# https://github.com/r-spatial/spdep/issues/19
+		res <- matrix(0, nrow=nrow(x),
+                        ncol=ifelse(is.na(ncol(x)), 1, ncol(x)))
 		for (i in 1:ncol(x)) {
 			res[,i] <- .Call("lagw", listw$neighbours,
 				listw$weights, x[,i],
