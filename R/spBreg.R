@@ -401,3 +401,277 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 
 
 }
+
+
+# translated from Matlab code sem_g.m in the Spatial Econometrics toolbox by
+# James LeSage and R. Kelley Pace (http://www.spatial-econometrics.com/).
+# GSoc 2011 project by Abhirup Mallik mentored by Virgilio Gómez-Rubio
+
+spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, type,
+    zero.policy=NULL, control=list()) {
+    timings <- list()
+    .ptime_start <- proc.time()
+#control
+    con <- list(tol.opt=.Machine$double.eps^0.5, ldet_method="SE_classic",
+        Imult=2, cheb_q=5, MC_p=16L, MC_m=30L, super=NULL, spamPivot="MMD",
+        in_coef=0.1, type="MC", correct=TRUE, trunc=TRUE,
+        SE_method="LU", nrho=200, interpn=2000, SElndet=NULL, LU_order=FALSE,
+        pre_eig=NULL, interval=c(-1, 1), ndraw=2500L, nomit=500L, thin=1L,
+        verbose=FALSE, detval=NULL, prior=list(Tbeta=NULL, c_beta=NULL,
+        lambda=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01, cc=0.2))
+    priors <- con$prior
+    nmsP <- names(priors)
+    priors[(namp <- names(control$prior))] <- control$prior
+    if (length(noNms <- namp[!namp %in% nmsP])) 
+        warning("unknown names in control$prior: ",
+            paste(noNms, collapse = ", "))
+    control$prior <- NULL
+    con$prior <- NULL
+    nmsC <- names(con)
+    con[(namc <- names(control))] <- control
+    if (length(noNms <- namc[!namc %in% nmsC])) 
+        warning("unknown names in control: ", paste(noNms, collapse = ", "))
+    stopifnot(is.logical(con$verbose))
+    stopifnot(is.integer(con$ndraw))
+    stopifnot(is.integer(con$nomit))
+    stopifnot(is.integer(con$thin))
+
+    if (is.null(zero.policy))
+        zero.policy <- get.ZeroPolicyOption()
+    stopifnot(is.logical(zero.policy))
+    if (class(formula) != "formula") formula <- as.formula(formula)
+    mt <- terms(formula, data = data)
+    mf <- lm(formula, data, na.action=na.action,  method="model.frame")
+    na.act <- attr(mf, "na.action")
+    if (!inherits(listw, "listw")) stop("No neighboulambdaod list")
+    can.sim <- FALSE
+    if (listw$style %in% c("W", "S")) can.sim <- can.be.simmed(listw)
+    if (!is.null(na.act)) {
+        subset <- !(1:length(listw$neighbours) %in% na.act)
+        listw <- subset(listw, subset, zero.policy=zero.policy)
+    }
+    y <- model.extract(mf, "response")
+#MatrixModels::model.Matrix()
+#    x <- Matrix::sparse.model.matrix(mt, mf)
+    x <- model.matrix(mt, mf)
+    n <- nrow(x)
+    if (n != length(listw$neighbours))
+        stop("Input data and weights have different dimensions")
+    xcolnames <- colnames(x)
+    K <- ifelse(xcolnames[1] == "(Intercept)", 2, 1)
+    wy <- lag.listw(listw, y, zero.policy=zero.policy)
+    if (anyNA(wy)) stop("NAs in lagged dependent variable")
+#create_WX
+# check for dgCMatrix
+    if (missing(type)) type <- "lag"
+    if (type == "mixed") {
+        type <- "Durbin"
+    }
+    if (missing(Durbin)) Durbin <- ifelse(type == "lag", FALSE, TRUE)
+    if (listw$style != "W" && is.formula(Durbin)) {
+        Durbin <- TRUE
+        warning("formula Durbin requires row-standardised weights; set TRUE")
+    }
+    if (is.logical(Durbin) && isTRUE(Durbin)) type <- "Durbin"
+    if (is.formula(Durbin)) type <- "Durbin"
+    if (is.logical(Durbin) && !isTRUE(Durbin)) type <- "lag"
+
+    m <- ncol(x)
+    dvars <- c(NCOL(x), 0L)
+
+#    if (type == "Durbin") {
+#        WX <- create_WX(x, listw, zero.policy=zero.policy, prefix="lag")
+#FIXME
+    if (is.formula(Durbin) || isTRUE(Durbin)) {
+        prefix <- "lag"
+        if (isTRUE(Durbin)) {
+            WX <- create_WX(x, listw, zero.policy=zero.policy,
+                prefix=prefix)
+        } else {
+            dmf <- lm(Durbin, data, na.action=na.action, 
+	        method="model.frame")
+            fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
+            if (class(fx) == "try-error") 
+                stop("Durbin variable mis-match")
+            WX <- create_WX(fx, listw, zero.policy=zero.policy,
+                prefix=prefix)
+            inds <- match(substring(colnames(WX), 5,
+	        nchar(colnames(WX))), colnames(x))
+            if (anyNA(inds)) stop("WX variables not in X: ",
+                paste(substring(colnames(WX), 5,
+                nchar(colnames(WX)))[is.na(inds)], collapse=" "))
+            icept <- grep("(Intercept)", colnames(x))
+            iicept <- length(icept) > 0L
+            if (iicept) {
+                xn <- colnames(x)[-1]
+            } else {
+                xn <- colnames(x)
+            }
+            wxn <- substring(colnames(WX), nchar(prefix)+2,
+                nchar(colnames(WX)))
+            zero_fill <- NULL
+            if (length((which(!(xn %in% wxn)))) > 0L)
+                zero_fill <- length(xn) + (which(!(xn %in% wxn)))
+        }
+        dvars <- c(NCOL(x), NCOL(WX))
+        if (is.formula(Durbin)) {
+            attr(dvars, "f") <- Durbin
+            attr(dvars, "inds") <- inds
+            attr(dvars, "zero_fill") <- zero_fill
+        }
+	x <- cbind(x, WX)
+	m <- NCOL(x)
+	rm(WX)
+    }
+#        x <- cbind(x, WX)
+#        rm(WX)
+#    } else if (type != "lag") stop("No such type:", type)
+    lm.base <- lm(y ~ x - 1) # doesn't like dgCMatrix
+    aliased <- is.na(coefficients(lm.base))
+    cn <- names(aliased)
+    names(aliased) <- substr(cn, 2, nchar(cn))
+    if (any(aliased)) {
+          if (is.formula(Durbin)) {
+	    stop("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+          } else {
+	    warning("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+	    nacoef <- which(aliased)
+		x <- x[,-nacoef]
+          }
+    }
+    m <- ncol(x)
+    timings[["set_up"]] <- proc.time() - .ptime_start
+    .ptime_start <- proc.time()
+
+    env <- new.env()
+    assign("can.sim", can.sim, envir=env)
+    assign("listw", listw, envir=env)
+    assign("similar", FALSE, envir=env)
+    assign("n", n, envir=env)
+    assign("verbose", con$verbose, envir=env)
+    assign("family", "SAR", envir=env)
+    assign("method", con$ldet_method, envir=env)
+    W <- as(listw, "CsparseMatrix")
+    assign("W", W, envir=env)
+
+    con$interval <- jacobianSetup(con$ldet_method, env, con,
+        pre_eig=con$pre_eig, interval=con$interval)
+    detval1 <- get("detval1", envir=env)[,1]
+    detval2 <- get("detval1", envir=env)[,2]
+    bprior <-  dbeta(detval1, priors$a1, priors$a2)
+
+    nm <- paste(con$ldet_method, "set_up", sep="_")
+    timings[[nm]] <- proc.time() - .ptime_start
+    .ptime_start <- proc.time()
+
+    k <- m 
+
+    if (is.null(priors$c_beta))
+        priors$c_beta <- rep(0, k)
+    else 
+        stopifnot(length(priors$c_beta) == k)
+
+    if (is.null(priors$Tbeta))
+        priors$Tbeta <- diag(k)*1e+12
+    else
+        stopifnot(nrow(priors$Tbeta) == k && ncol(priors$Tbeta) == k)
+
+    sige <- priors$sige
+    lambda <- priors$lambda
+    cc <- priors$cc
+
+#% storage for draws
+    bsave <- matrix(0, nrow=con$ndraw, ncol=k)
+    psave <- numeric(con$ndraw)
+    ssave <- numeric(con$ndraw)
+    lsave <- numeric(con$ndraw)
+
+#% ====== initializations
+#% compute this stuff once to save time
+
+    TI = solve(priors$Tbeta); # see eq 5.29, Lesage & Pace (2009) p. 140
+    TIc = TI%*%priors$c_beta;
+           
+    if (m > 1 || (m == 1 && K == 1)) {
+        WX <- matrix(nrow=n,ncol=(m-(K-1)))
+        for (k in K:m) {
+            wx <- lag.listw(listw, x[,k], zero.policy=zero.policy)
+	    if (any(is.na(wx)))
+	        stop("NAs in lagged independent variable")
+	    WX[,(k-(K-1))] <- wx
+	}
+    }
+    if (K == 2) {
+# modified to meet other styles, email from Rein Halbersma
+	wx1 <- as.double(rep(1, n))
+	wx <- lag.listw(listw, wx1, zero.policy=zero.policy)
+	if (m > 1) WX <- cbind(wx, WX)
+     	    else WX <- matrix(wx, nrow=n, ncol=1)
+    }
+    colnames(WX) <- xcolnames
+    rm(wx)
+
+
+#    xpx = crossprod(x)
+#    xpy = crossprod(x, y)
+#    xpWy = crossprod(x, wy)
+    nu1 = n + 2*priors$nu
+    nrho = length(detval1)
+    lambda_out = 0
+#    nano_1 = 0
+#    nano_2 = 0
+#    nano_3 = 0
+ 
+    timings[["complete_setup"]] <- proc.time() - .ptime_start
+    .ptime_start <- proc.time()
+
+    for (iter in 1:con$ndraw) { #% start sampling;
+
+	#% update beta   
+        xss = x - lambda*WX
+        AI = solve(crossprod(xss) + sige*TI)
+        yss = y - lambda*wy
+        b = crossprod(xss, yss) + sige*TIc
+        b0 = AI %*% b
+        bhat = MASS::mvrnorm(1, b0, sige*AI)
+        bsave[iter, 1:k] = as.vector(bhat)
+
+	#update sige:
+	e = yss - xss %*% bhat
+	ed = e - lambda*lag.listw(listw, e, zero.policy=zero.policy)
+	d1 = 2*priors$d0 + crossprod(ed)
+	chi = rchisq(1, nu1)
+	sige = as.numeric(d1/chi)
+        ssave[iter] = as.vector(sige)
+
+        #update lambda using M-H
+        
+        psave[iter] = as.vector(lambda)
+
+    }
+### % end of sampling loop
+    timings[["sampling"]] <- proc.time() - .ptime_start
+    .ptime_start <- proc.time()
+
+    mat <- cbind(bsave, psave, ssave)
+    colnames(mat) <- c(colnames(x), "lambda", "sige")
+    res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
+
+    timings[["finalise"]] <- proc.time() - .ptime_start
+    attr(res, "timings") <- do.call("rbind", timings)
+#    attr(res, "nano") <- c(nano_1, nano_2, nano_3)
+    attr(res, "control") <- con
+    attr(res, "type") <- type
+    attr(res, "lambda_out") <- lambda_out
+    attr(res, "listw_style") <- listw$style
+#    attr(res, "ll_mean") <- as.vector(ll_mean)
+    attr(res, "aliased") <- aliased
+    attr(res, "dvars") <- dvars
+    class(res) <- c("MCMC_sem_g", class(res))
+    res
+
+#output mcmc object
+
+}
