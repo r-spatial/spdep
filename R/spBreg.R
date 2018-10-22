@@ -407,7 +407,7 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 # James LeSage and R. Kelley Pace (http://www.spatial-econometrics.com/).
 # GSoc 2011 project by Abhirup Mallik mentored by Virgilio Gómez-Rubio
 
-spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, type,
+spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     zero.policy=NULL, control=list()) {
     timings <- list()
     .ptime_start <- proc.time()
@@ -418,7 +418,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, type,
         SE_method="LU", nrho=200, interpn=2000, SElndet=NULL, LU_order=FALSE,
         pre_eig=NULL, interval=c(-1, 1), ndraw=2500L, nomit=500L, thin=1L,
         verbose=FALSE, detval=NULL, prior=list(Tbeta=NULL, c_beta=NULL,
-        lambda=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01, cc=0.2))
+        lambda=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01, cc = 0.2))
     priors <- con$prior
     nmsP <- names(priors)
     priors[(namp <- names(control$prior))] <- control$prior
@@ -463,25 +463,22 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, type,
     if (anyNA(wy)) stop("NAs in lagged dependent variable")
 #create_WX
 # check for dgCMatrix
-    if (missing(type)) type <- "lag"
-    if (type == "mixed") {
-        type <- "Durbin"
+    if (missing(etype)) etype <- "error"
+    if (etype == "emixed") {
+        etype <- "Durbin"
     }
-    if (missing(Durbin)) Durbin <- ifelse(type == "lag", FALSE, TRUE)
+    if (missing(Durbin)) Durbin <- ifelse(etype == "error", FALSE, TRUE)
     if (listw$style != "W" && is.formula(Durbin)) {
         Durbin <- TRUE
         warning("formula Durbin requires row-standardised weights; set TRUE")
     }
-    if (is.logical(Durbin) && isTRUE(Durbin)) type <- "Durbin"
-    if (is.formula(Durbin)) type <- "Durbin"
-    if (is.logical(Durbin) && !isTRUE(Durbin)) type <- "lag"
+    if (is.logical(Durbin) && isTRUE(Durbin)) etype <- "Durbin"
+    if (is.formula(Durbin)) etype <- "Durbin"
+    if (is.logical(Durbin) && !isTRUE(Durbin)) etype <- "error"
 
     m <- ncol(x)
     dvars <- c(NCOL(x), 0L)
 
-#    if (type == "Durbin") {
-#        WX <- create_WX(x, listw, zero.policy=zero.policy, prefix="lag")
-#FIXME
     if (is.formula(Durbin) || isTRUE(Durbin)) {
         prefix <- "lag"
         if (isTRUE(Durbin)) {
@@ -586,8 +583,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, type,
     bsave <- matrix(0, nrow=con$ndraw, ncol=k)
     psave <- numeric(con$ndraw)
     ssave <- numeric(con$ndraw)
-    lsave <- numeric(con$ndraw)
-
+    acc_rate <- numeric(con$ndraw)
 #% ====== initializations
 #% compute this stuff once to save time
 
@@ -619,7 +615,8 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, type,
 #    xpWy = crossprod(x, wy)
     nu1 = n + 2*priors$nu
     nrho = length(detval1)
-    lambda_out = 0
+    gsize = detval1[2] - detval1[1]
+    acc = 0
 #    nano_1 = 0
 #    nano_2 = 0
 #    nano_3 = 0
@@ -647,9 +644,49 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, type,
         ssave[iter] = as.vector(sige)
 
         #update lambda using M-H
-        
+        i1 = max(which(detval1 <= (lambda + gsize)))
+	i2 = max(which(detval1 <= (lambda - gsize)))
+        index = round((i1+i2)/2)
+        if (!is.finite(index)) index = 1 #Fixed this
+	detm = detval2[index]
+        epe = (crossprod(e))/(2*sige)
+        detx = 0.5*log(det(crossprod(xss)))
+        rhox = detm - detx - epe
+        accept = 0L;
+	lambda2 = lambda + cc*rnorm(1);
+	while(accept == 0L) {
+	    if((lambda2 > con$interval[1]) & (lambda2 < con$interval[2])) {
+                accept=1
+	    } else { 
+		lambda2 = lambda + cc*rnorm(1)
+	    }
+        }
+        i1 = max(which(detval1 <= (lambda2 + gsize)))
+	i2 = max(which(detval1 <= (lambda2 - gsize)))
+        index = round((i1+i2)/2)
+        if (!is.finite(index)) index = 1 #Fixed this
+	detm = detval2[index]
+        xss = x - lambda2*WX
+        yss = y - lambda2*wy
+        detx = 0.5*log(det(crossprod(xss)))
+        e = yss - xss %*% bhat
+        epe = (crossprod(e))/(2*sige)
+        rhoy = detm - detx - epe
+        if ((rhoy - rhox) > exp(1)) {
+            p = 1
+        } else {
+	    ratio = exp(rhoy-rhox)
+	    p = min(1, ratio)
+        }
+	ru = runif(1)
+	if(ru < p) {
+  	    lambda = lambda2
+	    acc = acc + 1
+	}
+	acc_rate[iter] = acc/iter
+	if(acc_rate[iter] < 0.4) cc=cc/1.1
+	if(acc_rate[iter] > 0.6) cc=cc*1.1	
         psave[iter] = as.vector(lambda)
-
     }
 ### % end of sampling loop
     timings[["sampling"]] <- proc.time() - .ptime_start
@@ -663,12 +700,13 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, type,
     attr(res, "timings") <- do.call("rbind", timings)
 #    attr(res, "nano") <- c(nano_1, nano_2, nano_3)
     attr(res, "control") <- con
-    attr(res, "type") <- type
-    attr(res, "lambda_out") <- lambda_out
+    attr(res, "etype") <- etype
     attr(res, "listw_style") <- listw$style
 #    attr(res, "ll_mean") <- as.vector(ll_mean)
     attr(res, "aliased") <- aliased
     attr(res, "dvars") <- dvars
+    attr(res, "acc_rate") <- acc_rate
+    attr(res, "cc") <- cc
     class(res) <- c("MCMC_sem_g", class(res))
     res
 

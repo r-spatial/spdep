@@ -112,7 +112,7 @@ export(lextrB, lextrW, lextrS, l_max)
 
 export(lee.mc, lee, lee.test)
 
-export(spBreg_lag)
+export(spBreg_lag, spBreg_err)
 
 export(LOSH, LOSH.cs, LOSH.mc)
 

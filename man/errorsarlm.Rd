@@ -1,8 +1,9 @@
-% Copyright 2002-16 by Roger S. Bivand
+% Copyright 2002-18 by Roger S. Bivand
 \name{errorsarlm}
 \alias{errorsarlm}
 \alias{lmSLX}
 \alias{create_WX}
+\alias{spBreg_err}
 %\alias{sar.error.f}
 %\alias{sar.error.f.s}
 \title{Spatial simultaneous autoregressive error model estimation}
@@ -18,6 +19,8 @@ where \eqn{\lambda}{lambda} is found by \code{optimize()} first, and \eqn{\beta}
 errorsarlm(formula, data=list(), listw, na.action, weights=NULL,
  Durbin, etype, method="eigen", quiet=NULL, zero.policy=NULL,
  interval = NULL, tol.solve=1.0e-10, trs=NULL, control=list())
+spBreg_err(formula, data = list(), listw, na.action, Durbin, etype,
+    zero.policy=NULL, control=list())
 lmSLX(formula, data = list(), listw, na.action, weights=NULL,
  Durbin=TRUE, zero.policy=NULL)
 create_WX(x, listw, zero.policy=NULL, prefix="")
@@ -95,6 +98,30 @@ variable in making predictions for the fitting data.
   \item{LU_order}{default FALSE; used in \dQuote{LU_prepermutate}, note warnings given for \code{lu} method}
   \item{pre_eig}{default NULL; may be used to pass a pre-computed vector of eigenvalues}
 }}
+
+\section{Extra Bayesian control arguments}{
+\describe{
+  \item{ldet_method}{default \dQuote{SE_classic}; equivalent to the \code{method} argument in \code{lagsarlm}}
+  \item{interval}{default \code{c(-1, 1)}; used unmodified or set internally by \code{jacobianSetup}}
+  \item{ndraw}{default \code{2500L}; integer total number of draws}
+  \item{nomit}{default \code{500L}; integer total number of omitted burn-in draws}
+  \item{thin}{default \code{1L}; integer thinning proportion}
+  \item{verbose}{default \code{FALSE}; inverse of \code{quiet} argument in \code{lagsarlm}}
+  \item{detval}{default \code{NULL}; not yet in use, precomputed matrix of log determinants}
+  \item{prior}{a list with the following components:
+    \describe{
+      \item{Tbeta}{default \code{NULL}; values of the betas variance-covariance matrix, set to \code{diag(k)*1e+12} if \code{NULL}}
+      \item{c_beta}{default \code{NULL}; values of the betas set to 0 if \code{NULL}}
+      \item{rho}{default \code{0.5}; value of the autoregressive coefficient}
+      \item{sige}{default \code{1}; value of the residual variance}
+      \item{nu}{default \code{0}; informative Gamma(nu,d0) prior on sige}
+      \item{d0}{default \code{0}; informative Gamma(nu,d0) prior on sige}
+      \item{a1}{default \code{1.01}; parameter for beta(a1,a2) prior on rho}
+      \item{a2}{default \code{1.01}; parameter for beta(a1,a2) prior on rho}
+      \item{cc}{default \code{0.2}; initial tuning parameter for M-H sampling}
+    }}
+}}
+
 
 \value{
   A list object of class \code{sarlm}
@@ -276,6 +303,11 @@ all.equal(ocoef, coefficients(COL.errW.eig))
 system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  lw, method="spam_update", control=list(spamPivot="RCM")))
 all.equal(ocoef, coefficients(COL.errW.eig))
+}
+\dontrun{
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
+summary(COL.err.Bayes)
 }
 }
 \keyword{spatial}
