@@ -443,7 +443,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     mt <- terms(formula, data = data)
     mf <- lm(formula, data, na.action=na.action,  method="model.frame")
     na.act <- attr(mf, "na.action")
-    if (!inherits(listw, "listw")) stop("No neighboulambdaod list")
+    if (!inherits(listw, "listw")) stop("No neighbourhood list")
     can.sim <- FALSE
     if (listw$style %in% c("W", "S")) can.sim <- can.be.simmed(listw)
     if (!is.null(na.act)) {
@@ -464,19 +464,17 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 #create_WX
 # check for dgCMatrix
     if (missing(etype)) etype <- "error"
-    if (etype == "emixed") {
-        etype <- "Durbin"
-    }
     if (missing(Durbin)) Durbin <- ifelse(etype == "error", FALSE, TRUE)
     if (listw$style != "W" && is.formula(Durbin)) {
         Durbin <- TRUE
         warning("formula Durbin requires row-standardised weights; set TRUE")
     }
-    if (is.logical(Durbin) && isTRUE(Durbin)) etype <- "Durbin"
-    if (is.formula(Durbin)) etype <- "Durbin"
+    if (is.logical(Durbin) && isTRUE(Durbin)) etype <- "emixed"
+    if (is.formula(Durbin)) etype <- "emixed"
     if (is.logical(Durbin) && !isTRUE(Durbin)) etype <- "error"
 
     m <- ncol(x)
+    xxcolnames <- colnames(x)
     dvars <- c(NCOL(x), 0L)
 
     if (is.formula(Durbin) || isTRUE(Durbin)) {
@@ -517,6 +515,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
             attr(dvars, "zero_fill") <- zero_fill
         }
 	x <- cbind(x, WX)
+        xcolnames <- colnames(x)
 	m <- NCOL(x)
 	rm(WX)
     }
@@ -696,6 +695,100 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     colnames(mat) <- c(colnames(x), "lambda", "sige")
     res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
 
+    emixedImps <- NULL
+    if (etype == "emixed") {
+        sum_stats <- summary(res)$statistics
+        if (isTRUE(Durbin)) {
+            odd <- (m%/%2) > 0
+            if (odd) {
+                m2 <- (m-1)/2
+            } else {
+                m2 <- m/2
+            }
+            if (K == 1 && odd) {
+                warning("model configuration issue: no total impacts")
+            } else {
+                cm <- matrix(0, ncol=m, nrow=m2)
+                if (K == 2) {
+                    if (odd) {
+                        rownames(cm) <- xxcolnames[2:(m2+1)]
+                    } else {
+                        rownames(cm) <- xxcolnames[1:m2]
+                    }
+                    for (i in 1:m2) cm[i, c(i+1, i+(m2+1))] <- 1
+# drop bug fix 2016-09-21 Philipp Hunziker
+                    dirImps <- sum_stats[2:(m2+1), 1:2, drop=FALSE]
+                    rownames(dirImps) <- rownames(cm)
+                    indirImps <- sum_stats[(m2+2):m, 1:2, drop=FALSE]
+                    rownames(indirImps) <- rownames(cm)
+                    tI <- res[, 2:(m2+1), drop=FALSE] +
+                        res[, (m2+2):m, drop=FALSE]
+                    totImps <- t(apply(tI, 2, function(x) c(mean(x), sd(x))))
+                    rownames(totImps) <- rownames(cm)
+                } else {
+                    rownames(cm) <- xxcolnames[1:m2]
+                    for (i in 1:m2) cm[i, c(i, i+m2)] <- 1
+                    dirImps <- sum_stats[1:m2, 1:2, drop=FALSE]
+                    rownames(dirImps) <- rownames(cm)
+                    indirImps <- sum_stats[(m2+1):m, 1:2, drop=FALSE]
+                    rownames(indirImps) <- rownames(cm)
+                    tI <- res[, 1:m2, drop=FALSE] +
+                        res[, (m2+1):m, drop=FALSE]
+                    totImps <- t(apply(tI, 2, function(x) c(mean(x), sd(x))))
+                    rownames(totImps) <- rownames(cm)
+                    colnames(totImps) <- colnames(dirImps)
+                }
+            }
+        } else if (is.formula(Durbin)) {
+#FIXME
+            m <- sum(dvars)
+            m2 <- dvars[2]
+            cm <- matrix(0, ncol=m, nrow=m2)
+            for (i in 1:m2) {
+                cm[i, c(inds[i], i+dvars[1])] <- 1
+            }
+            rownames(cm) <- wxn
+            dirImps <- sum_stats[2:dvars[1], 1:2, drop=FALSE]
+            rownames(dirImps) <- xn
+            indirImps <- sum_stats[(dvars[1]+1):m, 1:2, drop=FALSE]
+            if (!is.null(zero_fill)) {
+                if (length(zero_fill) > 0L) {
+                    lres <- vector(mode="list", length=2L)
+                    for (j in 1:2) {
+                        jindirImps <- rep(as.numeric(NA), (dvars[1]-1))
+                        for (i in seq(along=inds)) {
+                            jindirImps[(inds[i]-1)] <- indirImps[i, j]
+                        }
+                        lres[[j]] <- jindirImps
+                    }
+                    indirImps <- do.call("cbind", lres)
+                }
+            }
+            rownames(indirImps) <- xn
+            tI <- res[, 2:dvars[1], drop=FALSE] +
+                res[, (dvars[1]+1):m, drop=FALSE]
+            totImps <- t(apply(tI, 2, function(x) c(mean(x), sd(x))))
+            if (!is.null(zero_fill)) {
+                if (length(zero_fill) > 0L) {
+                    lres <- vector(mode="list", length=2L)
+                    for (j in 1:2) {
+                        jtotImps <- dirImps[, j]
+                        for (i in seq(along=inds)) {
+                            jtotImps[(inds[i]-1)] <- totImps[i, j]
+                        }
+                        lres[[j]] <- jtotImps
+                    }
+                    totImps <- do.call("cbind", lres)
+                }
+            }
+            rownames(totImps) <- xn
+            colnames(totImps) <- colnames(dirImps)
+        } else stop("undefined emixed state")
+        emixedImps <- list(dirImps=dirImps, indirImps=indirImps,
+            totImps=totImps)
+    }
+
+
     timings[["finalise"]] <- proc.time() - .ptime_start
     attr(res, "timings") <- do.call("rbind", timings)
 #    attr(res, "nano") <- c(nano_1, nano_2, nano_3)
@@ -705,11 +798,25 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 #    attr(res, "ll_mean") <- as.vector(ll_mean)
     attr(res, "aliased") <- aliased
     attr(res, "dvars") <- dvars
+    attr(res, "emixedImps") <- emixedImps
     attr(res, "acc_rate") <- acc_rate
     attr(res, "cc") <- cc
+    attr(res, "n") <- n
+    attr(res, "k") <- k
     class(res) <- c("MCMC_sem_g", class(res))
     res
 
 #output mcmc object
 
+}
+
+impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
+    Q=NULL) {
+    emixedImps <- attr(obj, "emixedImps")
+    if (is.null(emixedImps)) {
+        stop("No indirect impacts, use summary()")
+    }
+    n <- attr(obj, "n")
+    k <- attr(obj, "k")
+    impactsWX(emixedImps, n, k, type="SDEM")
 }
