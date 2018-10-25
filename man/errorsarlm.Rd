@@ -120,7 +120,9 @@ variable in making predictions for the fitting data.
       \item{a2}{default \code{1.01}; parameter for beta(a1,a2) prior on rho}
       \item{cc}{default \code{0.2}; initial tuning parameter for M-H sampling}
     }}
-}}
+}
+Note that lambda is sampled using MH, not griddy Gibbs.
+}
 
 
 \value{
@@ -309,6 +311,15 @@ all.equal(ocoef, coefficients(COL.errW.eig))
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
 summary(COL.err.Bayes)
+raftery.diag(COL.err.Bayes, r=0.01)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw, Durbin=TRUE)
+summary(COL.err.Bayes)
+summary(impacts(COL.err.Bayes))
+raftery.diag(COL.err.Bayes, r=0.01)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw, Durbin=~INC)
+summary(COL.err.Bayes)
+summary(impacts(COL.err.Bayes))
+raftery.diag(COL.err.Bayes, r=0.01)
 }
 }
 \keyword{spatial}
