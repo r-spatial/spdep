@@ -308,6 +308,7 @@ system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
 all.equal(ocoef, coefficients(COL.errW.eig))
 }
 \dontrun{
+if (require(coda, quietly=TRUE)) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
 summary(COL.err.Bayes)
@@ -320,6 +321,7 @@ COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw, Durbin=
 summary(COL.err.Bayes)
 summary(impacts(COL.err.Bayes))
 raftery.diag(COL.err.Bayes, r=0.01)
+}
 }
 }
 \keyword{spatial}
