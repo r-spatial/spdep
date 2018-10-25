@@ -765,7 +765,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
                 }
             }
             rownames(indirImps) <- xn
-            tI <- res[, 2:dvars[1], drop=FALSE] +
+            tI <- res[, inds, drop=FALSE] +
                 res[, (dvars[1]+1):m, drop=FALSE]
             totImps <- t(apply(tI, 2, function(x) c(mean(x), sd(x))))
             if (!is.null(zero_fill)) {

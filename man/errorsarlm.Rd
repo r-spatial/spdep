@@ -198,15 +198,15 @@ Bivand, R. S., Hauke, J., and Kossowski, T. (2013). Computing the Jacobian in Ga
 \examples{
 data(oldcol)
 lw <- nb2listw(COL.nb, style="W")
-COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", quiet=FALSE)
-summary(COL.errW.eig)
 ev <- eigenw(similar.listw(lw))
+COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, quiet=FALSE, control=list(pre_eig=ev))
+summary(COL.errW.eig)
 COL.errW.eig_ev <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", control=list(pre_eig=ev))
+ lw, control=list(pre_eig=ev))
 all.equal(coefficients(COL.errW.eig), coefficients(COL.errW.eig_ev))
 COL.errB.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- nb2listw(COL.nb, style="B"), method="eigen", quiet=FALSE)
+ nb2listw(COL.nb, style="B"))
 summary(COL.errB.eig)
 W <- as(nb2listw(COL.nb), "CsparseMatrix")
 trMatc <- trW(W, type="mult")
@@ -214,13 +214,13 @@ COL.errW.M <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  lw, method="Matrix", quiet=FALSE, trs=trMatc)
 summary(COL.errW.M)
 COL.SDEM.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", etype="emixed")
+ lw, etype="emixed", control=list(pre_eig=ev))
 summary(COL.SDEM.eig)
 COL.SDEM.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", Durbin=TRUE)
+ lw, Durbin=TRUE, control=list(pre_eig=ev))
 summary(COL.SDEM.eig)
 COL.SDEM.eig <- errorsarlm(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD,
- lw, method="eigen", Durbin=~INC)
+ lw, Durbin=~INC, control=list(pre_eig=ev))
 summary(COL.SDEM.eig)
 summary(impacts(COL.SDEM.eig))
 COL.SLX <- lmSLX(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
@@ -264,14 +264,15 @@ COL.err.NA
 resid(COL.err.NA)
 \donttest{
 lw <- nb2listw(COL.nb, style="W")
+system.time(ev <- eigenw(similar.listw(lw)))
 system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen"))
+ lw, method="eigen", control=list(pre_eig=ev)))
 ocoef <- coefficients(COL.errW.eig)
 system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", control=list(LAPACK=FALSE)))
+ lw, method="eigen", control=list(pre_eig=ev, LAPACK=FALSE)))
 all.equal(ocoef, coefficients(COL.errW.eig))
 system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", control=list(compiled_sse=TRUE)))
+ lw, method="eigen", control=list(pre_eig=ev, compiled_sse=TRUE)))
 all.equal(ocoef, coefficients(COL.errW.eig))
 system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  lw, method="Matrix_J", control=list(super=TRUE)))
