@@ -110,6 +110,7 @@ variable in making predictions for the fitting data.
   \item{detval}{default \code{NULL}; not yet in use, precomputed matrix of log determinants}
   \item{prior}{a list with the following components:
     \describe{
+      \item{lambdaMH}{default TRUE; use Metropolis or griddy Gibbs}
       \item{Tbeta}{default \code{NULL}; values of the betas variance-covariance matrix, set to \code{diag(k)*1e+12} if \code{NULL}}
       \item{c_beta}{default \code{NULL}; values of the betas set to 0 if \code{NULL}}
       \item{rho}{default \code{0.5}; value of the autoregressive coefficient}
@@ -266,61 +267,77 @@ COL.err.NA
 resid(COL.err.NA)
 \donttest{
 lw <- nb2listw(COL.nb, style="W")
-system.time(ev <- eigenw(similar.listw(lw)))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", control=list(pre_eig=ev)))
+print(system.time(ev <- eigenw(similar.listw(lw))))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="eigen", control=list(pre_eig=ev))))
 ocoef <- coefficients(COL.errW.eig)
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", control=list(pre_eig=ev, LAPACK=FALSE)))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="eigen", control=list(pre_eig=ev, compiled_sse=TRUE)))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="Matrix_J", control=list(super=TRUE)))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="Matrix_J", control=list(super=FALSE)))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="Matrix_J", control=list(super=as.logical(NA))))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="Matrix", control=list(super=TRUE)))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="Matrix", control=list(super=FALSE)))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="Matrix", control=list(super=as.logical(NA))))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="spam", control=list(spamPivot="MMD")))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="spam", control=list(spamPivot="RCM")))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="spam_update", control=list(spamPivot="MMD")))
-all.equal(ocoef, coefficients(COL.errW.eig))
-system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
- lw, method="spam_update", control=list(spamPivot="RCM")))
-all.equal(ocoef, coefficients(COL.errW.eig))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="eigen", control=list(pre_eig=ev, LAPACK=FALSE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="eigen", control=list(pre_eig=ev, compiled_sse=TRUE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix_J", control=list(super=TRUE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix_J", control=list(super=FALSE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix_J", control=list(super=as.logical(NA)))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix", control=list(super=TRUE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix", control=list(super=FALSE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix", control=list(super=as.logical(NA)))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="spam", control=list(spamPivot="MMD"))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="spam", control=list(spamPivot="RCM"))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="spam_update", control=list(spamPivot="MMD"))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="spam_update", control=list(spamPivot="RCM"))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
 }
 \dontrun{
 if (require(coda, quietly=TRUE)) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
-summary(COL.err.Bayes)
-raftery.diag(COL.err.Bayes, r=0.01)
+print(summary(COL.err.Bayes))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw, control=list(prior=list(lambdaMH=TRUE)))
+print(summary(COL.err.Bayes))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw, Durbin=TRUE)
-summary(COL.err.Bayes)
-summary(impacts(COL.err.Bayes))
-raftery.diag(COL.err.Bayes, r=0.01)
+print(summary(COL.err.Bayes))
+print(summary(impacts(COL.err.Bayes)))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw, Durbin=TRUE, control=list(prior=list(lambdaMH=TRUE)))
+print(summary(COL.err.Bayes))
+print(summary(impacts(COL.err.Bayes)))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw, Durbin=~INC)
-summary(COL.err.Bayes)
-summary(impacts(COL.err.Bayes))
-raftery.diag(COL.err.Bayes, r=0.01)
+print(summary(COL.err.Bayes))
+print(summary(impacts(COL.err.Bayes)))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw, Durbin=~INC, control=list(prior=list(lambdaMH=TRUE)))
+print(summary(COL.err.Bayes))
+print(summary(impacts(COL.err.Bayes)))
+print(raftery.diag(COL.err.Bayes, r=0.01))
 }
 }
 }

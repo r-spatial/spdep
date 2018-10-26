@@ -12,8 +12,8 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
         in_coef=0.1, type="MC", correct=TRUE, trunc=TRUE,
         SE_method="LU", nrho=200, interpn=2000, SElndet=NULL, LU_order=FALSE,
         pre_eig=NULL, interval=c(-1, 1), ndraw=2500L, nomit=500L, thin=1L,
-        verbose=FALSE, detval=NULL, prior=list(Tbeta=NULL, c_beta=NULL,
-        rho=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01))
+        verbose=FALSE, detval=NULL, prior=list(rhoMH=FALSE, Tbeta=NULL,
+        c_beta=NULL, rho=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01))
     priors <- con$prior
     nmsP <- names(priors)
     priors[(namp <- names(control$prior))] <- control$prior
@@ -226,39 +226,43 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
           
           ###% update rho using griddy Gibbs
 #        nano_p <- microbenchmark::get_nanotime()
-        AI = solve((xpx + sige*TI))
-        b0 = AI %*% (xpy + sige*TIc)
-        bd = AI %*% (xpWy + sige*TIc)
-        e0 = y - x%*%b0
-        ed = wy - x%*%bd
-        epe0 = as.vector(crossprod(e0))
-        eped = as.vector(crossprod(ed))
-        epe0d = as.vector(crossprod(ed, e0))
-	nmk = (n-k)/2
-	z = epe0 - 2*detval1*epe0d + detval1*detval1*eped
-	den = detval2 - nmk*log(z)
-	den = den + bprior
-
-	nd = length(den)
-	adj = max(den)
-	den = den - adj
-	xd = exp(den)
-
-	## trapezoid rule
-	isum = sum((detval1[2:nd] + detval1[1:(nd-1)])*(xd[2:nd]
-            - xd[1:(nd-1)])/2)#VIRGILIO:FIXED
-	zd = abs(xd/isum)
-	den = cumsum(zd)
-
-	rnd = runif(1)*sum(zd)
-        cond <- den <= rnd
-        if (any(cond)) {
-#	ind = which(den <= rnd)
-	    idraw = which.min(cond) - 1 #max(ind)
-#	    if (idraw > 0 & idraw < nrho) 
-            rho = detval1[idraw]#FIXME: This sometimes fail...
+        if (priors$rhoMH) {
+            stop("rho Metropolis sampling not yet implemented")
         } else {
-            rho_out = rho_out+1
+            AI = solve((xpx + sige*TI))
+            b0 = AI %*% (xpy + sige*TIc)
+            bd = AI %*% (xpWy + sige*TIc)
+            e0 = y - x%*%b0
+            ed = wy - x%*%bd
+            epe0 = as.vector(crossprod(e0))
+            eped = as.vector(crossprod(ed))
+            epe0d = as.vector(crossprod(ed, e0))
+	    nmk = (n-k)/2
+	    z = epe0 - 2*detval1*epe0d + detval1*detval1*eped
+	    den = detval2 - nmk*log(z)
+	    den = den + bprior
+
+	    nd = length(den)
+	    adj = max(den)
+	    den = den - adj
+	    xd = exp(den)
+
+	    ## trapezoid rule
+	    isum = sum((detval1[2:nd] + detval1[1:(nd-1)])*(xd[2:nd]
+                - xd[1:(nd-1)])/2)#VIRGILIO:FIXED
+	    zd = abs(xd/isum)
+	    den = cumsum(zd)
+
+	    rnd = runif(1)*sum(zd)
+            cond <- den <= rnd
+            if (any(cond)) {
+#	ind = which(den <= rnd)
+	        idraw = which.min(cond) - 1 #max(ind)
+#	    if (idraw > 0 & idraw < nrho) 
+                rho = detval1[idraw]#FIXME: This sometimes fail...
+            } else {
+                rho_out = rho_out+1
+            }
         }
 
         z = epe0 - 2*rho*epe0d + rho*rho*eped
@@ -304,6 +308,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     attr(res, "ll_mean") <- as.vector(ll_mean)
     attr(res, "aliased") <- aliased
     attr(res, "dvars") <- dvars
+    attr(res, "MH") <- priors$rhoMH
     class(res) <- c("MCMC_sar_g", class(res))
     res
 
@@ -417,8 +422,9 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
         in_coef=0.1, type="MC", correct=TRUE, trunc=TRUE,
         SE_method="LU", nrho=200, interpn=2000, SElndet=NULL, LU_order=FALSE,
         pre_eig=NULL, interval=c(-1, 1), ndraw=2500L, nomit=500L, thin=1L,
-        verbose=FALSE, detval=NULL, prior=list(Tbeta=NULL, c_beta=NULL,
-        lambda=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01, cc = 0.2))
+        verbose=FALSE, detval=NULL, prior=list(lambdaMH=FALSE, Tbeta=NULL,
+        c_beta=NULL, lambda=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01,
+        cc = 0.2))
     priors <- con$prior
     nmsP <- names(priors)
     priors[(namp <- names(control$prior))] <- control$prior
@@ -582,7 +588,8 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     bsave <- matrix(0, nrow=con$ndraw, ncol=k)
     psave <- numeric(con$ndraw)
     ssave <- numeric(con$ndraw)
-    acc_rate <- numeric(con$ndraw)
+    acc_rate <- NULL
+    if (priors$lambdaMH) acc_rate <- numeric(con$ndraw)
 #% ====== initializations
 #% compute this stuff once to save time
 
@@ -616,6 +623,28 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     nrho = length(detval1)
     gsize = detval1[2] - detval1[1]
     acc = 0
+    nmk = (n-k)/2
+
+# RSB Lifted out of draw_rho_sem for homoscedastic model
+    if (!priors$lambdaMH) {
+        rgrid = seq(con$interval[1]+0.01, con$interval[2]-0.01, 0.01)
+        ng = length(rgrid)
+        epet = numeric(ng)
+        detxt = numeric(ng)
+        for(i in 1:ng) {
+            xs = x - rgrid[i]*WX
+            ys = y - rgrid[i]*wy
+            xsxs <- crossprod(xs)
+            AI = solve(xsxs)
+            bs = AI %*% crossprod(xs, ys)
+            e = ys - xs%*%bs
+            epet[i] = crossprod(e)
+            detxt[i] = det(xsxs)
+        }
+        EPE = exp((spline(x=rgrid, y=log(epet), xout=detval1))$y)
+        DETX = exp(spline(x=rgrid, y=log(detxt), xout=detval1)$y)
+    }
+
 #    nano_1 = 0
 #    nano_2 = 0
 #    nano_3 = 0
@@ -642,49 +671,69 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 	sige = as.numeric(d1/chi)
         ssave[iter] = as.vector(sige)
 
+        if (priors$lambdaMH) {
         #update lambda using M-H
-        i1 = max(which(detval1 <= (lambda + gsize)))
-	i2 = max(which(detval1 <= (lambda - gsize)))
-        index = round((i1+i2)/2)
-        if (!is.finite(index)) index = 1 #Fixed this
-	detm = detval2[index]
-        epe = (crossprod(e))/(2*sige)
-        detx = 0.5*log(det(crossprod(xss)))
-        rhox = detm - detx - epe
-        accept = 0L;
-	lambda2 = lambda + cc*rnorm(1);
-	while(accept == 0L) {
-	    if((lambda2 > con$interval[1]) & (lambda2 < con$interval[2])) {
-                accept=1
-	    } else { 
-		lambda2 = lambda + cc*rnorm(1)
+            i1 = max(which(detval1 <= (lambda + gsize)))
+	    i2 = max(which(detval1 <= (lambda - gsize)))
+            index = round((i1+i2)/2)
+            if (!is.finite(index)) index = 1 #Fixed this
+	    detm = detval2[index]
+            epe = (crossprod(e))/(2*sige)
+            detx = 0.5*log(det(crossprod(xss)))
+            rhox = detm - detx - epe
+            accept = 0L;
+	    lambda2 = lambda + cc*rnorm(1);
+	    while(accept == 0L) {
+	        if((lambda2 > con$interval[1]) & (lambda2 < con$interval[2])) {
+                    accept=1
+	        } else { 
+		    lambda2 = lambda + cc*rnorm(1)
+	        }
+            }
+            i1 = max(which(detval1 <= (lambda2 + gsize)))
+	    i2 = max(which(detval1 <= (lambda2 - gsize)))
+            index = round((i1+i2)/2)
+            if (!is.finite(index)) index = 1 #Fixed this
+	    detm = detval2[index]
+            xss = x - lambda2*WX
+            yss = y - lambda2*wy
+            detx = 0.5*log(det(crossprod(xss)))
+            e = yss - xss %*% bhat
+            epe = (crossprod(e))/(2*sige)
+            rhoy = detm - detx - epe
+            if ((rhoy - rhox) > exp(1)) {
+                p = 1
+            } else {
+	        ratio = exp(rhoy-rhox)
+	        p = min(1, ratio)
+            }
+	    ru = runif(1)
+	    if(ru < p) {
+  	        lambda = lambda2
+	        acc = acc + 1
+	    }
+	    acc_rate[iter] = acc/iter
+	    if(acc_rate[iter] < 0.4) cc=cc/1.1
+	    if(acc_rate[iter] > 0.6) cc=cc*1.1	
+        } else {
+# RSB updated sige added
+            den = detval2 - 0.5*log(DETX) - nmk*log(EPE/(2*sige))
+            adj = max(den)
+            den = den - adj
+            den = exp(den)
+            nden = length(den)
+	
+            isum = sum((detval1[2:nden] + detval1[1:(nden-1)]) * (den[2:nden] -
+                den[1:(nden-1)])/2)
+            z = abs(den/isum)
+            den = cumsum(z)
+            rnd = runif(1) * sum(z)
+	    ind = which(den <= rnd)
+	    idraw = max(ind)
+	    if((idraw > 0) && (idraw < nrho)) {
+		lambda = detval1[idraw]
 	    }
         }
-        i1 = max(which(detval1 <= (lambda2 + gsize)))
-	i2 = max(which(detval1 <= (lambda2 - gsize)))
-        index = round((i1+i2)/2)
-        if (!is.finite(index)) index = 1 #Fixed this
-	detm = detval2[index]
-        xss = x - lambda2*WX
-        yss = y - lambda2*wy
-        detx = 0.5*log(det(crossprod(xss)))
-        e = yss - xss %*% bhat
-        epe = (crossprod(e))/(2*sige)
-        rhoy = detm - detx - epe
-        if ((rhoy - rhox) > exp(1)) {
-            p = 1
-        } else {
-	    ratio = exp(rhoy-rhox)
-	    p = min(1, ratio)
-        }
-	ru = runif(1)
-	if(ru < p) {
-  	    lambda = lambda2
-	    acc = acc + 1
-	}
-	acc_rate[iter] = acc/iter
-	if(acc_rate[iter] < 0.4) cc=cc/1.1
-	if(acc_rate[iter] > 0.6) cc=cc*1.1	
         psave[iter] = as.vector(lambda)
     }
 ### % end of sampling loop
@@ -803,6 +852,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     attr(res, "cc") <- cc
     attr(res, "n") <- n
     attr(res, "k") <- k
+    attr(res, "MH") <- priors$lambdaMH
     class(res) <- c("MCMC_sem_g", class(res))
     res
 
