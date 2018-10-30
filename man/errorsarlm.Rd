@@ -120,6 +120,7 @@ variable in making predictions for the fitting data.
       \item{a1}{default \code{1.01}; parameter for beta(a1,a2) prior on rho}
       \item{a2}{default \code{1.01}; parameter for beta(a1,a2) prior on rho}
       \item{cc}{default \code{0.2}; initial tuning parameter for M-H sampling}
+      \item{gG_sige}{default TRUE; include sige in lambda griddy Gibbs update}
     }}
 }
 Note that lambda is sampled using MH, not griddy Gibbs.

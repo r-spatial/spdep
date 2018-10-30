@@ -424,7 +424,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
         pre_eig=NULL, interval=c(-1, 1), ndraw=2500L, nomit=500L, thin=1L,
         verbose=FALSE, detval=NULL, prior=list(lambdaMH=FALSE, Tbeta=NULL,
         c_beta=NULL, lambda=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01,
-        cc = 0.2))
+        cc = 0.2, gG_sige=TRUE))
     priors <- con$prior
     nmsP <- names(priors)
     priors[(namp <- names(control$prior))] <- control$prior
@@ -717,7 +717,11 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 	    if(acc_rate[iter] > 0.6) cc=cc*1.1	
         } else {
 # RSB updated sige added
-            den = detval2 - 0.5*log(DETX) - nmk*log(EPE/(2*sige))
+            if (priors$gG_sige) {
+                den = detval2 - 0.5*log(DETX) - nmk*log(EPE/(2*sige))
+            } else {
+                den = detval2 - 0.5*log(DETX) - nmk*log(EPE)
+            }
             adj = max(den)
             den = den - adj
             den = exp(den)
