@@ -872,5 +872,5 @@ impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     }
     n <- attr(obj, "n")
     k <- attr(obj, "k")
-    impactsWX(emixedImps, n, k, type="SDEM")
+    impactsWX(emixedImps, n, k, type="SDEM", method="MCMC")
 }

@@ -128,16 +128,16 @@ impacts.SLX <- function(obj, ...) {
     stopifnot(!is.null(attr(obj, "mixedImps")))
     n <- nrow(obj$model)
     k <- obj$qr$rank
-    impactsWX(attr(obj, "mixedImps"), n, k, type="SLX")
+    impactsWX(attr(obj, "mixedImps"), n, k, type="SLX", method="estimable")
 }
 
 impactSDEM <- function(obj) {
     n <- nrow(obj$tarX)
     k <- ncol(obj$tarX)
-    impactsWX(obj$emixedImps, n, k, type="SDEM")
+    impactsWX(obj$emixedImps, n, k, type="SDEM", method="estimable")
 }
 
-impactsWX <- function(obj, n, k, type="SLX") {
+impactsWX <- function(obj, n, k, type="SLX", method="estimable") {
     imps <- lapply(obj, function(x) x[, 1])
     names(imps) <- c("direct", "indirect", "total")
     attr(imps, "bnames") <- rownames(obj[[1]])
@@ -148,7 +148,7 @@ impactsWX <- function(obj, n, k, type="SLX") {
     attr(res, "n") <- n
     attr(res, "k") <- k
     attr(res, "type") <- type
-    attr(res, "method") <- "estimable"
+    attr(res, "method") <- method
     attr(res, "bnames") <- rownames(obj[[1]])
     class(res) <- "WXImpact"
     res
@@ -822,15 +822,20 @@ summary.lagImpact <- function(object, ..., zstats=FALSE, short=FALSE, reportQ=NU
     if (zstats) {
 # 100928 Eelke Folmer
         if (length(attr(object, "bnames")) == 1L) {
+            semat <- sapply(lres, function(x) x$statistics[2])
+            semat <- matrix(semat, ncol=3)
+            colnames(semat) <- c("Direct", "Indirect", "Total")
             zmat <- sapply(lres, function(x) x$statistics[1]/x$statistics[2])
             zmat <- matrix(zmat, ncol=3)
             colnames(zmat) <- c("Direct", "Indirect", "Total")
         } else {
+            semat <- sapply(lres, function(x) x$statistics[,2])
+            colnames(semat) <- c("Direct", "Indirect", "Total")
             zmat <- sapply(lres, function(x) x$statistics[,1]/x$statistics[,2])
             colnames(zmat) <- c("Direct", "Indirect", "Total")
         }
         pzmat <- 2*(1-pnorm(abs(zmat)))
-        res <- c(res, list(zmat=zmat, pzmat=pzmat))
+        res <- c(res, list(semat=semat, zmat=zmat, pzmat=pzmat))
         if (!is.null(Qmcmc) && !is.null(reportQ) && reportQ) {
             Qzmats <- lapply(Qmcmc, function(x) {
                 Qm <- matrix(x$statistics[,1]/x$statistics[,2],
@@ -928,7 +933,11 @@ print.summary.lagImpact <- function(x, ...) {
     }
     if (!is.null(x$zmat)) {
         cat("========================================================\n")
-        cat("Simulated z-values:\n")
+        cat("Simulated standard errors\n")
+        mat <- x$semat
+        rownames(mat) <- attr(x, "bnames")
+        print(mat)
+        cat("\nSimulated z-values:\n")
         mat <- x$zmat
         rownames(mat) <- attr(x, "bnames")
         print(mat)
