@@ -110,7 +110,7 @@ variable in making predictions for the fitting data.
   \item{detval}{default \code{NULL}; not yet in use, precomputed matrix of log determinants}
   \item{prior}{a list with the following components:
     \describe{
-      \item{lambdaMH}{default TRUE; use Metropolis or griddy Gibbs}
+      \item{lambdaMH}{default FALSE; if TRUE use Metropolis or FALSE griddy Gibbs}
       \item{Tbeta}{default \code{NULL}; values of the betas variance-covariance matrix, set to \code{diag(k)*1e+12} if \code{NULL}}
       \item{c_beta}{default \code{NULL}; values of the betas set to 0 if \code{NULL}}
       \item{rho}{default \code{0.5}; value of the autoregressive coefficient}
