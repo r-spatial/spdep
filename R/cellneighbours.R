@@ -71,11 +71,11 @@ vi2mrc <- function(i, nrow, ncol) {
 	res
 }
 
-cell2nb <- function(nrow, ncol, type="rook", torus=FALSE) {
+cell2nb <- function(nrow, ncol, type="rook", torus=FALSE, legacy=FALSE) {
 	nrow <- as.integer(nrow)
 	if (nrow < 1) stop("nrow nonpositive")
 	ncol <- as.integer(ncol)
-	if (ncol < 1) stop("nrow nonpositive")
+	if (ncol < 1) stop("ncol nonpositive")
 	xcell <- NULL
 	if (type == "rook") xcell <- rookcell
 	if (type == "queen") xcell <- queencell
@@ -85,11 +85,19 @@ cell2nb <- function(nrow, ncol, type="rook", torus=FALSE) {
 	if (n < 0) stop("non-positive number of cells")
 	res <- vector(mode="list", length=n)
 	rownames <- character(n)
-	for (i in 1:n) {
+        if (legacy) {
+      	    for (i in 1:n) {
 		res[[i]] <- sort(mrc2vi(xcell(vi2mrc(i, nrow, ncol),
 			nrow, ncol, torus), nrow, ncol))
 		rownames[i] <- paste(vi2mrc(i, nrow, ncol), collapse=":")
-	}
+	    }
+        } else {
+      	    for (i in 1:n) {
+		res[[i]] <- sort(mrc2vi(xcell(vi2mrc(i, ncol, nrow),
+			ncol, nrow, torus), ncol, nrow))
+		rownames[i] <- paste(vi2mrc(i, ncol, nrow), collapse=":")
+	    }
+        }
 	class(res) <- "nb"
 	attr(res, "call") <- match.call()
 	attr(res, "region.id") <- rownames
