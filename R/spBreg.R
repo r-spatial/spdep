@@ -13,7 +13,8 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
         SE_method="LU", nrho=200, interpn=2000, SElndet=NULL, LU_order=FALSE,
         pre_eig=NULL, interval=c(-1, 1), ndraw=2500L, nomit=500L, thin=1L,
         verbose=FALSE, detval=NULL, prior=list(rhoMH=FALSE, Tbeta=NULL,
-        c_beta=NULL, rho=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01))
+        c_beta=NULL, rho=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01,
+        cc = 0.2, c=NULL, T=NULL))
     priors <- con$prior
     nmsP <- names(priors)
     priors[(namp <- names(control$prior))] <- control$prior
@@ -181,6 +182,8 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     psave <- numeric(con$ndraw)
     ssave <- numeric(con$ndraw)
     lsave <- numeric(con$ndraw)
+    acc_rate <- NULL
+    if (priors$rhoMH) acc_rate <- numeric(con$ndraw)
 
 #% ====== initializations
 #% compute this stuff once to save time
@@ -194,6 +197,15 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     nu1 = n + 2*priors$nu
     nrho = length(detval1)
     rho_out = 0
+    gsize = detval1[2] - detval1[1]
+    acc = 0
+    noninf <- TRUE
+    if (!is.null(priors$c) && !is.null(priors$T)) {
+        if (length(priors$c) == 1L && is.numeric(priors$c) && 
+            length(priors$T) == 1L && is.numeric(priors$T)) noninf <- FALSE
+    }
+    nmk = (n-k)/2
+    cc <- priors$cc
 #    nano_1 = 0
 #    nano_2 = 0
 #    nano_3 = 0
@@ -222,13 +234,70 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
         chi = rchisq(1, nu1) #chi = chis_rnd(1,nu1);
         sige = as.numeric(d1/chi) # see eq 5.30, p. 141
         ssave[iter] = as.vector(sige)
-#        nano_2 <- nano_2 + microbenchmark::get_nanotime() - nano_p
-          
-          ###% update rho using griddy Gibbs
-#        nano_p <- microbenchmark::get_nanotime()
+
         if (priors$rhoMH) {
-            stop("rho Metropolis sampling not yet implemented")
+
+##         % metropolis step to get rho update
+            i1 = max(which(detval1 <= (rho + gsize)))
+	    i2 = max(which(detval1 <= (rho - gsize)))
+            index = round((i1+i2)/2)
+            if (!is.finite(index)) index = 1 
+	    detm = detval2[index]
+            if (noninf) {
+                epe = (crossprod(e))/(2*sige)
+            } else {
+                epe = (crossprod(e))/(2*sige) + 0.5*(((rho-priors$c)^2)/(priors$T*sige))
+            }
+            rhox = detm - epe
+            accept = 0L;
+	    rho2 = rho + cc*rnorm(1);
+	    while(accept == 0L) {
+	        if((rho2 > con$interval[1]) & (rho2 < con$interval[2])) {
+                    accept=1
+	        } else { 
+		    rho2 = rho + cc*rnorm(1)
+	        }
+            }
+            i1 = max(which(detval1 <= (rho2 + gsize)))
+	    i2 = max(which(detval1 <= (rho2 - gsize)))
+            index = round((i1+i2)/2)
+            if (!is.finite(index)) index = 1 
+	    detm = detval2[index]
+            yss = y - rho2*wy
+            e = yss - x %*% bhat
+            if (noninf) {
+                epe = (crossprod(e))/(2*sige)
+            } else {
+                epe = (crossprod(e))/(2*sige) +
+                    0.5*(((rho-priors$c)^2)/(priors$T*sige))
+            }
+            rhoy = detm - epe
+            if ((rhoy - rhox) > exp(1)) {
+                p = 1
+            } else {
+	        ratio = exp(rhoy-rhox)
+	        p = min(1, ratio)
+            }
+	    ru = runif(1)
+	    if(ru < p) {
+  	        rho = rho2
+	        acc = acc + 1
+	    }
+	    acc_rate[iter] = acc/iter
+	    if(acc_rate[iter] < 0.4) cc=cc/1.1
+	    if(acc_rate[iter] > 0.6) cc=cc*1.1	
+
+
+            AI = solve((xpx + sige*TI))
+            b0 = AI %*% (xpy + sige*TIc)
+            bd = AI %*% (xpWy + sige*TIc)
+            e0 = y - x%*%b0
+            ed = wy - x%*%bd
+            epe0 = as.vector(crossprod(e0))
+            eped = as.vector(crossprod(ed))
+            epe0d = as.vector(crossprod(ed, e0))
         } else {
+          ###% update rho using griddy Gibbs
             AI = solve((xpx + sige*TI))
             b0 = AI %*% (xpy + sige*TIc)
             bd = AI %*% (xpWy + sige*TIc)
@@ -265,14 +334,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
             }
         }
 
-        z = epe0 - 2*rho*epe0d + rho*rho*eped
-	if (idraw > 0 & idraw < nrho) 
-	    ldet = detval2[idraw]
-        s2 <- z/n
-        ll_iter <- (ldet - ((n/2)*log(2*pi)) - (n/2)*log(s2)
-            - (1/(2*s2))*z)
         psave[iter] = as.vector(rho)
-        lsave[iter] <- as.vector(ll_iter)
 #        nano_3 <- nano_3 + microbenchmark::get_nanotime() - nano_p
 
     }
@@ -294,8 +356,6 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     ldet <- do_ldet(rho, env)
     ll_mean <- (ldet - ((n/2)*log(2*pi)) - (n/2)*log(s2)
         - (1/(2*s2))*sse)
-    lsave <- as.vector(coda::mcmc(matrix(lsave, ncol=1), start=con$nomit+1,
-        end=con$ndraw, thin=con$thin)[,1])
 
     timings[["finalise"]] <- proc.time() - .ptime_start
     attr(res, "timings") <- do.call("rbind", timings)
@@ -304,9 +364,9 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     attr(res, "type") <- type
     attr(res, "rho_out") <- rho_out
     attr(res, "listw_style") <- listw$style
-    attr(res, "lsave") <- lsave
     attr(res, "ll_mean") <- as.vector(ll_mean)
     attr(res, "aliased") <- aliased
+    attr(res, "acc_rate") <- acc_rate
     attr(res, "dvars") <- dvars
     attr(res, "MH") <- priors$rhoMH
     class(res) <- c("MCMC_sar_g", class(res))
