@@ -124,8 +124,15 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
 	cn <- names(aliased)
 	names(aliased) <- substr(cn, 2, nchar(cn))
 	if (any(aliased)) {
-		nacoef <- which(aliased)
+          if (is.formula(Durbin)) {
+	    stop("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+          } else {
+	    warning("Aliased variables found: ",
+                paste(names(aliased)[aliased], collapse=" "))
+	    nacoef <- which(aliased)
 		x <- x[,-nacoef]
+          }
 	}
         LL_null_lm <- NULL
 	if ("(Intercept)" %in% colnames(x)) LL_null_lm <- logLik(lm(y ~ 1))
