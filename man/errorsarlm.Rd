@@ -123,7 +123,7 @@ variable in making predictions for the fitting data.
       \item{gG_sige}{default TRUE; include sige in lambda griddy Gibbs update}
     }}
 }
-Note that lambda is sampled using MH, not griddy Gibbs.
+
 }
 
 

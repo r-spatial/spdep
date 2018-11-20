@@ -704,10 +704,6 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
         EPE = exp((spline(x=rgrid, y=log(epet), xout=detval1))$y)
         DETX = exp(spline(x=rgrid, y=log(detxt), xout=detval1)$y)
     }
-
-#    nano_1 = 0
-#    nano_2 = 0
-#    nano_3 = 0
  
     timings[["complete_setup"]] <- proc.time() - .ptime_start
     .ptime_start <- proc.time()
@@ -940,7 +936,6 @@ impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 # James LeSage and R. Kelley Pace (http://www.spatial-econometrics.com/).
 # GSoc 2011 project by Abhirup Mallik mentored by Virgilio Gómez-Rubio
 
-if (FALSE) {
 spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action, 
     Durbin, type, zero.policy=NULL, control=list()) {
     timings <- list()
@@ -951,9 +946,10 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
         in_coef=0.1, type="MC", correct=TRUE, trunc=TRUE,
         SE_method="LU", nrho=200, interpn=2000, SElndet=NULL, LU_order=FALSE,
         pre_eig1=NULL, pre_eig2=NULL, interval1=c(-1, 1), interval2=c(-1, 1), 
-        ndraw=2500L, nomit=500L, thin=1L, verbose=FALSE, detval=NULL, 
-        prior=list(Tbeta=NULL, c_beta=NULL, lambda=0.5, rho=0.5, sige=1, nu=0, 
-        d0=0, a1 = 1.01, a2 = 1.01, cc = 0.2, c=NULL, T=NULL))
+        ndraw=2500L, nomit=500L, thin=1L, verbose=FALSE, detval1=NULL,
+        detval2=NULL, prior=list(Tbeta=NULL, c_beta=NULL, lambda=0.5, 
+        rho=0.5, sige=1, nu=0, d0=0, a1 = 1.01, a2 = 1.01, cc1 = 0.2, 
+        cc2 = 0.2))
     priors <- con$prior
     nmsP <- names(priors)
     priors[(namp <- names(control$prior))] <- control$prior
@@ -1087,21 +1083,21 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
     if (any(is.na(wy)))
         stop("NAs in lagged dependent variable")
     if (m > 1 || (m == 1 && K == 1)) {
-        WX <- matrix(nrow=n,ncol=(m-(K-1)))
+        W2X <- matrix(nrow=n,ncol=(m-(K-1)))
         for (k in K:m) {
     	    wx <- lag.listw(listw2, x[,k], zero.policy=zero.policy)
 	    if (any(is.na(wx)))
 	        stop("NAs in lagged independent variable")
-	    WX[,(k-(K-1))] <- wx
+	    W2X[,(k-(K-1))] <- wx
 	}
     }
     if (K == 2) {
 	wx1 <- as.double(rep(1, n))
 	wx <- lag.listw(listw2, wx1, zero.policy=zero.policy)
-	if (m > 1) WX <- cbind(wx, WX)
-	else WX <- matrix(wx, nrow=n, ncol=1)
+	if (m > 1) W2X <- cbind(wx, W2X)
+	else W2X <- matrix(wx, nrow=n, ncol=1)
     }
-    colnames(WX) <- xcolnames
+    colnames(W2X) <- xcolnames
     rm(wx)
 
     timings[["set_up"]] <- proc.time() - .ptime_start
@@ -1122,13 +1118,13 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
     assign("W", W, envir=env)
 
     con$interval1 <- jacobianSetup(con$ldet_method, env, con,
-        pre_eig=con$pre_eig1, interval=con$interval1)
-    assign("interval1", interval1, envir=env)
+        pre_eig=con$pre_eig1, interval=con$interval1, which=1)
     detval11 <- get("detval1", envir=env)[,1]
     detval12 <- get("detval1", envir=env)[,2]
-
-
-    bprior <-  dbeta(detval1, priors$a1, priors$a2)
+    con$interval2 <- jacobianSetup(con$ldet_method, env, con,
+        pre_eig=con$pre_eig2, interval=con$interval2, which=2)
+    detval21 <- get("detval2", envir=env)[,1]
+    detval22 <- get("detval2", envir=env)[,2]
 
     nm <- paste(con$ldet_method, "set_up", sep="_")
     timings[[nm]] <- proc.time() - .ptime_start
@@ -1168,17 +1164,14 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
     xpy = crossprod(x, y)
     xpWy = crossprod(x, wy)
     nu1 = n + 2*priors$nu
-    nrho = length(detval1)
-    rho_out = 0
-    gsize = detval1[2] - detval1[1]
-    acc = 0
-    noninf <- TRUE
-    if (!is.null(priors$c) && !is.null(priors$T)) {
-        if (length(priors$c) == 1L && is.numeric(priors$c) && 
-            length(priors$T) == 1L && is.numeric(priors$T)) noninf <- FALSE
-    }
+    nrho = length(detval11)
+    gsize1 = detval11[2] - detval11[1]
+    gsize2 = detval21[2] - detval21[1]
+    acc1 = 0
+    acc2 = 0
     nmk = (n-k)/2
-    cc <- priors$cc
+    cc1 <- priors$cc1
+    cc2 <- priors$cc2
 #    nano_1 = 0
 #    nano_2 = 0
 #    nano_3 = 0
@@ -1190,59 +1183,98 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
     for (iter in 1:con$ndraw) { #% start sampling;
                   
           ##% update beta   
-#        nano_p <- microbenchmark::get_nanotime()
-        AI = solve((xpx + sige*TI))#,diag(rep(1,k)));        
-        ys = y - rho*wy          
-        b = crossprod(x, ys) + sige*TIc
-        b0 = AI %*% b # see eq 5.29, p. 140
-        bhat = MASS::mvrnorm(1, b0, sige*AI) #norm_rnd(sige*AI) + b0;  
+        xss = x - lambda*W2X
+        AI = solve(crossprod(xss) + sige*TI)
+        yss = y - rho*wy -lambda*w2y + rho*lambda*w2wy
+        b = crossprod(xss, yss) + sige*TIc
+        b0 = AI %*% b
+        bhat = MASS::mvrnorm(1, b0, sige*AI)
         bsave[iter, 1:k] = as.vector(bhat)
-#        nano_1 <- nano_1 + microbenchmark::get_nanotime() - nano_p
           
           ##% update sige
-#        nano_p <- microbenchmark::get_nanotime()
-        xb = x %*% bhat
-        e = (ys - xb)
-        d1 = 2*priors$d0 + crossprod(e)
-        chi = rchisq(1, nu1) #chi = chis_rnd(1,nu1);
-        sige = as.numeric(d1/chi) # see eq 5.30, p. 141
+# FIXME - sources do not use bhat
+        lbhat <- solve(crossprod(xss)) %*% crossprod(xss, yss)
+	e = yss - xss %*% lbhat
+	ed = e - lambda*lag.listw(listw2, e, zero.policy=zero.policy)
+	d1 = 2*priors$d0 + crossprod(ed)
+	chi = rchisq(1, nu1)
+	sige = as.numeric(d1/chi)
         ssave[iter] = as.vector(sige)
 
-
-##      % metropolis step to get rho update
-        i1 = max(which(detval1 <= (rho + gsize)))
-        i2 = max(which(detval1 <= (rho - gsize)))
+        #update lambda using M-H
+        i1 = max(which(detval21 <= (lambda + gsize2)))
+	i2 = max(which(detval21 <= (lambda - gsize2)))
         index = round((i1+i2)/2)
-        if (!is.finite(index)) index = 1 
-	detm = detval2[index]
-        if (noninf) {
-            epe = (crossprod(e))/(2*sige)
-        } else {
-            epe = (crossprod(e))/(2*sige) + 0.5*(((rho-priors$c)^2)/(priors$T*sige))
-        }
+        if (!is.finite(index)) index = 1 #Fixed this
+	detm = detval22[index]
+        epe = (crossprod(e))/(2*sige)
         rhox = detm - epe
         accept = 0L;
-	rho2 = rho + cc*rnorm(1);
+	lambda2 = lambda + cc2*rnorm(1);
 	while(accept == 0L) {
-	    if((rho2 > con$interval[1]) & (rho2 < con$interval[2])) {
+	    if((lambda2 > con$interval2[1]) & (lambda2 < con$interval2[2])) {
                 accept=1
 	    } else { 
-	        rho2 = rho + cc*rnorm(1)
+	        lambda2 = lambda + cc2*rnorm(1)
 	    }
         }
-        i1 = max(which(detval1 <= (rho2 + gsize)))
-	i2 = max(which(detval1 <= (rho2 - gsize)))
+        i1 = max(which(detval21 <= (lambda2 + gsize2)))
+	i2 = max(which(detval21 <= (lambda2 - gsize2)))
+        index = round((i1+i2)/2)
+        if (!is.finite(index)) index = 1 #Fixed this
+	detm = detval22[index]
+        xss = x - lambda2*W2X
+        yss = y - rho*wy - lambda2*w2y + rho*lambda2*w2wy
+        lbhat <- solve(crossprod(xss)) %*% crossprod(xss, yss)
+        e = yss - xss %*% lbhat
+        epe = (crossprod(e))/(2*sige)
+        rhoy = detm - epe
+        if ((rhoy - rhox) > exp(1)) {
+            p = 1
+        } else {
+	    ratio = exp(rhoy-rhox)
+	    p = min(1, ratio)
+        }
+	ru = runif(1)
+	if(ru < p) {
+  	    lambda = lambda2
+	    acc2 = acc2 + 1
+	}
+	acc_rate2[iter] = acc2/iter
+	if(acc_rate2[iter] < 0.4) cc2=cc2/1.1
+	if(acc_rate2[iter] > 0.6) cc2=cc2*1.1	
+        lsave[iter] = as.vector(lambda)
+
+##      % metropolis step to get rho update
+        i1 = max(which(detval11 <= (rho + gsize1)))
+        i2 = max(which(detval11 <= (rho - gsize1)))
         index = round((i1+i2)/2)
         if (!is.finite(index)) index = 1 
-	detm = detval2[index]
-        yss = y - rho2*wy
-        e = yss - x %*% bhat
-        if (noninf) {
-            epe = (crossprod(e))/(2*sige)
-        } else {
-            epe = (crossprod(e))/(2*sige) +
-                0.5*(((rho-priors$c)^2)/(priors$T*sige))
+	detm = detval12[index]
+        xss = x - lambda*W2X
+        yss = y - rho*wy - lambda*w2y + rho*lambda*w2wy
+        lbhat <- solve(crossprod(xss)) %*% crossprod(xss, yss)
+        e = yss - xss %*% lbhat
+        epe = (crossprod(e))/(2*sige)
+        rhox = detm - epe
+        accept = 0L
+	rho2 = rho + cc1*rnorm(1);
+	while(accept == 0L) {
+	    if((rho2 > con$interval1[1]) & (rho2 < con$interval1[2])) {
+                accept=1
+	    } else { 
+	        rho2 = rho + cc1*rnorm(1)
+	    }
         }
+        i1 = max(which(detval11 <= (rho2 + gsize1)))
+	i2 = max(which(detval11 <= (rho2 - gsize1)))
+        index = round((i1+i2)/2)
+        if (!is.finite(index)) index = 1 
+	detm = detval12[index]
+        yss = y - rho2*wy - lambda*w2y + rho2*lambda*w2wy
+        lbhat <- solve(crossprod(xss)) %*% crossprod(xss, yss)
+        e = yss - xss %*% lbhat
+        epe = (crossprod(e))/(2*sige)
         rhoy = detm - epe
         if ((rhoy - rhox) > exp(1)) {
             p = 1
@@ -1253,28 +1285,28 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
 	ru = runif(1)
 	if(ru < p) {
   	    rho = rho2
-	    acc = acc + 1
+	    acc1 = acc1 + 1
 	}
-	acc_rate[iter] = acc/iter
-	if(acc_rate[iter] < 0.4) cc=cc/1.1
-	if(acc_rate[iter] > 0.6) cc=cc*1.1	
+	acc_rate1[iter] = acc1/iter
+	if(acc_rate1[iter] < 0.4) cc1=cc1/1.1
+	if(acc_rate1[iter] > 0.6) cc1=cc1*1.1	
 
         psave[iter] = as.vector(rho)
-#        nano_3 <- nano_3 + microbenchmark::get_nanotime() - nano_p
 
     }
 ### % end of sampling loop
     timings[["sampling"]] <- proc.time() - .ptime_start
     .ptime_start <- proc.time()
 
-    mat <- cbind(bsave, psave, ssave)
-    colnames(mat) <- c(colnames(x), "rho", "sige")
+    mat <- cbind(bsave, psave, lsave, ssave)
+    colnames(mat) <- c(colnames(x), "rho", "lambda", "sige")
     res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
     means <- summary(res)$statistics[,1]
-    beta <- means[1:(length(means)-2)]
-    rho <- means[(length(means)-1)]
-    xb = x %*% beta
-    ys = y - rho*wy
+    beta <- means[1:(length(means)-3)]
+    rho <- means[(length(means)-2)]
+    lambda <- means[(length(means)-1)]
+    xb = (x - lambda*W2X) %*% beta
+    ys = y - rho*wy - lambda*w2y + rho*lambda*w2wy
     e = (ys - xb)
     sse <- crossprod(e)
     s2 <- sse/n
@@ -1284,18 +1316,17 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
 
     timings[["finalise"]] <- proc.time() - .ptime_start
     attr(res, "timings") <- do.call("rbind", timings)
-#    attr(res, "nano") <- c(nano_1, nano_2, nano_3)
     attr(res, "control") <- con
     attr(res, "type") <- type
-    attr(res, "rho_out") <- rho_out
     attr(res, "listw_style") <- listw$style
     attr(res, "ll_mean") <- as.vector(ll_mean)
     attr(res, "aliased") <- aliased
-    attr(res, "acc_rate") <- acc_rate
+    attr(res, "acc_rate1") <- acc_rate1
+    attr(res, "acc_rate2") <- acc_rate2
     attr(res, "dvars") <- dvars
     class(res) <- c("MCMC_sac_g", class(res))
     res
 
 #output mcmc object
 }
-} #if (FALSE)
+

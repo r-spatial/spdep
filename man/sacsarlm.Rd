@@ -1,6 +1,7 @@
 % Copyright 2010 by Roger S. Bivand
 \name{sacsarlm}
 \alias{sacsarlm}
+\alias{spBreg_sac}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Spatial simultaneous autoregressive SAC model estimation}
 \description{
@@ -15,6 +16,8 @@ sacsarlm(formula, data = list(), listw, listw2 = NULL, na.action, Durbin, type,
  method = "eigen", quiet = NULL, zero.policy = NULL, tol.solve = 1e-10,
  llprof=NULL, interval1=NULL, interval2=NULL, trs1=NULL, trs2=NULL,
  control = list())
+spBreg_sac(formula, data = list(), listw, listw2=NULL, na.action, 
+    Durbin, type, zero.policy=NULL, control=list())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -58,6 +61,31 @@ neighbours, if FALSE (default) assign NA - causing \code{sacsarlm()} to terminat
   \item{pre_eig1, pre_eig2}{default NULL; may be used to pass pre-computed vectors of eigenvalues}
 }}
 
+\section{Extra Bayesian control arguments}{
+\describe{
+  \item{ldet_method}{default \dQuote{SE_classic}; equivalent to the \code{method} argument in \code{lagsarlm}}
+  \item{interval1}{default \code{c(-1, 1)}; used unmodified or set internally by \code{jacobianSetup}}
+  \item{interval2}{default \code{c(-1, 1)}; used unmodified or set internally by \code{jacobianSetup}}
+  \item{ndraw}{default \code{2500L}; integer total number of draws}
+  \item{nomit}{default \code{500L}; integer total number of omitted burn-in draws}
+  \item{thin}{default \code{1L}; integer thinning proportion}
+  \item{detval1}{default \code{NULL}; not yet in use, precomputed matrix of log determinants}
+  \item{detval2}{default \code{NULL}; not yet in use, precomputed matrix of log determinants}
+  \item{prior}{a list with the following components:
+    \describe{
+      \item{Tbeta}{default \code{NULL}; values of the betas variance-covariance matrix, set to \code{diag(k)*1e+12} if \code{NULL}}
+      \item{c_beta}{default \code{NULL}; values of the betas set to 0 if \code{NULL}}
+      \item{lambda}{default \code{0.5}; value of the autoregressive coefficient}
+      \item{rho}{default \code{0.5}; value of the autoregressive coefficient}
+      \item{sige}{default \code{1}; value of the residual variance}
+      \item{nu}{default \code{0}; informative Gamma(nu,d0) prior on sige}
+      \item{d0}{default \code{0}; informative Gamma(nu,d0) prior on sige}
+      \item{a1}{default \code{1.01}; parameter for beta(a1,a2) prior on rho}
+      \item{a2}{default \code{1.01}; parameter for beta(a1,a2) prior on rho}
+      \item{cc1}{default \code{0.2}; initial tuning parameter for M-H sampling}
+      \item{cc2}{default \code{0.2}; initial tuning parameter for M-H sampling}
+    }}
+}}
 
 \value{
   A list object of class \code{sarlm}
@@ -121,7 +149,19 @@ COL.sacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
 summary(COL.sacW.eig)
 W <- as(listw, "CsparseMatrix")
 trMatc <- trW(W, type="mult")
+set.seed(1)
 summary(impacts(COL.sacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+\dontrun{
+if (require(coda, quietly=TRUE)) {
+set.seed(1)
+COL.sacW.B0 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ Durbin=FALSE, control=list(ndraw=1500L, nomit=500L))
+print(summary(COL.sacW.B0))
+set.seed(1)
+COL.sacW.B1 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ Durbin=TRUE, control=list(ndraw=1500L, nomit=500L))
+print(summary(COL.sacW.B1))
+}}
 COL.msacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  type="sacmixed", control=list(pre_eig1=ev, pre_eig2=ev))
 summary(COL.msacW.eig)
