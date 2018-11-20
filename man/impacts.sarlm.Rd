@@ -7,6 +7,7 @@
 \alias{impacts.SLX}
 \alias{impacts.MCMC_sar_g}
 \alias{impacts.MCMC_sem_g}
+\alias{impacts.MCMC_sac_g}
 \alias{impacts.lagmess}
 \alias{plot.lagImpact}
 \alias{print.lagImpact}
@@ -31,6 +32,7 @@
 \method{impacts}{SLX}(obj, ...)
 \method{impacts}{MCMC_sar_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
 \method{impacts}{MCMC_sem_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
+\method{impacts}{MCMC_sac_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
 \method{plot}{lagImpact}(x, ..., choice="direct", trace=FALSE, density=TRUE)
 \method{print}{lagImpact}(x, ..., reportQ=NULL)
 \method{summary}{lagImpact}(object, ..., zstats=FALSE, short=FALSE, reportQ=NULL)

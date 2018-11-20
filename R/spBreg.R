@@ -1330,3 +1330,24 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
 #output mcmc object
 }
 
+
+impacts.MCMC_sac_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
+    Q=NULL) {
+    obj_lag <- obj[, -(which(colnames(obj) == "lambda"))]
+    attributes(obj_lag) <- c(attributes(obj_lag),
+        attributes(obj)[5:13])
+    if (attr(obj, "type") == "sac") {
+        attr(obj_lag, "type") <- "lag"
+    } else {
+        attr(obj_lag, "type") <- "Durbin"
+    }
+    class(obj_lag) <- c("MCMC_sar_g", class(obj_lag))
+    res <- impacts.MCMC_sar_g(obj_lag, tr=tr, listw=listw, evalues=evalues,
+        Q=Q)
+    if (attr(obj, "type") == "sac") {
+        attr(res, "type") <- "sac"
+    } else {
+        attr(res, "type") <- "sacmixed"
+    }
+    res
+}

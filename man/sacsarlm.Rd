@@ -157,10 +157,12 @@ set.seed(1)
 COL.sacW.B0 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  Durbin=FALSE, control=list(ndraw=1500L, nomit=500L))
 print(summary(COL.sacW.B0))
+print(summary(impacts(COL.sacW.B0, tr=trMatc), zstats=TRUE, short=TRUE))
 set.seed(1)
 COL.sacW.B1 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  Durbin=TRUE, control=list(ndraw=1500L, nomit=500L))
 print(summary(COL.sacW.B1))
+print(summary(impacts(COL.sacW.B1, tr=trMatc), zstats=TRUE, short=TRUE))
 }}
 COL.msacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  type="sacmixed", control=list(pre_eig1=ev, pre_eig2=ev))
