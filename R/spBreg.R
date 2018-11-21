@@ -479,7 +479,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 #control
     con <- list(tol.opt=.Machine$double.eps^0.5, ldet_method="SE_classic",
         Imult=2, cheb_q=5, MC_p=16L, MC_m=30L, super=NULL, spamPivot="MMD",
-        in_coef=0.1, type="MC", correct=TRUE, trunc=TRUE,
+        in_coef=0.1, type="MC", correct=TRUE, trunc=TRUE, LAPACK=FALSE,
         SE_method="LU", nrho=200, interpn=2000, SElndet=NULL, LU_order=FALSE,
         pre_eig=NULL, interval=c(-1, 1), ndraw=2500L, nomit=500L, thin=1L,
         verbose=FALSE, detval=NULL, prior=list(lambdaMH=FALSE, Tbeta=NULL,
@@ -501,6 +501,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     stopifnot(is.integer(con$ndraw))
     stopifnot(is.integer(con$nomit))
     stopifnot(is.integer(con$thin))
+    stopifnot(is.logical(con$LAPACK))
 
     if (is.null(zero.policy))
         zero.policy <- get.ZeroPolicyOption()
@@ -615,6 +616,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     assign("verbose", con$verbose, envir=env)
     assign("family", "SAR", envir=env)
     assign("method", con$ldet_method, envir=env)
+    assign("LAPACK", con$LAPACK, envir=env)
     W <- as(listw, "CsparseMatrix")
     assign("W", W, envir=env)
 
