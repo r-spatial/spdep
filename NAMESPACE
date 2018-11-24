@@ -117,6 +117,8 @@ export(spBreg_lag, spBreg_err, spBreg_sac)
 
 export(LOSH, LOSH.cs, LOSH.mc)
 
+export(grid2nb)
+
 #import(maptools)
 
 S3method(print, nb)
