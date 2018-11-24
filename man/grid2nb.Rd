@@ -30,7 +30,7 @@ grid2nb(grid, d = grid@cells.dim,
   Either a matrix, if \dQuote{nb} is FALSE or a neighbours list with
   class \code{nb}. See \code{\link{card}} for details of \dQuote{nb}
   objects.}
-}
+
 \note{
   This applies to a k-dimentional grid topology.
 }
@@ -55,5 +55,5 @@ plot(nb2, coordinates(sg), add=TRUE, lty=3, col=4)
 
 str(grid2nb(d=5))
 }
-}
+
 \keyword{spatial}
