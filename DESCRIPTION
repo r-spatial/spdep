@@ -50,8 +50,8 @@ Description: A collection of functions to create spatial weights matrix
   and 'Getis/Ord' G, 'saddlepoint' approximations, exact tests for global
   and local 'Moran's I' and 'LOSH' local indicators of spatial heteroscedasticity;
   and functions for estimating spatial simultaneous
-  'autoregressive' ('SAR') lag, error, general nested spatial and SARAR models using maximum likelihood and MCMC, 
-  impact measures for lag, spatial Durbin, SLX, spatial Durbin error, SARAR and GNS
+  'autoregressive' ('SAR') lag, error, general nested spatial and 'SARAR' models using maximum likelihood and 'MCMC', 
+  impact measures for lag, spatial 'Durbin', 'SLX', spatial 'Durbin' error, 'SARAR' and 'GNS'
   models, weighted and 'unweighted' 'SAR' and 'CAR' spatial regression models,
   semi-parametric and Moran 'eigenvector' spatial filtering, 'GM SAR' error
   models, and generalized spatial two stage least squares models.
