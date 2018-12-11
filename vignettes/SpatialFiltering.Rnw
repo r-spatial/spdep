@@ -158,7 +158,7 @@ set.seed(111)
 <<echo=TRUE,eval=FALSE>>= 
 nyME <- ME(Cases~PEXPOSURE+PCTAGE65P+PCTOWNHOME, data=NY8, offset=log(POP8), family="poisson", listw=NYlistwW, alpha=0.5)
 <<echo=FALSE,eval=TRUE>>=
-bsfn <- system.file("doc/backstore/nyME_res.RData", package="spdep")
+bsfn <- system.file("etc/backstore/nyME_res.RData", package="spdep")
 load(bsfn)
 @
 <<echo=TRUE>>=

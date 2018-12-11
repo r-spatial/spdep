@@ -644,7 +644,7 @@ rownames(res) <- vars
 save(zzz, res, file="backstore/boot_res.RData")
 @
 <<echo=FALSE,eval=TRUE>>=
-bsfn <- system.file("doc/backstore/boot_res.RData", package="spdep")
+bsfn <- system.file("etc/backstore/boot_res.RData", package="spdep")
 load(bsfn)
 zzz
 @

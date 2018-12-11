@@ -1,6 +1,6 @@
 oChangelog
 svn2cl.*
 spdep-Ex.R
-README
+README.md
 ^\.travis\.yml$
 ^docs$
