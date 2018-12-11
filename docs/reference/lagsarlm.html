@@ -400,33 +400,115 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; (Intercept)  0.12 -0.83                  
 #&gt; INC         -0.05  0.35 -0.61            
 #&gt; HOVAL       -0.01  0.08 -0.25       -0.44
-#&gt; </div><span class='co'># NOT RUN {</span>
-<span class='no'>COL.lag.eig</span>$<span class='no'>fdHess</span>
-<span class='no'>COL.lag.eig</span>$<span class='no'>resvar</span>
-<span class='co'># using the apparent sign in Ord (1975, equation B.1) </span>
+#&gt; </div><div class='input'><span class='no'>COL.lag.eig</span>$<span class='no'>fdHess</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>COL.lag.eig</span>$<span class='no'>resvar</span></div><div class='output co'>#&gt;                    sigma           rho (Intercept)         INC         HOVAL
+#&gt; sigma       379.77510361 -0.3236306318  16.3015079 -0.29590801 -0.0202478459
+#&gt; rho          -0.32363063  0.0138487533  -0.6975717  0.01266245  0.0008664428
+#&gt; (Intercept)  16.30150788 -0.6975716738  51.5143034 -1.32602704 -0.1616379856
+#&gt; INC          -0.29590801  0.0126624511  -1.3260270  0.09311223 -0.0117959715
+#&gt; HOVAL        -0.02024785  0.0008664428  -0.1616380 -0.01179597  0.0078320057</div><div class='input'><span class='co'># using the apparent sign in Ord (1975, equation B.1) </span>
 <span class='no'>COL.lag.eigb</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>,
  <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>OrdVsign</span><span class='kw'>=</span>-<span class='fl'>1</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.eigb</span>)
-<span class='no'>COL.lag.eigb</span>$<span class='no'>fdHess</span>
-<span class='no'>COL.lag.eigb</span>$<span class='no'>resvar</span>
-<span class='co'># force numerical Hessian</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.eigb</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = listw, 
+#&gt;     method = "eigen", control = list(pre_eig = ev, OrdVsign = -1))
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -37.68585  -5.35636   0.05421   6.02013  23.20555 
+#&gt; 
+#&gt; Type: lag 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 45.079251   9.617835  4.6870 2.772e-06
+#&gt; INC         -1.031616   0.326524 -3.1594  0.001581
+#&gt; HOVAL       -0.265926   0.088855 -2.9928  0.002764
+#&gt; 
+#&gt; Rho: 0.43102, LR test value: 9.9736, p-value: 0.001588
+#&gt; Asymptotic standard error: 0.17322
+#&gt;     z-value: 2.4884, p-value: 0.012833
+#&gt; Wald statistic: 6.1919, p-value: 0.012833
+#&gt; 
+#&gt; Log likelihood: -182.3904 for lag model
+#&gt; ML residual variance (sigma squared): 95.494, (sigma: 9.7721)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 5 
+#&gt; AIC: 374.78, (AIC for lm: 382.75)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: -0.93825, p-value: 1
+#&gt; </div><div class='input'><span class='no'>COL.lag.eigb</span>$<span class='no'>fdHess</span></div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='no'>COL.lag.eigb</span>$<span class='no'>resvar</span></div><div class='output co'>#&gt;                    sigma          rho (Intercept)         INC        HOVAL
+#&gt; sigma       388.59742931 -0.701154266  35.3176451 -0.64109248 -0.043867490
+#&gt; rho          -0.70115427  0.030003688  -1.5113074  0.02743353  0.001877171
+#&gt; (Intercept)  35.31764510 -1.511307358  92.5027556 -2.07005707 -0.212549096
+#&gt; INC          -0.64109248  0.027433533  -2.0700571  0.10661800 -0.010871824
+#&gt; HOVAL        -0.04386749  0.001877171  -0.2125491 -0.01087182  0.007895242</div><div class='input'><span class='co'># force numerical Hessian</span>
 <span class='no'>COL.lag.eig1</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>small</span><span class='kw'>=</span><span class='fl'>25</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.eig1</span>)
-<span class='no'>COL.lag.eig1</span>$<span class='no'>fdHess</span>
-<span class='co'># force LeSage &amp; Pace (2008, p. 57) approximation </span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.eig1</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = listw, 
+#&gt;     method = "Matrix", control = list(small = 25))
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -37.68585  -5.35636   0.05421   6.02013  23.20555 
+#&gt; 
+#&gt; Type: lag 
+#&gt; Coefficients: (numerical Hessian approximate standard errors) 
+#&gt;             Estimate Std. Error z value Pr(&gt;|z|)
+#&gt; (Intercept) 45.07925    7.87089  5.7273 1.02e-08
+#&gt; INC         -1.03162    0.32842 -3.1411 0.001683
+#&gt; HOVAL       -0.26593    0.08823 -3.0140 0.002578
+#&gt; 
+#&gt; Rho: 0.43102, LR test value: 9.9736, p-value: 0.001588
+#&gt; Approximate (numerical Hessian) standard error: 0.12362
+#&gt;     z-value: 3.4868, p-value: 0.00048892
+#&gt; Wald statistic: 12.157, p-value: 0.00048892
+#&gt; 
+#&gt; Log likelihood: -182.3904 for lag model
+#&gt; ML residual variance (sigma squared): 95.494, (sigma: 9.7721)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 5 
+#&gt; AIC: 374.78, (AIC for lm: 382.75)
+#&gt; </div><div class='input'><span class='no'>COL.lag.eig1</span>$<span class='no'>fdHess</span></div><div class='output co'>#&gt;                       rho (Intercept)         INC         HOVAL
+#&gt; rho          0.0152812237  -0.8345267  0.02005558  0.0002830225
+#&gt; (Intercept) -0.8345266779  61.9509427 -1.78340176 -0.1334585288
+#&gt; INC          0.0200555771  -1.7834018  0.10786140 -0.0122204417
+#&gt; HOVAL        0.0002830225  -0.1334585 -0.01222044  0.0077846055</div><div class='input'><span class='co'># force LeSage &amp; Pace (2008, p. 57) approximation </span>
 <span class='no'>COL.lag.eig1a</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>small</span><span class='kw'>=</span><span class='fl'>25</span>), <span class='kw'>trs</span><span class='kw'>=</span><span class='no'>trMatc</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.eig1a</span>)
-<span class='no'>COL.lag.eig1a</span>$<span class='no'>fdHess</span>
-<span class='no'>COL.lag.eig</span>$<span class='no'>resvar</span>[<span class='fl'>2</span>,<span class='fl'>2</span>]
-<span class='co'># using the apparent sign in Ord (1975, equation B.1) </span>
-<span class='no'>COL.lag.eigb</span>$<span class='no'>resvar</span>[<span class='fl'>2</span>,<span class='fl'>2</span>]
-<span class='co'># force numerical Hessian</span>
-<span class='no'>COL.lag.eig1</span>$<span class='no'>fdHess</span>[<span class='fl'>1</span>,<span class='fl'>1</span>]
-<span class='co'># force LeSage &amp; Pace (2008, p. 57) approximation </span>
-<span class='no'>COL.lag.eig1a</span>$<span class='no'>fdHess</span>[<span class='fl'>2</span>,<span class='fl'>2</span>]
-<span class='co'># }</span><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.lag.M</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.eig1a</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = listw, 
+#&gt;     method = "Matrix", trs = trMatc, control = list(small = 25))
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -37.68585  -5.35636   0.05421   6.02013  23.20555 
+#&gt; 
+#&gt; Type: lag 
+#&gt; Coefficients: (numerical Hessian approximate standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 45.079249   7.937572  5.6792 1.353e-08
+#&gt; INC         -1.031616   0.329337 -3.1324  0.001734
+#&gt; HOVAL       -0.265926   0.088222 -3.0143  0.002576
+#&gt; 
+#&gt; Rho: 0.43102, LR test value: 9.9736, p-value: 0.001588
+#&gt; Approximate (numerical Hessian) standard error: 0.12503
+#&gt;     z-value: 3.4473, p-value: 0.00056624
+#&gt; Wald statistic: 11.884, p-value: 0.00056624
+#&gt; 
+#&gt; Log likelihood: -182.3904 for lag model
+#&gt; ML residual variance (sigma squared): 95.494, (sigma: 9.7721)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 5 
+#&gt; AIC: 374.78, (AIC for lm: 382.75)
+#&gt; </div><div class='input'><span class='no'>COL.lag.eig1a</span>$<span class='no'>fdHess</span></div><div class='output co'>#&gt;                    sigma2           rho (Intercept)         INC         HOVAL
+#&gt; sigma2      380.749548407 -0.3653290756  19.9519208 -0.47947507 -0.0067851124
+#&gt; rho          -0.365329076  0.0156331058  -0.8537795  0.02051762  0.0002903475
+#&gt; (Intercept)  19.951920812 -0.8537795385  63.0050547 -1.80875071 -0.1338515483
+#&gt; INC          -0.479475072  0.0205176238  -1.8087507  0.10846276 -0.0122071279
+#&gt; HOVAL        -0.006785112  0.0002903475  -0.1338515 -0.01220713  0.0077831895</div><div class='input'><span class='no'>COL.lag.eig</span>$<span class='no'>resvar</span>[<span class='fl'>2</span>,<span class='fl'>2</span>]</div><div class='output co'>#&gt; [1] 0.01384875</div><div class='input'><span class='co'># using the apparent sign in Ord (1975, equation B.1) </span>
+<span class='no'>COL.lag.eigb</span>$<span class='no'>resvar</span>[<span class='fl'>2</span>,<span class='fl'>2</span>]</div><div class='output co'>#&gt; [1] 0.03000369</div><div class='input'><span class='co'># force numerical Hessian</span>
+<span class='no'>COL.lag.eig1</span>$<span class='no'>fdHess</span>[<span class='fl'>1</span>,<span class='fl'>1</span>]</div><div class='output co'>#&gt; [1] 0.01528122</div><div class='input'><span class='co'># force LeSage &amp; Pace (2008, p. 57) approximation </span>
+<span class='no'>COL.lag.eig1a</span>$<span class='no'>fdHess</span>[<span class='fl'>2</span>,<span class='fl'>2</span>]</div><div class='output co'>#&gt; [1] 0.01563311</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.lag.M</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>), <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; 
 #&gt; Spatial lag model
 #&gt; Jacobian calculated using sparse matrix Cholesky decomposition
@@ -444,7 +526,7 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; rho:	 0.4310232 	function value:	 -182.3904 
 #&gt; Computing eigenvalues ...
 #&gt; </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.212   0.000   0.213 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.M</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.226   0.000   0.227 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = nb2listw(COL.nb), 
 #&gt;     method = "Matrix", quiet = FALSE)
@@ -475,11 +557,53 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; </div><div class='input'><span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.lag.M</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>))</div><div class='output co'>#&gt; Impact measures (lag, exact):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0860220 -0.7270848 -1.8131068
-#&gt; HOVAL -0.2799509 -0.1874254 -0.4673763</div><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.lag.sp</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
- <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>), <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>FALSE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.sp</span>)
-<span class='co'># }</span><div class='input'><span class='no'>COL.lag.B</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt; HOVAL -0.2799509 -0.1874254 -0.4673763</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.lag.sp</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+ <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>), <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>FALSE</span>))</div><div class='output co'>#&gt; 
+#&gt; Spatial lag model
+#&gt; Jacobian calculated using sparse matrix Cholesky decomposition
+#&gt; rho:	 -0.2364499 	function value:	 -192.9523 
+#&gt; rho:	 0.2354499 	function value:	 -183.542 
+#&gt; rho:	 0.5271001 	function value:	 -182.7039 
+#&gt; rho:	 0.4455543 	function value:	 -182.3974 
+#&gt; rho:	 0.4267907 	function value:	 -182.391 
+#&gt; rho:	 0.4311986 	function value:	 -182.3904 
+#&gt; rho:	 0.4310114 	function value:	 -182.3904 
+#&gt; rho:	 0.4310231 	function value:	 -182.3904 
+#&gt; rho:	 0.4310232 	function value:	 -182.3904 
+#&gt; rho:	 0.4310232 	function value:	 -182.3904 
+#&gt; rho:	 0.4310232 	function value:	 -182.3904 
+#&gt; rho:	 0.4310232 	function value:	 -182.3904 
+#&gt; Computing eigenvalues ...
+#&gt; </div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.232   0.000   0.234 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.sp</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = nb2listw(COL.nb), 
+#&gt;     method = "spam", quiet = FALSE)
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -37.68585  -5.35636   0.05421   6.02013  23.20555 
+#&gt; 
+#&gt; Type: lag 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 45.079250   7.177347  6.2808 3.369e-10
+#&gt; INC         -1.031616   0.305143 -3.3808 0.0007229
+#&gt; HOVAL       -0.265926   0.088499 -3.0049 0.0026570
+#&gt; 
+#&gt; Rho: 0.43102, LR test value: 9.9736, p-value: 0.001588
+#&gt; Asymptotic standard error: 0.11768
+#&gt;     z-value: 3.6626, p-value: 0.00024962
+#&gt; Wald statistic: 13.415, p-value: 0.00024962
+#&gt; 
+#&gt; Log likelihood: -182.3904 for lag model
+#&gt; ML residual variance (sigma squared): 95.494, (sigma: 9.7721)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 5 
+#&gt; AIC: 374.78, (AIC for lm: 382.75)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: 0.31954, p-value: 0.57188
+#&gt; </div><div class='input'><span class='no'>COL.lag.B</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.B</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
@@ -775,32 +899,241 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;        1043        1044        1045        1046        1047        1048 
 #&gt;  -7.5727123  -7.5983733  -9.7792620 -10.0870764  -3.1242393   3.4921796 
 #&gt;        1049 
-#&gt;   0.7173251 </div><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+#&gt;   0.7173251 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>gp2mM</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>CMEDV</span>) ~ <span class='no'>CRIM</span> + <span class='no'>ZN</span> + <span class='no'>INDUS</span> + <span class='no'>CHAS</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>NOX</span>^<span class='fl'>2</span>) +
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>RM</span>^<span class='fl'>2</span>) +  <span class='no'>AGE</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>DIS</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>RAD</span>) + <span class='no'>TAX</span> + <span class='no'>PTRATIO</span> + <span class='no'>B</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>LSTAT</span>),
 <span class='kw'>data</span><span class='kw'>=</span><span class='no'>boston.c</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gp2mM</span>)
-<span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='st'>"CsparseMatrix"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gp2mM</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + 
+#&gt;     I(RM^2) + AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + 
+#&gt;     log(LSTAT), data = boston.c, listw = nb2listw(boston.soi), 
+#&gt;     type = "mixed", method = "Matrix")
+#&gt; 
+#&gt; Residuals:
+#&gt;        Min         1Q     Median         3Q        Max 
+#&gt; -0.6316833 -0.0629790 -0.0090776  0.0682421  0.6991072 
+#&gt; 
+#&gt; Type: mixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;                   Estimate  Std. Error  z value  Pr(&gt;|z|)
+#&gt; (Intercept)     1.89816218  0.22759605   8.3400 &lt; 2.2e-16
+#&gt; CRIM           -0.00571021  0.00093504  -6.1069 1.016e-09
+#&gt; ZN              0.00069091  0.00051869   1.3320  0.182851
+#&gt; INDUS          -0.00111343  0.00307354  -0.3623  0.717155
+#&gt; CHAS1          -0.04163225  0.02739364  -1.5198  0.128567
+#&gt; I(NOX^2)       -0.01034950  0.19360214  -0.0535  0.957367
+#&gt; I(RM^2)         0.00794979  0.00102063   7.7891 6.661e-15
+#&gt; AGE            -0.00128789  0.00048920  -2.6326  0.008473
+#&gt; log(DIS)       -0.12404108  0.09510940  -1.3042  0.192168
+#&gt; log(RAD)        0.05863502  0.02257078   2.5978  0.009382
+#&gt; TAX            -0.00049084  0.00012145  -4.0416 5.308e-05
+#&gt; PTRATIO        -0.01319853  0.00595352  -2.2169  0.026628
+#&gt; B               0.00056383  0.00011089   5.0847 3.682e-07
+#&gt; log(LSTAT)     -0.24724454  0.02262033 -10.9302 &lt; 2.2e-16
+#&gt; lag.CRIM       -0.00464215  0.00172935  -2.6843  0.007267
+#&gt; lag.ZN         -0.00037937  0.00070584  -0.5375  0.590940
+#&gt; lag.INDUS       0.00025064  0.00385901   0.0649  0.948215
+#&gt; lag.CHAS1       0.12518252  0.04071559   3.0746  0.002108
+#&gt; lag.I(NOX^2)   -0.38640401  0.22157523  -1.7439  0.081177
+#&gt; lag.I(RM^2)    -0.00451252  0.00153180  -2.9459  0.003220
+#&gt; lag.AGE         0.00149678  0.00068418   2.1877  0.028693
+#&gt; lag.log(DIS)   -0.00453785  0.10046478  -0.0452  0.963973
+#&gt; lag.log(RAD)   -0.00940702  0.03104930  -0.3030  0.761912
+#&gt; lag.TAX         0.00041083  0.00017867   2.2994  0.021481
+#&gt; lag.PTRATIO     0.00060355  0.00788837   0.0765  0.939012
+#&gt; lag.B          -0.00050781  0.00014155  -3.5874  0.000334
+#&gt; lag.log(LSTAT)  0.09846781  0.03399423   2.8966  0.003772
+#&gt; 
+#&gt; Rho: 0.59578, LR test value: 181.68, p-value: &lt; 2.22e-16
+#&gt; Asymptotic standard error: 0.038445
+#&gt;     z-value: 15.497, p-value: &lt; 2.22e-16
+#&gt; Wald statistic: 240.16, p-value: &lt; 2.22e-16
+#&gt; 
+#&gt; Log likelihood: 300.6131 for mixed model
+#&gt; ML residual variance (sigma squared): 0.016011, (sigma: 0.12654)
+#&gt; Number of observations: 506 
+#&gt; Number of parameters estimated: 29 
+#&gt; AIC: -543.23, (AIC for lm: -363.55)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: 29.772, p-value: 4.8604e-08
+#&gt; </div><div class='input'><span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>trMatb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trW.html'>trW</a></span>(<span class='no'>W</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mult"</span>)
 <span class='no'>gp2mMi</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>CMEDV</span>) ~ <span class='no'>CRIM</span> + <span class='no'>ZN</span> + <span class='no'>INDUS</span> + <span class='no'>CHAS</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>NOX</span>^<span class='fl'>2</span>) +
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>RM</span>^<span class='fl'>2</span>) +  <span class='no'>AGE</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>DIS</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>RAD</span>) + <span class='no'>TAX</span> + <span class='no'>PTRATIO</span> + <span class='no'>B</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>LSTAT</span>),
 <span class='kw'>data</span><span class='kw'>=</span><span class='no'>boston.c</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>,
 <span class='kw'>trs</span><span class='kw'>=</span><span class='no'>trMatb</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gp2mMi</span>)
-<span class='co'># }</span><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gp2mMi</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + 
+#&gt;     I(RM^2) + AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + 
+#&gt;     log(LSTAT), data = boston.c, listw = nb2listw(boston.soi), 
+#&gt;     type = "mixed", method = "Matrix", trs = trMatb)
+#&gt; 
+#&gt; Residuals:
+#&gt;        Min         1Q     Median         3Q        Max 
+#&gt; -0.6316833 -0.0629790 -0.0090776  0.0682421  0.6991072 
+#&gt; 
+#&gt; Type: mixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;                   Estimate  Std. Error  z value  Pr(&gt;|z|)
+#&gt; (Intercept)     1.89816218  0.22759605   8.3400 &lt; 2.2e-16
+#&gt; CRIM           -0.00571021  0.00093504  -6.1069 1.016e-09
+#&gt; ZN              0.00069091  0.00051869   1.3320  0.182851
+#&gt; INDUS          -0.00111343  0.00307354  -0.3623  0.717155
+#&gt; CHAS1          -0.04163225  0.02739364  -1.5198  0.128567
+#&gt; I(NOX^2)       -0.01034950  0.19360214  -0.0535  0.957367
+#&gt; I(RM^2)         0.00794979  0.00102063   7.7891 6.661e-15
+#&gt; AGE            -0.00128789  0.00048920  -2.6326  0.008473
+#&gt; log(DIS)       -0.12404108  0.09510940  -1.3042  0.192168
+#&gt; log(RAD)        0.05863502  0.02257078   2.5978  0.009382
+#&gt; TAX            -0.00049084  0.00012145  -4.0416 5.308e-05
+#&gt; PTRATIO        -0.01319853  0.00595352  -2.2169  0.026628
+#&gt; B               0.00056383  0.00011089   5.0847 3.682e-07
+#&gt; log(LSTAT)     -0.24724454  0.02262033 -10.9302 &lt; 2.2e-16
+#&gt; lag.CRIM       -0.00464215  0.00172935  -2.6843  0.007267
+#&gt; lag.ZN         -0.00037937  0.00070584  -0.5375  0.590940
+#&gt; lag.INDUS       0.00025064  0.00385901   0.0649  0.948215
+#&gt; lag.CHAS1       0.12518252  0.04071559   3.0746  0.002108
+#&gt; lag.I(NOX^2)   -0.38640401  0.22157523  -1.7439  0.081177
+#&gt; lag.I(RM^2)    -0.00451252  0.00153180  -2.9459  0.003220
+#&gt; lag.AGE         0.00149678  0.00068418   2.1877  0.028693
+#&gt; lag.log(DIS)   -0.00453785  0.10046478  -0.0452  0.963973
+#&gt; lag.log(RAD)   -0.00940702  0.03104930  -0.3030  0.761912
+#&gt; lag.TAX         0.00041083  0.00017867   2.2994  0.021481
+#&gt; lag.PTRATIO     0.00060355  0.00788837   0.0765  0.939012
+#&gt; lag.B          -0.00050781  0.00014155  -3.5874  0.000334
+#&gt; lag.log(LSTAT)  0.09846781  0.03399423   2.8966  0.003772
+#&gt; 
+#&gt; Rho: 0.59578, LR test value: 181.68, p-value: &lt; 2.22e-16
+#&gt; Asymptotic standard error: 0.038445
+#&gt;     z-value: 15.497, p-value: &lt; 2.22e-16
+#&gt; Wald statistic: 240.16, p-value: &lt; 2.22e-16
+#&gt; 
+#&gt; Log likelihood: 300.6131 for mixed model
+#&gt; ML residual variance (sigma squared): 0.016011, (sigma: 0.12654)
+#&gt; Number of observations: 506 
+#&gt; Number of parameters estimated: 29 
+#&gt; AIC: -543.23, (AIC for lm: -363.55)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: 29.772, p-value: 4.8604e-08
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.lag.Bayes</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_lag</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.Bayes</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.lag.Bayes</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.lag.Bayes</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.Bayes</span>)</div><div class='output co'>#&gt; 
+#&gt; Iterations = 501:2500
+#&gt; Thinning interval = 1 
+#&gt; Number of chains = 1 
+#&gt; Sample size per chain = 2000 
+#&gt; 
+#&gt; 1. Empirical mean and standard deviation for each variable,
+#&gt;    plus standard error of the mean:
+#&gt; 
+#&gt;                 Mean       SD Naive SE Time-series SE
+#&gt; (Intercept)  45.8422  8.33297 0.186331       0.220103
+#&gt; INC          -1.0460  0.35199 0.007871       0.008886
+#&gt; HOVAL        -0.2675  0.09481 0.002120       0.002120
+#&gt; rho           0.4174  0.12987 0.002904       0.003147
+#&gt; sige        108.9668 24.59087 0.549869       0.579894
+#&gt; 
+#&gt; 2. Quantiles for each variable:
+#&gt; 
+#&gt;                2.5%     25%      50%      75%     97.5%
+#&gt; (Intercept) 30.1130 40.3963  45.6116  51.2449  62.52518
+#&gt; INC         -1.7618 -1.2684  -1.0386  -0.8170  -0.35564
+#&gt; HOVAL       -0.4517 -0.3332  -0.2659  -0.2043  -0.08908
+#&gt; rho          0.1536  0.3324   0.4197   0.5038   0.66183
+#&gt; sige        71.2014 91.6918 105.3263 123.1005 165.01165
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.lag.Bayes</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0970636 -0.6983134 -1.7953770
+#&gt; HOVAL -0.2805878 -0.1786024 -0.4591902
+#&gt; ========================================================
+#&gt; MCMC sample impact results:
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3751705 0.5471652 0.8243027
+#&gt; HOVAL 0.1015673 0.1463852 0.2238372
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct  Indirect     Total
+#&gt; INC   -2.951364 -1.435134 -2.295904
+#&gt; HOVAL -2.790347 -1.386199 -2.172682
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0031637 0.15125  0.021681
+#&gt; HOVAL 0.0052652 0.16569  0.029804</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.lag.Bayes</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, evalues):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0970636 -0.6983134 -1.7953770
+#&gt; HOVAL -0.2805878 -0.1786024 -0.4591902
+#&gt; ========================================================
+#&gt; MCMC sample impact results:
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3751709 0.5472321 0.8243543
+#&gt; HOVAL 0.1015676 0.1464146 0.2238607
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct  Indirect     Total
+#&gt; INC   -2.951362 -1.434984 -2.295779
+#&gt; HOVAL -2.790341 -1.385952 -2.172475
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0031638 0.15129  0.021689
+#&gt; HOVAL 0.0052653 0.16576  0.029820</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.D0.Bayes</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_lag</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.D0.Bayes</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.D0.Bayes</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='co'># }</span><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.D0.Bayes</span>)</div><div class='output co'>#&gt; 
+#&gt; Iterations = 501:2500
+#&gt; Thinning interval = 1 
+#&gt; Number of chains = 1 
+#&gt; Sample size per chain = 2000 
+#&gt; 
+#&gt; 1. Empirical mean and standard deviation for each variable,
+#&gt;    plus standard error of the mean:
+#&gt; 
+#&gt;                 Mean       SD Naive SE Time-series SE
+#&gt; (Intercept)  45.6552 13.92684 0.311414       0.311414
+#&gt; INC          -0.9357  0.37241 0.008327       0.008397
+#&gt; HOVAL        -0.2916  0.09815 0.002195       0.002038
+#&gt; lag.INC      -0.6098  0.61022 0.013645       0.013645
+#&gt; lag.HOVAL     0.2458  0.18971 0.004242       0.004734
+#&gt; rho           0.3883  0.16462 0.003681       0.003681
+#&gt; sige        108.6633 25.45638 0.569222       0.655387
+#&gt; 
+#&gt; 2. Quantiles for each variable:
+#&gt; 
+#&gt;                 2.5%     25%      50%      75%    97.5%
+#&gt; (Intercept) 19.42270 36.0252  45.3814  55.2111  73.4654
+#&gt; INC         -1.66848 -1.1944  -0.9352  -0.6836  -0.1840
+#&gt; HOVAL       -0.48299 -0.3576  -0.2930  -0.2232  -0.1015
+#&gt; lag.INC     -1.85700 -1.0306  -0.5826  -0.1992   0.5816
+#&gt; lag.HOVAL   -0.12660  0.1229   0.2465   0.3739   0.6106
+#&gt; rho          0.05948  0.2706   0.3962   0.5040   0.6979
+#&gt; sige        70.62697 90.7192 104.5505 123.4942 169.7947
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.D0.Bayes</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0389664 -1.4874152 -2.52638157
+#&gt; HOVAL -0.2775359  0.2026609 -0.07487497
+#&gt; ========================================================
+#&gt; MCMC sample impact results:
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3927953 1.3104789 1.4692286
+#&gt; HOVAL 0.1014637 0.3249945 0.3616705
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -2.700710 -1.2936313 -1.8758840
+#&gt; HOVAL -2.749323  0.6152303 -0.2184584
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0069192 0.19579  0.060671
+#&gt; HOVAL 0.0059718 0.53840  0.827072</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.D1.Bayes</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_lag</span>(<span class='no'>CRIME</span> ~ <span class='no'>DISCBD</span> + <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span> ~ <span class='no'>INC</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.D1.Bayes</span>)</div><div class='output co'>#&gt; 
@@ -855,19 +1188,80 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;        Direct   Indirect Total   
 #&gt; DISCBD 0.023054 0.45569  0.059747
 #&gt; INC    0.007589 0.74989  0.423850
-#&gt; HOVAL  0.075822 0.49104  0.122521</div><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>elect80</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+#&gt; HOVAL  0.075822 0.49104  0.122521</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>elect80</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>e80_queen</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>el_ml</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_turnout</span>) ~ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_college</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_homeownership</span>)
  + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_income</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>elect80</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"LU"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>el_ml</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>el_ml</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lagsarlm(formula = log(pc_turnout) ~ log(pc_college) + log(pc_homeownership) + 
+#&gt;     log(pc_income), data = elect80, listw = lw, method = "LU", 
+#&gt;     zero.policy = TRUE)
+#&gt; 
+#&gt; Residuals:
+#&gt;        Min         1Q     Median         3Q        Max 
+#&gt; -1.1132095 -0.0690070 -0.0037755  0.0670525  0.8084858 
+#&gt; 
+#&gt; Type: lag 
+#&gt; Regions with no neighbours included:
+#&gt;  1183 1189 1832 2945 
+#&gt; Coefficients: (numerical Hessian approximate standard errors) 
+#&gt;                        Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept)            0.637925   0.041787 15.2660 &lt; 2.2e-16
+#&gt; log(pc_college)        0.226366   0.015759 14.3645 &lt; 2.2e-16
+#&gt; log(pc_homeownership)  0.481409   0.014524 33.1464 &lt; 2.2e-16
+#&gt; log(pc_income)        -0.104942   0.016550 -6.3408 2.285e-10
+#&gt; 
+#&gt; Rho: 0.57742, LR test value: 1085.5, p-value: &lt; 2.22e-16
+#&gt; Approximate (numerical Hessian) standard error: 0.014966
+#&gt;     z-value: 38.581, p-value: &lt; 2.22e-16
+#&gt; Wald statistic: 1488.5, p-value: &lt; 2.22e-16
+#&gt; 
+#&gt; Log likelihood: 2132.772 for lag model
+#&gt; ML residual variance (sigma squared): 0.013815, (sigma: 0.11754)
+#&gt; Number of observations: 3107 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: -4253.5, (AIC for lm: -3170)
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>el_B</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_lag</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_turnout</span>) ~ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_college</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_homeownership</span>)
  + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_income</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>elect80</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>el_B</span>)
-<span class='no'>el_ml</span>$<span class='no'>timings</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>el_B</span>, <span class='st'>"timings"</span>)
-<span class='co'># }</span></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>el_B</span>)</div><div class='output co'>#&gt; 
+#&gt; Iterations = 501:2500
+#&gt; Thinning interval = 1 
+#&gt; Number of chains = 1 
+#&gt; Sample size per chain = 2000 
+#&gt; 
+#&gt; 1. Empirical mean and standard deviation for each variable,
+#&gt;    plus standard error of the mean:
+#&gt; 
+#&gt;                           Mean        SD  Naive SE Time-series SE
+#&gt; (Intercept)            0.63880 0.0412774 9.230e-04      8.895e-04
+#&gt; log(pc_college)        0.22707 0.0162196 3.627e-04      3.627e-04
+#&gt; log(pc_homeownership)  0.48157 0.0149993 3.354e-04      3.354e-04
+#&gt; log(pc_income)        -0.10539 0.0164751 3.684e-04      3.684e-04
+#&gt; rho                    0.57617 0.0152953 3.420e-04      3.420e-04
+#&gt; sige                   0.01385 0.0003612 8.077e-06      8.077e-06
+#&gt; 
+#&gt; 2. Quantiles for each variable:
+#&gt; 
+#&gt;                           2.5%     25%      50%      75%    97.5%
+#&gt; (Intercept)            0.55795  0.6113  0.63883  0.66694  0.71933
+#&gt; log(pc_college)        0.19707  0.2163  0.22726  0.23783  0.25725
+#&gt; log(pc_homeownership)  0.45325  0.4714  0.48133  0.49111  0.51015
+#&gt; log(pc_income)        -0.13776 -0.1165 -0.10535 -0.09452 -0.07317
+#&gt; rho                    0.54577  0.5658  0.57629  0.58679  0.60480
+#&gt; sige                   0.01317  0.0136  0.01384  0.01410  0.01455
+#&gt; </div><div class='input'><span class='no'>el_ml</span>$<span class='no'>timings</span></div><div class='output co'>#&gt;           user.self elapsed
+#&gt; set_up        0.016   0.016
+#&gt; LU_set_up     0.003   0.003
+#&gt; LU_opt        0.217   0.219
+#&gt; coefs         0.002   0.001
+#&gt; LU_fdHess     0.314   0.317</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>el_B</span>, <span class='st'>"timings"</span>)</div><div class='output co'>#&gt;                   user.self sys.self elapsed user.child sys.child
+#&gt; set_up                0.010    0.000   0.010          0         0
+#&gt; SE_classic_set_up     2.876    0.005   2.891          0         0
+#&gt; complete_setup        0.000    0.000   0.000          0         0
+#&gt; sampling              1.284    0.001   1.293          0         0
+#&gt; finalise              0.014    0.000   0.015          0         0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

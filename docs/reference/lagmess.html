@@ -316,7 +316,7 @@ neighbours, if FALSE assign NA - causing <code>lagmess()</code> to terminate wit
 #&gt; 
 #&gt; SARMA = 84.665, df = 2, p-value &lt; 2.2e-16
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>obj2</span> <span class='kw'>&lt;-</span> <span class='fu'>lagmess</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>PRICE</span>) ~ <span class='no'>PATIO</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>AGE</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>SQFT</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>baltimore</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.048   0.000   0.048 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>obj2</span>)</div><div class='output co'>#&gt; Matrix exponential spatial lag model:
+#&gt;   0.050   0.000   0.049 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>obj2</span>)</div><div class='output co'>#&gt; Matrix exponential spatial lag model:
 #&gt; 
 #&gt; Call:
 #&gt; lagmess(formula = log(PRICE) ~ PATIO + log(AGE) + log(SQFT), 
@@ -343,7 +343,7 @@ neighbours, if FALSE assign NA - causing <code>lagmess()</code> to terminate wit
 #&gt; Implied rho: 0.474015 
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>obj2a</span> <span class='kw'>&lt;-</span> <span class='fu'>lagmess</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>PRICE</span>) ~ <span class='no'>PATIO</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>AGE</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>SQFT</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>baltimore</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>,
  <span class='kw'>use_expm</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.701   0.000   0.703 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>obj2a</span>)</div><div class='output co'>#&gt; Matrix exponential spatial lag model:
+#&gt;   0.688   0.000   0.692 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>obj2a</span>)</div><div class='output co'>#&gt; Matrix exponential spatial lag model:
 #&gt; (calculated with expm)
 #&gt; 
 #&gt; Call:

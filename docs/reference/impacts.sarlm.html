@@ -335,47 +335,409 @@ summary(impacts(eobj), adjust_k=TRUE)
 </div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:48:0: unexpected end of input</span>
 #&gt; <span class='error'>46: summary(impacts(eobj), adjust_k=TRUE)</span>
 #&gt; <span class='error'>47: </span>
-#&gt; <span class='error'>   ^</span></div><span class='co'># NOT RUN {</span>
-<span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
-<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>mobj2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
-<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>optimHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj2</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>mobj3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
-<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj3</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='co'># }</span><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+#&gt; <span class='error'>   ^</span></div><div class='input'><span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='error'>Error in lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type = "mixed",     method = "Matrix", control = list(fdHess = TRUE)): object 'listw' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in summary(mobj1): object 'mobj1' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in impacts(mobj1, tr = trMatc, R = 1000): object 'mobj1' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in impacts(mobj, tr = trMatc, R = 1000): object 'mobj' not found</span></div><div class='input'><span class='no'>mobj2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>optimHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='error'>Error in lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type = "mixed",     method = "Matrix", control = list(fdHess = TRUE, optimHess = TRUE)): object 'listw' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj2</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in impacts(mobj2, tr = trMatc, R = 1000): object 'mobj2' not found</span></div><div class='input'><span class='no'>mobj3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='error'>Error in lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type = "mixed",     method = "spam", control = list(fdHess = TRUE)): object 'listw' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj3</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in impacts(mobj3, tr = trMatc, R = 1000): object 'mobj3' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>Wb</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>trMatb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trW.html'>trW</a></span>(<span class='no'>Wb</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mult"</span>)
 <span class='no'>gp2mMi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>CMEDV</span>) ~ <span class='no'>CRIM</span> + <span class='no'>ZN</span> + <span class='no'>INDUS</span> + <span class='no'>CHAS</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>NOX</span>^<span class='fl'>2</span>) +
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>RM</span>^<span class='fl'>2</span>) +  <span class='no'>AGE</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>DIS</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>RAD</span>) + <span class='no'>TAX</span> + <span class='no'>PTRATIO</span> + <span class='no'>B</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>LSTAT</span>),
 <span class='kw'>data</span><span class='kw'>=</span><span class='no'>boston.c</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>,
 <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='kw'>trs</span><span class='kw'>=</span><span class='no'>trMatb</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gp2mMi</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>gp2mMi</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatb</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>house</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gp2mMi</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + 
+#&gt;     I(RM^2) + AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + 
+#&gt;     log(LSTAT), data = boston.c, listw = nb2listw(boston.soi), 
+#&gt;     type = "mixed", method = "Matrix", trs = trMatb, control = list(fdHess = TRUE))
+#&gt; 
+#&gt; Residuals:
+#&gt;        Min         1Q     Median         3Q        Max 
+#&gt; -0.6316833 -0.0629790 -0.0090776  0.0682421  0.6991072 
+#&gt; 
+#&gt; Type: mixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;                   Estimate  Std. Error  z value  Pr(&gt;|z|)
+#&gt; (Intercept)     1.89816218  0.24400182   7.7793 7.327e-15
+#&gt; CRIM           -0.00571021  0.00093857  -6.0839 1.173e-09
+#&gt; ZN              0.00069091  0.00051874   1.3319 0.1828931
+#&gt; INDUS          -0.00111343  0.00307380  -0.3622 0.7171778
+#&gt; CHAS1          -0.04163225  0.02738839  -1.5201 0.1284937
+#&gt; I(NOX^2)       -0.01034950  0.19358633  -0.0535 0.9573639
+#&gt; I(RM^2)         0.00794979  0.00102109   7.7856 6.883e-15
+#&gt; AGE            -0.00128789  0.00048929  -2.6322 0.0084838
+#&gt; log(DIS)       -0.12404108  0.09510145  -1.3043 0.1921304
+#&gt; log(RAD)        0.05863502  0.02257529   2.5973 0.0093957
+#&gt; TAX            -0.00049084  0.00012146  -4.0412 5.317e-05
+#&gt; PTRATIO        -0.01319853  0.00595331  -2.2170 0.0266227
+#&gt; B               0.00056383  0.00011084   5.0867 3.643e-07
+#&gt; log(LSTAT)     -0.24724454  0.02265149 -10.9152 &lt; 2.2e-16
+#&gt; lag.CRIM       -0.00464215  0.00173900  -2.6694 0.0075978
+#&gt; lag.ZN         -0.00037937  0.00070703  -0.5366 0.5915659
+#&gt; lag.INDUS       0.00025064  0.00385911   0.0649 0.9482165
+#&gt; lag.CHAS1       0.12518252  0.04083949   3.0652 0.0021750
+#&gt; lag.I(NOX^2)   -0.38640401  0.22253428  -1.7364 0.0824967
+#&gt; lag.I(RM^2)    -0.00451252  0.00148919  -3.0302 0.0024440
+#&gt; lag.AGE         0.00149678  0.00068470   2.1860 0.0288128
+#&gt; lag.log(DIS)   -0.00453785  0.10056961  -0.0451 0.9640105
+#&gt; lag.log(RAD)   -0.00940702  0.03127787  -0.3008 0.7636001
+#&gt; lag.TAX         0.00041083  0.00017859   2.3004 0.0214237
+#&gt; lag.PTRATIO     0.00060355  0.00789994   0.0764 0.9391011
+#&gt; lag.B          -0.00050781  0.00014107  -3.5996 0.0003187
+#&gt; lag.log(LSTAT)  0.09846781  0.03574182   2.7550 0.0058697
+#&gt; 
+#&gt; Rho: 0.59578, LR test value: 181.68, p-value: &lt; 2.22e-16
+#&gt; Asymptotic standard error: 0.037474
+#&gt;     z-value: 15.899, p-value: &lt; 2.22e-16
+#&gt; Wald statistic: 252.76, p-value: &lt; 2.22e-16
+#&gt; 
+#&gt; Log likelihood: 300.6131 for mixed model
+#&gt; ML residual variance (sigma squared): 0.016011, (sigma: 0.12654)
+#&gt; Number of observations: 506 
+#&gt; Number of parameters estimated: 29 
+#&gt; AIC: -543.23, (AIC for lm: -363.55)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: 29.772, p-value: 4.8604e-08
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>gp2mMi</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatb</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;                   Direct      Indirect         Total
+#&gt; CRIM       -0.0074555753 -1.815485e-02 -0.0256104225
+#&gt; ZN          0.0006979073  7.279849e-05  0.0007707058
+#&gt; INDUS      -0.0012029822 -9.314672e-04 -0.0021344494
+#&gt; CHAS1      -0.0198526436  2.265454e-01  0.2066927455
+#&gt; I(NOX^2)   -0.0955268264 -8.859909e-01 -0.9815177559
+#&gt; I(RM^2)     0.0079983430  5.050177e-04  0.0085033608
+#&gt; AGE        -0.0011296134  1.646365e-03  0.0005167515
+#&gt; log(DIS)   -0.1410601687 -1.770278e-01 -0.3180879407
+#&gt; log(RAD)    0.0641735548  5.761026e-02  0.1217838138
+#&gt; TAX        -0.0004651543  2.672120e-04 -0.0001979424
+#&gt; PTRATIO    -0.0147737151 -1.638465e-02 -0.0311583673
+#&gt; B           0.0005265343 -3.879424e-04  0.0001385920
+#&gt; log(LSTAT) -0.2578403213 -1.102144e-01 -0.3680547068
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;                  Direct     Indirect        Total
+#&gt; CRIM       0.0009562839 0.0034544893 0.0038717565
+#&gt; ZN         0.0004883735 0.0012174621 0.0012746793
+#&gt; INDUS      0.0027560148 0.0057620957 0.0054746585
+#&gt; CHAS1      0.0281411938 0.0817042908 0.0919033673
+#&gt; I(NOX^2)   0.1715911823 0.2850227582 0.2360196759
+#&gt; I(RM^2)    0.0010400750 0.0030863178 0.0035519045
+#&gt; AGE        0.0004722728 0.0012392533 0.0013360003
+#&gt; log(DIS)   0.0892518996 0.1103267817 0.0752465027
+#&gt; log(RAD)   0.0209953186 0.0536340193 0.0521045367
+#&gt; TAX        0.0001162486 0.0003263485 0.0003368691
+#&gt; PTRATIO    0.0055057907 0.0124118606 0.0122248719
+#&gt; B          0.0001034705 0.0002364673 0.0002391740
+#&gt; log(LSTAT) 0.0226273406 0.0604013055 0.0664932381
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;                 Direct    Indirect      Total
+#&gt; CRIM        -7.7624970 -5.24490620 -6.5969084
+#&gt; ZN           1.4445077  0.02347041  0.5758575
+#&gt; INDUS       -0.4038307 -0.17285324 -0.3852223
+#&gt; CHAS1       -0.7160445  2.76097490  2.2353169
+#&gt; I(NOX^2)    -0.5621042 -3.07388409 -4.1207541
+#&gt; I(RM^2)      7.7559706  0.18506670  2.4319250
+#&gt; AGE         -2.3747300  1.27625276  0.3443711
+#&gt; log(DIS)    -1.6091533 -1.59012511 -4.2401090
+#&gt; log(RAD)     3.1127612  1.04821883  2.3332633
+#&gt; TAX         -4.0631587  0.82391616 -0.6039524
+#&gt; PTRATIO     -2.6851781 -1.29920663 -2.5284191
+#&gt; B            5.0999428 -1.66822144  0.5569755
+#&gt; log(LSTAT) -11.3469178 -1.85375420 -5.5452217
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;            Direct     Indirect   Total     
+#&gt; CRIM       8.4377e-15 1.5636e-07 4.1982e-11
+#&gt; ZN         0.1485962  0.9812750  0.564712  
+#&gt; INDUS      0.6863372  0.8627668  0.700073  
+#&gt; CHAS1      0.4739639  0.0057629  0.025397  
+#&gt; I(NOX^2)   0.5740450  0.0021129  3.7763e-05
+#&gt; I(RM^2)    8.6597e-15 0.8531767  0.015019  
+#&gt; AGE        0.0175618  0.2018662  0.730567  
+#&gt; log(DIS)   0.1075828  0.1118066  2.2341e-05
+#&gt; log(RAD)   0.0018535  0.2945378  0.019634  
+#&gt; TAX        4.8413e-05 0.4099872  0.545875  
+#&gt; PTRATIO    0.0072491  0.1938730  0.011458  
+#&gt; B          3.3976e-07 0.0952718  0.577544  
+#&gt; log(LSTAT) &lt; 2.22e-16 0.0637743  2.9358e-08</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>house</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>LO_nb</span>)
 <span class='no'>form</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/formula'>formula</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>price</span>) ~ <span class='no'>age</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>age</span>^<span class='fl'>2</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>age</span>^<span class='fl'>3</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>lotsize</span>) +
    <span class='no'>rooms</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>TLA</span>) + <span class='no'>beds</span> + <span class='no'>syear</span>)
 <span class='no'>lobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>form</span>, <span class='no'>house</span>, <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>,
  <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='kw'>trs</span><span class='kw'>=</span><span class='no'>trMat</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobj</span>)
-<span class='no'>loobj</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMat</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>lobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>form</span>, <span class='no'>house</span>, <span class='no'>lw</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobj</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = form, data = house, listw = lw, method = "Matrix", 
+#&gt;     trs = trMat, control = list(fdHess = TRUE))
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -2.488174 -0.128732  0.030689  0.174778  2.845118 
+#&gt; 
+#&gt; Type: lag 
+#&gt; Coefficients: (numerical Hessian approximate standard errors) 
+#&gt;                Estimate Std. Error  z value  Pr(&gt;|z|)
+#&gt; (Intercept)   0.2583272  0.0656170   3.9369 8.254e-05
+#&gt; age           1.3084686  0.0563647  23.2143 &lt; 2.2e-16
+#&gt; I(age^2)     -2.3213256  0.1024831 -22.6508 &lt; 2.2e-16
+#&gt; I(age^3)      0.6548946  0.0551842  11.8674 &lt; 2.2e-16
+#&gt; log(lotsize)  0.0729753  0.0030642  23.8153 &lt; 2.2e-16
+#&gt; rooms        -0.0025340  0.0030414  -0.8332 0.4047438
+#&gt; log(TLA)      0.5778330  0.0101653  56.8437 &lt; 2.2e-16
+#&gt; beds          0.0156215  0.0045220   3.4545 0.0005512
+#&gt; syear1994     0.0444752  0.0073880   6.0199 1.745e-09
+#&gt; syear1995     0.0860740  0.0072149  11.9300 &lt; 2.2e-16
+#&gt; syear1996     0.1059371  0.0069873  15.1613 &lt; 2.2e-16
+#&gt; syear1997     0.1473471  0.0069302  21.2615 &lt; 2.2e-16
+#&gt; syear1998     0.2007216  0.0071253  28.1703 &lt; 2.2e-16
+#&gt; 
+#&gt; Rho: 0.52281, LR test value: 12594, p-value: &lt; 2.22e-16
+#&gt; Approximate (numerical Hessian) standard error: 0.0038416
+#&gt;     z-value: 136.09, p-value: &lt; 2.22e-16
+#&gt; Wald statistic: 18521, p-value: &lt; 2.22e-16
+#&gt; 
+#&gt; Log likelihood: -7670.362 for lag model
+#&gt; ML residual variance (sigma squared): 0.094786, (sigma: 0.30787)
+#&gt; Number of observations: 25357 
+#&gt; Number of parameters estimated: 15 
+#&gt; AIC: 15371, (AIC for lm: 27962)
+#&gt; </div><div class='input'><span class='no'>loobj</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMat</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;                    Direct     Indirect        Total
+#&gt; age           1.495027201  1.247025340  2.742052541
+#&gt; I(age^2)     -2.652295154 -2.212320461 -4.864615615
+#&gt; I(age^3)      0.748268069  0.624141983  1.372410052
+#&gt; log(lotsize)  0.083379995  0.069548545  0.152928539
+#&gt; rooms        -0.002895346 -0.002415053 -0.005310398
+#&gt; log(TLA)      0.660219207  0.550699064  1.210918271
+#&gt; beds          0.017848752  0.014887921  0.032736673
+#&gt; syear1994     0.050816402  0.042386748  0.093203150
+#&gt; syear1995     0.098346272  0.082032148  0.180378420
+#&gt; syear1996     0.121041417  0.100962520  0.222003938
+#&gt; syear1997     0.168355573  0.140427991  0.308783564
+#&gt; syear1998     0.229340074  0.191296107  0.420636180
+#&gt; ========================================================
+#&gt; Simulation results (mixed Hessian approximation variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;                   Direct    Indirect       Total
+#&gt; age          0.065776048 0.056684540 0.121306395
+#&gt; I(age^2)     0.119493475 0.101898625 0.219367990
+#&gt; I(age^3)     0.064493353 0.054086197 0.118276030
+#&gt; log(lotsize) 0.003492749 0.002889387 0.006313006
+#&gt; rooms        0.003468946 0.002895054 0.006363786
+#&gt; log(TLA)     0.011066932 0.010979475 0.020832804
+#&gt; beds         0.005403237 0.004514932 0.009915894
+#&gt; syear1994    0.008254535 0.006904634 0.015148380
+#&gt; syear1995    0.008306776 0.007019184 0.015286012
+#&gt; syear1996    0.008152393 0.006976266 0.015068096
+#&gt; syear1997    0.007995416 0.007042825 0.014923545
+#&gt; syear1998    0.008085075 0.007325063 0.015204737
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;                   Direct    Indirect       Total
+#&gt; age           22.7048664  21.9694466  22.5772462
+#&gt; I(age^2)     -22.1822461 -21.6905250 -22.1585124
+#&gt; I(age^3)      11.5990292  11.5328399  11.5985271
+#&gt; log(lotsize)  23.8305963  24.0192380  24.1778905
+#&gt; rooms         -0.8579698  -0.8572379  -0.8576657
+#&gt; log(TLA)      59.7305121  50.2037434  58.1892046
+#&gt; beds           3.2941779   3.2875787   3.2919291
+#&gt; syear1994      6.1153657   6.0964758   6.1111110
+#&gt; syear1995     11.7530799  11.5986381  11.7128767
+#&gt; syear1996     14.8069761  14.4294223  14.6916889
+#&gt; syear1997     21.0104110  19.8908666  20.6435453
+#&gt; syear1998     28.3352173  26.0805249  27.6317726
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;              Direct     Indirect   Total     
+#&gt; age          &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; I(age^2)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; I(age^3)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; log(lotsize) &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; rooms        0.3909092  0.3913134  0.39107707
+#&gt; log(TLA)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; beds         0.0009871  0.0010105  0.00099503
+#&gt; syear1994    9.6336e-10 1.0843e-09 9.894e-10 
+#&gt; syear1995    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; syear1996    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; syear1997    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; syear1998    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16</div><div class='input'><span class='no'>lobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>form</span>, <span class='no'>house</span>, <span class='no'>lw</span>)
 <span class='no'>loobj1</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMat</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj1</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>mobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>form</span>, <span class='no'>house</span>, <span class='no'>lw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj1</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;                    Direct     Indirect       Total
+#&gt; age           1.492873357  1.265395569  2.75826893
+#&gt; I(age^2)     -2.642549749 -2.239889088 -4.88243884
+#&gt; I(age^3)      0.744861040  0.631362235  1.37622327
+#&gt; log(lotsize)  0.082511049  0.069938361  0.15244941
+#&gt; rooms        -0.003035731 -0.002573159 -0.00560889
+#&gt; log(TLA)      0.658778386  0.558396495  1.21717488
+#&gt; beds          0.018256951  0.015475033  0.03373198
+#&gt; syear1994     0.050971955  0.043205062  0.09417702
+#&gt; syear1995     0.098646802  0.083615416  0.18226222
+#&gt; syear1996     0.121389057  0.102892301  0.22428136
+#&gt; syear1997     0.168907859  0.143170387  0.31207825
+#&gt; syear1998     0.230052473  0.194998041  0.42505051
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic IV variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;                   Direct    Indirect       Total
+#&gt; age          0.065811109 0.060291955 0.122886168
+#&gt; I(age^2)     0.121695476 0.108687523 0.224773075
+#&gt; I(age^3)     0.066013208 0.056900272 0.122068138
+#&gt; log(lotsize) 0.003412657 0.002866951 0.006075399
+#&gt; rooms        0.003379001 0.002874630 0.006253050
+#&gt; log(TLA)     0.011042376 0.013572444 0.021609518
+#&gt; beds         0.005201931 0.004471954 0.009667146
+#&gt; syear1994    0.008481505 0.007262082 0.015712124
+#&gt; syear1995    0.008204459 0.007249713 0.015341447
+#&gt; syear1996    0.007957336 0.007175937 0.014960435
+#&gt; syear1997    0.008095356 0.007787825 0.015581025
+#&gt; syear1998    0.008227336 0.008566103 0.016295148
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;                   Direct   Indirect       Total
+#&gt; age           22.6998144  21.016622  22.4682176
+#&gt; I(age^2)     -21.7451017 -20.650752 -21.7586543
+#&gt; I(age^3)      11.3252633  11.144123  11.3192568
+#&gt; log(lotsize)  24.1648628  24.393838  25.0851571
+#&gt; rooms         -0.9006693  -0.899287  -0.9001174
+#&gt; log(TLA)      59.6735814  41.179828  56.3570670
+#&gt; beds           3.5151741   3.471281   3.4973199
+#&gt; syear1994      6.0009244   5.945178   5.9871754
+#&gt; syear1995     11.9795171  11.500854  11.8413441
+#&gt; syear1996     15.2095723  14.307349  14.9525278
+#&gt; syear1997     20.8621429  18.397249  20.0346913
+#&gt; syear1998     27.9482236  22.772030  26.0818123
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;              Direct     Indirect   Total     
+#&gt; age          &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; I(age^2)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; I(age^3)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; log(lotsize) &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; rooms        0.36776418 0.36849979 0.36805777
+#&gt; log(TLA)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; beds         0.00043947 0.00051798 0.00046996
+#&gt; syear1994    1.962e-09  2.7616e-09 2.1352e-09
+#&gt; syear1995    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; syear1996    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; syear1997    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; syear1998    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16</div><div class='input'><span class='no'>mobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>form</span>, <span class='no'>house</span>, <span class='no'>lw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
  <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='kw'>trs</span><span class='kw'>=</span><span class='no'>trMat</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj</span>)
-<span class='no'>moobj</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMat</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>moobj</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='co'># }</span><div class='input'>}
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = form, data = house, listw = lw, type = "mixed", 
+#&gt;     method = "Matrix", trs = trMat, control = list(fdHess = TRUE))
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -2.421437 -0.126022  0.029935  0.167534  2.895359 
+#&gt; 
+#&gt; Type: mixed 
+#&gt; Coefficients: (numerical Hessian approximate standard errors) 
+#&gt;                     Estimate  Std. Error  z value  Pr(&gt;|z|)
+#&gt; (Intercept)       0.67918314  0.08721235   7.7877 6.883e-15
+#&gt; age               0.97905382  0.08453611  11.5815 &lt; 2.2e-16
+#&gt; I(age^2)         -1.87856579  0.13822485 -13.5907 &lt; 2.2e-16
+#&gt; I(age^3)          0.55454470  0.06800288   8.1547 4.441e-16
+#&gt; log(lotsize)      0.10944213  0.00522190  20.9583 &lt; 2.2e-16
+#&gt; rooms             0.00136728  0.00302395   0.4521  0.651162
+#&gt; log(TLA)          0.62148335  0.01060003  58.6303 &lt; 2.2e-16
+#&gt; beds              0.01294189  0.00448716   2.8842  0.003924
+#&gt; syear1994         0.04031417  0.00725573   5.5562 2.757e-08
+#&gt; syear1995         0.08394251  0.00708737  11.8440 &lt; 2.2e-16
+#&gt; syear1996         0.10400813  0.00686112  15.1591 &lt; 2.2e-16
+#&gt; syear1997         0.14696274  0.00680970  21.5814 &lt; 2.2e-16
+#&gt; syear1998         0.20021074  0.00699781  28.6105 &lt; 2.2e-16
+#&gt; lag.age          -0.04653535  0.09647336  -0.4824  0.629547
+#&gt; lag.I(age^2)      0.27074756  0.16312167   1.6598  0.096957
+#&gt; lag.I(age^3)     -0.32908972  0.08295047  -3.9673 7.269e-05
+#&gt; lag.log(lotsize) -0.05072331  0.00577489  -8.7834 &lt; 2.2e-16
+#&gt; lag.rooms         0.00050653  0.00441843   0.1146  0.908731
+#&gt; lag.log(TLA)     -0.07588857  0.01502932  -5.0494 4.433e-07
+#&gt; lag.beds         -0.04306553  0.00657416  -6.5507 5.726e-11
+#&gt; lag.syear1994    -0.02428053  0.01111700  -2.1841  0.028956
+#&gt; lag.syear1995    -0.04415580  0.01084657  -4.0709 4.682e-05
+#&gt; lag.syear1996    -0.05712325  0.01050600  -5.4372 5.412e-08
+#&gt; lag.syear1997    -0.09260271  0.01042633  -8.8816 &lt; 2.2e-16
+#&gt; lag.syear1998    -0.09696080  0.01078352  -8.9916 &lt; 2.2e-16
+#&gt; 
+#&gt; Rho: 0.53828, LR test value: 9593.4, p-value: &lt; 2.22e-16
+#&gt; Approximate (numerical Hessian) standard error: 0.0046668
+#&gt;     z-value: 115.34, p-value: &lt; 2.22e-16
+#&gt; Wald statistic: 13304, p-value: &lt; 2.22e-16
+#&gt; 
+#&gt; Log likelihood: -7307.507 for mixed model
+#&gt; ML residual variance (sigma squared): 0.091319, (sigma: 0.30219)
+#&gt; Number of observations: 25357 
+#&gt; Number of parameters estimated: 27 
+#&gt; AIC: 14669, (AIC for lm: 24260)
+#&gt; </div><div class='input'><span class='no'>moobj</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMat</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>moobj</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;                    Direct     Indirect        Total
+#&gt; age           1.116551228  0.903101121  2.019652349
+#&gt; I(age^2)     -2.090461358 -1.391758011 -3.482219369
+#&gt; I(age^3)      0.545790447 -0.057499114  0.488291333
+#&gt; log(lotsize)  0.111785027  0.015388439  0.127173466
+#&gt; rooms         0.001722848  0.002335444  0.004058292
+#&gt; log(TLA)      0.695500044  0.486151389  1.181651434
+#&gt; beds          0.002611230 -0.067853136 -0.065241906
+#&gt; syear1994     0.039575758 -0.004850020  0.034725738
+#&gt; syear1995     0.084236861  0.001933350  0.086170211
+#&gt; syear1996     0.103682464 -0.002139009  0.101543455
+#&gt; syear1997     0.143100555 -0.025367367  0.117733187
+#&gt; syear1998     0.203303767  0.020315386  0.223619153
+#&gt; ========================================================
+#&gt; Simulation results (mixed Hessian approximation variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;                   Direct    Indirect       Total
+#&gt; age          0.079451285 0.136297862 0.149516254
+#&gt; I(age^2)     0.131751604 0.244799486 0.280810747
+#&gt; I(age^3)     0.066360238 0.132459024 0.156407158
+#&gt; log(lotsize) 0.004708959 0.007155109 0.007272422
+#&gt; rooms        0.003507617 0.008290131 0.010495367
+#&gt; log(TLA)     0.011475057 0.024377109 0.030496101
+#&gt; beds         0.005299003 0.012625331 0.016226926
+#&gt; syear1994    0.008785908 0.022086035 0.028552694
+#&gt; syear1995    0.008889993 0.021609317 0.028128415
+#&gt; syear1996    0.009038833 0.021691203 0.028597382
+#&gt; syear1997    0.008396686 0.020298159 0.026381952
+#&gt; syear1998    0.008389853 0.021065244 0.027323124
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;                   Direct    Indirect       Total
+#&gt; age           14.0277471  6.65742733  13.5230491
+#&gt; I(age^2)     -15.8456144 -5.72585533 -12.4260613
+#&gt; I(age^3)       8.2176590 -0.38969045   3.1565550
+#&gt; log(lotsize)  23.7197912  2.13889177  17.4631685
+#&gt; rooms          0.5044066  0.26372544   0.3768885
+#&gt; log(TLA)      60.5892516 19.95449189  38.7491488
+#&gt; beds           0.4897631 -5.36648803  -4.0154512
+#&gt; syear1994      4.5256090 -0.17505886   1.2571573
+#&gt; syear1995      9.4442133  0.07334826   3.0411950
+#&gt; syear1996     11.4445304 -0.10807177   3.5353233
+#&gt; syear1997     17.0339944 -1.21048294   4.4901351
+#&gt; syear1998     24.2097337  0.97292746   8.1839495
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;              Direct     Indirect   Total     
+#&gt; age          &lt; 2.22e-16 2.7866e-11 &lt; 2.22e-16
+#&gt; I(age^2)     &lt; 2.22e-16 1.0291e-08 &lt; 2.22e-16
+#&gt; I(age^3)     2.2204e-16 0.696765   0.00159645
+#&gt; log(lotsize) &lt; 2.22e-16 0.032444   &lt; 2.22e-16
+#&gt; rooms        0.61398    0.791991   0.70625644
+#&gt; log(TLA)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
+#&gt; beds         0.62430    8.0285e-08 5.9332e-05
+#&gt; syear1994    6.0222e-06 0.861033   0.20869667
+#&gt; syear1995    &lt; 2.22e-16 0.941529   0.00235641
+#&gt; syear1996    &lt; 2.22e-16 0.913939   0.00040728
+#&gt; syear1997    &lt; 2.22e-16 0.226094   7.1178e-06
+#&gt; syear1998    &lt; 2.22e-16 0.330589   2.2204e-16</div><div class='input'>}
 </div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:1:1: unexpected '}'</span>
 #&gt; <span class='error'>1: }</span>
 #&gt; <span class='error'>    ^</span></div></pre>

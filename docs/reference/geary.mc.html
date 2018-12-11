@@ -199,8 +199,8 @@
 #&gt; 
 #&gt; statistic = 0.52987, observed rank = 1, p-value = 0.99
 #&gt; alternative hypothesis: less
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt; [1] 1.000557</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor'>var</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt; [1] 0.009840117</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.5299  0.9528  1.0071  1.0006  1.0642  1.1848 </div><div class='input'><span class='no'>colold.lags</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span>(<span class='no'>COL.nb</span>, <span class='fl'>3</span>)
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt; [1] 1.004412</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor'>var</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt; [1] 0.01260826</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;  0.5299  0.9396  1.0052  1.0044  1.0711  1.2602 </div><div class='input'><span class='no'>colold.lags</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span>(<span class='no'>COL.nb</span>, <span class='fl'>3</span>)
 <span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'>geary.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>colold.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]],
  <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>)
 <span class='no'>sim2</span></div><div class='output co'>#&gt; 
@@ -210,10 +210,10 @@
 #&gt; weights: nb2listw(colold.lags[[2]], style = "W") 
 #&gt; number of simulations + 1: 100 
 #&gt; 
-#&gt; statistic = 0.81129, observed rank = 3, p-value = 0.03
+#&gt; statistic = 0.81129, observed rank = 2, p-value = 0.02
 #&gt; alternative hypothesis: greater
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>sim2</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.7721  0.9438  1.0057  0.9954  1.0525  1.2674 </div><div class='input'><span class='no'>sim3</span> <span class='kw'>&lt;-</span> <span class='fu'>geary.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>colold.lags</span><span class='kw'>[[</span><span class='fl'>3</span>]],
+#&gt;  0.7474  0.9461  1.0028  0.9951  1.0563  1.1866 </div><div class='input'><span class='no'>sim3</span> <span class='kw'>&lt;-</span> <span class='fu'>geary.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>colold.lags</span><span class='kw'>[[</span><span class='fl'>3</span>]],
  <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>)
 <span class='no'>sim3</span></div><div class='output co'>#&gt; 
 #&gt; 	Monte-Carlo simulation of Geary C
@@ -222,10 +222,10 @@
 #&gt; weights: nb2listw(colold.lags[[3]], style = "W") 
 #&gt; number of simulations + 1: 100 
 #&gt; 
-#&gt; statistic = 1.1303, observed rank = 96, p-value = 0.96
+#&gt; statistic = 1.1303, observed rank = 94, p-value = 0.94
 #&gt; alternative hypothesis: greater
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>sim3</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.7947  0.9410  1.0033  0.9987  1.0612  1.2251 </div></pre>
+#&gt;  0.8479  0.9461  1.0041  1.0055  1.0609  1.2833 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
