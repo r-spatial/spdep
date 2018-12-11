@@ -21,6 +21,7 @@ Authors@R:c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Biv
 	person("Elias", "Krainski", role = "ctb"),
 	person("Pierre", "Legendre", role = "ctb"),
 	person("Nicholas", "Lewin-Koh", role = "ctb"),
+	person("Angela", "Li", role = "ctb"),
 	person("Hongfei", "Li", role = "ctb"),
 	person("Jielai", "Ma", role = "ctb"),
         person("Abhirup", "Mallik", role = c("ctb", "trl")),
@@ -49,7 +50,8 @@ Description: A collection of functions to create spatial weights matrix
   and 'Getis/Ord' G, 'saddlepoint' approximations, exact tests for global
   and local 'Moran's I' and 'LOSH' local indicators of spatial heteroscedasticity;
   and functions for estimating spatial simultaneous
-  'autoregressive' ('SAR') lag and error models, impact measures for lag
+  'autoregressive' ('SAR') lag, error, general nested spatial and SARAR models using maximum likelihood and MCMC, 
+  impact measures for lag, spatial Durbin, SLX, spatial Durbin error, SARAR and GNS
   models, weighted and 'unweighted' 'SAR' and 'CAR' spatial regression models,
   semi-parametric and Moran 'eigenvector' spatial filtering, 'GM SAR' error
   models, and generalized spatial two stage least squares models.
