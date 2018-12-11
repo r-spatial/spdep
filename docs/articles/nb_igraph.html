@@ -5,11 +5,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> • spdep</title>
+<title>Spatial weights objects as sparse matrices and graphs • spdep</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Spatial weights objects as sparse matrices and graphs">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -53,7 +53,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/nb_igraph.html">UNKNOWN TITLE</a>
+      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -80,27 +80,20 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1></h1>
+      <h1>Spatial weights objects as sparse matrices and graphs</h1>
+                        <h4 class="author">Roger Bivand</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-spatial/spdep/blob/master/../vignettes/nb_igraph.Rmd"><code>../vignettes/nb_igraph.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-spatial/spdep/blob/master/vignettes/nb_igraph.Rmd"><code>vignettes/nb_igraph.Rmd</code></a></small>
       <div class="hidden name"><code>nb_igraph.Rmd</code></div>
 
     </div>
 
     
     
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Spatial weights objects as sparse matrices and graphs}
--->
-<div id="spatial-weights-objects-as-sparse-matrices-and-graphs" class="section level1">
-<h1 class="hasAnchor">
-<a href="#spatial-weights-objects-as-sparse-matrices-and-graphs" class="anchor"></a># Spatial weights objects as sparse matrices and graphs</h1>
-</div>
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>## Introduction</h1>
+<div id="introduction" class="section level2">
+<h2 class="hasAnchor">
+<a href="#introduction" class="anchor"></a>Introduction</h2>
 <p>Since the <strong>spdep</strong> package was created, <em>spatial weights</em> objects have been constructed as lists with three components and a few attributes, in old-style class <code>listw</code> objects. The first component of a <code>listw</code> object is an <code>nb</code> object, a list of <code>n</code> integer vectors, with at least a character vector <code>region.id</code> attribute with <code>n</code> unique values (like the <code>row.names</code> of a <code>data.frame</code> object); <code>n</code> is the number of spatial entities. Component <code>i</code> of this list contains the integer identifiers of the neighbours of <code>i</code> as a sorted vector with no duplication and values in <code>1:n</code>; if <code>i</code> has no neighbours, the component is a vector of length <code>1</code> with value <code>0L</code>. The <code>nb</code> object may contain an attribute indicating whether it is symmetric or not, that is whether <code>i</code> is a neighbour of <code>j</code> implies that <code>j</code> is a neighbour of <code>i</code>. Some neighbour definitions are symmetric by construction, such as contiguities or distance thresholds, others are asymmetric, such as <code>k</code>-nearest neighbours. The <code>nb</code> object redundantly stores both <code>i</code>-<code>j</code> and <code>j</code>-<code>i</code> links.</p>
 <p>The second component of a <code>listw</code> object is a list of <code>n</code> numeric vectors, each of the same length as the corresponding non-zero vectors in the <code>nb</code>object. These give the values of the spatial weights for each <code>i</code>-<code>j</code> neighbour pair. It is often the case that while the neighbours are symmetric by construction, the weights are not, as for example when weights are <em>row-standardised</em> by dividing each row of input weights by the count of neighbours or cardinality of the neighbour set of <code>i</code>. In the <code>nb2listw</code>function, it is also possible to pass through general weights, such as inverse distances, shares of boundary lengths and so on.</p>
 <p>The third component of a <code>listw</code> object records the <code>style</code> of the weights as a character code, with <code>"B"</code> for binary weights taking values zero or one (only one is recorded), <code>"W"</code> for row-standardised weights, and so on. In order to subset <code>listw</code> objects, knowledge of the <code>style</code> may be necessary</p>
@@ -177,9 +170,9 @@
 <p><img src="nb_igraph_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 </div>
-<div id="using-sparse-matrices-to-represent-spatial-weights" class="section level1">
-<h1 class="hasAnchor">
-<a href="#using-sparse-matrices-to-represent-spatial-weights" class="anchor"></a>## Using sparse matrices to represent spatial weights</h1>
+<div id="using-sparse-matrices-to-represent-spatial-weights" class="section level2">
+<h2 class="hasAnchor">
+<a href="#using-sparse-matrices-to-represent-spatial-weights" class="anchor"></a>Using sparse matrices to represent spatial weights</h2>
 <p>At present only <code>listw</code> objects can be coerced to objects of classes defined in <strong>Matrix</strong>. Because the <code>style</code> is lost on coercion, it may not be possible to reconstruct spatial weights as the sparse matrix representation does not preserve it. We will start with symmetric binary weights, first creating a spatial weights object, and signalling that one entity has no neighbours with the <code>zero.policy</code> argument (default false). The matrix and graph representations of no-neighbour entities are not obvious.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">nb_B &lt;-<span class="st"> </span><span class="kw"><a href="../reference/nb2listw.html">nb2listw</a></span>(col2, <span class="dt">style=</span><span class="st">"B"</span>, <span class="dt">zero.policy=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb26-2" data-line-number="2">nb_B<span class="op">$</span>style</a></code></pre></div>
@@ -344,9 +337,9 @@
 <p>For asymmetric matrices, we need to go to each end separately, so finding the domain bounds can be hard. Using row-standardisation has the nice feature of setting the upper bound to unity, and there are graph methods for finding out whether the lower bound is <code>-1</code>.</p>
 </div>
 </div>
-<div id="using-igraph-for-spatial-weights-as-graphs" class="section level1">
-<h1 class="hasAnchor">
-<a href="#using-igraph-for-spatial-weights-as-graphs" class="anchor"></a>## Using <strong>igraph</strong> for spatial weights as graphs</h1>
+<div id="using-igraph-for-spatial-weights-as-graphs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#using-igraph-for-spatial-weights-as-graphs" class="anchor"></a>Using <strong>igraph</strong> for spatial weights as graphs</h2>
 <div id="converting-from-symmetric-adjacency-matrix-to-graph" class="section level3">
 <h3 class="hasAnchor">
 <a href="#converting-from-symmetric-adjacency-matrix-to-graph" class="anchor"></a>Converting from symmetric adjacency matrix to graph</h3>
@@ -471,10 +464,9 @@
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-<li><a href="#spatial-weights-objects-as-sparse-matrices-and-graphs"># Spatial weights objects as sparse matrices and graphs</a></li>
-      <li><a href="#introduction">## Introduction</a></li>
-      <li><a href="#using-sparse-matrices-to-represent-spatial-weights">## Using sparse matrices to represent spatial weights</a></li>
-      <li><a href="#using-igraph-for-spatial-weights-as-graphs">## Using <strong>igraph</strong> for spatial weights as graphs</a></li>
+<li><a href="#introduction">Introduction</a></li>
+      <li><a href="#using-sparse-matrices-to-represent-spatial-weights">Using sparse matrices to represent spatial weights</a></li>
+      <li><a href="#using-igraph-for-spatial-weights-as-graphs">Using <strong>igraph</strong> for spatial weights as graphs</a></li>
       </ul>
 </div>
       </div>

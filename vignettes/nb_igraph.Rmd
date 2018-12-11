@@ -1,12 +1,16 @@
-<!--
-%\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{Spatial weights objects as sparse matrices and graphs}
--->
-# Spatial weights objects as sparse matrices and graphs
-======================================================
+---
+title: "Spatial weights objects as sparse matrices and graphs"
+author: "Roger Bivand"
+output:
+  html_document:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Spatial weights objects as sparse matrices and graphs}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
 
 ## Introduction
-======================================================
 
 Since the **spdep** package was created, *spatial weights* objects have been constructed as lists with three components and a few attributes, in old-style class `listw` objects. The first component of a `listw` object is an `nb` object, a list of `n` integer vectors, with at least a character vector `region.id` attribute with `n` unique values (like the `row.names` of a `data.frame` object); `n` is the number of spatial entities. Component `i` of this list contains the integer identifiers of the neighbours of `i` as a sorted vector with no duplication and values in `1:n`; if `i` has no neighbours, the component is a vector of length `1` with value `0L`. The `nb` object may contain an attribute indicating whether it is symmetric or not, that is whether `i` is a neighbour of `j` implies that `j` is a neighbour of `i`. Some neighbour definitions are symmetric by construction, such as contiguities or distance thresholds, others are asymmetric, such as `k`-nearest neighbours. The `nb` object redundantly stores both `i`-`j` and `j`-`i` links.
 
@@ -70,7 +74,6 @@ plot(col2, coords, add=TRUE)
 ```
 
 ## Using sparse matrices to represent spatial weights
-======================================================
 
 At present only `listw` objects can be coerced to objects of classes defined in **Matrix**. Because the `style` is lost on coercion, it may not be possible to reconstruct spatial weights as the sparse matrix representation does not preserve it. We will start with symmetric binary weights, first creating a spatial weights object, and signalling that one entity has no neighbours with the `zero.policy` argument (default false). The matrix and graph representations of no-neighbour entities are not obvious.
 
@@ -217,7 +220,7 @@ For asymmetric matrices, we need to go to each end separately, so finding the do
 
 
 ## Using **igraph** for spatial weights as graphs
-======================================================
+
 
 ### Converting from symmetric adjacency matrix to graph
 

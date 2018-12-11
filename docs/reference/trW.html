@@ -86,7 +86,7 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/nb_igraph.html">UNKNOWN TITLE</a>
+      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -234,36 +234,36 @@
 #&gt; colmbs+   col.gal.nb &lt;- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 #&gt; colmbs+ }
 #&gt;  num [1:30] 0 10.91 3.65 5.62 3.66 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.007 0.007
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.007 0.006
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "mult"
 #&gt;  - attr(*, "n")= int 49
 #&gt;  num [1:30] 0 10.91 4.59 6.2 4.44 ...
 #&gt;  - attr(*, "sd")= num [1:30] NA NA 0.729 0.62 0.604 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.008 0.008
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.007 0.007
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "MC"
 #&gt;  - attr(*, "n")= int 49</div><div class='img'><img src='trW-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt;  num [1:24] 0 10.91 3.65 5.62 3.66 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.008 0.009
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.009 0.009
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "moments"
 #&gt;  - attr(*, "n")= int 49
 #&gt;  num [1:24] 0 10.91 3.65 5.62 3.66 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.006 0.007
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.007 0.006
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "mult"
 #&gt;  - attr(*, "n")= int 49
 #&gt;  num [1:24] 0 10.91 4.16 5.75 3.94 ...
 #&gt;  - attr(*, "sd")= num [1:24] NA NA 0.648 0.482 0.521 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.008 0.007
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.008 0.008
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "MC"
 #&gt;  - attr(*, "n")= int 49</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>)
 <span class='no'>listwS</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='similar.listw.html'>similar.listw</a></span>(<span class='no'>listw</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trmom</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listwS</span>, <span class='kw'>m</span><span class='kw'>=</span><span class='fl'>24</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"moments"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.170   0.001   0.171 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trmom</span>)</div><div class='output co'>#&gt;  num [1:24] 0 124.2 32.7 63.7 33.2 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.17 0.171
+#&gt;   0.165   0.000   0.164 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trmom</span>)</div><div class='output co'>#&gt;  num [1:24] 0 124.2 32.7 63.7 33.2 ...
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.165 0.164
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "moments"
 #&gt;  - attr(*, "n")= int 506</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>parallel</span>)
@@ -277,7 +277,7 @@
   <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span>(<span class='no'>cl</span>)
 }
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trmomp</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listwS</span>, <span class='kw'>m</span><span class='kw'>=</span><span class='fl'>24</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"moments"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.156   0.001   0.158 </div><div class='input'><span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
+#&gt;   0.148   0.000   0.148 </div><div class='input'><span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
   <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span>(<span class='kw'>NULL</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>stopCluster</a></span>(<span class='no'>cl</span>)
 }
