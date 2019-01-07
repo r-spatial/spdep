@@ -5,7 +5,7 @@ output:
   html_document:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Creating Neighbours using sf objects}
+  %\VignetteIndexEntry{The Problem of Spatial Autocorrelation:” forty years on}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---

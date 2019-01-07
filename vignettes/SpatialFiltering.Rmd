@@ -1,0 +1,145 @@
+---
+title: "Moran Eigenvectors"
+author: "Roger Bivand"
+output:
+  html_document:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{Moran Eigenvectors}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(message = FALSE, warning = FALSE)
+```
+
+## Introduction
+
+The Moran eigenvector approach
+[@dray+legendre+peres-neto:06; @griffith+peres-neto:06] involved the
+spatial patterns represented by maps of eigenvectors; by choosing
+suitable orthogonal patterns and adding them to a linear or generalised
+linear model, the spatial dependence present in the residuals can be
+moved into the model.
+
+It uses brute force to search the set of eigenvectors of the matrix
+$\mathbf{M W M}$, where
+
+$$\mathbf{M} = \mathbf{I} - \mathbf{X}(\mathbf{X}^{\rm T}
+\mathbf{X})^{-1}\mathbf{X}^{\rm T}$$ is a symmetric and idempotent
+projection matrix and $\mathbf{W}$ are the spatial weights. In the
+spatial lag form of [`SpatialFiltering`]{} and in the GLM [`ME`]{} form
+below, $\mathbf{X}$ is an $n$-vector of ones, that is the intercept
+only.
+
+In its general form, [`SpatialFiltering`]{} chooses the subset of the
+$n$ eigenvectors that reduce the residual spatial autocorrelation in the
+error of the model with covariates. The lag form adds the covariates in
+assessment of which eigenvectors to choose, but does not use them in
+constructing the eigenvectors. [`SpatialFiltering`]{} was implemented
+and contributed by Yongwan Chun and Michael Tiefelsdorf, and is
+presented in @tiefelsdorf+griffith:07; [`ME`]{} is based on Matlab code
+by Pedro Peres-Neto and is discussed in @dray+legendre+peres-neto:06 and
+@griffith+peres-neto:06.
+
+```{r echo=TRUE}
+library(spdep)
+if (require(rgdal, quietly=TRUE)) {
+  NY8 <- readOGR(system.file("shapes/NY8_utm18.shp", package="spData"))
+} else {
+  require(maptools, quietly=TRUE)
+  NY8 <- readShapeSpatial(system.file("shapes/NY8_utm18.shp", package="spData"))
+}
+NY_nb <- read.gal(system.file("weights/NY_nb.gal", package="spData"), region.id=row.names(NY8))
+```
+
+```{r echo=TRUE,eval=TRUE}
+nySFE <- SpatialFiltering(Z~PEXPOSURE+PCTAGE65P+PCTOWNHOME, data=NY8, nb=NY_nb, style="W", verbose=FALSE)
+nylmSFE <- lm(Z~PEXPOSURE+PCTAGE65P+PCTOWNHOME+fitted(nySFE), data=NY8)
+summary(nylmSFE)
+nylm <- lm(Z~PEXPOSURE+PCTAGE65P+PCTOWNHOME, data=NY8)
+anova(nylm, nylmSFE)
+```
+
+Since the [`SpatialFiltering`]{} approach does not allow weights to be
+used, we see that the residual autocorrelation of the original linear
+model is absorbed, or ‘whitened’ by the inclusion of selected
+eigenvectors in the model, but that the covariate coefficients change
+little. The addition of these eigenvectors – each representing an
+independent spatial pattern – relieves the residual autocorrelation, but
+otherwise makes few changes in the substantive coefficient values.
+
+The [`ME`]{} function also searches for eigenvectors from the spatial
+lag variant of the underlying model, but in a GLM framework. The
+criterion is a permutation bootstrap test on Moran’s $I$ for regression
+residuals, and in this case, because of the very limited remaining
+spatial autocorrelation, is set at $\alpha = 0.5$. Even with this very
+generous stopping rule, only few eigenvectors are chosen; their combined
+contribution only just improves the fit of the GLM model.
+
+```{r echo=TRUE}
+NYlistwW <- nb2listw(NY_nb, style = "W")
+set.seed(111)
+```
+
+```{r echo=TRUE,eval=FALSE}
+nyME <- ME(Cases~PEXPOSURE+PCTAGE65P+PCTOWNHOME, data=NY8, offset=log(POP8), family="poisson", listw=NYlistwW, alpha=0.5)
+```
+
+```{r echo=FALSE, eval=FALSE}
+bsfn <- system.file("etc/backstore/nyME_res.RData", package="spdep")
+load(bsfn)
+```
+
+```{r echo=TRUE, eval=FALSE}
+nyME
+NY8$eigen_24 <- fitted(nyME)[,1]
+NY8$eigen_223 <- fitted(nyME)[,2]
+```
+
+```{r results='asis',echo=FALSE, eval=FALSE}
+.iwidth <- 6
+.iheight <- 4
+.ipointsize <- 10
+library(RColorBrewer)
+#gry <- brewer.pal(9, "Greys")[-1]
+spplot(NY8, c("eigen_24", "eigen_223"), col.regions=grey.colors(6, 0.95, 0.55, 2.2), cuts=5)
+``` 
+
+```{r echo=TRUE,eval=FALSE}
+nyglmME <- glm(Cases~PEXPOSURE+PCTAGE65P+PCTOWNHOME+offset(log(POP8))+fitted(nyME), data=NY8, family="poisson")
+summary(nyglmME)
+nyGLMp <- glm(Cases~PEXPOSURE+PCTAGE65P+PCTOWNHOME+offset(log(POP8)), data=NY8,family="poisson")
+anova(nyGLMp, nyglmME, test="Chisq")
+```
+
+Figure \[fig:geigen2\] shows the spatial patterns chosen to match the
+very small amount of spatial autocorrelation remaining in the model. As
+with the other Poisson regressions, the closeness to TCE sites is highly
+significant. Since, however, many TCE sites are also in or close to more
+densely populated urban areas with the possible presence of both
+point-source and non-point-source pollution, it would be premature to
+take such results simply at their face value. There is, however, a
+potentially useful contrast between the cities of Binghampton in the
+south of the study area with several sites in its vicinity, and Syracuse
+in the north without TCE sites in this data set.
+
+Dray, S., Legendre, P., and Peres-Neto, P. R. (2006). Spatial modeling:
+A comprehensive framework for principle coordinate analysis of neighbor
+matrices ([PCNM]{}). [*Ecological Modelling*]{}, 196:483–493.
+
+Griffith, D. A. and Peres-Neto, P. R. (2006). Spatial modeling in
+ecology: The flexibility of eigenfunction spatial analyses.
+[*Ecology*]{}, 87:2603–2613.
+
+Tiefelsdorf, M. and Griffith, D. A. (2007). Semiparametric filtering of
+spatial autocorrelation: The eigenvector approach. [*Environment and
+Planning A*]{}, 39:1193–1221.
+
+[^1]: This vignette formed pp. 302–305 of the first edition of Bivand,
+    R. S., Pebesma, E. and Gómez-Rubio V. (2008) Applied Spatial Data
+    Analysis with R, Springer-Verlag, New York. It was retired from the
+    second edition (2013) to accommodate material on other topics, and
+    is made available in this form with the understanding of the
+    publishers.
