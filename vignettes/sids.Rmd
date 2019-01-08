@@ -4,6 +4,7 @@ author: "Roger Bivand"
 output:
   html_document:
     toc: true
+bibliography: refs.bib
 vignette: >
   %\VignetteIndexEntry{Introduction to the North Carolina SIDS data set (revised)}
   %\VignetteEngine{knitr::knitr}
@@ -457,6 +458,8 @@ spplot(nc2, "fitIV", cuts=12, col.regions=grey.colors(13, 0.9, 0.3))
 ecarIawll <- spautolm(ft.SID74 ~ 1, data=nc2, listw=sids.nhbr.listw.4, weights=BIR74, family="CAR", llprof=seq(-0.1, 0.9020532358, length.out=100))
 plot(ll ~ lambda, ecarIawll$llprof, type="l")
 ```
+
+## References
 
 [^1]: These data are taken with permission from:
     <http://sal.agecon.uiuc.edu/datasets/sids.zip>.

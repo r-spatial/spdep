@@ -4,6 +4,7 @@ author: "Roger Bivand"
 output:
   html_document:
     toc: true
+bibliography: refs.bib
 vignette: >
   %\VignetteIndexEntry{The Problem of Spatial Autocorrelation:” forty years on}
   %\VignetteEngine{knitr::knitr}
@@ -704,6 +705,8 @@ and other configuration effects are relatively strong, and may impact
 inference in different ways. The issue of egde effects has not really
 been satisfactorily resolved, and should be kept in mind in analyses of
 data sets of this size and shape.
+
+## References
 
 [^1]: cropped scans of tables are available from
     <http://spatial.nhh.no/R/etc/CO69-PNGs.zip>.

@@ -2,8 +2,8 @@
 title: "Moran Eigenvectors"
 author: "Roger Bivand"
 output:
-  html_document:
-    toc: true
+  html_document
+bibliography: refs.bib
 vignette: >
   %\VignetteIndexEntry{Moran Eigenvectors}
   %\VignetteEngine{knitr::knitr}
@@ -125,17 +125,7 @@ potentially useful contrast between the cities of Binghampton in the
 south of the study area with several sites in its vicinity, and Syracuse
 in the north without TCE sites in this data set.
 
-Dray, S., Legendre, P., and Peres-Neto, P. R. (2006). Spatial modeling:
-A comprehensive framework for principle coordinate analysis of neighbor
-matrices ([PCNM]{}). [*Ecological Modelling*]{}, 196:483–493.
-
-Griffith, D. A. and Peres-Neto, P. R. (2006). Spatial modeling in
-ecology: The flexibility of eigenfunction spatial analyses.
-[*Ecology*]{}, 87:2603–2613.
-
-Tiefelsdorf, M. and Griffith, D. A. (2007). Semiparametric filtering of
-spatial autocorrelation: The eigenvector approach. [*Environment and
-Planning A*]{}, 39:1193–1221.
+## References
 
 [^1]: This vignette formed pp. 302–305 of the first edition of Bivand,
     R. S., Pebesma, E. and Gómez-Rubio V. (2008) Applied Spatial Data
