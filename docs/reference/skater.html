@@ -323,13 +323,13 @@
 <span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='no'>boston.c</span>[,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>7</span>:<span class='fl'>10</span>)]))
 <span class='co'>### calculating costs</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>lcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.054   0.000   0.054 </div><div class='input'><span class='co'>### making listw</span>
+#&gt;   0.052   0.001   0.053 </div><div class='input'><span class='co'>### making listw</span>
 <span class='no'>nb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>lcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 <span class='co'>### find a minimum spanning tree</span>
 <span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>)
 <span class='co'>### three groups with no restriction</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   2.057   0.037   2.101 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>parallel</span>)
+#&gt;   2.056   0.036   2.118 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>parallel</span>)
 <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/detectCores'>detectCores</a></span>(<span class='kw'>logical</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='co'># set nc to 1L here</span>
 <span class='kw'>if</span> (<span class='no'>nc</span> <span class='kw'>&gt;</span> <span class='fl'>1L</span>) <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fl'>1L</span>
@@ -342,13 +342,13 @@
 }
 <span class='co'>### calculating costs</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>plcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.054   0.000   0.054 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>lcosts</span>, <span class='no'>plcosts</span>, <span class='kw'>check.attributes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'>### making listw</span>
+#&gt;   0.051   0.001   0.052 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>lcosts</span>, <span class='no'>plcosts</span>, <span class='kw'>check.attributes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'>### making listw</span>
 <span class='no'>pnb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>plcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 <span class='co'>### find a minimum spanning tree</span>
 <span class='no'>pmst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span>(<span class='no'>pnb.w</span>,<span class='fl'>5</span>)
 <span class='co'>### three groups with no restriction</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>pres1</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>pmst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   1.985   0.033   2.024 </div><div class='input'><span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
+#&gt;   2.033   0.050   2.108 </div><div class='input'><span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
   <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span>(<span class='kw'>NULL</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>stopCluster</a></span>(<span class='no'>cl</span>)
 }

@@ -163,7 +163,7 @@
 #&gt; [4] "mc"                     "rlecuyerSeed"           "spChkID"               
 #&gt; [7] "verbose"                "zeroPolicy"            </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>parallel</span>)
 <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/detectCores'>detectCores</a></span>(<span class='kw'>logical</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>nc</span></div><div class='output co'>#&gt; [1] 4</div><div class='input'><span class='co'># set nc to 1L here</span>
+<span class='no'>nc</span></div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='co'># set nc to 1L here</span>
 <span class='kw'>if</span> (<span class='no'>nc</span> <span class='kw'>&gt;</span> <span class='fl'>1L</span>) <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fl'>1L</span>
 <span class='co'>#nc &lt;- ifelse(nc &gt; 2L, 2L, nc)</span>
 <span class='no'>coresOpt</span> <span class='kw'>&lt;-</span> <span class='fu'>get.coresOption</span>()
