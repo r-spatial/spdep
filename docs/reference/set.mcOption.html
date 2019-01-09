@@ -86,10 +86,19 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
+    </li>
+    <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
+    </li>
+    <li>
+      <a href="../articles/sids.html">Introduction to the North Carolina SIDS data set (revised)</a>
     </li>
   </ul>
 </li>
@@ -163,7 +172,7 @@
 #&gt; [4] "mc"                     "rlecuyerSeed"           "spChkID"               
 #&gt; [7] "verbose"                "zeroPolicy"            </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>parallel</span>)
 <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/detectCores'>detectCores</a></span>(<span class='kw'>logical</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>nc</span></div><div class='output co'>#&gt; [1] 2</div><div class='input'><span class='co'># set nc to 1L here</span>
+<span class='no'>nc</span></div><div class='output co'>#&gt; [1] 4</div><div class='input'><span class='co'># set nc to 1L here</span>
 <span class='kw'>if</span> (<span class='no'>nc</span> <span class='kw'>&gt;</span> <span class='fl'>1L</span>) <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fl'>1L</span>
 <span class='co'>#nc &lt;- ifelse(nc &gt; 2L, 2L, nc)</span>
 <span class='no'>coresOpt</span> <span class='kw'>&lt;-</span> <span class='fu'>get.coresOption</span>()
