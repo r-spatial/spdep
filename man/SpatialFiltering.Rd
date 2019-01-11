@@ -8,9 +8,10 @@
   The function selects eigenvectors in a semi-parametric spatial filtering approach to removing spatial dependence from linear models. Selection is by brute force by finding the single eigenvector reducing the standard variate of Moran's I for regression residuals most, and continuing until no candidate eigenvector reduces the value by more than \code{tol}. It returns a summary table from the selection process and a matrix of selected eigenvectors for the specified model.
 }
 \usage{
-SpatialFiltering(formula, lagformula, data = list(), nb, glist = NULL, style = "C",
- zero.policy = NULL, tol = 0.1, zerovalue = 1e-04, ExactEV = FALSE,
- symmetric = TRUE, alpha=NULL, alternative="two.sided", verbose=NULL)
+SpatialFiltering(formula, lagformula, data, na.action, nb, glist = NULL,
+ style = "C", zero.policy = NULL, tol = 0.1, zerovalue = 1e-04,
+ ExactEV = FALSE, symmetric = TRUE, alpha=NULL, alternative="two.sided",
+ verbose=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,6 +21,7 @@ SpatialFiltering(formula, lagformula, data = list(), nb, glist = NULL, style = "
   \item{nb}{an object of class \code{nb}}
   \item{glist}{list of general weights corresponding to neighbours}
   \item{style}{\code{style} can take values W, B, C, U, and S}
+  \item{na.action}{a function (default \code{options("na.action")}), can also be \code{na.omit} or \code{na.exclude} with consequences for residuals and fitted values - in these cases the spatial weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted.}
   \item{zero.policy}{default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
   \item{tol}{tolerance value for convergence of spatial filtering}
   \item{zerovalue}{eigenvectors with eigenvalues of an absolute value smaller than zerovalue will be excluded in eigenvector search}
@@ -51,23 +53,49 @@ SpatialFiltering(formula, lagformula, data = list(), nb, glist = NULL, style = "
 
 \seealso{\code{\link[stats]{lm}}, \code{\link[base]{eigen}}, \code{\link{nb2listw}}, \code{\link{listw2U}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
+if (require(rgdal, quietly=TRUE)) exec <- TRUE
+if (exec) {
 example(columbus, package="spData")
 lmbase <- lm(CRIME ~ INC + HOVAL, data=columbus)
 sarcol <- SpatialFiltering(CRIME ~ INC + HOVAL, data=columbus,
  nb=col.gal.nb, style="W", ExactEV=TRUE)
 sarcol
+}
+if (exec) {
 lmsar <- lm(CRIME ~ INC + HOVAL + fitted(sarcol), data=columbus)
 lmsar
+}
+if (exec) {
 anova(lmbase, lmsar)
+}
+if (exec) {
 lm.morantest(lmsar, nb2listw(col.gal.nb))
+}
+if (exec) {
 lagcol <- SpatialFiltering(CRIME ~ 1, ~ INC + HOVAL - 1, data=columbus,
  nb=col.gal.nb, style="W")
 lagcol
+}
+if (exec) {
 lmlag <- lm(CRIME ~ INC + HOVAL + fitted(lagcol), data=columbus)
 lmlag
+}
+if (exec) {
 anova(lmbase, lmlag)
+}
+if (exec) {
 lm.morantest(lmlag, nb2listw(col.gal.nb))
+}
+if (exec) {
+NA.columbus <- columbus
+NA.columbus$CRIME[20:25] <- NA
+COL.SF.NA <- SpatialFiltering(CRIME ~ INC + HOVAL, data=NA.columbus,
+ nb=col.gal.nb, style="W", na.action=na.exclude)
+COL.SF.NA$na.action
+}
+if (exec) {
+summary(lm(CRIME ~ INC + HOVAL + fitted(COL.SF.NA), data=NA.columbus,
+ na.action=na.exclude))
 }
 }
 \keyword{spatial}

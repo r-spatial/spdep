@@ -1,8 +1,9 @@
 # Copyright 2005-2008 by Roger Bivand and Pedro Peres-Neto (from Matlab)
 #
 
-ME <- function(formula, data, family = gaussian, weights, offset, listw, 
-	alpha=0.05, nsim=99, verbose=NULL, stdev=FALSE) {
+ME <- function(formula, data, family = gaussian, weights, offset, na.action, 
+        listw, alpha=0.05, nsim=99, verbose=NULL, stdev=FALSE,
+        zero.policy=NULL) {
 	MoraneI.boot <- function(var, i, ...) {
 		var <- var[i]
 		I <- (n/S0)*(crossprod(sW %*% var, var))/cpvar
@@ -26,15 +27,12 @@ ME <- function(formula, data, family = gaussian, weights, offset, listw,
 		res <- list(estimate=mi, statistic=zi, p.value=pri)
 		res
 	}
+        if (is.null(zero.policy))
+            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        stopifnot(is.logical(zero.policy))
+
         if (is.null(verbose)) verbose <- get("verbose", envir = .spdepOptions)
         stopifnot(is.logical(verbose))
-
-	listw <- listw2U(listw) # make weights symmetric
-	sW <- as(listw, "CsparseMatrix")
-	
-	Wmat <- listw2mat(listw) # convert to full matrix form
-	n <- ncol(Wmat)
-	S0 <- Szero(listw)
 
 # argument handling copied from stats:::glm
 #	call <- match.call()
@@ -47,7 +45,8 @@ ME <- function(formula, data, family = gaussian, weights, offset, listw,
     	}
      	if (missing(data)) data <- environment(formula)
     	mf <- match.call(expand.dots = FALSE)
-    	m <- match(c("formula", "data", "weights", "offset"), names(mf), 0)
+    	m <- match(c("formula", "data", "weights", "offset", "na.action"),
+          names(mf), 0)
     	mf <- mf[c(1, m)]
     	mf$drop.unused.levels <- TRUE
     	mf[[1]] <- as.name("model.frame")
@@ -64,6 +63,20 @@ ME <- function(formula, data, family = gaussian, weights, offset, listw,
 	offset <- model.offset(mf)
 	if (!is.null(offset) && length(offset) != NROW(Y))
 	    stop("number of offsets should equal number of observations")
+
+	na.act <- attr(mf, "na.action")
+	if (!is.null(na.act)) {
+	    subset <- !(1:length(listw$neighbours) %in% na.act)
+	    listw <- subset(listw, subset, zero.policy=zero.policy)
+	}
+        
+	listw <- listw2U(listw) # make weights symmetric
+	sW <- as(listw, "CsparseMatrix")
+	
+	Wmat <- listw2mat(listw) # convert to full matrix form
+	n <- ncol(Wmat)
+	S0 <- Szero(listw)
+
 
 	glm_fit <- glm.fit(x=X, y=Y, weights=weights, offset=offset, 
 	    family=family)
@@ -160,6 +173,8 @@ ME <- function(formula, data, family = gaussian, weights, offset, listw,
 	colnames(tres) <- c("Eigenvector", "ZI", "pr(ZI)")
 	rownames(tres) <- 0:(nrow(tres)-1)
 	res <- list(selection=tres, vectors=sv)
+	if (!is.null(na.act))
+		res$na.action <- na.act
 	class(res) <- "ME_res"
 	res
 }
@@ -169,7 +184,25 @@ print.ME_res <- function(x, ...) {
 }
 
 fitted.ME_res <- function(object, ...) {
-	object$vectors
+        if (is.null(object$na.action)) {
+	    res <- object$vectors
+        } else {
+            omitted_rows <- unname(object$na.action)
+            res <- matrix(as.numeric(NA), ncol=ncol(object$vectors), 
+                nrow=length(omitted_rows)+nrow(object$vectors))
+            i <- j <- k <- 1
+            while (i <= nrow(res)) {
+                if (j <= length(omitted_rows) && i == omitted_rows[j]) {
+                    i <- i+1
+                    j <- j+1
+                } else {
+                    res[i,] <- object$vectors[k,]
+                    i <- i+1
+                    k <- k+1
+                }
+            }
+        }
+        res
 }
 
 

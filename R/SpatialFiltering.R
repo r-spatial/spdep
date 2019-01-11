@@ -1,4 +1,4 @@
-SpatialFiltering <- function (formula, lagformula, data=list(), nb,
+SpatialFiltering <- function (formula, lagformula, data, na.action, nb,
  glist=NULL, style="C", zero.policy=NULL, tol=0.1, zerovalue = 0.0001,
  ExactEV=FALSE, symmetric=TRUE, alpha=NULL, alternative="two.sided",
  verbose=NULL) {
@@ -42,7 +42,35 @@ SpatialFiltering <- function (formula, lagformula, data=list(), nb,
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
+
+
+# Generate Eigenvectors if eigen vectors are not given
+# (M1 for no SAR, MX for SAR)
+    if (class(formula) != "formula") formula <- as.formula(formula)
+    if (missing(data)) data <- environment(formula)
+    mf <- match.call(expand.dots = FALSE)
+    m <- match(c("formula", "data", "na.action"), names(mf), 0)
+    mf <- mf[c(1, m)]
+    mf$drop.unused.levels <- TRUE
+    mf[[1]] <- as.name("model.frame")
+    mf <- eval(mf, parent.frame())
+    mt <- attr(mf, "terms")
+
+    y <- model.extract(mf, "response")
+    if (any(is.na(y))) stop("NAs in dependent variable")
+    xsar <- model.matrix(mt, mf)
+    if (any(is.na(xsar))) stop("NAs in independent variable")
+
     lw <- nb2listw(nb, glist=glist, style=style, zero.policy=zero.policy)
+
+    na.act <- attr(mf, "na.action")
+    if (!is.null(na.act)) {
+        subset <- !(1:length(lw$neighbours) %in% na.act)
+        lw <- subset(lw, subset, zero.policy=zero.policy)
+    }
+    if (NROW(xsar) != length(lw$neighbours))
+        stop("Input data and neighbourhood list have different dimensions")
+
     if (symmetric) lw <- listw2U(lw)
     S <- listw2mat(lw)
     a <- sum(S)
@@ -50,19 +78,6 @@ SpatialFiltering <- function (formula, lagformula, data=list(), nb,
 
     nofreg <- nrow(S)           # number of observations
 
-
-# Generate Eigenvectors if eigen vectors are not given
-# (M1 for no SAR, MX for SAR)
-    if (class(formula) != "formula") formula <- as.formula(formula)
-    mt <- terms(formula, data = data)
-    mf <- lm(formula, data, method="model.frame")
-    y <- model.extract(mf, "response")
-    if (any(is.na(y))) stop("NAs in dependent variable")
-    xsar <- model.matrix(mt, mf)
-    if (any(is.na(xsar))) stop("NAs in independent variable")
-    if (NROW(xsar) != length(nb))
-        stop("Input data and neighbourhood list have different dimensions")
-    
     mx <- diag(1,nofreg) - xsar %*% qr.solve(crossprod(xsar), t(xsar))
     S <- mx %*% S %*% mx
                                                      
@@ -277,6 +292,8 @@ SpatialFiltering <- function (formula, lagformula, data=list(), nb,
     
 #Generating a result object 
     SFResult <- list(selection=out, dataset=selVec)
+    if (!is.null(na.act))
+	SFResult$na.action <- na.act
     class(SFResult) <- "SFResult"
     return(SFResult)
 }
@@ -286,7 +303,25 @@ print.SFResult <- function(x, ...) {
 }
 
 fitted.SFResult <- function(object, ...) {
-	object$dataset
+        if (is.null(object$na.action)) {
+	    res <- object$dataset
+        } else {
+            omitted_rows <- unname(object$na.action)
+            res <- matrix(as.numeric(NA), ncol=ncol(object$dataset), 
+                nrow=length(omitted_rows)+nrow(object$dataset))
+            i <- j <- k <- 1
+            while (i <= nrow(res)) {
+                if (j <= length(omitted_rows) && i == omitted_rows[j]) {
+                    i <- i+1
+                    j <- j+1
+                } else {
+                    res[i,] <- object$dataset[k,]
+                    i <- i+1
+                    k <- k+1
+                }
+            }
+        }
+        res
 }
 
 GetMoranStat <- function(MSM, degfree) {
