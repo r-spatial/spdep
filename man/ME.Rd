@@ -49,9 +49,11 @@ An object of class \code{ME_res}:
 
 \examples{
 \dontrun{
-if (require(rgdal, quietly=TRUE)) exec <- TRUE
+exec <- FALSE
+if (require(sf, quietly=TRUE)) exec <- TRUE
 if (exec) {
-example(columbus, package="spData")
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 lmbase <- lm(CRIME ~ INC + HOVAL, data=columbus)
 }
 if (exec) {
@@ -96,7 +98,12 @@ summary(lm(CRIME ~ INC + HOVAL + fitted(COL.ME.NA), data=NA.columbus,
  na.action=na.exclude))
 }
 if (exec) {
-example(nc.sids, package="spData")
+nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+rn <- as.character(nc.sids$FIPS)
+ncCC89_nb <- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
+ region.id=rn)
+ncCR85_nb <- read.gal(system.file("weights/ncCR85.gal", package="spData")[1],
+ region.id=rn)
 glmbase <- glm(SID74 ~ 1, data=nc.sids, offset=log(BIR74),
  family="poisson")
 }

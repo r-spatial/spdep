@@ -134,9 +134,10 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>SpatialFiltering</span>(<span class='no'>formula</span>, <span class='no'>lagformula</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>nb</span>, <span class='kw'>glist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"C"</span>,
- <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>zerovalue</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>, <span class='kw'>ExactEV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>symmetric</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"two.sided"</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>SpatialFiltering</span>(<span class='no'>formula</span>, <span class='no'>lagformula</span>, <span class='no'>data</span>, <span class='no'>na.action</span>, <span class='no'>nb</span>, <span class='kw'>glist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+ <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"C"</span>, <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>tol</span> <span class='kw'>=</span> <span class='fl'>0.1</span>, <span class='kw'>zerovalue</span> <span class='kw'>=</span> <span class='fl'>1e-04</span>,
+ <span class='kw'>ExactEV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>symmetric</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"two.sided"</span>,
+ <span class='kw'>verbose</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,6 +165,10 @@
     <tr>
       <th>style</th>
       <td><p><code>style</code> can take values W, B, C, U, and S</p></td>
+    </tr>
+    <tr>
+      <th>na.action</th>
+      <td><p>a function (default <code><a href='https://www.rdocumentation.org/packages/base/topics/options'>options("na.action")</a></code>), can also be <code>na.omit</code> or <code>na.exclude</code> with consequences for residuals and fitted values - in these cases the spatial weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted.</p></td>
     </tr>
     <tr>
       <th>zero.policy</th>
@@ -227,38 +232,131 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>rgdal</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>columbus</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+    <pre class="examples"><div class='input'><span class='no'>exec</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sf</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>exec</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='no'>exec</span>) {
+<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
 <span class='no'>lmbase</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
 <span class='no'>sarcol</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialFiltering</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>,
  <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>ExactEV</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>sarcol</span>
+}</div><div class='output co'>#&gt;   Step SelEvec      Eval        MinMi      ZMinMi      Pr(ZI)        R2
+#&gt; 0    0       0 0.0000000  0.212374153  2.68100025 0.007340246 0.5524040
+#&gt; 1    1       5 0.7148326  0.121528166  1.89037770 0.058707464 0.6209393
+#&gt; 2    2       3 0.8408661  0.065848648  1.54064108 0.123404165 0.6481722
+#&gt; 3    3       1 1.0206316 -0.005424824  1.08514557 0.277857187 0.6726114
+#&gt; 4    4      10 0.3658588 -0.039356232  0.80357070 0.421644951 0.7000258
+#&gt; 5    5      14 0.1831325 -0.072949543  0.47790213 0.632719864 0.7393770
+#&gt; 6    6      11 0.3144120 -0.108332631  0.18566599 0.852706701 0.7611907
+#&gt; 7    7       2 0.9157325 -0.153675621 -0.03464097 0.972366030 0.7713163
+#&gt;       gamma
+#&gt; 0   0.00000
+#&gt; 1  30.34786
+#&gt; 2  19.13010
+#&gt; 3 -18.12234
+#&gt; 4  19.19379
+#&gt; 5  22.99586
+#&gt; 6  17.12127
+#&gt; 7  11.66487</div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
 <span class='no'>lmsar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>sarcol</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
 <span class='no'>lmsar</span>
+}</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = CRIME ~ INC + HOVAL + fitted(sarcol), data = columbus)
+#&gt; 
+#&gt; Coefficients:
+#&gt;         (Intercept)                  INC                HOVAL  
+#&gt;             68.6190              -1.5973              -0.2739  
+#&gt;  fitted(sarcol)vec5   fitted(sarcol)vec3   fitted(sarcol)vec1  
+#&gt;             30.3479              19.1301             -18.1223  
+#&gt; fitted(sarcol)vec10  fitted(sarcol)vec14  fitted(sarcol)vec11  
+#&gt;             19.1938              22.9959              17.1213  
+#&gt;  fitted(sarcol)vec2  
+#&gt;             11.6649  
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>lmbase</span>, <span class='no'>lmsar</span>)
+}</div><div class='output co'>#&gt; Analysis of Variance Table
+#&gt; 
+#&gt; Model 1: CRIME ~ INC + HOVAL
+#&gt; Model 2: CRIME ~ INC + HOVAL + fitted(sarcol)
+#&gt;   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+#&gt; 1     46 6014.9                                  
+#&gt; 2     39 3073.1  7    2941.8 5.3334 0.0002445 ***
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
 <span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span>(<span class='no'>lmsar</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>))
+}</div><div class='output co'>#&gt; 
+#&gt; 	Global Moran I for regression residuals
+#&gt; 
+#&gt; data:  
+#&gt; model: lm(formula = CRIME ~ INC + HOVAL + fitted(sarcol), data =
+#&gt; columbus)
+#&gt; weights: nb2listw(col.gal.nb)
+#&gt; 
+#&gt; Moran I statistic standard deviate = -0.034641, p-value = 0.5138
+#&gt; alternative hypothesis: greater
+#&gt; sample estimates:
+#&gt; Observed Moran I      Expectation         Variance 
+#&gt;     -0.153675621     -0.150918131      0.006336477 
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
 <span class='no'>lagcol</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialFiltering</span>(<span class='no'>CRIME</span> ~ <span class='fl'>1</span>, ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> - <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>,
  <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)
 <span class='no'>lagcol</span>
+}</div><div class='output co'>#&gt;    Step SelEvec      Eval       MinMi      ZMinMi      Pr(ZI)        R2
+#&gt; 0     0       0 0.0000000  0.21237415  2.68100025 0.007340246 0.5524040
+#&gt; 1     1       6 0.7161123  0.11782248  1.84511963 0.065020139 0.6038801
+#&gt; 2     2       4 0.8682938  0.06242664  1.49482111 0.134961136 0.6531288
+#&gt; 3     3       1 1.0310063 -0.02066604  0.88134183 0.378132834 0.6924845
+#&gt; 4     4       5 0.7905397 -0.04619973  0.84746904 0.396733736 0.7136578
+#&gt; 5     5      15 0.1753342 -0.07609524  0.55233191 0.580720971 0.7558543
+#&gt; 6     6       9 0.5501433 -0.10190889  0.43919419 0.660520837 0.7626784
+#&gt; 7     7       8 0.5721041 -0.12232942  0.41846803 0.675604953 0.7757314
+#&gt; 8     8       3 0.9026222 -0.14991822  0.38315383 0.701605709 0.7908693
+#&gt; 9     9       2 0.9649166 -0.21756342 -0.28556733 0.775209527 0.8078727
+#&gt; 10   10       7 0.6219404 -0.22017920 -0.04856547 0.961265592 0.8082842
+#&gt;         gamma
+#&gt; 0    0.000000
+#&gt; 1   19.848854
+#&gt; 2   35.542595
+#&gt; 3  -30.697851
+#&gt; 4  -24.540372
+#&gt; 5   25.227798
+#&gt; 6    7.590082
+#&gt; 7  -16.933168
+#&gt; 8  -20.556931
+#&gt; 9  -18.434534
+#&gt; 10  -2.597572</div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
 <span class='no'>lmlag</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>lagcol</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
 <span class='no'>lmlag</span>
+}</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = CRIME ~ INC + HOVAL + fitted(lagcol), data = columbus)
+#&gt; 
+#&gt; Coefficients:
+#&gt;         (Intercept)                  INC                HOVAL  
+#&gt;             56.7977              -0.4857              -0.3821  
+#&gt;  fitted(lagcol)vec6   fitted(lagcol)vec4   fitted(lagcol)vec1  
+#&gt;             19.8489              35.5426             -30.6979  
+#&gt;  fitted(lagcol)vec5  fitted(lagcol)vec15   fitted(lagcol)vec9  
+#&gt;            -24.5404              25.2278               7.5901  
+#&gt;  fitted(lagcol)vec8   fitted(lagcol)vec3   fitted(lagcol)vec2  
+#&gt;            -16.9332             -20.5569             -18.4345  
+#&gt;  fitted(lagcol)vec7  
+#&gt;             -2.5976  
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>lmbase</span>, <span class='no'>lmlag</span>)
+}</div><div class='output co'>#&gt; Analysis of Variance Table
+#&gt; 
+#&gt; Model 1: CRIME ~ INC + HOVAL
+#&gt; Model 2: CRIME ~ INC + HOVAL + fitted(lagcol)
+#&gt;   Res.Df    RSS Df Sum of Sq      F    Pr(&gt;F)    
+#&gt; 1     46 6014.9                                  
+#&gt; 2     36 2576.3 10    3438.6 4.8049 0.0002165 ***
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
 <span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span>(<span class='no'>lmlag</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>))
 }</div><div class='output co'>#&gt; 
-#&gt; colmbs&gt; if (requireNamespace("rgdal", quietly = TRUE)) {
-#&gt; colmbs+   library(rgdal)
-#&gt; colmbs+   columbus &lt;- readOGR(system.file("shapes/columbus.shp", package="spData")[1])
-#&gt; colmbs+   plot(columbus)
-#&gt; colmbs+ }
-#&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "/home/rsb/lib/r_libs/spData/shapes/columbus.shp", layer: "columbus"
-#&gt; with 49 features
-#&gt; It has 20 fields
-#&gt; Integer64 fields read as strings:  COLUMBUS_ COLUMBUS_I POLYID </div><div class='img'><img src='SpatialFiltering-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; colmbs&gt; if (requireNamespace("spdep", quietly = TRUE)) {
-#&gt; colmbs+   library(spdep)
-#&gt; colmbs+   col.gal.nb &lt;- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-#&gt; colmbs+ }</div><div class='output co'>#&gt; 
 #&gt; 	Global Moran I for regression residuals
 #&gt; 
 #&gt; data:  
@@ -271,6 +369,42 @@
 #&gt; sample estimates:
 #&gt; Observed Moran I      Expectation         Variance 
 #&gt;     -0.220179195     -0.217083975      0.004061888 
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
+<span class='no'>NA.columbus</span> <span class='kw'>&lt;-</span> <span class='no'>columbus</span>
+<span class='no'>NA.columbus</span>$<span class='no'>CRIME</span>[<span class='fl'>20</span>:<span class='fl'>25</span>] <span class='kw'>&lt;-</span> <span class='fl'>NA</span>
+<span class='no'>COL.SF.NA</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialFiltering</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>NA.columbus</span>,
+ <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>)
+<span class='no'>COL.SF.NA</span>$<span class='no'>na.action</span>
+}</div><div class='output co'>#&gt; 20 21 22 23 24 25 
+#&gt; 20 21 22 23 24 25 
+#&gt; attr(,"class")
+#&gt; [1] "exclude"</div><div class='input'><span class='kw'>if</span> (<span class='no'>exec</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>COL.SF.NA</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>NA.columbus</span>,
+ <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>))
+}</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = CRIME ~ INC + HOVAL + fitted(COL.SF.NA), data = NA.columbus, 
+#&gt;     na.action = na.exclude)
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -23.6712  -4.7984   0.1761   6.7460  11.3353 
+#&gt; 
+#&gt; Coefficients:
+#&gt;                     Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept)         69.04674    3.91643  17.630  &lt; 2e-16 ***
+#&gt; INC                 -1.60115    0.26017  -6.154 3.88e-07 ***
+#&gt; HOVAL               -0.28742    0.07716  -3.725 0.000649 ***
+#&gt; fitted(COL.SF.NA)1 -39.91305    8.23597  -4.846 2.27e-05 ***
+#&gt; fitted(COL.SF.NA)2  19.81805    8.23597   2.406 0.021226 *  
+#&gt; fitted(COL.SF.NA)3 -35.07336    8.23597  -4.259 0.000135 ***
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Residual standard error: 8.236 on 37 degrees of freedom
+#&gt;   (6 observations deleted due to missingness)
+#&gt; Multiple R-squared:  0.7772,	Adjusted R-squared:  0.7471 
+#&gt; F-statistic: 25.81 on 5 and 37 DF,  p-value: 3.996e-11
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

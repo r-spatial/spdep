@@ -53,9 +53,11 @@ SpatialFiltering(formula, lagformula, data, na.action, nb, glist = NULL,
 
 \seealso{\code{\link[stats]{lm}}, \code{\link[base]{eigen}}, \code{\link{nb2listw}}, \code{\link{listw2U}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) exec <- TRUE
+exec <- FALSE
+if (require(sf, quietly=TRUE)) exec <- TRUE
 if (exec) {
-example(columbus, package="spData")
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 lmbase <- lm(CRIME ~ INC + HOVAL, data=columbus)
 sarcol <- SpatialFiltering(CRIME ~ INC + HOVAL, data=columbus,
  nb=col.gal.nb, style="W", ExactEV=TRUE)
