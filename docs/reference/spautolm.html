@@ -311,117 +311,102 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>foreign</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>NY_data</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>nydata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/NY8_bna_utm18.gpkg"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>lm0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lm0</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata)
+#&gt; 
+#&gt; Residuals:
+#&gt;     Min      1Q  Median      3Q     Max 
+#&gt; -1.7417 -0.3957 -0.0326  0.3353  4.1398 
+#&gt; 
+#&gt; Coefficients:
+#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept) -0.51728    0.15856  -3.262  0.00124 ** 
+#&gt; PEXPOSURE    0.04884    0.03506   1.393  0.16480    
+#&gt; PCTAGE65P    3.95089    0.60550   6.525 3.22e-10 ***
+#&gt; PCTOWNHOME  -0.56004    0.17031  -3.288  0.00114 ** 
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Residual standard error: 0.6571 on 277 degrees of freedom
+#&gt; Multiple R-squared:  0.1932,	Adjusted R-squared:  0.1844 
+#&gt; F-statistic:  22.1 on 3 and 277 DF,  p-value: 7.306e-13
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>lm0w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lm0w</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; lm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     weights = POP8)
+#&gt; 
+#&gt; Weighted Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -129.067  -14.714    5.817   25.624   70.723 
+#&gt; 
+#&gt; Coefficients:
+#&gt;             Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; (Intercept) -0.77837    0.14116  -5.514 8.03e-08 ***
+#&gt; PEXPOSURE    0.07626    0.02731   2.792  0.00560 ** 
+#&gt; PCTAGE65P    3.85656    0.57126   6.751 8.60e-11 ***
+#&gt; PCTOWNHOME  -0.39869    0.15305  -2.605  0.00968 ** 
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Residual standard error: 33.5 on 277 degrees of freedom
+#&gt; Multiple R-squared:  0.1977,	Adjusted R-squared:  0.189 
+#&gt; F-statistic: 22.75 on 3 and 277 DF,  p-value: 3.382e-13
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/message'>suppressMessages</a></span>(<span class='no'>nyadjmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='kw pkg'>foreign</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/foreign/topics/read.dbf'>read.dbf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(
+ <span class='st'>"misc/nyadjwts.dbf"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])[-<span class='fl'>1</span>]))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/message'>suppressMessages</a></span>(<span class='no'>ID</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='kw pkg'>foreign</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/foreign/topics/read.dbf'>read.dbf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(
+ <span class='st'>"misc/nyadjwts.dbf"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>]))[-<span class='fl'>1</span>]))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substring</a></span>(<span class='no'>ID</span>, <span class='fl'>2</span>, <span class='fl'>10</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substring</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nydata</span>$<span class='no'>AREAKEY</span>), <span class='fl'>2</span>, <span class='fl'>10</span>))
+}</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>nyadjlw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mat2listw.html'>mat2listw</a></span>(<span class='no'>nyadjmat</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nydata</span>$<span class='no'>AREAKEY</span>))
+<span class='no'>listw_NY</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nyadjlw</span>$<span class='no'>neighbours</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 <span class='no'>esar0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar0</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:errorsarlm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, 
+#&gt;     data = nydata, listw = listw_NY)
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.56754 -0.38239 -0.02643  0.33109  4.01219 
+#&gt; 
+#&gt; Type: error 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.618193   0.176784 -3.4969 0.0004707
+#&gt; PEXPOSURE    0.071014   0.042051  1.6888 0.0912635
+#&gt; PCTAGE65P    3.754200   0.624722  6.0094 1.862e-09
+#&gt; PCTOWNHOME  -0.419890   0.191329 -2.1946 0.0281930
+#&gt; 
+#&gt; Lambda: 0.040487, LR test value: 5.2438, p-value: 0.022026
+#&gt; Asymptotic standard error: 0.016214
+#&gt;     z-value: 2.4971, p-value: 0.01252
+#&gt; Wald statistic: 6.2356, p-value: 0.01252
+#&gt; 
+#&gt; Log likelihood: -276.1069 for error model
+#&gt; ML residual variance (sigma squared): 0.41388, (sigma: 0.64333)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 564.21, (AIC for lm: 567.46)
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1f</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>))
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1f</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>res</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>res</span>$<span class='no'>resvar</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>imat</span>)*<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>s2</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fdHess</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
- <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>TRUE</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)
-<span class='no'>esar1wf</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wf</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wM</span>)
-<span class='no'>esar1wlu</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"LU"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wlu</span>)
-<span class='no'>esar1wch</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Chebyshev"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wch</span>)
-<span class='no'>ecar1f</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1f</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1M</span>)
-<span class='no'>ecar1wf</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>nydata</span>$<span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wf</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wM</span>)
 }</div><div class='output co'>#&gt; 
-#&gt; NY_dat&gt; ## NY leukemia
-#&gt; NY_dat&gt; ## Not run: 
-#&gt; NY_dat&gt; ##D library(foreign)
-#&gt; NY_dat&gt; ##D nydata &lt;- read.dbf(system.file("misc/nydata.dbf", package="spData")[1])
-#&gt; NY_dat&gt; ##D library(sp)
-#&gt; NY_dat&gt; ##D coordinates(nydata) &lt;- c("X", "Y")
-#&gt; NY_dat&gt; ##D plot(nydata)
-#&gt; NY_dat&gt; ##D 
-#&gt; NY_dat&gt; ##D nyadjmat &lt;- as.matrix(read.dbf(system.file("misc/nyadjwts.dbf",
-#&gt; NY_dat&gt; ##D                                            package="spData")[1])[-1])
-#&gt; NY_dat&gt; ##D ID &lt;- as.character(names(read.dbf(system.file("misc/nyadjwts.dbf",
-#&gt; NY_dat&gt; ##D                                               package="spData")[1]))[-1])
-#&gt; NY_dat&gt; ##D identical(substring(ID, 2, 10), substring(as.character(nydata$AREAKEY), 2, 10))
-#&gt; NY_dat&gt; ##D 
-#&gt; NY_dat&gt; ##D library(spdep)
-#&gt; NY_dat&gt; ##D nyadjlw &lt;- mat2listw(nyadjmat, as.character(nydata$AREAKEY))
-#&gt; NY_dat&gt; ##D listw_NY &lt;- nb2listw(nyadjlw$neighbours, style="B")
-#&gt; NY_dat&gt; ## End(Not run)
-#&gt; NY_dat&gt; 
-#&gt; NY_dat&gt; 
-#&gt; NY_dat&gt; 
-#&gt; 
-#&gt; Jacobian calculated using neighbourhood matrix eigenvalues
-#&gt; Computing eigenvalues ...
-#&gt; 
-#&gt; lambda: -0.1280272 function: -316.7563 Jacobian -11.58022 SSE 144.3945 
-#&gt; lambda: -0.01993754 function: -281.8204 Jacobian -0.2954435 SSE 122.0236 
-#&gt; lambda: 0.04686555 function: -276.1764 Jacobian -1.808964 SSE 115.9629 
-#&gt; lambda: 0.04441244 function: -276.1331 Jacobian -1.616242 SSE 116.0864 
-#&gt; lambda: 0.04008128 function: -276.1072 Jacobian -1.304915 SSE 116.3224 
-#&gt; lambda: 0.04050468 function: -276.1069 Jacobian -1.333747 SSE 116.2983 
-#&gt; lambda: 0.04048595 function: -276.1069 Jacobian -1.332465 SSE 116.2994 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.0404872 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0 function: -278.7288 Jacobian 0 SSE 119.6191 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048744 function: -276.1069 Jacobian -1.332567 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048695 function: -276.1069 Jacobian -1.332533 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048744 function: -276.1069 Jacobian -1.332567 SSE 116.2993 
-#&gt; lambda: 0.04048744 function: -276.1069 Jacobian -1.332567 SSE 116.2993 
-#&gt; lambda: 0.04048744 function: -276.1069 Jacobian -1.332567 SSE 116.2993 
-#&gt; lambda: 0.04048744 function: -276.1069 Jacobian -1.332567 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
-#&gt;     listw = listw_NY, family = "SAR", method = "eigen", verbose = TRUE)
+#&gt;     listw = listw_NY, family = "SAR", method = "eigen")
 #&gt; 
 #&gt; Residuals:
 #&gt;      Min       1Q   Median       3Q      Max 
@@ -442,88 +427,273 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 564.21
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>res</span>$<span class='no'>resvar</span>))
+}</div><div class='output co'>#&gt; (Intercept)   PEXPOSURE   PCTAGE65P  PCTOWNHOME 
+#&gt;  0.17678351  0.04205063  0.62472153  0.19132936 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>imat</span>)*<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>s2</span>)
+}</div><div class='output co'>#&gt; (Intercept)   PEXPOSURE   PCTAGE65P  PCTOWNHOME 
+#&gt;  0.17678351  0.04205063  0.62472153  0.19132936 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fdHess</span>))
+}</div><div class='output co'>#&gt; [1] 0.01719949 0.18510068 0.04382630 0.63008743 0.20358778</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, family = "SAR", method = "Matrix")
 #&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.56754 -0.38239 -0.02643  0.33109  4.01219 
 #&gt; 
-#&gt; Jacobian calculated using sparse matrix Cholesky decomposition
-#&gt; lambda: -0.2135255 function: -365.0561 Jacobian -33.88724 SSE 173.7385 
-#&gt; lambda: -0.03647451 function: -285.2244 Jacobian -0.9732593 SSE 124.4143 
-#&gt; lambda: 0.07294902 function: -278.0021 Jacobian -4.669448 SSE 115.112 
-#&gt; lambda: 0.04279999 function: -276.116 Jacobian -1.496068 SSE 116.1715 
-#&gt; lambda: 0.03858654 function: -276.113 Jacobian -1.205863 SSE 116.4093 
-#&gt; lambda: 0.04049635 function: -276.1069 Jacobian -1.333177 SSE 116.2988 
-#&gt; lambda: 0.04048367 function: -276.1069 Jacobian -1.332309 SSE 116.2995 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.0404872 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048723 function: -276.1069 Jacobian -1.332553 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0 function: -278.7288 Jacobian 0 SSE 119.6191 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048745 function: -276.1069 Jacobian -1.332568 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048696 function: -276.1069 Jacobian -1.332534 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048745 function: -276.1069 Jacobian -1.332568 SSE 116.2993 
-#&gt; lambda: 0.04048745 function: -276.1069 Jacobian -1.332568 SSE 116.2993 
-#&gt; lambda: 0.04048745 function: -276.1069 Jacobian -1.332568 SSE 116.2993 
-#&gt; lambda: 0.04048745 function: -276.1069 Jacobian -1.332568 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
-#&gt; lambda: 0.04048721 function: -276.1069 Jacobian -1.332551 SSE 116.2993 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.618193   0.176784 -3.4969 0.0004707
+#&gt; PEXPOSURE    0.071014   0.042051  1.6888 0.0912635
+#&gt; PCTAGE65P    3.754200   0.624722  6.0094 1.862e-09
+#&gt; PCTOWNHOME  -0.419890   0.191329 -2.1946 0.0281930
 #&gt; 
-#&gt; Jacobian calculated using sparse matrix Cholesky decomposition
-#&gt; lambda: -0.2135255 function: -365.0561 Jacobian -33.88724 SSE 173.7385 
-#&gt; lambda: -0.03647451 function: -285.2244 Jacobian -0.9732593 SSE 124.4143 
-#&gt; lambda: 0.07294902 function: -278.0021 Jacobian -4.669448 SSE 115.112 
-#&gt; lambda: 0.04279999 function: -276.116 Jacobian -1.496068 SSE 116.1715 
-#&gt; lambda: 0.03858654 function: -276.113 Jacobian -1.205863 SSE 116.4093 
-#&gt; lambda: 0.04049635 function: -276.1069 Jacobian -1.333177 SSE 116.2988 
-#&gt; lambda: 0.04048367 function: -276.1069 Jacobian -1.332309 SSE 116.2995 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.0404872 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048716 function: -276.1069 Jacobian -1.332548 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048719 function: -276.1069 Jacobian -1.33255 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0 function: -278.7288 Jacobian 0 SSE 119.6191 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048743 function: -276.1069 Jacobian -1.332566 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048694 function: -276.1069 Jacobian -1.332533 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048743 function: -276.1069 Jacobian -1.332566 SSE 116.2993 
-#&gt; lambda: 0.04048743 function: -276.1069 Jacobian -1.332566 SSE 116.2993 
-#&gt; lambda: 0.04048743 function: -276.1069 Jacobian -1.332566 SSE 116.2993 
-#&gt; lambda: 0.04048743 function: -276.1069 Jacobian -1.332566 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 
-#&gt; lambda: 0.04048718 function: -276.1069 Jacobian -1.332549 SSE 116.2993 </div><div class='output co'>#&gt; 
+#&gt; Lambda: 0.040487 LR test value: 5.2438 p-value: 0.022026 
+#&gt; Numerical Hessian standard error of lambda: 0.017085 
+#&gt; 
+#&gt; Log likelihood: -276.1069 
+#&gt; ML residual variance (sigma squared): 0.41388, (sigma: 0.64333)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 564.21
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>,
+ <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>TRUE</span>)))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, family = "SAR", method = "Matrix", control = list(super = TRUE))
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.56754 -0.38239 -0.02643  0.33109  4.01219 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.618193   0.176784 -3.4969 0.0004707
+#&gt; PEXPOSURE    0.071014   0.042051  1.6888 0.0912635
+#&gt; PCTAGE65P    3.754200   0.624722  6.0094 1.862e-09
+#&gt; PCTOWNHOME  -0.419890   0.191329 -2.1946 0.0281930
+#&gt; 
+#&gt; Lambda: 0.040487 LR test value: 5.2438 p-value: 0.022026 
+#&gt; Numerical Hessian standard error of lambda: 0.017177 
+#&gt; 
+#&gt; Log likelihood: -276.1069 
+#&gt; ML residual variance (sigma squared): 0.41388, (sigma: 0.64333)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 564.21
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>esar1wf</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wf</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "eigen")
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.48488 -0.26823  0.09489  0.46552  4.28343 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.797063   0.144054 -5.5331 3.146e-08
+#&gt; PEXPOSURE    0.080545   0.028334  2.8428  0.004473
+#&gt; PCTAGE65P    3.816731   0.576037  6.6258 3.453e-11
+#&gt; PCTOWNHOME  -0.380778   0.156507 -2.4330  0.014975
+#&gt; 
+#&gt; Lambda: 0.0095636 LR test value: 0.32665 p-value: 0.56764 
+#&gt; Numerical Hessian standard error of lambda: 0.016466 
+#&gt; 
+#&gt; Log likelihood: -251.6017 
+#&gt; ML residual variance (sigma squared): 1104.1, (sigma: 33.229)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 515.2
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wM</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "Matrix")
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.48488 -0.26823  0.09489  0.46552  4.28343 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.797063   0.144054 -5.5331 3.146e-08
+#&gt; PEXPOSURE    0.080545   0.028334  2.8428  0.004473
+#&gt; PCTAGE65P    3.816730   0.576037  6.6258 3.453e-11
+#&gt; PCTOWNHOME  -0.380777   0.156507 -2.4330  0.014975
+#&gt; 
+#&gt; Lambda: 0.0095636 LR test value: 0.32665 p-value: 0.56764 
+#&gt; Numerical Hessian standard error of lambda: 0.013835 
+#&gt; 
+#&gt; Log likelihood: -251.6017 
+#&gt; ML residual variance (sigma squared): 1104.1, (sigma: 33.229)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 515.2
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>esar1wlu</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"LU"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wlu</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "LU")
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.48488 -0.26823  0.09489  0.46552  4.28343 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.797063   0.144054 -5.5331 3.146e-08
+#&gt; PEXPOSURE    0.080545   0.028334  2.8428  0.004473
+#&gt; PCTAGE65P    3.816731   0.576037  6.6258 3.453e-11
+#&gt; PCTOWNHOME  -0.380778   0.156507 -2.4330  0.014975
+#&gt; 
+#&gt; Lambda: 0.0095636 LR test value: 0.32665 p-value: 0.56764 
+#&gt; Numerical Hessian standard error of lambda: 0.016522 
+#&gt; 
+#&gt; Log likelihood: -251.6017 
+#&gt; ML residual variance (sigma squared): 1104.1, (sigma: 33.229)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 515.2
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>esar1wch</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Chebyshev"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wch</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "Chebyshev")
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -4.39831 -0.86303  0.12117  1.09320  8.78570 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.538555   0.087573 -6.1498  7.76e-10
+#&gt; PEXPOSURE    0.029782   0.013074  2.2780   0.02273
+#&gt; PCTAGE65P    4.896346   0.419359 11.6758 &lt; 2.2e-16
+#&gt; PCTOWNHOME  -0.737829   0.087569 -8.4257 &lt; 2.2e-16
+#&gt; 
+#&gt; Lambda: -1 LR test value: 236970 p-value: &lt; 2.22e-16 
+#&gt; Numerical Hessian standard error of lambda: NaN 
+#&gt; 
+#&gt; Log likelihood: 118232.5 
+#&gt; ML residual variance (sigma squared): 9336.4, (sigma: 96.625)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: -236450
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>ecar1f</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1f</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, family = "CAR", method = "eigen")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -1.539732 -0.384311 -0.030646  0.335126  3.808848 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.648362   0.181129 -3.5796 0.0003442
+#&gt; PEXPOSURE    0.077899   0.043692  1.7829 0.0745986
+#&gt; PCTAGE65P    3.703830   0.627185  5.9055 3.516e-09
+#&gt; PCTOWNHOME  -0.382789   0.195564 -1.9574 0.0503053
+#&gt; 
+#&gt; Lambda: 0.084123 LR test value: 5.8009 p-value: 0.016018 
+#&gt; Numerical Hessian standard error of lambda: 0.030868 
+#&gt; 
+#&gt; Log likelihood: -275.8283 
+#&gt; ML residual variance (sigma squared): 0.40758, (sigma: 0.63842)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 563.66
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1M</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, family = "CAR", method = "Matrix")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -1.539732 -0.384311 -0.030647  0.335126  3.808848 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.648362   0.181129 -3.5796 0.0003442
+#&gt; PEXPOSURE    0.077899   0.043692  1.7829 0.0745987
+#&gt; PCTAGE65P    3.703830   0.627185  5.9055 3.516e-09
+#&gt; PCTOWNHOME  -0.382789   0.195564 -1.9574 0.0503053
+#&gt; 
+#&gt; Lambda: 0.084123 LR test value: 5.8009 p-value: 0.016018 
+#&gt; Numerical Hessian standard error of lambda: 0.030851 
+#&gt; 
+#&gt; Log likelihood: -275.8283 
+#&gt; ML residual variance (sigma squared): 0.40758, (sigma: 0.63842)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 563.66
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>ecar1wf</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>nydata</span>$<span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wf</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, weights = nydata$POP8, family = "CAR", 
+#&gt;     method = "eigen")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -1.491042 -0.270906  0.081435  0.451556  4.198134 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.790154   0.144862 -5.4545 4.910e-08
+#&gt; PEXPOSURE    0.081922   0.028593  2.8651  0.004169
+#&gt; PCTAGE65P    3.825858   0.577720  6.6223 3.536e-11
+#&gt; PCTOWNHOME  -0.386820   0.157436 -2.4570  0.014010
+#&gt; 
+#&gt; Lambda: 0.022419 LR test value: 0.38785 p-value: 0.53343 
+#&gt; Numerical Hessian standard error of lambda: 0.038543 
+#&gt; 
+#&gt; Log likelihood: -251.5711 
+#&gt; ML residual variance (sigma squared): 1102.9, (sigma: 33.21)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 515.14
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wM</span>)
+}</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = POP8, family = "CAR", method = "Matrix")
@@ -547,8 +717,8 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 515.14
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>rgdal</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>nc.sids</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>ft.SID74</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fl'>1000</span>)*(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='no'>nc.sids</span>$<span class='no'>SID74</span>/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>) +
  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>((<span class='no'>nc.sids</span>$<span class='no'>SID74</span>+<span class='fl'>1</span>)/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>))
 <span class='no'>lm_nc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>)
@@ -566,7 +736,8 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>((<span class='no'>nc.sids</span>$<span class='no'>NWBIR74</span>+<span class='fl'>1</span>)/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>))
 <span class='no'>mdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>both</span>, <span class='no'>ft.NWBIR74</span>, <span class='no'>ft.SID74</span>, <span class='kw'>BIR74</span><span class='kw'>=</span><span class='no'>nc.sids</span>$<span class='no'>BIR74</span>)
 <span class='no'>outl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which.min'>which.max</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/influence.measures'>rstandard</a></span>(<span class='no'>lm_nc</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nc.sids</span>$<span class='no'>names</span>[<span class='no'>outl</span>])
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nc.sids</span>$<span class='no'>NAME</span>[<span class='no'>outl</span>])
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 56, 87 are not origins</span></div><div class='output co'>#&gt; [1] "Anson"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>mdata.4</span> <span class='kw'>&lt;-</span> <span class='no'>mdata</span>[-<span class='no'>outl</span>,]
 <span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2mat.html'>listw2mat</a></span>(<span class='no'>sids.nhbr.listw</span>)
 <span class='no'>W.4</span> <span class='kw'>&lt;-</span> <span class='no'>W</span>[-<span class='no'>outl</span>, -<span class='no'>outl</span>]
@@ -574,59 +745,289 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 <span class='no'>esarI</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarI</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:errorsarlm(formula = ft.SID74 ~ 1, data = mdata, listw = sids.nhbr.listw, 
+#&gt;     zero.policy = TRUE)
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -1.887117 -0.636573 -0.043429  0.448767  3.406724 
+#&gt; 
+#&gt; Type: error 
+#&gt; Regions with no neighbours included:
+#&gt;  56 87 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept)  2.97463    0.13011  22.862 &lt; 2.2e-16
+#&gt; 
+#&gt; Lambda: 0.66864, LR test value: 10.214, p-value: 0.0013939
+#&gt; Asymptotic standard error: 0.11473
+#&gt;     z-value: 5.8278, p-value: 5.6146e-09
+#&gt; Wald statistic: 33.964, p-value: 5.6146e-09
+#&gt; 
+#&gt; Log likelihood: -133.8616 for error model
+#&gt; ML residual variance (sigma squared): 0.81932, (sigma: 0.90516)
+#&gt; Number of observations: 100 
+#&gt; Number of parameters estimated: 3 
+#&gt; AIC: 273.72, (AIC for lm: 281.94)
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esarIa</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIa</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: spautolm(formula = ft.SID74 ~ 1, data = mdata, listw = sids.nhbr.listw, 
+#&gt;     family = "SAR")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -1.887117 -0.636573 -0.043429  0.448767  3.406724 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept)  2.97463    0.13011  22.862 &lt; 2.2e-16
+#&gt; 
+#&gt; Lambda: 0.66864 LR test value: 10.214 p-value: 0.0013939 
+#&gt; Numerical Hessian standard error of lambda: 0.16506 
+#&gt; 
+#&gt; Log likelihood: -133.8616 
+#&gt; ML residual variance (sigma squared): 0.81932, (sigma: 0.90516)
+#&gt; Number of observations: 100 
+#&gt; Number of parameters estimated: 3 
+#&gt; AIC: 273.72
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esarIV</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIV</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:
+#&gt; errorsarlm(formula = ft.SID74 ~ ft.NWBIR74, data = mdata, listw = sids.nhbr.listw, 
+#&gt;     zero.policy = TRUE)
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -2.123648 -0.573163  0.017859  0.468022  2.693604 
+#&gt; 
+#&gt; Type: error 
+#&gt; Regions with no neighbours included:
+#&gt;  56 87 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 1.549443   0.219230  7.0677 1.576e-12
+#&gt; ft.NWBIR74  0.041974   0.006171  6.8018 1.033e-11
+#&gt; 
+#&gt; Lambda: 0.18465, LR test value: 0.50496, p-value: 0.47733
+#&gt; Asymptotic standard error: 0.20648
+#&gt;     z-value: 0.89424, p-value: 0.37119
+#&gt; Wald statistic: 0.79967, p-value: 0.37119
+#&gt; 
+#&gt; Log likelihood: -117.7464 for error model
+#&gt; ML residual variance (sigma squared): 0.61546, (sigma: 0.78451)
+#&gt; Number of observations: 100 
+#&gt; Number of parameters estimated: 4 
+#&gt; AIC: 243.49, (AIC for lm: 242)
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esarIVa</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIVa</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = ft.SID74 ~ ft.NWBIR74, data = mdata, listw = sids.nhbr.listw, 
+#&gt;     family = "SAR")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -2.123648 -0.573163  0.017859  0.468022  2.693604 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 1.549443   0.219230  7.0677 1.576e-12
+#&gt; ft.NWBIR74  0.041974   0.006171  6.8018 1.033e-11
+#&gt; 
+#&gt; Lambda: 0.18465 LR test value: 0.50496 p-value: 0.47733 
+#&gt; Numerical Hessian standard error of lambda: 0.25591 
+#&gt; 
+#&gt; Log likelihood: -117.7464 
+#&gt; ML residual variance (sigma squared): 0.61546, (sigma: 0.78451)
+#&gt; Number of observations: 100 
+#&gt; Number of parameters estimated: 4 
+#&gt; AIC: 243.49
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esarIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIaw</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: spautolm(formula = ft.SID74 ~ 1, data = mdata, listw = sids.nhbr.listw, 
+#&gt;     weights = BIR74, family = "SAR")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -1.867485 -0.568644  0.019717  0.502197  3.498013 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 2.852052   0.090271  31.594 &lt; 2.2e-16
+#&gt; 
+#&gt; Lambda: 0.7338 LR test value: 12.917 p-value: 0.00032554 
+#&gt; Numerical Hessian standard error of lambda: 0.13886 
+#&gt; 
+#&gt; Log likelihood: -130.0975 
+#&gt; ML residual variance (sigma squared): 1539.4, (sigma: 39.236)
+#&gt; Number of observations: 100 
+#&gt; Number of parameters estimated: 3 
+#&gt; AIC: 266.19
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esarIIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>both</span> - <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIIaw</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = ft.SID74 ~ both - 1, data = mdata, listw = sids.nhbr.listw, 
+#&gt;     weights = BIR74, family = "SAR")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -2.590809 -0.432976  0.016736  0.357284  3.536718 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;         Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; both1:2  2.05545    0.22184  9.2654 &lt; 2.2e-16
+#&gt; both1:3  2.87260    0.16181 17.7531 &lt; 2.2e-16
+#&gt; both1:4  4.16365    0.34330 12.1283 &lt; 2.2e-16
+#&gt; both2:1  2.47255    0.29757  8.3090 &lt; 2.2e-16
+#&gt; both2:2  2.15307    0.21172 10.1692 &lt; 2.2e-16
+#&gt; both2:3  2.64235    0.17296 15.2770 &lt; 2.2e-16
+#&gt; both2:4  3.26604    0.28287 11.5459 &lt; 2.2e-16
+#&gt; both3:1  3.11277    0.34166  9.1107 &lt; 2.2e-16
+#&gt; both3:2  2.76541    0.15667 17.6508 &lt; 2.2e-16
+#&gt; both3:3  2.86582    0.18593 15.4134 &lt; 2.2e-16
+#&gt; both3:4  3.18142    0.21617 14.7169 &lt; 2.2e-16
+#&gt; both4:3  3.69333    0.23348 15.8188 &lt; 2.2e-16
+#&gt; 
+#&gt; Lambda: 0.32136 LR test value: 1.4004 p-value: 0.23666 
+#&gt; Numerical Hessian standard error of lambda: 0.25503 
+#&gt; 
+#&gt; Log likelihood: -109.8922 
+#&gt; ML residual variance (sigma squared): 1071.6, (sigma: 32.735)
+#&gt; Number of observations: 100 
+#&gt; Number of parameters estimated: 14 
+#&gt; AIC: 247.78
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esarIVaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIVaw</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = ft.SID74 ~ ft.NWBIR74, data = mdata, listw = sids.nhbr.listw, 
+#&gt;     weights = BIR74, family = "SAR")
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -2.00956 -0.45229  0.12547  0.55952  2.92223 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 1.5769279  0.2501334  6.3043 2.894e-10
+#&gt; ft.NWBIR74  0.0368573  0.0069413  5.3099 1.097e-07
+#&gt; 
+#&gt; Lambda: 0.3839 LR test value: 1.9983 p-value: 0.15747 
+#&gt; Numerical Hessian standard error of lambda: 0.25778 
+#&gt; 
+#&gt; Log likelihood: -119.5648 
+#&gt; ML residual variance (sigma squared): 1295.8, (sigma: 35.997)
+#&gt; Number of observations: 100 
+#&gt; Number of parameters estimated: 4 
+#&gt; AIC: 247.13
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>ecarIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>,
  <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIaw</span>)
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = ft.SID74 ~ 1, data = mdata.4, listw = sids.nhbr.listw.4, 
+#&gt;     weights = BIR74, family = "CAR")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -2.009350 -0.638915 -0.060761  0.428526  2.019409 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 2.942864   0.095304  30.879 &lt; 2.2e-16
+#&gt; 
+#&gt; Lambda: 0.86832 LR test value: 23.003 p-value: 1.6172e-06 
+#&gt; Numerical Hessian standard error of lambda: 0.048102 
+#&gt; 
+#&gt; Log likelihood: -118.7564 
+#&gt; ML residual variance (sigma squared): 1264, (sigma: 35.553)
+#&gt; Number of observations: 99 
+#&gt; Number of parameters estimated: 3 
+#&gt; AIC: 243.51
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>ecarIIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>both</span> - <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIIaw</span>)
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = ft.SID74 ~ both - 1, data = mdata.4, listw = sids.nhbr.listw.4, 
+#&gt;     weights = BIR74, family = "CAR")
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -2.564067 -0.461531 -0.020982  0.384458  2.054255 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;         Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; both1:2  2.06282    0.20065 10.2806 &lt; 2.2e-16
+#&gt; both1:3  2.91982    0.14171 20.6048 &lt; 2.2e-16
+#&gt; both1:4  4.12159    0.30076 13.7037 &lt; 2.2e-16
+#&gt; both2:1  2.58281    0.27014  9.5611 &lt; 2.2e-16
+#&gt; both2:2  2.17549    0.18265 11.9104 &lt; 2.2e-16
+#&gt; both2:3  2.67030    0.15355 17.3910 &lt; 2.2e-16
+#&gt; both2:4  3.10806    0.24748 12.5588 &lt; 2.2e-16
+#&gt; both3:1  2.93237    0.30007  9.7724 &lt; 2.2e-16
+#&gt; both3:2  2.65317    0.14139 18.7646 &lt; 2.2e-16
+#&gt; both3:3  2.91685    0.17134 17.0234 &lt; 2.2e-16
+#&gt; both3:4  3.20447    0.20402 15.7063 &lt; 2.2e-16
+#&gt; both4:3  3.80672    0.20831 18.2742 &lt; 2.2e-16
+#&gt; 
+#&gt; Lambda: 0.22163 LR test value: 1.3827 p-value: 0.23964 
+#&gt; Numerical Hessian standard error of lambda: NaN 
+#&gt; 
+#&gt; Log likelihood: -99.2181 
+#&gt; ML residual variance (sigma squared): 890.66, (sigma: 29.844)
+#&gt; Number of observations: 99 
+#&gt; Number of parameters estimated: 14 
+#&gt; AIC: 226.44
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>ecarIVaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIVaw</span>)
+}</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = ft.SID74 ~ ft.NWBIR74, data = mdata.4, listw = sids.nhbr.listw.4, 
+#&gt;     weights = BIR74, family = "CAR")
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.99259 -0.44794  0.15464  0.60748  1.95751 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;             Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 1.434705   0.225521  6.3618 1.995e-10
+#&gt; ft.NWBIR74  0.040903   0.006299  6.4936 8.382e-11
+#&gt; 
+#&gt; Lambda: 0.22724 LR test value: 1.1936 p-value: 0.2746 
+#&gt; Numerical Hessian standard error of lambda: 0.5473 
+#&gt; 
+#&gt; Log likelihood: -114.0196 
+#&gt; ML residual variance (sigma squared): 1201, (sigma: 34.655)
+#&gt; Number of observations: 99 
+#&gt; Number of parameters estimated: 4 
+#&gt; AIC: 236.04
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>nc.sids</span>$<span class='no'>fitIV</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/append'>append</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted.values</a></span>(<span class='no'>ecarIVaw</span>), <span class='fl'>NA</span>, <span class='no'>outl</span>-<span class='fl'>1</span>)
-<span class='fu'>spplot</span>(<span class='no'>nc.sids</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"fitIV"</span>), <span class='kw'>cuts</span><span class='kw'>=</span><span class='fl'>12</span>) <span class='co'># Cressie 1993, p. 565</span>
-}</div><div class='output co'>#&gt; 
-#&gt; nc.sds&gt; if (requireNamespace("rgdal", quietly = TRUE)) {
-#&gt; nc.sds+   library(rgdal)
-#&gt; nc.sds+   if (requireNamespace("spdep", quietly = TRUE)) {
-#&gt; nc.sds+     library(spdep)
-#&gt; nc.sds+     nc.sids &lt;- readOGR(system.file("shapes/sids.shp", package="spData")[1])
-#&gt; nc.sds+     proj4string(nc.sids) &lt;- CRS("+proj=longlat +ellps=clrk66")
-#&gt; nc.sds+     row.names(nc.sids) &lt;- as.character(nc.sids$FIPS)
-#&gt; nc.sds+     rn &lt;- row.names(nc.sids)
-#&gt; nc.sds+     ncCC89_nb &lt;- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
-#&gt; nc.sds+                           region.id=rn)
-#&gt; nc.sds+     ncCR85_nb &lt;- read.gal(system.file("weights/ncCR85.gal", package="spData")[1],
-#&gt; nc.sds+                           region.id=rn)
-#&gt; nc.sds+                           
-#&gt; nc.sds+     plot(nc.sids, border="grey")
-#&gt; nc.sds+     plot(ncCR85_nb, coordinates(nc.sids), add=TRUE, col="blue")
-#&gt; nc.sds+     plot(nc.sids, border="grey")
-#&gt; nc.sds+     plot(ncCC89_nb, coordinates(nc.sids), add=TRUE, col="blue")
-#&gt; nc.sds+   }
-#&gt; nc.sds+ }
-#&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "/home/rsb/lib/r_libs/spData/shapes/sids.shp", layer: "sids"
-#&gt; with 100 features
-#&gt; It has 22 fields</div><div class='img'><img src='spautolm-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 37055, 37095 are not origins</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='img'><img src='spautolm-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='spautolm-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>oldcol</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>nc.sids</span>[,<span class='st'>"fitIV"</span>], <span class='kw'>nbreaks</span><span class='kw'>=</span><span class='fl'>12</span>) <span class='co'># Cressie 1993, p. 565</span>
+}</div><div class='img'><img src='spautolm-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>oldcol</span>)
 <span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.errW.eig</span>)</div><div class='output co'>#&gt; 
