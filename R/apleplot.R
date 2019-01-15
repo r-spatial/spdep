@@ -17,6 +17,6 @@ localAple <- function(x, listw, override_similarity_check=FALSE, useTrace=TRUE) 
     aplepl <- aple.plot(x, listw,
         override_similarity_check=override_similarity_check,
         useTrace=useTrace, do.plot=FALSE)
-    res <- (length(aplepl$X) * aplepl$Y * aplepl$X) / crossprod(aplepl$X)
+    res <- (length(aplepl$X) * aplepl$Y * aplepl$X) / c(crossprod(aplepl$X))
     res
 }

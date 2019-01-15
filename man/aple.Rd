@@ -27,20 +27,31 @@ aple(x, listw, override_similarity_check=FALSE, useTrace=TRUE)
 \seealso{\code{\link{nb2listw}}, \code{\link{aple.mc}}, \code{\link{aple.plot}}
 }
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-wheat <- readOGR(system.file("shapes/wheat.shp", package="spData"))
-nbr1 <- poly2nb(wheat, queen=FALSE)
+run <- FALSE
+if (require(sf, quietly=TRUE)) run <- TRUE
+if (run) {
+wheat <- st_read(system.file("shapes/wheat.shp", package="spData")[1], quiet=TRUE)
+nbr1 <- poly2nb(as(wheat, "Spatial"), queen=FALSE)
 nbrl <- nblag(nbr1, 2)
 nbr12 <- nblag_cumul(nbrl)
-cms0 <- with(as(wheat, "data.frame"), tapply(yield, c, median))
+wheat_g <- wheat
+st_geometry(wheat_g) <- NULL
+cms0 <- with(wheat_g, tapply(yield, c, median))
 cms1 <- c(model.matrix(~ factor(c) -1, data=wheat) \%*\% cms0)
 wheat$yield_detrend <- wheat$yield - cms1
-isTRUE(all.equal(c(with(as(wheat, "data.frame"),
+wheat_g$yield_detrend <- wheat_g$yield - cms1
+isTRUE(all.equal(c(with(wheat_g,
  tapply(yield_detrend, c, median))), rep(0.0, 25),
  check.attributes=FALSE))
+}
+if (run) {
 moran.test(wheat$yield_detrend, nb2listw(nbr12, style="W"))
+}
+if (run) {
 aple(as.vector(scale(wheat$yield_detrend, scale=FALSE)), nb2listw(nbr12, style="W"))
-\donttest{
+}
+\dontrun{
+if (run) {
 errorsarlm(yield_detrend ~ 1, wheat, nb2listw(nbr12, style="W"))
 }
 }

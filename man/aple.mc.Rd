@@ -25,16 +25,26 @@ aple.mc(x, listw, nsim, override_similarity_check=FALSE, useTrace=TRUE)
 
 \seealso{\code{\link{aple}}, \code{\link[boot]{boot}}}
 \examples{
-\donttest{
-if (require(rgdal, quietly=TRUE)) {
+\dontrun{
+run <- FALSE
+if (require(sf, quietly=TRUE)) run <- TRUE
+if (run) {
 example(aple)
+}
+if (run) {
 oldRNG <- RNGkind()
 RNGkind("L'Ecuyer-CMRG")
+}
+if (run) {
 set.seed(1L)
 boot_out_ser <- aple.mc(as.vector(scale(wheat$yield_detrend, scale=FALSE)),
  nb2listw(nbr12, style="W"), nsim=500)
 plot(boot_out_ser)
+}
+if (run) {
 boot_out_ser
+}
+if (run) {
 library(parallel)
 oldCores <- set.coresOption(NULL)
 nc <- detectCores(logical=FALSE)
@@ -55,6 +65,8 @@ if (!get.mcOption()) {
   stopCluster(cl)
 }
 boot_out_par
+}
+if (run) {
 invisible(set.coresOption(oldCores))
 RNGkind(oldRNG[1], oldRNG[2])
 }
