@@ -41,7 +41,7 @@ df2sn(df, i="i", i_ID="i_ID", j="j", wt="wt")
 \examples{
 #require(maptools)
 if (require(rgdal, quietly=TRUE)) {
-example(columbus)
+example(columbus, package="spData")
 coords <- coordinates(columbus)
 res <- listw2lines(nb2listw(col.gal.nb), coords)
 summary(res)
