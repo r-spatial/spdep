@@ -167,28 +167,11 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>NY_data</span>)</div><div class='output co'>#&gt; 
-#&gt; NY_dat&gt; ## NY leukemia
-#&gt; NY_dat&gt; ## Not run: 
-#&gt; NY_dat&gt; ##D library(foreign)
-#&gt; NY_dat&gt; ##D nydata &lt;- read.dbf(system.file("misc/nydata.dbf", package="spData")[1])
-#&gt; NY_dat&gt; ##D library(sp)
-#&gt; NY_dat&gt; ##D coordinates(nydata) &lt;- c("X", "Y")
-#&gt; NY_dat&gt; ##D plot(nydata)
-#&gt; NY_dat&gt; ##D 
-#&gt; NY_dat&gt; ##D nyadjmat &lt;- as.matrix(read.dbf(system.file("misc/nyadjwts.dbf",
-#&gt; NY_dat&gt; ##D                                            package="spData")[1])[-1])
-#&gt; NY_dat&gt; ##D ID &lt;- as.character(names(read.dbf(system.file("misc/nyadjwts.dbf",
-#&gt; NY_dat&gt; ##D                                               package="spData")[1]))[-1])
-#&gt; NY_dat&gt; ##D identical(substring(ID, 2, 10), substring(as.character(nydata$AREAKEY), 2, 10))
-#&gt; NY_dat&gt; ##D 
-#&gt; NY_dat&gt; ##D library(spdep)
-#&gt; NY_dat&gt; ##D nyadjlw &lt;- mat2listw(nyadjmat, as.character(nydata$AREAKEY))
-#&gt; NY_dat&gt; ##D listw_NY &lt;- nb2listw(nyadjlw$neighbours, style="B")
-#&gt; NY_dat&gt; ## End(Not run)
-#&gt; NY_dat&gt; 
-#&gt; NY_dat&gt; 
-#&gt; NY_dat&gt; </div><div class='input'><span class='no'>W_C</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>listw_NY</span>, <span class='st'>"CsparseMatrix"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/message'>suppressMessages</a></span>(<span class='no'>nyadjmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='kw pkg'>foreign</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/foreign/topics/read.dbf'>read.dbf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(
+ <span class='st'>"misc/nyadjwts.dbf"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])[-<span class='fl'>1</span>]))
+<span class='no'>nyadjlw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mat2listw.html'>mat2listw</a></span>(<span class='no'>nyadjmat</span>)
+<span class='no'>listw_NY</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nyadjlw</span>$<span class='no'>neighbours</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
+<span class='no'>W_C</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>listw_NY</span>, <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>W_R</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>listw_NY</span>, <span class='st'>"RsparseMatrix"</span>)
 <span class='no'>W_S</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>listw_NY</span>, <span class='st'>"symmetricMatrix"</span>)
 <span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>W_S</span>)

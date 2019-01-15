@@ -189,24 +189,50 @@ Dordrecht: Kluwer, pp. 121--122.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>if (require(rgdal, quietly=TRUE)) {
-example(columbus)
-error.col <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus,
- nb2listw(col.gal.nb))
-bptest.sarlm(error.col)
-bptest.sarlm(error.col, studentize=FALSE)
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:8:0: unexpected end of input</span>
-#&gt; <span class='error'>6: bptest.sarlm(error.col, studentize=FALSE)</span>
-#&gt; <span class='error'>7: </span>
-#&gt; <span class='error'>  ^</span></div><div class='input'><span class='no'>lm.target</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>error.col</span>$<span class='no'>tary</span> ~ <span class='no'>error.col</span>$<span class='no'>tarX</span> - <span class='fl'>1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(predvars, data, env): object 'error.col' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>lmtest</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sandwich</span>)) {
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/lmtest/topics/coeftest'>coeftest</a></span>(<span class='no'>lm.target</span>, <span class='kw'>vcov</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sandwich/topics/vcovHC'>vcovHC</a></span>(<span class='no'>lm.target</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"HC0"</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>Inf</span>)
+    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
+}
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>error.col</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>HOVAL</span> + <span class='no'>INC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>,
+ <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>))
+<span class='fu'>bptest.sarlm</span>(<span class='no'>error.col</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; 	studentized Breusch-Pagan test
+#&gt; 
+#&gt; data:  
+#&gt; BP = 9.3694, df = 2, p-value = 0.009235
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>bptest.sarlm</span>(<span class='no'>error.col</span>, <span class='kw'>studentize</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; 	Breusch-Pagan test
+#&gt; 
+#&gt; data:  
+#&gt; BP = 16.285, df = 2, p-value = 0.0002908
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>lm.target</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>error.col</span>$<span class='no'>tary</span> ~ <span class='no'>error.col</span>$<span class='no'>tarX</span> - <span class='fl'>1</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>lmtest</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sandwich</span>)) {
+  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/lmtest/topics/coeftest'>coeftest</a></span>(<span class='no'>lm.target</span>, <span class='kw'>vcov</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sandwich/topics/vcovHC'>vcovHC</a></span>(<span class='no'>lm.target</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"HC0"</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>Inf</span>))
+}
 }</div><div class='output co'>#&gt; <span class='message'>Loading required package: lmtest</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: zoo</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>Attaching package: ‘zoo’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
 #&gt; <span class='message'></span>
-#&gt; <span class='message'>    as.Date, as.Date.numeric</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sandwich</span></div><div class='output co'>#&gt; <span class='error'>Error in coeftest(lm.target, vcov = vcovHC(lm.target, type = "HC0"), df = Inf): object 'lm.target' not found</span></div><div class='input'>}
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:1:1: unexpected '}'</span>
-#&gt; <span class='error'>1: }</span>
-#&gt; <span class='error'>    ^</span></div></pre>
+#&gt; <span class='message'>    as.Date, as.Date.numeric</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sandwich</span></div><div class='output co'>#&gt; 
+#&gt; z test of coefficients:
+#&gt; 
+#&gt;                                             Estimate Std. Error z value
+#&gt; error.col$tarXI(x - lambda * WX)(Intercept) 61.05362    4.69780 12.9962
+#&gt; error.col$tarXI(x - lambda * WX)HOVAL       -0.30798    0.16434 -1.8740
+#&gt; error.col$tarXI(x - lambda * WX)INC         -0.99547    0.44404 -2.2418
+#&gt;                                             Pr(&gt;|z|)    
+#&gt; error.col$tarXI(x - lambda * WX)(Intercept)  &lt; 2e-16 ***
+#&gt; error.col$tarXI(x - lambda * WX)HOVAL        0.06093 .  
+#&gt; error.col$tarXI(x - lambda * WX)INC          0.02497 *  
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

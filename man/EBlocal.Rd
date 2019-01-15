@@ -37,18 +37,17 @@ and a \code{parameters} attribute list with components:
 \seealso{\code{\link{EBest}}, \code{\link{probmap}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(auckland, package="spData")
-res <- EBlocal(auckland$M77_85,  9*auckland$Und5_81, auckland.nb)
-if (require(classInt, quietly=TRUE)) {
-cI <- classIntervals(res$est*1000, style="fixed",
- fixedBreaks=c(-Inf,2,2.5,3,3.5,Inf))
-fcI <- findColours(cI, pal=grey(6:2/7))
-plot(auckland, col=fcI)
-legend("bottomleft", fill=attr(fcI, "palette"),
- legend=names(attr(fcI, "table")), bty="n")
-title(main="Local moment estimator of infant mortality per 1000 per year")
+run <- FALSE
+if (require(sf, quietly=TRUE)) run <- TRUE
+if (run) {
+auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
+auckland.nb <- poly2nb(as(auckland, "Spatial"))
 }
+if (run) {
+res <- EBlocal(auckland$M77_85,  9*auckland$Und5_81, auckland.nb)
+auckland$est000 <- res$est*1000
+plot(auckland[,"est000"], breaks=c(0,2,2.5,3,3.5,8),
+ main="Infant mortality per 1000 per year")
 }
 }
 \keyword{spatial}

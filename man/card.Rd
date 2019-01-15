@@ -28,9 +28,8 @@ list.
 \seealso{\code{\link{summary.nb}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 table(card(col.gal.nb))
-}}
+}
 \keyword{spatial}
 

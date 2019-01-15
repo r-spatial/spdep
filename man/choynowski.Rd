@@ -31,11 +31,16 @@ Interactive Spatial Data Analysis, Harlow: Longman, pp. 300--303.}
 
 \seealso{\code{\link{probmap}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(auckland, package="spData")
+run <- FALSE
+if (require(sf, quietly=TRUE)) run <- TRUE
+if (run) {
+auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
+auckland.nb <- poly2nb(as(auckland, "Spatial"))
 res <- choynowski(auckland$M77_85, 9*auckland$Und5_81)
 resl <- choynowski(auckland$M77_85, 9*auckland$Und5_81, legacy=TRUE)
 all.equal(res, resl)
+}
+if (run) {
 rt <- sum(auckland$M77_85)/sum(9*auckland$Und5_81)
 ch_ppois_pmap <- numeric(length(auckland$Und5_81))
 side <- c("greater", "less")
@@ -44,16 +49,19 @@ for (i in seq(along=ch_ppois_pmap)) {
     T=(9*auckland$Und5_81[i]), alternative=side[(res$type[i]+1)])$p.value
 }
 all.equal(ch_ppois_pmap, res$pmap)
-
+}
+if (run) {
 res1 <- probmap(auckland$M77_85, 9*auckland$Und5_81)
 table(abs(res$pmap - res1$pmap) < 0.00001, res$type)
+}
+if (run) {
 lt005 <- (res$pmap < 0.05) & (res$type)
 ge005 <- (res$pmap < 0.05) & (!res$type)
-cols <- rep("white", length(lt005))
-cols[lt005] <- grey(2/7)
-cols[ge005] <- grey(5/7)
-plot(auckland, col=cols) 
-legend("bottomleft", fill=grey(c(2,5)/7), legend=c("low", "high"), bty="n")
+cols <- rep("nonsig", length(lt005))
+cols[lt005] <- "low"
+cols[ge005] <- "high"
+auckland$cols <- factor(cols)
+plot(auckland[,"cols"], main="Probability map") 
 }
 }
 \keyword{spatial}

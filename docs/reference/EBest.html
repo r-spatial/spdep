@@ -179,34 +179,21 @@ and a parameters attribute list with components:
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>rgdal</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>auckland</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sf</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span></div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.7.1, GDAL 2.4.0, PROJ 5.2.0</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>auckland</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/auckland.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>EBest</span>(<span class='no'>auckland</span>$<span class='no'>M77_85</span>, <span class='fl'>9</span>*<span class='no'>auckland</span>$<span class='no'>Und5_81</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"parameters"</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>classInt</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='no'>cols</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray'>grey</a></span>(<span class='fl'>6</span>:<span class='fl'>2</span>/<span class='fl'>7</span>)
-<span class='no'>cI</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/classInt/topics/classIntervals'>classIntervals</a></span>(<span class='no'>res</span>$<span class='no'>estmm</span>*<span class='fl'>1000</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"fixed"</span>,
- <span class='kw'>fixedBreaks</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>Inf</span>,<span class='fl'>2</span>,<span class='fl'>2.5</span>,<span class='fl'>3</span>,<span class='fl'>3.5</span>,<span class='fl'>Inf</span>))
-<span class='no'>fcI</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/classInt/topics/findColours'>findColours</a></span>(<span class='no'>cI</span>, <span class='kw'>pal</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray'>grey</a></span>(<span class='fl'>6</span>:<span class='fl'>2</span>/<span class='fl'>7</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>auckland</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='no'>fcI</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/legend'>legend</a></span>(<span class='st'>"bottomleft"</span>, <span class='kw'>fill</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>fcI</span>, <span class='st'>"palette"</span>),
- <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>fcI</span>, <span class='st'>"table"</span>)), <span class='kw'>bty</span><span class='kw'>=</span><span class='st'>"n"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Global moment estimator of infant mortality per 1000 per year"</span>)
-}
-}</div><div class='output co'>#&gt; 
-#&gt; acklnd&gt; if (requireNamespace("rgdal", quietly = TRUE)) {
-#&gt; acklnd+   library(rgdal)
-#&gt; acklnd+   auckland &lt;- readOGR(system.file("shapes/auckland.shp", package="spData")[1])
-#&gt; acklnd+   plot(auckland)
-#&gt; acklnd+   if (requireNamespace("spdep", quietly = TRUE)) {
-#&gt; acklnd+     library(spdep)
-#&gt; acklnd+     auckland.nb &lt;- poly2nb(auckland)
-#&gt; acklnd+   }
-#&gt; acklnd+ }
-#&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "/home/rsb/lib/r_libs/spData/shapes/auckland.shp", layer: "auckland"
-#&gt; with 167 features
-#&gt; It has 4 fields</div><div class='img'><img src='EBest-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='EBest-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>huddersfield</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+}</div><div class='output co'>#&gt; $a
+#&gt; [1] 7.284173e-07
+#&gt; 
+#&gt; $b
+#&gt; [1] 0.002633436
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>auckland</span>$<span class='no'>estmm000</span> <span class='kw'>&lt;-</span> <span class='no'>res</span>$<span class='no'>estmm</span>*<span class='fl'>1000</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>auckland</span>[,<span class='st'>"estmm000"</span>], <span class='kw'>breaks</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>2</span>,<span class='fl'>2.5</span>,<span class='fl'>3</span>,<span class='fl'>3.5</span>,<span class='fl'>5</span>),
+ <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Infant mortality per 1000 per year"</span>)
+}</div><div class='img'><img src='EBest-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>huddersfield</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>EBest</span>(<span class='no'>huddersfield</span>$<span class='no'>cases</span>, <span class='no'>huddersfield</span>$<span class='no'>total</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"binomial"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>round</a></span>(<span class='no'>res</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>],<span class='fl'>4</span>)*<span class='fl'>100</span></div><div class='output co'>#&gt;      raw estmm
 #&gt; 1  42.86 34.44

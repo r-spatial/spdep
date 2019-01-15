@@ -35,8 +35,13 @@ for details.}
 
 \seealso{\code{\link{nb2listw}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+}
+if (run) {
 xy <- cbind(columbus$X, columbus$Y)
 ac1a <- autocov_dist(columbus$CRIME, xy, nbs=10, style="B",
  type="one")
@@ -44,32 +49,37 @@ acinva <- autocov_dist(columbus$CRIME, xy, nbs=10, style="B",
  type="inverse")
 acinv2a <- autocov_dist(columbus$CRIME, xy, nbs=10, style="B",
  type="inverse.squared")
-
-plot(ac1a ~ columbus$CRIME, pch=16, asp=1)
+}
+if (run) {
+plot(ac1a ~ columbus$CRIME, pch=16)
 points(acinva ~ columbus$CRIME, pch=16, col="red")
 points(acinv2a ~ columbus$CRIME, pch=16, col="blue")
-abline(0,1)
-
+}
+if (run) {
 nb <- dnearneigh(xy, 0, 10)
 lw <- nb2listw(nb, style="B")
 ac1b <- lag(lw, columbus$CRIME)
 all.equal(ac1b, ac1a)
-
+}
+if (run) {
 nbd <- nbdists(nb, xy)
 gl <- lapply(nbd, function(x) 1/x)
 lw <- nb2listw(nb, glist=gl)
 acinvb <- lag(lw, columbus$CRIME)
 all.equal(acinvb, acinva)
-
+}
+if (run) {
 gl2 <- lapply(nbd, function(x) 1/(x^2))
 lw <- nb2listw(nb, glist=gl2)
 acinv2b <- lag(lw, columbus$CRIME)
 all.equal(acinv2b, acinv2a)
-
+}
+if (run) {
 glm(CRIME ~ HOVAL + ac1b, data=columbus, family="gaussian")
 spautolm(columbus$CRIME ~ HOVAL, data=columbus,
  listw=nb2listw(nb, style="W"))
-
+}
+if (run) {
 xy <- SpatialPoints(xy)
 acinva <- autocov_dist(columbus$CRIME, xy, nbs=10, style="W",
  type="inverse")

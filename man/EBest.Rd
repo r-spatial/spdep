@@ -32,20 +32,17 @@ and a \code{parameters} attribute list with components:
 \seealso{\code{\link{EBlocal}}, \code{\link{probmap}}, \code{\link{EBImoran.mc}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(auckland, package="spData")
+run <- FALSE
+if (require(sf, quietly=TRUE)) run <- TRUE
+if (run) {
+auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
 res <- EBest(auckland$M77_85, 9*auckland$Und5_81)
 attr(res, "parameters")
-if (require(classInt, quietly=TRUE)) {
-cols <- grey(6:2/7)
-cI <- classIntervals(res$estmm*1000, style="fixed",
- fixedBreaks=c(-Inf,2,2.5,3,3.5,Inf))
-fcI <- findColours(cI, pal=grey(6:2/7))
-plot(auckland, col=fcI)
-legend("bottomleft", fill=attr(fcI, "palette"),
- legend=names(attr(fcI, "table")), bty="n")
-title(main="Global moment estimator of infant mortality per 1000 per year")
 }
+if (run) {
+auckland$estmm000 <- res$estmm*1000
+plot(auckland[,"estmm000"], breaks=c(0,2,2.5,3,3.5,5),
+ main="Infant mortality per 1000 per year")
 }
 data(huddersfield, package="spData")
 res <- EBest(huddersfield$cases, huddersfield$total, family="binomial")

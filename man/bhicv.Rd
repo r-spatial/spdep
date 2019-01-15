@@ -24,8 +24,10 @@
 %%\format{}
 %%\details{}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-bh <- readOGR(system.file("etc/shapes/bhicv.shp",
+run <- FALSE
+if (require(sf, quietly=TRUE)) run <- TRUE
+if (run) {
+bh <- st_read(system.file("etc/shapes/bhicv.shp",
       package="spdep")[1])
 }
 }

@@ -47,16 +47,25 @@ Dordrecht: Kluwer, pp. 121--122.
 
 \seealso{\code{\link{errorsarlm}}, \code{\link{lagsarlm}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+}
+if (run) {
 error.col <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus,
  nb2listw(col.gal.nb))
 bptest.sarlm(error.col)
+}
+if (run) {
 bptest.sarlm(error.col, studentize=FALSE)
+}
 \dontrun{
+if (run) {
 lm.target <- lm(error.col$tary ~ error.col$tarX - 1)
 if (require(lmtest) && require(sandwich)) {
-  coeftest(lm.target, vcov=vcovHC(lm.target, type="HC0"), df=Inf)
+  print(coeftest(lm.target, vcov=vcovHC(lm.target, type="HC0"), df=Inf))
 }
 }
 }
