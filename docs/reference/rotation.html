@@ -170,27 +170,27 @@
 
 <span class='co'>### Rotate the coordinates by an angle of 90 degrees</span>
 <span class='no'>coords.90</span> <span class='kw'>&lt;-</span> <span class='fu'>Rotation</span>(<span class='no'>coords</span>, <span class='fl'>90</span>*<span class='no'>pi</span>/<span class='fl'>180</span>)
-<span class='no'>coords.90</span></div><div class='output co'>#&gt;                [,1]      [,2]
-#&gt;  [1,] -0.5124513797 0.6775328
-#&gt;  [2,] -0.4425711325 0.4273457
-#&gt;  [3,] -0.0995446247 0.9103805
-#&gt;  [4,] -0.5216938573 0.9557282
-#&gt;  [5,] -0.7203674086 0.8406586
-#&gt;  [6,] -0.3563399941 0.3436612
-#&gt;  [7,] -0.0192772427 0.3565767
-#&gt;  [8,] -0.1676301497 0.4283901
-#&gt;  [9,] -0.5477675192 0.4474990
-#&gt; [10,] -0.6037744448 0.4025935
-#&gt; [11,] -0.0005573847 0.9622240
-#&gt; [12,] -0.7194965977 0.9382039
-#&gt; [13,] -0.3383478148 0.3212277
-#&gt; [14,] -0.0355683876 0.7260395
-#&gt; [15,] -0.3025046442 0.4309929
-#&gt; [16,] -0.3026250643 0.3835453
-#&gt; [17,] -0.8139818011 0.3431012
-#&gt; [18,] -0.7611447546 0.6239556
-#&gt; [19,] -0.9086210718 0.9214386
-#&gt; [20,] -0.5540678909 0.6582041</div><div class='input'>
+<span class='no'>coords.90</span></div><div class='output co'>#&gt;              [,1]       [,2]
+#&gt;  [1,] -0.93470523 0.26550866
+#&gt;  [2,] -0.21214252 0.37212390
+#&gt;  [3,] -0.65167377 0.57285336
+#&gt;  [4,] -0.12555510 0.90820779
+#&gt;  [5,] -0.26722067 0.20168193
+#&gt;  [6,] -0.38611409 0.89838968
+#&gt;  [7,] -0.01339033 0.94467527
+#&gt;  [8,] -0.38238796 0.66079779
+#&gt;  [9,] -0.86969085 0.62911404
+#&gt; [10,] -0.34034900 0.06178627
+#&gt; [11,] -0.48208012 0.20597457
+#&gt; [12,] -0.59956583 0.17655675
+#&gt; [13,] -0.49354131 0.68702285
+#&gt; [14,] -0.18621760 0.38410372
+#&gt; [15,] -0.82737332 0.76984142
+#&gt; [16,] -0.66846674 0.49769924
+#&gt; [17,] -0.79423986 0.71761851
+#&gt; [18,] -0.10794363 0.99190609
+#&gt; [19,] -0.72371095 0.38003518
+#&gt; [20,] -0.41127443 0.77744522</div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>coords</span>, <span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind</a></span>(<span class='no'>coords.90</span>,<span class='no'>coords</span>)[,<span class='fl'>1</span>]),
  <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>rbind</a></span>(<span class='no'>coords.90</span>,<span class='no'>coords</span>)[,<span class='fl'>2</span>]), <span class='kw'>asp</span><span class='kw'>=</span><span class='fl'>1</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>coords.90</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>19</span>)</div><div class='img'><img src='rotation-2.png' alt='' width='700' height='433' /></div></pre>
   </div>

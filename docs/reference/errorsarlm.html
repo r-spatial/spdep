@@ -881,34 +881,34 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;         1049 
 #&gt;   2.22497381 </div><div class='input'><span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ev</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='eigenw.html'>eigenw</a></span>(<span class='fu'><a href='similar.listw.html'>similar.listw</a></span>(<span class='no'>lw</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.001   0.000   0.001 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.001   0.000   0.002 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.171   0.000   0.174 </div><div class='input'><span class='no'>ocoef</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)
+#&gt;   0.182   0.000   0.183 </div><div class='input'><span class='no'>ocoef</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>LAPACK</span><span class='kw'>=</span><span class='fl'>FALSE</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.173   0.000   0.175 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.179   0.000   0.182 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>compiled_sse</span><span class='kw'>=</span><span class='fl'>TRUE</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.170   0.001   0.174 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.174   0.003   0.179 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix_J"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>TRUE</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.209   0.000   0.214 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.201   0.000   0.202 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix_J"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>FALSE</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.222   0.000   0.226 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.216   0.000   0.217 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix_J"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/logical'>as.logical</a></span>(<span class='fl'>NA</span>)))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.205   0.000   0.208 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.206   0.000   0.208 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>TRUE</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.181   0.002   0.187 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.189   0.000   0.190 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>FALSE</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.181   0.000   0.184 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.188   0.000   0.189 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/logical'>as.logical</a></span>(<span class='fl'>NA</span>)))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.182   0.000   0.185 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.184   0.000   0.187 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>spamPivot</span><span class='kw'>=</span><span class='st'>"MMD"</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.219   0.000   0.222 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.224   0.000   0.228 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>spamPivot</span><span class='kw'>=</span><span class='st'>"RCM"</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.182   0.000   0.185 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.187   0.001   0.190 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam_update"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>spamPivot</span><span class='kw'>=</span><span class='st'>"MMD"</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.179   0.000   0.183 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt;   0.179   0.000   0.180 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>errorsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam_update"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>spamPivot</span><span class='kw'>=</span><span class='st'>"RCM"</span>))))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.192   0.000   0.194 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>coda</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
+#&gt;   0.199   0.000   0.200 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ocoef</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/coef'>coefficients</a></span>(<span class='no'>COL.errW.eig</span>)))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>coda</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.err.Bayes</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_err</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.err.Bayes</span>))
@@ -952,20 +952,20 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean       SD Naive SE Time-series SE
-#&gt; (Intercept)  59.8221  7.41100 0.165715       0.188495
-#&gt; INC          -0.9452  0.40434 0.009041       0.010116
-#&gt; HOVAL        -0.3019  0.09875 0.002208       0.002249
-#&gt; lambda        0.5690  0.16030 0.003585       0.003893
-#&gt; sige        116.5436 26.82453 0.599815       0.649112
+#&gt; (Intercept)  59.6663  6.99423 0.156396       0.156396
+#&gt; INC          -0.9421  0.39894 0.008921       0.008921
+#&gt; HOVAL        -0.3011  0.09984 0.002233       0.002233
+#&gt; lambda        0.5664  0.15362 0.003435       0.003435
+#&gt; sige        115.0482 25.96435 0.580581       0.622638
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                2.5%     25%      50%      75%    97.5%
-#&gt; (Intercept) 45.2995 55.5884  59.9721  64.5786  72.6933
-#&gt; INC         -1.7796 -1.1999  -0.9416  -0.6777  -0.1594
-#&gt; HOVAL       -0.4881 -0.3695  -0.3009  -0.2357  -0.1135
-#&gt; lambda       0.2156  0.4707   0.5828   0.6798   0.8419
-#&gt; sige        74.4166 97.6479 113.0769 131.2469 178.4355
+#&gt; (Intercept) 45.6439 55.3852  60.1164  64.5665  72.1349
+#&gt; INC         -1.7360 -1.2047  -0.9445  -0.6803  -0.1379
+#&gt; HOVAL       -0.4977 -0.3683  -0.3010  -0.2346  -0.1070
+#&gt; lambda       0.2335  0.4717   0.5773   0.6758   0.8309
+#&gt; sige        74.4245 96.7013 111.9152 129.2463 176.8133
 #&gt; 
 #&gt; 
 #&gt; Quantile (q) = 0.025
@@ -975,9 +975,9 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;              Burn-in  Total Lower bound  Dependence
 #&gt;              (M)      (N)   (Nmin)       factor (I)
 #&gt;  (Intercept) 3        1052  937          1.120     
-#&gt;  INC         3        1010  937          1.080     
-#&gt;  HOVAL       2        930   937          0.993     
-#&gt;  lambda      2        946   937          1.010     
+#&gt;  INC         2        969   937          1.030     
+#&gt;  HOVAL       3        1052  937          1.120     
+#&gt;  lambda      3        1010  937          1.080     
 #&gt;  sige        2        930   937          0.993     
 #&gt; 
 #&gt; 
@@ -990,20 +990,20 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD Naive SE Time-series SE
-#&gt; (Intercept)  58.7696  8.9422 0.199953       0.249755
-#&gt; INC          -0.8978  0.3975 0.008887       0.011839
-#&gt; HOVAL        -0.3022  0.1012 0.002263       0.002424
-#&gt; lambda        0.6154  0.1553 0.003473       0.008082
-#&gt; sige        117.6540 27.4230 0.613198       0.703192
+#&gt; (Intercept)  59.5304  8.9916 0.201059       0.275885
+#&gt; INC          -0.9142  0.3969 0.008874       0.011266
+#&gt; HOVAL        -0.3027  0.1021 0.002282       0.002282
+#&gt; lambda        0.6011  0.1502 0.003358       0.007723
+#&gt; sige        116.6773 27.9707 0.625443       0.660902
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                2.5%     25%      50%      75%    97.5%
-#&gt; (Intercept) 42.3897 54.4585  59.4154  63.7505  72.8358
-#&gt; INC         -1.6953 -1.1702  -0.8836  -0.6288  -0.1264
-#&gt; HOVAL       -0.4957 -0.3710  -0.3026  -0.2332  -0.1022
-#&gt; lambda       0.3128  0.5079   0.6183   0.7280   0.8923
-#&gt; sige        77.3438 97.7834 113.2635 133.1907 180.1621
+#&gt;                2.5%    25%      50%      75%    97.5%
+#&gt; (Intercept) 44.0607 54.802  59.6796  64.2473  72.9189
+#&gt; INC         -1.6866 -1.184  -0.9177  -0.6422  -0.1429
+#&gt; HOVAL       -0.5102 -0.370  -0.3005  -0.2359  -0.1019
+#&gt; lambda       0.2826  0.511   0.6135   0.7023   0.8676
+#&gt; sige        74.1788 97.167 113.2955 130.2498 182.6024
 #&gt; 
 #&gt; 
 #&gt; Quantile (q) = 0.025
@@ -1012,11 +1012,11 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;                                                    
 #&gt;              Burn-in  Total Lower bound  Dependence
 #&gt;              (M)      (N)   (Nmin)       factor (I)
-#&gt;  (Intercept) 4        1242  937          1.330     
-#&gt;  INC         2        930   937          0.993     
-#&gt;  HOVAL       2        969   937          1.030     
-#&gt;  lambda      10       2727  937          2.910     
-#&gt;  sige        2        892   937          0.952     
+#&gt;  (Intercept) 3        1143  937          1.220     
+#&gt;  INC         2        969   937          1.030     
+#&gt;  HOVAL       2        892   937          0.952     
+#&gt;  lambda      17       4454  937          4.750     
+#&gt;  sige        2        930   937          0.993     
 #&gt; 
 #&gt; 
 #&gt; Iterations = 501:2500
@@ -1028,44 +1028,44 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                  Mean      SD Naive SE Time-series SE
-#&gt; (Intercept)  72.68153 11.6048 0.259491       0.259491
-#&gt; INC          -1.02939  0.3745 0.008375       0.007390
-#&gt; HOVAL        -0.28159  0.1050 0.002348       0.002101
-#&gt; lag.INC      -1.04431  0.7217 0.016137       0.017157
-#&gt; lag.HOVAL     0.08579  0.2324 0.005196       0.005196
-#&gt; lambda        0.48345  0.1753 0.003920       0.003920
-#&gt; sige        113.22054 27.0946 0.605854       0.768548
+#&gt; (Intercept)  72.66455 11.7701 0.263187       0.263187
+#&gt; INC          -1.01543  0.3763 0.008414       0.008414
+#&gt; HOVAL        -0.28060  0.1050 0.002347       0.002347
+#&gt; lag.INC      -1.06754  0.7388 0.016519       0.016519
+#&gt; lag.HOVAL     0.08961  0.2383 0.005328       0.005328
+#&gt; lambda        0.48878  0.1732 0.003873       0.003873
+#&gt; sige        114.66234 26.8527 0.600444       0.659903
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                2.5%      25%       50%      75%     97.5%
-#&gt; (Intercept) 48.0258 65.77791  73.31319  80.1212  94.01866
-#&gt; INC         -1.7440 -1.28111  -1.03539  -0.7763  -0.29753
-#&gt; HOVAL       -0.4850 -0.34902  -0.28155  -0.2134  -0.07358
-#&gt; lag.INC     -2.3746 -1.51700  -1.06007  -0.6015   0.44654
-#&gt; lag.HOVAL   -0.3856 -0.06811   0.08553   0.2446   0.52837
-#&gt; lambda       0.1145  0.36368   0.49625   0.6078   0.79895
-#&gt; sige        73.3073 93.88527 108.49776 127.8573 177.04625
+#&gt; (Intercept) 48.2182 65.57218  73.00283  80.0588  95.67986
+#&gt; INC         -1.7264 -1.27249  -1.01848  -0.7658  -0.26325
+#&gt; HOVAL       -0.4835 -0.35298  -0.27998  -0.2105  -0.07685
+#&gt; lag.INC     -2.4553 -1.54934  -1.08873  -0.6092   0.39927
+#&gt; lag.HOVAL   -0.3926 -0.06243   0.09177   0.2443   0.55929
+#&gt; lambda       0.1165  0.37669   0.49775   0.6118   0.79690
+#&gt; sige        73.4827 95.70364 110.68368 129.1459 177.97468
 #&gt; 
 #&gt; Impact measures (SDEM, MCMC, n):
 #&gt;           Direct    Indirect      Total
-#&gt; INC   -1.0293867 -1.04431275 -2.0736995
-#&gt; HOVAL -0.2815921  0.08578589 -0.1958062
+#&gt; INC   -1.0154294 -1.06753527 -2.0829647
+#&gt; HOVAL -0.2806034  0.08960515 -0.1909982
 #&gt; ========================================================
 #&gt; Standard errors:
-#&gt;          Direct  Indirect     Total
-#&gt; INC   0.3549163 0.6838673 0.8165193
-#&gt; HOVAL 0.0994986 0.2201879 0.2645537
+#&gt;           Direct  Indirect     Total
+#&gt; INC   0.35656492 0.7000652 0.8257127
+#&gt; HOVAL 0.09946104 0.2258118 0.2716818
 #&gt; ========================================================
 #&gt; Z-values:
-#&gt;          Direct   Indirect     Total
-#&gt; INC   -2.900364 -1.5270694 -2.539682
-#&gt; HOVAL -2.830111  0.3896031 -0.740138
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -2.847811 -1.5249083 -2.5226265
+#&gt; HOVAL -2.821239  0.3968134 -0.7030219
 #&gt; 
 #&gt; p-values:
 #&gt;       Direct    Indirect Total   
-#&gt; INC   0.0037273 0.12674  0.011095
-#&gt; HOVAL 0.0046532 0.69683  0.459216
+#&gt; INC   0.0044021 0.12728  0.011648
+#&gt; HOVAL 0.0047839 0.69151  0.482042
 #&gt; 
 #&gt; 
 #&gt; Quantile (q) = 0.025
@@ -1075,12 +1075,12 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;              Burn-in  Total Lower bound  Dependence
 #&gt;              (M)      (N)   (Nmin)       factor (I)
 #&gt;  (Intercept) 2        930   937          0.993     
-#&gt;  INC         2        930   937          0.993     
-#&gt;  HOVAL       3        1010  937          1.080     
-#&gt;  lag.INC     2        930   937          0.993     
-#&gt;  lag.HOVAL   3        1052  937          1.120     
-#&gt;  lambda      2        892   937          0.952     
-#&gt;  sige        2        913   937          0.974     
+#&gt;  INC         3        1010  937          1.080     
+#&gt;  HOVAL       2        930   937          0.993     
+#&gt;  lag.INC     2        892   937          0.952     
+#&gt;  lag.HOVAL   2        892   937          0.952     
+#&gt;  lambda      2        930   937          0.993     
+#&gt;  sige        2        930   937          0.993     
 #&gt; 
 #&gt; 
 #&gt; Iterations = 501:2500
@@ -1091,45 +1091,45 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; 1. Empirical mean and standard deviation for each variable,
 #&gt;    plus standard error of the mean:
 #&gt; 
-#&gt;                  Mean        SD  Naive SE Time-series SE
-#&gt; (Intercept) -31.39619 2791.7919 62.426364      55.399688
-#&gt; INC          -0.92744    0.4643  0.010381       0.021587
-#&gt; HOVAL        -0.28730    0.1272  0.002844       0.002844
-#&gt; lag.INC      -0.80036    1.0203  0.022815       0.052169
-#&gt; lag.HOVAL     0.05084    0.2855  0.006384       0.008611
-#&gt; lambda        0.68468    0.2072  0.004633       0.034485
-#&gt; sige        127.02847   34.2077  0.764907       3.123875
+#&gt;                  Mean      SD Naive SE Time-series SE
+#&gt; (Intercept)  70.40019 70.4345 1.574962       1.385430
+#&gt; INC          -0.97037  0.4110 0.009190       0.009823
+#&gt; HOVAL        -0.28455  0.1145 0.002561       0.002561
+#&gt; lag.INC      -0.95215  0.8426 0.018842       0.027001
+#&gt; lag.HOVAL     0.06555  0.2679 0.005990       0.007555
+#&gt; lambda        0.60702  0.1781 0.003983       0.014276
+#&gt; sige        120.45188 29.1908 0.652727       1.279486
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                   2.5%      25%       50%      75%      97.5%
-#&gt; (Intercept) -7462.6706  58.6130  71.02612  81.4215 6176.51971
-#&gt; INC            -1.7649  -1.2222  -0.95846  -0.6641    0.11485
-#&gt; HOVAL          -0.5582  -0.3632  -0.28227  -0.2076   -0.04721
-#&gt; lag.INC        -2.7193  -1.4753  -0.86419  -0.2074    1.43187
-#&gt; lag.HOVAL      -0.5424  -0.1312   0.06131   0.2385    0.61179
-#&gt; lambda          0.2821   0.5503   0.66750   0.8323    0.99972
-#&gt; sige           77.2768 101.7843 121.19261 144.6894  211.36169
+#&gt;                2.5%     25%       50%      75%     97.5%
+#&gt; (Intercept) 37.9440 62.5478  71.80756  80.9018 104.95272
+#&gt; INC         -1.7687 -1.2346  -0.98524  -0.7063  -0.14242
+#&gt; HOVAL       -0.5141 -0.3592  -0.28460  -0.2088  -0.06554
+#&gt; lag.INC     -2.6086 -1.5191  -0.95619  -0.4294   0.72268
+#&gt; lag.HOVAL   -0.4869 -0.1027   0.06799   0.2443   0.56913
+#&gt; lambda       0.2366  0.5043   0.62080   0.7333   0.92570
+#&gt; sige        76.7686 99.6498 116.80421 135.9061 189.12857
 #&gt; 
 #&gt; Impact measures (SDEM, MCMC, n):
 #&gt;           Direct    Indirect      Total
-#&gt; INC   -0.9274355 -0.80035884 -1.7277943
-#&gt; HOVAL -0.2873048  0.05083708 -0.2364677
+#&gt; INC   -0.9703690 -0.95214894 -1.9225179
+#&gt; HOVAL -0.2845537  0.06555386 -0.2189999
 #&gt; ========================================================
 #&gt; Standard errors:
 #&gt;          Direct  Indirect     Total
-#&gt; INC   0.4399307 0.9668633 1.2459420
-#&gt; HOVAL 0.1205389 0.2705534 0.3500774
+#&gt; INC   0.3894378 0.7984944 0.9933065
+#&gt; HOVAL 0.1085247 0.2538476 0.3175629
 #&gt; ========================================================
 #&gt; Z-values:
-#&gt;          Direct   Indirect      Total
-#&gt; INC   -2.108140 -0.8277890 -1.3867374
-#&gt; HOVAL -2.383502  0.1879003 -0.6754725
+#&gt;          Direct  Indirect      Total
+#&gt; INC   -2.491717 -1.192430 -1.9354730
+#&gt; HOVAL -2.622018  0.258241 -0.6896269
 #&gt; 
 #&gt; p-values:
-#&gt;       Direct   Indirect Total  
-#&gt; INC   0.035019 0.40779  0.16552
-#&gt; HOVAL 0.017149 0.85095  0.49938
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0127127 0.23309  0.052932
+#&gt; HOVAL 0.0087411 0.79622  0.490429
 #&gt; 
 #&gt; 
 #&gt; Quantile (q) = 0.025
@@ -1138,13 +1138,13 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;                                                    
 #&gt;              Burn-in  Total Lower bound  Dependence
 #&gt;              (M)      (N)   (Nmin)       factor (I)
-#&gt;  (Intercept) 4        1242  937          1.330     
-#&gt;  INC         3        1010  937          1.080     
+#&gt;  (Intercept) 5        1472  937          1.570     
+#&gt;  INC         2        892   937          0.952     
 #&gt;  HOVAL       3        1010  937          1.080     
-#&gt;  lag.INC     2        969   937          1.030     
-#&gt;  lag.HOVAL   2        892   937          0.952     
-#&gt;  lambda      11       3012  937          3.210     
-#&gt;  sige        2        950   937          1.010     
+#&gt;  lag.INC     3        1010  937          1.080     
+#&gt;  lag.HOVAL   2        930   937          0.993     
+#&gt;  lambda      14       3645  937          3.890     
+#&gt;  sige        2        930   937          0.993     
 #&gt; 
 #&gt; 
 #&gt; Iterations = 501:2500
@@ -1155,43 +1155,43 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; 1. Empirical mean and standard deviation for each variable,
 #&gt;    plus standard error of the mean:
 #&gt; 
-#&gt;                 Mean      SD Naive SE Time-series SE
-#&gt; (Intercept)  74.0524 10.9290 0.244380       0.244380
-#&gt; INC          -1.0151  0.3685 0.008240       0.008240
-#&gt; HOVAL        -0.2881  0.1010 0.002258       0.002258
-#&gt; lag.INC      -0.9149  0.5843 0.013065       0.012552
-#&gt; lambda        0.4887  0.1759 0.003934       0.004111
-#&gt; sige        112.2781 26.3936 0.590178       0.642304
+#&gt;                 Mean       SD Naive SE Time-series SE
+#&gt; (Intercept)  74.5423 10.98931 0.245728       0.245728
+#&gt; INC          -1.0339  0.38293 0.008563       0.008987
+#&gt; HOVAL        -0.2860  0.09857 0.002204       0.002204
+#&gt; lag.INC      -0.9190  0.59170 0.013231       0.012507
+#&gt; lambda        0.4879  0.17196 0.003845       0.003672
+#&gt; sige        112.0658 25.47022 0.569531       0.567228
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                2.5%     25%      50%      75%     97.5%
-#&gt; (Intercept) 50.3754 67.8961  74.6926  81.4101  93.34744
-#&gt; INC         -1.7080 -1.2764  -1.0174  -0.7598  -0.31032
-#&gt; HOVAL       -0.4888 -0.3557  -0.2887  -0.2237  -0.08677
-#&gt; lag.INC     -2.0138 -1.2858  -0.9469  -0.5476   0.28401
-#&gt; lambda       0.1115  0.3757   0.4987   0.6151   0.78892
-#&gt; sige        72.7390 93.1156 108.5935 126.4337 177.50915
+#&gt; (Intercept) 52.0905 67.8363  74.9216  81.7016  94.97558
+#&gt; INC         -1.7796 -1.2965  -1.0425  -0.7816  -0.23925
+#&gt; HOVAL       -0.4762 -0.3494  -0.2861  -0.2205  -0.08885
+#&gt; lag.INC     -2.0736 -1.3191  -0.9217  -0.5457   0.27871
+#&gt; lambda       0.1355  0.3737   0.4987   0.6088   0.80100
+#&gt; sige        73.0813 94.1656 108.2980 125.8857 173.13082
 #&gt; 
 #&gt; Impact measures (SDEM, MCMC, n):
 #&gt;           Direct   Indirect      Total
-#&gt; INC   -1.0151369 -0.9149477 -1.9300846
-#&gt; HOVAL -0.2881292         NA -0.2881292
+#&gt; INC   -1.0339443 -0.9190497 -1.9529940
+#&gt; HOVAL -0.2860029         NA -0.2860029
 #&gt; ========================================================
 #&gt; Standard errors:
 #&gt;           Direct  Indirect      Total
-#&gt; INC   0.35314480 0.5599113 0.67653043
-#&gt; HOVAL 0.09675265        NA 0.09675265
+#&gt; INC   0.36696535 0.5670367 0.69945670
+#&gt; HOVAL 0.09446444        NA 0.09446444
 #&gt; ========================================================
 #&gt; Z-values:
 #&gt;          Direct  Indirect     Total
-#&gt; INC   -2.874563 -1.634094 -2.852916
-#&gt; HOVAL -2.977998        NA -2.977998
+#&gt; INC   -2.817553 -1.620794 -2.792159
+#&gt; HOVAL -3.027625        NA -3.027625
 #&gt; 
 #&gt; p-values:
 #&gt;       Direct    Indirect Total    
-#&gt; INC   0.0040459 0.10224  0.0043320
-#&gt; HOVAL 0.0029014 NA       0.0029014
+#&gt; INC   0.0048391 0.10506  0.0052358
+#&gt; HOVAL 0.0024648 NA       0.0024648
 #&gt; 
 #&gt; 
 #&gt; Quantile (q) = 0.025
@@ -1200,10 +1200,10 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;                                                    
 #&gt;              Burn-in  Total Lower bound  Dependence
 #&gt;              (M)      (N)   (Nmin)       factor (I)
-#&gt;  (Intercept) 2        969   937          1.030     
-#&gt;  INC         2        930   937          0.993     
-#&gt;  HOVAL       3        1096  937          1.170     
-#&gt;  lag.INC     2        930   937          0.993     
+#&gt;  (Intercept) 3        1010  937          1.080     
+#&gt;  INC         2        892   937          0.952     
+#&gt;  HOVAL       2        930   937          0.993     
+#&gt;  lag.INC     2        892   937          0.952     
 #&gt;  lambda      2        892   937          0.952     
 #&gt;  sige        3        1010  937          1.080     
 #&gt; 
@@ -1216,43 +1216,43 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; 1. Empirical mean and standard deviation for each variable,
 #&gt;    plus standard error of the mean:
 #&gt; 
-#&gt;                 Mean       SD Naive SE Time-series SE
-#&gt; (Intercept)  75.2122 280.0161 6.261351       2.317368
-#&gt; INC          -0.9792   0.3958 0.008851       0.011485
-#&gt; HOVAL        -0.2875   0.0988 0.002209       0.002045
-#&gt; lag.INC      -0.8546   0.7076 0.015823       0.017724
-#&gt; lambda        0.5734   0.1742 0.003896       0.010450
-#&gt; sige        115.0232  27.9503 0.624987       0.814128
+#&gt;                 Mean      SD Naive SE Time-series SE
+#&gt; (Intercept)  72.8864 13.2070 0.295318       0.332323
+#&gt; INC          -0.9843  0.3831 0.008566       0.009768
+#&gt; HOVAL        -0.2889  0.1008 0.002253       0.002253
+#&gt; lag.INC      -0.8606  0.6640 0.014847       0.014847
+#&gt; lambda        0.5779  0.1662 0.003715       0.010526
+#&gt; sige        114.9801 26.2240 0.586387       0.665850
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                2.5%     25%      50%      75%     97.5%
-#&gt; (Intercept) 41.0609 65.7069  73.5908  81.2756  98.58537
-#&gt; INC         -1.7566 -1.2427  -0.9817  -0.7088  -0.20021
-#&gt; HOVAL       -0.4834 -0.3533  -0.2866  -0.2229  -0.09669
-#&gt; lag.INC     -2.1066 -1.3221  -0.8901  -0.4221   0.67329
-#&gt; lambda       0.2167  0.4514   0.5784   0.6934   0.93900
-#&gt; sige        73.4904 95.0488 110.0353 129.7835 181.67444
+#&gt;                2.5%     25%      50%      75%    97.5%
+#&gt; (Intercept) 45.5280 65.3717  73.3929  81.2895  97.2255
+#&gt; INC         -1.7170 -1.2373  -0.9898  -0.7261  -0.2197
+#&gt; HOVAL       -0.4870 -0.3565  -0.2850  -0.2177  -0.1032
+#&gt; lag.INC     -2.1579 -1.2914  -0.8847  -0.4386   0.4898
+#&gt; lambda       0.2436  0.4725   0.5835   0.6981   0.8672
+#&gt; sige        73.5737 96.1297 111.5039 130.5606 176.0332
 #&gt; 
 #&gt; Impact measures (SDEM, MCMC, n):
 #&gt;           Direct   Indirect      Total
-#&gt; INC   -0.9791842 -0.8545618 -1.8337459
-#&gt; HOVAL -0.2874605         NA -0.2874605
+#&gt; INC   -0.9843411 -0.8605551 -1.8448962
+#&gt; HOVAL -0.2889068         NA -0.2889068
 #&gt; ========================================================
 #&gt; Standard errors:
 #&gt;           Direct  Indirect      Total
-#&gt; INC   0.37933568 0.6781451 0.85399103
-#&gt; HOVAL 0.09468092        NA 0.09468092
+#&gt; INC   0.36712699 0.6362974 0.80457985
+#&gt; HOVAL 0.09657666        NA 0.09657666
 #&gt; ========================================================
 #&gt; Z-values:
 #&gt;          Direct  Indirect     Total
-#&gt; INC   -2.581313 -1.260146 -2.147266
-#&gt; HOVAL -3.036097        NA -3.036097
+#&gt; INC   -2.681201 -1.352442 -2.292993
+#&gt; HOVAL -2.991476        NA -2.991476
 #&gt; 
 #&gt; p-values:
 #&gt;       Direct    Indirect Total    
-#&gt; INC   0.0098425 0.20762  0.0317721
-#&gt; HOVAL 0.0023966 NA       0.0023966
+#&gt; INC   0.0073359 0.17623  0.0218484
+#&gt; HOVAL 0.0027763 NA       0.0027763
 #&gt; 
 #&gt; 
 #&gt; Quantile (q) = 0.025
@@ -1261,11 +1261,11 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;                                                    
 #&gt;              Burn-in  Total Lower bound  Dependence
 #&gt;              (M)      (N)   (Nmin)       factor (I)
-#&gt;  (Intercept) 5        1472  937          1.570     
-#&gt;  INC         2        930   937          0.993     
-#&gt;  HOVAL       2        969   937          1.030     
-#&gt;  lag.INC     3        1010  937          1.080     
-#&gt;  lambda      11       3046  937          3.250     
+#&gt;  (Intercept) 4        1192  937          1.270     
+#&gt;  INC         2        892   937          0.952     
+#&gt;  HOVAL       2        930   937          0.993     
+#&gt;  lag.INC     2        892   937          0.952     
+#&gt;  lambda      10       2853  937          3.040     
 #&gt;  sige        2        930   937          0.993     
 #&gt; </div></pre>
   </div>

@@ -535,7 +535,7 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; rho:	 0.4310232 	function value:	 -182.3904 
 #&gt; Computing eigenvalues ...
 #&gt; </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.197   0.000   0.199 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.M</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.200   0.000   0.201 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = nb2listw(COL.nb), 
 #&gt;     method = "Matrix", quiet = FALSE)
@@ -584,7 +584,7 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; rho:	 0.4310232 	function value:	 -182.3904 
 #&gt; Computing eigenvalues ...
 #&gt; </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.214   0.000   0.219 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.sp</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.200   0.001   0.203 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.sp</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = nb2listw(COL.nb), 
 #&gt;     method = "spam", quiet = FALSE)
@@ -1037,61 +1037,61 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean       SD Naive SE Time-series SE
-#&gt; (Intercept)  45.8422  8.33297 0.186331       0.220103
-#&gt; INC          -1.0460  0.35199 0.007871       0.008886
-#&gt; HOVAL        -0.2675  0.09481 0.002120       0.002120
-#&gt; rho           0.4174  0.12987 0.002904       0.003147
-#&gt; sige        108.9668 24.59087 0.549869       0.579894
+#&gt; (Intercept)  45.8256  8.04911 0.179984       0.179984
+#&gt; INC          -1.0459  0.34746 0.007770       0.007770
+#&gt; HOVAL        -0.2662  0.09366 0.002094       0.002094
+#&gt; rho           0.4146  0.12434 0.002780       0.002780
+#&gt; sige        107.8827 23.75095 0.531087       0.561152
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                2.5%     25%      50%      75%     97.5%
-#&gt; (Intercept) 30.1130 40.3963  45.6116  51.2449  62.52518
-#&gt; INC         -1.7618 -1.2684  -1.0386  -0.8170  -0.35564
-#&gt; HOVAL       -0.4517 -0.3332  -0.2659  -0.2043  -0.08908
-#&gt; rho          0.1536  0.3324   0.4197   0.5038   0.66183
-#&gt; sige        71.2014 91.6918 105.3263 123.1005 165.01165
+#&gt; (Intercept) 30.3334 40.3140  45.9376  51.0903  61.51008
+#&gt; INC         -1.7252 -1.2774  -1.0477  -0.8158  -0.35423
+#&gt; HOVAL       -0.4533 -0.3312  -0.2686  -0.2019  -0.08107
+#&gt; rho          0.1645  0.3327   0.4157   0.5008   0.64982
+#&gt; sige        70.5778 90.6316 104.8556 120.4706 164.75421
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.lag.Bayes</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
 #&gt;           Direct   Indirect      Total
-#&gt; INC   -1.0970636 -0.6983134 -1.7953770
-#&gt; HOVAL -0.2805878 -0.1786024 -0.4591902
+#&gt; INC   -1.0962113 -0.6903627 -1.7865741
+#&gt; HOVAL -0.2790451 -0.1757347 -0.4547797
 #&gt; ========================================================
 #&gt; MCMC sample impact results:
 #&gt; ========================================================
 #&gt; Simulated standard errors
 #&gt;          Direct  Indirect     Total
-#&gt; INC   0.3751705 0.5471652 0.8243027
-#&gt; HOVAL 0.1015673 0.1463852 0.2238372
+#&gt; INC   0.3680189 0.4927553 0.7674941
+#&gt; HOVAL 0.1002735 0.1393959 0.2171077
 #&gt; 
 #&gt; Simulated z-values:
 #&gt;          Direct  Indirect     Total
-#&gt; INC   -2.951364 -1.435134 -2.295904
-#&gt; HOVAL -2.790347 -1.386199 -2.172682
+#&gt; INC   -3.003178 -1.554252 -2.437925
+#&gt; HOVAL -2.809370 -1.425055 -2.212507
 #&gt; 
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total   
-#&gt; INC   0.0031637 0.15125  0.021681
-#&gt; HOVAL 0.0052652 0.16569  0.029804</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.lag.Bayes</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, evalues):
+#&gt; INC   0.0026718 0.12012  0.014772
+#&gt; HOVAL 0.0049639 0.15414  0.026932</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.lag.Bayes</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, evalues):
 #&gt;           Direct   Indirect      Total
-#&gt; INC   -1.0970636 -0.6983134 -1.7953770
-#&gt; HOVAL -0.2805878 -0.1786024 -0.4591902
+#&gt; INC   -1.0962113 -0.6903627 -1.7865741
+#&gt; HOVAL -0.2790451 -0.1757347 -0.4547797
 #&gt; ========================================================
 #&gt; MCMC sample impact results:
 #&gt; ========================================================
 #&gt; Simulated standard errors
 #&gt;          Direct  Indirect     Total
-#&gt; INC   0.3751709 0.5472321 0.8243543
-#&gt; HOVAL 0.1015676 0.1464146 0.2238607
+#&gt; INC   0.3680193 0.4929524 0.7676307
+#&gt; HOVAL 0.1002746 0.1395496 0.2172252
 #&gt; 
 #&gt; Simulated z-values:
 #&gt;          Direct  Indirect     Total
-#&gt; INC   -2.951362 -1.434984 -2.295779
-#&gt; HOVAL -2.790341 -1.385952 -2.172475
+#&gt; INC   -3.003178 -1.553686 -2.437527
+#&gt; HOVAL -2.809345 -1.423571 -2.211367
 #&gt; 
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total   
-#&gt; INC   0.0031638 0.15129  0.021689
-#&gt; HOVAL 0.0052653 0.16576  0.029820</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+#&gt; INC   0.0026718 0.12026  0.014788
+#&gt; HOVAL 0.0049642 0.15457  0.027010</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.D0.Bayes</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_lag</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.D0.Bayes</span>)</div><div class='output co'>#&gt; 
@@ -1104,45 +1104,45 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean       SD Naive SE Time-series SE
-#&gt; (Intercept)  45.6552 13.92684 0.311414       0.311414
-#&gt; INC          -0.9357  0.37241 0.008327       0.008397
-#&gt; HOVAL        -0.2916  0.09815 0.002195       0.002038
-#&gt; lag.INC      -0.6098  0.61022 0.013645       0.013645
-#&gt; lag.HOVAL     0.2458  0.18971 0.004242       0.004734
-#&gt; rho           0.3883  0.16462 0.003681       0.003681
-#&gt; sige        108.6633 25.45638 0.569222       0.655387
+#&gt; (Intercept)  45.3106 13.74660 0.307383       0.307383
+#&gt; INC          -0.9255  0.36779 0.008224       0.008224
+#&gt; HOVAL        -0.2941  0.09628 0.002153       0.002153
+#&gt; lag.INC      -0.5834  0.63860 0.014279       0.014279
+#&gt; lag.HOVAL     0.2396  0.19206 0.004295       0.004295
+#&gt; rho           0.3932  0.16296 0.003644       0.003644
+#&gt; sige        109.7428 24.97328 0.558419       0.607251
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                 2.5%     25%      50%      75%    97.5%
-#&gt; (Intercept) 19.42270 36.0252  45.3814  55.2111  73.4654
-#&gt; INC         -1.66848 -1.1944  -0.9352  -0.6836  -0.1840
-#&gt; HOVAL       -0.48299 -0.3576  -0.2930  -0.2232  -0.1015
-#&gt; lag.INC     -1.85700 -1.0306  -0.5826  -0.1992   0.5816
-#&gt; lag.HOVAL   -0.12660  0.1229   0.2465   0.3739   0.6106
-#&gt; rho          0.05948  0.2706   0.3962   0.5040   0.6979
-#&gt; sige        70.62697 90.7192 104.5505 123.4942 169.7947
+#&gt; (Intercept) 19.18523 35.9952  45.0347  54.5253  72.8545
+#&gt; INC         -1.63995 -1.1761  -0.9206  -0.6651  -0.2148
+#&gt; HOVAL       -0.48230 -0.3566  -0.2931  -0.2308  -0.1021
+#&gt; lag.INC     -1.82283 -1.0066  -0.5712  -0.1763   0.6692
+#&gt; lag.HOVAL   -0.14391  0.1068   0.2393   0.3670   0.6168
+#&gt; rho          0.06053  0.2826   0.3977   0.5078   0.6949
+#&gt; sige        71.19421 91.4872 106.1690 123.7826 170.9503
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.D0.Bayes</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
-#&gt;           Direct   Indirect       Total
-#&gt; INC   -1.0389664 -1.4874152 -2.52638157
-#&gt; HOVAL -0.2775359  0.2026609 -0.07487497
+#&gt;          Direct   Indirect       Total
+#&gt; INC   -1.027773 -1.4589793 -2.48675192
+#&gt; HOVAL -0.280732  0.1908138 -0.08991828
 #&gt; ========================================================
 #&gt; MCMC sample impact results:
 #&gt; ========================================================
 #&gt; Simulated standard errors
-#&gt;          Direct  Indirect     Total
-#&gt; INC   0.3927953 1.3104789 1.4692286
-#&gt; HOVAL 0.1014637 0.3249945 0.3616705
+#&gt;           Direct  Indirect     Total
+#&gt; INC   0.38264314 1.3114491 1.4534522
+#&gt; HOVAL 0.09937135 0.3347428 0.3698437
 #&gt; 
 #&gt; Simulated z-values:
 #&gt;          Direct   Indirect      Total
-#&gt; INC   -2.700710 -1.2936313 -1.8758840
-#&gt; HOVAL -2.749323  0.6152303 -0.2184584
+#&gt; INC   -2.739321 -1.2582210 -1.8564594
+#&gt; HOVAL -2.838369  0.5610536 -0.2548209
 #&gt; 
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total   
-#&gt; INC   0.0069192 0.19579  0.060671
-#&gt; HOVAL 0.0059718 0.53840  0.827072</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+#&gt; INC   0.0061566 0.20831  0.063388
+#&gt; HOVAL 0.0045345 0.57476  0.798861</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.D1.Bayes</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_lag</span>(<span class='no'>CRIME</span> ~ <span class='no'>DISCBD</span> + <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span> ~ <span class='no'>INC</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.D1.Bayes</span>)</div><div class='output co'>#&gt; 
@@ -1154,50 +1154,50 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; 1. Empirical mean and standard deviation for each variable,
 #&gt;    plus standard error of the mean:
 #&gt; 
-#&gt;                 Mean      SD Naive SE Time-series SE
-#&gt; (Intercept)  56.7873 13.5871 0.303817       0.303817
-#&gt; DISCBD       -4.7577  2.0863 0.046652       0.044748
-#&gt; INC          -0.9431  0.3481 0.007784       0.007784
-#&gt; HOVAL        -0.1795  0.1008 0.002255       0.002255
-#&gt; lag.INC       0.4036  0.6071 0.013575       0.012161
-#&gt; rho           0.1821  0.1832 0.004095       0.004095
-#&gt; sige        102.7442 23.7839 0.531824       0.608744
+#&gt;                 Mean       SD Naive SE Time-series SE
+#&gt; (Intercept)  56.4447 13.43635 0.300446       0.300446
+#&gt; DISCBD       -4.7748  2.14395 0.047940       0.047940
+#&gt; INC          -0.9493  0.34681 0.007755       0.007755
+#&gt; HOVAL        -0.1798  0.09983 0.002232       0.002232
+#&gt; lag.INC       0.4262  0.63352 0.014166       0.014166
+#&gt; rho           0.1873  0.18174 0.004064       0.004064
+#&gt; sige        103.8701 23.29384 0.520866       0.566802
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                2.5%       25%     50%      75%     97.5%
-#&gt; (Intercept) 30.4765 47.703086 56.7720  65.3671  84.50212
-#&gt; DISCBD      -8.8651 -6.222039 -4.6800  -3.3613  -0.61213
-#&gt; INC         -1.6560 -1.156154 -0.9413  -0.7174  -0.28960
-#&gt; HOVAL       -0.3748 -0.245735 -0.1811  -0.1107   0.01867
-#&gt; lag.INC     -0.8123  0.003337  0.4135   0.8014   1.58038
-#&gt; rho         -0.2147  0.062531  0.1826   0.3027   0.53984
-#&gt; sige        67.4492 85.860315 98.7754 116.5171 159.56314
+#&gt;                2.5%       25%      50%      75%     97.5%
+#&gt; (Intercept) 30.5093 47.769573  56.4789  65.0877  84.86254
+#&gt; DISCBD      -9.2416 -6.153288  -4.7453  -3.3591  -0.67219
+#&gt; INC         -1.6655 -1.174948  -0.9451  -0.7102  -0.28365
+#&gt; HOVAL       -0.3744 -0.247270  -0.1775  -0.1128   0.01524
+#&gt; lag.INC     -0.8028  0.004752   0.4224   0.8433   1.66618
+#&gt; rho         -0.2116  0.072536   0.1836   0.3067   0.53579
+#&gt; sige        67.8946 87.054945 100.9815 116.4528 161.25826
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.D1.Bayes</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;            Direct    Indirect      Total
-#&gt; DISCBD -4.7952447 -1.02140655 -5.8166512
-#&gt; INC    -0.9330808  0.27348153 -0.6595992
-#&gt; HOVAL  -0.1808675 -0.03852551 -0.2193930
+#&gt; DISCBD -4.8148501 -1.06067837 -5.8755285
+#&gt; INC    -0.9381442  0.29454370 -0.6436005
+#&gt; HOVAL  -0.1813164 -0.03994275 -0.2212591
 #&gt; ========================================================
 #&gt; MCMC sample impact results:
 #&gt; ========================================================
 #&gt; Simulated standard errors
 #&gt;           Direct   Indirect     Total
-#&gt; DISCBD 2.1324430 1.76669611 3.2740683
-#&gt; INC    0.3521918 0.77882425 0.8652785
-#&gt; HOVAL  0.1030000 0.07360172 0.1512414
+#&gt; DISCBD 2.1926383 1.82145831 3.3798560
+#&gt; INC    0.3502903 0.81693522 0.8950370
+#&gt; HOVAL  0.1015612 0.06692703 0.1429623
 #&gt; 
 #&gt; Simulated z-values:
 #&gt;           Direct   Indirect      Total
-#&gt; DISCBD -2.272544 -0.7459585 -1.8826587
-#&gt; INC    -2.669828  0.3187837 -0.7997599
-#&gt; HOVAL  -1.775459 -0.6886619 -1.5442793
+#&gt; DISCBD -2.219068 -0.7449248 -1.8410439
+#&gt; INC    -2.696796  0.3333552 -0.7511779
+#&gt; HOVAL  -1.802805 -0.7412143 -1.6277185
 #&gt; 
 #&gt; Simulated p-values:
 #&gt;        Direct   Indirect Total   
-#&gt; DISCBD 0.023054 0.45569  0.059747
-#&gt; INC    0.007589 0.74989  0.423850
-#&gt; HOVAL  0.075822 0.49104  0.122521</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>elect80</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+#&gt; DISCBD 0.026482 0.45632  0.065615
+#&gt; INC    0.007001 0.73887  0.452546
+#&gt; HOVAL  0.071419 0.45856  0.103585</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>elect80</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>e80_queen</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>el_ml</span> <span class='kw'>&lt;-</span> <span class='fu'>lagsarlm</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_turnout</span>) ~ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_college</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_homeownership</span>)
  + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>pc_income</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>elect80</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"LU"</span>)
@@ -1244,33 +1244,33 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                           Mean        SD  Naive SE Time-series SE
-#&gt; (Intercept)            0.63880 0.0412774 9.230e-04      8.895e-04
-#&gt; log(pc_college)        0.22707 0.0162196 3.627e-04      3.627e-04
-#&gt; log(pc_homeownership)  0.48157 0.0149993 3.354e-04      3.354e-04
-#&gt; log(pc_income)        -0.10539 0.0164751 3.684e-04      3.684e-04
-#&gt; rho                    0.57617 0.0152953 3.420e-04      3.420e-04
-#&gt; sige                   0.01385 0.0003612 8.077e-06      8.077e-06
+#&gt; (Intercept)            0.63963 0.0416231 9.307e-04      8.843e-04
+#&gt; log(pc_college)        0.22767 0.0159334 3.563e-04      3.563e-04
+#&gt; log(pc_homeownership)  0.48078 0.0149666 3.347e-04      3.347e-04
+#&gt; log(pc_income)        -0.10598 0.0165233 3.695e-04      3.695e-04
+#&gt; rho                    0.57602 0.0148031 3.310e-04      3.310e-04
+#&gt; sige                   0.01386 0.0003512 7.853e-06      7.177e-06
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                           2.5%     25%      50%      75%    97.5%
-#&gt; (Intercept)            0.55795  0.6113  0.63883  0.66694  0.71933
-#&gt; log(pc_college)        0.19707  0.2163  0.22726  0.23783  0.25725
-#&gt; log(pc_homeownership)  0.45325  0.4714  0.48133  0.49111  0.51015
-#&gt; log(pc_income)        -0.13776 -0.1165 -0.10535 -0.09452 -0.07317
-#&gt; rho                    0.54577  0.5658  0.57629  0.58679  0.60480
-#&gt; sige                   0.01317  0.0136  0.01384  0.01410  0.01455
+#&gt;                          2.5%      25%      50%      75%    97.5%
+#&gt; (Intercept)            0.5589  0.61202  0.63883  0.66845  0.72085
+#&gt; log(pc_college)        0.1960  0.21724  0.22794  0.23789  0.25952
+#&gt; log(pc_homeownership)  0.4520  0.47081  0.48080  0.49069  0.51067
+#&gt; log(pc_income)        -0.1378 -0.11750 -0.10597 -0.09459 -0.07424
+#&gt; rho                    0.5478  0.56578  0.57579  0.58579  0.60480
+#&gt; sige                   0.0132  0.01362  0.01386  0.01408  0.01457
 #&gt; </div><div class='input'><span class='no'>el_ml</span>$<span class='no'>timings</span></div><div class='output co'>#&gt;           user.self elapsed
-#&gt; set_up        0.015   0.014
-#&gt; LU_set_up     0.003   0.003
-#&gt; LU_opt        0.243   0.247
-#&gt; coefs         0.002   0.002
-#&gt; LU_fdHess     0.335   0.340</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>el_B</span>, <span class='st'>"timings"</span>)</div><div class='output co'>#&gt;                   user.self sys.self elapsed user.child sys.child
-#&gt; set_up                0.011    0.000   0.012          0         0
-#&gt; SE_classic_set_up     3.255    0.004   3.311          0         0
-#&gt; complete_setup        0.000    0.000   0.000          0         0
-#&gt; sampling              1.352    0.000   1.373          0         0
-#&gt; finalise              0.013    0.000   0.014          0         0</div></pre>
+#&gt; set_up        0.015   0.016
+#&gt; LU_set_up     0.004   0.003
+#&gt; LU_opt        0.248   0.253
+#&gt; coefs         0.002   0.001
+#&gt; LU_fdHess     0.354   0.359</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>el_B</span>, <span class='st'>"timings"</span>)</div><div class='output co'>#&gt;                   user.self sys.self elapsed user.child sys.child
+#&gt; set_up                0.012    0.000   0.012          0         0
+#&gt; SE_classic_set_up     3.304    0.009   3.339          0         0
+#&gt; complete_setup        0.001    0.000   0.000          0         0
+#&gt; sampling              1.398    0.004   1.414          0         0
+#&gt; finalise              0.015    0.000   0.015          0         0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

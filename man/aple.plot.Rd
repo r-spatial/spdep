@@ -38,7 +38,15 @@ localAple(x, listw, override_similarity_check=FALSE, useTrace=TRUE)
 run <- FALSE
 if (require(sf, quietly=TRUE)) run <- TRUE
 if (run) {
-example(aple)
+wheat <- st_read(system.file("shapes/wheat.shp", package="spData")[1], quiet=TRUE)
+nbr1 <- poly2nb(as(wheat, "Spatial"), queen=FALSE)
+nbrl <- nblag(nbr1, 2)
+nbr12 <- nblag_cumul(nbrl)
+wheat_g <- wheat
+st_geometry(wheat_g) <- NULL
+cms0 <- with(wheat_g, tapply(yield, c, median))
+cms1 <- c(model.matrix(~ factor(c) -1, data=wheat) \%*\% cms0)
+wheat$yield_detrend <- wheat$yield - cms1
 }
 if (run) {
 plt_out <- aple.plot(as.vector(scale(wheat$yield_detrend, scale=FALSE)),
