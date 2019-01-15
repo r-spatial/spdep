@@ -13,7 +13,12 @@
 The data set is now part of the spData package
 }
 \examples{
-example(columbus, package="spData")
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+}
 }
 
 

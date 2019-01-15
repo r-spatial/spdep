@@ -22,29 +22,47 @@ A list of:
 \author{Nicholas Lewin-Koh \email{nikko@hailmail.net}}
 \seealso{\code{\link{plot.nb}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+}
+if (run) {
+coords <- st_coordinates(st_centroid(st_geometry(columbus)))
 plot(col.gal.nb, coords, col="grey")
+}
+if (run) {
 col2 <- droplinks(col.gal.nb, 21)
-plot(col2, coords, add=TRUE)
 res <- n.comp.nb(col2)
 table(res$comp.id)
+}
+if (run) {
+plot(col2, coords, add=TRUE)
 points(coords, col=res$comp.id, pch=16)
-if (require(igraph)) {
+}
+run <- ifelse(require(igraph, quietly=TRUE), run, FALSE) 
+if (run) {
 B <- as(nb2listw(col2, style="B", zero.policy=TRUE), "CsparseMatrix")
 g1 <- graph.adjacency(B, mode="undirected")
 c1 <- clusters(g1)
 print(c1$no == res$nc)
+}
+if (run) {
 print(all.equal(c1$membership, res$comp.id))
+}
+if (run) {
 print(all.equal(c1$csize, c(table(res$comp.id)), check.attributes=FALSE))
+}
+if (run) {
 W <- as(nb2listw(col2, style="W", zero.policy=TRUE), "CsparseMatrix")
 g1W <- graph.adjacency(W, mode="directed", weighted="W")
 c1W <- clusters(g1W)
-print(all.equal(c1W$membership, res$comp.id))
+print(all.equal(c1W$membership, res$comp.id, check.attributes=FALSE))
+}
+if (run) {
 B1 <- get.adjacency(g1)
 print(all.equal(B, B1))
-}
 }
 }
 
