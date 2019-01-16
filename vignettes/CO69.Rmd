@@ -9,7 +9,7 @@ vignette: >
   %\VignetteIndexEntry{The Problem of Spatial Autocorrelation:” forty years on}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
----
+--- 
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(message = FALSE, warning = FALSE)
