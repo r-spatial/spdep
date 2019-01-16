@@ -25,18 +25,23 @@ for neighbours satisfying the distance criteria. See \code{\link{card}} for deta
 \seealso{\code{\link{knearneigh}}, \code{\link{card}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
-rn <- sapply(slot(columbus, "polygons"), function(x) slot(x, "ID"))
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+coords <- st_coordinates(st_centroid(st_geometry(columbus)))
+rn <- row.names(columbus)
 k1 <- knn2nb(knearneigh(coords))
 all.linked <- max(unlist(nbdists(k1, coords)))
 col.nb.0.all <- dnearneigh(coords, 0, all.linked, row.names=rn)
 summary(col.nb.0.all, coords)
-plot(columbus, border="grey")
+}
+if (run) {
+opar <- par(no.readonly=TRUE)
+plot(st_geometry(columbus), border="grey", reset=FALSE,
+ main=paste("Distance based neighbours 0-",  format(all.linked), sep=""))
 plot(col.nb.0.all, coords, add=TRUE)
-title(main=paste("Distance based neighbours 0-",  format(all.linked),
- " distance units", sep=""))
+par(opar)
 }
 data(state)
 us48.fipsno <- read.geoda(system.file("etc/weights/us48.txt",
@@ -57,7 +62,7 @@ gc.nb <- dnearneigh(xy, 0, all.linked, longlat=TRUE)
 summary(gc.nb, xy, longlat=TRUE, scale=0.5)
 plot(ll.nb, xy)
 plot(diffnb(ll.nb, gc.nb), xy, add=TRUE, col="red", lty=2)
-title(main="Differences between Euclidean and Great Circle neighbours")
+title(main="Differences Euclidean/Great Circle")
 
 xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
   proj4string=CRS("+proj=longlat +ellps=GRS80"))
