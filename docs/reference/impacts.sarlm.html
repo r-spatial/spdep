@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -295,61 +295,576 @@ If simulation is carried out, the object returned is a list with:
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-listw <- nb2listw(col.gal.nb)
-ev <- eigenw(listw)
-lobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw,
- control=list(pre_eig=ev))
-summary(lobj)
-mobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, Durbin=TRUE,
- control=list(pre_eig=ev))
-summary(mobj)
-mobj1 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, Durbin= ~ INC,
- control=list(pre_eig=ev))
-summary(mobj1)
-W <- as(listw, "CsparseMatrix")
-trMatc <- trW(W, type="mult")
-trMC <- trW(W, type="MC")
-set.seed(1)
-impacts(lobj, listw=listw)
-impacts(lobj, tr=trMatc)
-impacts(lobj, tr=trMC)
-impacts(lobj, evalues=ev)
-lobj1 <- stsls(CRIME ~ INC + HOVAL, columbus, listw)
-loobj1 <- impacts(lobj1, R=200, tr=trMatc)
-summary(loobj1, zstats=TRUE, short=TRUE)
-loobj2 <- impacts(lobj1, R=200, evalues=ev)
-summary(loobj2, zstats=TRUE, short=TRUE)
-library(coda)
-HPDinterval(loobj1)
-lobj1r <- stsls(CRIME ~ INC + HOVAL, columbus, listw, robust=TRUE)
-loobj1r <- impacts(lobj1r, tr=trMatc, R=200)
-summary(loobj1r, zstats=TRUE, short=TRUE)
-lobjIQ5 <- impacts(lobj, tr=trMatc, R=200, Q=5)
-summary(lobjIQ5, zstats=TRUE, short=TRUE)
-summary(lobjIQ5, zstats=TRUE, short=TRUE, reportQ=TRUE)
-impacts(mobj, listw=listw)
-impacts(mobj, tr=trMatc)
-impacts(mobj, tr=trMC)
-impacts(mobj1, tr=trMatc)
-impacts(mobj1, listw=listw)
-try(impacts(mobj, evalues=ev))
-summary(impacts(mobj, tr=trMatc, R=200), short=TRUE, zstats=TRUE)
-summary(impacts(mobj1, tr=trMatc, R=200), short=TRUE, zstats=TRUE)
-xobj <- lmSLX(CRIME ~ INC + HOVAL, columbus, listw)
-summary(impacts(xobj))
-eobj <- errorsarlm(CRIME ~ INC + HOVAL, columbus, listw, etype="emixed")
-summary(impacts(eobj), adjust_k=TRUE)
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:48:0: unexpected end of input</span>
-#&gt; <span class='error'>46: summary(impacts(eobj), adjust_k=TRUE)</span>
-#&gt; <span class='error'>47: </span>
-#&gt; <span class='error'>   ^</span></div><div class='input'><span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
-<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='error'>Error in lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type = "mixed",     method = "Matrix", control = list(fdHess = TRUE)): object 'listw' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in summary(mobj1): object 'mobj1' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in impacts(mobj1, tr = trMatc, R = 1000): object 'mobj1' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in impacts(mobj, tr = trMatc, R = 1000): object 'mobj' not found</span></div><div class='input'><span class='no'>mobj2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
-<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>optimHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='error'>Error in lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type = "mixed",     method = "Matrix", control = list(fdHess = TRUE, optimHess = TRUE)): object 'listw' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj2</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in impacts(mobj2, tr = trMatc, R = 1000): object 'mobj2' not found</span></div><div class='input'><span class='no'>mobj3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
-<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='error'>Error in lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type = "mixed",     method = "spam", control = list(fdHess = TRUE)): object 'listw' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj3</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in impacts(mobj3, tr = trMatc, R = 1000): object 'mobj3' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='no'>Wb</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='st'>"CsparseMatrix"</span>)
+    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
+}
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>)
+<span class='no'>ev</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='eigenw.html'>eigenw</a></span>(<span class='no'>listw</span>)
+<span class='no'>lobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>,
+ <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobj</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = columbus, listw = listw, 
+#&gt;     control = list(pre_eig = ev))
+#&gt; 
+#&gt; Residuals:
+#&gt;         Min          1Q      Median          3Q         Max 
+#&gt; -37.4497094  -5.4565567   0.0016388   6.7159553  24.7107975 
+#&gt; 
+#&gt; Type: lag 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 46.851430   7.314754  6.4051 1.503e-10
+#&gt; INC         -1.073533   0.310872 -3.4533 0.0005538
+#&gt; HOVAL       -0.269997   0.090128 -2.9957 0.0027381
+#&gt; 
+#&gt; Rho: 0.40389, LR test value: 8.4179, p-value: 0.0037154
+#&gt; Asymptotic standard error: 0.12071
+#&gt;     z-value: 3.3459, p-value: 0.00082027
+#&gt; Wald statistic: 11.195, p-value: 0.00082027
+#&gt; 
+#&gt; Log likelihood: -183.1683 for lag model
+#&gt; ML residual variance (sigma squared): 99.164, (sigma: 9.9581)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 5 
+#&gt; AIC: 376.34, (AIC for lm: 382.75)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: 0.19184, p-value: 0.66139
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>mobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+ <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = columbus, listw = listw, 
+#&gt;     Durbin = TRUE, control = list(pre_eig = ev))
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -37.15904  -6.62594  -0.39823   6.57561  23.62757 
+#&gt; 
+#&gt; Type: mixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 45.592896  13.128680  3.4728 0.0005151
+#&gt; INC         -0.939088   0.338229 -2.7765 0.0054950
+#&gt; HOVAL       -0.299605   0.090843 -3.2980 0.0009736
+#&gt; lag.INC     -0.618375   0.577052 -1.0716 0.2838954
+#&gt; lag.HOVAL    0.266615   0.183971  1.4492 0.1472760
+#&gt; 
+#&gt; Rho: 0.38251, LR test value: 4.1648, p-value: 0.041272
+#&gt; Asymptotic standard error: 0.16237
+#&gt;     z-value: 2.3557, p-value: 0.018488
+#&gt; Wald statistic: 5.5493, p-value: 0.018488
+#&gt; 
+#&gt; Log likelihood: -182.0161 for mixed model
+#&gt; ML residual variance (sigma squared): 95.051, (sigma: 9.7494)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 7 
+#&gt; AIC: 378.03, (AIC for lm: 380.2)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: 0.101, p-value: 0.75063
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span> ~ <span class='no'>INC</span>,
+ <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = columbus, listw = listw, 
+#&gt;     Durbin = ~INC, control = list(pre_eig = ev))
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -37.62163  -6.13108   0.11211   6.70682  24.76777 
+#&gt; 
+#&gt; Type: mixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 51.951208  12.577338  4.1305 3.619e-05
+#&gt; INC         -1.038812   0.337656 -3.0765  0.002094
+#&gt; HOVAL       -0.269345   0.090406 -2.9793  0.002889
+#&gt; lag.INC     -0.254653   0.544298 -0.4679  0.639888
+#&gt; 
+#&gt; Rho: 0.35028, LR test value: 3.4351, p-value: 0.063823
+#&gt; Asymptotic standard error: 0.1617
+#&gt;     z-value: 2.1662, p-value: 0.030293
+#&gt; Wald statistic: 4.6926, p-value: 0.030293
+#&gt; 
+#&gt; Log likelihood: -183.065 for mixed model
+#&gt; ML residual variance (sigma squared): 99.846, (sigma: 9.9923)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 378.13, (AIC for lm: 379.57)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: 2.5646, p-value: 0.10928
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>listw</span>, <span class='st'>"CsparseMatrix"</span>)
+<span class='no'>trMatc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trW.html'>trW</a></span>(<span class='no'>W</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mult"</span>)
+<span class='no'>trMC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trW.html'>trW</a></span>(<span class='no'>W</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"MC"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)
+}</div><div class='output co'>#&gt; Impact measures (lag, exact):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.1225155 -0.6783818 -1.8008973
+#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
+}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.1225155 -0.6783818 -1.8008973
+#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMC</span>)
+}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.1211255 -0.6797719 -1.8008973
+#&gt; HOVAL -0.2819667 -0.1709648 -0.4529315</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>)
+<span class='no'>lobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>)
+<span class='no'>loobj1</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj1</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0687585 -0.7790438 -1.8478023
+#&gt; HOVAL -0.2858263 -0.2083456 -0.4941719
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic IV variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3755271 0.7998518 0.9041439
+#&gt; HOVAL 0.1072510 0.3733382 0.4372305
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect     Total
+#&gt; INC   -2.886403 -1.1699705 -2.233854
+#&gt; HOVAL -2.757889 -0.8259039 -1.381715
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0038967 0.24201  0.025493
+#&gt; HOVAL 0.0058176 0.40886  0.167059</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>loobj2</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj2</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (lag, evalues):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0687585 -0.7790438 -1.8478023
+#&gt; HOVAL -0.2858263 -0.2083456 -0.4941719
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic IV variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.4106540 0.5926178 0.7088727
+#&gt; HOVAL 0.1327871 0.4825350 0.5812652
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -2.561322 -1.3695611 -2.6287421
+#&gt; HOVAL -2.194698 -0.5619779 -0.9678914
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct   Indirect Total    
+#&gt; INC   0.010427 0.17082  0.0085701
+#&gt; HOVAL 0.028185 0.57413  0.3330986</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>coda</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/coda/topics/HPDinterval'>HPDinterval</a></span>(<span class='no'>loobj1</span>)
+}</div><div class='output co'>#&gt;            lower       upper
+#&gt; INC   -1.7286485 -0.26439087
+#&gt; HOVAL -0.4840639 -0.09027924
+#&gt; attr(,"Probability")
+#&gt; [1] 0.95</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>lobj1r</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>robust</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>loobj1r</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1r</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj1r</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0687585 -0.7790438 -1.8478023
+#&gt; HOVAL -0.2858263 -0.2083456 -0.4941719
+#&gt; ========================================================
+#&gt; Simulation results (HC0 IV variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.5274394 1.0931855 1.3983255
+#&gt; HOVAL 0.1958572 0.2426985 0.4008787
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;         Direct   Indirect     Total
+#&gt; INC   -2.09808 -0.8223885 -1.434311
+#&gt; HOVAL -1.46588 -0.9639231 -1.299759
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct   Indirect Total  
+#&gt; INC   0.035898 0.41086  0.15148
+#&gt; HOVAL 0.142681 0.33508  0.19368</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>lobjIQ5</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>Q</span><span class='kw'>=</span><span class='fl'>5</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobjIQ5</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.1225155 -0.6783818 -1.8008973
+#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3462030 0.4013775 0.6174125
+#&gt; HOVAL 0.1055706 0.1320129 0.2136489
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct  Indirect     Total
+#&gt; INC   -3.228212 -1.674543 -2.898777
+#&gt; HOVAL -2.667191 -1.371279 -2.165252
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total    
+#&gt; INC   0.0012457 0.094024 0.0037462
+#&gt; HOVAL 0.0076488 0.170288 0.0303684</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobjIQ5</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>reportQ</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.1225155 -0.6783818 -1.8008973
+#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315
+#&gt; =================================
+#&gt; Impact components
+#&gt; $direct
+#&gt;             INC         HOVAL
+#&gt; Q1 -1.073533437 -0.2699971234
+#&gt; Q2  0.000000000  0.0000000000
+#&gt; Q3 -0.038985418 -0.0098049584
+#&gt; Q4 -0.005269655 -0.0013253352
+#&gt; Q5 -0.003276080 -0.0008239446
+#&gt; 
+#&gt; $indirect
+#&gt;            INC        HOVAL
+#&gt; Q1  0.00000000  0.000000000
+#&gt; Q2 -0.43358911 -0.109049060
+#&gt; Q3 -0.13613676 -0.034238835
+#&gt; Q4 -0.06546039 -0.016463500
+#&gt; Q5 -0.02529106 -0.006360783
+#&gt; 
+#&gt; $total
+#&gt;            INC        HOVAL
+#&gt; Q1 -1.07353344 -0.269997123
+#&gt; Q2 -0.43358911 -0.109049060
+#&gt; Q3 -0.17512218 -0.044043793
+#&gt; Q4 -0.07073005 -0.017788835
+#&gt; Q5 -0.02856714 -0.007184727
+#&gt; 
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3462030 0.4013775 0.6174125
+#&gt; HOVAL 0.1055706 0.1320129 0.2136489
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct  Indirect     Total
+#&gt; INC   -3.228212 -1.674543 -2.898777
+#&gt; HOVAL -2.667191 -1.371279 -2.165252
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total    
+#&gt; INC   0.0012457 0.094024 0.0037462
+#&gt; HOVAL 0.0076488 0.170288 0.0303684
+#&gt; ========================================================
+#&gt; Simulated impact components z-values:
+#&gt; $Direct
+#&gt;           INC      HOVAL
+#&gt; Q1 -3.1454607 -2.6874102
+#&gt; Q2        NaN        NaN
+#&gt; Q3 -1.5907172 -1.3149445
+#&gt; Q4 -1.0828785 -0.9578991
+#&gt; Q5 -0.7854446 -0.7335789
+#&gt; 
+#&gt; $Indirect
+#&gt;           INC      HOVAL
+#&gt; Q1        NaN        NaN
+#&gt; Q2 -2.5512196 -1.9340091
+#&gt; Q3 -1.5907172 -1.3149445
+#&gt; Q4 -1.0828785 -0.9578991
+#&gt; Q5 -0.7854446 -0.7335789
+#&gt; 
+#&gt; $Total
+#&gt;           INC      HOVAL
+#&gt; Q1 -3.1454607 -2.6874102
+#&gt; Q2 -2.5512196 -1.9340091
+#&gt; Q3 -1.5907172 -1.3149445
+#&gt; Q4 -1.0828785 -0.9578991
+#&gt; Q5 -0.7854446 -0.7335789
+#&gt; 
+#&gt; 
+#&gt; Simulated impact components p-values:
+#&gt; $Direct
+#&gt;    INC       HOVAL    
+#&gt; Q1 0.0016583 0.0072008
+#&gt; Q2 NA        NA       
+#&gt; Q3 0.1116732 0.1885286
+#&gt; Q4 0.2788624 0.3381136
+#&gt; Q5 0.4321930 0.4632054
+#&gt; 
+#&gt; $Indirect
+#&gt;    INC      HOVAL   
+#&gt; Q1 NA       NA      
+#&gt; Q2 0.010735 0.053112
+#&gt; Q3 0.111673 0.188529
+#&gt; Q4 0.278862 0.338114
+#&gt; Q5 0.432193 0.463205
+#&gt; 
+#&gt; $Total
+#&gt;    INC       HOVAL    
+#&gt; Q1 0.0016583 0.0072008
+#&gt; Q2 0.0107347 0.0531120
+#&gt; Q3 0.1116732 0.1885286
+#&gt; Q4 0.2788624 0.3381136
+#&gt; Q5 0.4321930 0.4632054
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, exact):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0418080 -1.4804246 -2.52223255
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0418080 -1.4804246 -2.52223255
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMC</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0390733 -1.4831593 -2.52223255
+#&gt; HOVAL -0.2840577  0.2306308 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0968247 -0.8939687 -1.9907934
+#&gt; HOVAL -0.2781941 -0.1363596 -0.4145537</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, exact):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0968247 -0.8939687 -1.9907934
+#&gt; HOVAL -0.2781941 -0.1363596 -0.4145537</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>), <span class='kw'>silent</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='st'>"\n"</span>)
+}</div><div class='output co'>#&gt; Error in intImpacts(rho = rho, beta = beta, P = P, n = n, mu = mu, Sigma = Sigma,  : 
+#&gt;   eigenvalue mixed impacts not available
+#&gt;  </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0418080 -1.4804246 -2.52223255
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3138781 1.0464126 1.1155472
+#&gt; HOVAL 0.1010350 0.4021256 0.4401912
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect       Total
+#&gt; INC   -3.263683 -1.4485963 -2.27711376
+#&gt; HOVAL -2.824144  0.6175382 -0.08407608
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0010997 0.14745  0.022779
+#&gt; HOVAL 0.0047407 0.53688  0.932996</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0968247 -0.8939687 -1.9907934
+#&gt; HOVAL -0.2781941 -0.1363596 -0.4145537
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;           Direct  Indirect     Total
+#&gt; INC   0.32590243 0.5584296 0.6593439
+#&gt; HOVAL 0.09715763 0.1264950 0.1933227
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct  Indirect     Total
+#&gt; INC   -3.391265 -1.640173 -3.065384
+#&gt; HOVAL -2.891161 -1.329411 -2.322863
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct     Indirect Total    
+#&gt; INC   0.00069571 0.10097  0.0021739
+#&gt; HOVAL 0.00383821 0.18371  0.0201865</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>xobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>lmSLX</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>xobj</span>))
+}</div><div class='output co'>#&gt; Impact measures (SLX, estimable, n-k):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.1081273 -1.3834468 -2.49157410
+#&gt; HOVAL -0.2949095  0.2261538 -0.06875574
+#&gt; ========================================================
+#&gt; Standard errors:
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3749956 0.5591789 0.4928197
+#&gt; HOVAL 0.1013524 0.2026169 0.2049626
+#&gt; ========================================================
+#&gt; Z-values:
+#&gt;          Direct  Indirect      Total
+#&gt; INC   -2.955041 -2.474068 -5.0557523
+#&gt; HOVAL -2.909744  1.116164 -0.3354551
+#&gt; 
+#&gt; p-values:
+#&gt;       Direct    Indirect Total    
+#&gt; INC   0.0031263 0.013358 4.287e-07
+#&gt; HOVAL 0.0036172 0.264352 0.73728  
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>eobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>etype</span><span class='kw'>=</span><span class='st'>"emixed"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>eobj</span>), <span class='kw'>adjust_k</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (SDEM, estimable, n):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0695301 -1.1967736 -2.2663036
+#&gt; HOVAL -0.2803441  0.1467585 -0.1335856
+#&gt; ========================================================
+#&gt; Standard errors:
+#&gt;           Direct  Indirect     Total
+#&gt; INC   0.32471853 0.5689676 0.6209448
+#&gt; HOVAL 0.09180929 0.2008722 0.2323518
+#&gt; ========================================================
+#&gt; Z-values:
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -3.293714 -2.1034125 -3.6497667
+#&gt; HOVAL -3.053548  0.7306064 -0.5749284
+#&gt; 
+#&gt; p-values:
+#&gt;       Direct     Indirect Total     
+#&gt; INC   0.00098873 0.03543  0.00026248
+#&gt; HOVAL 0.00226152 0.46502  0.56533972
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = columbus, listw = listw, 
+#&gt;     type = "mixed", method = "Matrix", control = list(fdHess = TRUE))
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -37.15904  -6.62594  -0.39823   6.57561  23.62757 
+#&gt; 
+#&gt; Type: mixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) 45.592896  14.240041  3.2017 0.0013660
+#&gt; INC         -0.939088   0.343069 -2.7373 0.0061942
+#&gt; HOVAL       -0.299605   0.090393 -3.3145 0.0009182
+#&gt; lag.INC     -0.618375   0.607708 -1.0176 0.3088903
+#&gt; lag.HOVAL    0.266615   0.181524  1.4688 0.1418998
+#&gt; 
+#&gt; Rho: 0.38251, LR test value: 4.1648, p-value: 0.041272
+#&gt; Asymptotic standard error: 0.17375
+#&gt;     z-value: 2.2015, p-value: 0.027702
+#&gt; Wald statistic: 4.8465, p-value: 0.027702
+#&gt; 
+#&gt; Log likelihood: -182.0161 for mixed model
+#&gt; ML residual variance (sigma squared): 95.051, (sigma: 9.7494)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 7 
+#&gt; AIC: 378.03, (AIC for lm: 380.2)
+#&gt; LM test for residual autocorrelation
+#&gt; test value: 0.101, p-value: 0.75063
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0418080 -1.4804246 -2.52223255
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;           Direct  Indirect     Total
+#&gt; INC   0.34686331 0.8324743 0.8959688
+#&gt; HOVAL 0.09085583 0.3131242 0.3483785
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -3.023902 -1.8284275 -2.8695190
+#&gt; HOVAL -3.120537  0.7910739 -0.1028036
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0024954 0.067485 0.004111
+#&gt; HOVAL 0.0018052 0.428901 0.918119</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0418080 -1.4804246 -2.52223255
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3123750 0.8291512 0.8821167
+#&gt; HOVAL 0.0922758 0.2961092 0.3267773
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -3.330304 -1.8060414 -2.8769263
+#&gt; HOVAL -3.099811  0.8140556 -0.1376722
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct     Indirect Total    
+#&gt; INC   0.00086751 0.070912 0.0040157
+#&gt; HOVAL 0.00193644 0.415613 0.8904995</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>mobj2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>optimHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj2</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0418080 -1.4804246 -2.52223255
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;           Direct  Indirect     Total
+#&gt; INC   0.32853332 0.8044059 0.8615603
+#&gt; HOVAL 0.09291975 0.3169361 0.3571304
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -3.231204 -1.8690203 -2.9771674
+#&gt; HOVAL -3.026494  0.7323897 -0.1374858
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total    
+#&gt; INC   0.0012327 0.06162  0.0029093
+#&gt; HOVAL 0.0024741 0.46393  0.8906468</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>mobj3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+<span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj3</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;           Direct   Indirect       Total
+#&gt; INC   -1.0418080 -1.4804246 -2.52223255
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;           Direct  Indirect     Total
+#&gt; INC   0.32866009 0.8664620 0.9215792
+#&gt; HOVAL 0.09837849 0.3110899 0.3492674
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect     Total
+#&gt; INC   -3.190433 -1.7325351 -2.766712
+#&gt; HOVAL -2.890221  0.7694814 -0.128720
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total    
+#&gt; INC   0.0014206 0.083178 0.0056625
+#&gt; HOVAL 0.0038497 0.441608 0.8975792</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+<span class='no'>Wb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>trMatb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trW.html'>trW</a></span>(<span class='no'>Wb</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mult"</span>)
 <span class='no'>gp2mMi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>CMEDV</span>) ~ <span class='no'>CRIM</span> + <span class='no'>ZN</span> + <span class='no'>INDUS</span> + <span class='no'>CHAS</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>NOX</span>^<span class='fl'>2</span>) +
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>RM</span>^<span class='fl'>2</span>) +  <span class='no'>AGE</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>DIS</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>RAD</span>) + <span class='no'>TAX</span> + <span class='no'>PTRATIO</span> + <span class='no'>B</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>LSTAT</span>),
@@ -428,51 +943,51 @@ summary(impacts(eobj), adjust_k=TRUE)
 #&gt; ========================================================
 #&gt; Simulated standard errors
 #&gt;                  Direct     Indirect        Total
-#&gt; CRIM       0.0009825947 0.0035673793 0.0039941079
-#&gt; ZN         0.0004893718 0.0012186281 0.0012429895
-#&gt; INDUS      0.0028334621 0.0055973954 0.0053186322
-#&gt; CHAS1      0.0283708321 0.0812423795 0.0913355496
-#&gt; I(NOX^2)   0.1855060888 0.2921285220 0.2436117326
-#&gt; I(RM^2)    0.0010567046 0.0031433490 0.0035619449
-#&gt; AGE        0.0004659277 0.0012359580 0.0013035531
-#&gt; log(DIS)   0.0875172480 0.1169983912 0.0754055941
-#&gt; log(RAD)   0.0206253904 0.0508355125 0.0495616064
-#&gt; TAX        0.0001121870 0.0003046755 0.0003189050
-#&gt; PTRATIO    0.0054607955 0.0123210949 0.0118526404
-#&gt; B          0.0001033402 0.0002298688 0.0002317636
-#&gt; log(LSTAT) 0.0212790458 0.0619329522 0.0649277399
+#&gt; CRIM       0.0010076798 0.0036288635 0.0040404924
+#&gt; ZN         0.0004892696 0.0012374985 0.0012596482
+#&gt; INDUS      0.0028820758 0.0060784278 0.0057782835
+#&gt; CHAS1      0.0271174438 0.0816949094 0.0902306757
+#&gt; I(NOX^2)   0.1798525308 0.2954129372 0.2426994803
+#&gt; I(RM^2)    0.0011004204 0.0031441374 0.0036256801
+#&gt; AGE        0.0004759027 0.0012824325 0.0013506324
+#&gt; log(DIS)   0.0884514493 0.1106832532 0.0757292416
+#&gt; log(RAD)   0.0197638019 0.0513249132 0.0502885291
+#&gt; TAX        0.0001125321 0.0003293654 0.0003385003
+#&gt; PTRATIO    0.0054150585 0.0127889718 0.0122254626
+#&gt; B          0.0001047613 0.0002376555 0.0002352788
+#&gt; log(LSTAT) 0.0224736606 0.0610705732 0.0660452868
 #&gt; 
 #&gt; Simulated z-values:
-#&gt;                 Direct    Indirect      Total
-#&gt; CRIM        -7.5687958 -5.12111000 -6.4359805
-#&gt; ZN           1.4916035  0.04855513  0.6348559
-#&gt; INDUS       -0.4103920 -0.15456513 -0.3812996
-#&gt; CHAS1       -0.7026843  2.77932883  2.2539258
-#&gt; I(NOX^2)    -0.5037322 -3.05392436 -4.0457157
-#&gt; I(RM^2)      7.5459998  0.18384377  2.4008731
-#&gt; AGE         -2.3773644  1.29406030  0.3772184
-#&gt; log(DIS)    -1.5975553 -1.53421335 -4.2346214
-#&gt; log(RAD)     3.1315355  1.16521418  2.4983734
-#&gt; TAX         -4.1773159  0.83787480 -0.6690406
-#&gt; PTRATIO     -2.6985674 -1.30214929 -2.5969091
-#&gt; B            5.0430369 -1.71412155  0.5485124
-#&gt; log(LSTAT) -12.1251369 -1.75005587 -5.6431576
+#&gt;                 Direct   Indirect      Total
+#&gt; CRIM        -7.4241338 -5.0475149 -6.3848388
+#&gt; ZN           1.4320070  0.1005269  0.6549761
+#&gt; INDUS       -0.4184563 -0.1088975 -0.3232704
+#&gt; CHAS1       -0.7260662  2.7907466  2.3085356
+#&gt; I(NOX^2)    -0.5230875 -3.0572802 -4.1089447
+#&gt; I(RM^2)      7.3364331  0.1789518  2.3818456
+#&gt; AGE         -2.4211451  1.2544530  0.3380060
+#&gt; log(DIS)    -1.5778892 -1.6651491 -4.2766929
+#&gt; log(RAD)     3.2376717  1.1761160  2.4727856
+#&gt; TAX         -4.1072661  0.7673289 -0.6188112
+#&gt; PTRATIO     -2.7323833 -1.2913715 -2.5611570
+#&gt; B            5.0195551 -1.6302856  0.5882763
+#&gt; log(LSTAT) -11.4429268 -1.7773204 -5.5372071
 #&gt; 
 #&gt; Simulated p-values:
 #&gt;            Direct     Indirect   Total     
-#&gt; CRIM       3.7748e-14 3.0374e-07 1.2268e-10
-#&gt; ZN         0.1358031  0.9612738  0.5255224 
-#&gt; INDUS      0.6815184  0.8771642  0.7029810 
-#&gt; CHAS1      0.4822525  0.0054471  0.0242008 
-#&gt; I(NOX^2)   0.6144496  0.0022587  5.2164e-05
-#&gt; I(RM^2)    4.4853e-14 0.8541360  0.0163560 
-#&gt; AGE        0.0174369  0.1956446  0.7060113 
-#&gt; log(DIS)   0.1101420  0.1249772  2.2894e-05
-#&gt; log(RAD)   0.0017389  0.2439323  0.0124765 
-#&gt; TAX        2.9497e-05 0.4021010  0.5034696 
-#&gt; PTRATIO    0.0069639  0.1928654  0.0094067 
-#&gt; B          4.5820e-07 0.0865064  0.5833401 
-#&gt; log(LSTAT) &lt; 2.22e-16 0.0801087  1.6696e-08</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>house</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+#&gt; CRIM       1.1346e-13 4.4759e-07 1.7158e-10
+#&gt; ZN         0.1521418  0.9199260  0.512483  
+#&gt; INDUS      0.6756135  0.9132838  0.746490  
+#&gt; CHAS1      0.4677982  0.0052587  0.020969  
+#&gt; I(NOX^2)   0.6009133  0.0022336  3.9747e-05
+#&gt; I(RM^2)    2.1938e-13 0.8579755  0.017226  
+#&gt; AGE        0.0154717  0.2096774  0.735359  
+#&gt; log(DIS)   0.1145911  0.0958830  1.8969e-05
+#&gt; log(RAD)   0.0012051  0.2395485  0.013406  
+#&gt; TAX        4.0037e-05 0.4428860  0.536041  
+#&gt; PTRATIO    0.0062878  0.1965749  0.010432  
+#&gt; B          5.1791e-07 0.1030411  0.556347  
+#&gt; log(LSTAT) &lt; 2.22e-16 0.0755155  3.0733e-08</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>house</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>LO_nb</span>)
 <span class='no'>form</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/formula'>formula</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>price</span>) ~ <span class='no'>age</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>age</span>^<span class='fl'>2</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>age</span>^<span class='fl'>3</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>lotsize</span>) +
    <span class='no'>rooms</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>TLA</span>) + <span class='no'>beds</span> + <span class='no'>syear</span>)
@@ -533,33 +1048,33 @@ summary(impacts(eobj), adjust_k=TRUE)
 #&gt; ========================================================
 #&gt; Simulated standard errors
 #&gt;                   Direct    Indirect       Total
-#&gt; age          0.065159670 0.056074844 0.120047960
-#&gt; I(age^2)     0.118101828 0.100445846 0.216465436
-#&gt; I(age^3)     0.064231590 0.053764246 0.117689824
-#&gt; log(lotsize) 0.003344771 0.002753924 0.006023682
-#&gt; rooms        0.003346013 0.002789327 0.006135140
-#&gt; log(TLA)     0.011081825 0.010909583 0.020741960
-#&gt; beds         0.004880528 0.004087197 0.008965259
-#&gt; syear1994    0.008302791 0.006969403 0.015261051
-#&gt; syear1995    0.008371747 0.007112559 0.015443796
-#&gt; syear1996    0.008045969 0.006889221 0.014872608
-#&gt; syear1997    0.008179808 0.007187624 0.015252035
-#&gt; syear1998    0.008406694 0.007550248 0.015751225
+#&gt; age          0.064296438 0.055323249 0.118497939
+#&gt; I(age^2)     0.115360929 0.098123688 0.211488373
+#&gt; I(age^3)     0.062144038 0.052041435 0.113886372
+#&gt; log(lotsize) 0.003366268 0.002819239 0.006117351
+#&gt; rooms        0.003373582 0.002816658 0.006190009
+#&gt; log(TLA)     0.011357951 0.011054895 0.021274151
+#&gt; beds         0.005234585 0.004380382 0.009612636
+#&gt; syear1994    0.008477181 0.007110487 0.015577465
+#&gt; syear1995    0.008361287 0.007043902 0.015367150
+#&gt; syear1996    0.008041709 0.006838250 0.014820783
+#&gt; syear1997    0.007818221 0.006751750 0.014453900
+#&gt; syear1998    0.008347923 0.007398409 0.015549411
 #&gt; 
 #&gt; Simulated z-values:
-#&gt;                   Direct    Indirect       Total
-#&gt; age           22.9266686  22.2072306  22.8172236
-#&gt; I(age^2)     -22.4311583 -21.9841384 -22.4395001
-#&gt; I(age^3)      11.6129151  11.5643840  11.6209400
-#&gt; log(lotsize)  24.9485184  25.2561836  25.3998603
-#&gt; rooms         -0.8151298  -0.8150624  -0.8151258
-#&gt; log(TLA)      59.5527853  50.4250112  58.3392000
-#&gt; beds           3.6285293   3.6124764   3.6222089
-#&gt; syear1994      6.1088642   6.0671451   6.0942726
-#&gt; syear1995     11.7402118  11.5197415  11.6694706
-#&gt; syear1996     15.0114911  14.6150645  14.8910278
-#&gt; syear1997     20.5610088  19.5063150  20.2195422
-#&gt; syear1998     27.3003157  25.3393120  26.7168753
+#&gt;                  Direct    Indirect       Total
+#&gt; age           23.246302  22.5444222  23.1386730
+#&gt; I(age^2)     -22.993254 -22.5570316 -23.0078949
+#&gt; I(age^3)      12.045514  12.0023762  12.0574372
+#&gt; log(lotsize)  24.789519  24.6983542  25.0236969
+#&gt; rooms         -0.868709  -0.8686937  -0.8687345
+#&gt; log(TLA)      58.086508  49.7994169  56.8892760
+#&gt; beds           3.453218   3.4438856   3.4498027
+#&gt; syear1994      5.977552   5.9470557   5.9675471
+#&gt; syear1995     11.730998  11.6199189  11.7091203
+#&gt; syear1996     15.001064  14.7211639  14.9318155
+#&gt; syear1997     21.514961  20.7895766  21.3488924
+#&gt; syear1998     27.484866  25.8792188  27.0689717
 #&gt; 
 #&gt; Simulated p-values:
 #&gt;              Direct     Indirect   Total     
@@ -567,10 +1082,10 @@ summary(impacts(eobj), adjust_k=TRUE)
 #&gt; I(age^2)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
 #&gt; I(age^3)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
 #&gt; log(lotsize) &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-#&gt; rooms        0.41499802 0.41503662 0.4150003 
+#&gt; rooms        0.38500632 0.38501467 0.384992  
 #&gt; log(TLA)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-#&gt; beds         0.00028504 0.00030329 0.0002921 
-#&gt; syear1994    1.0034e-09 1.302e-09  1.0994e-09
+#&gt; beds         0.00055394 0.00057342 0.000561  
+#&gt; syear1994    2.2652e-09 2.7301e-09 2.4085e-09
 #&gt; syear1995    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
 #&gt; syear1996    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
 #&gt; syear1997    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
@@ -595,33 +1110,33 @@ summary(impacts(eobj), adjust_k=TRUE)
 #&gt; ========================================================
 #&gt; Simulated standard errors
 #&gt;                   Direct    Indirect       Total
-#&gt; age          0.066761364 0.062449803 0.126307377
-#&gt; I(age^2)     0.121471394 0.110471871 0.226738247
-#&gt; I(age^3)     0.065395151 0.056646363 0.121243929
-#&gt; log(lotsize) 0.003587125 0.002998270 0.006400355
-#&gt; rooms        0.003537495 0.002997679 0.006534655
-#&gt; log(TLA)     0.012207271 0.013892976 0.023317198
-#&gt; beds         0.005265662 0.004501404 0.009760991
-#&gt; syear1994    0.008556363 0.007300904 0.015826967
-#&gt; syear1995    0.008102610 0.007105658 0.015096919
-#&gt; syear1996    0.007980096 0.007197483 0.015012935
-#&gt; syear1997    0.007930940 0.007518526 0.015147369
-#&gt; syear1998    0.008244868 0.008348955 0.016092252
+#&gt; age          0.063940403 0.058147878 0.118645008
+#&gt; I(age^2)     0.115356332 0.102073661 0.211300675
+#&gt; I(age^3)     0.061737586 0.052713683 0.113534373
+#&gt; log(lotsize) 0.003638760 0.002922621 0.006362103
+#&gt; rooms        0.003597558 0.003054142 0.006651031
+#&gt; log(TLA)     0.011573499 0.014387138 0.023064479
+#&gt; beds         0.005239154 0.004488962 0.009721066
+#&gt; syear1994    0.008450587 0.007249922 0.015667840
+#&gt; syear1995    0.008414578 0.007392580 0.015690713
+#&gt; syear1996    0.007853922 0.007120803 0.014791393
+#&gt; syear1997    0.008034115 0.007755663 0.015469672
+#&gt; syear1998    0.008226236 0.008551863 0.016246736
 #&gt; 
 #&gt; Simulated z-values:
-#&gt;                   Direct   Indirect       Total
-#&gt; age           22.3544113  20.239745  21.8227879
-#&gt; I(age^2)     -21.7559867 -20.259260 -21.5261802
-#&gt; I(age^3)      11.3907499  11.136673  11.3469749
-#&gt; log(lotsize)  23.0219871  23.321697  23.8279742
-#&gt; rooms         -0.7842976  -0.784369  -0.7843926
-#&gt; log(TLA)      53.9206722  40.122788  52.1353040
-#&gt; beds           3.4164154   3.386731   3.4048522
-#&gt; syear1994      5.9485389   5.904262   5.9395024
-#&gt; syear1995     12.1619428  11.745851  12.0558028
-#&gt; syear1996     15.2148517  14.288072  14.9373950
-#&gt; syear1997     21.2800989  19.012543  20.5789844
-#&gt; syear1998     27.8828585  23.321737  26.3855323
+#&gt;                   Direct    Indirect       Total
+#&gt; age           23.2989820  21.7222194  23.2023860
+#&gt; I(age^2)     -22.8521297 -21.8956086 -23.0529449
+#&gt; I(age^3)      12.0096399  11.9245663  12.0671295
+#&gt; log(lotsize)  22.6998261  23.9565936  23.9881786
+#&gt; rooms         -0.8739561  -0.8746701  -0.8743718
+#&gt; log(TLA)      56.9078117  38.8154572  52.7679744
+#&gt; beds           3.5109410   3.4768651   3.4977518
+#&gt; syear1994      6.0577454   5.9875499   6.0378954
+#&gt; syear1995     11.6940386  11.2870056  11.5890516
+#&gt; syear1996     15.4457534  14.4463751  15.1560791
+#&gt; syear1997     21.0088714  18.4557137  20.1635809
+#&gt; syear1998     27.9328908  22.7855472  26.1370308
 #&gt; 
 #&gt; Simulated p-values:
 #&gt;              Direct     Indirect   Total     
@@ -629,10 +1144,10 @@ summary(impacts(eobj), adjust_k=TRUE)
 #&gt; I(age^2)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
 #&gt; I(age^3)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
 #&gt; log(lotsize) &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-#&gt; rooms        0.43286553 0.43282365 0.432810  
+#&gt; rooms        0.38214217 0.38175344 0.3819158 
 #&gt; log(TLA)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-#&gt; beds         0.00063451 0.00070731 0.000662  
-#&gt; syear1994    2.7055e-09 3.5423e-09 2.8589e-09
+#&gt; beds         0.00044652 0.00050731 0.0004692 
+#&gt; syear1994    1.3804e-09 2.1303e-09 1.5614e-09
 #&gt; syear1995    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
 #&gt; syear1996    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
 #&gt; syear1997    &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
@@ -705,51 +1220,48 @@ summary(impacts(eobj), adjust_k=TRUE)
 #&gt; ========================================================
 #&gt; Simulated standard errors
 #&gt;                   Direct    Indirect       Total
-#&gt; age          0.077925351 0.133375095 0.146815832
-#&gt; I(age^2)     0.134517146 0.238296829 0.278571515
-#&gt; I(age^3)     0.068830959 0.128769819 0.156600948
-#&gt; log(lotsize) 0.004766226 0.007062475 0.007356136
-#&gt; rooms        0.003622726 0.008606519 0.011067116
-#&gt; log(TLA)     0.011764634 0.026259475 0.033060599
-#&gt; beds         0.005231272 0.012493821 0.015915221
-#&gt; syear1994    0.008942966 0.021845951 0.028344722
-#&gt; syear1995    0.008524353 0.021045048 0.027231971
-#&gt; syear1996    0.008205057 0.020386026 0.026295470
-#&gt; syear1997    0.008377581 0.020606130 0.026538431
-#&gt; syear1998    0.008553225 0.021404295 0.027588655
+#&gt; age          0.077912086 0.131881976 0.143882369
+#&gt; I(age^2)     0.129796126 0.237613423 0.273074699
+#&gt; I(age^3)     0.066227363 0.129395850 0.154590639
+#&gt; log(lotsize) 0.004782001 0.007064361 0.007246254
+#&gt; rooms        0.003469062 0.008355429 0.010599350
+#&gt; log(TLA)     0.011915239 0.026025735 0.032701944
+#&gt; beds         0.005156452 0.013021177 0.016492973
+#&gt; syear1994    0.008933529 0.022310364 0.028858981
+#&gt; syear1995    0.008774074 0.021322232 0.027731068
+#&gt; syear1996    0.008265616 0.020924180 0.026923516
+#&gt; syear1997    0.008255624 0.020592579 0.026557065
+#&gt; syear1998    0.008734415 0.021710987 0.028265858
 #&gt; 
 #&gt; Simulated z-values:
 #&gt;                   Direct    Indirect       Total
-#&gt; age           14.3330903  6.79435482  13.7799090
-#&gt; I(age^2)     -15.5339855 -5.86851877 -12.5211539
-#&gt; I(age^3)       7.9135955 -0.41523779   3.1368282
-#&gt; log(lotsize)  23.4882813  2.14469543  17.2777285
-#&gt; rooms          0.4927074  0.29191530   0.3882961
-#&gt; log(TLA)      59.0826292 18.50393093  35.7219484
-#&gt; beds           0.5170681 -5.44045245  -4.1009244
-#&gt; syear1994      4.4495327 -0.24052054   1.2184851
-#&gt; syear1995      9.9016123  0.09650671   3.1740571
-#&gt; syear1996     12.6998683 -0.07544440   3.9042897
-#&gt; syear1997     17.1458327 -1.20850478   4.4741905
-#&gt; syear1998     23.7694725  0.91368089   8.0780429
+#&gt; age           14.3647778  6.85083025  14.0579477
+#&gt; I(age^2)     -16.1327047 -5.86383428 -12.7704555
+#&gt; I(age^3)       8.2576961 -0.44044912   3.1689703
+#&gt; log(lotsize)  23.3692705  2.17781122  17.5451661
+#&gt; rooms          0.5358941  0.31678906   0.4251165
+#&gt; log(TLA)      58.3752150 18.66943702  36.1275297
+#&gt; beds           0.4257952 -5.24641974  -4.0089174
+#&gt; syear1994      4.4062433 -0.22894696   1.1869931
+#&gt; syear1995      9.5881162  0.08576743   3.0996136
+#&gt; syear1996     12.5708803 -0.08723417   3.7915092
+#&gt; syear1997     17.3303952 -1.20514282   4.4529101
+#&gt; syear1998     23.2902952  0.94925557   7.9260418
 #&gt; 
 #&gt; Simulated p-values:
 #&gt;              Direct     Indirect   Total     
-#&gt; age          &lt; 2.22e-16 1.0880e-11 &lt; 2.22e-16
-#&gt; I(age^2)     &lt; 2.22e-16 4.3971e-09 &lt; 2.22e-16
-#&gt; I(age^3)     2.4425e-15 0.677968   0.0017079 
-#&gt; log(lotsize) &lt; 2.22e-16 0.031977   &lt; 2.22e-16
-#&gt; rooms        0.62222    0.770351   0.6977969 
+#&gt; age          &lt; 2.22e-16 7.3423e-12 &lt; 2.22e-16
+#&gt; I(age^2)     &lt; 2.22e-16 4.5230e-09 &lt; 2.22e-16
+#&gt; I(age^3)     2.2204e-16 0.65961    0.00152980
+#&gt; log(lotsize) &lt; 2.22e-16 0.02942    &lt; 2.22e-16
+#&gt; rooms        0.59203    0.75140    0.67075179
 #&gt; log(TLA)     &lt; 2.22e-16 &lt; 2.22e-16 &lt; 2.22e-16
-#&gt; beds         0.60511    5.3145e-08 4.1150e-05
-#&gt; syear1994    8.6057e-06 0.809927   0.2230397 
-#&gt; syear1995    &lt; 2.22e-16 0.923118   0.0015032 
-#&gt; syear1996    &lt; 2.22e-16 0.939861   9.4503e-05
-#&gt; syear1997    &lt; 2.22e-16 0.226853   7.6701e-06
-#&gt; syear1998    &lt; 2.22e-16 0.360885   6.6613e-16</div><div class='input'>}
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:1:1: unexpected '}'</span>
-#&gt; <span class='error'>1: }</span>
-#&gt; <span class='error'>    ^</span></div></pre>
+#&gt; beds         0.67026    1.5508e-07 6.0998e-05
+#&gt; syear1994    1.0518e-05 0.81891    0.23523035
+#&gt; syear1995    &lt; 2.22e-16 0.93165    0.00193773
+#&gt; syear1996    &lt; 2.22e-16 0.93049    0.00014973
+#&gt; syear1997    &lt; 2.22e-16 0.22815    8.4714e-06
+#&gt; syear1998    &lt; 2.22e-16 0.34249    2.2204e-15</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

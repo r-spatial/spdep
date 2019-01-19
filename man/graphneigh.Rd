@@ -103,35 +103,45 @@ The helper functions return an \code{nb} object with a list of integer
 \code{\link{knn2nb}}, \code{\link{card}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+}
+if (run) {
+coords <- coordinates(as(columbus, "Spatial"))
 par(mfrow=c(2,2))
 col.tri.nb<-tri2nb(coords)
 col.gab.nb<-graph2nb(gabrielneigh(coords), sym=TRUE)
 col.rel.nb<- graph2nb(relativeneigh(coords), sym=TRUE)
-plot(columbus, border="grey")
+plot(st_geometry(columbus), border="grey")
 plot(col.tri.nb,coords,add=TRUE)
 title(main="Delaunay Triangulation")
-plot(columbus, border="grey")
+plot(st_geometry(columbus), border="grey")
 plot(col.gab.nb, coords, add=TRUE)
 title(main="Gabriel Graph")
-plot(columbus, border="grey")
+plot(st_geometry(columbus), border="grey")
 plot(col.rel.nb, coords, add=TRUE)
 title(main="Relative Neighbor Graph")
-plot(columbus, border="grey")
+plot(st_geometry(columbus), border="grey")
 if (require(rgeos, quietly=TRUE) && require(RANN, quietly=TRUE)) {
-  col.soi.nb<- graph2nb(soi.graph(col.tri.nb,coords), sym=TRUE)
+  col.soi.nb <- graph2nb(soi.graph(col.tri.nb,coords), sym=TRUE)
   plot(col.soi.nb, coords, add=TRUE)
   title(main="Sphere of Influence Graph")
 }
 par(mfrow=c(1,1))
+}
+if (run) {
 dx <- rep(0.25*0:4,5)
 dy <- c(rep(0,5),rep(0.25,5),rep(0.5,5), rep(0.75,5),rep(1,5))
 m <- cbind(c(dx, dx, 3+dx, 3+dx), c(dy, 3+dy, dy, 3+dy))
 try(res <- gabrielneigh(m))
+}
+if (run) {
 res <- gabrielneigh(m, nnmult=4)
 summary(graph2nb(res))
+}
+if (run) {
 grd <- as.matrix(expand.grid(x=1:5, y=1:5)) #gridded data
 r2 <- gabrielneigh(grd)
 set.seed(1)

@@ -310,73 +310,40 @@ print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
 print(all.equal(ocoef, coefficients(COL.errW.eig)))
 }
 \dontrun{
-run <- FALSE
-if (require(coda, quietly=TRUE)) run <- TRUE
-if (run) {
+library(coda)
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
 print(summary(COL.err.Bayes))
-}
-if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
-}
-if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  control=list(prior=list(lambdaMH=TRUE)))
 print(summary(COL.err.Bayes))
-}
-if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
-}
-if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  Durbin=TRUE)
 print(summary(COL.err.Bayes))
-}
-if (run) {
 print(summary(impacts(COL.err.Bayes)))
-}
-if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
-}
-if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  Durbin=TRUE, control=list(prior=list(lambdaMH=TRUE)))
 print(summary(COL.err.Bayes))
-}
-if (run) {
 print(summary(impacts(COL.err.Bayes)))
-}
-if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
-}
-if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  Durbin=~INC)
 print(summary(COL.err.Bayes))
-}
-if (run) {
 print(summary(impacts(COL.err.Bayes)))
-}
-if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
-}
-if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  Durbin=~INC, control=list(prior=list(lambdaMH=TRUE)))
 print(summary(COL.err.Bayes))
-}
-if (run) {
 print(summary(impacts(COL.err.Bayes)))
-}
-if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
-}
 }
 }
 \keyword{spatial}
