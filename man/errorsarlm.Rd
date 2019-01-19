@@ -239,7 +239,7 @@ summary(COL.SLX)
 COL.SLX <- lmSLX(CRIME ~ INC, data=COL.OLD, listw=lw)
 summary(COL.SLX)
 summary(impacts(COL.SLX))
-\donttest{
+\dontrun{
 crds <- cbind(COL.OLD$X, COL.OLD$Y)
 mdist <- sqrt(sum(diff(apply(crds, 2, range))^2))
 dnb <- dnearneigh(crds, 0, mdist)
@@ -266,7 +266,7 @@ COL.err.NA <- errorsarlm(CRIME ~ INC + HOVAL, data=NA.COL.OLD,
 COL.err.NA$na.action
 COL.err.NA
 resid(COL.err.NA)
-\donttest{
+\dontrun{
 lw <- nb2listw(COL.nb, style="W")
 print(system.time(ev <- eigenw(similar.listw(lw))))
 print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
@@ -310,39 +310,71 @@ print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
 print(all.equal(ocoef, coefficients(COL.errW.eig)))
 }
 \dontrun{
-if (require(coda, quietly=TRUE)) {
+run <- FALSE
+if (require(coda, quietly=TRUE)) run <- TRUE
+if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
 print(summary(COL.err.Bayes))
+}
+if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
+}
+if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  control=list(prior=list(lambdaMH=TRUE)))
 print(summary(COL.err.Bayes))
+}
+if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
+}
+if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  Durbin=TRUE)
 print(summary(COL.err.Bayes))
+}
+if (run) {
 print(summary(impacts(COL.err.Bayes)))
+}
+if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
+}
+if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  Durbin=TRUE, control=list(prior=list(lambdaMH=TRUE)))
 print(summary(COL.err.Bayes))
+}
+if (run) {
 print(summary(impacts(COL.err.Bayes)))
+}
+if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
+}
+if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  Durbin=~INC)
 print(summary(COL.err.Bayes))
+}
+if (run) {
 print(summary(impacts(COL.err.Bayes)))
+}
+if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
+}
+if (run) {
 set.seed(1)
 COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
  Durbin=~INC, control=list(prior=list(lambdaMH=TRUE)))
 print(summary(COL.err.Bayes))
+}
+if (run) {
 print(summary(impacts(COL.err.Bayes)))
+}
+if (run) {
 print(raftery.diag(COL.err.Bayes, r=0.01))
 }
 }
