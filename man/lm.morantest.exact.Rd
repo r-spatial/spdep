@@ -52,15 +52,23 @@ must be one of greater (default), less or two.sided.}
 
 \seealso{\code{\link{lm.morantest.sad}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-eire <- readOGR(system.file("shapes/eire.shp", package="spData")[1])
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+eire <- st_read(system.file("shapes/eire.shp", package="spData")[1])
 row.names(eire) <- as.character(eire$names)
-proj4string(eire) <- CRS("+proj=utm +zone=30 +ellps=airy +units=km")
-eire.nb <- poly2nb(eire)
+st_crs(eire) <- "+proj=utm +zone=30 +ellps=airy +units=km"
+eire.nb <- poly2nb(as(eire, "Spatial"))
 e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
 lm.morantest(e.lm, nb2listw(eire.nb))
+}
+if (run) {
 lm.morantest.sad(e.lm, nb2listw(eire.nb))
+}
+if (run) {
 lm.morantest.exact(e.lm, nb2listw(eire.nb))
+}
+if (run) {
 lm.morantest.exact(e.lm, nb2listw(eire.nb), useTP=TRUE)
 }
 }

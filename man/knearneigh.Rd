@@ -32,11 +32,15 @@ A list of class \code{knn}
 \code{\link{knn2nb}}, \code{\link[RANN]{nn2}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+}
+if (run) {
+coords <- coordinates(as(columbus, "Spatial"))
 col.knn <- knearneigh(coords, k=4)
-plot(columbus, border="grey")
+plot(st_geometry(columbus), border="grey")
 plot(knn2nb(col.knn), coords, add=TRUE)
 title(main="K nearest neighbours, k = 4")
 }

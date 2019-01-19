@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -184,73 +184,33 @@
 <span class='no'>er</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='fu'><a href='eigenw.html'>eigenw</a></span>(<span class='no'>ab.listb</span>))
 <span class='no'>er</span></div><div class='output co'>#&gt; [1] -3.039465  5.306204</div><div class='input'><span class='no'>res_1</span> <span class='kw'>&lt;-</span> <span class='fu'>lextrB</span>(<span class='no'>ab.listb</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>res_1</span>)</div><div class='output co'>#&gt;  lambda_n  lambda_1 
-#&gt; -3.039374  5.306203 </div><div class='input'><span class='co'>#if (require(igraph)) {</span>
-<span class='co'>#  B &lt;- as(ab.listb, "symmetricMatrix")</span>
-<span class='co'>#  n &lt;- length(boston.soi)</span>
-<span class='co'>#  f2 &lt;- function(x, extra=NULL) {as.vector(B %*% x)}</span>
-<span class='co'>#  ar1 &lt;- arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8,</span>
-<span class='co'>#    which="LA", maxiter=200))</span>
-<span class='co'>#  print(ar1$values)</span>
-<span class='co'># At line 409 of file dsaupd.f: Fortran runtime error: Actual string</span>
-<span class='co'># length is shorter than the declared one for dummy argument 'which' (0/2)</span>
-<span class='co'>#  arn &lt;- arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8,</span>
-<span class='co'>#    which="SA", maxiter=200))</span>
-<span class='co'>#  print(arn$values)</span>
-<span class='co'># At line 409 of file dsaupd.f: Fortran runtime error: Actual string</span>
-<span class='co'># length is shorter than the declared one for dummy argument 'which' (0/2)</span>
-<span class='co'>#  ar1 &lt;- arpack(f2, sym=TRUE, options=list(n=n, nev=2, ncv=8,</span>
-<span class='co'>#    which="BE", maxiter=300))</span>
-<span class='co'># "BE" gives: At line 558 of file dsaup2.f: Fortran runtime error: </span>
-<span class='co'># Index '9' of dimension 1 of array 'bounds' above upper bound of 8</span>
-<span class='co'># "BE" </span>
-<span class='co'>#  print(ar1$values)</span>
-<span class='co'>#}</span>
-<span class='no'>k5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>boston.utm</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>5</span>))
+#&gt; -3.039374  5.306203 </div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"RSpectra"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>B</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>ab.listb</span>, <span class='st'>"CsparseMatrix"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/RSpectra/topics/eigs'>eigs</a></span>(<span class='no'>B</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"SR"</span>)$<span class='no'>values</span>
+}</div><div class='output co'>#&gt; [1] -3.039465</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/RSpectra/topics/eigs'>eigs</a></span>(<span class='no'>B</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"LR"</span>)$<span class='no'>values</span>
+}</div><div class='output co'>#&gt; [1] 5.306204</div><div class='input'><span class='no'>k5</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>boston.utm</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>5</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'>l_max</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>k5</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)))</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/complex'>Re</a></span>(<span class='fu'><a href='eigenw.html'>eigenw</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>k5</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>))))</div><div class='output co'>#&gt; [1] 5</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'>l_max</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>k5</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"C"</span>)))</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/complex'>Re</a></span>(<span class='fu'><a href='eigenw.html'>eigenw</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>k5</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"C"</span>))))</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='no'>ab.listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)
 <span class='no'>er</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='fu'><a href='eigenw.html'>eigenw</a></span>(<span class='fu'><a href='similar.listw.html'>similar.listw</a></span>(<span class='no'>ab.listw</span>)))
 <span class='no'>er</span></div><div class='output co'>#&gt; [1] -0.9708644  1.0000000</div><div class='input'><span class='no'>res_1</span> <span class='kw'>&lt;-</span> <span class='fu'>lextrW</span>(<span class='no'>ab.listw</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>res_1</span>)</div><div class='output co'>#&gt;   lambda_n   lambda_1 
-#&gt; -0.9708644  0.9999991 </div><div class='input'>#if (require(igraph)) {
-#  B <- as(similar.listw(ab.listw), "symmetricMatrix")
-#  ar1 <- arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8,
-#    which="LA", maxiter=400))
-#  print(ar1$values)
-# At line 409 of file dsaupd.f: Fortran runtime error: Actual string
-# length is shorter than the declared one for dummy argument 'which' (0/2)
-#  arn <- arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8,
-#    which="SA", maxiter=400))
-#  print(arn$values)
-# At line 409 of file dsaupd.f: Fortran runtime error: Actual string
-# length is shorter than the declared one for dummy argument 'which' (0/2)
-#  ar1 <- arpack(f2, sym=TRUE, options=list(n=n, nev=2, ncv=8,
-#    which="BE", maxiter=300))
-# "BE" gives: At line 558 of file dsaup2.f: Fortran runtime error: 
-# Index '9' of dimension 1 of array 'bounds' above upper bound of 8
-#  print(ar1$values)
-#}
-</div><div class='input'><span class='no'>ab.listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"S"</span>)
+#&gt; -0.9708644  0.9999991 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>B</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='similar.listw.html'>similar.listw</a></span>(<span class='no'>ab.listw</span>), <span class='st'>"CsparseMatrix"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/RSpectra/topics/eigs'>eigs</a></span>(<span class='no'>B</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"SR"</span>)$<span class='no'>values</span>
+}</div><div class='output co'>#&gt; [1] -0.9708644</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/RSpectra/topics/eigs'>eigs</a></span>(<span class='no'>B</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"LR"</span>)$<span class='no'>values</span>
+}</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='no'>ab.listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"S"</span>)
 <span class='no'>er</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='fu'><a href='eigenw.html'>eigenw</a></span>(<span class='fu'><a href='similar.listw.html'>similar.listw</a></span>(<span class='no'>ab.listw</span>)))
 <span class='no'>er</span></div><div class='output co'>#&gt; [1] -0.723495  1.110373</div><div class='input'><span class='no'>res_1</span> <span class='kw'>&lt;-</span> <span class='fu'>lextrS</span>(<span class='no'>ab.listw</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>res_1</span>)</div><div class='output co'>#&gt;   lambda_n   lambda_1 
-#&gt; -0.7230376  1.1103694 </div><div class='input'>#if (require(igraph)) {
-#  B <- as(similar.listw(ab.listw), "symmetricMatrix")
-#  ar1 <- arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8,
-#    which="LA", maxiter=300))
-#  print(ar1$values)
-# At line 409 of file dsaupd.f: Fortran runtime error: Actual string
-# length is shorter than the declared one for dummy argument 'which' (0/2)
-#  arn <- arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8,
-#    which="SA", maxiter=300))
-#  print(arn$values)
-# At line 409 of file dsaupd.f: Fortran runtime error: Actual string
-# length is shorter than the declared one for dummy argument 'which' (0/2)
-#  ar1 <- arpack(f2, sym=TRUE, options=list(n=n, nev=2, ncv=8,
-#    which="BE", maxiter=300))
-# "BE" gives: At line 558 of file dsaup2.f: Fortran runtime error: 
-# Index '9' of dimension 1 of array 'bounds' above upper bound of 8
-#  print(ar1$values)
-#}
-</div></pre>
+#&gt; -0.7230376  1.1103694 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>B</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='similar.listw.html'>similar.listw</a></span>(<span class='no'>ab.listw</span>), <span class='st'>"CsparseMatrix"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/RSpectra/topics/eigs'>eigs</a></span>(<span class='no'>B</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"SR"</span>)$<span class='no'>values</span>
+}</div><div class='output co'>#&gt; [1] -0.723495</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/RSpectra/topics/eigs'>eigs</a></span>(<span class='no'>B</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>which</span><span class='kw'>=</span><span class='st'>"LR"</span>)$<span class='no'>values</span>
+}</div><div class='output co'>#&gt; [1] 1.110373</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
