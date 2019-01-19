@@ -72,22 +72,34 @@ When the alternative is being tested, a list of left and right M products in att
 
 \seealso{\code{\link{lm.morantest.exact}}, \code{\link{localmoran.sad}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-eire <- readOGR(system.file("shapes/eire.shp", package="spData")[1])
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+eire <- st_read(system.file("shapes/eire.shp", package="spData")[1])
 row.names(eire) <- as.character(eire$names)
-proj4string(eire) <- CRS("+proj=utm +zone=30 +ellps=airy +units=km")
-eire.nb <- poly2nb(eire)
+st_crs(eire) <- "+proj=utm +zone=30 +ellps=airy +units=km"
+eire.nb <- poly2nb(as(eire, "Spatial"))
 e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
 localmoran.sad(e.lm, nb=eire.nb)
+}
+if (run) {
 localmoran.exact(e.lm, nb=eire.nb)
+}
+if (run) {
 localmoran.exact(e.lm, nb=eire.nb, useTP=TRUE)
+}
+if (run) {
 e.errorsar <- errorsarlm(OWNCONS ~ ROADACC, data=eire,
  listw=nb2listw(eire.nb))
 lm.target <- lm(e.errorsar$tary ~ e.errorsar$tarX - 1)
 localmoran.exact.alt(lm.target, nb=eire.nb)
+}
+if (run) {
 Omega <- invIrW(nb2listw(eire.nb), rho=0.6)
 Omega1 <- tcrossprod(Omega)
 localmoran.exact.alt(lm.target, nb=eire.nb, Omega=Omega1)
+}
+if (run) {
 localmoran.exact.alt(lm.target, nb=eire.nb, Omega=Omega1, useTP=TRUE)
 }
 }
