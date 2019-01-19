@@ -199,13 +199,13 @@ if (!require("RSpectra", quietly=TRUE)) dothis <- FALSE
 1/c(eigs(B, k=1, which="SR")$values, eigs(B, k=1, which="LR")$values)
 ```
 
-In this case, the results are trivial with small `n` and a symmetric sparse matrix. It can be challenging to find the `maxiter=` cutoff for larger `n`; the `which="BE"` argument takes both ends here.
+In this case, the results are trivial with small `k`.
 
 ```{r, echo=dothis, eval=dothis}
 1/range(eigenw(nb_W))
 1/Re(c(eigs(W, k=1, which="SR")$values, eigs(W, k=1, which="LR")$values))
 ```
-For asymmetric matrices, we need to go to each end separately, so finding the domain bounds can be hard. Using row-standardisation has the nice feature of setting the upper bound to unity, and there are graph methods for finding out whether the lower bound is `-1`.
+Using row-standardisation has the nice feature of setting the upper bound to unity, and there are graph methods for finding out whether the lower bound is `-1`.
 
 
 ## Using **igraph** for spatial weights as graphs

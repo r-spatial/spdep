@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -190,19 +190,18 @@
 <h3 class="hasAnchor">
 <a href="#symmetric-sparse-matrices" class="anchor"></a>Symmetric sparse matrices</h3>
 <p><strong>spdep</strong> provides coercion methods from <code>listw</code> to the <code>"symmetricMatrix"</code>, <code>"RsparseMatrix"</code> and <code>"CsparseMatrix"</code> classes defined in <strong>Matrix</strong>. The <code>"RsparseMatrix"</code> is the representation that is most similar to <code>listw</code>, as it is row-based, but it is used less frequently in operations on sparse matrices. The entity IDs are passed using sparse matrix row and column names at present. Here we believe that our <code>listw</code> object can be represented as a symmetric matrix, storing only a triangle rather than both <code>i</code>-<code>j</code> and <code>j</code>-<code>i</code> weights. The coercion method does check whether symmetry is present before proceeding:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">B &lt;-<span class="st"> </span><span class="kw">as</span>(nb_B, <span class="st">"symmetricMatrix"</span>)</a>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">B &lt;-<span class="st"> </span><span class="kw">as</span>(nb_B, <span class="st">"CsparseMatrix"</span>)</a>
 <a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all">all</a></span>(B <span class="op">==</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/t">t</a></span>(B))</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(B)</a></code></pre></div>
-<pre><code>## Formal class 'dsTMatrix' [package "Matrix"] with 7 slots
-##   ..@ i       : int [1:115] 0 0 1 1 2 2 3 3 4 4 ...
-##   ..@ j       : int [1:115] 1 2 2 3 3 4 4 7 5 7 ...
+<pre><code>## Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+##   ..@ i       : int [1:230] 1 2 0 2 3 0 1 3 4 1 ...
+##   ..@ p       : int [1:50] 0 2 5 9 13 21 23 27 33 41 ...
 ##   ..@ Dim     : int [1:2] 49 49
 ##   ..@ Dimnames:List of 2
 ##   .. ..$ : chr [1:49] "0" "1" "2" "3" ...
 ##   .. ..$ : chr [1:49] "0" "1" "2" "3" ...
-##   ..@ x       : num [1:115] 1 1 1 1 1 1 1 1 1 1 ...
-##   ..@ uplo    : chr "U"
+##   ..@ x       : num [1:230] 1 1 1 1 1 1 1 1 1 1 ...
 ##   ..@ factors : list()</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">rownames</a></span>(B)[<span class="dv">1</span><span class="op">:</span><span class="dv">10</span>]</a></code></pre></div>
 <pre><code>##  [1] "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"</code></pre>
@@ -227,7 +226,7 @@
 <div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1">n &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(B)</a>
 <a class="sourceLine" id="cb44-2" data-line-number="2">I &lt;-<span class="st"> </span><span class="kw">Diagonal</span>(n)</a>
 <a class="sourceLine" id="cb44-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(I <span class="op">-</span><span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>B)</a></code></pre></div>
-<pre><code>## [1] "dsCMatrix"
+<pre><code>## [1] "dgCMatrix"
 ## attr(,"package")
 ## [1] "Matrix"</code></pre>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/det">determinant</a></span>(I <span class="op">-</span><span class="st"> </span>rho <span class="op">*</span><span class="st"> </span>B, <span class="dt">logarithm=</span><span class="ot">TRUE</span>)<span class="op">$</span>modulus)</a></code></pre></div>
@@ -236,7 +235,7 @@
 <div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">nW &lt;-<span class="st"> </span><span class="op">-</span>B</a>
 <a class="sourceLine" id="cb48-2" data-line-number="2">nChol &lt;-<span class="st"> </span><span class="kw">Cholesky</span>(nW, <span class="dt">Imult=</span><span class="dv">8</span>)</a>
 <a class="sourceLine" id="cb48-3" data-line-number="3">n <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Log">log</a></span>(rho) <span class="op">+</span><span class="st"> </span>(<span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/det">determinant</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/update">update</a></span>(nChol, nW, <span class="dv">1</span><span class="op">/</span>rho))<span class="op">$</span>modulus))</a></code></pre></div>
-<pre><code>## [1] -1.44787</code></pre>
+<pre><code>## [1] 15.40218</code></pre>
 </div>
 <div id="asymmetric-sparse-matrices" class="section level3">
 <h3 class="hasAnchor">
@@ -312,38 +311,21 @@
 <pre><code>## [1] -1.594376</code></pre>
 <p>As can be seen, the division by the square root of zero for entity 21 is not a problem as the row of <code>dW</code> is zero. The transformation by similarity permits the use of numerical methods for sparse symmetric matrices (and equivalently for eigenvalues and dense matrices). Note that this transformation is not available for intrinsically asymmetric neighbours, or for intrinsically asymmetric general weights.</p>
 </div>
-<div id="using-arpack-in-igraph-for-finding-some-eigenvalues" class="section level3">
+<div id="using-eigs-in-rspectra-for-finding-some-eigenvalues" class="section level3">
 <h3 class="hasAnchor">
-<a href="#using-arpack-in-igraph-for-finding-some-eigenvalues" class="anchor"></a>Using <code>arpack</code> in <strong>igraph</strong> for finding some eigenvalues</h3>
-<p>In spatial regression, the domain of the spatial coefficient is given by the inverse of the maximum and minimum eigenvalues. When <code>n</code> is moderate, we have the eigenvalues anyway, so the interval for line search is available without extra effort. When <code>n</code> is somewhat larger, use may be made of the <code>arpack</code> function in <strong>igraph</strong>. The function is not stable and requires manual tuning, so its use is commented out here:</p>
+<a href="#using-eigs-in-rspectra-for-finding-some-eigenvalues" class="anchor"></a>Using <code>eigs</code> in <strong>RSpectra</strong> for finding some eigenvalues</h3>
+<p>In spatial regression, the domain of the spatial coefficient is given by the inverse of the maximum and minimum eigenvalues. When <code>n</code> is moderate, we have the eigenvalues anyway, so the interval for line search is available without extra effort. When <code>n</code> is somewhat larger, use may be made of the <code>eigs</code> function in <strong>RSpectra</strong>:</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(<span class="kw"><a href="../reference/eigenw.html">eigenw</a></span>(nb_B))</a></code></pre></div>
 <pre><code>## [1] -0.3212551  0.1638329</code></pre>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(igraph)</a></code></pre></div>
-<pre><code>## 
-## Attaching package: 'igraph'</code></pre>
-<pre><code>## The following objects are masked from 'package:stats':
-## 
-##     decompose, spectrum</code></pre>
-<pre><code>## The following object is masked from 'package:base':
-## 
-##     union</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="co">#f2 &lt;- function(x, extra=NULL) {as.vector(B %*% x)}</span></a>
-<a class="sourceLine" id="cb85-2" data-line-number="2"><span class="co">#1/arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8, which="LA", maxiter=200))$values</span></a>
-<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="co">#1/arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8, which="SA", maxiter=200))$values</span></a>
-<a class="sourceLine" id="cb85-4" data-line-number="4"><span class="co"># At line 409 of file dsaupd.f: Fortran runtime error: Actual string</span></a>
-<a class="sourceLine" id="cb85-5" data-line-number="5"><span class="co"># length is shorter than the declared one for dummy argument 'which' (0/2)</span></a>
-<a class="sourceLine" id="cb85-6" data-line-number="6"><span class="co">#1/arpack(f2, sym=TRUE, options=list(n=n, nev=2, ncv=8, which="BE", maxiter=200))$values</span></a>
-<a class="sourceLine" id="cb85-7" data-line-number="7"><span class="co"># "BE" gives: At line 558 of file dsaup2.f: Fortran runtime error: </span></a>
-<a class="sourceLine" id="cb85-8" data-line-number="8"><span class="co"># Index '9' of dimension 1 of array 'bounds' above upper bound of 8</span></a></code></pre></div>
-<p>In this case, the results are trivial with small <code>n</code> and a symmetric sparse matrix. It can be challenging to find the <code>maxiter=</code> cutoff for larger <code>n</code>; the <code>which="BE"</code> argument takes both ends here.</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(<span class="kw"><a href="../reference/eigenw.html">eigenw</a></span>(nb_W))</a></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(<span class="st">"RSpectra"</span>, <span class="dt">quietly=</span><span class="ot">TRUE</span>)) dothis &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb81-2" data-line-number="2"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/RSpectra/topics/eigs">eigs</a></span>(B, <span class="dt">k=</span><span class="dv">1</span>, <span class="dt">which=</span><span class="st">"SR"</span>)<span class="op">$</span>values, <span class="kw"><a href="https://www.rdocumentation.org/packages/RSpectra/topics/eigs">eigs</a></span>(B, <span class="dt">k=</span><span class="dv">1</span>, <span class="dt">which=</span><span class="st">"LR"</span>)<span class="op">$</span>values)</a></code></pre></div>
+<pre><code>## [1] -0.3212551  0.1638329</code></pre>
+<p>In this case, the results are trivial with small <code>k</code>.</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(<span class="kw"><a href="../reference/eigenw.html">eigenw</a></span>(nb_W))</a></code></pre></div>
 <pre><code>## [1] -1.544645  1.000000</code></pre>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1">f2 &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">extra=</span><span class="ot">NULL</span>) {<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/vector">as.vector</a></span>(W <span class="op">%*%</span><span class="st"> </span>x)}</a>
-<a class="sourceLine" id="cb88-2" data-line-number="2"><span class="co">#1/arpack(f2, sym=FALSE, options=list(n=n, nev=1, ncv=8, which="LR", maxiter=200))$values</span></a>
-<a class="sourceLine" id="cb88-3" data-line-number="3"><span class="co">#1/arpack(f2, sym=FALSE, options=list(n=n, nev=1, ncv=8, which="SR", maxiter=200))$values</span></a>
-<a class="sourceLine" id="cb88-4" data-line-number="4"><span class="co"># At line 409 of file dsaupd.f: Fortran runtime error: Actual string</span></a>
-<a class="sourceLine" id="cb88-5" data-line-number="5"><span class="co"># length is shorter than the declared one for dummy argument 'which' (0/2)</span></a></code></pre></div>
-<p>For asymmetric matrices, we need to go to each end separately, so finding the domain bounds can be hard. Using row-standardisation has the nice feature of setting the upper bound to unity, and there are graph methods for finding out whether the lower bound is <code>-1</code>.</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/complex">Re</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/RSpectra/topics/eigs">eigs</a></span>(W, <span class="dt">k=</span><span class="dv">1</span>, <span class="dt">which=</span><span class="st">"SR"</span>)<span class="op">$</span>values, <span class="kw"><a href="https://www.rdocumentation.org/packages/RSpectra/topics/eigs">eigs</a></span>(W, <span class="dt">k=</span><span class="dv">1</span>, <span class="dt">which=</span><span class="st">"LR"</span>)<span class="op">$</span>values))</a></code></pre></div>
+<pre><code>## [1] -1.544645  1.000000</code></pre>
+<p>Using row-standardisation has the nice feature of setting the upper bound to unity, and there are graph methods for finding out whether the lower bound is <code>-1</code>.</p>
 </div>
 </div>
 <div id="using-igraph-for-spatial-weights-as-graphs" class="section level2">
@@ -353,40 +335,50 @@
 <h3 class="hasAnchor">
 <a href="#converting-from-symmetric-adjacency-matrix-to-graph" class="anchor"></a>Converting from symmetric adjacency matrix to graph</h3>
 <p>First we’ll see how to get from sparse matrices to graphs. The mode of a symmetric matrix is <code>"undirected"</code> by definition:</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(B)</a></code></pre></div>
-<pre><code>## [1] "dsTMatrix"
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(B)</a></code></pre></div>
+<pre><code>## [1] "dgCMatrix"
 ## attr(,"package")
 ## [1] "Matrix"</code></pre>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/object.size">object.size</a></span>(B)</a></code></pre></div>
-<pre><code>## 9936 bytes</code></pre>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(igraph)</a>
-<a class="sourceLine" id="cb93-2" data-line-number="2">g1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/graph_from_adjacency_matrix">graph.adjacency</a></span>(B, <span class="dt">mode=</span><span class="st">"undirected"</span>)</a>
-<a class="sourceLine" id="cb93-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(g1)</a></code></pre></div>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/object.size">object.size</a></span>(B)</a></code></pre></div>
+<pre><code>## 10824 bytes</code></pre>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(<span class="st">"igraph"</span>, <span class="dt">quietly=</span><span class="ot">FALSE</span>)) dothis &lt;-<span class="st"> </span><span class="ot">FALSE</span></a></code></pre></div>
+<pre><code>## Loading required package: igraph</code></pre>
+<pre><code>## 
+## Attaching package: 'igraph'</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
+## 
+##     decompose, spectrum</code></pre>
+<pre><code>## The following object is masked from 'package:base':
+## 
+##     union</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">g1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/graph_from_adjacency_matrix">graph.adjacency</a></span>(B, <span class="dt">mode=</span><span class="st">"undirected"</span>)</a>
+<a class="sourceLine" id="cb96-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(g1)</a></code></pre></div>
 <pre><code>## [1] "igraph"</code></pre>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/object.size">object.size</a></span>(g1)</a></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/object.size">object.size</a></span>(g1)</a></code></pre></div>
 <pre><code>## 9216 bytes</code></pre>
 </div>
 <div id="converting-from-graph-to-symmetric-adjacency-matrix" class="section level3">
 <h3 class="hasAnchor">
 <a href="#converting-from-graph-to-symmetric-adjacency-matrix" class="anchor"></a>Converting from graph to symmetric adjacency matrix</h3>
 <p>We can also convert this graph pack to the same matrix, but note that <code>get.adjacency</code> chooses a particular class of sparse matrix to be returned, so that the conversion process typically leads many matrices to fewer graph types, and back to fewer matrix types:</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1">B1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/as_adjacency_matrix">get.adjacency</a></span>(g1)</a>
-<a class="sourceLine" id="cb97-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(B1)</a></code></pre></div>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">B1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/as_adjacency_matrix">get.adjacency</a></span>(g1)</a>
+<a class="sourceLine" id="cb100-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(B1)</a></code></pre></div>
 <pre><code>## [1] "dgCMatrix"
 ## attr(,"package")
 ## [1] "Matrix"</code></pre>
-<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/object.size">object.size</a></span>(B1)</a></code></pre></div>
+<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/object.size">object.size</a></span>(B1)</a></code></pre></div>
 <pre><code>## 10824 bytes</code></pre>
-<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(B, <span class="kw">as</span>(<span class="kw">as</span>(B1, <span class="st">"dgTMatrix"</span>), <span class="st">"symmetricMatrix"</span>))</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(B, <span class="kw">as</span>(<span class="kw">as</span>(B1, <span class="st">"dgTMatrix"</span>), <span class="st">"symmetricMatrix"</span>))</a></code></pre></div>
+<pre><code>## [1] "Length mismatch: comparison on first 2 components"
+## [2] "class(target) is dgCMatrix, current is dsTMatrix"</code></pre>
 </div>
 <div id="graph-components-in-spdep" class="section level3">
 <h3 class="hasAnchor">
 <a href="#graph-components-in-spdep" class="anchor"></a>Graph components in <strong>spdep</strong>
 </h3>
 <p>A simple example of using <strong>igraph</strong> to do the same as an existing <strong>spdep</strong> function is Nicholas Lewin-Koh’s <code>n.comp.nb</code> from the early days of the package. It is useful to know whether an <code>nb</code> object is divided up into separate subgraphs, and which entities are members of which such subgraph.</p>
-<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw"><a href="../reference/compon.html">n.comp.nb</a></span>(col2)</a>
-<a class="sourceLine" id="cb103-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(res<span class="op">$</span>comp.id)</a></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw"><a href="../reference/compon.html">n.comp.nb</a></span>(col2)</a>
+<a class="sourceLine" id="cb106-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(res<span class="op">$</span>comp.id)</a></code></pre></div>
 <pre><code>## 
 ##  1  2  3 
 ## 42  1  6</code></pre>
@@ -396,18 +388,18 @@
 <a href="#graph-components-in-igraph" class="anchor"></a>Graph components in <strong>igraph</strong>
 </h3>
 <p>The same result can be obtained using the <code>clusters</code> function in <strong>igraph</strong>:</p>
-<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1">c1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/components">clusters</a></span>(g1)</a>
-<a class="sourceLine" id="cb105-2" data-line-number="2">c1<span class="op">$</span>no <span class="op">==</span><span class="st"> </span>res<span class="op">$</span>nc</a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">c1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/components">clusters</a></span>(g1)</a>
+<a class="sourceLine" id="cb108-2" data-line-number="2">c1<span class="op">$</span>no <span class="op">==</span><span class="st"> </span>res<span class="op">$</span>nc</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(c1<span class="op">$</span>membership, res<span class="op">$</span>comp.id)</a></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(c1<span class="op">$</span>membership, res<span class="op">$</span>comp.id)</a></code></pre></div>
 <pre><code>## [1] "names for target but not for current"</code></pre>
-<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(c1<span class="op">$</span>csize, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(res<span class="op">$</span>comp.id)), <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(c1<span class="op">$</span>csize, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(res<span class="op">$</span>comp.id)), <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>The same holds for the row-standardised variant:</p>
-<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1">W &lt;-<span class="st"> </span><span class="kw">as</span>(<span class="kw"><a href="../reference/nb2listw.html">nb2listw</a></span>(col2, <span class="dt">style=</span><span class="st">"W"</span>, <span class="dt">zero.policy=</span><span class="ot">TRUE</span>), <span class="st">"CsparseMatrix"</span>)</a>
-<a class="sourceLine" id="cb111-2" data-line-number="2">g1W &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/graph_from_adjacency_matrix">graph.adjacency</a></span>(W, <span class="dt">mode=</span><span class="st">"directed"</span>, <span class="dt">weighted=</span><span class="st">"W"</span>)</a>
-<a class="sourceLine" id="cb111-3" data-line-number="3">c1W &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/components">clusters</a></span>(g1W)</a>
-<a class="sourceLine" id="cb111-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(c1W<span class="op">$</span>membership, res<span class="op">$</span>comp.id)</a></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1">W &lt;-<span class="st"> </span><span class="kw">as</span>(<span class="kw"><a href="../reference/nb2listw.html">nb2listw</a></span>(col2, <span class="dt">style=</span><span class="st">"W"</span>, <span class="dt">zero.policy=</span><span class="ot">TRUE</span>), <span class="st">"CsparseMatrix"</span>)</a>
+<a class="sourceLine" id="cb114-2" data-line-number="2">g1W &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/graph_from_adjacency_matrix">graph.adjacency</a></span>(W, <span class="dt">mode=</span><span class="st">"directed"</span>, <span class="dt">weighted=</span><span class="st">"W"</span>)</a>
+<a class="sourceLine" id="cb114-3" data-line-number="3">c1W &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/components">clusters</a></span>(g1W)</a>
+<a class="sourceLine" id="cb114-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(c1W<span class="op">$</span>membership, res<span class="op">$</span>comp.id)</a></code></pre></div>
 <pre><code>## [1] "names for target but not for current"</code></pre>
 </div>
 <div id="shortest-paths-in-weights-matrices-igraph" class="section level3">
@@ -415,13 +407,13 @@
 <a href="#shortest-paths-in-weights-matrices-igraph" class="anchor"></a>Shortest paths in weights matrices: <strong>igraph</strong>
 </h3>
 <p>Finding shortest paths between spatial entities across a given graph is a way to express closeness. If the graph is connected, that is that it is possible to traverse the graph edges from any node to any other, the longest shortest path is then a useful measure. In <strong>igraph</strong>, the <code>is.connected</code> function tells us tells us that our graph is not connected, as we know from the figure above. The diameter measure is then the diameter of the largest component subgraph. Note that this generates an <code>n</code> x <code>n</code> matrix:</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/components">is.connected</a></span>(g1)</a></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/components">is.connected</a></span>(g1)</a></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">dg1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/diameter">diameter</a></span>(g1)</a>
-<a class="sourceLine" id="cb115-2" data-line-number="2">dg1</a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1">dg1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/diameter">diameter</a></span>(g1)</a>
+<a class="sourceLine" id="cb118-2" data-line-number="2">dg1</a></code></pre></div>
 <pre><code>## [1] 7</code></pre>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1">sp_mat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/distances">shortest.paths</a></span>(g1)</a>
-<a class="sourceLine" id="cb117-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(sp_mat)</a></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1">sp_mat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/igraph/topics/distances">shortest.paths</a></span>(g1)</a>
+<a class="sourceLine" id="cb120-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/str">str</a></span>(sp_mat)</a></code></pre></div>
 <pre><code>##  num [1:49, 1:49] 0 1 1 2 2 3 4 3 3 4 ...
 ##  - attr(*, "dimnames")=List of 2
 ##   ..$ : chr [1:49] "0" "1" "2" "3" ...
@@ -432,18 +424,18 @@
 <a href="#shortest-paths-in-weights-matrices-spdep" class="anchor"></a>Shortest paths in weights matrices: <strong>spdep</strong>
 </h3>
 <p>If we do the same in <strong>spdep</strong>, using <code>nblag</code> to a maximum number of lag orders - the diameter, but which is unknown in advance (the largest lag order for which the number of links is greater than zero), we run into the problem of how to represent missing neighbour information.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1">nbl10 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/nblag.html">nblag</a></span>(col2, <span class="dt">maxlag=</span><span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb119-2" data-line-number="2">vals &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(nbl10, <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(<span class="kw"><a href="../reference/card.html">card</a></span>(x)))</a>
-<a class="sourceLine" id="cb119-3" data-line-number="3">zero &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(vals <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb119-4" data-line-number="4">zero[<span class="dv">1</span>]<span class="op">-</span><span class="dv">1</span></a></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb122-1" data-line-number="1">nbl10 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/nblag.html">nblag</a></span>(col2, <span class="dt">maxlag=</span><span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb122-2" data-line-number="2">vals &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(nbl10, <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(<span class="kw"><a href="../reference/card.html">card</a></span>(x)))</a>
+<a class="sourceLine" id="cb122-3" data-line-number="3">zero &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(vals <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb122-4" data-line-number="4">zero[<span class="dv">1</span>]<span class="op">-</span><span class="dv">1</span></a></code></pre></div>
 <pre><code>## [1] 7</code></pre>
 <p>If we insert zero into the weights matrix where there is no connection using <code>zero.policy=TRUE</code>, we generate a zero shortest path. If we are to create a matrix that matches the one produced by <code>shortest.paths</code>, we need to set all these non-structural zeros to infinity (the length of the path between unconnected nodes), and re-instate structural zeros on the diagonal:</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">lmat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(nbl10[<span class="dv">1</span><span class="op">:</span>(zero[<span class="dv">1</span>]<span class="op">-</span><span class="dv">1</span>)], nb2mat, <span class="dt">style=</span><span class="st">"B"</span>, <span class="dt">zero.policy=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb121-2" data-line-number="2">mat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="dv">0</span>, n, n)</a>
-<a class="sourceLine" id="cb121-3" data-line-number="3"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dt">along=</span>lmat)) mat =<span class="st"> </span>mat <span class="op">+</span><span class="st"> </span>i<span class="op">*</span>lmat[[i]]</a>
-<a class="sourceLine" id="cb121-4" data-line-number="4">mat[mat<span class="op">==</span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">Inf</span></a>
-<a class="sourceLine" id="cb121-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/diag">diag</a></span>(mat) &lt;-<span class="st"> </span><span class="dv">0</span></a>
-<a class="sourceLine" id="cb121-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(mat, sp_mat, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1">lmat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(nbl10[<span class="dv">1</span><span class="op">:</span>(zero[<span class="dv">1</span>]<span class="op">-</span><span class="dv">1</span>)], nb2mat, <span class="dt">style=</span><span class="st">"B"</span>, <span class="dt">zero.policy=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb124-2" data-line-number="2">mat &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/matrix">matrix</a></span>(<span class="dv">0</span>, n, n)</a>
+<a class="sourceLine" id="cb124-3" data-line-number="3"><span class="cf">for</span> (i <span class="cf">in</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dt">along=</span>lmat)) mat =<span class="st"> </span>mat <span class="op">+</span><span class="st"> </span>i<span class="op">*</span>lmat[[i]]</a>
+<a class="sourceLine" id="cb124-4" data-line-number="4">mat[mat<span class="op">==</span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">Inf</span></a>
+<a class="sourceLine" id="cb124-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/diag">diag</a></span>(mat) &lt;-<span class="st"> </span><span class="dv">0</span></a>
+<a class="sourceLine" id="cb124-6" data-line-number="6"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(mat, sp_mat, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="smirnovanselin-2009-cyclical-matrices" class="section level3">
@@ -451,17 +443,17 @@
 <a href="#smirnovanselin-2009-cyclical-matrices" class="anchor"></a>Smirnov/Anselin (2009) cyclical matrices</h3>
 <p>Another area in which a graph representation might prove useful is in trying to establish the domain of the spatial coefficient when spatial weights are row-standardised. In that case by construction we know that the maximum eigenvalue is 1. If there are multiple blocks, that is graph components, where the numbers of nodes per block are greater than 1, then each will have a maximum eigenvalue of 1. The remaining problems are the numbers of zero eigenvalues (at least the singleton graph components), and whether any non-singleton component fulfills the condition termed by Smirnov and Anselin (2009) a cyclical matrix, for which the minimum eigenvalue is -1. The term cyclical appears to be used in many different ways, and it is not clear that its use here after Smirnov and Anselin (2009, pp. 2984-2985) indicates which meaning should be used to find the relevant graph function. The definition used here is that a block matrix (subgraph) is cyclical if: “for every location, every pair of its neighbours are not connected.” That is, if w[i,j] and w[i,k] are greater than zero, w[j,k] must be zero to meet the condition.</p>
 <p>The internal function find_q1_q2 returns the number of non-singleton components, and the number of these that meet this condition. It does this for each block/subgraph by testing the condition until it meets w[j,k] &gt; 0, at which point it breaks. Smirnov and Anselin (2009) state that rook neighbours on a regular grid meet the condition:</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">nb_r &lt;-<span class="st"> </span><span class="kw"><a href="../reference/cell2nb.html">cell2nb</a></span>(<span class="dv">7</span>, <span class="dv">7</span>, <span class="dt">type=</span><span class="st">"rook"</span>)</a>
-<a class="sourceLine" id="cb123-2" data-line-number="2">nb_rW &lt;-<span class="st"> </span><span class="kw"><a href="../reference/nb2listw.html">nb2listw</a></span>(nb_r, <span class="dt">style=</span><span class="st">"W"</span>)</a>
-<a class="sourceLine" id="cb123-3" data-line-number="3">spdep<span class="op">:::</span><span class="kw">find_q1_q2</span>(nb_rW)</a></code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1">nb_r &lt;-<span class="st"> </span><span class="kw"><a href="../reference/cell2nb.html">cell2nb</a></span>(<span class="dv">7</span>, <span class="dv">7</span>, <span class="dt">type=</span><span class="st">"rook"</span>)</a>
+<a class="sourceLine" id="cb126-2" data-line-number="2">nb_rW &lt;-<span class="st"> </span><span class="kw"><a href="../reference/nb2listw.html">nb2listw</a></span>(nb_r, <span class="dt">style=</span><span class="st">"W"</span>)</a>
+<a class="sourceLine" id="cb126-3" data-line-number="3">spdep<span class="op">:::</span><span class="kw">find_q1_q2</span>(nb_rW)</a></code></pre></div>
 <pre><code>## [1] 1 1</code></pre>
 <p>One block/graph component is found, and this one meets the cyclical matrix condition, as also shown by the domain:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/complex">Re</a></span>(<span class="kw"><a href="../reference/eigenw.html">eigenw</a></span>(<span class="kw"><a href="../reference/similar.listw.html">similar.listw</a></span>(nb_rW))))</a></code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/complex">Re</a></span>(<span class="kw"><a href="../reference/eigenw.html">eigenw</a></span>(<span class="kw"><a href="../reference/similar.listw.html">similar.listw</a></span>(nb_rW))))</a></code></pre></div>
 <pre><code>## [1] -1  1</code></pre>
 <p>This does not apply to the spatial weights we have been using above, with two non-singleton components, neither meeting the cyclical matrix condition:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1">spdep<span class="op">:::</span><span class="kw">find_q1_q2</span>(nb_W)</a></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1">spdep<span class="op">:::</span><span class="kw">find_q1_q2</span>(nb_W)</a></code></pre></div>
 <pre><code>## [1] 2 0</code></pre>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/complex">Re</a></span>(<span class="kw"><a href="../reference/eigenw.html">eigenw</a></span>(<span class="kw"><a href="../reference/similar.listw.html">similar.listw</a></span>(nb_W))))</a></code></pre></div>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1"><span class="dv">1</span><span class="op">/</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/range">range</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/complex">Re</a></span>(<span class="kw"><a href="../reference/eigenw.html">eigenw</a></span>(<span class="kw"><a href="../reference/similar.listw.html">similar.listw</a></span>(nb_W))))</a></code></pre></div>
 <pre><code>## [1] -1.544645  1.000000</code></pre>
 <p>By construction, all two-node connected graph components also meet the condition, as the eigenvalues sum to zero, and the maximum is unity, so the minimum must be -1.</p>
 </div>

@@ -113,7 +113,7 @@ resn <- eigs(B, k=1, which="SR")$values
 print(Re(c(resn, res1)))
 }
 if (run) {
-print(all.equal(range(Re(rg_eig)), c(resn, res1)))
+print(all.equal(range(Re(rg_eig)), c(resn, res1))) 
 }
 if (run) {
 lw <- nb2listw(rg, style="W")
