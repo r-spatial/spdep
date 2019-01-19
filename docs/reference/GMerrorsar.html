@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -370,39 +370,73 @@ variable in making predictions for the fitting data.</p>
 #&gt; GM argmin sigma squared: 106.36
 #&gt; Number of observations: 49 
 #&gt; Number of parameters estimated: 5 
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>foreign</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>NY_data</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+#&gt; </div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span></div><div class='output co'>#&gt; <span class='message'>Linking to GEOS 3.7.1, GDAL 2.4.0, PROJ 5.2.0</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>nydata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/NY8_bna_utm18.gpkg"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/message'>suppressMessages</a></span>(<span class='no'>nyadjmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='kw pkg'>foreign</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/foreign/topics/read.dbf'>read.dbf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(
+ <span class='st'>"misc/nyadjwts.dbf"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])[-<span class='fl'>1</span>]))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/message'>suppressMessages</a></span>(<span class='no'>ID</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='kw pkg'>foreign</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/foreign/topics/read.dbf'>read.dbf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(
+ <span class='st'>"misc/nyadjwts.dbf"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>]))[-<span class='fl'>1</span>]))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substring</a></span>(<span class='no'>ID</span>, <span class='fl'>2</span>, <span class='fl'>10</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substring</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nydata</span>$<span class='no'>AREAKEY</span>), <span class='fl'>2</span>, <span class='fl'>10</span>))
+<span class='no'>nyadjlw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mat2listw.html'>mat2listw</a></span>(<span class='no'>nyadjmat</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nydata</span>$<span class='no'>AREAKEY</span>))
+<span class='no'>listw_NY</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nyadjlw</span>$<span class='no'>neighbours</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 <span class='no'>esar1f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='spautolm.html'>spautolm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1f</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call: 
+#&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
+#&gt;     listw = listw_NY, family = "SAR", method = "eigen")
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -1.56754 -0.38239 -0.02643  0.33109  4.01219 
+#&gt; 
+#&gt; Coefficients: 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.618193   0.176784 -3.4969 0.0004707
+#&gt; PEXPOSURE    0.071014   0.042051  1.6888 0.0912635
+#&gt; PCTAGE65P    3.754200   0.624722  6.0094 1.862e-09
+#&gt; PCTOWNHOME  -0.419890   0.191329 -2.1946 0.0281930
+#&gt; 
+#&gt; Lambda: 0.040487 LR test value: 5.2438 p-value: 0.022026 
+#&gt; Numerical Hessian standard error of lambda: 0.017199 
+#&gt; 
+#&gt; Log likelihood: -276.1069 
+#&gt; ML residual variance (sigma squared): 0.41388, (sigma: 0.64333)
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; AIC: 564.21
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esar1gm</span> <span class='kw'>&lt;-</span> <span class='fu'>GMerrorsar</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1gm</span>)
+}</div><div class='output co'>#&gt; 
+#&gt; Call:GMerrorsar(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, 
+#&gt;     data = nydata, listw = listw_NY)
+#&gt; 
+#&gt; Residuals:
+#&gt;       Min        1Q    Median        3Q       Max 
+#&gt; -1.641411 -0.396370 -0.026618  0.341740  4.204264 
+#&gt; 
+#&gt; Type: GM SAR estimator
+#&gt; Coefficients: (GM standard errors) 
+#&gt;              Estimate Std. Error z value  Pr(&gt;|z|)
+#&gt; (Intercept) -0.604364   0.174576 -3.4619 0.0005364
+#&gt; PEXPOSURE    0.067902   0.041164  1.6496 0.0990337
+#&gt; PCTAGE65P    3.775308   0.622965  6.0602 1.359e-09
+#&gt; PCTOWNHOME  -0.437545   0.188906 -2.3162 0.0205468
+#&gt; 
+#&gt; Lambda: 0.03605 (standard error): 0.2022 (z-value): 0.17829
+#&gt; Residual variance (sigma squared): 0.41585, (sigma: 0.64487)
+#&gt; GM argmin sigma squared: 0.45141
+#&gt; Number of observations: 281 
+#&gt; Number of parameters estimated: 6 
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esar1gm1</span> <span class='kw'>&lt;-</span> <span class='fu'>GMerrorsar</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Nelder-Mead"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1gm1</span>)
 }</div><div class='output co'>#&gt; 
-#&gt; NY_dat&gt; ## NY leukemia
-#&gt; NY_dat&gt; ## Not run: 
-#&gt; NY_dat&gt; ##D library(foreign)
-#&gt; NY_dat&gt; ##D nydata &lt;- read.dbf(system.file("misc/nydata.dbf", package="spData")[1])
-#&gt; NY_dat&gt; ##D library(sp)
-#&gt; NY_dat&gt; ##D coordinates(nydata) &lt;- c("X", "Y")
-#&gt; NY_dat&gt; ##D plot(nydata)
-#&gt; NY_dat&gt; ##D 
-#&gt; NY_dat&gt; ##D nyadjmat &lt;- as.matrix(read.dbf(system.file("misc/nyadjwts.dbf",
-#&gt; NY_dat&gt; ##D                                            package="spData")[1])[-1])
-#&gt; NY_dat&gt; ##D ID &lt;- as.character(names(read.dbf(system.file("misc/nyadjwts.dbf",
-#&gt; NY_dat&gt; ##D                                               package="spData")[1]))[-1])
-#&gt; NY_dat&gt; ##D identical(substring(ID, 2, 10), substring(as.character(nydata$AREAKEY), 2, 10))
-#&gt; NY_dat&gt; ##D 
-#&gt; NY_dat&gt; ##D library(spdep)
-#&gt; NY_dat&gt; ##D nyadjlw &lt;- mat2listw(nyadjmat, as.character(nydata$AREAKEY))
-#&gt; NY_dat&gt; ##D listw_NY &lt;- nb2listw(nyadjlw$neighbours, style="B")
-#&gt; NY_dat&gt; ## End(Not run)
-#&gt; NY_dat&gt; 
-#&gt; NY_dat&gt; 
-#&gt; NY_dat&gt; </div><div class='output co'>#&gt; 
 #&gt; Call:GMerrorsar(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, 
 #&gt;     data = nydata, listw = listw_NY, method = "Nelder-Mead")
 #&gt; 
