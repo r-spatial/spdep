@@ -103,29 +103,26 @@ rg <- cell2nb(ncol=7, nrow=7, type="rook")
 rg_eig <- eigenw(nb2listw(rg, style="B"))
 rg_GS <- griffith_sone(P=7, Q=7, type="rook")
 all.equal(rg_eig, rg_GS)
-\donttest{
-if (require(igraph)) {
+\dontrun{
+run <- FALSE
+if (require("RSpectra", quietly=TRUE)) run <- TRUE
+if (run) {
 B <- as(nb2listw(rg, style="B"), "CsparseMatrix")
-f <- function(x, extra=NULL) {as.vector(B \%*\% x)}
-res1 <- arpack(f, sym=TRUE, options=list(n=nrow(B), nev=1, ncv=8, which="LA",
- maxiter=200))
-resn <- arpack(f, sym=TRUE, options=list(n=nrow(B), nev=1, ncv=8, which="SA", maxiter=200))
-print(c(resn$value, res1$value))
-#res <- arpack(f, sym=TRUE, options=list(n=nrow(B), nev=2, ncv=8, which="BE",
-# maxiter=200))
-#print(res$value)
-# At line 558 of file dsaup2.f: Fortran runtime error:
-# Index '9' of dimension 1 of array 'bounds' above upper bound of 8
-print(all.equal(range(Re(rg_eig)), c(resn$value, res1$value)))
+res1 <- eigs(B, k=1, which="LR")$values
+resn <- eigs(B, k=1, which="SR")$values
+print(Re(c(resn, res1)))
+}
+if (run) {
+print(all.equal(range(Re(rg_eig)), c(resn, res1)))
+}
+if (run) {
 lw <- nb2listw(rg, style="W")
 rg_eig <- eigenw(similar.listw(lw))
 print(range(Re(rg_eig)))
+}
+if (run) {
 W  <- as(lw, "CsparseMatrix")
-f <- function(x, extra=NULL) {as.vector(W \%*\% x)}
-print(arpack(f, sym=FALSE, options=list(n=nrow(W), nev=1, ncv=8, which="LR",
- maxiter=200))$value)
-print(arpack(f, sym=FALSE, options=list(n=nrow(W), nev=1, ncv=8, which="SR",
- maxiter=200))$value)
+print(Re(c(eigs(W, k=1, which="SR")$values, eigs(W, k=1, which="LR")$values)))
 }}
 }
 \keyword{spatial}

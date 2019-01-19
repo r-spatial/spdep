@@ -42,7 +42,7 @@ if (dothis) {
   if (exists("rgdal_extSoftVersion")) rgdal_extSoftVersion()
   else getGDALVersionInfo()
 }
-
+```
 ```{r, echo=dothis, eval=dothis}
 library(rgdal)
 columbus <- readOGR(system.file("shapes/columbus.shp", package="spData")[1])
@@ -87,7 +87,7 @@ nb_B$style
 **spdep** provides coercion methods from `listw` to the `"symmetricMatrix"`, `"RsparseMatrix"` and `"CsparseMatrix"` classes defined in **Matrix**. The `"RsparseMatrix"` is the representation that is most similar to `listw`, as it is row-based, but it is used less frequently in operations on sparse matrices. The entity IDs are passed using sparse matrix row and column names at present. Here we believe that our `listw` object can be represented as a symmetric matrix, storing only a triangle rather than both `i`-`j` and `j`-`i` weights. The coercion method does check whether symmetry is present before proceeding:
 
 ```{r, echo=dothis, eval=dothis}
-B <- as(nb_B, "symmetricMatrix")
+B <- as(nb_B, "CsparseMatrix")
 all(B == t(B))
 str(B)
 rownames(B)[1:10]
@@ -189,32 +189,21 @@ c(determinant(I - rho * Ws, logarithm=TRUE)$modulus)
 ```
 As can be seen, the division by the square root of zero for entity 21 is not a problem as the row of `dW` is zero. The transformation by similarity permits the use of numerical methods for sparse symmetric matrices (and equivalently for eigenvalues and dense matrices). Note that this transformation is not available for intrinsically asymmetric neighbours, or for intrinsically asymmetric general weights.
 
-### Using `arpack` in **igraph** for finding some eigenvalues
+### Using `eigs` in **RSpectra** for finding some eigenvalues
 
-In spatial regression, the domain of the spatial coefficient is given by the inverse of the maximum and minimum eigenvalues. When `n` is moderate, we have the eigenvalues anyway, so the interval for line search is available without extra effort. When `n` is somewhat larger, use may be made of the `arpack` function in **igraph**. The function is not stable and requires manual tuning, so its use is commented out here:
+In spatial regression, the domain of the spatial coefficient is given by the inverse of the maximum and minimum eigenvalues. When `n` is moderate, we have the eigenvalues anyway, so the interval for line search is available without extra effort. When `n` is somewhat larger, use may be made of the `eigs` function in **RSpectra**:
 
 ```{r, echo=dothis, eval=dothis}
 1/range(eigenw(nb_B))
-library(igraph)
-#f2 <- function(x, extra=NULL) {as.vector(B %*% x)}
-#1/arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8, which="LA", maxiter=200))$values
-#1/arpack(f2, sym=TRUE, options=list(n=n, nev=1, ncv=8, which="SA", maxiter=200))$values
-# At line 409 of file dsaupd.f: Fortran runtime error: Actual string
-# length is shorter than the declared one for dummy argument 'which' (0/2)
-#1/arpack(f2, sym=TRUE, options=list(n=n, nev=2, ncv=8, which="BE", maxiter=200))$values
-# "BE" gives: At line 558 of file dsaup2.f: Fortran runtime error: 
-# Index '9' of dimension 1 of array 'bounds' above upper bound of 8
+if (!require("RSpectra", quietly=TRUE)) dothis <- FALSE
+1/c(eigs(B, k=1, which="SR")$values, eigs(B, k=1, which="LR")$values)
 ```
 
 In this case, the results are trivial with small `n` and a symmetric sparse matrix. It can be challenging to find the `maxiter=` cutoff for larger `n`; the `which="BE"` argument takes both ends here.
 
 ```{r, echo=dothis, eval=dothis}
 1/range(eigenw(nb_W))
-f2 <- function(x, extra=NULL) {as.vector(W %*% x)}
-#1/arpack(f2, sym=FALSE, options=list(n=n, nev=1, ncv=8, which="LR", maxiter=200))$values
-#1/arpack(f2, sym=FALSE, options=list(n=n, nev=1, ncv=8, which="SR", maxiter=200))$values
-# At line 409 of file dsaupd.f: Fortran runtime error: Actual string
-# length is shorter than the declared one for dummy argument 'which' (0/2)
+1/Re(c(eigs(W, k=1, which="SR")$values, eigs(W, k=1, which="LR")$values))
 ```
 For asymmetric matrices, we need to go to each end separately, so finding the domain bounds can be hard. Using row-standardisation has the nice feature of setting the upper bound to unity, and there are graph methods for finding out whether the lower bound is `-1`.
 
@@ -229,7 +218,7 @@ First we'll see how to get from sparse matrices to graphs. The mode of a symmetr
 ```{r, echo=dothis, eval=dothis}
 class(B)
 object.size(B)
-library(igraph)
+if (!require("igraph", quietly=FALSE)) dothis <- FALSE
 g1 <- graph.adjacency(B, mode="undirected")
 class(g1)
 object.size(g1)
