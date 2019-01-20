@@ -8,7 +8,7 @@
 }
 \usage{
 \method{plot}{mst}(x, coords, label.areas = NULL, 
-   cex.circles = 1, cex.labels = 1, ...)
+   cex.circles = 1, cex.labels = 1, add=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -17,7 +17,8 @@
   \item{label.areas}{A vector with the labels of nodes}
   \item{cex.circles}{The length of circles to plot.}
   \item{cex.labels}{The length of nodes labels ploted.}
-  \item{\dots}{Further arguments passed to plotting funcitons.}
+  \item{add}{default FALSE, create new plot}
+  \item{\dots}{Further arguments passed to plotting functions.}
 }
 \author{Elias T. Krainski and Renato M. Assuncao}
 \seealso{See Also as \code{\link{skater}} and \code{\link{mstree}}}
