@@ -24,11 +24,15 @@ A list with class \code{nbdist}
 \seealso{\code{\link{summary.nb}}, \code{\link{nb2listw}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+coords <- coordinates(as(columbus, "Spatial"))
 dlist <- nbdists(col.gal.nb, coords)
 dlist <- lapply(dlist, function(x) 1/x)
 stem(unlist(dlist))
-}}
+}
+}
 \keyword{spatial}

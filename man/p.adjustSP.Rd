@@ -13,7 +13,7 @@ p.adjustSP(p, nb, method = "none")
 \arguments{
   \item{p}{vector of p-values}
   \item{nb}{a list of neighbours of class \code{nb}}
-  \item{method}{correction method as defined in \code{\link{p.adjust}}: "The adjustment methods include the Bonferroni correction ('"bonferroni"') in which the p-values are multiplied by the number of comparisons.  Four less conservative corrections are also included by Holm (1979) ('"holm"'), Hochberg (1988) ('"hochberg"'), Hommel (1988) ('"hommel"') and Benjamini & Hochberg (1995) ('"fdr"'), respectively. A pass-through option ('"none"') is also included."}
+  \item{method}{correction method as defined in \code{\link{p.adjust}}: "The adjustment methods include the Bonferroni correction ('"bonferroni"') in which the p-values are multiplied by the number of comparisons.  Four less conservative corrections are also included by Holm (1979) ('holm'), Hochberg (1988) ('hochberg'), Hommel (1988) ('hommel') and Benjamini & Hochberg (1995) ('fdr'), respectively. A pass-through option ('none') is also included."}
 }
 
 \value{

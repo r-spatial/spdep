@@ -68,7 +68,7 @@ set.spChkOption(FALSE)
 get.spChkOption()
 moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb))
 tmp <- try(moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb),
- spChk=TRUE))
+ spChk=TRUE), silent=TRUE)
 print(tmp)
 set.spChkOption(oldChk)
 get.spChkOption()

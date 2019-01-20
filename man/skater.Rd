@@ -72,14 +72,17 @@ skater(edges, data, ncuts, crit, vec.crit, method = c("euclidean",
 \seealso{See Also as \code{\link{mstree}}}
 \examples{
 ### loading data
-require(maptools)
-bh <- readShapePoly(system.file("etc/shapes/bhicv.shp",
-      package="spdep")[1])
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+bh <- st_read(system.file("etc/shapes/bhicv.shp",
+      package="spdep")[1], quiet=TRUE)
+st_crs(bh) <- "+proj=longlat +ellps=WGS84"
 ### data standardized 
-dpad <- data.frame(scale(bh@data[,5:8]))
+dpad <- data.frame(scale(as.data.frame(bh)[,5:8]))
 
 ### neighboorhod list
-bh.nb <- poly2nb(bh)
+bh.nb <- poly2nb(as(bh, "Spatial"))
 
 ### calculating costs
 lcosts <- nbcosts(bh.nb, dpad)
@@ -92,27 +95,34 @@ mst.bh <- mstree(nb.w,5)
 
 ### the mstree plot
 par(mar=c(0,0,0,0))
-plot(mst.bh, coordinates(bh), col=2,       
-     cex.lab=.7, cex.circles=0.035, fg="blue")
-plot(bh, border=gray(.5), add=TRUE)
-
+plot(st_geometry(bh), border=gray(.5))
+plot(mst.bh, coordinates(as(bh, "Spatial")), col=2, 
+     cex.lab=.6, cex.circles=0.035, fg="blue", add=TRUE)
+}
+if (run) {
 ### three groups with no restriction
 res1 <- skater(mst.bh[,1:2], dpad, 2)
 
 ### groups size
 table(res1$groups)
 
+}
+if (run) {
 ### the skater plot
-par(mar=c(0,0,0,0))
-plot(res1, coordinates(bh), cex.circles=0.035, cex.lab=.7)
-
+opar <- par(mar=c(0,0,0,0))
+plot(res1, coordinates(as(bh, "Spatial")), cex.circles=0.035, cex.lab=.7)
+}
+if (run) {
 ### the skater plot, using other colors
-plot(res1, coordinates(bh), cex.circles=0.035, cex.lab=.7,
-     groups.colors=rainbow(length(res1$ed)))
-
+plot(res1, coordinates(as(bh, "Spatial")), cex.circles=0.035, cex.lab=.7,
+     groups.colors=heat.colors(length(res1$ed)))
+}
+if (run) {
 ### the Spatial Polygons plot
-plot(bh, col=heat.colors(length(res1$edg))[res1$groups])
-
+plot(st_geometry(bh), col=heat.colors(length(res1$edg))[res1$groups])
+}
+if (run) {
+par(opar)
 ### EXPERT OPTIONS
 
 ### more one partition
@@ -120,45 +130,61 @@ res1b <- skater(res1, dpad, 1)
 
 ### length groups frequency
 table(res1$groups)
+}
+if (run) {
 table(res1b$groups)
 
+}
+if (run) {
 ### thee groups with minimum population 
-res2 <- skater(mst.bh[,1:2], dpad, 2, 200000, bh@data$Pop)
-
-### thee groups with minimun number of areas
-res3 <- skater(mst.bh[,1:2], dpad, 2, 3, rep(1,nrow(bh@data)))
-
-### thee groups with minimun and maximun number of areas
-res4 <- skater(mst.bh[,1:2], dpad, 2, c(20,50), rep(1,nrow(bh@data)))
-
+res2 <- skater(mst.bh[,1:2], dpad, 2, 200000, bh$Pop)
 table(res2$groups)
+
+}
+if (run) {
+### thee groups with minimun number of areas
+res3 <- skater(mst.bh[,1:2], dpad, 2, 3, rep(1,nrow(bh)))
 table(res3$groups)
+
+}
+if (run) {
+### thee groups with minimun and maximun number of areas
+res4 <- skater(mst.bh[,1:2], dpad, 2, c(20,50), rep(1,nrow(bh)))
 table(res4$groups)
 
+}
+if (run) {
 ### if I want to get groups with 20 to 40 elements
 res5 <- skater(mst.bh[,1:2], dpad, 2,
-   c(20,40), rep(1,nrow(bh@data))) ## DON'T MAKE DIVISIONS 
+   c(20,40), rep(1,nrow(bh))) ## DON'T MAKE DIVISIONS 
 table(res5$groups)
-
+}
+if (run) {
 ### In this MST don't have groups with this restrictions
 ### In this case, first I do one division
 ### with the minimun criteria
-res5a <- skater(mst.bh[,1:2], dpad, 1, 20, rep(1,nrow(bh@data))) 
+res5a <- skater(mst.bh[,1:2], dpad, 1, 20, rep(1,nrow(bh))) 
 table(res5a$groups)
 
+}
+if (run) {
 ### and do more one division with the full criteria
-res5b <- skater(res5a, dpad, 1, c(20, 40), rep(1,nrow(bh@data)))
+res5b <- skater(res5a, dpad, 1, c(20, 40), rep(1,nrow(bh)))
 table(res5b$groups)
 
+}
+if (run) {
 ### and do more one division with the full criteria
-res5c <- skater(res5b, dpad, 1, c(20, 40), rep(1,nrow(bh@data)))
+res5c <- skater(res5b, dpad, 1, c(20, 40), rep(1,nrow(bh)))
 table(res5c$groups)
 
+}
+if (run) {
 ### It don't have another divison with this criteria
-res5d <- skater(res5c, dpad, 1, c(20, 40), rep(1,nrow(bh@data)))
+res5d <- skater(res5c, dpad, 1, c(20, 40), rep(1,nrow(bh)))
 table(res5d$groups)
-
-\donttest{
+}
+\dontrun{
 data(boston, package="spData")
 bh.nb <- boston.soi
 dpad <- data.frame(scale(boston.c[,c(7:10)]))

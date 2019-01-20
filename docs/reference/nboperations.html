@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -179,42 +179,32 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>rgdal</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>columbus</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='no'>columbus</span>)
+    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
 <span class='no'>col.tri.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tri2nb.html'>tri2nb</a></span>(<span class='no'>coords</span>)
 <span class='no'>oldpar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mfrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>))
 <span class='no'>col.soi.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graphneigh.html'>graph2nb</a></span>(<span class='fu'><a href='graphneigh.html'>soi.graph</a></span>(<span class='no'>col.tri.nb</span>, <span class='no'>coords</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>columbus</span>, <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>col.soi.nb</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Sphere of Influence Graph"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>columbus</span>, <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>complement.nb</span>(<span class='no'>col.soi.nb</span>), <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Complement of Sphere of Influence Graph"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>col.soi.nb</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Sphere of Influence Graph"</span>, <span class='kw'>cex.main</span><span class='kw'>=</span><span class='fl'>0.7</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'>complement.nb</span>(<span class='no'>col.soi.nb</span>), <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Complement of Sphere of Influence Graph"</span>, <span class='kw'>cex.main</span><span class='kw'>=</span><span class='fl'>0.7</span>)
+}</div><div class='img'><img src='nboperations-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mfrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>2</span>))
 <span class='no'>col2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='droplinks.html'>droplinks</a></span>(<span class='no'>col.gal.nb</span>, <span class='fl'>21</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>intersect.nb</span>(<span class='no'>col.gal.nb</span>, <span class='no'>col2</span>), <span class='no'>coords</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Intersect"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>union.nb</span>(<span class='no'>col.gal.nb</span>, <span class='no'>col2</span>), <span class='no'>coords</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Union"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>setdiff.nb</span>(<span class='no'>col.gal.nb</span>, <span class='no'>col2</span>), <span class='no'>coords</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Set diff"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'>intersect.nb</span>(<span class='no'>col.gal.nb</span>, <span class='no'>col2</span>), <span class='no'>coords</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Intersect"</span>, <span class='kw'>cex.main</span><span class='kw'>=</span><span class='fl'>0.7</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'>union.nb</span>(<span class='no'>col.gal.nb</span>, <span class='no'>col2</span>), <span class='no'>coords</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Union"</span>, <span class='kw'>cex.main</span><span class='kw'>=</span><span class='fl'>0.7</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'>setdiff.nb</span>(<span class='no'>col.gal.nb</span>, <span class='no'>col2</span>), <span class='no'>coords</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Set diff"</span>, <span class='kw'>cex.main</span><span class='kw'>=</span><span class='fl'>0.7</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='no'>oldpar</span>)
-}</div><div class='output co'>#&gt; 
-#&gt; colmbs&gt; if (requireNamespace("rgdal", quietly = TRUE)) {
-#&gt; colmbs+   library(rgdal)
-#&gt; colmbs+   columbus &lt;- readOGR(system.file("shapes/columbus.shp", package="spData")[1])
-#&gt; colmbs+   plot(columbus)
-#&gt; colmbs+ }
-#&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "/home/rsb/lib/r_libs/spData/shapes/columbus.shp", layer: "columbus"
-#&gt; with 49 features
-#&gt; It has 20 fields
-#&gt; Integer64 fields read as strings:  COLUMBUS_ COLUMBUS_I POLYID </div><div class='img'><img src='nboperations-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; colmbs&gt; if (requireNamespace("spdep", quietly = TRUE)) {
-#&gt; colmbs+   library(spdep)
-#&gt; colmbs+   col.gal.nb &lt;- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-#&gt; colmbs+ }</div><div class='img'><img src='nboperations-2.png' alt='' width='700' height='433' /></div><div class='img'><img src='nboperations-3.png' alt='' width='700' height='433' /></div></pre>
+}</div><div class='img'><img src='nboperations-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -39,26 +39,31 @@ complement.nb(nb.obj)
 \code{\link{setdiff.nb}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+coords <- coordinates(as(columbus, "Spatial"))
 col.tri.nb <- tri2nb(coords)
 oldpar <- par(mfrow=c(1,2))
 col.soi.nb <- graph2nb(soi.graph(col.tri.nb, coords))
-plot(columbus, border="grey")
+plot(st_geometry(columbus), border="grey")
 plot(col.soi.nb, coords, add=TRUE)
-title(main="Sphere of Influence Graph")
-plot(columbus, border="grey")
+title(main="Sphere of Influence Graph", cex.main=0.7)
+plot(st_geometry(columbus), border="grey")
 plot(complement.nb(col.soi.nb), coords, add=TRUE)
-title(main="Complement of Sphere of Influence Graph")
+title(main="Complement of Sphere of Influence Graph", cex.main=0.7)
+}
+if (run) {
 par(mfrow=c(2,2))
 col2 <- droplinks(col.gal.nb, 21)
 plot(intersect.nb(col.gal.nb, col2), coords)
-title(main="Intersect")
+title(main="Intersect", cex.main=0.7)
 plot(union.nb(col.gal.nb, col2), coords)
-title(main="Union")
+title(main="Union", cex.main=0.7)
 plot(setdiff.nb(col.gal.nb, col2), coords)
-title(main="Set diff")
+title(main="Set diff", cex.main=0.7)
 par(oldpar)
 }
 }

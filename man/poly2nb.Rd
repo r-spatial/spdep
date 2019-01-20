@@ -28,35 +28,45 @@ From 0.5-8, the function includes faster bounding box indexing and other improve
 \seealso{\code{\link{summary.nb}}, \code{\link{card}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
-xx <- poly2nb(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+coords <- coordinates(as(columbus, "Spatial"))
+xx <- poly2nb(as(columbus, "Spatial"))
 dxx <- diffnb(xx, col.gal.nb)
-plot(columbus, border="grey")
+plot(st_geometry(columbus), border="grey")
 plot(col.gal.nb, coords, add=TRUE)
 plot(dxx, coords, add=TRUE, col="red")
 title(main=paste("Differences (red) in Columbus GAL weights (black)",
- "and polygon generated queen weights", sep="\n"))
-xxx <- poly2nb(columbus, queen=FALSE)
+ "and polygon generated queen weights", sep="\n"), cex.main=0.6)
+}
+if (run) {
+xxx <- poly2nb(as(columbus, "Spatial"), queen=FALSE)
 dxxx <- diffnb(xxx, col.gal.nb)
-plot(columbus, border = "grey")
+plot(st_geometry(columbus), border = "grey")
 plot(col.gal.nb, coords, add = TRUE)
 plot(dxxx, coords, add = TRUE, col = "red")
 title(main=paste("Differences (red) in Columbus GAL weights (black)",
- "and polygon generated rook weights", sep="\n"))
+ "and polygon generated rook weights", sep="\n"), cex.main=0.6)
+}
+if (run) {
 cards <- card(xx)
 maxconts <- which(cards == max(cards))
 if(length(maxconts) > 1) maxconts <- maxconts[1]
 fg <- rep("grey", length(cards))
 fg[maxconts] <- "red"
 fg[xx[[maxconts]]] <- "green"
-plot(columbus, col=fg)
-title(main="Region with largest number of contiguities")
-example(nc.sids, package="spData")
-system.time(xxnb <- poly2nb(nc.sids))
-plot(nc.sids)
-plot(xxnb, coordinates(nc.sids), add=TRUE, col="blue")
+plot(st_geometry(columbus), col=fg)
+title(main="Region with largest number of contiguities", cex.main=0.6)
+}
+if (run) {
+nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+system.time(xxnb <- poly2nb(as(nc.sids, "Spatial")))
+}
+if (run) {
+plot(st_geometry(nc.sids))
+plot(xxnb, coordinates(as(nc.sids, "Spatial")), add=TRUE, col="blue")
 }
 }
 \keyword{spatial}
