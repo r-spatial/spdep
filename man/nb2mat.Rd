@@ -31,12 +31,18 @@ An n by n matrix, where n=length(neighbours)
 \seealso{\code{\link{nb2listw}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+coords <- coordinates(as(columbus, "Spatial"))
 col005 <- dnearneigh(coords, 0, 0.5, attr(col.gal.nb, "region.id"))
 summary(col005)
-col005.w.mat <- nb2mat(col005, zero.policy=TRUE)
-table(round(apply(col005.w.mat, 1, sum)))
-}}
+}
+if (run) {
+col005.w.mat <- nb2mat(col005, style="B", zero.policy=TRUE)
+table(round(rowSums(col005.w.mat)))
+}
+}
 \keyword{spatial}

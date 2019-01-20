@@ -38,9 +38,12 @@ A \code{listw} object with the following members:
 \seealso{\code{\link{summary.nb}}, \code{\link{read.gal}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+coords <- coordinates(as(columbus, "Spatial"))
 cards <- card(col.gal.nb)
 col.w <- nb2listw(col.gal.nb)
 plot(cards, unlist(lapply(col.w$weights, sum)),xlim=c(0,10),
@@ -53,13 +56,20 @@ col.u <- nb2listw(col.gal.nb, style="U")
 points(cards, unlist(lapply(col.u$weights, sum)), col="orange")
 col.s <- nb2listw(col.gal.nb, style="S")
 points(cards, unlist(lapply(col.s$weights, sum)), col="blue")
-legend(x=c(0, 1), y=c(7, 9), legend=c("W", "B", "C", "U", "S"),
-col=c("black", "red", "green", "orange", "blue"), pch=rep(1,5))
+legend(x=c(0, 1), y=c(7, 9), legend=c("W", "B", "C", "U", "S"), bty="n",
+col=c("black", "red", "green", "orange", "blue"), pch=rep(1,5), cex=0.8,
+y.intersp=2.5)
+}
+if (run) {
 summary(nb2listw(col.gal.nb, style="minmax"))
+}
+if (run) {
 dlist <- nbdists(col.gal.nb, coords)
 dlist <- lapply(dlist, function(x) 1/x)
 col.w.d <- nb2listw(col.gal.nb, glist=dlist)
 summary(unlist(col.w$weights))
+}
+if (run) {
 summary(unlist(col.w.d$weights))
 }
 # introducing other conditions into weights - only earlier sales count

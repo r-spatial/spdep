@@ -22,11 +22,10 @@ the adjacency matrix as required by INLA for its spatial models.
 
 %\seealso{\code{\link[INLA]{inla}}}
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 td <- tempdir()
 x <- nb2INLA(paste(td, "columbus-INLA.adj", sep="/"), col.gal.nb)
-}
+readLines(paste(td, "columbus-INLA.adj", sep="/"), n=10)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
