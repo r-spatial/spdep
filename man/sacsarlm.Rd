@@ -152,7 +152,8 @@ trMatc <- trW(W, type="mult")
 set.seed(1)
 summary(impacts(COL.sacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
 \dontrun{
-if (!require(coda, quietly=TRUE) && !run) run <- FALSE
+run <- FALSE
+if (require(coda, quietly=TRUE)) run <- TRUE
 if (run) {
 set.seed(1)
 COL.sacW.B0 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,

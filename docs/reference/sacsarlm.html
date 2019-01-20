@@ -380,42 +380,297 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Simulated p-values:
 #&gt;       Direct     Indirect Total   
 #&gt; INC   0.00073396 0.40253  0.062649
-#&gt; HOVAL 0.00157819 0.45742  0.120386</div><div class='input'><span class='kw'>if</span> (!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>coda</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>&amp;&amp;</span> !<span class='no'>run</span>) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+#&gt; HOVAL 0.00157819 0.45742  0.120386</div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>coda</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
 <span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.sacW.B0</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_sac</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
  <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ndraw</span><span class='kw'>=</span><span class='fl'>1500L</span>, <span class='kw'>nomit</span><span class='kw'>=</span><span class='fl'>500L</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.sacW.B0</span>))
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; 
+#&gt; Iterations = 501:1500
+#&gt; Thinning interval = 1 
+#&gt; Number of chains = 1 
+#&gt; Sample size per chain = 1000 
+#&gt; 
+#&gt; 1. Empirical mean and standard deviation for each variable,
+#&gt;    plus standard error of the mean:
+#&gt; 
+#&gt;                 Mean       SD Naive SE Time-series SE
+#&gt; (Intercept)  49.3672  9.23725 0.292108       0.847100
+#&gt; INC          -0.9925  0.35777 0.011314       0.012624
+#&gt; HOVAL        -0.2847  0.09798 0.003099       0.003307
+#&gt; rho           0.3117  0.19633 0.006208       0.020392
+#&gt; lambda        0.1927  0.27130 0.008579       0.027162
+#&gt; sige        105.0462 23.96805 0.757936       0.757936
+#&gt; 
+#&gt; 2. Quantiles for each variable:
+#&gt; 
+#&gt;                2.5%      25%      50%      75%    97.5%
+#&gt; (Intercept) 31.8783 43.12583  48.9398  55.3573  68.1858
+#&gt; INC         -1.6817 -1.24459  -0.9872  -0.7516  -0.3168
+#&gt; HOVAL       -0.4952 -0.34433  -0.2827  -0.2201  -0.1028
+#&gt; rho         -0.1548  0.21285   0.3406   0.4438   0.6176
+#&gt; lambda      -0.3788  0.01455   0.2171   0.3794   0.6988
+#&gt; sige        68.5025 88.13909 101.6888 118.2545 160.2792
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.sacW.B0</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; Impact measures (sac, trace):
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -1.017325 -0.4246675 -1.4419930
+#&gt; HOVAL -0.291816 -0.1218143 -0.4136303
+#&gt; ========================================================
+#&gt; MCMC sample impact results:
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3668822 0.4180525 0.6533395
+#&gt; HOVAL 0.1016518 0.1341689 0.1983041
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct  Indirect     Total
+#&gt; INC   -2.808257 -1.219897 -2.357550
+#&gt; HOVAL -2.910868 -1.106171 -2.240542
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0049810 0.22250  0.018396
+#&gt; HOVAL 0.0036043 0.26865  0.025056</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.sacW.B1</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_sac</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
  <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ndraw</span><span class='kw'>=</span><span class='fl'>1500L</span>, <span class='kw'>nomit</span><span class='kw'>=</span><span class='fl'>500L</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.sacW.B1</span>))
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; 
+#&gt; Iterations = 501:1500
+#&gt; Thinning interval = 1 
+#&gt; Number of chains = 1 
+#&gt; Sample size per chain = 1000 
+#&gt; 
+#&gt; 1. Empirical mean and standard deviation for each variable,
+#&gt;    plus standard error of the mean:
+#&gt; 
+#&gt;                 Mean       SD Naive SE Time-series SE
+#&gt; (Intercept)  60.1833 24.14827 0.763635       3.169760
+#&gt; INC          -0.9880  0.36251 0.011464       0.015819
+#&gt; HOVAL        -0.2839  0.09749 0.003083       0.003433
+#&gt; lag.INC      -0.8740  0.77272 0.024435       0.061565
+#&gt; lag.HOVAL     0.1704  0.22184 0.007015       0.013821
+#&gt; rho           0.1808  0.32007 0.010121       0.044327
+#&gt; lambda        0.2106  0.32071 0.010142       0.041657
+#&gt; sige        100.9463 24.32264 0.769149       0.946662
+#&gt; 
+#&gt; 2. Quantiles for each variable:
+#&gt; 
+#&gt;                2.5%       25%     50%      75%    97.5%
+#&gt; (Intercept) 22.2042 42.277313 56.1007  76.4887 113.5316
+#&gt; INC         -1.7045 -1.223372 -0.9842  -0.7329  -0.3299
+#&gt; HOVAL       -0.4803 -0.349479 -0.2841  -0.2152  -0.1085
+#&gt; lag.INC     -2.5306 -1.336778 -0.8386  -0.3451   0.5156
+#&gt; lag.HOVAL   -0.3031  0.026900  0.1851   0.3249   0.5752
+#&gt; rho         -0.5076 -0.021227  0.2386   0.4320   0.6655
+#&gt; lambda      -0.5106 -0.007594  0.2129   0.4482   0.7389
+#&gt; sige        64.6867 84.395156 96.9599 114.4101 159.7252
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.sacW.B1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
+#&gt;           Direct  Indirect      Total
+#&gt; INC   -1.0332779 -1.239705 -2.2729830
+#&gt; HOVAL -0.2787547  0.140259 -0.1384957
+#&gt; ========================================================
+#&gt; MCMC sample impact results:
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3510687 0.9383466 1.0337787
+#&gt; HOVAL 0.1002385 0.2776460 0.3184971
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect      Total
+#&gt; INC   -2.962199 -1.4351185 -2.3085930
+#&gt; HOVAL -2.775887  0.5415921 -0.4015108
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total   
+#&gt; INC   0.0030545 0.15125  0.020966
+#&gt; HOVAL 0.0055051 0.58810  0.688044</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>COL.msacW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
  <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"sacmixed"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig1</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>pre_eig2</span><span class='kw'>=</span><span class='no'>ev</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW.eig</span>)
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; 
+#&gt; Call:sacsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = listw, 
+#&gt;     type = "sacmixed", control = list(pre_eig1 = ev, pre_eig2 = ev))
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -37.8045  -6.5244  -0.2207   5.9944  22.8691 
+#&gt; 
+#&gt; Type: sacmixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;             Estimate Std. Error z value Pr(&gt;|z|)
+#&gt; (Intercept) 50.92026   68.25721  0.7460 0.455664
+#&gt; INC         -0.95072    0.44033 -2.1591 0.030841
+#&gt; HOVAL       -0.28650    0.09994 -2.8667 0.004148
+#&gt; lag.INC     -0.69261    1.69113 -0.4096 0.682132
+#&gt; lag.HOVAL    0.20852    0.28702  0.7265 0.467546
+#&gt; 
+#&gt; Rho: 0.31557
+#&gt; Asymptotic standard error: 0.9458
+#&gt;     z-value: 0.33365, p-value: 0.73864
+#&gt; Lambda: 0.15415
+#&gt; Asymptotic standard error: 1.0643
+#&gt;     z-value: 0.14484, p-value: 0.88484
+#&gt; 
+#&gt; LR test value: 12.07, p-value: 0.016837
+#&gt; 
+#&gt; Log likelihood: -181.3422 for sacmixed model
+#&gt; ML residual variance (sigma squared): 93.149, (sigma: 9.6514)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 8 
+#&gt; AIC: 378.68, (AIC for lm: 382.75)
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0317003 -1.3693141 -2.4010144
+#&gt; HOVAL -0.2768608  0.1629265 -0.1139344
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3778064 2.1709289 2.3099448
+#&gt; HOVAL 0.1144714 0.7736216 0.8389226
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect       Total
+#&gt; INC   -2.737182 -0.7297008 -1.13347009
+#&gt; HOVAL -2.364129  0.2526689 -0.08958505
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total  
+#&gt; INC   0.0061968 0.46557  0.25702
+#&gt; HOVAL 0.0180725 0.80052  0.92862</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>COL.msacW1.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
  <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig1</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>pre_eig2</span><span class='kw'>=</span><span class='no'>ev</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW1.eig</span>)
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; 
+#&gt; Call:sacsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = listw, 
+#&gt;     Durbin = TRUE, control = list(pre_eig1 = ev, pre_eig2 = ev))
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -37.8045  -6.5244  -0.2207   5.9944  22.8691 
+#&gt; 
+#&gt; Type: sacmixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;             Estimate Std. Error z value Pr(&gt;|z|)
+#&gt; (Intercept) 50.92026   68.25721  0.7460 0.455664
+#&gt; INC         -0.95072    0.44033 -2.1591 0.030841
+#&gt; HOVAL       -0.28650    0.09994 -2.8667 0.004148
+#&gt; lag.INC     -0.69261    1.69113 -0.4096 0.682132
+#&gt; lag.HOVAL    0.20852    0.28702  0.7265 0.467546
+#&gt; 
+#&gt; Rho: 0.31557
+#&gt; Asymptotic standard error: 0.9458
+#&gt;     z-value: 0.33365, p-value: 0.73864
+#&gt; Lambda: 0.15415
+#&gt; Asymptotic standard error: 1.0643
+#&gt;     z-value: 0.14484, p-value: 0.88484
+#&gt; 
+#&gt; LR test value: 12.07, p-value: 0.016837
+#&gt; 
+#&gt; Log likelihood: -181.3422 for sacmixed model
+#&gt; ML residual variance (sigma squared): 93.149, (sigma: 9.6514)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 8 
+#&gt; AIC: 378.68, (AIC for lm: 382.75)
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW1.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.0317003 -1.3693141 -2.4010144
+#&gt; HOVAL -0.2768608  0.1629265 -0.1139344
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;          Direct  Indirect     Total
+#&gt; INC   0.3778064 2.1709289 2.3099448
+#&gt; HOVAL 0.1144714 0.7736216 0.8389226
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;          Direct   Indirect       Total
+#&gt; INC   -2.737182 -0.7297008 -1.13347009
+#&gt; HOVAL -2.364129  0.2526689 -0.08958505
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;       Direct    Indirect Total  
+#&gt; INC   0.0061968 0.46557  0.25702
+#&gt; HOVAL 0.0180725 0.80052  0.92862</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>COL.msacW2.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>DISCBD</span> + <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span> ~ <span class='no'>INC</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig1</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>pre_eig2</span><span class='kw'>=</span><span class='no'>ev</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW2.eig</span>)
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='output co'>#&gt; 
+#&gt; Call:sacsarlm(formula = CRIME ~ DISCBD + INC + HOVAL, data = COL.OLD, 
+#&gt;     listw = listw, Durbin = ~INC, control = list(pre_eig1 = ev, 
+#&gt;         pre_eig2 = ev))
+#&gt; 
+#&gt; Residuals:
+#&gt;      Min       1Q   Median       3Q      Max 
+#&gt; -34.2794  -7.0786   1.0543   6.0019  17.8891 
+#&gt; 
+#&gt; Type: sacmixed 
+#&gt; Coefficients: (asymptotic standard errors) 
+#&gt;              Estimate Std. Error z value Pr(&gt;|z|)
+#&gt; (Intercept) 74.064506  37.738937  1.9625 0.049699
+#&gt; DISCBD      -5.707678   3.248629 -1.7569 0.078926
+#&gt; INC         -0.900975   0.314996 -2.8603 0.004233
+#&gt; HOVAL       -0.203399   0.092982 -2.1875 0.028705
+#&gt; lag.INC      0.061568   0.926947  0.0664 0.947043
+#&gt; 
+#&gt; Rho: -0.077599
+#&gt; Asymptotic standard error: 0.57955
+#&gt;     z-value: -0.1339, p-value: 0.89348
+#&gt; Lambda: 0.29646
+#&gt; Asymptotic standard error: 0.51021
+#&gt;     z-value: 0.58104, p-value: 0.56121
+#&gt; 
+#&gt; LR test value: 1.4982, p-value: 0.68269
+#&gt; 
+#&gt; Log likelihood: -178.963 for sacmixed model
+#&gt; ML residual variance (sigma squared): 85.135, (sigma: 9.2269)
+#&gt; Number of observations: 49 
+#&gt; Number of parameters estimated: 8 
+#&gt; AIC: 373.93, (AIC for lm: 369.42)
+#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW2.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'run' not found</span></div></pre>
+}</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
+#&gt;            Direct   Indirect      Total
+#&gt; DISCBD -5.7150801 0.41841708 -5.2966631
+#&gt; INC    -0.9031729 0.12421194 -0.7789609
+#&gt; HOVAL  -0.2036631 0.01491075 -0.1887524
+#&gt; ========================================================
+#&gt; Simulation results (asymptotic variance matrix):
+#&gt; ========================================================
+#&gt; Simulated standard errors
+#&gt;           Direct  Indirect     Total
+#&gt; DISCBD 3.1446962 5.7201578 5.7574507
+#&gt; INC    0.3621136 1.7150129 1.8763505
+#&gt; HOVAL  0.1090171 0.6360477 0.6988348
+#&gt; 
+#&gt; Simulated z-values:
+#&gt;           Direct    Indirect      Total
+#&gt; DISCBD -1.852002  0.02800199 -0.9837354
+#&gt; INC    -2.461864  0.18611847 -0.3049957
+#&gt; HOVAL  -2.021744 -0.18415433 -0.4829978
+#&gt; 
+#&gt; Simulated p-values:
+#&gt;        Direct   Indirect Total  
+#&gt; DISCBD 0.064026 0.97766  0.32525
+#&gt; INC    0.013822 0.85235  0.76037
+#&gt; HOVAL  0.043203 0.85389  0.62910</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
