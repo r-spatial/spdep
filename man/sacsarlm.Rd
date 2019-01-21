@@ -152,52 +152,32 @@ trMatc <- trW(W, type="mult")
 set.seed(1)
 summary(impacts(COL.sacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
 \dontrun{
-run <- FALSE
-if (require(coda, quietly=TRUE)) run <- TRUE
-if (run) {
+library(coda)
 set.seed(1)
 COL.sacW.B0 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  Durbin=FALSE, control=list(ndraw=1500L, nomit=500L))
 print(summary(COL.sacW.B0))
-}
-if (run) {
 print(summary(impacts(COL.sacW.B0, tr=trMatc), zstats=TRUE, short=TRUE))
-}
-if (run) {
 set.seed(1)
 COL.sacW.B1 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  Durbin=TRUE, control=list(ndraw=1500L, nomit=500L))
 print(summary(COL.sacW.B1))
-}
-if (run) {
 print(summary(impacts(COL.sacW.B1, tr=trMatc), zstats=TRUE, short=TRUE))
-}}
-if (run) {
+}
 COL.msacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  type="sacmixed", control=list(pre_eig1=ev, pre_eig2=ev))
 summary(COL.msacW.eig)
-}
-if (run) {
 set.seed(1)
 summary(impacts(COL.msacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
-}
-if (run) {
 COL.msacW1.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  Durbin=TRUE, control=list(pre_eig1=ev, pre_eig2=ev))
 summary(COL.msacW1.eig)
-}
-if (run) {
 set.seed(1)
 summary(impacts(COL.msacW1.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
-}
-if (run) {
 COL.msacW2.eig <- sacsarlm(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD, 
  listw, Durbin= ~ INC, control=list(pre_eig1=ev, pre_eig2=ev))
 summary(COL.msacW2.eig)
-}
-if (run) {
 summary(impacts(COL.msacW2.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
-}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

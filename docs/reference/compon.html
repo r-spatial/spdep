@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -177,8 +177,12 @@
 #&gt; 42  1  6 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>col2</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>coords</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='no'>res</span>$<span class='no'>comp.id</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>)
-}</div><div class='img'><img src='compon-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>igraph</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='no'>run</span>, <span class='fl'>FALSE</span>)
-<span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='img'><img src='compon-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>igraph</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='no'>run</span>, <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘igraph’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    decompose, spectrum</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    union</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>B</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col2</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>g1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/igraph/topics/graph_from_adjacency_matrix'>graph.adjacency</a></span>(<span class='no'>B</span>, <span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"undirected"</span>)
 <span class='no'>c1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/igraph/topics/components'>clusters</a></span>(<span class='no'>g1</span>)

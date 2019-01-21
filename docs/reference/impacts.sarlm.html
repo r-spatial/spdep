@@ -417,8 +417,8 @@ If simulation is carried out, the object returned is a list with:
 <span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMC</span>)
 }</div><div class='output co'>#&gt; Impact measures (lag, trace):
 #&gt;           Direct   Indirect      Total
-#&gt; INC   -1.1211255 -0.6797719 -1.8008973
-#&gt; HOVAL -0.2819667 -0.1709648 -0.4529315</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; INC   -1.1211859 -0.6797114 -1.8008973
+#&gt; HOVAL -0.2819819 -0.1709496 -0.4529315</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>)
 <span class='no'>lobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>)
 <span class='no'>loobj1</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
@@ -633,9 +633,9 @@ If simulation is carried out, the object returned is a list with:
 #&gt; HOVAL -0.2836325  0.2302055 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMC</span>)
 }</div><div class='output co'>#&gt; Impact measures (mixed, trace):
-#&gt;           Direct   Indirect       Total
-#&gt; INC   -1.0390733 -1.4831593 -2.52223255
-#&gt; HOVAL -0.2840577  0.2306308 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt;          Direct   Indirect       Total
+#&gt; INC   -1.039187 -1.4830455 -2.52223255
+#&gt; HOVAL -0.284040  0.2306131 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
 }</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect      Total

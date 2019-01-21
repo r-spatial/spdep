@@ -380,14 +380,11 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Simulated p-values:
 #&gt;       Direct     Indirect Total   
 #&gt; INC   0.00073396 0.40253  0.062649
-#&gt; HOVAL 0.00157819 0.45742  0.120386</div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>coda</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; HOVAL 0.00157819 0.45742  0.120386</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>coda</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.sacW.B0</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_sac</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
  <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ndraw</span><span class='kw'>=</span><span class='fl'>1500L</span>, <span class='kw'>nomit</span><span class='kw'>=</span><span class='fl'>500L</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.sacW.B0</span>))
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.sacW.B0</span>))</div><div class='output co'>#&gt; 
 #&gt; Iterations = 501:1500
 #&gt; Thinning interval = 1 
 #&gt; Number of chains = 1 
@@ -413,9 +410,7 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; rho         -0.1548  0.21285   0.3406   0.4438   0.6176
 #&gt; lambda      -0.3788  0.01455   0.2171   0.3794   0.6988
 #&gt; sige        68.5025 88.13909 101.6888 118.2545 160.2792
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.sacW.B0</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-}</div><div class='output co'>#&gt; Impact measures (sac, trace):
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.sacW.B0</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; Impact measures (sac, trace):
 #&gt;          Direct   Indirect      Total
 #&gt; INC   -1.017325 -0.4246675 -1.4419930
 #&gt; HOVAL -0.291816 -0.1218143 -0.4136303
@@ -435,12 +430,10 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total   
 #&gt; INC   0.0049810 0.22250  0.018396
-#&gt; HOVAL 0.0036043 0.26865  0.025056</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+#&gt; HOVAL 0.0036043 0.26865  0.025056</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='no'>COL.sacW.B1</span> <span class='kw'>&lt;-</span> <span class='fu'>spBreg_sac</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
  <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>ndraw</span><span class='kw'>=</span><span class='fl'>1500L</span>, <span class='kw'>nomit</span><span class='kw'>=</span><span class='fl'>500L</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.sacW.B1</span>))
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.sacW.B1</span>))</div><div class='output co'>#&gt; 
 #&gt; Iterations = 501:1500
 #&gt; Thinning interval = 1 
 #&gt; Number of chains = 1 
@@ -470,9 +463,7 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; rho         -0.5076 -0.021227  0.2386   0.4320   0.6655
 #&gt; lambda      -0.5106 -0.007594  0.2129   0.4482   0.7389
 #&gt; sige        64.6867 84.395156 96.9599 114.4101 159.7252
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.sacW.B1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-}</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.sacW.B1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
 #&gt;           Direct  Indirect      Total
 #&gt; INC   -1.0332779 -1.239705 -2.2729830
 #&gt; HOVAL -0.2787547  0.140259 -0.1384957
@@ -492,11 +483,9 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total   
 #&gt; INC   0.0030545 0.15125  0.020966
-#&gt; HOVAL 0.0055051 0.58810  0.688044</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>COL.msacW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
+#&gt; HOVAL 0.0055051 0.58810  0.688044</div><div class='input'><span class='no'>COL.msacW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
  <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"sacmixed"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig1</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>pre_eig2</span><span class='kw'>=</span><span class='no'>ev</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW.eig</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW.eig</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:sacsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = listw, 
 #&gt;     type = "sacmixed", control = list(pre_eig1 = ev, pre_eig2 = ev))
 #&gt; 
@@ -527,10 +516,8 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Number of observations: 49 
 #&gt; Number of parameters estimated: 8 
 #&gt; AIC: 378.68, (AIC for lm: 382.75)
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0317003 -1.3693141 -2.4010144
 #&gt; HOVAL -0.2768608  0.1629265 -0.1139344
@@ -550,11 +537,9 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total  
 #&gt; INC   0.0061968 0.46557  0.25702
-#&gt; HOVAL 0.0180725 0.80052  0.92862</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>COL.msacW1.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
+#&gt; HOVAL 0.0180725 0.80052  0.92862</div><div class='input'><span class='no'>COL.msacW1.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>, <span class='no'>listw</span>,
  <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig1</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>pre_eig2</span><span class='kw'>=</span><span class='no'>ev</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW1.eig</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW1.eig</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:sacsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = listw, 
 #&gt;     Durbin = TRUE, control = list(pre_eig1 = ev, pre_eig2 = ev))
 #&gt; 
@@ -585,10 +570,8 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Number of observations: 49 
 #&gt; Number of parameters estimated: 8 
 #&gt; AIC: 378.68, (AIC for lm: 382.75)
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW1.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW1.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0317003 -1.3693141 -2.4010144
 #&gt; HOVAL -0.2768608  0.1629265 -0.1139344
@@ -608,11 +591,9 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total  
 #&gt; INC   0.0061968 0.46557  0.25702
-#&gt; HOVAL 0.0180725 0.80052  0.92862</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>COL.msacW2.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>DISCBD</span> + <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
+#&gt; HOVAL 0.0180725 0.80052  0.92862</div><div class='input'><span class='no'>COL.msacW2.eig</span> <span class='kw'>&lt;-</span> <span class='fu'>sacsarlm</span>(<span class='no'>CRIME</span> ~ <span class='no'>DISCBD</span> + <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span> ~ <span class='no'>INC</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig1</span><span class='kw'>=</span><span class='no'>ev</span>, <span class='kw'>pre_eig2</span><span class='kw'>=</span><span class='no'>ev</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW2.eig</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.msacW2.eig</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:sacsarlm(formula = CRIME ~ DISCBD + INC + HOVAL, data = COL.OLD, 
 #&gt;     listw = listw, Durbin = ~INC, control = list(pre_eig1 = ev, 
 #&gt;         pre_eig2 = ev))
@@ -644,9 +625,7 @@ neighbours, if FALSE (default) assign NA - causing <code>sacsarlm()</code> to te
 #&gt; Number of observations: 49 
 #&gt; Number of parameters estimated: 8 
 #&gt; AIC: 373.93, (AIC for lm: 369.42)
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW2.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='impacts.sarlm.html'>impacts</a></span>(<span class='no'>COL.msacW2.eig</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>2000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (sacmixed, trace):
 #&gt;            Direct   Indirect      Total
 #&gt; DISCBD -5.7150801 0.41841708 -5.2966631
 #&gt; INC    -0.9031729 0.12421194 -0.7789609
