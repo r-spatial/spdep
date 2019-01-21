@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -189,93 +189,69 @@ localAple returns a vector of local APLE values.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sf</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>wheat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/wheat.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>nbr1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>wheat</span>, <span class='st'>"Spatial"</span>), <span class='kw'>queen</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+    <pre class="examples"><div class='input'><span class='no'>wheat</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/wheat.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>nbr1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>wheat</span>, <span class='kw'>queen</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='no'>nbrl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span>(<span class='no'>nbr1</span>, <span class='fl'>2</span>)
 <span class='no'>nbr12</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag_cumul</a></span>(<span class='no'>nbrl</span>)
-<span class='no'>wheat_g</span> <span class='kw'>&lt;-</span> <span class='no'>wheat</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>wheat_g</span>) <span class='kw'>&lt;-</span> <span class='kw'>NULL</span>
-<span class='no'>cms0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/with'>with</a></span>(<span class='no'>wheat_g</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tapply'>tapply</a></span>(<span class='no'>yield</span>, <span class='no'>c</span>, <span class='no'>median</span>))
+<span class='no'>cms0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/with'>with</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>wheat</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tapply'>tapply</a></span>(<span class='no'>yield</span>, <span class='no'>c</span>, <span class='no'>median</span>))
 <span class='no'>cms1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/model.matrix'>model.matrix</a></span>(~ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='no'>c</span>) -<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>wheat</span>) <span class='kw'>%*%</span> <span class='no'>cms0</span>)
 <span class='no'>wheat</span>$<span class='no'>yield_detrend</span> <span class='kw'>&lt;-</span> <span class='no'>wheat</span>$<span class='no'>yield</span> - <span class='no'>cms1</span>
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>plt_out</span> <span class='kw'>&lt;-</span> <span class='fu'>aple.plot</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>as.vector</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='no'>wheat</span>$<span class='no'>yield_detrend</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>FALSE</span>)),
- <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbr12</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.6</span>)
-<span class='no'>lm_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>X</span>, <span class='no'>plt_out</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/abline'>abline</a></span>(<span class='no'>lm_obj</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/abline'>abline</a></span>(<span class='kw'>v</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>h</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)
-<span class='no'>zz</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/influence.measures'>influence.measures</a></span>(<span class='no'>lm_obj</span>))
-}</div><div class='output co'>#&gt; Potentially influential observations of
+ <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbr12</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.6</span>)</div><div class='input'><span class='no'>lm_obj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>Y</span> ~ <span class='no'>X</span>, <span class='no'>plt_out</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/abline'>abline</a></span>(<span class='no'>lm_obj</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/abline'>abline</a></span>(<span class='kw'>v</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>h</span><span class='kw'>=</span><span class='fl'>0</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='input'><span class='no'>zz</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/influence.measures'>influence.measures</a></span>(<span class='no'>lm_obj</span>))</div><div class='output co'>#&gt; Potentially influential observations of
 #&gt; 	 lm(formula = Y ~ X, data = plt_out) :
 #&gt; 
 #&gt;     dfb.1_ dfb.X dffit   cov.r   cook.d hat    
-#&gt; 34  -0.12   0.01 -0.12    0.98_*  0.01   0.00  
-#&gt; 50   0.10   0.01  0.11    0.98_*  0.01   0.00  
-#&gt; 60   0.00   0.00  0.00    1.01_*  0.00   0.01  
-#&gt; 118  0.01   0.01  0.02    1.01_*  0.00   0.01  
-#&gt; 137 -0.10  -0.01 -0.10    0.98_*  0.01   0.00  
-#&gt; 143 -0.02  -0.04 -0.05    1.01_*  0.00   0.01  
-#&gt; 157 -0.10  -0.05 -0.11    0.99_*  0.01   0.00  
-#&gt; 166  0.00   0.00  0.00    1.02_*  0.00   0.02_*
-#&gt; 168  0.01   0.02  0.03    1.01_*  0.00   0.01  
-#&gt; 176 -0.10   0.17 -0.20_*  0.99    0.02   0.01  
-#&gt; 177  0.03  -0.07  0.08    1.01_*  0.00   0.01  
+#&gt; 71  -0.10  -0.09 -0.13    0.99_*  0.01   0.00  
+#&gt; 92   0.00   0.00 -0.01    1.01_*  0.00   0.01  
+#&gt; 118  0.04   0.08  0.09    1.01_*  0.00   0.01  
+#&gt; 143  0.01   0.03  0.03    1.02_*  0.00   0.01_*
+#&gt; 146 -0.10  -0.05 -0.11    0.99_*  0.01   0.00  
+#&gt; 152  0.01  -0.01  0.02    1.01_*  0.00   0.01  
+#&gt; 166  0.03   0.09  0.09    1.02_*  0.00   0.01_*
+#&gt; 167  0.08   0.17  0.19_*  1.00    0.02   0.01  
+#&gt; 176 -0.12   0.17 -0.21_*  0.98_*  0.02   0.01  
+#&gt; 177  0.01  -0.02  0.02    1.01_*  0.00   0.01  
+#&gt; 185 -0.10  -0.05 -0.11    0.99_*  0.01   0.00  
 #&gt; 191  0.01   0.04  0.04    1.02_*  0.00   0.02_*
-#&gt; 192  0.10   0.18  0.20_*  0.99    0.02   0.01  
-#&gt; 201 -0.10   0.07 -0.12    0.99_*  0.01   0.00  
-#&gt; 216  0.02   0.05  0.05    1.02_*  0.00   0.01_*
-#&gt; 217  0.03   0.08  0.09    1.02_*  0.00   0.01_*
-#&gt; 225 -0.11  -0.07 -0.13    0.98_*  0.01   0.00  
-#&gt; 237 -0.10   0.02 -0.10    0.99_*  0.01   0.00  
-#&gt; 242 -0.02  -0.04 -0.04    1.01_*  0.00   0.01  
-#&gt; 287  0.14  -0.23  0.27_*  0.97_*  0.04   0.01  
-#&gt; 290 -0.18  -0.35 -0.40_*  0.95_*  0.08   0.01  
-#&gt; 295 -0.01  -0.01 -0.01    1.01_*  0.00   0.01  
-#&gt; 322  0.00   0.00  0.00    1.01_*  0.00   0.01  
-#&gt; 325 -0.10  -0.07 -0.12    0.99_*  0.01   0.00  
-#&gt; 351  0.19  -0.04  0.20_*  0.94_*  0.02   0.00  
-#&gt; 369  0.01  -0.03  0.03    1.01_*  0.00   0.01  
-#&gt; 376 -0.05  -0.13 -0.14    1.02_*  0.01   0.02_*
-#&gt; 392 -0.04   0.08 -0.09    1.01_*  0.00   0.01  
-#&gt; 393 -0.03   0.06 -0.07    1.01_*  0.00   0.01  
-#&gt; 394 -0.01   0.03 -0.03    1.01_*  0.00   0.01  
-#&gt; 402  0.10   0.02  0.10    0.99_*  0.01   0.00  
-#&gt; 429  0.13  -0.10  0.16    0.98_*  0.01   0.00  
-#&gt; 430 -0.11  -0.23 -0.25_*  0.99    0.03   0.01  
-#&gt; 438  0.00  -0.01 -0.01    1.01_*  0.00   0.01  
-#&gt; 442 -0.01   0.04 -0.04    1.02_*  0.00   0.02_*
-#&gt; 443 -0.01   0.02 -0.02    1.02_*  0.00   0.01_*
-#&gt; 461  0.02   0.04  0.04    1.01_*  0.00   0.01  
-#&gt; 462  0.01   0.03  0.03    1.03_*  0.00   0.02_*
-#&gt; 466  0.01  -0.02  0.02    1.02_*  0.00   0.01_*
-#&gt; 467 -0.03   0.08 -0.08    1.02_*  0.00   0.01_*
-#&gt; 468  0.02  -0.04  0.04    1.01_*  0.00   0.01  
-#&gt; 480  0.13   0.05  0.14    0.97_*  0.01   0.00  
-#&gt; 488  0.16   0.09  0.18    0.96_*  0.02   0.00  
-#&gt; 492 -0.13   0.12 -0.17    0.98_*  0.01   0.00  </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>infl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/integer'>as.integer</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>zz</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>plt_out</span>$<span class='no'>X</span>[<span class='no'>infl</span>], <span class='no'>plt_out</span>$<span class='no'>Y</span>[<span class='no'>infl</span>], <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.6</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
-}</div><div class='img'><img src='aple.plot-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/crossprod'>crossprod</a></span>(<span class='no'>plt_out</span>$<span class='no'>Y</span>, <span class='no'>plt_out</span>$<span class='no'>X</span>)/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/crossprod'>crossprod</a></span>(<span class='no'>plt_out</span>$<span class='no'>X</span>)
-}</div><div class='output co'>#&gt;           [,1]
-#&gt; [1,] 0.6601805</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>wheat</span>$<span class='no'>localAple</span> <span class='kw'>&lt;-</span> <span class='fu'>localAple</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>as.vector</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='no'>wheat</span>$<span class='no'>yield_detrend</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>FALSE</span>)),
+#&gt; 201 -0.12   0.07 -0.13    0.98_*  0.01   0.00  
+#&gt; 208  0.11  -0.19  0.22_*  0.99_*  0.02   0.01  
+#&gt; 210 -0.10  -0.06 -0.12    0.99_*  0.01   0.00  
+#&gt; 216 -0.01  -0.03 -0.03    1.02_*  0.00   0.02_*
+#&gt; 217 -0.02  -0.05 -0.06    1.02_*  0.00   0.01_*
+#&gt; 225 -0.12  -0.10 -0.16    0.98_*  0.01   0.00  
+#&gt; 242  0.02   0.04  0.04    1.01_*  0.00   0.01  
+#&gt; 267  0.11   0.05  0.12    0.98_*  0.01   0.00  
+#&gt; 270  0.01   0.03  0.03    1.01_*  0.00   0.01  
+#&gt; 290 -0.13  -0.26 -0.29_*  0.98_*  0.04   0.01  
+#&gt; 351  0.17  -0.06  0.18    0.95_*  0.02   0.00  
+#&gt; 358 -0.10   0.03 -0.10    0.99_*  0.01   0.00  
+#&gt; 369  0.01  -0.02  0.02    1.02_*  0.00   0.01  
+#&gt; 376 -0.02  -0.04 -0.04    1.02_*  0.00   0.01_*
+#&gt; 383 -0.10   0.01 -0.10    0.99_*  0.00   0.00  
+#&gt; 393 -0.06   0.13 -0.15    1.01    0.01   0.01_*
+#&gt; 417 -0.10   0.21 -0.23_*  1.00    0.03   0.01_*
+#&gt; 418 -0.11   0.18 -0.21_*  0.99    0.02   0.01  
+#&gt; 430 -0.09  -0.20 -0.22_*  1.00    0.02   0.01  
+#&gt; 438  0.00   0.00  0.00    1.01_*  0.00   0.01  
+#&gt; 441  0.00   0.00  0.00    1.02_*  0.00   0.01_*
+#&gt; 442 -0.02   0.07 -0.07    1.02_*  0.00   0.02_*
+#&gt; 443  0.01  -0.02  0.02    1.02_*  0.00   0.02_*
+#&gt; 444  0.00  -0.01  0.01    1.01_*  0.00   0.01  
+#&gt; 461  0.03   0.06  0.07    1.01_*  0.00   0.01  
+#&gt; 462  0.00   0.02  0.02    1.03_*  0.00   0.02_*
+#&gt; 466  0.03  -0.09  0.09    1.02_*  0.00   0.02_*
+#&gt; 467 -0.02   0.05 -0.05    1.02_*  0.00   0.02_*
+#&gt; 468  0.01  -0.03  0.03    1.01_*  0.00   0.01  
+#&gt; 480  0.11   0.05  0.12    0.98_*  0.01   0.00  
+#&gt; 487  0.10   0.19  0.21_*  0.99    0.02   0.01  
+#&gt; 488  0.15   0.04  0.16    0.96_*  0.01   0.00  
+#&gt; 492 -0.12   0.12 -0.17    0.98_*  0.01   0.00  </div><div class='input'><span class='no'>infl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/integer'>as.integer</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>zz</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>plt_out</span>$<span class='no'>X</span>[<span class='no'>infl</span>], <span class='no'>plt_out</span>$<span class='no'>Y</span>[<span class='no'>infl</span>], <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>3</span>, <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.6</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)</div><div class='img'><img src='aple.plot-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/crossprod'>crossprod</a></span>(<span class='no'>plt_out</span>$<span class='no'>Y</span>, <span class='no'>plt_out</span>$<span class='no'>X</span>)/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/crossprod'>crossprod</a></span>(<span class='no'>plt_out</span>$<span class='no'>X</span>)</div><div class='output co'>#&gt;           [,1]
+#&gt; [1,] 0.6320073</div><div class='input'><span class='no'>wheat</span>$<span class='no'>localAple</span> <span class='kw'>&lt;-</span> <span class='fu'>localAple</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>as.vector</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='no'>wheat</span>$<span class='no'>yield_detrend</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>FALSE</span>)),
  <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbr12</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>wheat</span>$<span class='no'>localAple</span>)
-}</div><div class='output co'>#&gt; [1] 0.6601805</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist</a></span>(<span class='no'>wheat</span>$<span class='no'>localAple</span>)
-}</div><div class='img'><img src='aple.plot-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>opar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>no.readonly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>wheat</span>[,<span class='st'>"localAple"</span>], <span class='kw'>reset</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/text'>text</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_coordinates'>st_coordinates</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/geos_unary'>st_centroid</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>wheat</span>)))[<span class='no'>infl</span>,], <span class='kw'>labels</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"*"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>infl</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='no'>opar</span>)
-}</div><div class='img'><img src='aple.plot-3.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>wheat</span>$<span class='no'>localAple</span>)</div><div class='output co'>#&gt; [1] 0.6320073</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist</a></span>(<span class='no'>wheat</span>$<span class='no'>localAple</span>)</div><div class='img'><img src='aple.plot-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>opar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>no.readonly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>wheat</span>[,<span class='st'>"localAple"</span>], <span class='kw'>reset</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/text'>text</a></span>(<span class='fu'>st_coordinates</span>(<span class='fu'>st_centroid</span>(<span class='fu'>st_geometry</span>(<span class='no'>wheat</span>)))[<span class='no'>infl</span>,], <span class='kw'>labels</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"*"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>infl</span>)))</div><div class='img'><img src='aple.plot-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='no'>opar</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

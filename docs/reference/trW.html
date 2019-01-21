@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -212,17 +212,17 @@
 <span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>listw</span>, <span class='st'>"CsparseMatrix"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trMat</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='no'>W</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mult"</span>))
 }</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.008   0.000   0.009 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt;   0.008   0.000   0.007 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trMat</span>)
 }</div><div class='output co'>#&gt;  num [1:30] 0 10.91 3.65 5.62 3.66 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.008 0.009
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.008 0.007
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "mult"
 #&gt;  - attr(*, "n")= int 49</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1100</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trMC</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='no'>W</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"MC"</span>))
 }</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.032   0.000   0.032 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt;   0.008   0.000   0.008 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trMC</span>)
 }</div><div class='output co'>#&gt;  num [1:30] 0 10.91 3.69 5.36 3.64 ...
 #&gt;  - attr(*, "sd")= num [1:30] NA NA 0.598 0.495 0.489 ...
@@ -241,10 +241,10 @@
 <span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'>forceSymmetric</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>listwS</span>, <span class='st'>"CsparseMatrix"</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trmom</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='no'>W</span>, <span class='kw'>m</span><span class='kw'>=</span><span class='fl'>24</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"moments"</span>))
 }</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.011   0.000   0.011 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt;    0.01    0.00    0.01 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trmom</span>)
 }</div><div class='output co'>#&gt;  num [1:24] 0 10.91 3.65 5.62 3.66 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.011 0.011
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.01 0.01
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "moments"
 #&gt;  - attr(*, "n")= int 49</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
@@ -252,10 +252,10 @@
 }</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trMat</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='no'>W</span>, <span class='kw'>m</span><span class='kw'>=</span><span class='fl'>24</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mult"</span>))
 }</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.006   0.000   0.006 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt;   0.007   0.000   0.007 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trMat</span>)
 }</div><div class='output co'>#&gt;  num [1:24] 0 10.91 3.65 5.62 3.66 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.006 0.006
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.007 0.007
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "mult"
 #&gt;  - attr(*, "n")= int 49</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
@@ -264,19 +264,19 @@
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trMC</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='no'>W</span>, <span class='kw'>m</span><span class='kw'>=</span><span class='fl'>24</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"MC"</span>))
 }</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.008   0.000   0.007 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt;   0.008   0.000   0.009 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trMC</span>)
 }</div><div class='output co'>#&gt;  num [1:24] 0 10.91 2.44 4.97 2.82 ...
 #&gt;  - attr(*, "sd")= num [1:24] NA NA 0.618 0.501 0.451 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.008 0.007
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.008 0.009
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "MC"
 #&gt;  - attr(*, "n")= int 49</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>)
 <span class='no'>listwS</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='similar.listw.html'>similar.listw</a></span>(<span class='no'>listw</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trmom</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listwS</span>, <span class='kw'>m</span><span class='kw'>=</span><span class='fl'>24</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"moments"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.167   0.000   0.167 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trmom</span>)</div><div class='output co'>#&gt;  num [1:24] 0 124.2 32.7 63.7 33.2 ...
-#&gt;  - attr(*, "timings")= Named num [1:2] 0.166 0.167
+#&gt;    0.18    0.00    0.18 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str</a></span>(<span class='no'>trmom</span>)</div><div class='output co'>#&gt;  num [1:24] 0 124.2 32.7 63.7 33.2 ...
+#&gt;  - attr(*, "timings")= Named num [1:2] 0.18 0.18
 #&gt;   ..- attr(*, "names")= chr [1:2] "user.self" "elapsed"
 #&gt;  - attr(*, "type")= chr "moments"
 #&gt;  - attr(*, "n")= int 506</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>parallel</span>)
@@ -290,7 +290,7 @@
   <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span>(<span class='no'>cl</span>)
 }
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>trmomp</span> <span class='kw'>&lt;-</span> <span class='fu'>trW</span>(<span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listwS</span>, <span class='kw'>m</span><span class='kw'>=</span><span class='fl'>24</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"moments"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.153   0.000   0.153 </div><div class='input'><span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
+#&gt;   0.165   0.000   0.165 </div><div class='input'><span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
   <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span>(<span class='kw'>NULL</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>stopCluster</a></span>(<span class='no'>cl</span>)
 }

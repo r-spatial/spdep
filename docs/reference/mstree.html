@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -182,17 +182,14 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>### loading data</span>
-<span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/shapes/bhicv.shp"</span>,
+<span class='no'>bh</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/shapes/bhicv.shp"</span>,
       <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>st_crs</a></span>(<span class='no'>bh</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
+<span class='fu'>st_crs</span>(<span class='no'>bh</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
 <span class='co'>### data padronized</span>
 <span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>bh</span>)[,<span class='fl'>5</span>:<span class='fl'>8</span>]))
 
 <span class='co'>### neighboorhod list </span>
-<span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>))
+<span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>bh</span>)
 
 <span class='co'>### calculing costs</span>
 <span class='no'>lcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>)
@@ -201,33 +198,23 @@
 <span class='no'>nb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>lcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 
 <span class='co'>### find a minimum spanning tree</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'>mstree</span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>))
-}</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.003   0.000   0.003 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dim'>dim</a></span>(<span class='no'>mst.bh</span>)
-}</div><div class='output co'>#&gt; [1] 97  3</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mst.bh</span>)
-}</div><div class='output co'>#&gt;      [,1] [,2]      [,3]
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'>mstree</span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.003   0.000   0.004 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dim'>dim</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt; [1] 97  3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;      [,1] [,2]      [,3]
 #&gt; [1,]    5   12 1.2951120
 #&gt; [2,]   12   13 0.6141101
 #&gt; [3,]   13   11 0.7913745
 #&gt; [4,]   13    6 0.9775650
 #&gt; [5,]   11   31 0.9965625
-#&gt; [6,]   31   39 0.6915158</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='no'>mst.bh</span>)
-}</div><div class='output co'>#&gt;       [,1] [,2]      [,3]
+#&gt; [6,]   31   39 0.6915158</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;       [,1] [,2]      [,3]
 #&gt; [92,]   89   90 2.5743702
 #&gt; [93,]   26   56 2.6235317
 #&gt; [94,]   86   87 2.6471303
 #&gt; [95,]   87   72 0.7874461
 #&gt; [96,]   49   36 2.8743677
-#&gt; [97,]   24   25 3.4675168</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='co'>### the mstree plot</span>
+#&gt; [97,]   24   25 3.4675168</div><div class='input'><span class='co'>### the mstree plot</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>bh</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray'>gray</a></span>(<span class='fl'>.5</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>mst.bh</span>, <span class='fu'>coordinates</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>,
-     <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.6</span>, <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>fg</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='img'><img src='mstree-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>bh</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray'>gray</a></span>(<span class='fl'>.5</span>))</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>mst.bh</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>,
+     <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.6</span>, <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>fg</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='img'><img src='mstree-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

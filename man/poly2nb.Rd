@@ -59,6 +59,7 @@ fg[xx[[maxconts]]] <- "green"
 plot(st_geometry(columbus), col=fg)
 title(main="Region with largest number of contiguities", cex.main=0.6)
 nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+system.time(xxnb <- poly2nb(nc.sids))
 system.time(xxnb <- poly2nb(as(nc.sids, "Spatial")))
 plot(st_geometry(nc.sids))
 plot(xxnb, coordinates(as(nc.sids, "Spatial")), add=TRUE, col="blue")

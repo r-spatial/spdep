@@ -37,17 +37,11 @@ and a \code{parameters} attribute list with components:
 \seealso{\code{\link{EBest}}, \code{\link{probmap}}}
 
 \examples{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
-auckland.nb <- poly2nb(as(auckland, "Spatial"))
-}
-if (run) {
+auckland.nb <- poly2nb(auckland)
 res <- EBlocal(auckland$M77_85,  9*auckland$Und5_81, auckland.nb)
 auckland$est000 <- res$est*1000
 plot(auckland[,"est000"], breaks=c(0,2,2.5,3,3.5,8),
  main="Infant mortality per 1000 per year")
-}
 }
 \keyword{spatial}

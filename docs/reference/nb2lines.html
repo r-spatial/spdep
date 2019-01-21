@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -233,13 +233,13 @@
 #&gt;  Max.   :0.5000  </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>tf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(), <span class='st'>".gpkg"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_write'>st_write</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_as_sf'>st_as_sf</a></span>(<span class='no'>res</span>), <span class='kw'>dsn</span><span class='kw'>=</span><span class='no'>tf</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"GPKG"</span>)
-}</div><div class='output co'>#&gt; Writing layer `file1f026dec9118' to data source `/tmp/RtmpaH8xj5/file1f026dec9118.gpkg' using driver `GPKG'
+}</div><div class='output co'>#&gt; Writing layer `file7854eb0826e' to data source `/tmp/Rtmp3C8xuA/file7854eb0826e.gpkg' using driver `GPKG'
 #&gt; features:       230
 #&gt; fields:         5
 #&gt; geometry type:  Line String</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>inMap</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='no'>tf</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>inMap</span>)
-}</div><div class='output co'>#&gt; Reading layer `file1f026dec9118' from data source `/tmp/RtmpaH8xj5/file1f026dec9118.gpkg' using driver `GPKG'
+}</div><div class='output co'>#&gt; Reading layer `file7854eb0826e' from data source `/tmp/Rtmp3C8xuA/file7854eb0826e.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 230 features and 5 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY

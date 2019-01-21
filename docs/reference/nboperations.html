@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -194,16 +194,7 @@
 <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'>complement.nb</span>(<span class='no'>col.soi.nb</span>), <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Complement of Sphere of Influence Graph"</span>, <span class='kw'>cex.main</span><span class='kw'>=</span><span class='fl'>0.7</span>)
-}</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>     PLEASE NOTE:  The components "delsgs" and "summary" of the</span>
-#&gt; <span class='message'> object returned by deldir() are now DATA FRAMES rather than</span>
-#&gt; <span class='message'> matrices (as they were prior to release 0.0-18).</span>
-#&gt; <span class='message'> See help("deldir").</span>
-#&gt; <span class='message'> </span>
-#&gt; <span class='message'>     PLEASE NOTE: The process that deldir() uses for determining</span>
-#&gt; <span class='message'> duplicated points has changed from that used in version</span>
-#&gt; <span class='message'> 0.0-9 of this package (and previously). See help("deldir").</span>
-#&gt; <span class='message'></span></div><div class='img'><img src='nboperations-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+}</div><div class='img'><img src='nboperations-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mfrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>2</span>))
 <span class='no'>col2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='droplinks.html'>droplinks</a></span>(<span class='no'>col.gal.nb</span>, <span class='fl'>21</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'>intersect.nb</span>(<span class='no'>col.gal.nb</span>, <span class='no'>col2</span>), <span class='no'>coords</span>)

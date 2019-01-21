@@ -233,22 +233,17 @@ must be one of greater (default), less or two.sided.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>eire</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/eire.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/row.names'>row.names</a></span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>eire</span>$<span class='no'>names</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>st_crs</a></span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
-<span class='no'>eire.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>eire</span>, <span class='st'>"Spatial"</span>))
-<span class='no'>e.lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>)
-<span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))
-}</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
+    <pre class="examples"><div class='input'><span class='no'>eire</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/eire.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 26 features and 10 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25
 #&gt; epsg (SRID):    NA
-#&gt; proj4string:    NA</div><div class='output co'>#&gt; 
+#&gt; proj4string:    NA</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/row.names'>row.names</a></span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>eire</span>$<span class='no'>names</span>)
+<span class='fu'>st_crs</span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
+<span class='no'>eire.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>eire</span>)
+<span class='no'>e.lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>)
+<span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Global Moran I for regression residuals
 #&gt; 
 #&gt; data:  
@@ -260,9 +255,7 @@ must be one of greater (default), less or two.sided.</p></td>
 #&gt; sample estimates:
 #&gt; Observed Moran I      Expectation         Variance 
 #&gt;       0.33660565      -0.05877741       0.01473183 
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='lm.morantest.sad.html'>lm.morantest.sad</a></span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='lm.morantest.sad.html'>lm.morantest.sad</a></span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Saddlepoint approximation for global Moran's I (Barndorff-Nielsen
 #&gt; 	formula)
 #&gt; 
@@ -275,9 +268,7 @@ must be one of greater (default), less or two.sided.</p></td>
 #&gt; sample estimates:
 #&gt; Observed Moran I 
 #&gt;        0.3366057 
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>lm.morantest.exact</span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>lm.morantest.exact</span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Global Moran I statistic with exact p-value
 #&gt; 
 #&gt; data:  
@@ -288,9 +279,7 @@ must be one of greater (default), less or two.sided.</p></td>
 #&gt; alternative hypothesis: greater
 #&gt; sample estimates:
 #&gt; [1] 0.3366057
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>lm.morantest.exact</span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>), <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>lm.morantest.exact</span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>), <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt; 	Global Moran I statistic with exact p-value
 #&gt; 
 #&gt; data:  

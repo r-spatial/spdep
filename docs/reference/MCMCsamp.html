@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -246,20 +246,20 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD  Naive SE Time-series SE
-#&gt; lambda       0.04429 0.01691 0.0002391      0.0009689
-#&gt; (Intercept) -0.62975 0.19309 0.0027307      0.0117292
-#&gt; PEXPOSURE    0.07230 0.04628 0.0006545      0.0027868
-#&gt; PCTAGE65P    3.74094 0.62754 0.0088748      0.0356924
-#&gt; PCTOWNHOME  -0.39726 0.20235 0.0028617      0.0123184
+#&gt; lambda       0.04414 0.01722 0.0002435      0.0009719
+#&gt; (Intercept) -0.64198 0.19317 0.0027318      0.0112218
+#&gt; PEXPOSURE    0.07395 0.04546 0.0006429      0.0027379
+#&gt; PCTAGE65P    3.76061 0.66332 0.0093808      0.0391459
+#&gt; PCTOWNHOME  -0.38545 0.20954 0.0029634      0.0119281
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                 2.5%      25%      50%      75%    97.5%
-#&gt; lambda       0.01059  0.03220  0.04461  0.05573  0.07621
-#&gt; (Intercept) -1.04023 -0.75276 -0.61931 -0.51131 -0.23580
-#&gt; PEXPOSURE   -0.01696  0.04113  0.06945  0.09939  0.17155
-#&gt; PCTAGE65P    2.41718  3.34443  3.77069  4.13446  4.99866
-#&gt; PCTOWNHOME  -0.78005 -0.53332 -0.40694 -0.27064  0.01811
+#&gt; lambda       0.01236  0.03205  0.04401  0.05521  0.07877
+#&gt; (Intercept) -1.04205 -0.77055 -0.64438 -0.51201 -0.26715
+#&gt; PEXPOSURE   -0.01375  0.04302  0.07280  0.10412  0.16575
+#&gt; PCTAGE65P    2.53404  3.27849  3.76919  4.22391  5.09011
+#&gt; PCTOWNHOME  -0.77111 -0.53571 -0.39398 -0.24189  0.05586
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esar1fw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='spautolm.html'>spautolm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
@@ -301,20 +301,20 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD  Naive SE Time-series SE
-#&gt; lambda       0.01105 0.01638 0.0002316      0.0009186
-#&gt; (Intercept) -0.78457 0.14454 0.0020441      0.0077326
-#&gt; PEXPOSURE    0.08026 0.02867 0.0004054      0.0015588
-#&gt; PCTAGE65P    3.75868 0.59779 0.0084541      0.0332261
-#&gt; PCTOWNHOME  -0.38700 0.15685 0.0022182      0.0082559
+#&gt; lambda       0.01432 0.01703 0.0002409       0.001034
+#&gt; (Intercept) -0.80185 0.15873 0.0022448       0.009546
+#&gt; PEXPOSURE    0.08564 0.03294 0.0004658       0.001975
+#&gt; PCTAGE65P    3.82593 0.61631 0.0087159       0.036749
+#&gt; PCTOWNHOME  -0.38907 0.17679 0.0025002       0.010976
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                 2.5%        25%      50%      75%    97.5%
-#&gt; lambda      -0.02146  0.0004359  0.01188  0.02153  0.04376
-#&gt; (Intercept) -1.07522 -0.8822177 -0.77820 -0.68170 -0.51232
-#&gt; PEXPOSURE    0.02650  0.0606119  0.07958  0.09942  0.13993
-#&gt; PCTAGE65P    2.59748  3.3227380  3.76137  4.16785  4.90894
-#&gt; PCTOWNHOME  -0.68665 -0.5001917 -0.39285 -0.28251 -0.07474
+#&gt;                 2.5%       25%      50%      75%    97.5%
+#&gt; lambda      -0.02088  0.003317  0.01482  0.02671  0.04682
+#&gt; (Intercept) -1.11474 -0.905768 -0.80101 -0.69291 -0.50360
+#&gt; PEXPOSURE    0.01391  0.065037  0.08559  0.10871  0.14794
+#&gt; PCTAGE65P    2.62410  3.443854  3.84478  4.22642  5.07766
+#&gt; PCTOWNHOME  -0.74540 -0.506030 -0.38939 -0.26953 -0.04054
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>ecar1f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='spautolm.html'>spautolm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
@@ -356,20 +356,20 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD  Naive SE Time-series SE
-#&gt; lambda       0.08760 0.02864 0.0004051       0.001590
-#&gt; (Intercept) -0.65226 0.20677 0.0029242       0.012460
-#&gt; PEXPOSURE    0.08446 0.04896 0.0006924       0.003029
-#&gt; PCTAGE65P    3.62157 0.64895 0.0091776       0.041144
-#&gt; PCTOWNHOME  -0.37230 0.22785 0.0032223       0.013376
+#&gt; lambda       0.08789 0.02738 0.0003872       0.001480
+#&gt; (Intercept) -0.66632 0.19546 0.0027643       0.011405
+#&gt; PEXPOSURE    0.08279 0.05101 0.0007214       0.003301
+#&gt; PCTAGE65P    3.67565 0.64034 0.0090558       0.036333
+#&gt; PCTOWNHOME  -0.36726 0.21576 0.0030514       0.012522
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                  2.5%      25%      50%     75%    97.5%
-#&gt; lambda       0.028033  0.06826  0.08922  0.1085  0.13671
-#&gt; (Intercept) -1.069635 -0.78403 -0.65554 -0.5078 -0.25039
-#&gt; PEXPOSURE   -0.007364  0.04987  0.08260  0.1172  0.18543
-#&gt; PCTAGE65P    2.265603  3.20707  3.62840  4.0753  4.83742
-#&gt; PCTOWNHOME  -0.815589 -0.53130 -0.36539 -0.2281  0.07847
+#&gt; lambda       0.031966  0.06829  0.08958  0.1084  0.13644
+#&gt; (Intercept) -1.080640 -0.79075 -0.65955 -0.5292 -0.29414
+#&gt; PEXPOSURE   -0.009009  0.04914  0.07981  0.1148  0.19190
+#&gt; PCTAGE65P    2.352635  3.27210  3.70343  4.1302  4.89761
+#&gt; PCTOWNHOME  -0.765768 -0.51592 -0.38228 -0.2177  0.09219
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esar1fw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='spautolm.html'>spautolm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
@@ -411,20 +411,20 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD  Naive SE Time-series SE
-#&gt; lambda       0.01237 0.01688 0.0002387       0.001030
-#&gt; (Intercept) -0.82916 0.16119 0.0022796       0.011108
-#&gt; PEXPOSURE    0.08571 0.03127 0.0004422       0.001873
-#&gt; PCTAGE65P    3.81056 0.60911 0.0086142       0.036006
-#&gt; PCTOWNHOME  -0.34950 0.16804 0.0023764       0.010258
+#&gt; lambda       0.01223 0.01628 0.0002302      0.0008918
+#&gt; (Intercept) -0.81008 0.14450 0.0020436      0.0071485
+#&gt; PEXPOSURE    0.08333 0.03024 0.0004277      0.0016623
+#&gt; PCTAGE65P    3.83015 0.54901 0.0077641      0.0289888
+#&gt; PCTOWNHOME  -0.37589 0.15894 0.0022478      0.0088513
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                 2.5%       25%      50%      75%     97.5%
-#&gt; lambda      -0.02048  0.001295  0.01219  0.02409  0.044644
-#&gt; (Intercept) -1.14674 -0.932404 -0.82553 -0.72091 -0.505857
-#&gt; PEXPOSURE    0.02749  0.064070  0.08599  0.10469  0.152937
-#&gt; PCTAGE65P    2.56424  3.416681  3.82234  4.23224  4.965195
-#&gt; PCTOWNHOME  -0.68099 -0.461585 -0.35395 -0.23798 -0.007876
+#&gt;                 2.5%       25%      50%      75%    97.5%
+#&gt; lambda      -0.01950  0.001449  0.01258  0.02253  0.04561
+#&gt; (Intercept) -1.10339 -0.904325 -0.80883 -0.70550 -0.54256
+#&gt; PEXPOSURE    0.02629  0.061589  0.08190  0.10328  0.14268
+#&gt; PCTAGE65P    2.69715  3.471721  3.85731  4.20233  4.83788
+#&gt; PCTOWNHOME  -0.67970 -0.487368 -0.37586 -0.27418 -0.05980
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>ecar1fw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='spautolm.html'>spautolm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
@@ -466,20 +466,20 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD  Naive SE Time-series SE
-#&gt; lambda       0.03542 0.03787 0.0005355       0.002168
-#&gt; (Intercept) -0.81507 0.16062 0.0022715       0.009554
-#&gt; PEXPOSURE    0.08695 0.03206 0.0004534       0.001879
-#&gt; PCTAGE65P    3.76438 0.58703 0.0083019       0.032643
-#&gt; PCTOWNHOME  -0.37172 0.16913 0.0023918       0.009840
+#&gt; lambda       0.03541 0.03918 0.0005540       0.002337
+#&gt; (Intercept) -0.82709 0.16312 0.0023068       0.009943
+#&gt; PEXPOSURE    0.08706 0.03268 0.0004622       0.001914
+#&gt; PCTAGE65P    3.77190 0.56610 0.0080058       0.030749
+#&gt; PCTOWNHOME  -0.36346 0.17131 0.0024227       0.010363
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                 2.5%      25%      50%      75%   97.5%
-#&gt; lambda      -0.04292  0.01031  0.03565  0.06337  0.1031
-#&gt; (Intercept) -1.12996 -0.92547 -0.80796 -0.70018 -0.5262
-#&gt; PEXPOSURE    0.02923  0.06506  0.08589  0.10794  0.1528
-#&gt; PCTAGE65P    2.62210  3.36051  3.77349  4.17907  4.9388
-#&gt; PCTOWNHOME  -0.69948 -0.49013 -0.37220 -0.25684 -0.0556
+#&gt;                 2.5%       25%      50%      75%     97.5%
+#&gt; lambda      -0.04274  0.009742  0.03520  0.06288  0.109157
+#&gt; (Intercept) -1.17422 -0.931777 -0.81463 -0.71695 -0.531921
+#&gt; PEXPOSURE    0.02690  0.063601  0.08551  0.10732  0.154246
+#&gt; PCTAGE65P    2.68839  3.371537  3.80605  4.16482  4.902716
+#&gt; PCTOWNHOME  -0.68261 -0.483173 -0.36581 -0.25363  0.007252
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esar0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>)
@@ -523,20 +523,20 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD  Naive SE Time-series SE
-#&gt; lambda       0.04419 0.01697 0.0002399       0.001078
-#&gt; (Intercept) -0.64099 0.18642 0.0026364       0.011304
-#&gt; PEXPOSURE    0.07325 0.04515 0.0006386       0.002729
-#&gt; PCTAGE65P    3.79120 0.63486 0.0089783       0.035664
-#&gt; PCTOWNHOME  -0.40094 0.20137 0.0028479       0.011945
+#&gt; lambda       0.04495 0.01688 0.0002387       0.001025
+#&gt; (Intercept) -0.64223 0.18870 0.0026686       0.012154
+#&gt; PEXPOSURE    0.07735 0.04453 0.0006298       0.002607
+#&gt; PCTAGE65P    3.76603 0.66687 0.0094310       0.040179
+#&gt; PCTOWNHOME  -0.40697 0.21105 0.0029847       0.013534
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                  2.5%      25%      50%      75%    97.5%
-#&gt; lambda       0.009440  0.03336  0.04506  0.05603  0.07546
-#&gt; (Intercept) -0.996575 -0.77405 -0.64310 -0.51143 -0.27833
-#&gt; PEXPOSURE   -0.009371  0.04240  0.07255  0.10534  0.16520
-#&gt; PCTAGE65P    2.568115  3.35875  3.80270  4.20366  5.10342
-#&gt; PCTOWNHOME  -0.785386 -0.54117 -0.40394 -0.26812  0.02865
+#&gt; lambda       0.011357  0.03407  0.04546  0.05722  0.07653
+#&gt; (Intercept) -1.015897 -0.76397 -0.63316 -0.51969 -0.28163
+#&gt; PEXPOSURE   -0.008832  0.04832  0.07686  0.10675  0.16231
+#&gt; PCTAGE65P    2.544777  3.29569  3.78732  4.18747  5.07729
+#&gt; PCTOWNHOME  -0.827336 -0.53941 -0.41621 -0.28127  0.00612
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esar0w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>)
@@ -580,20 +580,20 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD  Naive SE Time-series SE
-#&gt; lambda       0.01448 0.01679 0.0002375      0.0009561
-#&gt; (Intercept) -0.80541 0.15177 0.0021464      0.0091791
-#&gt; PEXPOSURE    0.08178 0.03175 0.0004491      0.0020138
-#&gt; PCTAGE65P    3.80780 0.60355 0.0085356      0.0356224
-#&gt; PCTOWNHOME  -0.37314 0.15762 0.0022292      0.0091866
+#&gt; lambda       0.01371 0.01608 0.0002274      0.0008841
+#&gt; (Intercept) -0.79983 0.15625 0.0022098      0.0097961
+#&gt; PEXPOSURE    0.08457 0.03127 0.0004422      0.0019717
+#&gt; PCTAGE65P    3.77770 0.58678 0.0082983      0.0347447
+#&gt; PCTOWNHOME  -0.38039 0.16234 0.0022959      0.0098801
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                 2.5%       25%      50%      75%    97.5%
-#&gt; lambda      -0.01812  0.003413  0.01468  0.02599  0.04589
-#&gt; (Intercept) -1.10475 -0.903970 -0.80590 -0.70560 -0.49326
-#&gt; PEXPOSURE    0.01853  0.059548  0.08189  0.10210  0.14611
-#&gt; PCTAGE65P    2.64051  3.400986  3.81346  4.20398  4.98465
-#&gt; PCTOWNHOME  -0.68348 -0.479277 -0.36672 -0.26772 -0.07536
+#&gt; lambda      -0.01760  0.002331  0.01400  0.02489  0.04370
+#&gt; (Intercept) -1.08795 -0.915372 -0.79948 -0.69809 -0.47440
+#&gt; PEXPOSURE    0.02192  0.064060  0.08316  0.10577  0.14508
+#&gt; PCTAGE65P    2.63576  3.380985  3.75396  4.19167  4.92910
+#&gt; PCTOWNHOME  -0.69578 -0.488224 -0.37782 -0.26641 -0.04992
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>esar1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>etype</span><span class='kw'>=</span><span class='st'>"emixed"</span>)
@@ -641,28 +641,28 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                     Mean      SD  Naive SE Time-series SE
-#&gt; lambda           0.02919 0.01724 0.0002437       0.001259
-#&gt; (Intercept)     -1.11495 0.25196 0.0035633       0.020446
-#&gt; PEXPOSURE        0.21609 0.08304 0.0011744       0.006769
-#&gt; PCTAGE65P        3.48058 0.59625 0.0084323       0.041798
-#&gt; PCTOWNHOME       0.03078 0.25793 0.0036476       0.020568
-#&gt; lag.(Intercept)  0.12371 0.06193 0.0008758       0.005190
-#&gt; lag.PEXPOSURE   -0.03461 0.01682 0.0002379       0.001360
-#&gt; lag.PCTAGE65P    0.22839 0.24200 0.0034224       0.020680
-#&gt; lag.PCTOWNHOME  -0.15228 0.06247 0.0008834       0.005118
+#&gt; lambda           0.02913 0.01930 0.0002729       0.001653
+#&gt; (Intercept)     -1.10960 0.24984 0.0035332       0.018843
+#&gt; PEXPOSURE        0.21468 0.07965 0.0011265       0.005503
+#&gt; PCTAGE65P        3.44774 0.69299 0.0098003       0.052067
+#&gt; PCTOWNHOME       0.02211 0.27043 0.0038244       0.020961
+#&gt; lag.(Intercept)  0.11750 0.06047 0.0008552       0.004552
+#&gt; lag.PEXPOSURE   -0.03465 0.01682 0.0002378       0.001290
+#&gt; lag.PCTAGE65P    0.25624 0.22310 0.0031551       0.016924
+#&gt; lag.PCTOWNHOME  -0.14959 0.06489 0.0009177       0.004977
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                       2.5%      25%      50%      75%     97.5%
-#&gt; lambda          -0.0047772  0.01697  0.03003  0.04087  0.060582
-#&gt; (Intercept)     -1.5858692 -1.29223 -1.11093 -0.95116 -0.613975
-#&gt; PEXPOSURE        0.0521332  0.16147  0.21194  0.26958  0.386386
-#&gt; PCTAGE65P        2.1815917  3.11859  3.50938  3.90931  4.555704
-#&gt; PCTOWNHOME      -0.4671286 -0.15470  0.03101  0.19426  0.573397
-#&gt; lag.(Intercept)  0.0005569  0.08611  0.11926  0.16670  0.243600
-#&gt; lag.PEXPOSURE   -0.0687185 -0.04577 -0.03437 -0.02356 -0.003167
-#&gt; lag.PCTAGE65P   -0.2602480  0.09090  0.23601  0.37639  0.722080
-#&gt; lag.PCTOWNHOME  -0.2682098 -0.19677 -0.15204 -0.10520 -0.038668
+#&gt;                      2.5%      25%       50%      75%      97.5%
+#&gt; lambda          -0.013140  0.01783  0.031084  0.04151  6.345e-02
+#&gt; (Intercept)     -1.604602 -1.28705 -1.130482 -0.92777 -6.296e-01
+#&gt; PEXPOSURE        0.051199  0.15874  0.220576  0.26791  3.781e-01
+#&gt; PCTAGE65P        2.123696  2.98456  3.436155  3.93723  4.774e+00
+#&gt; PCTOWNHOME      -0.498821 -0.16627  0.007635  0.20700  5.730e-01
+#&gt; lag.(Intercept) -0.005492  0.07512  0.119716  0.15998  2.271e-01
+#&gt; lag.PEXPOSURE   -0.065512 -0.04614 -0.036261 -0.02284 -6.481e-06
+#&gt; lag.PCTAGE65P   -0.189743  0.10315  0.253714  0.41515  7.023e-01
+#&gt; lag.PCTOWNHOME  -0.276893 -0.19388 -0.148544 -0.10507 -1.604e-02
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>lsar0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>)
@@ -708,20 +708,20 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                 Mean      SD  Naive SE Time-series SE
-#&gt; rho          0.03786 0.01360 0.0001923       0.000721
-#&gt; (Intercept) -0.50551 0.15203 0.0021500       0.008676
-#&gt; PEXPOSURE    0.04683 0.03384 0.0004786       0.002011
-#&gt; PCTAGE65P    3.64851 0.57471 0.0081277       0.032169
-#&gt; PCTOWNHOME  -0.42391 0.16886 0.0023880       0.009651
+#&gt; rho          0.03747 0.01419 0.0002007      0.0007808
+#&gt; (Intercept) -0.50985 0.15675 0.0022168      0.0092052
+#&gt; PEXPOSURE    0.04836 0.03219 0.0004552      0.0018160
+#&gt; PCTAGE65P    3.66723 0.61332 0.0086737      0.0370054
+#&gt; PCTOWNHOME  -0.42636 0.17580 0.0024861      0.0106249
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                 2.5%      25%      50%      75%    97.5%
-#&gt; rho          0.01113  0.02918  0.03790  0.04650  0.06347
-#&gt; (Intercept) -0.79479 -0.61485 -0.50512 -0.40505 -0.20793
-#&gt; PEXPOSURE   -0.02273  0.02354  0.04856  0.06967  0.11117
-#&gt; PCTAGE65P    2.50073  3.27416  3.65774  4.04029  4.70560
-#&gt; PCTOWNHOME  -0.74781 -0.53847 -0.42351 -0.31428 -0.08230
+#&gt; rho          0.01003  0.02733  0.03720  0.04721  0.06646
+#&gt; (Intercept) -0.83125 -0.61157 -0.50667 -0.40135 -0.19840
+#&gt; PEXPOSURE   -0.01927  0.02931  0.04824  0.06955  0.11136
+#&gt; PCTAGE65P    2.39615  3.27229  3.68505  4.07689  4.82372
+#&gt; PCTOWNHOME  -0.77453 -0.54731 -0.42341 -0.30284 -0.09088
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>lsar1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>)
@@ -771,28 +771,28 @@
 #&gt;    plus standard error of the mean:
 #&gt; 
 #&gt;                     Mean      SD  Naive SE Time-series SE
-#&gt; rho              0.02560 0.01527 0.0002160       0.001083
-#&gt; (Intercept)     -1.14317 0.22347 0.0031604       0.016320
-#&gt; PEXPOSURE        0.21636 0.07524 0.0010640       0.005739
-#&gt; PCTAGE65P        3.34703 0.61555 0.0087052       0.047015
-#&gt; PCTOWNHOME       0.08351 0.24779 0.0035043       0.019739
-#&gt; lag.(Intercept)  0.13217 0.05430 0.0007680       0.004333
-#&gt; lag.PEXPOSURE   -0.03393 0.01509 0.0002134       0.001167
-#&gt; lag.PCTAGE65P    0.15921 0.22678 0.0032072       0.017972
-#&gt; lag.PCTOWNHOME  -0.14006 0.05448 0.0007705       0.004214
+#&gt; rho              0.02586 0.01569 0.0002219       0.001173
+#&gt; (Intercept)     -1.15961 0.23273 0.0032914       0.017887
+#&gt; PEXPOSURE        0.22594 0.07947 0.0011238       0.006369
+#&gt; PCTAGE65P        3.38019 0.58525 0.0082767       0.041335
+#&gt; PCTOWNHOME       0.08772 0.22773 0.0032206       0.016692
+#&gt; lag.(Intercept)  0.13847 0.05392 0.0007626       0.004351
+#&gt; lag.PEXPOSURE   -0.03686 0.01514 0.0002141       0.001184
+#&gt; lag.PCTAGE65P    0.16398 0.21947 0.0031038       0.017529
+#&gt; lag.PCTOWNHOME  -0.14582 0.05704 0.0008067       0.004633
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
 #&gt;                      2.5%      25%      50%      75%     97.5%
-#&gt; rho             -0.002664  0.01494  0.02582  0.03562  0.055310
-#&gt; (Intercept)     -1.621930 -1.29916 -1.14895 -0.99153 -0.738536
-#&gt; PEXPOSURE        0.062140  0.16474  0.22033  0.26921  0.350867
-#&gt; PCTAGE65P        2.069235  2.90420  3.36557  3.77704  4.505405
-#&gt; PCTOWNHOME      -0.394840 -0.08070  0.08761  0.25772  0.622804
-#&gt; lag.(Intercept)  0.027041  0.09921  0.13596  0.16899  0.232320
-#&gt; lag.PEXPOSURE   -0.061436 -0.04500 -0.03422 -0.02365 -0.003468
-#&gt; lag.PCTAGE65P   -0.286543  0.01158  0.14290  0.32435  0.563685
-#&gt; lag.PCTOWNHOME  -0.245727 -0.17663 -0.14268 -0.10378 -0.030811
+#&gt; rho             -0.006199  0.01549  0.02618  0.03560  0.057101
+#&gt; (Intercept)     -1.612966 -1.30297 -1.16623 -1.01763 -0.669928
+#&gt; PEXPOSURE        0.057677  0.18064  0.22260  0.28077  0.370572
+#&gt; PCTAGE65P        2.226986  3.02743  3.35530  3.75766  4.620171
+#&gt; PCTOWNHOME      -0.436558 -0.04732  0.09193  0.24400  0.504711
+#&gt; lag.(Intercept)  0.026620  0.10289  0.13884  0.17500  0.244560
+#&gt; lag.PEXPOSURE   -0.065674 -0.04778 -0.03701 -0.02657 -0.003934
+#&gt; lag.PCTAGE65P   -0.293421  0.01169  0.16096  0.30975  0.586923
+#&gt; lag.PCTOWNHOME  -0.259616 -0.18193 -0.14556 -0.11002 -0.031721
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>ssar0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sacsarlm.html'>sacsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>)
@@ -839,23 +839,23 @@
 #&gt; 1. Empirical mean and standard deviation for each variable,
 #&gt;    plus standard error of the mean:
 #&gt; 
-#&gt;                  Mean      SD Naive SE Time-series SE
-#&gt; rho         -0.008426 0.07758 0.001097        0.02277
-#&gt; lambda       0.035056 0.07997 0.001131        0.02024
-#&gt; (Intercept) -0.660294 0.29377 0.004155        0.04947
-#&gt; PEXPOSURE    0.088792 0.06908 0.000977        0.01023
-#&gt; PCTAGE65P    3.360986 0.65211 0.009222        0.04525
-#&gt; PCTOWNHOME  -0.291329 0.21916 0.003099        0.02010
+#&gt;                 Mean      SD Naive SE Time-series SE
+#&gt; rho         -0.03296 0.07395 0.001046        0.01975
+#&gt; lambda       0.05813 0.07410 0.001048        0.02136
+#&gt; (Intercept) -0.77991 0.32753 0.004632        0.07375
+#&gt; PEXPOSURE    0.12934 0.10335 0.001462        0.02366
+#&gt; PCTAGE65P    3.36334 0.65856 0.009313        0.04790
+#&gt; PCTOWNHOME  -0.28705 0.20857 0.002950        0.01835
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                 2.5%      25%       50%      75%   97.5%
-#&gt; rho         -0.13010 -0.08160 -0.008581  0.06788  0.1052
-#&gt; lambda      -0.10450 -0.04059  0.056054  0.11176  0.1329
-#&gt; (Intercept) -1.32733 -0.85710 -0.642072 -0.42623 -0.1788
-#&gt; PEXPOSURE   -0.01472  0.03130  0.075126  0.14270  0.2213
-#&gt; PCTAGE65P    2.09662  2.91291  3.355083  3.77601  4.6007
-#&gt; PCTOWNHOME  -0.71343 -0.43204 -0.297317 -0.16763  0.1952
+#&gt;                 2.5%       25%      50%      75%   97.5%
+#&gt; rho         -0.13465 -0.093139 -0.05970  0.04001  0.1010
+#&gt; lambda      -0.10145 -0.002409  0.09389  0.11672  0.1355
+#&gt; (Intercept) -1.43102 -1.031506 -0.77677 -0.49551 -0.2679
+#&gt; PEXPOSURE   -0.02294  0.036799  0.11912  0.21034  0.3290
+#&gt; PCTAGE65P    2.10377  2.893842  3.35412  3.76731  4.6757
+#&gt; PCTOWNHOME  -0.68773 -0.424730 -0.29029 -0.15274  0.1660
 #&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>ssar1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sacsarlm.html'>sacsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"sacmixed"</span>)
@@ -906,31 +906,31 @@
 #&gt; 1. Empirical mean and standard deviation for each variable,
 #&gt;    plus standard error of the mean:
 #&gt; 
-#&gt;                     Mean      SD  Naive SE Time-series SE
-#&gt; rho             -0.06557 0.06756 0.0009554       0.017791
-#&gt; lambda           0.07677 0.06056 0.0008564       0.017566
-#&gt; (Intercept)     -1.11599 0.21993 0.0031102       0.016899
-#&gt; PEXPOSURE        0.22925 0.07556 0.0010686       0.006399
-#&gt; PCTAGE65P        3.25183 0.67178 0.0095004       0.070504
-#&gt; PCTOWNHOME       0.01836 0.25882 0.0036602       0.022713
-#&gt; lag.(Intercept)  0.05327 0.10269 0.0014523       0.021517
-#&gt; lag.PEXPOSURE   -0.02390 0.02386 0.0003375       0.004835
-#&gt; lag.PCTAGE65P    0.27734 0.32872 0.0046488       0.046247
-#&gt; lag.PCTOWNHOME  -0.11522 0.08866 0.0012538       0.015617
+#&gt;                      Mean      SD  Naive SE Time-series SE
+#&gt; rho             -0.025660 0.06503 0.0009197       0.014003
+#&gt; lambda           0.041280 0.06191 0.0008755       0.013819
+#&gt; (Intercept)     -1.074360 0.26571 0.0037577       0.022295
+#&gt; PEXPOSURE        0.212544 0.08470 0.0011979       0.007028
+#&gt; PCTAGE65P        3.314485 0.63801 0.0090228       0.050714
+#&gt; PCTOWNHOME       0.003484 0.25978 0.0036738       0.021865
+#&gt; lag.(Intercept)  0.112005 0.07102 0.0010044       0.007936
+#&gt; lag.PEXPOSURE   -0.036565 0.01668 0.0002359       0.001424
+#&gt; lag.PCTAGE65P    0.306235 0.31875 0.0045078       0.038162
+#&gt; lag.PCTOWNHOME  -0.151066 0.06645 0.0009397       0.006463
 #&gt; 
 #&gt; 2. Quantiles for each variable:
 #&gt; 
-#&gt;                     2.5%      25%      50%       75%    97.5%
-#&gt; rho             -0.15242 -0.12127 -0.07608 -0.024144  0.08929
-#&gt; lambda          -0.08581  0.05118  0.09400  0.123168  0.13909
-#&gt; (Intercept)     -1.58991 -1.23960 -1.12162 -0.970776 -0.70638
-#&gt; PEXPOSURE        0.07616  0.18406  0.23263  0.276078  0.38636
-#&gt; PCTAGE65P        1.99200  2.80501  3.22411  3.739504  4.53456
-#&gt; PCTOWNHOME      -0.52010 -0.15218  0.03849  0.211835  0.51930
-#&gt; lag.(Intercept) -0.11413 -0.03243  0.05570  0.140118  0.24530
-#&gt; lag.PEXPOSURE   -0.06179 -0.04157 -0.02858 -0.004586  0.02806
-#&gt; lag.PCTAGE65P   -0.25813  0.03119  0.24677  0.496821  1.00365
-#&gt; lag.PCTOWNHOME  -0.32429 -0.16882 -0.11640 -0.042202  0.03730
+#&gt;                     2.5%        25%       50%      75%      97.5%
+#&gt; rho             -0.12868 -0.0798728 -0.035985  0.01955  0.0987633
+#&gt; lambda          -0.09863  0.0006317  0.057962  0.09088  0.1193741
+#&gt; (Intercept)     -1.57995 -1.2504463 -1.082594 -0.88786 -0.5048974
+#&gt; PEXPOSURE        0.04331  0.1541882  0.214118  0.27257  0.3730577
+#&gt; PCTAGE65P        2.22775  2.8877944  3.249345  3.72756  4.6974025
+#&gt; PCTOWNHOME      -0.47022 -0.1810743 -0.005259  0.17530  0.5270675
+#&gt; lag.(Intercept) -0.01752  0.0588096  0.109781  0.16516  0.2450747
+#&gt; lag.PEXPOSURE   -0.06923 -0.0480602 -0.036216 -0.02617 -0.0008617
+#&gt; lag.PCTAGE65P   -0.29408  0.0917982  0.290299  0.53337  0.9974834
+#&gt; lag.PCTOWNHOME  -0.29153 -0.1907786 -0.150445 -0.10345 -0.0285370
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

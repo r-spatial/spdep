@@ -66,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -235,17 +235,14 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>### loading data</span>
-<span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/shapes/bhicv.shp"</span>,
+<span class='no'>bh</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/shapes/bhicv.shp"</span>,
       <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_crs'>st_crs</a></span>(<span class='no'>bh</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
+<span class='fu'>st_crs</span>(<span class='no'>bh</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
 <span class='co'>### data standardized </span>
 <span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>bh</span>)[,<span class='fl'>5</span>:<span class='fl'>8</span>]))
 
 <span class='co'>### neighboorhod list</span>
-<span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>))
+<span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>bh</span>)
 
 <span class='co'>### calculating costs</span>
 <span class='no'>lcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>)
@@ -258,30 +255,22 @@
 
 <span class='co'>### the mstree plot</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>bh</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray'>gray</a></span>(<span class='fl'>.5</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>mst.bh</span>, <span class='fu'>coordinates</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>,
-     <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.6</span>, <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>fg</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='img'><img src='skater-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='co'>### three groups with no restriction</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>bh</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray'>gray</a></span>(<span class='fl'>.5</span>))</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>mst.bh</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>,
+     <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.6</span>, <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>fg</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='img'><img src='skater-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>### three groups with no restriction</span>
 <span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>)
 
 <span class='co'>### groups size</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res1</span>$<span class='no'>groups</span>)
-
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res1</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
-#&gt; 18 23 57 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 18 23 57 </div><div class='input'>
 <span class='co'>### the skater plot</span>
 <span class='no'>opar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>res1</span>, <span class='fu'>coordinates</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.7</span>)
-}</div><div class='img'><img src='skater-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>res1</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.7</span>)</div><div class='img'><img src='skater-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### the skater plot, using other colors</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>res1</span>, <span class='fu'>coordinates</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.7</span>,
-     <span class='kw'>groups.colors</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/palettes'>heat.colors</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>res1</span>$<span class='no'>ed</span>)))
-}</div><div class='img'><img src='skater-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>res1</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.7</span>,
+     <span class='kw'>groups.colors</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/palettes'>heat.colors</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>res1</span>$<span class='no'>ed</span>)))</div><div class='img'><img src='skater-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### the Spatial Polygons plot</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>bh</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/palettes'>heat.colors</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>res1</span>$<span class='no'>edg</span>))[<span class='no'>res1</span>$<span class='no'>groups</span>])
-}</div><div class='img'><img src='skater-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>bh</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/palettes'>heat.colors</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>res1</span>$<span class='no'>edg</span>))[<span class='no'>res1</span>$<span class='no'>groups</span>])</div><div class='img'><img src='skater-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='no'>opar</span>)
 <span class='co'>### EXPERT OPTIONS</span>
 
@@ -289,83 +278,67 @@
 <span class='no'>res1b</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>res1</span>, <span class='no'>dpad</span>, <span class='fl'>1</span>)
 
 <span class='co'>### length groups frequency</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res1</span>$<span class='no'>groups</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res1</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
-#&gt; 18 23 57 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res1b</span>$<span class='no'>groups</span>)
-
-}</div><div class='output co'>#&gt; 
+#&gt; 18 23 57 </div><div class='input'>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res1b</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3  4 
-#&gt; 18 23 55  2 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 18 23 55  2 </div><div class='input'>
 <span class='co'>### thee groups with minimum population </span>
 <span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>, <span class='fl'>200000</span>, <span class='no'>bh</span>$<span class='no'>Pop</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res2</span>$<span class='no'>groups</span>)
-
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res2</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
-#&gt; 22 37 39 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 22 37 39 </div><div class='input'>
 <span class='co'>### thee groups with minimun number of areas</span>
 <span class='no'>res3</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res3</span>$<span class='no'>groups</span>)
-
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res3</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
-#&gt; 18 23 57 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 18 23 57 </div><div class='input'>
 <span class='co'>### thee groups with minimun and maximun number of areas</span>
 <span class='no'>res4</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>,<span class='fl'>50</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res4</span>$<span class='no'>groups</span>)
-
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res4</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
-#&gt; 50 24 24 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 50 24 24 </div><div class='input'>
 <span class='co'>### if I want to get groups with 20 to 40 elements</span>
 <span class='no'>res5</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>,
    <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>,<span class='fl'>40</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>bh</span>))) <span class='co'>## DON'T MAKE DIVISIONS </span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5</span>$<span class='no'>groups</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1 
-#&gt; 98 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 98 </div><div class='input'>
 <span class='co'>### In this MST don't have groups with this restrictions</span>
 <span class='co'>### In this case, first I do one division</span>
 <span class='co'>### with the minimun criteria</span>
 <span class='no'>res5a</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>1</span>, <span class='fl'>20</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5a</span>$<span class='no'>groups</span>)
-
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5a</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2 
-#&gt; 75 23 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 75 23 </div><div class='input'>
 <span class='co'>### and do more one division with the full criteria</span>
 <span class='no'>res5b</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>res5a</span>, <span class='no'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5b</span>$<span class='no'>groups</span>)
-
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5b</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
-#&gt; 22 23 53 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 22 23 53 </div><div class='input'>
 <span class='co'>### and do more one division with the full criteria</span>
 <span class='no'>res5c</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>res5b</span>, <span class='no'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5c</span>$<span class='no'>groups</span>)
-
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5c</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3  4 
-#&gt; 22 23 33 20 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; 22 23 33 20 </div><div class='input'>
 <span class='co'>### It don't have another divison with this criteria</span>
 <span class='no'>res5d</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>res5c</span>, <span class='no'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5d</span>$<span class='no'>groups</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>res5d</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
 #&gt;  1  2  3  4 
-#&gt; 22 23 33 20 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+#&gt; 22 23 33 20 </div><div class='input'>
+</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
 <span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='no'>boston.soi</span>
 <span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='no'>boston.c</span>[,<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>7</span>:<span class='fl'>10</span>)]))
 <span class='co'>### calculating costs</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>lcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.055   0.000   0.055 </div><div class='input'><span class='co'>### making listw</span>
+#&gt;   0.048   0.000   0.048 </div><div class='input'><span class='co'>### making listw</span>
 <span class='no'>nb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>lcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 <span class='co'>### find a minimum spanning tree</span>
 <span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>)
 <span class='co'>### three groups with no restriction</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   2.008   0.094   2.109 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>parallel</span>)
+#&gt;   2.189   0.058   2.256 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>parallel</span>)
 <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/detectCores'>detectCores</a></span>(<span class='kw'>logical</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='co'># set nc to 1L here</span>
 <span class='kw'>if</span> (<span class='no'>nc</span> <span class='kw'>&gt;</span> <span class='fl'>1L</span>) <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fl'>1L</span>
@@ -378,13 +351,13 @@
 }
 <span class='co'>### calculating costs</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>plcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.053   0.001   0.054 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>lcosts</span>, <span class='no'>plcosts</span>, <span class='kw'>check.attributes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'>### making listw</span>
+#&gt;   0.047   0.002   0.049 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>lcosts</span>, <span class='no'>plcosts</span>, <span class='kw'>check.attributes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='co'>### making listw</span>
 <span class='no'>pnb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>plcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 <span class='co'>### find a minimum spanning tree</span>
 <span class='no'>pmst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span>(<span class='no'>pnb.w</span>,<span class='fl'>5</span>)
 <span class='co'>### three groups with no restriction</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>pres1</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>pmst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   1.993   0.121   2.121 </div><div class='input'><span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
+#&gt;   2.179   0.074   2.259 </div><div class='input'><span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
   <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span>(<span class='kw'>NULL</span>)
   <span class='fu'><a href='https://www.rdocumentation.org/packages/parallel/topics/makeCluster'>stopCluster</a></span>(<span class='no'>cl</span>)
 }

@@ -68,26 +68,16 @@ Geographical Analysis, 34, pp. 187--206; Bivand RS, Wong DWS 2018 Comparing impl
 \seealso{\code{\link{lm.morantest}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 eire <- st_read(system.file("shapes/eire.shp", package="spData")[1])
 row.names(eire) <- as.character(eire$names)
 st_crs(eire) <- "+proj=utm +zone=30 +ellps=airy +units=km"
-eire.nb <- poly2nb(as(eire, "Spatial"))
+eire.nb <- poly2nb(eire)
 e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
 lm.morantest(e.lm, nb2listw(eire.nb))
-}
-if (run) {
 lm.morantest.sad(e.lm, nb2listw(eire.nb))
 summary(lm.morantest.sad(e.lm, nb2listw(eire.nb)))
-}
-if (run) {
 e.wlm <- lm(OWNCONS ~ ROADACC, data=eire, weights=RETSALE)
 lm.morantest(e.wlm, nb2listw(eire.nb), resfun=rstudent)
-}
-if (run) {
 lm.morantest.sad(e.wlm, nb2listw(eire.nb), resfun=rstudent)
-}
 }
 \keyword{spatial}

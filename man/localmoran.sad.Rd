@@ -105,54 +105,32 @@ Geographical Analysis, 34, pp. 187--206.}
  \code{\link{lm.morantest.sad}}, \code{\link{errorsarlm}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 eire <- st_read(system.file("shapes/eire.shp", package="spData")[1])
 row.names(eire) <- as.character(eire$names)
 st_crs(eire) <- "+proj=utm +zone=30 +ellps=airy +units=km"
-eire.nb <- poly2nb(as(eire, "Spatial"))
+eire.nb <- poly2nb(eire)
 lw <- nb2listw(eire.nb)
 e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
 e.locmor <- summary(localmoran.sad(e.lm, nb=eire.nb))
 e.locmor
-}
-if (run) {
 mean(e.locmor[,1])
-}
-if (run) {
 sum(e.locmor[,1])/Szero(lw)
-}
-if (run) {
 lm.morantest(e.lm, lw)
-}
 # note equality for mean() only when the sum of weights equals
 # the number of observations (thanks to Juergen Symanzik)
-if (run) {
 hist(e.locmor[,"Pr. (Sad)"])
-}
-if (run) {
 e.wlm <- lm(OWNCONS ~ ROADACC, data=eire, weights=RETSALE)
 e.locmorw1 <- summary(localmoran.sad(e.wlm, nb=eire.nb, resfun=weighted.residuals))
 e.locmorw1
-}
-if (run) {
 e.locmorw2 <- summary(localmoran.sad(e.wlm, nb=eire.nb, resfun=rstudent))
 e.locmorw2
-}
-if (run) {
 e.errorsar <- errorsarlm(OWNCONS ~ ROADACC, data=eire,
   listw=lw)
 e.errorsar
-}
-if (run) {
 lm.target <- lm(e.errorsar$tary ~ e.errorsar$tarX - 1)
 Omega <- tcrossprod(invIrW(lw, rho=e.errorsar$lambda))
 e.clocmor <- summary(localmoran.sad(lm.target, nb=eire.nb, Omega=Omega))
 e.clocmor
-}
-if (run) {
 hist(e.clocmor[,"Pr. (Sad)"])
-}
 }
 \keyword{spatial}

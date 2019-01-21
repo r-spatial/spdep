@@ -35,50 +35,30 @@ localAple(x, listw, override_similarity_check=FALSE, useTrace=TRUE)
 \seealso{\code{\link{aple}}}
 \examples{
 \dontrun{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 wheat <- st_read(system.file("shapes/wheat.shp", package="spData")[1], quiet=TRUE)
-nbr1 <- poly2nb(as(wheat, "Spatial"), queen=FALSE)
+nbr1 <- poly2nb(wheat, queen=FALSE)
 nbrl <- nblag(nbr1, 2)
 nbr12 <- nblag_cumul(nbrl)
-wheat_g <- wheat
-st_geometry(wheat_g) <- NULL
-cms0 <- with(wheat_g, tapply(yield, c, median))
+cms0 <- with(as.data.frame(wheat), tapply(yield, c, median))
 cms1 <- c(model.matrix(~ factor(c) -1, data=wheat) \%*\% cms0)
 wheat$yield_detrend <- wheat$yield - cms1
-}
-if (run) {
 plt_out <- aple.plot(as.vector(scale(wheat$yield_detrend, scale=FALSE)),
  nb2listw(nbr12, style="W"), cex=0.6)
 lm_obj <- lm(Y ~ X, plt_out)
 abline(lm_obj)
 abline(v=0, h=0, lty=2)
 zz <- summary(influence.measures(lm_obj))
-}
-if (run) {
 infl <- as.integer(rownames(zz))
 points(plt_out$X[infl], plt_out$Y[infl], pch=3, cex=0.6, col="red")
-}
-if (run) {
 crossprod(plt_out$Y, plt_out$X)/crossprod(plt_out$X)
-}
-if (run) {
 wheat$localAple <- localAple(as.vector(scale(wheat$yield_detrend, scale=FALSE)),
  nb2listw(nbr12, style="W"))
-}
-if (run) {
 mean(wheat$localAple)
-}
-if (run) {
 hist(wheat$localAple)
-}
-if (run) {
 opar <- par(no.readonly=TRUE)
 plot(wheat[,"localAple"], reset=FALSE)
 text(st_coordinates(st_centroid(st_geometry(wheat)))[infl,], labels=rep("*", length(infl)))
 par(opar)
-}
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

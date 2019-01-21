@@ -59,7 +59,7 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 
         if(sf) {
             xpl0 <- as.data.frame(sf::st_coordinates(pl))
-            xpl <- unname(split(xpl0[,1:2], xpl0[,"L2"]))
+            xpl <- unname(split(xpl0[,1:2], xpl0[, length(xpl0)]))
             xxpl <- lapply(xpl, function(x) do.call("cbind", x))
         } else {
             xpl <- slot(pl, "polygons")

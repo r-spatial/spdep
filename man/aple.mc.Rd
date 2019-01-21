@@ -26,11 +26,8 @@ aple.mc(x, listw, nsim, override_similarity_check=FALSE, useTrace=TRUE)
 \seealso{\code{\link{aple}}, \code{\link[boot]{boot}}}
 \examples{
 \dontrun{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 wheat <- st_read(system.file("shapes/wheat.shp", package="spData")[1], quiet=TRUE)
-nbr1 <- poly2nb(as(wheat, "Spatial"), queen=FALSE)
+nbr1 <- poly2nb(wheat, queen=FALSE)
 nbrl <- nblag(nbr1, 2)
 nbr12 <- nblag_cumul(nbrl)
 wheat_g <- wheat
@@ -38,21 +35,13 @@ st_geometry(wheat_g) <- NULL
 cms0 <- with(wheat_g, tapply(yield, c, median))
 cms1 <- c(model.matrix(~ factor(c) -1, data=wheat) \%*\% cms0)
 wheat$yield_detrend <- wheat$yield - cms1
-}
-if (run) {
 oldRNG <- RNGkind()
 RNGkind("L'Ecuyer-CMRG")
-}
-if (run) {
 set.seed(1L)
 boot_out_ser <- aple.mc(as.vector(scale(wheat$yield_detrend, scale=FALSE)),
  nb2listw(nbr12, style="W"), nsim=500)
 plot(boot_out_ser)
-}
-if (run) {
 boot_out_ser
-}
-if (run) {
 library(parallel)
 oldCores <- set.coresOption(NULL)
 nc <- detectCores(logical=FALSE)
@@ -73,11 +62,8 @@ if (!get.mcOption()) {
   stopCluster(cl)
 }
 boot_out_par
-}
-if (run) {
 invisible(set.coresOption(oldCores))
 RNGkind(oldRNG[1], oldRNG[2])
-}
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
