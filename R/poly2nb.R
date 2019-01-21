@@ -9,9 +9,30 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 	queen=TRUE, useC=TRUE, foundInBox=NULL) {
         verbose <- get("verbose", envir = .spdepOptions)
         .ptime_start <- proc.time()
-        stopifnot(extends(class(pl), "SpatialPolygons"))
-
-	n <- length(slot(pl, "polygons"))
+        sf <- NULL
+        if (extends(class(pl), "SpatialPolygons")) {
+            sf <- FALSE
+        } else {
+            if (inherits(pl, "sf")) {
+                row.names <- row.names(pl)
+                regid <- NULL
+                pl <- sf::st_geometry(pl)
+            }
+            if (inherits(pl, "sfc")) {
+                if (length(grep("POLYGON", class(pl))) == 0L)
+                    stop("Polygon geometries required")
+                if (attr(pl, "n_empty") > 0L) 
+                    stop("Empty geometries found")
+                sf <- TRUE
+            }
+        }
+        if (is.null(sf)) stop("Not a polygon object")
+            
+	if (sf) {
+            n <- length(pl)
+        } else {
+            n <- length(slot(pl, "polygons"))
+        }
 	if (n < 1) stop("non-positive number of entities")
 	if (is.null(row.names)) regid <- row.names(pl)
 	else regid <- NULL
@@ -36,12 +57,18 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
             cat("handle IDs:", (proc.time() - .ptime_start)[3], "\n")
         .ptime_start <- proc.time()
 
-        xpl <- slot(pl, "polygons")
-        xxpl <- vector(mode="list", length=length(xpl))
-        for (i in 1:length(xpl)) {
-            xpli <- slot(xpl[[i]], "Polygons")
-            zz <- lapply(xpli, function(j) slot(j, "coords")[-1,])
-            xxpl[[i]] <- do.call("rbind", zz)
+        if(sf) {
+            xpl0 <- as.data.frame(sf::st_coordinates(pl))
+            xpl <- unname(split(xpl0[,1:2], xpl0[,"L2"]))
+            xxpl <- lapply(xpl, function(x) do.call("cbind", x))
+        } else {
+            xpl <- slot(pl, "polygons")
+            xxpl <- vector(mode="list", length=length(xpl))
+            for (i in 1:length(xpl)) {
+                xpli <- slot(xpl[[i]], "Polygons")
+                zz <- lapply(xpli, function(j) slot(j, "coords")[-1,])
+                xxpl[[i]] <- do.call("rbind", zz)
+            }
         }
         nrs <- sapply(xxpl, nrow)
         bb <- t(sapply(xxpl, function(x) {

@@ -1,4 +1,4 @@
-% Copyright 2001-10 by Roger S. Bivand
+% Copyright 2001-19 by Roger S. Bivand
 \name{poly2nb}
 \alias{poly2nb}
 \title{Construct neighbours list from polygon list}
@@ -10,7 +10,7 @@ poly2nb(pl, row.names = NULL, snap=sqrt(.Machine$double.eps),
 }
 
 \arguments{
-  \item{pl}{list of polygons of class extending \code{SpatialPolygons}}
+  \item{pl}{list of polygons of class extending \code{SpatialPolygons}, or an \code{sf} or \code{sfc} object containing non-empty (multi-)polygon objects}
   \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}; if \code{polys} has a \code{region.id} attribute, it is copied to the neighbours list.}
   \item{snap}{boundary points less than \code{snap} distance apart are considered to indicate contiguity}
   \item{queen}{if TRUE, a single shared boundary point meets the contiguity condition, if FALSE, more than one shared point is required; note that more than one shared boundary point does not necessarily mean a shared boundary line}
@@ -28,11 +28,9 @@ From 0.5-8, the function includes faster bounding box indexing and other improve
 \seealso{\code{\link{summary.nb}}, \code{\link{card}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
-coords <- coordinates(as(columbus, "Spatial"))
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+coords <- st_coordinates(st_centroid(st_geometry(columbus)))
 xx <- poly2nb(as(columbus, "Spatial"))
 dxx <- diffnb(xx, col.gal.nb)
 plot(st_geometry(columbus), border="grey")
@@ -40,8 +38,11 @@ plot(col.gal.nb, coords, add=TRUE)
 plot(dxx, coords, add=TRUE, col="red")
 title(main=paste("Differences (red) in Columbus GAL weights (black)",
  "and polygon generated queen weights", sep="\n"), cex.main=0.6)
-}
-if (run) {
+# poly2nb with sf sfc_MULTIPOLYGON objects
+sf_xx <- poly2nb(columbus)
+diffnb(sf_xx, xx)
+sfc_xx <- poly2nb(st_geometry(columbus))
+diffnb(sfc_xx, xx)
 xxx <- poly2nb(as(columbus, "Spatial"), queen=FALSE)
 dxxx <- diffnb(xxx, col.gal.nb)
 plot(st_geometry(columbus), border = "grey")
@@ -49,8 +50,6 @@ plot(col.gal.nb, coords, add = TRUE)
 plot(dxxx, coords, add = TRUE, col = "red")
 title(main=paste("Differences (red) in Columbus GAL weights (black)",
  "and polygon generated rook weights", sep="\n"), cex.main=0.6)
-}
-if (run) {
 cards <- card(xx)
 maxconts <- which(cards == max(cards))
 if(length(maxconts) > 1) maxconts <- maxconts[1]
@@ -59,14 +58,9 @@ fg[maxconts] <- "red"
 fg[xx[[maxconts]]] <- "green"
 plot(st_geometry(columbus), col=fg)
 title(main="Region with largest number of contiguities", cex.main=0.6)
-}
-if (run) {
 nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
 system.time(xxnb <- poly2nb(as(nc.sids, "Spatial")))
-}
-if (run) {
 plot(st_geometry(nc.sids))
 plot(xxnb, coordinates(as(nc.sids, "Spatial")), add=TRUE, col="blue")
-}
 }
 \keyword{spatial}
