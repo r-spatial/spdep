@@ -22,12 +22,11 @@
 
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 to.be.dropped <- c(31, 34, 36, 39, 42, 46)
 pre <- nb2listw(col.gal.nb)
 print(pre)
 post <- subset(pre, !(1:length(col.gal.nb) \%in\% to.be.dropped))
 print(post)
-}}
+}
 \keyword{spatial}

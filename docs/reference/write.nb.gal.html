@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -167,28 +167,11 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>rgdal</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>columbus</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+    <pre class="examples"><div class='input'><span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
 <span class='no'>GALfile</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(<span class='st'>"GAL"</span>)
 <span class='fu'>write.nb.gal</span>(<span class='no'>col.gal.nb</span>, <span class='no'>GALfile</span>)
 <span class='no'>col.queen</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='no'>GALfile</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='no'>col.queen</span>, <span class='no'>col.gal.nb</span>))
-}</div><div class='output co'>#&gt; 
-#&gt; colmbs&gt; if (requireNamespace("rgdal", quietly = TRUE)) {
-#&gt; colmbs+   library(rgdal)
-#&gt; colmbs+   columbus &lt;- readOGR(system.file("shapes/columbus.shp", package="spData")[1])
-#&gt; colmbs+   plot(columbus)
-#&gt; colmbs+ }
-#&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "/home/rsb/lib/r_libs/spData/shapes/columbus.shp", layer: "columbus"
-#&gt; with 49 features
-#&gt; It has 20 fields
-#&gt; Integer64 fields read as strings:  COLUMBUS_ COLUMBUS_I POLYID </div><div class='img'><img src='write.nb.gal-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; 
-#&gt; colmbs&gt; if (requireNamespace("spdep", quietly = TRUE)) {
-#&gt; colmbs+   library(spdep)
-#&gt; colmbs+   col.gal.nb &lt;- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-#&gt; colmbs+ }
-#&gt; Neighbour list object:
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='no'>col.queen</span>, <span class='no'>col.gal.nb</span>))</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 0 
 #&gt; Percentage nonzero weights: 0 

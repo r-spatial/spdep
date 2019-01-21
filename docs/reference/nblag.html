@@ -271,8 +271,12 @@
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 636 
 #&gt; Percentage nonzero weights: 26.48896 
-#&gt; Average number of links: 12.97959 </div><div class='input'><span class='kw'>if</span> (!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>igraph</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>&amp;&amp;</span> !<span class='no'>run</span>) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
+#&gt; Average number of links: 12.97959 </div><div class='input'><span class='kw'>if</span> (!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>igraph</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>&amp;&amp;</span> !<span class='no'>run</span>) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘igraph’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    decompose, spectrum</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    union</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>G</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/igraph/topics/graph_from_adjacency_matrix'>graph.adjacency</a></span>(<span class='no'>W</span>, <span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"directed"</span>, <span class='kw'>weight</span><span class='kw'>=</span><span class='st'>"W"</span>)
 <span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/igraph/topics/diameter'>diameter</a></span>(<span class='no'>G</span>)

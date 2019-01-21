@@ -64,7 +64,7 @@ print and plot helper functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.3</span>
       </span>
     </div>
 
@@ -231,58 +231,31 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>rgdal</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/example'>example</a></span>(<span class='no'>nc.sids</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nc.sids</span>$<span class='no'>FIPS</span>)
+<span class='no'>ncCC89_nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/ncCC89.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>],
+ <span class='kw'>region.id</span><span class='kw'>=</span><span class='no'>rn</span>)
 <span class='no'>ft.SID74</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fl'>1000</span>)*(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='no'>nc.sids</span>$<span class='no'>SID74</span>/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>) +
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>((<span class='no'>nc.sids</span>$<span class='no'>SID74</span>+<span class='fl'>1</span>)/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>))
 <span class='no'>tr.SIDS74</span> <span class='kw'>&lt;-</span> <span class='no'>ft.SID74</span>*<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>)
 <span class='no'>cspc</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.correlogram</span>(<span class='no'>ncCC89_nb</span>, <span class='no'>tr.SIDS74</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"corr"</span>,
  <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>cspc</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>cspc</span>)
-<span class='no'>Ispc</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.correlogram</span>(<span class='no'>ncCC89_nb</span>, <span class='no'>tr.SIDS74</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"I"</span>,
- <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>Ispc</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>Ispc</span>, <span class='st'>"bonferroni"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>Ispc</span>)
-<span class='no'>Cspc</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.correlogram</span>(<span class='no'>ncCC89_nb</span>, <span class='no'>tr.SIDS74</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"C"</span>,
- <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>Cspc</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>Cspc</span>, <span class='st'>"bonferroni"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>Cspc</span>)
-<span class='no'>drop.no.neighs</span> <span class='kw'>&lt;-</span> !(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>ncCC89_nb</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='fu'><a href='card.html'>card</a></span>(<span class='no'>ncCC89_nb</span>) <span class='kw'>==</span> <span class='fl'>0</span>))
-<span class='no'>sub.ncCC89.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>ncCC89_nb</span>, <span class='no'>drop.no.neighs</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>sp.correlogram</span>(<span class='no'>sub.ncCC89.nb</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>tr.SIDS74</span>,  <span class='no'>drop.no.neighs</span>),
- <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"corr"</span>))
-}</div><div class='output co'>#&gt; 
-#&gt; nc.sds&gt; if (requireNamespace("rgdal", quietly = TRUE)) {
-#&gt; nc.sds+   library(rgdal)
-#&gt; nc.sds+   if (requireNamespace("spdep", quietly = TRUE)) {
-#&gt; nc.sds+     library(spdep)
-#&gt; nc.sds+     nc.sids &lt;- readOGR(system.file("shapes/sids.shp", package="spData")[1])
-#&gt; nc.sds+     proj4string(nc.sids) &lt;- CRS("+proj=longlat +ellps=clrk66")
-#&gt; nc.sds+     row.names(nc.sids) &lt;- as.character(nc.sids$FIPS)
-#&gt; nc.sds+     rn &lt;- row.names(nc.sids)
-#&gt; nc.sds+     ncCC89_nb &lt;- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
-#&gt; nc.sds+                           region.id=rn)
-#&gt; nc.sds+     ncCR85_nb &lt;- read.gal(system.file("weights/ncCR85.gal", package="spData")[1],
-#&gt; nc.sds+                           region.id=rn)
-#&gt; nc.sds+                           
-#&gt; nc.sds+     plot(nc.sids, border="grey")
-#&gt; nc.sds+     plot(ncCR85_nb, coordinates(nc.sids), add=TRUE, col="blue")
-#&gt; nc.sds+     plot(nc.sids, border="grey")
-#&gt; nc.sds+     plot(ncCC89_nb, coordinates(nc.sids), add=TRUE, col="blue")
-#&gt; nc.sds+   }
-#&gt; nc.sds+ }
-#&gt; OGR data source with driver: ESRI Shapefile 
-#&gt; Source: "/home/rsb/lib/r_libs/spData/shapes/sids.shp", layer: "sids"
-#&gt; with 100 features
-#&gt; It has 22 fields</div><div class='img'><img src='sp.correlogram-1.png' alt='' width='700' height='433' /></div><div class='img'><img src='sp.correlogram-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
+}</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Spatial autocorrelation
 #&gt;           1           2           3           4           5           6 
 #&gt;  0.38193491  0.47679881  0.11740653  0.09935901  0.27819159  0.30153012 
 #&gt;           7           8 
-#&gt; -0.05150923  0.05283813 </div><div class='img'><img src='sp.correlogram-3.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
+#&gt; -0.05150923  0.05283813 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>cspc</span>)
+}</div><div class='img'><img src='sp.correlogram-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>Ispc</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.correlogram</span>(<span class='no'>ncCC89_nb</span>, <span class='no'>tr.SIDS74</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"I"</span>,
+ <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>Ispc</span>)
+}</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Moran's I
 #&gt;          estimate expectation   variance standard deviate Pr(I) two sided    
 #&gt; 1 (98)  0.2311685  -0.0103093  0.0055378           3.2450       0.0011747 ** 
@@ -294,8 +267,9 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 #&gt; 7 (98) -0.0752243  -0.0103093  0.0022282          -1.3752       0.1690654    
 #&gt; 8 (98) -0.0261063  -0.0103093  0.0025211          -0.3146       0.7530514    
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-#&gt; Spatial correlogram for tr.SIDS74 
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>Ispc</span>, <span class='st'>"bonferroni"</span>)
+}</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Moran's I
 #&gt;          estimate expectation   variance standard deviate Pr(I) two sided   
 #&gt; 1 (98)  0.2311685  -0.0103093  0.0055378           3.2450        0.009397 **
@@ -307,7 +281,13 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 #&gt; 7 (98) -0.0752243  -0.0103093  0.0022282          -1.3752        1.000000   
 #&gt; 8 (98) -0.0261063  -0.0103093  0.0025211          -0.3146        1.000000   
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='img'><img src='sp.correlogram-4.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>Ispc</span>)
+}</div><div class='img'><img src='sp.correlogram-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>Cspc</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.correlogram</span>(<span class='no'>ncCC89_nb</span>, <span class='no'>tr.SIDS74</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"C"</span>,
+ <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>Cspc</span>)
+}</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Geary's C
 #&gt;         estimate expectation  variance standard deviate Pr(I) two sided    
 #&gt; 1 (98) 0.7172624   1.0000000 0.0059986          -3.6506       0.0002617 ***
@@ -319,8 +299,9 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 #&gt; 7 (98) 1.0527148   1.0000000 0.0037227           0.8640       0.3875979    
 #&gt; 8 (98) 1.0067939   1.0000000 0.0036482           0.1125       0.9104415    
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
-#&gt; Spatial correlogram for tr.SIDS74 
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>Cspc</span>, <span class='st'>"bonferroni"</span>)
+}</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Geary's C
 #&gt;         estimate expectation  variance standard deviate Pr(I) two sided    
 #&gt; 1 (98) 0.7172624   1.0000000 0.0059986          -3.6506        0.002093 ** 
@@ -332,7 +313,14 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 #&gt; 7 (98) 1.0527148   1.0000000 0.0037227           0.8640        1.000000    
 #&gt; 8 (98) 1.0067939   1.0000000 0.0036482           0.1125        1.000000    
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='img'><img src='sp.correlogram-5.png' alt='' width='700' height='433' /></div><div class='img'><img src='sp.correlogram-6.png' alt='' width='700' height='433' /></div></pre>
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>Cspc</span>)
+}</div><div class='img'><img src='sp.correlogram-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>drop.no.neighs</span> <span class='kw'>&lt;-</span> !(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>ncCC89_nb</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='fu'><a href='card.html'>card</a></span>(<span class='no'>ncCC89_nb</span>) <span class='kw'>==</span> <span class='fl'>0</span>))
+<span class='no'>sub.ncCC89.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>ncCC89_nb</span>, <span class='no'>drop.no.neighs</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'>sp.correlogram</span>(<span class='no'>sub.ncCC89.nb</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>tr.SIDS74</span>,  <span class='no'>drop.no.neighs</span>),
+ <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"corr"</span>))
+}</div><div class='img'><img src='sp.correlogram-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

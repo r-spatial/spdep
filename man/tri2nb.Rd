@@ -38,15 +38,20 @@ The function returns an object of class \code{nb} with a list of integer vectors
 \seealso{\code{\link{knn2nb}}, \code{\link{dnearneigh}}, \code{\link{cell2nb}}}
 
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
-coords <- coordinates(columbus)
-ind <- sapply(slot(columbus, "polygons"), function(x) slot(x, "ID"))
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+}
+if (run) {
+coords <- coordinates(as(columbus, "Spatial"))
+ind <- row.names(as(columbus, "Spatial"))
 col.tri.nb <- tri2nb(coords, row.names=ind)
-W <- as(nb2listw(col.tri.nb, style="B"), "CsparseMatrix")
-plot(columbus, border="grey")
+plot(st_geometry(columbus), border="grey")
 plot(col.tri.nb, coords, add=TRUE)
-title(main="Raw triangulation links")
+title(main="Raw triangulation links", cex.main=0.6)
+}
+if (run) {
 x <- seq(0,1,0.1)
 y <- seq(0,2,0.2)
 xy <- expand.grid(x, y)

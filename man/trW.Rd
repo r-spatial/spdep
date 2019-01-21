@@ -37,34 +37,63 @@ A numeric vector of \code{m} traces, with \dQuote{timings} and \dQuote{type} att
 \code{\link{as_dgRMatrix_listw}}, \code{\link{nb2listw}}
 }
 \examples{
-if (require(rgdal, quietly=TRUE)) {
-example(columbus, package="spData")
+run <- FALSE
+if (require("sf", quietly=TRUE)) run <- TRUE
+if (run) {
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+}
+if (run) {
 listw <- nb2listw(col.gal.nb)
 W <- as(listw, "CsparseMatrix")
 system.time(trMat <- trW(W, type="mult"))
+}
+if (run) {
 str(trMat)
+}
+if (run) {
 set.seed(1100)
 system.time(trMC <- trW(W, type="MC"))
+}
+if (run) {
 str(trMC)
+}
+if (run) {
 plot(trMat, trMC)
 abline(a=0, b=1)
 for(i in 3:length(trMC)) {
  segments(trMat[i], trMC[i]-2*attr(trMC, "sd")[i], trMat[i],
   trMC[i]+2*attr(trMC, "sd")[i])
 }
+}
+if (run) {
 listwS <- similar.listw(listw)
 W <- forceSymmetric(as(listwS, "CsparseMatrix"))
 system.time(trmom <- trW(W, m=24, type="moments"))
+}
+if (run) {
 str(trmom)
+}
+if (run) {
 all.equal(trMat[1:24], trmom, check.attributes=FALSE)
+}
+if (run) {
 system.time(trMat <- trW(W, m=24, type="mult"))
+}
+if (run) {
 str(trMat)
+}
+if (run) {
 all.equal(trMat, trmom, check.attributes=FALSE)
+}
+if (run) {
 set.seed(1)
 system.time(trMC <- trW(W, m=24, type="MC"))
+}
+if (run) {
 str(trMC)
 }
-\donttest{
+\dontrun{
 data(boston, package="spData")
 listw <- nb2listw(boston.soi)
 listwS <- similar.listw(listw)
