@@ -1,4 +1,4 @@
-% Copyright 2001-2014 by Roger S. Bivand
+% Copyright 2001-2019 by Roger S. Bivand
 \name{dnearneigh}
 \alias{dnearneigh}
 \title{Neighbourhood contiguity by distance}
@@ -9,7 +9,7 @@ The function identifies neighbours of region points by Euclidean distance betwee
 dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GT", "LE"))
 }
 \arguments{
-  \item{x}{matrix of point coordinates or a SpatialPoints object}
+  \item{x}{matrix of point coordinates or a SpatialPoints object or an \code{sf} or \code{sfc} points object}
   \item{d1}{lower distance bound}
   \item{d2}{upper distance bound}
   \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}}
@@ -37,6 +37,9 @@ plot(st_geometry(columbus), border="grey", reset=FALSE,
  main=paste("Distance based neighbours 0-",  format(all.linked), sep=""))
 plot(col.nb.0.all, coords, add=TRUE)
 par(opar)
+(sfc_obj <- st_centroid(st_geometry(columbus)))
+col.nb.0.all_sf <- dnearneigh(sfc_obj, 0, all.linked, row.names=rn)
+all.equal(col.nb.0.all, col.nb.0.all_sf, check.attributes=FALSE)
 data(state)
 us48.fipsno <- read.geoda(system.file("etc/weights/us48.txt",
  package="spdep")[1])

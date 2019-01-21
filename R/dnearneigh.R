@@ -1,17 +1,35 @@
-# Copyright 2000-2014 by Roger S. Bivand. 
+# Copyright 2000-2019 by Roger S. Bivand. 
 # Upgrade to sp classes February 2007
 #
 
 dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GT", "LE")) {
-   if (inherits(x, "SpatialPoints")) {
+    if (inherits(x, "SpatialPoints")) {
 # correct logic
       if (!is.null(longlat))
-          warning("dnearneigh: longlat overriden for Spatial object")
+          warning("dnearneigh: longlat argument overriden by object")
       if (!is.na(is.projected(x)) && !is.projected(x)) {
           longlat <- TRUE
       } else longlat <- FALSE
       x <- coordinates(x)[, 1:2]
-   } else if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
+    } else {
+      if (inherits(x, "sf")) {
+          if (is.null(row.names)) row.names <- row.names(x)
+          x <- sf::st_geometry(x)
+      }
+      if (inherits(x, "sfc")) {
+         if (!is.null(longlat))
+             warning("dnearneigh: longlat argument overriden by object")
+         if (!inherits(x, "sfc_POINT"))
+             stop("Point geometries required")
+         if (attr(x, "n_empty") > 0L) 
+             stop("Empty geometries found")
+         if (!is.na(sf::st_is_longlat(x)) && sf::st_is_longlat(x)) {
+             longlat <- TRUE
+         } else longlat <- FALSE
+         x <- sf::st_coordinates(x)
+      }
+    } 
+    if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
     if (!is.numeric(x)) stop("Data non-numeric")
     if (!is.matrix(x)) stop("Data not in matrix form")
     stopifnot(ncol(x) == 2)

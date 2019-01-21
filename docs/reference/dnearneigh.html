@@ -141,7 +141,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>matrix of point coordinates or a SpatialPoints object</p></td>
+      <td><p>matrix of point coordinates or a SpatialPoints object or an <code>sf</code> or <code>sfc</code> points object</p></td>
     </tr>
     <tr>
       <th>d1</th>
@@ -229,7 +229,14 @@ for neighbours satisfying the distance criteria. See <code><a href='card.html'>c
 #&gt; </div><div class='input'><span class='no'>opar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>no.readonly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>, <span class='kw'>reset</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
  <span class='kw'>main</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='st'>"Distance based neighbours 0-"</span>,  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/format'>format</a></span>(<span class='no'>all.linked</span>), <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>))</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>col.nb.0.all</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='img'><img src='dnearneigh-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='no'>opar</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>state</span>)
+(<span class='no'>sfc_obj</span> <span class='kw'>&lt;-</span> <span class='fu'>st_centroid</span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>)))</div><div class='output co'>#&gt; Geometry set for 49 features 
+#&gt; geometry type:  POINT
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 6.221943 ymin: 11.01003 xmax: 10.95359 ymax: 14.36908
+#&gt; epsg (SRID):    NA
+#&gt; proj4string:    NA
+#&gt; First 5 geometries:</div><div class='output co'>#&gt; <span class='message'>POINT (8.827218 14.36908)</span></div><div class='output co'>#&gt; <span class='message'>POINT (8.332658 14.03162)</span></div><div class='output co'>#&gt; <span class='message'>POINT (9.012265 13.81972)</span></div><div class='output co'>#&gt; <span class='message'>POINT (8.460801 13.71696)</span></div><div class='output co'>#&gt; <span class='message'>POINT (9.007982 13.29637)</span></div><div class='input'><span class='no'>col.nb.0.all_sf</span> <span class='kw'>&lt;-</span> <span class='fu'>dnearneigh</span>(<span class='no'>sfc_obj</span>, <span class='fl'>0</span>, <span class='no'>all.linked</span>, <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>rn</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>col.nb.0.all</span>, <span class='no'>col.nb.0.all_sf</span>, <span class='kw'>check.attributes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>state</span>)
 <span class='no'>us48.fipsno</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.geoda</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/weights/us48.txt"</span>,
  <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>])
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='no'>version</span>$<span class='no'>major</span>, <span class='no'>version</span>$<span class='no'>minor</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>)) <span class='kw'>&lt;</span> <span class='fl'>19</span>) {
