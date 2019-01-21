@@ -23,32 +23,21 @@ returns a list of lagged neighbours lists each with class \code{nb}
 \seealso{\code{\link{summary.nb}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- coordinates(as(columbus, "Spatial"))
 summary(col.gal.nb, coords)
-}
-if (run) {
 col.lags <- nblag(col.gal.nb, 2)
 print(col.lags)
-}
-if (run) {
 summary(col.lags[[2]], coords)
-}
-if (run) {
 plot(st_geometry(columbus), border="grey")
 plot(col.gal.nb, coords, add=TRUE)
 title(main="GAL order 1 (black) and 2 (red) links")
 plot(col.lags[[2]], coords, add=TRUE, col="red", lty=2)
-}
-if (run) {
 cuml <- nblag_cumul(col.lags)
 cuml
-}
-if (!require(igraph, quietly=TRUE) && !run) run <- FALSE
+run <- FALSE
+if (require(igraph, quietly=TRUE)) run <- TRUE
 if (run) {
 W <- as(nb2listw(col.gal.nb), "CsparseMatrix")
 G <- graph.adjacency(W, mode="directed", weight="W")

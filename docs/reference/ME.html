@@ -218,26 +218,17 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sf</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
 <span class='no'>lmbase</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>lagcol</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='SpatialFiltering.html'>SpatialFiltering</a></span>(<span class='no'>CRIME</span> ~ <span class='fl'>1</span>, ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>,
- <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>lagcol</span>
-}</div><div class='output co'>#&gt; Step 0 SelEvec 0 MinMi 0.2123742 ZMinMi 2.681 Pr(ZI) 0.007340246 
+ <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Step 0 SelEvec 0 MinMi 0.2123742 ZMinMi 2.681 Pr(ZI) 0.007340246 
 #&gt; Step 1 SelEvec 6 MinMi 0.1178225 ZMinMi 1.84512 Pr(ZI) 0.06502014 
-#&gt; Step 2 SelEvec 4 MinMi 0.06242664 ZMinMi 1.494821 Pr(ZI) 0.1349611 </div><div class='output co'>#&gt;   Step SelEvec      Eval      MinMi   ZMinMi      Pr(ZI)        R2    gamma
+#&gt; Step 2 SelEvec 4 MinMi 0.06242664 ZMinMi 1.494821 Pr(ZI) 0.1349611 </div><div class='input'><span class='no'>lagcol</span></div><div class='output co'>#&gt;   Step SelEvec      Eval      MinMi   ZMinMi      Pr(ZI)        R2    gamma
 #&gt; 0    0       0 0.0000000 0.21237415 2.681000 0.007340246 0.5524040  0.00000
 #&gt; 1    1       6 0.7161123 0.11782248 1.845120 0.065020139 0.6038801 25.46181
-#&gt; 2    2       4 0.8682938 0.06242664 1.494821 0.134961136 0.6531288 26.68319</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>lmlag</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>lagcol</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>lmbase</span>, <span class='no'>lmlag</span>)
-}</div><div class='output co'>#&gt; Analysis of Variance Table
+#&gt; 2    2       4 0.8682938 0.06242664 1.494821 0.134961136 0.6531288 26.68319</div><div class='input'><span class='no'>lmlag</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>lagcol</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>lmbase</span>, <span class='no'>lmlag</span>)</div><div class='output co'>#&gt; Analysis of Variance Table
 #&gt; 
 #&gt; Model 1: CRIME ~ INC + HOVAL
 #&gt; Model 2: CRIME ~ INC + HOVAL + fitted(lagcol)
@@ -245,19 +236,14 @@
 #&gt; 1     46 6014.9                                
 #&gt; 2     44 4661.3  2    1353.6 6.3884 0.003666 **
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
 <span class='no'>lagcol1</span> <span class='kw'>&lt;-</span> <span class='fu'>ME</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"gaussian"</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>lagcol1</span>
-}</div><div class='output co'>#&gt; eV[,6], I: 0.1178225 ZI: NA, pr(ZI): 0.07
-#&gt; eV[,4], I: 0.06242664 ZI: NA, pr(ZI): 0.19</div><div class='output co'>#&gt;   Eigenvector ZI pr(ZI)
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; eV[,6], I: 0.1178225 ZI: NA, pr(ZI): 0.07
+#&gt; eV[,4], I: 0.06242664 ZI: NA, pr(ZI): 0.19</div><div class='input'><span class='no'>lagcol1</span></div><div class='output co'>#&gt;   Eigenvector ZI pr(ZI)
 #&gt; 0          NA NA   0.04
 #&gt; 1           6 NA   0.07
-#&gt; 2           4 NA   0.19</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>lmlag1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>lagcol1</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>lmbase</span>, <span class='no'>lmlag1</span>)
-}</div><div class='output co'>#&gt; Analysis of Variance Table
+#&gt; 2           4 NA   0.19</div><div class='input'><span class='no'>lmlag1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>lagcol1</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>lmbase</span>, <span class='no'>lmlag1</span>)</div><div class='output co'>#&gt; Analysis of Variance Table
 #&gt; 
 #&gt; Model 1: CRIME ~ INC + HOVAL
 #&gt; Model 2: CRIME ~ INC + HOVAL + fitted(lagcol1)
@@ -265,19 +251,14 @@
 #&gt; 1     46 6014.9                                
 #&gt; 2     44 4661.3  2    1353.6 6.3884 0.003666 **
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
 <span class='no'>lagcol2</span> <span class='kw'>&lt;-</span> <span class='fu'>ME</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"gaussian"</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>stdev</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>lagcol2</span>
-}</div><div class='output co'>#&gt; eV[,6], I: 0.1178225 ZI: 1.672528, pr(ZI): 0.0472101
-#&gt; eV[,4], I: 0.06242664 ZI: 0.9968862, pr(ZI): 0.1594099</div><div class='output co'>#&gt;   Eigenvector        ZI     pr(ZI)
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>stdev</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; eV[,6], I: 0.1178225 ZI: 1.672528, pr(ZI): 0.0472101
+#&gt; eV[,4], I: 0.06242664 ZI: 0.9968862, pr(ZI): 0.1594099</div><div class='input'><span class='no'>lagcol2</span></div><div class='output co'>#&gt;   Eigenvector        ZI     pr(ZI)
 #&gt; 0          NA 2.3241331 0.01005918
 #&gt; 1           6 1.6725283 0.04721010
-#&gt; 2           4 0.9968862 0.15940988</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>lmlag2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>lagcol2</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>lmbase</span>, <span class='no'>lmlag2</span>)
-}</div><div class='output co'>#&gt; Analysis of Variance Table
+#&gt; 2           4 0.9968862 0.15940988</div><div class='input'><span class='no'>lmlag2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>lagcol2</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>lmbase</span>, <span class='no'>lmlag2</span>)</div><div class='output co'>#&gt; Analysis of Variance Table
 #&gt; 
 #&gt; Model 1: CRIME ~ INC + HOVAL
 #&gt; Model 2: CRIME ~ INC + HOVAL + fitted(lagcol2)
@@ -285,21 +266,16 @@
 #&gt; 1     46 6014.9                                
 #&gt; 2     44 4661.3  2    1353.6 6.3884 0.003666 **
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>NA.columbus</span> <span class='kw'>&lt;-</span> <span class='no'>columbus</span>
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='no'>NA.columbus</span> <span class='kw'>&lt;-</span> <span class='no'>columbus</span>
 <span class='no'>NA.columbus</span>$<span class='no'>CRIME</span>[<span class='fl'>20</span>:<span class='fl'>25</span>] <span class='kw'>&lt;-</span> <span class='fl'>NA</span>
 <span class='no'>COL.ME.NA</span> <span class='kw'>&lt;-</span> <span class='fu'>ME</span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>NA.columbus</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"gaussian"</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.1</span>, <span class='kw'>stdev</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
- <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>)
-<span class='no'>COL.ME.NA</span>$<span class='no'>na.action</span>
-}</div><div class='output co'>#&gt; eV[,8], I: 0.1426723 ZI: 1.675389, pr(ZI): 0.04692892
-#&gt; eV[,1], I: 0.09838877 ZI: 1.006099, pr(ZI): 0.157184</div><div class='output co'>#&gt; 20 21 22 23 24 25 
+ <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>)</div><div class='output co'>#&gt; eV[,8], I: 0.1426723 ZI: 1.675389, pr(ZI): 0.04692892
+#&gt; eV[,1], I: 0.09838877 ZI: 1.006099, pr(ZI): 0.157184</div><div class='input'><span class='no'>COL.ME.NA</span>$<span class='no'>na.action</span></div><div class='output co'>#&gt; 20 21 22 23 24 25 
 #&gt; 20 21 22 23 24 25 
 #&gt; attr(,"class")
-#&gt; [1] "exclude"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>COL.ME.NA</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>NA.columbus</span>,
- <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>))
-}</div><div class='output co'>#&gt; 
+#&gt; [1] "exclude"</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>COL.ME.NA</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>NA.columbus</span>,
+ <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>))</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = CRIME ~ INC + HOVAL + fitted(COL.ME.NA), data = NA.columbus, 
 #&gt;     na.action = na.exclude)
@@ -322,8 +298,7 @@
 #&gt;   (6 observations deleted due to missingness)
 #&gt; Multiple R-squared:  0.6294,	Adjusted R-squared:  0.5904 
 #&gt; F-statistic: 16.13 on 4 and 38 DF,  p-value: 8.353e-08
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+#&gt; </div><div class='input'><span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nc.sids</span>$<span class='no'>FIPS</span>)
 <span class='no'>ncCC89_nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/ncCC89.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>],
  <span class='kw'>region.id</span><span class='kw'>=</span><span class='no'>rn</span>)
@@ -331,23 +306,17 @@
  <span class='kw'>region.id</span><span class='kw'>=</span><span class='no'>rn</span>)
 <span class='no'>glmbase</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nc.sids</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>BIR74</span>),
  <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"poisson"</span>)
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>123</span>)
 <span class='no'>MEpois1</span> <span class='kw'>&lt;-</span> <span class='fu'>ME</span>(<span class='no'>SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nc.sids</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>BIR74</span>),
- <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"poisson"</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>ncCR85_nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>), <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.2</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>MEpois1</span>
-}</div><div class='output co'>#&gt; eV[,1], I: 0.1327384 ZI: NA, pr(ZI): 0.01
+ <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"poisson"</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>ncCR85_nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>), <span class='kw'>alpha</span><span class='kw'>=</span><span class='fl'>0.2</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; eV[,1], I: 0.1327384 ZI: NA, pr(ZI): 0.01
 #&gt; eV[,8], I: 0.06936385 ZI: NA, pr(ZI): 0.08
-#&gt; eV[,4], I: 0.03584503 ZI: NA, pr(ZI): 0.23</div><div class='output co'>#&gt;   Eigenvector ZI pr(ZI)
+#&gt; eV[,4], I: 0.03584503 ZI: NA, pr(ZI): 0.23</div><div class='input'><span class='no'>MEpois1</span></div><div class='output co'>#&gt;   Eigenvector ZI pr(ZI)
 #&gt; 0          NA NA   0.01
 #&gt; 1           1 NA   0.01
 #&gt; 2           8 NA   0.08
-#&gt; 3           4 NA   0.23</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>glmME</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>SID74</span> ~ <span class='fl'>1</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>MEpois1</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nc.sids</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>BIR74</span>),
+#&gt; 3           4 NA   0.23</div><div class='input'><span class='no'>glmME</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>SID74</span> ~ <span class='fl'>1</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted</a></span>(<span class='no'>MEpois1</span>), <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nc.sids</span>, <span class='kw'>offset</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>BIR74</span>),
  <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"poisson"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>glmME</span>, <span class='kw'>test</span><span class='kw'>=</span><span class='st'>"Chisq"</span>)
-}</div><div class='output co'>#&gt; Analysis of Deviance Table
+<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>glmME</span>, <span class='kw'>test</span><span class='kw'>=</span><span class='st'>"Chisq"</span>)</div><div class='output co'>#&gt; Analysis of Deviance Table
 #&gt; 
 #&gt; Model: poisson, link: log
 #&gt; 
@@ -360,9 +329,7 @@
 #&gt; NULL                               99     203.34              
 #&gt; fitted(MEpois1)  3   32.499        96     170.84 4.108e-07 ***
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>glmbase</span>, <span class='no'>glmME</span>, <span class='kw'>test</span><span class='kw'>=</span><span class='st'>"Chisq"</span>)
-}</div><div class='output co'>#&gt; Analysis of Deviance Table
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/anova'>anova</a></span>(<span class='no'>glmbase</span>, <span class='no'>glmME</span>, <span class='kw'>test</span><span class='kw'>=</span><span class='st'>"Chisq"</span>)</div><div class='output co'>#&gt; Analysis of Deviance Table
 #&gt; 
 #&gt; Model 1: SID74 ~ 1
 #&gt; Model 2: SID74 ~ 1 + fitted(MEpois1)

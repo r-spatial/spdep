@@ -29,13 +29,9 @@ The function returns an object of class \code{nb} with the edited list of intege
 
 \examples{
 \dontrun{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 class(columbus)
 if (FALSE) nnb1 <- edit.nb(col.gal.nb, polys=as(columbus, "Spatial"))
-}
 }
 }
 \keyword{spatial}

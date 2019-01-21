@@ -53,52 +53,30 @@ SpatialFiltering(formula, lagformula, data, na.action, nb, glist = NULL,
 
 \seealso{\code{\link[stats]{lm}}, \code{\link[base]{eigen}}, \code{\link{nb2listw}}, \code{\link{listw2U}}}
 \examples{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 lmbase <- lm(CRIME ~ INC + HOVAL, data=columbus)
 sarcol <- SpatialFiltering(CRIME ~ INC + HOVAL, data=columbus,
  nb=col.gal.nb, style="W", ExactEV=TRUE)
 sarcol
-}
-if (run) {
 lmsar <- lm(CRIME ~ INC + HOVAL + fitted(sarcol), data=columbus)
 lmsar
-}
-if (run) {
 anova(lmbase, lmsar)
-}
-if (run) {
 lm.morantest(lmsar, nb2listw(col.gal.nb))
-}
-if (run) {
 lagcol <- SpatialFiltering(CRIME ~ 1, ~ INC + HOVAL - 1, data=columbus,
  nb=col.gal.nb, style="W")
 lagcol
-}
-if (run) {
 lmlag <- lm(CRIME ~ INC + HOVAL + fitted(lagcol), data=columbus)
 lmlag
-}
-if (run) {
 anova(lmbase, lmlag)
-}
-if (run) {
 lm.morantest(lmlag, nb2listw(col.gal.nb))
-}
-if (run) {
 NA.columbus <- columbus
 NA.columbus$CRIME[20:25] <- NA
 COL.SF.NA <- SpatialFiltering(CRIME ~ INC + HOVAL, data=NA.columbus,
  nb=col.gal.nb, style="W", na.action=na.exclude)
 COL.SF.NA$na.action
-}
-if (run) {
 summary(lm(CRIME ~ INC + HOVAL + fitted(COL.SF.NA), data=NA.columbus,
  na.action=na.exclude))
-}
 }
 \keyword{spatial}
 

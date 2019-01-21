@@ -311,12 +311,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>nydata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/NY8_bna_utm18.gpkg"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>nydata</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/NY8_bna_utm18.gpkg"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>lm0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lm0</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lm0</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata)
 #&gt; 
@@ -336,10 +333,8 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Residual standard error: 0.6571 on 277 degrees of freedom
 #&gt; Multiple R-squared:  0.1932,	Adjusted R-squared:  0.1844 
 #&gt; F-statistic:  22.1 on 3 and 277 DF,  p-value: 7.306e-13
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>lm0w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lm0w</span>)
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='no'>lm0w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lm0w</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     weights = POP8)
@@ -360,19 +355,15 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Residual standard error: 33.5 on 277 degrees of freedom
 #&gt; Multiple R-squared:  0.1977,	Adjusted R-squared:  0.189 
 #&gt; F-statistic: 22.75 on 3 and 277 DF,  p-value: 3.382e-13
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/message'>suppressMessages</a></span>(<span class='no'>nyadjmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='kw pkg'>foreign</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/foreign/topics/read.dbf'>read.dbf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/message'>suppressMessages</a></span>(<span class='no'>nyadjmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='kw pkg'>foreign</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/foreign/topics/read.dbf'>read.dbf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(
  <span class='st'>"misc/nyadjwts.dbf"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])[-<span class='fl'>1</span>]))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/message'>suppressMessages</a></span>(<span class='no'>ID</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='kw pkg'>foreign</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/foreign/topics/read.dbf'>read.dbf</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(
  <span class='st'>"misc/nyadjwts.dbf"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>]))[-<span class='fl'>1</span>]))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substring</a></span>(<span class='no'>ID</span>, <span class='fl'>2</span>, <span class='fl'>10</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substring</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nydata</span>$<span class='no'>AREAKEY</span>), <span class='fl'>2</span>, <span class='fl'>10</span>))
-}</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>nyadjlw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mat2listw.html'>mat2listw</a></span>(<span class='no'>nyadjmat</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nydata</span>$<span class='no'>AREAKEY</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/identical'>identical</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substring</a></span>(<span class='no'>ID</span>, <span class='fl'>2</span>, <span class='fl'>10</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/substr'>substring</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nydata</span>$<span class='no'>AREAKEY</span>), <span class='fl'>2</span>, <span class='fl'>10</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>nyadjlw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mat2listw.html'>mat2listw</a></span>(<span class='no'>nyadjmat</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nydata</span>$<span class='no'>AREAKEY</span>))
 <span class='no'>listw_NY</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nyadjlw</span>$<span class='no'>neighbours</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 <span class='no'>esar0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar0</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar0</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:errorsarlm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, 
 #&gt;     data = nydata, listw = listw_NY)
 #&gt; 
@@ -398,12 +389,10 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 564.21, (AIC for lm: 567.46)
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1f</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>))
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1f</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>res</span>)
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1f</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.353   0.000   0.359 </div><div class='input'><span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1f</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, family = "SAR", method = "eigen")
@@ -427,19 +416,11 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 564.21
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>res</span>$<span class='no'>resvar</span>))
-}</div><div class='output co'>#&gt; (Intercept)   PEXPOSURE   PCTAGE65P  PCTOWNHOME 
-#&gt;  0.17678351  0.04205063  0.62472153  0.19132936 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>imat</span>)*<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>s2</span>)
-}</div><div class='output co'>#&gt; (Intercept)   PEXPOSURE   PCTAGE65P  PCTOWNHOME 
-#&gt;  0.17678351  0.04205063  0.62472153  0.19132936 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fdHess</span>))
-}</div><div class='output co'>#&gt; [1] 0.01719949 0.18510068 0.04382630 0.63008743 0.20358778</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>res</span>$<span class='no'>resvar</span>))</div><div class='output co'>#&gt; (Intercept)   PEXPOSURE   PCTAGE65P  PCTOWNHOME 
+#&gt;  0.17678351  0.04205063  0.62472153  0.19132936 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>imat</span>)*<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>s2</span>)</div><div class='output co'>#&gt; (Intercept)   PEXPOSURE   PCTAGE65P  PCTOWNHOME 
+#&gt;  0.17678351  0.04205063  0.62472153  0.19132936 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fdHess</span>))</div><div class='output co'>#&gt; [1] 0.01719949 0.18510068 0.04382630 0.63008743 0.20358778</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.343   0.000   0.348 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, family = "SAR", method = "Matrix")
@@ -463,12 +444,10 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 564.21
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>,
- <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>TRUE</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)
-}</div><div class='output co'>#&gt; 
+ <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.366   0.000   0.372 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, family = "SAR", method = "Matrix", control = list(super = TRUE))
@@ -492,11 +471,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 564.21
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esar1wf</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+#&gt; </div><div class='input'><span class='no'>esar1wf</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wf</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wf</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "eigen")
@@ -520,11 +497,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 515.2
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wM</span>)
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.373   0.000   0.379 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wM</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "Matrix")
@@ -548,11 +523,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 515.2
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esar1wlu</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+#&gt; </div><div class='input'><span class='no'>esar1wlu</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"LU"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wlu</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wlu</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "LU")
@@ -576,11 +549,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 515.2
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esar1wch</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+#&gt; </div><div class='input'><span class='no'>esar1wch</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Chebyshev"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wch</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wch</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "Chebyshev")
@@ -604,11 +575,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: -236450
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>ecar1f</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+#&gt; </div><div class='input'><span class='no'>ecar1f</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1f</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1f</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, family = "CAR", method = "eigen")
@@ -632,11 +601,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 563.66
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1M</span>)
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.361   0.000   0.368 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, family = "CAR", method = "Matrix")
@@ -660,11 +627,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 563.66
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>ecar1wf</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
+#&gt; </div><div class='input'><span class='no'>ecar1wf</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>nydata</span>$<span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wf</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wf</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = nydata$POP8, family = "CAR", 
@@ -689,11 +654,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 515.14
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
- <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wM</span>)
-}</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
+ <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.341   0.000   0.344 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wM</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = POP8, family = "CAR", method = "Matrix")
@@ -717,35 +680,29 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 281 
 #&gt; Number of parameters estimated: 6 
 #&gt; AIC: 515.14
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+#&gt; </div><div class='input'><span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>ft.SID74</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fl'>1000</span>)*(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='no'>nc.sids</span>$<span class='no'>SID74</span>/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>) +
  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>((<span class='no'>nc.sids</span>$<span class='no'>SID74</span>+<span class='fl'>1</span>)/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>))
 <span class='no'>lm_nc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>)
 <span class='no'>sids.nhbr30</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='no'>nc.sids</span>$<span class='no'>east</span>, <span class='no'>nc.sids</span>$<span class='no'>north</span>), <span class='fl'>0</span>, <span class='fl'>30</span>, <span class='kw'>row.names</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/row.names'>row.names</a></span>(<span class='no'>nc.sids</span>))
 <span class='no'>sids.nhbr30.dist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbdists.html'>nbdists</a></span>(<span class='no'>sids.nhbr30</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='no'>nc.sids</span>$<span class='no'>east</span>, <span class='no'>nc.sids</span>$<span class='no'>north</span>))
-<span class='no'>sids.nhbr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='listw2sn.html'>listw2sn</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>sids.nhbr30</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='no'>sids.nhbr30.dist</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='no'>dij</span> <span class='kw'>&lt;-</span> <span class='no'>sids.nhbr</span>[,<span class='fl'>3</span>]
+<span class='no'>sids.nhbr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='listw2sn.html'>listw2sn</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>sids.nhbr30</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='no'>sids.nhbr30.dist</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='input'><span class='no'>dij</span> <span class='kw'>&lt;-</span> <span class='no'>sids.nhbr</span>[,<span class='fl'>3</span>]
 <span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='no'>nc.sids</span>$<span class='no'>BIR74</span>
 <span class='no'>el1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='no'>dij</span>)/<span class='no'>dij</span>
 <span class='no'>el2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='no'>n</span>[<span class='no'>sids.nhbr</span>$<span class='no'>to</span>]/<span class='no'>n</span>[<span class='no'>sids.nhbr</span>$<span class='no'>from</span>])
 <span class='no'>sids.nhbr</span>$<span class='no'>weights</span> <span class='kw'>&lt;-</span> <span class='no'>el1</span>*<span class='no'>el2</span>
-<span class='no'>sids.nhbr.listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='listw2sn.html'>sn2listw</a></span>(<span class='no'>sids.nhbr</span>)
-<span class='no'>both</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='no'>nc.sids</span>$<span class='no'>L_id</span>, <span class='no'>nc.sids</span>$<span class='no'>M_id</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>":"</span>))
+<span class='no'>sids.nhbr.listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='listw2sn.html'>sn2listw</a></span>(<span class='no'>sids.nhbr</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 56, 87 are not origins</span></div><div class='input'><span class='no'>both</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='no'>nc.sids</span>$<span class='no'>L_id</span>, <span class='no'>nc.sids</span>$<span class='no'>M_id</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>":"</span>))
 <span class='no'>ft.NWBIR74</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fl'>1000</span>)*(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='no'>nc.sids</span>$<span class='no'>NWBIR74</span>/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>) +
  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>((<span class='no'>nc.sids</span>$<span class='no'>NWBIR74</span>+<span class='fl'>1</span>)/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>))
 <span class='no'>mdata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>both</span>, <span class='no'>ft.NWBIR74</span>, <span class='no'>ft.SID74</span>, <span class='kw'>BIR74</span><span class='kw'>=</span><span class='no'>nc.sids</span>$<span class='no'>BIR74</span>)
 <span class='no'>outl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which.min'>which.max</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/influence.measures'>rstandard</a></span>(<span class='no'>lm_nc</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nc.sids</span>$<span class='no'>NAME</span>[<span class='no'>outl</span>])
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 56, 87 are not origins</span></div><div class='output co'>#&gt; [1] "Anson"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>mdata.4</span> <span class='kw'>&lt;-</span> <span class='no'>mdata</span>[-<span class='no'>outl</span>,]
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>nc.sids</span>$<span class='no'>NAME</span>[<span class='no'>outl</span>])</div><div class='output co'>#&gt; [1] "Anson"</div><div class='input'><span class='no'>mdata.4</span> <span class='kw'>&lt;-</span> <span class='no'>mdata</span>[-<span class='no'>outl</span>,]
 <span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2mat.html'>listw2mat</a></span>(<span class='no'>sids.nhbr.listw</span>)
 <span class='no'>W.4</span> <span class='kw'>&lt;-</span> <span class='no'>W</span>[-<span class='no'>outl</span>, -<span class='no'>outl</span>]
 <span class='no'>sids.nhbr.listw.4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mat2listw.html'>mat2listw</a></span>(<span class='no'>W.4</span>)
 <span class='no'>esarI</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarI</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarI</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:errorsarlm(formula = ft.SID74 ~ 1, data = mdata, listw = sids.nhbr.listw, 
 #&gt;     zero.policy = TRUE)
 #&gt; 
@@ -770,11 +727,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 100 
 #&gt; Number of parameters estimated: 3 
 #&gt; AIC: 273.72, (AIC for lm: 281.94)
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esarIa</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
+#&gt; </div><div class='input'><span class='no'>esarIa</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIa</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIa</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: spautolm(formula = ft.SID74 ~ 1, data = mdata, listw = sids.nhbr.listw, 
 #&gt;     family = "SAR")
 #&gt; 
@@ -794,11 +749,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 100 
 #&gt; Number of parameters estimated: 3 
 #&gt; AIC: 273.72
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esarIV</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
+#&gt; </div><div class='input'><span class='no'>esarIV</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIV</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIV</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; errorsarlm(formula = ft.SID74 ~ ft.NWBIR74, data = mdata, listw = sids.nhbr.listw, 
 #&gt;     zero.policy = TRUE)
@@ -825,11 +778,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 100 
 #&gt; Number of parameters estimated: 4 
 #&gt; AIC: 243.49, (AIC for lm: 242)
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esarIVa</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
+#&gt; </div><div class='input'><span class='no'>esarIVa</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIVa</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIVa</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = ft.SID74 ~ ft.NWBIR74, data = mdata, listw = sids.nhbr.listw, 
 #&gt;     family = "SAR")
@@ -851,11 +802,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 100 
 #&gt; Number of parameters estimated: 4 
 #&gt; AIC: 243.49
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esarIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
+#&gt; </div><div class='input'><span class='no'>esarIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIaw</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIaw</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: spautolm(formula = ft.SID74 ~ 1, data = mdata, listw = sids.nhbr.listw, 
 #&gt;     weights = BIR74, family = "SAR")
 #&gt; 
@@ -875,11 +824,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 100 
 #&gt; Number of parameters estimated: 3 
 #&gt; AIC: 266.19
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esarIIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>both</span> - <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
+#&gt; </div><div class='input'><span class='no'>esarIIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>both</span> - <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>,
  <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIIaw</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIIaw</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = ft.SID74 ~ both - 1, data = mdata, listw = sids.nhbr.listw, 
 #&gt;     weights = BIR74, family = "SAR")
@@ -911,11 +858,9 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 100 
 #&gt; Number of parameters estimated: 14 
 #&gt; AIC: 247.78
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>esarIVaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>,
+#&gt; </div><div class='input'><span class='no'>esarIVaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIVaw</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esarIVaw</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = ft.SID74 ~ ft.NWBIR74, data = mdata, listw = sids.nhbr.listw, 
 #&gt;     weights = BIR74, family = "SAR")
@@ -937,11 +882,8 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 100 
 #&gt; Number of parameters estimated: 4 
 #&gt; AIC: 247.13
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>ecarIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>,
- <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIaw</span>)
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='no'>ecarIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>,
+ <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIaw</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = ft.SID74 ~ 1, data = mdata.4, listw = sids.nhbr.listw.4, 
 #&gt;     weights = BIR74, family = "CAR")
@@ -962,11 +904,8 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 99 
 #&gt; Number of parameters estimated: 3 
 #&gt; AIC: 243.51
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>ecarIIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>both</span> - <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIIaw</span>)
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='no'>ecarIIaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>both</span> - <span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>,
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIIaw</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = ft.SID74 ~ both - 1, data = mdata.4, listw = sids.nhbr.listw.4, 
 #&gt;     weights = BIR74, family = "CAR")
@@ -998,11 +937,8 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 99 
 #&gt; Number of parameters estimated: 14 
 #&gt; AIC: 226.44
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>ecarIVaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIVaw</span>)
-}</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='no'>ecarIVaw</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>ft.SID74</span> ~ <span class='no'>ft.NWBIR74</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>mdata.4</span>,
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>sids.nhbr.listw.4</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>BIR74</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Non-symmetric spatial weights in CAR model</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecarIVaw</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = ft.SID74 ~ ft.NWBIR74, data = mdata.4, listw = sids.nhbr.listw.4, 
 #&gt;     weights = BIR74, family = "CAR")
@@ -1024,10 +960,8 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; Number of observations: 99 
 #&gt; Number of parameters estimated: 4 
 #&gt; AIC: 236.04
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>nc.sids</span>$<span class='no'>fitIV</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/append'>append</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted.values</a></span>(<span class='no'>ecarIVaw</span>), <span class='fl'>NA</span>, <span class='no'>outl</span>-<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>nc.sids</span>[,<span class='st'>"fitIV"</span>], <span class='kw'>nbreaks</span><span class='kw'>=</span><span class='fl'>12</span>) <span class='co'># Cressie 1993, p. 565</span>
-}</div><div class='img'><img src='spautolm-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>oldcol</span>)
+#&gt; </div><div class='input'><span class='no'>nc.sids</span>$<span class='no'>fitIV</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/append'>append</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/fitted.values'>fitted.values</a></span>(<span class='no'>ecarIVaw</span>), <span class='fl'>NA</span>, <span class='no'>outl</span>-<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>nc.sids</span>[,<span class='st'>"fitIV"</span>], <span class='kw'>nbreaks</span><span class='kw'>=</span><span class='fl'>12</span>) <span class='co'># Cressie 1993, p. 565</span></div><div class='img'><img src='spautolm-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>oldcol</span>)
 <span class='no'>COL.errW.eig</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>COL.OLD</span>,
  <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.errW.eig</span>)</div><div class='output co'>#&gt; 

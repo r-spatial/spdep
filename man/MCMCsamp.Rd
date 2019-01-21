@@ -29,127 +29,75 @@ MCMCsamp(object, mcmc = 1L, verbose = NULL, ...)
 
 \seealso{\code{\link[LearnBayes]{rwmetrop}}, \code{\link{spautolm}}, \code{\link{lagsarlm}}, \code{\link{errorsarlm}}, \code{\link{sacsarlm}}}
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
 \dontrun{
-if (run) {
 nydata <- st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData")[1], quiet=TRUE)
 suppressMessages(nyadjmat <- as.matrix(foreign::read.dbf(system.file(
  "misc/nyadjwts.dbf", package="spData")[1])[-1]))
 suppressMessages(ID <- as.character(names(foreign::read.dbf(system.file(
  "misc/nyadjwts.dbf", package="spData")[1]))[-1]))
 identical(substring(ID, 2, 10), substring(as.character(nydata$AREAKEY), 2, 10))
-}
-if (run) {
 esar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, family="SAR", method="eigen")
 summary(esar1f)
-}
-if (run) {
 res <- MCMCsamp(esar1f, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 esar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, weights=POP8, family="SAR", method="eigen")
 summary(esar1fw)
-}
-if (run) {
 res <- MCMCsamp(esar1fw, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 ecar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, family="CAR", method="eigen")
 summary(ecar1f)
-}
-if (run) {
 res <- MCMCsamp(ecar1f, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 esar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, weights=POP8, family="SAR", method="eigen")
 summary(esar1fw)
-}
-if (run) {
 res <- MCMCsamp(esar1fw, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 ecar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, weights=POP8, family="CAR", method="eigen")
 summary(ecar1fw)
-}
-if (run) {
 res <- MCMCsamp(ecar1fw, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
 }
-}
-if (run) {
 esar0 <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY)
 summary(esar0)
-}
-if (run) {
 res <- MCMCsamp(esar0, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
 \dontrun{
-if (run) {
 esar0w <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, weights=POP8)
 summary(esar0)
-}
-if (run) {
 res <- MCMCsamp(esar0w, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 esar1 <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, etype="emixed")
 summary(esar1)
-}
-if (run) {
 res <- MCMCsamp(esar1, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 lsar0 <- lagsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY)
 summary(lsar0)
-}
-if (run) {
 res <- MCMCsamp(lsar0, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 lsar1 <- lagsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, type="mixed")
 summary(lsar1)
-}
-if (run) {
 res <- MCMCsamp(lsar1, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 ssar0 <- sacsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY)
 summary(ssar0)
-}
-if (run) {
 res <- MCMCsamp(ssar0, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
-if (run) {
 ssar1 <- sacsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, type="sacmixed")
 summary(ssar1)
-}
-if (run) {
 res <- MCMCsamp(ssar1, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-}
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

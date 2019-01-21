@@ -164,14 +164,10 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col.gal.nb</span>, <span class='no'>coords</span>)
-}</div><div class='output co'>#&gt; Neighbour list object:
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col.gal.nb</span>, <span class='no'>coords</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 230 
 #&gt; Percentage nonzero weights: 9.579342 
@@ -206,10 +202,8 @@
 #&gt;   7 | 557777
 #&gt;   8 | 1144
 #&gt;   8 | 55999999
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>col.lags</span> <span class='kw'>&lt;-</span> <span class='fu'>nblag</span>(<span class='no'>col.gal.nb</span>, <span class='fl'>2</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>col.lags</span>)
-}</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='no'>col.lags</span> <span class='kw'>&lt;-</span> <span class='fu'>nblag</span>(<span class='no'>col.gal.nb</span>, <span class='fl'>2</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>col.lags</span>)</div><div class='output co'>#&gt; [[1]]
 #&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 230 
@@ -224,9 +218,7 @@
 #&gt; Average number of links: 8.285714 
 #&gt; 
 #&gt; attr(,"call")
-#&gt; nblag(neighbours = col.gal.nb, maxlag = 2)</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='no'>coords</span>)
-}</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; nblag(neighbours = col.gal.nb, maxlag = 2)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='no'>coords</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 406 
 #&gt; Percentage nonzero weights: 16.90962 
@@ -259,21 +251,15 @@
 #&gt;   14 | 002244558888
 #&gt;   15 | 00667788
 #&gt;   16 | 77
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_geometry'>st_geometry</a></span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>col.gal.nb</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"GAL order 1 (black) and 2 (red) links"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>col.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)
-}</div><div class='img'><img src='nblag-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>cuml</span> <span class='kw'>&lt;-</span> <span class='fu'>nblag_cumul</span>(<span class='no'>col.lags</span>)
-<span class='no'>cuml</span>
-}</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>col.gal.nb</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"GAL order 1 (black) and 2 (red) links"</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>col.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='img'><img src='nblag-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>cuml</span> <span class='kw'>&lt;-</span> <span class='fu'>nblag_cumul</span>(<span class='no'>col.lags</span>)
+<span class='no'>cuml</span></div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 636 
 #&gt; Percentage nonzero weights: 26.48896 
-#&gt; Average number of links: 12.97959 </div><div class='input'><span class='kw'>if</span> (!<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>igraph</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>&amp;&amp;</span> !<span class='no'>run</span>) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+#&gt; Average number of links: 12.97959 </div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>igraph</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
 <span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='st'>"CsparseMatrix"</span>)
+<span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>G</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/igraph/topics/graph_from_adjacency_matrix'>graph.adjacency</a></span>(<span class='no'>W</span>, <span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"directed"</span>, <span class='kw'>weight</span><span class='kw'>=</span><span class='st'>"W"</span>)
 <span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/igraph/topics/diameter'>diameter</a></span>(<span class='no'>G</span>)
 <span class='no'>nbs</span> <span class='kw'>&lt;-</span> <span class='fu'>nblag</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>maxlag</span><span class='kw'>=</span><span class='no'>D</span>)

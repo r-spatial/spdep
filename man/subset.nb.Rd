@@ -23,13 +23,8 @@
 \seealso{\code{\link{nb2listw}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-}
-if (run) {
 coords <- coordinates(as(columbus, "Spatial"))
 plot(col.gal.nb, coords)
 to.be.dropped <- c(31, 34, 36, 39, 42, 46)
@@ -38,10 +33,7 @@ text(coords[to.be.dropped,1], coords[to.be.dropped,2], labels=to.be.dropped,
 sub.col.gal.nb <- subset(col.gal.nb,
   !(1:length(col.gal.nb) \%in\% to.be.dropped))
 plot(sub.col.gal.nb, coords[-to.be.dropped,], col="red", add=TRUE)
-}
-if (run) {
 which(!(attr(col.gal.nb, "region.id") \%in\%
   attr(sub.col.gal.nb, "region.id")))
-}
 }
 \keyword{spatial}

@@ -107,123 +107,65 @@ Roger Bivand, Gianfranco Piras (2015). Comparing Implementations of Estimation M
 \code{\link{trW}}, \code{\link{lagsarlm}}, \code{\link{nb2listw}}, \code{\link[MASS]{mvrnorm}}, \code{\link[coda]{plot.mcmc}}, \code{\link[coda]{summary.mcmc}}, \code{\link[coda]{HPDinterval}}
 }
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-}
-if (run) {
 listw <- nb2listw(col.gal.nb)
 ev <- eigenw(listw)
 lobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw,
  control=list(pre_eig=ev))
 summary(lobj)
-}
-if (run) {
 mobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, Durbin=TRUE,
  control=list(pre_eig=ev))
 summary(mobj)
-}
-if (run) {
 mobj1 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, Durbin= ~ INC,
  control=list(pre_eig=ev))
 summary(mobj1)
-}
-if (run) {
 W <- as(listw, "CsparseMatrix")
 trMatc <- trW(W, type="mult")
 trMC <- trW(W, type="MC")
 set.seed(1)
 impacts(lobj, listw=listw)
-}
-if (run) {
 impacts(lobj, tr=trMatc)
-}
-if (run) {
 impacts(lobj, tr=trMC)
-}
-if (run) {
 impacts(lobj, evalues=ev)
 lobj1 <- stsls(CRIME ~ INC + HOVAL, columbus, listw)
 loobj1 <- impacts(lobj1, R=200, tr=trMatc)
 summary(loobj1, zstats=TRUE, short=TRUE)
-}
-if (run) {
 loobj2 <- impacts(lobj1, R=200, evalues=ev)
 summary(loobj2, zstats=TRUE, short=TRUE)
-}
-if (run) {
 library(coda)
 HPDinterval(loobj1)
-}
-if (run) {
 lobj1r <- stsls(CRIME ~ INC + HOVAL, columbus, listw, robust=TRUE)
 loobj1r <- impacts(lobj1r, tr=trMatc, R=200)
 summary(loobj1r, zstats=TRUE, short=TRUE)
-}
-if (run) {
 lobjIQ5 <- impacts(lobj, tr=trMatc, R=200, Q=5)
 summary(lobjIQ5, zstats=TRUE, short=TRUE)
-}
-if (run) {
 summary(lobjIQ5, zstats=TRUE, short=TRUE, reportQ=TRUE)
-}
-if (run) {
 impacts(mobj, listw=listw)
-}
-if (run) {
 impacts(mobj, tr=trMatc)
-}
-if (run) {
 impacts(mobj, tr=trMC)
-}
-if (run) {
 impacts(mobj1, tr=trMatc)
-}
-if (run) {
 impacts(mobj1, listw=listw)
-}
-if (run) {
 cat(try(impacts(mobj, evalues=ev), silent=TRUE), "\n")
-}
-if (run) {
 summary(impacts(mobj, tr=trMatc, R=200), short=TRUE, zstats=TRUE)
-}
-if (run) {
 summary(impacts(mobj1, tr=trMatc, R=200), short=TRUE, zstats=TRUE)
-}
-if (run) {
 xobj <- lmSLX(CRIME ~ INC + HOVAL, columbus, listw)
 summary(impacts(xobj))
-}
-if (run) {
 eobj <- errorsarlm(CRIME ~ INC + HOVAL, columbus, listw, etype="emixed")
 summary(impacts(eobj), adjust_k=TRUE)
-}
 \dontrun{
-if (run) {
 mobj1 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed", 
 method="Matrix", control=list(fdHess=TRUE))
 summary(mobj1)
-}
-if (run) {
 set.seed(1)
 summary(impacts(mobj1, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
-}
-if (run) {
 summary(impacts(mobj, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
-}
-if (run) {
 mobj2 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed", 
 method="Matrix", control=list(fdHess=TRUE, optimHess=TRUE))
 summary(impacts(mobj2, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
-}
-if (run) {
 mobj3 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed", 
 method="spam", control=list(fdHess=TRUE))
 summary(impacts(mobj3, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
-}
 }
 \dontrun{
 data(boston, package="spData")

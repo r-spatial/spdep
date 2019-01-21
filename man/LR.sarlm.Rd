@@ -48,18 +48,12 @@ Wald1.sarlm(object)
 \seealso{\code{\link{logLik.lm}}, \code{\link{anova.sarlm}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 mixed <- lagsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb),
   type="mixed")
 error <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb))
 LR.sarlm(mixed, error)
-}
-if (run) {
 Hausman.test(error)
-}
 }
 \keyword{spatial}

@@ -22,26 +22,17 @@ A list of:
 \author{Nicholas Lewin-Koh \email{nikko@hailmail.net}}
 \seealso{\code{\link{plot.nb}}}
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-}
-if (run) {
 coords <- st_coordinates(st_centroid(st_geometry(columbus)))
 plot(col.gal.nb, coords, col="grey")
-}
-if (run) {
 col2 <- droplinks(col.gal.nb, 21)
 res <- n.comp.nb(col2)
 table(res$comp.id)
-}
-if (run) {
 plot(col2, coords, add=TRUE)
 points(coords, col=res$comp.id, pch=16)
-}
-run <- ifelse(require(igraph, quietly=TRUE), run, FALSE) 
+run <- FALSE
+if (require(igraph, quietly=TRUE)) run <- TRUE
 if (run) {
 B <- as(nb2listw(col2, style="B", zero.policy=TRUE), "CsparseMatrix")
 g1 <- graph.adjacency(B, mode="undirected")

@@ -33,17 +33,12 @@ A list of class \code{knn}
 
 \examples{
 run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
-}
-if (run) {
 coords <- coordinates(as(columbus, "Spatial"))
 col.knn <- knearneigh(coords, k=4)
 plot(st_geometry(columbus), border="grey")
 plot(knn2nb(col.knn), coords, add=TRUE)
 title(main="K nearest neighbours, k = 4")
-}
 data(state)
 us48.fipsno <- read.geoda(system.file("etc/weights/us48.txt",
  package="spdep")[1])

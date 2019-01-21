@@ -40,9 +40,6 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 \seealso{\code{\link{localG}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
 sidsrate79 <- (1000*nc.sids$SID79)/nc.sids$BIR79
 dists <- c(10, 20, 30, 33, 40, 50, 60, 70, 80, 90, 100)
@@ -56,14 +53,11 @@ for (i in 1:ndists) {
   ZG[[i]] <- globalG.test(sidsrate79, thislw, zero.policy=TRUE)
 }
 t(sapply(ZG, function(x) c(x$estimate[1], x$statistic, p.value=unname(x$p.value))))
-}
-if (run) {
 for (i in 1:ndists) {
   thisnb <- dnearneigh(milesxy, 0, dists[i])
   thislw <- nb2listw(thisnb, style="B", zero.policy=TRUE)
   ZG[[i]] <- globalG.test(sidsrate79, thislw, zero.policy=TRUE, alternative="two.sided")
 }
 t(sapply(ZG, function(x) c(x$estimate[1], x$statistic, p.value=unname(x$p.value))))
-}
 }
 \keyword{spatial}

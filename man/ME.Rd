@@ -49,55 +49,34 @@ An object of class \code{ME_res}:
 
 \examples{
 \dontrun{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 lmbase <- lm(CRIME ~ INC + HOVAL, data=columbus)
-}
-if (run) {
 lagcol <- SpatialFiltering(CRIME ~ 1, ~ INC + HOVAL, data=columbus,
  nb=col.gal.nb, style="W", alpha=0.1, verbose=TRUE)
 lagcol
-}
-if (run) {
 lmlag <- lm(CRIME ~ INC + HOVAL + fitted(lagcol), data=columbus)
 anova(lmbase, lmlag)
-}
-if (run) {
 set.seed(123)
 lagcol1 <- ME(CRIME ~ INC + HOVAL, data=columbus, family="gaussian",
  listw=nb2listw(col.gal.nb), alpha=0.1, verbose=TRUE)
 lagcol1
-}
-if (run) {
 lmlag1 <- lm(CRIME ~ INC + HOVAL + fitted(lagcol1), data=columbus)
 anova(lmbase, lmlag1)
-}
-if (run) {
 set.seed(123)
 lagcol2 <- ME(CRIME ~ INC + HOVAL, data=columbus, family="gaussian",
  listw=nb2listw(col.gal.nb), alpha=0.1, stdev=TRUE, verbose=TRUE)
 lagcol2
-}
-if (run) {
 lmlag2 <- lm(CRIME ~ INC + HOVAL + fitted(lagcol2), data=columbus)
 anova(lmbase, lmlag2)
-}
-if (run) {
 NA.columbus <- columbus
 NA.columbus$CRIME[20:25] <- NA
 COL.ME.NA <- ME(CRIME ~ INC + HOVAL, data=NA.columbus, family="gaussian",
  listw=nb2listw(col.gal.nb), alpha=0.1, stdev=TRUE, verbose=TRUE,
  na.action=na.exclude)
 COL.ME.NA$na.action
-}
-if (run) {
 summary(lm(CRIME ~ INC + HOVAL + fitted(COL.ME.NA), data=NA.columbus,
  na.action=na.exclude))
-}
-if (run) {
 nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
 rn <- as.character(nc.sids$FIPS)
 ncCC89_nb <- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
@@ -106,21 +85,14 @@ ncCR85_nb <- read.gal(system.file("weights/ncCR85.gal", package="spData")[1],
  region.id=rn)
 glmbase <- glm(SID74 ~ 1, data=nc.sids, offset=log(BIR74),
  family="poisson")
-}
-if (run) {
 set.seed(123)
 MEpois1 <- ME(SID74 ~ 1, data=nc.sids, offset=log(BIR74),
  family="poisson", listw=nb2listw(ncCR85_nb, style="B"), alpha=0.2, verbose=TRUE)
 MEpois1
-}
-if (run) {
 glmME <- glm(SID74 ~ 1 + fitted(MEpois1), data=nc.sids, offset=log(BIR74),
  family="poisson")
 anova(glmME, test="Chisq")
-}
-if (run) {
 anova(glmbase, glmME, test="Chisq")
-}
 }
 data(hopkins, package="spData")
 hopkins_part <- hopkins[21:36,36:21]

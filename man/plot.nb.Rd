@@ -30,9 +30,6 @@ neighbours lists}
 \seealso{\code{\link{summary.nb}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- coordinates(as(columbus, "Spatial"))
@@ -40,6 +37,5 @@ plot(col.gal.nb, coords)
 title(main="GAL order 1 links with first nearest neighbours in red", cex.main=0.6)
 col.knn <- knearneigh(coords, k=1)
 plot(knn2nb(col.knn), coords, add=TRUE, col="red", length=0.08)
-}
 }
 \keyword{spatial}

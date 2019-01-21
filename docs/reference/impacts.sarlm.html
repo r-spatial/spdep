@@ -295,19 +295,13 @@ If simulation is carried out, the object returned is a list with:
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>)
 <span class='no'>ev</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='eigenw.html'>eigenw</a></span>(<span class='no'>listw</span>)
 <span class='no'>lobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>,
  <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobj</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobj</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = columbus, listw = listw, 
 #&gt;     control = list(pre_eig = ev))
 #&gt; 
@@ -334,11 +328,9 @@ If simulation is carried out, the object returned is a list with:
 #&gt; AIC: 376.34, (AIC for lm: 382.75)
 #&gt; LM test for residual autocorrelation
 #&gt; test value: 0.19184, p-value: 0.66139
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>mobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
+#&gt; </div><div class='input'><span class='no'>mobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
  <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = columbus, listw = listw, 
 #&gt;     Durbin = TRUE, control = list(pre_eig = ev))
 #&gt; 
@@ -367,11 +359,9 @@ If simulation is carried out, the object returned is a list with:
 #&gt; AIC: 378.03, (AIC for lm: 380.2)
 #&gt; LM test for residual autocorrelation
 #&gt; test value: 0.101, p-value: 0.75063
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span> ~ <span class='no'>INC</span>,
+#&gt; </div><div class='input'><span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>Durbin</span><span class='kw'>=</span> ~ <span class='no'>INC</span>,
  <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>ev</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = columbus, listw = listw, 
 #&gt;     Durbin = ~INC, control = list(pre_eig = ev))
 #&gt; 
@@ -399,31 +389,25 @@ If simulation is carried out, the object returned is a list with:
 #&gt; AIC: 378.13, (AIC for lm: 379.57)
 #&gt; LM test for residual autocorrelation
 #&gt; test value: 2.5646, p-value: 0.10928
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='no'>listw</span>, <span class='st'>"CsparseMatrix"</span>)
+#&gt; </div><div class='input'><span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='no'>listw</span>, <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>trMatc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trW.html'>trW</a></span>(<span class='no'>W</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mult"</span>)
 <span class='no'>trMC</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trW.html'>trW</a></span>(<span class='no'>W</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"MC"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)
-}</div><div class='output co'>#&gt; Impact measures (lag, exact):
+<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)</div><div class='output co'>#&gt; Impact measures (lag, exact):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.1225155 -0.6783818 -1.8008973
-#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
-}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315</div><div class='input'><span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.1225155 -0.6783818 -1.8008973
-#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMC</span>)
-}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315</div><div class='input'><span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMC</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.1211859 -0.6797114 -1.8008973
-#&gt; HOVAL -0.2819819 -0.1709496 -0.4529315</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>)
-<span class='no'>lobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>)
+#&gt; HOVAL -0.2819819 -0.1709496 -0.4529315</div><div class='input'><span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>)</div><div class='output co'>#&gt; Impact measures (lag, evalues):
+#&gt;           Direct   Indirect      Total
+#&gt; INC   -1.1225155 -0.6783818 -1.8008973
+#&gt; HOVAL -0.2823163 -0.1706152 -0.4529315</div><div class='input'><span class='no'>lobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>)
 <span class='no'>loobj1</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj1</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj1</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0687585 -0.7790438 -1.8478023
 #&gt; HOVAL -0.2858263 -0.2083456 -0.4941719
@@ -443,10 +427,8 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total   
 #&gt; INC   0.0038967 0.24201  0.025493
-#&gt; HOVAL 0.0058176 0.40886  0.167059</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>loobj2</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj2</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (lag, evalues):
+#&gt; HOVAL 0.0058176 0.40886  0.167059</div><div class='input'><span class='no'>loobj2</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj2</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, evalues):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0687585 -0.7790438 -1.8478023
 #&gt; HOVAL -0.2858263 -0.2083456 -0.4941719
@@ -466,18 +448,14 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct   Indirect Total    
 #&gt; INC   0.010427 0.17082  0.0085701
-#&gt; HOVAL 0.028185 0.57413  0.3330986</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>coda</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/coda/topics/HPDinterval'>HPDinterval</a></span>(<span class='no'>loobj1</span>)
-}</div><div class='output co'>#&gt;            lower       upper
+#&gt; HOVAL 0.028185 0.57413  0.3330986</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>coda</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/coda/topics/HPDinterval'>HPDinterval</a></span>(<span class='no'>loobj1</span>)</div><div class='output co'>#&gt;            lower       upper
 #&gt; INC   -1.7286485 -0.26439087
 #&gt; HOVAL -0.4840639 -0.09027924
 #&gt; attr(,"Probability")
-#&gt; [1] 0.95</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>lobj1r</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>robust</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+#&gt; [1] 0.95</div><div class='input'><span class='no'>lobj1r</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='stsls.html'>stsls</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>robust</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>loobj1r</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj1r</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj1r</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>loobj1r</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0687585 -0.7790438 -1.8478023
 #&gt; HOVAL -0.2858263 -0.2083456 -0.4941719
@@ -497,10 +475,8 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct   Indirect Total  
 #&gt; INC   0.035898 0.41086  0.15148
-#&gt; HOVAL 0.142681 0.33508  0.19368</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>lobjIQ5</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>Q</span><span class='kw'>=</span><span class='fl'>5</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobjIQ5</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt; HOVAL 0.142681 0.33508  0.19368</div><div class='input'><span class='no'>lobjIQ5</span> <span class='kw'>&lt;-</span> <span class='fu'>impacts</span>(<span class='no'>lobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>, <span class='kw'>Q</span><span class='kw'>=</span><span class='fl'>5</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobjIQ5</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.1225155 -0.6783818 -1.8008973
 #&gt; HOVAL -0.2823163 -0.1706152 -0.4529315
@@ -520,9 +496,7 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total    
 #&gt; INC   0.0012457 0.094024 0.0037462
-#&gt; HOVAL 0.0076488 0.170288 0.0303684</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobjIQ5</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>reportQ</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (lag, trace):
+#&gt; HOVAL 0.0076488 0.170288 0.0303684</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>lobjIQ5</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>reportQ</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (lag, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.1225155 -0.6783818 -1.8008973
 #&gt; HOVAL -0.2823163 -0.1706152 -0.4529315
@@ -620,38 +594,24 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Q3 0.1116732 0.1885286
 #&gt; Q4 0.2788624 0.3381136
 #&gt; Q5 0.4321930 0.4632054
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, exact):
+#&gt; </div><div class='input'><span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)</div><div class='output co'>#&gt; Impact measures (mixed, exact):
 #&gt;           Direct   Indirect       Total
 #&gt; INC   -1.0418080 -1.4804246 -2.52223255
-#&gt; HOVAL -0.2836325  0.2302055 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697</div><div class='input'><span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect       Total
 #&gt; INC   -1.0418080 -1.4804246 -2.52223255
-#&gt; HOVAL -0.2836325  0.2302055 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMC</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt; HOVAL -0.2836325  0.2302055 -0.05342697</div><div class='input'><span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMC</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;          Direct   Indirect       Total
 #&gt; INC   -1.039187 -1.4830455 -2.52223255
-#&gt; HOVAL -0.284040  0.2306131 -0.05342697</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt; HOVAL -0.284040  0.2306131 -0.05342697</div><div class='input'><span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0968247 -0.8939687 -1.9907934
-#&gt; HOVAL -0.2781941 -0.1363596 -0.4145537</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, exact):
+#&gt; HOVAL -0.2781941 -0.1363596 -0.4145537</div><div class='input'><span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw</span>)</div><div class='output co'>#&gt; Impact measures (mixed, exact):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0968247 -0.8939687 -1.9907934
-#&gt; HOVAL -0.2781941 -0.1363596 -0.4145537</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>), <span class='kw'>silent</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='st'>"\n"</span>)
-}</div><div class='output co'>#&gt; Error in intImpacts(rho = rho, beta = beta, P = P, n = n, mu = mu, Sigma = Sigma,  : 
+#&gt; HOVAL -0.2781941 -0.1363596 -0.4145537</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>evalues</span><span class='kw'>=</span><span class='no'>ev</span>), <span class='kw'>silent</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='st'>"\n"</span>)</div><div class='output co'>#&gt; Error in intImpacts(rho = rho, beta = beta, P = P, n = n, mu = mu, Sigma = Sigma,  : 
 #&gt;   eigenvalue mixed impacts not available
-#&gt;  </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt;  </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect       Total
 #&gt; INC   -1.0418080 -1.4804246 -2.52223255
 #&gt; HOVAL -0.2836325  0.2302055 -0.05342697
@@ -671,9 +631,7 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total   
 #&gt; INC   0.0010997 0.14745  0.022779
-#&gt; HOVAL 0.0047407 0.53688  0.932996</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt; HOVAL 0.0047407 0.53688  0.932996</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>200</span>), <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0968247 -0.8939687 -1.9907934
 #&gt; HOVAL -0.2781941 -0.1363596 -0.4145537
@@ -693,10 +651,8 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct     Indirect Total    
 #&gt; INC   0.00069571 0.10097  0.0021739
-#&gt; HOVAL 0.00383821 0.18371  0.0201865</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>xobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>lmSLX</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>xobj</span>))
-}</div><div class='output co'>#&gt; Impact measures (SLX, estimable, n-k):
+#&gt; HOVAL 0.00383821 0.18371  0.0201865</div><div class='input'><span class='no'>xobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>lmSLX</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>xobj</span>))</div><div class='output co'>#&gt; Impact measures (SLX, estimable, n-k):
 #&gt;           Direct   Indirect       Total
 #&gt; INC   -1.1081273 -1.3834468 -2.49157410
 #&gt; HOVAL -0.2949095  0.2261538 -0.06875574
@@ -715,10 +671,8 @@ If simulation is carried out, the object returned is a list with:
 #&gt;       Direct    Indirect Total    
 #&gt; INC   0.0031263 0.013358 4.287e-07
 #&gt; HOVAL 0.0036172 0.264352 0.73728  
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>eobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>etype</span><span class='kw'>=</span><span class='st'>"emixed"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>eobj</span>), <span class='kw'>adjust_k</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (SDEM, estimable, n):
+#&gt; </div><div class='input'><span class='no'>eobj</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>etype</span><span class='kw'>=</span><span class='st'>"emixed"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>eobj</span>), <span class='kw'>adjust_k</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (SDEM, estimable, n):
 #&gt;           Direct   Indirect      Total
 #&gt; INC   -1.0695301 -1.1967736 -2.2663036
 #&gt; HOVAL -0.2803441  0.1467585 -0.1335856
@@ -737,11 +691,9 @@ If simulation is carried out, the object returned is a list with:
 #&gt;       Direct     Indirect Total     
 #&gt; INC   0.00098873 0.03543  0.00026248
 #&gt; HOVAL 0.00226152 0.46502  0.56533972
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+#&gt; </div><div class='input'><span class='no'>mobj1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
 <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>mobj1</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:lagsarlm(formula = CRIME ~ INC + HOVAL, data = columbus, listw = listw, 
 #&gt;     type = "mixed", method = "Matrix", control = list(fdHess = TRUE))
 #&gt; 
@@ -770,10 +722,8 @@ If simulation is carried out, the object returned is a list with:
 #&gt; AIC: 378.03, (AIC for lm: 380.2)
 #&gt; LM test for residual autocorrelation
 #&gt; test value: 0.101, p-value: 0.75063
-#&gt; </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj1</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect       Total
 #&gt; INC   -1.0418080 -1.4804246 -2.52223255
 #&gt; HOVAL -0.2836325  0.2302055 -0.05342697
@@ -793,9 +743,7 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total   
 #&gt; INC   0.0024954 0.067485 0.004111
-#&gt; HOVAL 0.0018052 0.428901 0.918119</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+#&gt; HOVAL 0.0018052 0.428901 0.918119</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect       Total
 #&gt; INC   -1.0418080 -1.4804246 -2.52223255
 #&gt; HOVAL -0.2836325  0.2302055 -0.05342697
@@ -815,11 +763,9 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct     Indirect Total    
 #&gt; INC   0.00086751 0.070912 0.0040157
-#&gt; HOVAL 0.00193644 0.415613 0.8904995</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>mobj2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+#&gt; HOVAL 0.00193644 0.415613 0.8904995</div><div class='input'><span class='no'>mobj2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
 <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>optimHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj2</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj2</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect       Total
 #&gt; INC   -1.0418080 -1.4804246 -2.52223255
 #&gt; HOVAL -0.2836325  0.2302055 -0.05342697
@@ -839,11 +785,9 @@ If simulation is carried out, the object returned is a list with:
 #&gt; Simulated p-values:
 #&gt;       Direct    Indirect Total    
 #&gt; INC   0.0012327 0.06162  0.0029093
-#&gt; HOVAL 0.0024741 0.46393  0.8906468</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>mobj3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
+#&gt; HOVAL 0.0024741 0.46393  0.8906468</div><div class='input'><span class='no'>mobj3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>INC</span> + <span class='no'>HOVAL</span>, <span class='no'>columbus</span>, <span class='no'>listw</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mixed"</span>,
 <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"spam"</span>, <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj3</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt; Impact measures (mixed, trace):
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>impacts</span>(<span class='no'>mobj3</span>, <span class='kw'>tr</span><span class='kw'>=</span><span class='no'>trMatc</span>, <span class='kw'>R</span><span class='kw'>=</span><span class='fl'>1000</span>), <span class='kw'>zstats</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>short</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Impact measures (mixed, trace):
 #&gt;           Direct   Indirect       Total
 #&gt; INC   -1.0418080 -1.4804246 -2.52223255
 #&gt; HOVAL -0.2836325  0.2302055 -0.05342697
@@ -864,7 +808,7 @@ If simulation is carried out, the object returned is a list with:
 #&gt;       Direct    Indirect Total    
 #&gt; INC   0.0014206 0.083178 0.0056625
 #&gt; HOVAL 0.0038497 0.441608 0.8975792</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='no'>Wb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/coerce-methods'>as</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='st'>"CsparseMatrix"</span>)
+<span class='no'>Wb</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>), <span class='st'>"CsparseMatrix"</span>)
 <span class='no'>trMatb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='trW.html'>trW</a></span>(<span class='no'>Wb</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"mult"</span>)
 <span class='no'>gp2mMi</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='lagsarlm.html'>lagsarlm</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>CMEDV</span>) ~ <span class='no'>CRIM</span> + <span class='no'>ZN</span> + <span class='no'>INDUS</span> + <span class='no'>CHAS</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>NOX</span>^<span class='fl'>2</span>) +
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/AsIs'>I</a></span>(<span class='no'>RM</span>^<span class='fl'>2</span>) +  <span class='no'>AGE</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>DIS</span>) + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>RAD</span>) + <span class='no'>TAX</span> + <span class='no'>PTRATIO</span> + <span class='no'>B</span> + <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>LSTAT</span>),

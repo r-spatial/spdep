@@ -33,25 +33,15 @@ as.spam.listw(listw)
 \seealso{\code{\link{nb2listw}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 col.listw <- nb2listw(col.gal.nb)
-}
-if (run) {
 col.listw$neighbours[[1]]
-}
-if (run) {
 col.listw$weights[[1]]
-}
-if (run) {
 col.sn <- listw2sn(col.listw)
 str(col.sn)
-}
 \dontrun{
-if (run) {
+if (require("spam", quietly=TRUE)) {
 col.sp <- as.spam.listw(col.listw)
 str(col.sp)
 }

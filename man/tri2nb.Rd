@@ -38,20 +38,13 @@ The function returns an object of class \code{nb} with a list of integer vectors
 \seealso{\code{\link{knn2nb}}, \code{\link{dnearneigh}}, \code{\link{cell2nb}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
-}
-if (run) {
 coords <- coordinates(as(columbus, "Spatial"))
 ind <- row.names(as(columbus, "Spatial"))
 col.tri.nb <- tri2nb(coords, row.names=ind)
 plot(st_geometry(columbus), border="grey")
 plot(col.tri.nb, coords, add=TRUE)
 title(main="Raw triangulation links", cex.main=0.6)
-}
-if (run) {
 x <- seq(0,1,0.1)
 y <- seq(0,2,0.2)
 xy <- expand.grid(x, y)
@@ -60,5 +53,5 @@ seed <- 1234
 xid <- sample(1:nrow(xy))
 xy.nb <- tri2nb(xy[xid,])
 plot(xy.nb, xy[xid,])
-}}
+}
 \keyword{spatial}

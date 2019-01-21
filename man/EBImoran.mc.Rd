@@ -60,21 +60,15 @@ following components:
 \seealso{\code{\link{moran}}, \code{\link{moran.mc}}, \code{\link{EBest}}}
 
 \examples{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
 rn <- as.character(nc.sids$FIPS)
 ncCC89_nb <- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
  region.id=rn)
 EBImoran.mc(nc.sids$SID74, nc.sids$BIR74,
  nb2listw(ncCC89_nb, style="B", zero.policy=TRUE), nsim=999, zero.policy=TRUE)
-}
-if (run) {
 sids.p <- nc.sids$SID74 / nc.sids$BIR74
 moran.mc(sids.p, nb2listw(ncCC89_nb, style="B", zero.policy=TRUE),
  nsim=999, zero.policy=TRUE)
-}
 }
 \keyword{spatial}
 

@@ -25,9 +25,6 @@
 \seealso{\code{\link{LR.sarlm}}, \code{\link{AIC}}}
 
 \examples{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 # read data
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
@@ -39,15 +36,8 @@ mixed <- lagsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb),
 error <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb))
 # compare nested models
 LR.sarlm(mixed, error)
-}
-if (run) {
 anova(lag, lm.mod)
-}
-if (run) {
 anova(lag, error, mixed)
-}
-if (run) {
 AIC(lag, error, mixed)
-}
 }
 \keyword{spatial}

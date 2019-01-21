@@ -24,11 +24,7 @@
 %%\format{}
 %%\details{}
 \examples{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 bh <- st_read(system.file("etc/shapes/bhicv.shp",
       package="spdep")[1])
-}
 }
 \keyword{data}% at least one, from doc/KEYWORDS

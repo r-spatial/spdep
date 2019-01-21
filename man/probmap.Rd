@@ -29,9 +29,6 @@ probmap(n, x, row.names=NULL, alternative="less")
 \seealso{\code{\link{EBest}}, \code{\link{EBlocal}}, \code{\link{ppois}}}
 
 \examples{
-run <- FALSE
-if (require(sf, quietly=TRUE)) run <- TRUE
-if (run) {
 auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
 res <- probmap(auckland$M77_85, 9*auckland$Und5_81)
 rt <- sum(auckland$M77_85)/sum(9*auckland$Und5_81)
@@ -41,19 +38,12 @@ ppois_pmap[i] <- poisson.test(auckland$M77_85[i], r=rt,
   T=(9*auckland$Und5_81[i]), alternative="less")$p.value
 all.equal(ppois_pmap, res$pmap)
 }
-}
-if (run) {
 res$id <- 1:nrow(res)
 auckland$id <- res$id <- 1:nrow(res)
 auckland_res <- merge(auckland, res, by="id")
 plot(auckland_res[, "raw"], main="Crude (raw) estimates")
-}
-if (run) {
 plot(auckland_res[, "relRisk"], main="Standardised mortality ratios")
-}
-if (run) {
 plot(auckland_res[, "pmap"], main="Poisson probabilities",
  breaks=c(0, 0.05, 0.1, 0.5, 0.9, 0.95, 1))
-}
 }
 \keyword{spatial}

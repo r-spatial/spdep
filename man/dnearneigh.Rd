@@ -25,9 +25,6 @@ for neighbours satisfying the distance criteria. See \code{\link{card}} for deta
 \seealso{\code{\link{knearneigh}}, \code{\link{card}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 coords <- st_coordinates(st_centroid(st_geometry(columbus)))
 rn <- row.names(columbus)
@@ -35,14 +32,11 @@ k1 <- knn2nb(knearneigh(coords))
 all.linked <- max(unlist(nbdists(k1, coords)))
 col.nb.0.all <- dnearneigh(coords, 0, all.linked, row.names=rn)
 summary(col.nb.0.all, coords)
-}
-if (run) {
 opar <- par(no.readonly=TRUE)
 plot(st_geometry(columbus), border="grey", reset=FALSE,
  main=paste("Distance based neighbours 0-",  format(all.linked), sep=""))
 plot(col.nb.0.all, coords, add=TRUE)
 par(opar)
-}
 data(state)
 us48.fipsno <- read.geoda(system.file("etc/weights/us48.txt",
  package="spdep")[1])

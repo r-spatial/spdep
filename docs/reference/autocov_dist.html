@@ -191,13 +191,8 @@ for details.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"sf"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/st_read'>st_read</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
 <span class='no'>xy</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='no'>columbus</span>$<span class='no'>X</span>, <span class='no'>columbus</span>$<span class='no'>Y</span>)
 <span class='no'>ac1a</span> <span class='kw'>&lt;-</span> <span class='fu'>autocov_dist</span>(<span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='no'>xy</span>, <span class='kw'>nbs</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>,
  <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"one"</span>)
@@ -205,32 +200,27 @@ for details.</p>
  <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"inverse"</span>)
 <span class='no'>acinv2a</span> <span class='kw'>&lt;-</span> <span class='fu'>autocov_dist</span>(<span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='no'>xy</span>, <span class='kw'>nbs</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>,
  <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"inverse.squared"</span>)
-}
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/sf/topics/plot'>plot</a></span>(<span class='no'>ac1a</span> ~ <span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>acinva</span> ~ <span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>acinv2a</span> ~ <span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>)
-}</div><div class='img'><img src='autocov_dist-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span>(<span class='no'>xy</span>, <span class='fl'>0</span>, <span class='fl'>10</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>ac1a</span> ~ <span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>acinva</span> ~ <span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>acinv2a</span> ~ <span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>16</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>)</div><div class='img'><img src='autocov_dist-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span>(<span class='no'>xy</span>, <span class='fl'>0</span>, <span class='fl'>10</span>)
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 <span class='no'>ac1b</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lag'>lag</a></span>(<span class='no'>lw</span>, <span class='no'>columbus</span>$<span class='no'>CRIME</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ac1b</span>, <span class='no'>ac1a</span>)
-}</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>nbd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbdists.html'>nbdists</a></span>(<span class='no'>nb</span>, <span class='no'>xy</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>ac1b</span>, <span class='no'>ac1a</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>nbd</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbdists.html'>nbdists</a></span>(<span class='no'>nb</span>, <span class='no'>xy</span>)
 <span class='no'>gl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>nbd</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>1</span>/<span class='no'>x</span>)
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nb</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='no'>gl</span>)
 <span class='no'>acinvb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lag'>lag</a></span>(<span class='no'>lw</span>, <span class='no'>columbus</span>$<span class='no'>CRIME</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>acinvb</span>, <span class='no'>acinva</span>)
-}</div><div class='output co'>#&gt; [1] "Mean relative difference: 4.825204"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>gl2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>nbd</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>1</span>/(<span class='no'>x</span>^<span class='fl'>2</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>acinvb</span>, <span class='no'>acinva</span>)</div><div class='output co'>#&gt; [1] "Mean relative difference: 4.825204"</div><div class='input'><span class='no'>gl2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>nbd</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>1</span>/(<span class='no'>x</span>^<span class='fl'>2</span>))
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nb</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='no'>gl2</span>)
 <span class='no'>acinv2b</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lag'>lag</a></span>(<span class='no'>lw</span>, <span class='no'>columbus</span>$<span class='no'>CRIME</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>acinv2b</span>, <span class='no'>acinv2a</span>)
-}</div><div class='output co'>#&gt; [1] "Mean relative difference: 1.108139"</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>HOVAL</span> + <span class='no'>ac1b</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"gaussian"</span>)
-<span class='fu'><a href='spautolm.html'>spautolm</a></span>(<span class='no'>columbus</span>$<span class='no'>CRIME</span> ~ <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))
-}</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>acinv2b</span>, <span class='no'>acinv2a</span>)</div><div class='output co'>#&gt; [1] "Mean relative difference: 1.108139"</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/glm'>glm</a></span>(<span class='no'>CRIME</span> ~ <span class='no'>HOVAL</span> + <span class='no'>ac1b</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"gaussian"</span>)</div><div class='output co'>#&gt; 
+#&gt; Call:  glm(formula = CRIME ~ HOVAL + ac1b, family = "gaussian", data = columbus)
+#&gt; 
+#&gt; Coefficients:
+#&gt; (Intercept)        HOVAL         ac1b  
+#&gt;    24.17582     -0.31353      0.02312  
+#&gt; 
+#&gt; Degrees of Freedom: 48 Total (i.e. Null);  46 Residual
+#&gt; Null Deviance:	    13440 
+#&gt; Residual Deviance: 5148 	AIC: 375.1</div><div class='input'><span class='fu'><a href='spautolm.html'>spautolm</a></span>(<span class='no'>columbus</span>$<span class='no'>CRIME</span> ~ <span class='no'>HOVAL</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>columbus</span>,
+ <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; spautolm(formula = columbus$CRIME ~ HOVAL, data = columbus, listw = nb2listw(nb, 
 #&gt;     style = "W"))
@@ -239,8 +229,7 @@ for details.</p>
 #&gt; (Intercept)       HOVAL      lambda 
 #&gt;  48.7892314  -0.4377925   0.6323170 
 #&gt; 
-#&gt; Log likelihood: -195.0896 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>xy</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPoints</span>(<span class='no'>xy</span>)
+#&gt; Log likelihood: -195.0896 </div><div class='input'><span class='no'>xy</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPoints</span>(<span class='no'>xy</span>)
 <span class='no'>acinva</span> <span class='kw'>&lt;-</span> <span class='fu'>autocov_dist</span>(<span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='no'>xy</span>, <span class='kw'>nbs</span><span class='kw'>=</span><span class='fl'>10</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>,
  <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"inverse"</span>)
 <span class='no'>nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span>(<span class='no'>xy</span>, <span class='fl'>0</span>, <span class='fl'>10</span>)
@@ -248,8 +237,7 @@ for details.</p>
 <span class='no'>gl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>nbd</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>1</span>/<span class='no'>x</span>)
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nb</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='no'>gl</span>)
 <span class='no'>acinvb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lag'>lag</a></span>(<span class='no'>lw</span>, <span class='no'>columbus</span>$<span class='no'>CRIME</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>acinvb</span>, <span class='no'>acinva</span>)
-}</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all.equal'>all.equal</a></span>(<span class='no'>acinvb</span>, <span class='no'>acinva</span>)</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

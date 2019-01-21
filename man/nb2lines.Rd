@@ -39,25 +39,16 @@ df2sn(df, i="i", i_ID="i_ID", j="j", wt="wt")
 \seealso{\code{\link{sn2listw}}, \code{\link[maptools]{readShapeLines}}}
 
 \examples{
-run <- FALSE
-if (require("sf", quietly=TRUE)) run <- TRUE
-if (run) {
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- coordinates(as(columbus, "Spatial"))
 res <- listw2lines(nb2listw(col.gal.nb), coords)
 summary(res)
-}
-if (run) {
 tf <- paste0(tempfile(), ".gpkg")
 st_write(st_as_sf(res), dsn=tf, driver="GPKG")
-}
-if (run) {
 inMap <- st_read(tf)
 summary(inMap)
-}
-if (run) {
 diffnb(sn2listw(df2sn(as.data.frame(inMap)))$neighbours, col.gal.nb)
-}}
+}
 \keyword{spatial}
 
