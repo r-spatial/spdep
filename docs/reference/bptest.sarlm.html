@@ -206,10 +206,7 @@ Dordrecht: Kluwer, pp. 121--122.</p>
 #&gt; </div><div class='input'><span class='no'>lm.target</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>error.col</span>$<span class='no'>tary</span> ~ <span class='no'>error.col</span>$<span class='no'>tarX</span> - <span class='fl'>1</span>)
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>lmtest</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>sandwich</span>)) {
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/lmtest/topics/coeftest'>coeftest</a></span>(<span class='no'>lm.target</span>, <span class='kw'>vcov</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/sandwich/topics/vcovHC'>vcovHC</a></span>(<span class='no'>lm.target</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"HC0"</span>), <span class='kw'>df</span><span class='kw'>=</span><span class='fl'>Inf</span>))
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: lmtest</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: zoo</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘zoo’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    as.Date, as.Date.numeric</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: sandwich</span></div><div class='output co'>#&gt; 
+}</div><div class='output co'>#&gt; 
 #&gt; z test of coefficients:
 #&gt; 
 #&gt;                                             Estimate Std. Error z value

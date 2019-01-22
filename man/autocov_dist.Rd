@@ -12,7 +12,7 @@ autocov_dist(z, xy, nbs = 1, type = "inverse", zero.policy = NULL,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{z}{the response variable}
-  \item{xy}{a matrix of coordinates or a SpatialPoints object}
+  \item{xy}{a matrix of coordinates or a SpatialPoints, \code{sf} or \code{sfc} points object}
   \item{nbs}{neighbourhood radius; default is 1}
   \item{type}{the weighting scheme: "one" gives equal weight to all data points in the neighbourhood; "inverse" (the default) weights by inverse distance; "inverse.squared" weights by the square of "inverse"}
   \item{zero.policy}{default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
@@ -36,33 +36,33 @@ for details.}
 \seealso{\code{\link{nb2listw}}}
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
-col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-xy <- cbind(columbus$X, columbus$Y)
+#xy <- cbind(columbus$X, columbus$Y)
+xy <- st_coordinates(st_centroid(st_geometry(columbus),
+ of_largest_polygon=TRUE))
 ac1a <- autocov_dist(columbus$CRIME, xy, nbs=10, style="B",
  type="one")
 acinva <- autocov_dist(columbus$CRIME, xy, nbs=10, style="B",
  type="inverse")
 acinv2a <- autocov_dist(columbus$CRIME, xy, nbs=10, style="B",
  type="inverse.squared")
-plot(ac1a ~ columbus$CRIME, pch=16)
+plot(ac1a ~ columbus$CRIME, pch=16, ylim=c(0,9000))
 points(acinva ~ columbus$CRIME, pch=16, col="red")
 points(acinv2a ~ columbus$CRIME, pch=16, col="blue")
+legend("topleft", legend=c("one", "inverse", "inverse.squared"),
+ col=c("black", "red", "blue"), bty="n", pch=16)
 nb <- dnearneigh(xy, 0, 10)
 lw <- nb2listw(nb, style="B")
 ac1b <- lag(lw, columbus$CRIME)
 all.equal(ac1b, ac1a)
 nbd <- nbdists(nb, xy)
 gl <- lapply(nbd, function(x) 1/x)
-lw <- nb2listw(nb, glist=gl)
+lw <- nb2listw(nb, glist=gl, style="B")
 acinvb <- lag(lw, columbus$CRIME)
 all.equal(acinvb, acinva)
 gl2 <- lapply(nbd, function(x) 1/(x^2))
-lw <- nb2listw(nb, glist=gl2)
+lw <- nb2listw(nb, glist=gl2, style="B")
 acinv2b <- lag(lw, columbus$CRIME)
 all.equal(acinv2b, acinv2a)
-glm(CRIME ~ HOVAL + ac1b, data=columbus, family="gaussian")
-spautolm(columbus$CRIME ~ HOVAL, data=columbus,
- listw=nb2listw(nb, style="W"))
 xy <- SpatialPoints(xy)
 acinva <- autocov_dist(columbus$CRIME, xy, nbs=10, style="W",
  type="inverse")
@@ -72,6 +72,9 @@ gl <- lapply(nbd, function(x) 1/x)
 lw <- nb2listw(nb, glist=gl)
 acinvb <- lag(lw, columbus$CRIME)
 all.equal(acinvb, acinva)
+acinvc <- autocov_dist(columbus$CRIME, st_centroid(st_geometry(columbus),
+ of_largest_polygon=TRUE), nbs=10, style="W", type="inverse")
+all.equal(acinvc, acinva)
 }
 \keyword{spatial}
 

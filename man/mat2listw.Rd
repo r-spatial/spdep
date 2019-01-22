@@ -33,9 +33,8 @@ A \code{listw} object with the following members:
 \seealso{\code{\link{nb2listw}}, \code{\link{nb2mat}}}
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
-col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-coords <- coordinates(as(columbus, "Spatial"))
-col005 <- dnearneigh(coords, 0, 0.5, attr(col.gal.nb, "region.id"))
+col005 <- dnearneigh(st_coordinates(st_centroid(st_geometry(columbus),
+ of_largest_polygon=TRUE)), 0, 0.5, as.character(columbus$NEIGNO))
 summary(col005)
 col005.w.mat <- nb2mat(col005, zero.policy=TRUE)
 col005.w.b <- mat2listw(col005.w.mat)

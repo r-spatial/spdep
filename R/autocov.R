@@ -30,7 +30,25 @@ autocov_dist <- function(z, xy, nbs=1, type="inverse", zero.policy=NULL,
          longlat <- TRUE
       } else longlat <- FALSE
       xy <- coordinates(xy)
-   } else if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
+   } else {
+      if (inherits(xy, "sf")) {
+          if (is.null(row.names)) row.names <- row.names(xy)
+          xy <- sf::st_geometry(xy)
+      }
+      if (inherits(xy, "sfc")) {
+         if (!is.null(longlat))
+             warning("dnearneigh: longlat argument overriden by object")
+         if (!inherits(xy, "sfc_POINT"))
+             stop("Point geometries required")
+         if (attr(xy, "n_empty") > 0L) 
+             stop("Empty geometries found")
+         if (!is.na(sf::st_is_longlat(xy)) && sf::st_is_longlat(xy)) {
+             longlat <- TRUE
+         } else longlat <- FALSE
+         xy <- sf::st_coordinates(xy)
+      }
+   }
+   if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
    stopifnot(ncol(xy) == 2)
    if (longlat) {
         bb <- bbox(xy)
