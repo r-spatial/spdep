@@ -182,16 +182,8 @@
     <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
-<span class='no'>col.tri.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tri2nb.html'>tri2nb</a></span>(<span class='no'>coords</span>)</div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>     PLEASE NOTE:  The components "delsgs" and "summary" of the</span>
-#&gt; <span class='message'> object returned by deldir() are now DATA FRAMES rather than</span>
-#&gt; <span class='message'> matrices (as they were prior to release 0.0-18).</span>
-#&gt; <span class='message'> See help("deldir").</span>
-#&gt; <span class='message'> </span>
-#&gt; <span class='message'>     PLEASE NOTE: The process that deldir() uses for determining</span>
-#&gt; <span class='message'> duplicated points has changed from that used in version</span>
-#&gt; <span class='message'> 0.0-9 of this package (and previously). See help("deldir").</span>
-#&gt; <span class='message'></span></div><div class='input'><span class='no'>oldpar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mfrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>))
+<span class='no'>col.tri.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tri2nb.html'>tri2nb</a></span>(<span class='no'>coords</span>)
+<span class='no'>oldpar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mfrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>2</span>))
 <span class='no'>col.soi.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graphneigh.html'>graph2nb</a></span>(<span class='fu'><a href='graphneigh.html'>soi.graph</a></span>(<span class='no'>col.tri.nb</span>, <span class='no'>coords</span>))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>col.soi.nb</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)

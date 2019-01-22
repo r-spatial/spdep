@@ -10,7 +10,16 @@ tri2nb <- function(coords, row.names = NULL) {
                 warning("tri2nb: coordinates should be planar")
             }
             coords <- coordinates(coords)
+        } else if (inherits(coords, "sfc")) {
+            if (!inherits(coords, "sfc_POINT"))
+                stop("Point geometries required")
+            if (attr(coords, "n_empty") > 0L) 
+                stop("Empty geometries found")
+            if (!is.na(sf::st_is_longlat(coords)) && sf::st_is_longlat(coords))
+                warning("tri2nb: coordinates should be planar")
+            coords <- sf::st_coordinates(coords)
         }
+
 	n <- nrow(coords)
 	if (n < 3) stop("too few coordinates")
 #	left <- function(x) {

@@ -26,7 +26,7 @@ graph2nb(gob, row.names=NULL,sym=FALSE)
 }
 
 \arguments{
-  \item{coords}{matrix of region point coordinates}
+  \item{coords}{matrix of region point coordinates or SpatialPoints object or \code{sfc} points object}
   \item{nnmult}{scaling factor for memory allocation, default 3; if higher values are required, the function will exit with an error; example below thanks to Dan Putler}
   \item{tri.nb}{a neighbor list created from tri2nb}
   \item{quadsegs}{number of line segments making a quarter circle buffer, see \code{\link[rgeos]{gBuffer}}}
@@ -104,11 +104,14 @@ The helper functions return an \code{nb} object with a list of integer
 
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
-coords <- coordinates(as(columbus, "Spatial"))
+sf_obj <- st_centroid(st_geometry(columbus), of_largest_polygon)
+sp_obj <- as(sf_obj, "Spatial")
+coords <- st_coordinates(sf_obj)
+suppressPackageStartupMessages(require(deldir))
+col.tri.nb <- tri2nb(coords)
+col.gab.nb <- graph2nb(gabrielneigh(coords), sym=TRUE)
+col.rel.nb <- graph2nb(relativeneigh(coords), sym=TRUE)
 par(mfrow=c(2,2))
-col.tri.nb<-tri2nb(coords)
-col.gab.nb<-graph2nb(gabrielneigh(coords), sym=TRUE)
-col.rel.nb<- graph2nb(relativeneigh(coords), sym=TRUE)
 plot(st_geometry(columbus), border="grey")
 plot(col.tri.nb,coords,add=TRUE)
 title(main="Delaunay Triangulation")
@@ -119,12 +122,20 @@ plot(st_geometry(columbus), border="grey")
 plot(col.rel.nb, coords, add=TRUE)
 title(main="Relative Neighbor Graph")
 plot(st_geometry(columbus), border="grey")
-if (require(rgeos, quietly=TRUE) && require(RANN, quietly=TRUE)) {
+if (require(RANN, quietly=TRUE)) {
   col.soi.nb <- graph2nb(soi.graph(col.tri.nb,coords), sym=TRUE)
   plot(col.soi.nb, coords, add=TRUE)
   title(main="Sphere of Influence Graph")
 }
 par(mfrow=c(1,1))
+col.tri.nb_sf <- tri2nb(sf_obj)
+all.equal(col.tri.nb, col.tri.nb_sf, check.attributes=FALSE)
+col.tri.nb_sp <- tri2nb(sp_obj)
+all.equal(col.tri.nb, col.tri.nb_sp, check.attributes=FALSE)
+col.soi.nb_sf <- graph2nb(soi.graph(col.tri.nb, sf_obj), sym=TRUE)
+all.equal(col.soi.nb, col.soi.nb_sf, check.attributes=FALSE)
+col.soi.nb_sp <- graph2nb(soi.graph(col.tri.nb, sp_obj), sym=TRUE)
+all.equal(col.soi.nb, col.soi.nb_sp, check.attributes=FALSE)
 dx <- rep(0.25*0:4,5)
 dy <- c(rep(0,5),rep(0.25,5),rep(0.5,5), rep(0.75,5),rep(1,5))
 m <- cbind(c(dx, dx, 3+dx, 3+dx), c(dy, 3+dy, dy, 3+dy))

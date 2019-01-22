@@ -12,7 +12,7 @@ ids.
 tri2nb(coords, row.names = NULL)
 }
 \arguments{
-  \item{coords}{matrix of point coordinates with two columns}
+  \item{coords}{matrix of point coordinates with two columns, a SpatialPoints object or an \code{sfc} points object}
   \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}}
 }
 
@@ -39,8 +39,9 @@ The function returns an object of class \code{nb} with a list of integer vectors
 
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
-coords <- coordinates(as(columbus, "Spatial"))
-ind <- row.names(as(columbus, "Spatial"))
+coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
+ind <- row.names(columbus)
+suppressPackageStartupMessages(require(deldir))
 col.tri.nb <- tri2nb(coords, row.names=ind)
 plot(st_geometry(columbus), border="grey")
 plot(col.tri.nb, coords, add=TRUE)
