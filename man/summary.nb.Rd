@@ -1,4 +1,4 @@
-% Copyright 2001-3 by Roger S. Bivand
+% Copyright 2001-19 by Roger S. Bivand
 \name{summary.nb}
 \alias{summary.nb}
 \alias{print.nb}
@@ -20,7 +20,7 @@ the link lengths are also printed. Print and summary functions are also availabl
 
 \arguments{
   \item{object}{an object of class \code{nb}}
-  \item{coords}{matrix of region point coordinates or a SpatialPoints object}
+  \item{coords}{matrix of region point coordinates or a SpatialPoints object or an \code{sfc} points object}
   \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if coords is a SpatialPoints object, the value is taken from the object itself}
   \item{...}{additional arguments affecting the output produced}
   \item{x}{an object of class \code{nb}}
@@ -34,7 +34,7 @@ the link lengths are also printed. Print and summary functions are also availabl
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-coords <- coordinates(as(columbus, "Spatial"))
+coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
 col.gal.nb
 summary(col.gal.nb, coords)
 col.listw <- nb2listw(col.gal.nb, style="W")

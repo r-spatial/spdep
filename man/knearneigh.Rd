@@ -32,9 +32,8 @@ A list of class \code{knn}
 \code{\link{knn2nb}}, \code{\link[RANN]{nn2}}}
 
 \examples{
-run <- FALSE
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
-coords <- coordinates(as(columbus, "Spatial"))
+coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
 col.knn <- knearneigh(coords, k=4)
 plot(st_geometry(columbus), border="grey")
 plot(knn2nb(col.knn), coords, add=TRUE)

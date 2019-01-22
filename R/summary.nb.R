@@ -1,4 +1,4 @@
-# Copyright 2001-2010 by Roger Bivand
+# Copyright 2001-2019 by Roger Bivand
 # Upgrade to sp classes February 2007
 #
 
@@ -32,7 +32,19 @@ summary.nb <- function(object, coords=NULL, longlat=NULL, scale=1, ...) {
          		longlat <- TRUE
       		} else longlat <- FALSE
       		coords <- coordinates(coords)
-   	} else if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
+   	} else if (inherits(coords, "sfc")) {
+           if (!is.null(longlat))
+               warning("dnearneigh: longlat argument overriden by object")
+           if (!inherits(coords, "sfc_POINT"))
+               stop("Point geometries required")
+           if (attr(coords, "n_empty") > 0L) 
+               stop("Empty geometries found")
+           if (!is.na(sf::st_is_longlat(coords)) && sf::st_is_longlat(coords)) {
+               longlat <- TRUE
+           } else longlat <- FALSE
+           coords <- sf::st_coordinates(coords)
+        }
+        if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
         if (!is.matrix(coords)) stop("Data not in matrix form")
         if (any(is.na(coords))) stop("Data include NAs")
         stopifnot(ncol(coords) == 2)

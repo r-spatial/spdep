@@ -157,7 +157,7 @@ the link lengths are also printed. Print and summary functions are also availabl
     </tr>
     <tr>
       <th>coords</th>
-      <td><p>matrix of region point coordinates or a SpatialPoints object</p></td>
+      <td><p>matrix of region point coordinates or a SpatialPoints object or an <code>sfc</code> points object</p></td>
     </tr>
     <tr>
       <th>longlat</th>
@@ -189,7 +189,7 @@ the link lengths are also printed. Print and summary functions are also availabl
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
+<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>st_centroid</span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>of_largest_polygon</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col.gal.nb</span></div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 230 

@@ -1,10 +1,19 @@
-# Copyright 2001-2013 by Roger Bivand and Elias Krainski
+# Copyright 2001-2019 by Roger Bivand and Elias Krainski
 #
 
 
 plot.nb <- function(x, coords, col="black", points=TRUE, add=FALSE, 
 	arrows=FALSE, length=0.1, xlim=NULL, ylim=NULL, ...) {
 	nb <- x
+
+        if (inherits(coords, "sfc")) {
+            if (!inherits(coords, "sfc_POINT"))
+                stop("Point geometries required")
+            if (attr(coords, "n_empty") > 0L) 
+                stop("Empty geometries found")
+            coords <- sf::st_coordinates(coords)
+        }
+        
         stopifnot(length(nb) == nrow(coords))
 	sym <- is.symmetric.nb(nb, verbose = FALSE, force = FALSE)
 	x <- coords[,1]

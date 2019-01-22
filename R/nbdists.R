@@ -1,4 +1,4 @@
-# Copyright 2001-2010 by Roger Bivand
+# Copyright 2001-2019 by Roger Bivand
 # Upgrade to sp classes February 2007
 #
 
@@ -7,12 +7,28 @@ nbdists <- function(nb, coords, longlat=NULL) {
 	if (!inherits(nb, "nb")) 
         	stop("Not a neighbours list")
    	if (inherits(coords, "SpatialPoints")) {
+                if (!is.null(longlat))
+                    warning("dnearneigh: longlat argument overrides object")
       		if ((is.null(longlat) || !is.logical(longlat)) 
 		    && !is.na(is.projected(coords)) && !is.projected(coords)) {
          		longlat <- TRUE
       		} else longlat <- FALSE
       		coords <- coordinates(coords)[, 1:2]
-   	} else if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
+   	} else if (inherits(coords, "sfc")) {
+           if (!is.null(longlat))
+               warning("dnearneigh: longlat argument overrides object")
+           if (!inherits(coords, "sfc_POINT"))
+               stop("Point geometries required")
+           if (attr(coords, "n_empty") > 0L) 
+               stop("Empty geometries found")
+           if ((is.null(longlat) || !is.logical(longlat)) 
+	       && !is.na(sf::st_is_longlat(coords)) && 
+               sf::st_is_longlat(coords)) {
+               longlat <- TRUE
+           } else longlat <- FALSE
+           coords <- sf::st_coordinates(coords)
+        }
+        if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
 	if (!is.numeric(coords)) stop("Data non-numeric")
 	if (!is.matrix(coords)) 
             stop("Data not in matrix form")

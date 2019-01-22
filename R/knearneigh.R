@@ -11,7 +11,26 @@ knearneigh <- function(x, k=1, longlat=NULL, RANN=TRUE)
            longlat <- TRUE
         } else longlat <- FALSE
         x <- coordinates(x)[, 1:2]
-    } else if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
+    } else {
+      if (inherits(x, "sf")) {
+          if (is.null(row.names)) row.names <- row.names(x)
+          x <- sf::st_geometry(x)
+      }
+      if (inherits(x, "sfc")) {
+         if (!is.null(longlat))
+             warning("dnearneigh: longlat argument overrides object")
+         if (!inherits(x, "sfc_POINT"))
+             stop("Point geometries required")
+         if (attr(x, "n_empty") > 0L) 
+             stop("Empty geometries found")
+         if ((is.null(longlat) || !is.logical(longlat)) 
+ 	     && !is.na(sf::st_is_longlat(x)) && sf::st_is_longlat(x)) {
+             longlat <- TRUE
+         } else longlat <- FALSE
+         x <- sf::st_coordinates(x)
+      }
+    } 
+    if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
     if (!is.numeric(x)) stop("knearneigh: data non-numeric")
     if (!is.matrix(x)) stop("knearneigh: data not in matrix form")
     stopifnot(ncol(x) == 2)

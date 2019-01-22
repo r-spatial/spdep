@@ -6,8 +6,9 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GT", "
     if (inherits(x, "SpatialPoints")) {
 # correct logic
       if (!is.null(longlat))
-          warning("dnearneigh: longlat argument overriden by object")
-      if (!is.na(is.projected(x)) && !is.projected(x)) {
+          warning("dnearneigh: longlat argument overrides object")
+      if ((is.null(longlat) || !is.logical(longlat)) 
+	  && !is.na(is.projected(x)) && !is.projected(x)) {
           longlat <- TRUE
       } else longlat <- FALSE
       x <- coordinates(x)[, 1:2]
@@ -18,12 +19,13 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GT", "
       }
       if (inherits(x, "sfc")) {
          if (!is.null(longlat))
-             warning("dnearneigh: longlat argument overriden by object")
+             warning("dnearneigh: longlat argument overrides object")
          if (!inherits(x, "sfc_POINT"))
              stop("Point geometries required")
          if (attr(x, "n_empty") > 0L) 
              stop("Empty geometries found")
-         if (!is.na(sf::st_is_longlat(x)) && sf::st_is_longlat(x)) {
+         if ((is.null(longlat) || !is.logical(longlat)) 
+	     && !is.na(sf::st_is_longlat(x)) && sf::st_is_longlat(x)) {
              longlat <- TRUE
          } else longlat <- FALSE
          x <- sf::st_coordinates(x)
