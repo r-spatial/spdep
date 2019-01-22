@@ -1,7 +1,21 @@
-# Copyright 2001 by Nicholas Lewin-Koh 
+# Copyright 2001-2019 by Nicholas Lewin-Koh and Roger Bivand
 #
 
 gabrielneigh <- function(coords, nnmult=3) {
+    if (inherits(coords, "SpatialPoints")) {
+        if (!is.na(is.projected(coords)) && !is.projected(coords)) {
+            warning("gabrielneigh: coordinates should be planar")
+        }
+        coords <- coordinates(coords)
+    } else if (inherits(coords, "sfc")) {
+        if (!inherits(coords, "sfc_POINT"))
+            stop("Point geometries required")
+        if (attr(coords, "n_empty") > 0L) 
+            stop("Empty geometries found")
+        if (!is.na(sf::st_is_longlat(coords)) && sf::st_is_longlat(coords))
+            warning("gabrielneigh: coordinates should be planar")
+        coords <- sf::st_coordinates(coords)
+    }
     x <- coords
     if (!is.matrix(x)) stop("Data not in matrix form")
     if (any(is.na(x))) stop("Data cannot include NAs")
