@@ -461,5 +461,5 @@ plot(ll ~ lambda, ecarIawll$llprof, type="l")
 
 ## References
 
-[^1]: These data are taken with permission from:
-    <http://sal.agecon.uiuc.edu/datasets/sids.zip>.
+[^1]: These data were taken with permission from a now-offline link:
+    [sal.agecon.uiuc.edu/datasets/sids.zip].
