@@ -39,7 +39,7 @@ library(spdep)
 ```
 
 We will be using the **spdep** package, here version: `r spdep()[1]`, the **sp** package and the **maptools** package. The data from the sources
-refered to above is documented in the help page for the `nc.sids`
+referred to above is documented in the [help page](https://nowosad.github.io/spData/reference/nc.sids.html) for the `nc.sids`
 data set in **spData**. The actual data, included in a shapefile of the county boundaries for North Carolina has been made available in the **maptools** package [^1]. These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.
 
 ```{r echo=TRUE,eval=TRUE}
@@ -78,12 +78,92 @@ names(nc)
 summary(nc)
 ```
 
+Let's check the different versions of the data against each other - **sf** and **spData** have NC SIDS files, as does GeoDa Center in two forms:
+
+```{r echo=TRUE,eval=TRUE}
+library(sf)
+nc_sf <- st_read(system.file("shape/nc.shp", package="sf"),
+                 quiet=TRUE)
+st_crs(nc_sf)
+spData_sf <- st_read(system.file("shapes/sids.shp",
+                 package="spData"), quiet=TRUE)
+st_crs(spData_sf)
+```
+
+As the actual CRS is unknown, **spData** reports missing, although it may very well be `+proj=longlat +datum=NAD27`
+
+```{r echo=TRUE,eval=TRUE}
+st_crs(spData_sf) <- "+proj=longlat +datum=NAD27"
+```
+
+Next, are the geometries the same?
+
+```{r echo=TRUE,eval=TRUE}
+if (require("rgeos", quietly=TRUE)){
+  gEquals(as(st_geometry(spData_sf), "Spatial"),
+          as(st_geometry(nc_sf), "Spatial"))
+}
+```
+
+```{r echo=TRUE,eval=TRUE}
+td <- tempdir()
+download.file("https://s3.amazonaws.com/geoda/data/sids.zip", file.path(td, "sids.zip"), quiet=TRUE)
+unzip(file.path(td, "sids.zip"), c("sids/sids.dbf", "sids/sids.prj", "sids/sids.shp", "sids/sids.shx"), exdir=td)
+sids_sf <- st_read(file.path(td, "sids/sids.shp"), quiet=TRUE)
+download.file("https://s3.amazonaws.com/geoda/data/sids2.zip", file.path(td, "sids2.zip"), quiet=TRUE)
+unzip(file.path(td, "sids2.zip"), c("sids2/sids2.dbf", "sids2/sids2.prj", "sids2/sids2.shp", "sids2/sids2.shx"), exdir=td)
+sids2_sf <- st_read(file.path(td, "sids2/sids2.shp"), quiet=TRUE)
+```
+
+```{r echo=TRUE,eval=TRUE}
+st_crs(sids_sf)
+st_crs(sids2_sf)
+```
+
+It looks as though the external files are assuming WGS84/NAD83 for the datum, but also contain the same geometries.
+
+```{r echo=TRUE,eval=TRUE}
+if (require("rgeos", quietly=TRUE)){
+  gEquals(as(st_geometry(sids_sf), "Spatial"),
+          as(st_geometry(nc_sf), "Spatial"))
+}
+```
+
+```{r echo=TRUE,eval=TRUE}
+if (require("rgeos", quietly=TRUE)){
+  gEquals(as(st_geometry(sids2_sf), "Spatial"),
+          as(st_geometry(nc_sf), "Spatial"))
+}
+```
+
+Now for the contents of the files - `sids2` also contains rates, while `spData` contains the coordinates given in @cressie:1991, and the parcels of contiguous counties on p. 554, and the aggregations used for median polishing.
+
+```{r echo=TRUE, eval=TRUE}
+all.equal(as.data.frame(nc_sf)[,1:14], as.data.frame(sids_sf)[,1:14])
+all.equal(as.data.frame(nc_sf)[,1:14], as.data.frame(sids2_sf)[,1:14])
+```
+
+The **spData** data set has some columns reordered and a surprise:
+
+```{r echo=TRUE, eval=TRUE}
+all.equal(as.data.frame(nc_sf)[,1:14], as.data.frame(spData_sf)[,c(2,3,4,1,5:14)])
+```
+
+so a difference in `NWBIR74`:
+
+```{r echo=TRUE, eval=TRUE}
+which(!(nc_sf$NWBIR74 == spData_sf$NWBIR74))
+c(spData_sf$NWBIR74[21], nc_sf$NWBIR74[21])
+```
+
+where **spData** follows @cressie:1991 and **sf** and Geoda follow @cressie+chan:1989 for NWBIR74 in Chowan county.
+
 We will now examine the data set reproduced from Cressie and
-collaborators, included in **spdep**, and add the neighbour relationships used in
+collaborators, included in **spData** (formerly in **spdep**), and add the neighbour relationships used in
 @cressie+chan:1989 to the background map as a graph shown in Figure
 \ref{plot-CC89.nb}:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE, eval=TRUE}
 gal_file <- system.file("weights/ncCR85.gal", package="spData")[1]
 ncCR85 <- read.gal(gal_file, region.id=nc$FIPSNO)
 ncCR85
@@ -462,4 +542,4 @@ plot(ll ~ lambda, ecarIawll$llprof, type="l")
 ## References
 
 [^1]: These data were taken with permission from a now-offline link:
-    [sal.agecon.uiuc.edu/datasets/sids.zip].
+[sal.agecon.uiuc.edu/datasets/sids.zip]; see also [GeoDa Center](https://geodacenter.github.io/data-and-lab/) for a contemporary source.
