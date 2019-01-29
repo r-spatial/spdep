@@ -66,7 +66,7 @@ The spBreg_lag function is an early-release version of the Matlab Spatial Econom
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@ The spBreg_lag function is an early-release version of the Matlab Spatial Econom
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
     </li>
     <li>
-      <a href="../articles/sids.html">Introduction to the North Carolina SIDS data set (revised)</a>
+      <a href="../articles/sids.html">Introduction to the North Carolina SIDS data set (re-revised)</a>
     </li>
   </ul>
 </li>
@@ -535,7 +535,7 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; rho:	 0.4310232 	function value:	 -182.3904 
 #&gt; Computing eigenvalues ...
 #&gt; </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.195   0.001   0.214 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.M</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.196   0.000   0.199 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = nb2listw(COL.nb), 
 #&gt;     method = "Matrix", quiet = FALSE)
@@ -584,7 +584,7 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; rho:	 0.4310232 	function value:	 -182.3904 
 #&gt; Computing eigenvalues ...
 #&gt; </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.195   0.000   0.211 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.sp</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.199   0.001   0.214 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>COL.lag.sp</span>)</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; lagsarlm(formula = CRIME ~ INC + HOVAL, data = COL.OLD, listw = nb2listw(COL.nb), 
 #&gt;     method = "spam", quiet = FALSE)
@@ -1261,16 +1261,16 @@ pp. 237-289; Cressie, N. A. C. 1993 <em>Statistics for spatial data</em>, Wiley,
 #&gt; rho                    0.5478  0.56578  0.57579  0.58579  0.60480
 #&gt; sige                   0.0132  0.01362  0.01386  0.01408  0.01457
 #&gt; </div><div class='input'><span class='no'>el_ml</span>$<span class='no'>timings</span></div><div class='output co'>#&gt;           user.self elapsed
-#&gt; set_up        0.019   0.021
-#&gt; LU_set_up     0.004   0.005
-#&gt; LU_opt        0.289   0.326
-#&gt; coefs         0.003   0.002
-#&gt; LU_fdHess     0.427   0.479</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>el_B</span>, <span class='st'>"timings"</span>)</div><div class='output co'>#&gt;                   user.self sys.self elapsed user.child sys.child
-#&gt; set_up                0.013    0.000   0.013          0         0
-#&gt; SE_classic_set_up     3.966    0.010   4.506          0         0
-#&gt; complete_setup        0.001    0.000   0.000          0         0
-#&gt; sampling              1.735    0.014   2.194          0         0
-#&gt; finalise              0.017    0.000   0.019          0         0</div></pre>
+#&gt; set_up        0.015   0.015
+#&gt; LU_set_up     0.003   0.003
+#&gt; LU_opt        0.234   0.235
+#&gt; coefs         0.002   0.002
+#&gt; LU_fdHess     0.341   0.342</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>el_B</span>, <span class='st'>"timings"</span>)</div><div class='output co'>#&gt;                   user.self sys.self elapsed user.child sys.child
+#&gt; set_up                0.011    0.000   0.012          0         0
+#&gt; SE_classic_set_up     3.343    0.000   3.351          0         0
+#&gt; complete_setup        0.000    0.000   0.000          0         0
+#&gt; sampling              1.315    0.001   1.320          0         0
+#&gt; finalise              0.013    0.000   0.014          0         0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -1,12 +1,12 @@
 ---
-title: "Introduction to the North Carolina SIDS data set (revised)"
+title: "Introduction to the North Carolina SIDS data set (re-revised)"
 author: "Roger Bivand"
 output:
   html_document:
     toc: true
 bibliography: refs.bib
 vignette: >
-  %\VignetteIndexEntry{Introduction to the North Carolina SIDS data set (revised)}
+  %\VignetteIndexEntry{Introduction to the North Carolina SIDS data set (re-revised)}
   %\VignetteEngine{knitr::knitr}
   %\VignetteEncoding{UTF-8}
 ---
@@ -38,20 +38,14 @@ module user’s manual [@kaluznyetal:1996].
 library(spdep)
 ```
 
-We will be using the **spdep** package, here version: `r spdep()[1]`, the **sp** package and the **maptools** package. The data from the sources
+We will be using the **spdep** package, here version: `r spdep()[1]`, the **sf** package and the **tmap** package. The data from the sources
 referred to above is documented in the [help page](https://nowosad.github.io/spData/reference/nc.sids.html) for the `nc.sids`
-data set in **spData**. The actual data, included in a shapefile of the county boundaries for North Carolina has been made available in the **maptools** package [^1]. These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.
+data set in **spData**. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the **maptools** package [^1]. These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.
 
 ```{r echo=TRUE,eval=TRUE}
-library(sp)
 library(spdep)
-if (require(rgdal, quietly=TRUE)) {
-  nc <- readOGR(system.file("shapes/sids.shp", package="spData")[1])
-} else {
-  require(maptools, quietly=TRUE)
-  nc <- readShapeSpatial(system.file("shapes/sids.shp", package="spData")[1])
-}
-proj4string(nc) <- CRS("+proj=longlat +datum=NAD27")
+nc <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+st_crs(nc) <- "+proj=longlat +datum=NAD27"
 row.names(nc) <- as.character(nc$FIPSNO)
 ```
 
@@ -59,14 +53,14 @@ The shapefile format presupposes that you have three files with
 extensions `.shp`, `.shx`, and `.dbf`, where the first
 contains the geometry data, the second the spatial index, and the third
 the attribute data. They are required to have the same name apart from
-the extension, and are read here using `readShapeSpatial()` into the
-`SpatialPolygonsDataFrame` object `nc`; the class is defined in **sp**. The centroids of the largest polygon in each county are available
-using the `coordinates` method from **sp** as a two-column matrix, and can
-be used to place labels:
+the extension, and are read here using `sf::st_read()` into the
+`sf` object `nc`; the class is defined in **sf**. The centroids of the largest polygon in each county are available
+using the `st_centroid` method from **sf** as an **sfc** POINT object, and can
+be used to place labels after the extraction of the coordinate matrix:
 
 ```{r echo=TRUE}
-plot(nc, axes=TRUE)
-text(coordinates(nc), label=nc$FIPSNO, cex=0.5)
+plot(st_geometry(nc), axes=TRUE)
+text(st_coordinates(st_centroid(st_geometry(nc), of_largest_polygon=TRUE)), label=nc$FIPSNO, cex=0.5)
 ```
 
 We can examine the names of the columns of the data frame to see what it
@@ -85,25 +79,26 @@ library(sf)
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"),
                  quiet=TRUE)
 st_crs(nc_sf)
-spData_sf <- st_read(system.file("shapes/sids.shp",
+nc <- st_read(system.file("shapes/sids.shp",
                  package="spData"), quiet=TRUE)
-st_crs(spData_sf)
+st_crs(nc)
 ```
 
 As the actual CRS is unknown, **spData** reports missing, although it may very well be `+proj=longlat +datum=NAD27`
 
 ```{r echo=TRUE,eval=TRUE}
-st_crs(spData_sf) <- "+proj=longlat +datum=NAD27"
+st_crs(nc) <- "+proj=longlat +datum=NAD27"
 ```
 
-Next, are the geometries the same?
+Next, are the geometries the same? `sf::st_equals` returns a logical matrix, so we'll check that the diagonal values are all `TRUE`, and that only those values are `TRUE` by summing and recalling that `n` is `100`:
 
 ```{r echo=TRUE,eval=TRUE}
-if (require("rgeos", quietly=TRUE)){
-  gEquals(as(st_geometry(spData_sf), "Spatial"),
-          as(st_geometry(nc_sf), "Spatial"))
-}
+suppressWarnings(st_crs(nc_sf) <- st_crs(nc))
+xx <- st_equals(nc, nc_sf, sparse=FALSE)
+all(diag(xx)) && sum(xx) == 100L
 ```
+
+Next, let's download the GeoDa files and repeat the comparisons:
 
 ```{r echo=TRUE,eval=TRUE}
 td <- tempdir()
@@ -123,20 +118,18 @@ st_crs(sids2_sf)
 It looks as though the external files are assuming WGS84/NAD83 for the datum, but also contain the same geometries.
 
 ```{r echo=TRUE,eval=TRUE}
-if (require("rgeos", quietly=TRUE)){
-  gEquals(as(st_geometry(sids_sf), "Spatial"),
-          as(st_geometry(nc_sf), "Spatial"))
-}
+suppressWarnings(st_crs(sids_sf) <- st_crs(nc_sf))
+xx <- st_equals(sids_sf, nc_sf, sparse=FALSE)
+all(diag(xx)) && sum(xx) == 100L
 ```
 
 ```{r echo=TRUE,eval=TRUE}
-if (require("rgeos", quietly=TRUE)){
-  gEquals(as(st_geometry(sids2_sf), "Spatial"),
-          as(st_geometry(nc_sf), "Spatial"))
-}
+suppressWarnings(st_crs(sids2_sf) <- st_crs(nc_sf))
+xx <- st_equals(sids2_sf, nc_sf, sparse=FALSE)
+all(diag(xx)) && sum(xx) == 100L
 ```
 
-Now for the contents of the files - `sids2` also contains rates, while `spData` contains the coordinates given in @cressie:1991, and the parcels of contiguous counties on p. 554, and the aggregations used for median polishing.
+Now for the contents of the files - `sids2` also contains rates, while the file in `spData` contains the coordinates as given in @cressie:1991, and the parcels of contiguous counties on p. 554, and the aggregations used for median polishing.
 
 ```{r echo=TRUE, eval=TRUE}
 all.equal(as.data.frame(nc_sf)[,1:14], as.data.frame(sids_sf)[,1:14])
@@ -146,14 +139,14 @@ all.equal(as.data.frame(nc_sf)[,1:14], as.data.frame(sids2_sf)[,1:14])
 The **spData** data set has some columns reordered and a surprise:
 
 ```{r echo=TRUE, eval=TRUE}
-all.equal(as.data.frame(nc_sf)[,1:14], as.data.frame(spData_sf)[,c(2,3,4,1,5:14)])
+all.equal(as.data.frame(nc_sf)[,1:14], as.data.frame(nc)[,c(2,3,4,1,5:14)])
 ```
 
 so a difference in `NWBIR74`:
 
 ```{r echo=TRUE, eval=TRUE}
-which(!(nc_sf$NWBIR74 == spData_sf$NWBIR74))
-c(spData_sf$NWBIR74[21], nc_sf$NWBIR74[21])
+which(!(nc_sf$NWBIR74 == nc$NWBIR74))
+c(nc$NWBIR74[21], nc_sf$NWBIR74[21])
 ```
 
 where **spData** follows @cressie:1991 and **sf** and Geoda follow @cressie+chan:1989 for NWBIR74 in Chowan county.
@@ -171,9 +164,9 @@ gal_file <- system.file("weights/ncCC89.gal", package="spData")[1]
 ncCC89 <- read.gal(gal_file, region.id=nc$FIPSNO)
 ncCC89
 ```
-```{r label=plot-CC89.nb,fig.keep='none',echo=TRUE}
-plot(nc, border="grey")
-plot(ncCC89, coordinates(nc), add=TRUE, col="blue")
+```{r label=plot-CC89.nb, echo=TRUE}
+plot(st_geometry(nc), border="grey")
+plot(ncCC89, st_centroid(st_geometry(nc), of_largest_polygon), add=TRUE, col="blue")
 ```
 
 Printing the neighbour object shows that it is a neighbour list object,
@@ -189,7 +182,6 @@ associate a vector of names with the neighbour list, through the
 row names.
 
 ```{r echo=TRUE}
-ncCC89
 r.id <- attr(ncCC89, "region.id")
 ncCC89[[match("37001", r.id)]]
 r.id[ncCC89[[match("37001", r.id)]]]
@@ -232,7 +224,7 @@ to the population at risk times the rate for the study area as a whole.
 Choynowski’s approach folds the two tails of the measured probabilities
 together, so that small values, for a chosen $\alpha$, occur for spatial
 units with either unusually high or low rates. For this reason, the high
-and low counties are plotted separately in Figure \ref{choymap}.
+and low counties are plotted separately below. Note that `cut` returns a `factor` labeled with cut intervals.
 
 ```{r echo=TRUE}
 ch <- choynowski(nc$SID74, nc$BIR74)
@@ -242,14 +234,23 @@ prbs <- c(0,.001,.01,.05,.1,1)
 nc$high = cut(nc$ch_pmap_high, prbs)
 nc$low = cut(nc$ch_pmap_low,prbs )
 ```
-```{r echo=TRUE}
-spplot(nc, c("low", "high"), col.regions=grey.colors(5))
+
+```{r}
+is_tmap <- FALSE
+if (require(tmap, quietly=TRUE)) is_tmap <- TRUE
+is_tmap
+```
+
+
+```{r choymap, echo=TRUE, eval=is_tmap}
+library(tmap)
+tm_shape(nc) + tm_fill(c("low", "high"), palette="Set1", title="p-values") +
+  tm_facets(free.scales=FALSE) + tm_layout(panel.labels=c("low", "high"))
 ```
 
 For more complicated thematic maps, it may be helpful to use ColorBrewer
-(<http://colorbrewer.org>) colour palettes. Here we will only use the
-grey sequential palette, available in R in the **RColorBrewer** package (the colours are
-copied here to avoid loading the package).
+(<http://colorbrewer.org>) colour palettes. Here we use 
+palettes accessed through **tmap**, available in R in the **RColorBrewer** package.
 
 While the [`choynowski()`]{} function only provides the probability map
 values required, the [`probmap()`]{} function returns raw (crude) rates,
@@ -259,29 +260,29 @@ standard cumulative distribution function [`ppois()`]{}. This does not
 fold the tails together, so that counties with lower observed counts
 than expected, based on population size, have values in the lower tail,
 and those with higher observed counts than expected have values in the
-upper tail, as Figure \ref{poismap} shows.
+upper tail, as we can see.
 
 ```{r echo=TRUE}
 pmap <- probmap(nc$SID74, nc$BIR74)
 nc$pmap <- pmap$pmap
-brks <- c(0,0.001,0.01,0.025,0.05,0.95,0.975,0.99,0.999,1)
-library(RColorBrewer)
 ``` 
-```{r echo=TRUE}
-spplot(nc, "pmap", at=brks, col.regions=rev(brewer.pal(9, "RdBu")))
+
+```{r, eval=is_tmap, echo=TRUE}
+brks <- c(0,0.001,0.01,0.025,0.05,0.95,0.975,0.99,0.999,1)
+tm_shape(nc) + tm_fill("pmap", breaks=brks, midpoint=0.5, palette="RdBu") + tm_layout(legend.outside=TRUE)
 ```
+
 
 Marilia Carvalho (personal communication) and Virgilio Gómez Rubio
 [@gomez-rubio+ferrandiz+lopez:2003] have pointed to the unusual shape of
-the distribution of the Poisson probability values (Figure
-\ref{poishist}), repeating the doubts about probability mapping voiced by
+the distribution of the Poisson probability values (histogram below), repeating the doubts about probability mapping voiced by
 @cressie:1991 [p. 392]: “an extreme value $\ldots$ may be more due to
 its lack of fit to the Poisson model than to its deviation from the
 constant rate assumption”. There are many more high values than one
 would have expected, suggesting perhaps overdispersion, that is that the
 ratio of the variance and mean is larger than unity.
 
-```{r label=poishist,fig.keep='none',echo=TRUE}
+```{r label=poishist, echo=TRUE}
 hist(nc$pmap, main="")
 ```
 
@@ -295,16 +296,17 @@ associates):
 ```{r echo=TRUE}
 res <- glm(SID74 ~ offset(log(BIR74)), data=nc, family="quasipoisson")
 nc$stdres <- rstandard(res)
-brks <- c(-4, -3, -2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2, 3, 4)
-```
-```{r echo=TRUE}
-spplot(nc, "stdres", at=brks, col.regions=rev(brewer.pal(11, "RdBu")))
 ```
 
-The dispersion is equal to 2.2786, much greater than unity; we calculate
+```{r, eval=is_tmap, echo=TRUE}
+brks <- c(-4, -3, -2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2, 3, 4)
+tm_shape(nc) + tm_fill("stdres", breaks=brks, midpoint=0, palette="RdBu") + tm_layout(legend.outside=TRUE)
+```
+
+The dispersion is equal to `r summary(res)$dispersion`, much greater than unity; we calculate
 the corrected probability map values by taking the standardised
 residuals of the model, taking the size of the dispersion into account;
-the results are shown in Figure \ref{poismap2}. Many fewer counties appear
+the results are shown above. Many fewer counties appear
 now to have unexpectedly large or small numbers of cases. This is an
 ad-hoc adjustment made because R provides access to a wide range of
 model-fitting functions that can be used to help check our assumptions.
@@ -335,12 +337,15 @@ global_rate <- sum(nc$SID74)/sum(nc$BIR74)
 nc$Expected <- global_rate * nc$BIR74
 res <- EBlocal(nc$SID74, nc$Expected, ncCC89, zero.policy=TRUE)
 nc$EB_loc <- res$est
+```
+
+```{r, eval=is_tmap}
 brks <- c(0, 0.25, 0.5, 0.75, 1, 2, 3, 4, 5)
-spl <- list("sp.text", loc=coordinates(nc)[card(ncCC89) == 0,], txt=rep("*", 2), cex=1.2)
+nc_miss <- st_centroid(st_geometry(nc[card(ncCC89) == 0,]), of_largest_polygon)
+tm_shape(nc) + tm_fill("EB_loc", breaks=brks, midpoint=1, palette="RdBu") + tm_layout(legend.outside=TRUE) + tm_shape(nc_miss) + tm_symbols(shape=8, size=0.5)
+
 ```
-```{r echo=TRUE}
-spplot(nc, "EB_loc", at=brks, col.regions=rev(brewer.pal(8, "RdBu")), sp.layout=spl)
-```
+
 The results are shown in Figure \ref{EBlocal}. Like other relevant
 functions in **spdep**,`EBlocal()` takes a `zero.policy`
 argument to allow missing values to be passed through. In this case,
@@ -363,14 +368,15 @@ EBImoran.mc(nc$SID74, nc$BIR74, nb2listw(ncCC89, style="B", zero.policy=TRUE), n
 One of the first steps taken by @cressie+read:1985 is to try to bring
 out spatial trends by dividing North Carolina up into $4\times4$ rough
 rectangles. Just to see how this works, let us map these rough
-rectangles before proceeding further (see Figure \ref{LMmap}).
+rectangles before proceeding further.
 
 ```{r echo=TRUE}
 nc$both <- factor(paste(nc$L_id, nc$M_id, sep=":"))
 nboth <- length(table(unclass(nc$both)))
 ``` 
-```{r echo=TRUE,eval=FALSE}
-spplot(nc, "both", col.regions=sample(rainbow(nboth)))
+
+```{r, eval=is_tmap}
+tm_shape(nc) + tm_fill("both", palette="Set1", title="rough\nrectangles") + tm_layout(legend.outside=TRUE)
 ```
 
 Cressie constructs a transformed SIDS rates variable, 1974–78, for his
@@ -380,10 +386,6 @@ p. 396 in the book, taken from @cressie+read:1989:
 ```{r echo=TRUE}
 nc$ft.SID74 <- sqrt(1000)*(sqrt(nc$SID74/nc$BIR74) + sqrt((nc$SID74+1)/nc$BIR74))
 stem(round(nc$ft.SID74, 1), scale=2)
-```
-
-```{r echo=FALSE}
-print(spplot(nc, "both", col.regions=sample(rainbow(nboth))))
 ```
 
 ### Median polish smoothing {#medpol}
@@ -429,21 +431,15 @@ mM_id <- model.matrix(~ as.factor(nc$M_id) -1)
 nc$pred <- c(med$overall + mL_id %*% med$row + mM_id %*% med$col)
 nc$mp_resid <- nc$ft.SID74 - nc$pred
 ```
-```{r label=medpolfig,fig.keep='none',echo=TRUE,eval=FALSE}
-cI_ft <- pretty(nc$ft.SID74, n=9)
-pal_ft <- colorRampPalette(brewer.pal(6, "YlOrBr"))(length(cI_ft)-1)
-p1 <- spplot(nc, c("ft.SID74"), col.regions=pal_ft, at=cI_ft, col="grey30", main="FT transformed SIDS rate")
-p2 <- spplot(nc, c("pred"), col.regions=pal_ft, at=cI_ft, col="grey30", main="Median-polish fit")
-atn <- pretty(nc$mp_resid[nc$mp_resid < 0])
-atp <- pretty(nc$mp_resid[nc$mp_resid >= 0])
-pal <- c(rev(brewer.pal(length(atn-1), "YlOrRd")), brewer.pal(length(atp[-1]), "YlGnBu")[-1])
-p3 <- spplot(nc, "mp_resid", at=c(atn, atp[-1]), col.regions=pal, col="grey30", main="Median-polish residuals")
-plot(p1, split=c(1,1,1,3), more=TRUE)
-plot(p2, split=c(1,2,1,3), more=TRUE)
-plot(p3, split=c(1,3,1,3), more=FALSE)
+
+```{r, eval=is_tmap}
+out1 <- tm_shape(nc) + tm_fill(c("ft.SID74", "pred")) + tm_facets(free.scales=FALSE) + tm_layout(panel.labels=c("Observed", "Median polish prediction"))
+out2 <- tm_shape(nc) + tm_fill("mp_resid", midpoint=0) + tm_layout(legend.outside=TRUE)
+tmap_arrange(out1, out2, ncol=1)
 ```
 
-Figure \ref{fig:med\_pol} shows the median polish smoothing results as
+
+The figure shows the median polish smoothing results as
 three maps, the observed Freeman-Tukey transformed SIDS rates, the
 fitted smoothed values, and the residuals. In addition, a plot for the
 median polish object is also shown, plotting the smooth residuals
@@ -492,7 +488,10 @@ will be subsetted by dropping the row and column of the weights matrix:
 ```{r echo=TRUE}
 lm_nc <- lm(ft.SID74 ~ 1, data=nc)
 outl <- which.max(rstandard(lm_nc))
-as.character(nc$names[outl])
+as.character(nc$NAME[outl])
+``` 
+
+```{r echo=TRUE}
 W <- listw2mat(sids.nhbr.listw)
 W.4 <- W[-outl, -outl]
 sids.nhbr.listw.4 <- mat2listw(W.4)
@@ -510,7 +509,7 @@ ecarIaw <- spautolm(ft.SID74 ~ 1, data=nc2, listw=sids.nhbr.listw.4, weights=BIR
 summary(ecarIaw)
 ```
 
-The spatial parcels model also seems to work, with Cressie's $\hat{\theta}$ 0.710, and the other coefficients agreeing more or less by rank:
+The spatial parcels model seems not to work, with Cressie's $\hat{\theta}$ 0.710, and failure in the numerical Hessian used to calculate the standard error of the spatial coefficient:
 
 ```{r echo=TRUE}
 ecarIIaw <- spautolm(ft.SID74 ~ both - 1, data=nc2, listw=sids.nhbr.listw.4, weights=BIR74, family="CAR")
@@ -520,19 +519,19 @@ summary(ecarIIaw)
 Finally, the non-white model repeats Cressie’s finding that much of the
 variance of the transformed SIDS rate for 1974–8 can be accounted for by
 the transformed non-white birth variable (Cressie intercept 1.644,
-$\hat{b}$ 0.0346, $\hat{\theta}$ 0.640 — not significant):
+$\hat{b}$ 0.0346, $\hat{\theta}$ 0.640 — not significant), but the estimate of the spatial coefficient is not close here:
 
 ```{r echo=TRUE}
 ecarIVaw <- spautolm(ft.SID74 ~ ft.NWBIR74, data=nc2, listw=sids.nhbr.listw.4, weights=BIR74, family="CAR")
 summary(ecarIVaw)
 ```
 
-```{r echo=TRUE}
+```{r, eval=is_tmap, echo=TRUE}
 nc2$fitIV <- fitted.values(ecarIVaw)
+tm_shape(nc2) + tm_fill("fitIV")
 ```
-```{r echo=TRUE,eval=FALSE}
-spplot(nc2, "fitIV", cuts=12, col.regions=grey.colors(13, 0.9, 0.3))
-```
+
+The final figure shows the value of the log likelihood function for the null model (I):
 
 ```{r echo=TRUE}
 ecarIawll <- spautolm(ft.SID74 ~ 1, data=nc2, listw=sids.nhbr.listw.4, weights=BIR74, family="CAR", llprof=seq(-0.1, 0.9020532358, length.out=100))

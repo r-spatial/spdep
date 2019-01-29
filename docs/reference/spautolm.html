@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
     </li>
     <li>
-      <a href="../articles/sids.html">Introduction to the North Carolina SIDS data set (revised)</a>
+      <a href="../articles/sids.html">Introduction to the North Carolina SIDS data set (re-revised)</a>
     </li>
   </ul>
 </li>
@@ -391,7 +391,7 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; AIC: 564.21, (AIC for lm: 567.46)
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1f</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.262   0.000   0.266 </div><div class='input'><span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1f</span>)
+#&gt;   0.304   0.000   0.318 </div><div class='input'><span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1f</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
@@ -420,7 +420,7 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt;  0.17678351  0.04205063  0.62472153  0.19132936 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>imat</span>)*<span class='no'>esar1f</span>$<span class='no'>fit</span>$<span class='no'>s2</span>)</div><div class='output co'>#&gt; (Intercept)   PEXPOSURE   PCTAGE65P  PCTOWNHOME 
 #&gt;  0.17678351  0.04205063  0.62472153  0.19132936 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>esar1f</span>$<span class='no'>fdHess</span>))</div><div class='output co'>#&gt; [1] 0.01719949 0.18510068 0.04382630 0.63008743 0.20358778</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.263   0.000   0.265 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.314   0.001   0.341 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, family = "SAR", method = "Matrix")
@@ -447,7 +447,7 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>,
  <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>super</span><span class='kw'>=</span><span class='fl'>TRUE</span>)))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.274   0.000   0.275 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.325   0.000   0.338 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, family = "SAR", method = "Matrix", control = list(super = TRUE))
@@ -499,7 +499,7 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; AIC: 515.2
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>esar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"SAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.290   0.000   0.294 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wM</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.349   0.000   0.353 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>esar1wM</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = POP8, family = "SAR", method = "Matrix")
@@ -603,7 +603,7 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; AIC: 563.66
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1M</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.264   0.000   0.269 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1M</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.303   0.000   0.308 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1M</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, family = "CAR", method = "Matrix")
@@ -656,7 +656,7 @@ Ord, J. K. 1975 Estimation methods for models of spatial interaction,
 #&gt; AIC: 515.14
 #&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>ecar1wM</span> <span class='kw'>&lt;-</span> <span class='fu'>spautolm</span>(<span class='no'>Z</span> ~ <span class='no'>PEXPOSURE</span> + <span class='no'>PCTAGE65P</span> + <span class='no'>PCTOWNHOME</span>,
  <span class='kw'>data</span><span class='kw'>=</span><span class='no'>nydata</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>listw_NY</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>POP8</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"CAR"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"Matrix"</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.254   0.000   0.256 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wM</span>)</div><div class='output co'>#&gt; 
+#&gt;   0.301   0.000   0.309 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>ecar1wM</span>)</div><div class='output co'>#&gt; 
 #&gt; Call: 
 #&gt; spautolm(formula = Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data = nydata, 
 #&gt;     listw = listw_NY, weights = POP8, family = "CAR", method = "Matrix")
