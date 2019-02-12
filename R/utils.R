@@ -186,7 +186,7 @@ listw2star <- function(listw, ireg, style, n, D, a, zero.policy=NULL) {
     inb <- listw$neighbours[[ireg]]
     iwts <- listw$weights[[ireg]]
     cond <- TRUE
-    if (inb == 0 || length(inb) == 0 || is.null(iwts)) cond <- FALSE
+    if (any(inb == 0) || length(inb) == 0 || is.null(iwts)) cond <- FALSE
     if (!cond && !zero.policy) stop("No-neighbour region found")
     if (style == "W") iwts <- (n*D[ireg]*iwts) / 2
     else if (style == "S") iwts <- ((n^2)*D[ireg]*iwts) / (2*a)
