@@ -57,7 +57,8 @@ queencell <- function(rowcol, nrow, ncol, torus=FALSE, rmin=1, cmin=1) {
 
 mrc2vi <- function(rowcol, nrow, ncol) {
 	i <- ((rowcol[,2]-1) * nrow) + rowcol[,1]
-	if (i > nrow*ncol || i < 1) stop("row or column out of range")
+	if (any(i > (nrow*ncol)) || any(i < 1))
+          stop("row or column out of range")
 	as.integer(i)
 }
 
