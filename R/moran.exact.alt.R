@@ -34,7 +34,7 @@ localmoran.exact.alt <- function(model, select, nb, glist = NULL, style = "W",
     u <- as.vector(u)
     select <- unique(as.integer(select))
     if (length(select) < 1L) stop("select too short")
-    if (any(select < 1 || select > n))
+    if (any(select < 1) || any(select > n))
         stop("select out of range")
     utu <- c(crossprod(u))
     p <- model$rank
