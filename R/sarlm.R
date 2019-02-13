@@ -87,7 +87,7 @@ predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.
   
   # forecast case: newdata with the same names than data
   # use a sub-samble of in-sample predictors
-  if (!is.null(newdata) && nrow(newdata) == length(ys) && row.names(newdata) == attr(ys, "names")) {
+  if (!is.null(newdata) && nrow(newdata) == length(ys) && all(row.names(newdata) == attr(ys, "names"))) {
     if (!pred.type %in% c("trend", "TC", "TS"))
       warning("no such predictor type for prevision")
     # DATA
@@ -203,7 +203,7 @@ predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.
     attr(res, "region.id") <- as.vector(attr(ys, "names"))
   } else { # out-of-sample
     #CHECK
-    if (any(row.names(newdata) %in% attr(ys, "names")) && !(pred.type == "TS" && nrow(newdata) == length(ys) && row.names(newdata) == attr(ys, "names"))) # no warning in the computation of TS in forecast
+    if (any(row.names(newdata) %in% attr(ys, "names")) && !(pred.type == "TS" && nrow(newdata) == length(ys) && all(row.names(newdata) == attr(ys, "names")))) # no warning in the computation of TS in forecast
       warning("some region.id are both in data and newdata")
     if (!(pred.type == "TS" && object$type == "error" && object$etype == "error") && !(pred.type == "trend" && (object$type != "mixed" && !(object$type == "error" && object$etype == "emixed")))) { # need of listw (ie. neither in the case of defaut predictor and SEM model, nor trend type without mixed models)
       if (is.null(listw) || !inherits(listw, "listw"))
