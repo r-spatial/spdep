@@ -104,13 +104,13 @@ export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
 
 export(jacobianSetup, can.be.simmed)
 
-export(griffith_sone, subgraph_eigenw)
+export(griffith_sone, subgraph_eigenw) # deprecated
 
 export(MCMCsamp)
 
 export(tolerance.nb, Rotation)
 
-export(lextrB, lextrW, lextrS, l_max)
+export(lextrB, lextrW, lextrS, l_max) # deprecated
 
 export(lee.mc, lee, lee.test)
 

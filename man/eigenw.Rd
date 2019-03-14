@@ -1,8 +1,6 @@
 % Copyright 2002-2012 by Roger S. Bivand
 \name{eigenw}
 \alias{eigenw}
-\alias{griffith_sone}
-\alias{subgraph_eigenw}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{Spatial weights matrix eigenvalues}
 \description{
@@ -18,30 +16,21 @@ eigenvalues of \eqn{W}{W}.
 }
 \usage{
 eigenw(listw, quiet=NULL)
-griffith_sone(P, Q, type="rook")
-subgraph_eigenw(nb, glist=NULL, style="W", zero.policy=NULL, quiet=NULL)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{quiet}{default NULL, use global !verbose option value; set to FALSE for short summary}
-  \item{P}{number of columns in the grid (number of units in a horizontal axis direction)}
-  \item{Q}{number of rows in the grid (number of units in a vertical axis direction.)}
-  \item{type}{\dQuote{rook} or \dQuote{queen}}
-  \item{nb}{an object of class \code{nb}}
-  \item{glist}{list of general weights corresponding to neighbours}
-  \item{style}{\code{style} can take values \dQuote{W}, \dQuote{B}, \dQuote{C}, \dQuote{U}, \dQuote{minmax} and \dQuote{S}}
-  \item{zero.policy}{default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
 }
 
-\details{The \code{eigenw} function computes the eigenvalues of a single spatial weights object. The \code{griffith_sone} function function may be used, following Ord and Gasim (for references see Griffith and Sone (1995)), to calculate analytical eigenvalues for binary rook or queen contiguous neighbours where the data are arranged as a regular P times Q grid. The \code{subgraph_eigenw} function may be used when there are multiple graph components, of which the largest may be handled as a dense matrix. Here the eigenvalues are computed for each subgraph in turn, and catenated to reconstruct the complete set. The functions may be used to provide pre-computed eigenvalues for spatial regression functions.}
+\details{The \code{eigenw} function computes the eigenvalues of a single spatial weights object. }
 
 \value{
   a numeric or complex vector of eigenvalues of the weights matrix generated from the spatial weights object.
 }
 \references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 155;
 Ord, J. K. 1975 Estimation methods for models of spatial interaction, Journal
-of the American Statistical Association, 70, 120-126.; Griffith, D. A. and Sone, A. (1995). Trade-offs associated with normalizing constant computational simplifications for estimating spatial statistical models. Journal of Statistical Computation and Simulation, 51, 165-183.}
+of the American Statistical Association, 70, 120-126.}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 \seealso{\code{\link{eigen}}%, \code{\link{logSpwdet}}
@@ -65,12 +54,6 @@ rho <- 0.5
 Jc <- sum(log(1 - rho * k3eig))
 # complex eigenvalue Jacobian
 Jc
-# subgraphs
-nc <- n.comp.nb(k3)
-nc$nc
-table(nc$comp.id)
-k3eigSG <- subgraph_eigenw(k3, style="W")
-all.equal(sort(k3eig), k3eigSG)
 W <- as(nb2listw(k3, style="W"), "CsparseMatrix")
 I <- diag(length(k3))
 Jl <- sum(log(abs(diag(slot(lu(I - rho * W), "U")))))
@@ -99,20 +82,18 @@ all.equal(Jr, Jc2)
 sum(diag(W \%*\% W))
 crossprod(k3eig)
 # analytical regular grid eigenvalues
-rg <- cell2nb(ncol=7, nrow=7, type="rook")
-rg_eig <- eigenw(nb2listw(rg, style="B"))
-rg_GS <- griffith_sone(P=7, Q=7, type="rook")
-all.equal(rg_eig, rg_GS)
 \dontrun{
 run <- FALSE
 if (require("RSpectra", quietly=TRUE)) run <- TRUE
 if (run) {
+rg <- cell2nb(ncol=7, nrow=7, type="rook")
 B <- as(nb2listw(rg, style="B"), "CsparseMatrix")
 res1 <- eigs(B, k=1, which="LR")$values
 resn <- eigs(B, k=1, which="SR")$values
 print(Re(c(resn, res1)))
 }
 if (run) {
+rg_eig <- eigenw(nb2listw(rg, style="B"))
 print(all.equal(range(Re(rg_eig)), c(resn, res1))) 
 }
 if (run) {

@@ -20,6 +20,11 @@ eigenw <- function(listw, quiet=NULL)
 }
 
 griffith_sone <- function(P, Q, type="rook") {
+    .Deprecated("spreg::griffith_sone", msg="Function griffith_sone moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::griffith_sone(P=P, Q=Q, type=type))
+  if (FALSE) {
     stopifnot(P >= 1)
     stopifnot(Q >= 1)
     p <- seq(1:P)
@@ -34,9 +39,16 @@ griffith_sone <- function(P, Q, type="rook") {
     res <- sort(c(res0), decreasing=TRUE)
     res
 }
+}
 
 subgraph_eigenw <- function(nb, glist=NULL, style="W", zero.policy=NULL,
     quiet=NULL) {
+    .Deprecated("spreg::subgraph_eigenw", msg="Function subgraph_eigenw moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::subgraph_eigenw(nb=nb, glist=glist, style=style, zero.policy=zero.policy,
+    quiet=quiet))
+  if (FALSE) {
     if(!inherits(nb, "nb")) stop("Not a neighbours list")
     if (is.null(quiet)) quiet <- !get("verbose", envir = .spdepOptions)
     stopifnot(is.logical(quiet))
@@ -73,4 +85,5 @@ subgraph_eigenw <- function(nb, glist=NULL, style="W", zero.policy=NULL,
     if (length(eout) != length(nb))
         stop("length mismatch, eout:", length(eout))
     eout
+}
 }

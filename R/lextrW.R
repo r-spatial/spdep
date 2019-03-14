@@ -1,5 +1,10 @@
 
 lextrW <- function(lw, zero.policy=TRUE, control=list()) {
+    .Deprecated("spreg::lextrW", msg="Function lextrW moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::lextrW(lw=lw, zero.policy=zero.policy, control=control))
+  if (FALSE) {
 # must be row-standardized listw object
 
   stopifnot(lw$style == "W")
@@ -51,7 +56,9 @@ lextrW <- function(lw, zero.policy=TRUE, control=list()) {
     e1=attr(resl1, "e1")/c(resl1))
   res
 }
+}
 
+if (FALSE) {
 lminW_3 <- function(lw, ev1, n.nei, zero.policy=TRUE,
   control=list(
   trace=TRUE,
@@ -134,9 +141,16 @@ lminW_3 <- function(lw, ev1, n.nei, zero.policy=TRUE,
   attr(res, "en") <- ev1
   res
 }
+}
 
 
 lextrS <- function(lw, zero.policy=TRUE, control=list()) {
+    .Deprecated("spreg::lextrS", msg="Function lextrS moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::lextrS(lw=lw, zero.policy=zero.policy, control=control))
+  if (FALSE) {
+
 # must be variance-stabilized listw object
 # (possibly already transformed by similarity)
 
@@ -191,7 +205,9 @@ lextrS <- function(lw, zero.policy=TRUE, control=list()) {
     e1=attr(resl1, "e1")/c(resl1))
   res
 }
+}
 
+if (FALSE) {
 lminS_3 <- function(lw, ev1, comp, crd, zero.policy=TRUE,
   control=list(
   trace=TRUE,
@@ -281,6 +297,7 @@ lminS_3 <- function(lw, ev1, comp, crd, zero.policy=TRUE,
   attr(res, "msg") <- msg
   attr(res, "en") <- ev1
   res
+}
 }
 
 

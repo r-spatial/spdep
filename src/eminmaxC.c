@@ -1,5 +1,7 @@
 /* Copyright 2015 by Roger S. Bivand. */
 
+#ifdef NOT_DEPRECATED
+
 #include "spdep.h"
 
 
@@ -246,3 +248,5 @@ SEXP lmin3S(SEXP nb, SEXP ev1, SEXP ev1_lag, SEXP n_nei, SEXP card, SEXP beta, S
     UNPROTECT(pc); /* ans */
     return(ans);
 }
+#endif
+
