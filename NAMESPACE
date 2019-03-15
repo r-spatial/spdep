@@ -121,14 +121,14 @@ export(as.spam.listw) # deprecate candidates (latticeDensity, splm)
 
 export(trW, impacts, intImpacts) # deprecate candidates (splm, sphet)
 
-export(lagmess) # deprecate candidates
-
 export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
         Matrix_setup, LU_setup, Matrix_J_setup, spam_update_setup,
         moments_setup, SE_classic_setup, SE_whichMin_setup, SE_interp_setup,
         LU_prepermutate_setup, eigen_pre_setup) # deprecate candidates (spatialprobit, splm, HSAR)
 
 export(jacobianSetup, can.be.simmed) # deprecate candidates
+
+export(lagmess) # deprecated
 
 export(GMerrorsar, gstsls, GMargminImage,
 	residuals.gmsar, deviance.gmsar, coef.gmsar, fitted.gmsar, 
@@ -260,13 +260,13 @@ S3method(print, WXImpact)
 S3method(summary, WXImpact)
 S3method(print, summary.WXImpact)
 
-S3method(print, lagmess)
-S3method(summary, lagmess)
-S3method(print, summary.lagmess)
-S3method(residuals, lagmess)
-S3method(deviance, lagmess)
-S3method(coef, lagmess)
-S3method(fitted, lagmess)
-S3method(logLik, lagmess)
-S3method(impacts, lagmess)
+S3method(print, lagmess) # deprecated
+S3method(summary, lagmess) # deprecated
+S3method(print, summary.lagmess) # deprecated
+S3method(residuals, lagmess) # deprecated
+S3method(deviance, lagmess) # deprecated
+S3method(coef, lagmess) # deprecated
+S3method(fitted, lagmess) # deprecated
+S3method(logLik, lagmess) # deprecated
+S3method(impacts, lagmess) # deprecated
 

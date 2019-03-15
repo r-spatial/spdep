@@ -27,6 +27,17 @@
 \alias{Hausman.test.gmsar}
 \alias{GMargminImage}
 \alias{gstsls}
+\alias{impacts.lagmess}
+\alias{lagmess}
+\alias{print.lagmess}
+\alias{print.summary.lagmess}
+\alias{summary.lagmess}
+\alias{residuals.lagmess}
+\alias{deviance.lagmess}
+\alias{coef.lagmess}
+\alias{fitted.lagmess}
+\alias{logLik.lagmess}
+
 
 \title{Deprecated Functions in Package \pkg{spdep}}
 
@@ -61,6 +72,9 @@ gstsls(formula, data = list(), listw, listw2 = NULL, na.action = na.fail,
 \method{impacts}{gmsar}(obj, \dots, n = NULL, tr = NULL, R = NULL,
  listw = NULL, evalues=NULL, tol = 1e-06, empirical = FALSE, Q=NULL)
 \method{Hausman.test}{gmsar}(object, ..., tol=NULL)
+lagmess(formula, data = list(), listw, zero.policy = NULL, na.action = na.fail,
+ q = 10, start = -2.5, control=list(), method="BFGS", verbose=NULL,
+ use_expm=FALSE)
 
 }
 
@@ -117,6 +131,9 @@ is called.}
   \item{Hausman}{if TRUE, the results of the Hausman test for error models are reported}
   \item{se.lambda}{default TRUE, use the analytical method described in \url{http://econweb.umd.edu/~prucha/STATPROG/OLS/desols.pdf}}
   \item{verbose}{default NULL, use global option value; if TRUE, reports function values during optimization.}
+  \item{q}{default 10; number of powers of the spatial weights to use}
+  \item{start}{starting value for numerical optimization, should be a small negative number}
+  \item{use_expm}{default FALSE; if TRUE use \code{expm::expAtv} instead of a truncated power series of W}
 
 }
 \section{Control arguments: lextrB/W/S, l_max}{
@@ -266,6 +283,32 @@ summary(esar1gm)
 esar1gm1 <- GMerrorsar(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
  data=nydata, listw=listw_NY, method="Nelder-Mead")
 summary(esar1gm1)
+data(baltimore, package="spData")
+baltimore$AGE <- ifelse(baltimore$AGE < 1, 1, baltimore$AGE)
+lw <- nb2listw(knn2nb(knearneigh(cbind(baltimore$X, baltimore$Y), k=7)))
+obj1 <- lm(log(PRICE) ~ PATIO + log(AGE) + log(SQFT),
+ data=baltimore)
+lm.morantest(obj1, lw)
+lm.LMtests(obj1, lw, test="all")
+system.time(obj2 <- lagmess(log(PRICE) ~ PATIO + log(AGE) + log(SQFT), data=baltimore, listw=lw))
+summary(obj2)
+system.time(obj2a <- lagmess(log(PRICE) ~ PATIO + log(AGE) + log(SQFT), data=baltimore, listw=lw,
+ use_expm=TRUE))
+summary(obj2a)
+obj3 <- lagsarlm(log(PRICE) ~ PATIO + log(AGE) + log(SQFT), data=baltimore, listw=lw)
+summary(obj3)
+\donttest{
+data(boston, package="spData")
+lw <- nb2listw(boston.soi)
+gp2 <- lagsarlm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2)
+ +  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT),
+ data=boston.c, lw, method="Matrix")
+summary(gp2)
+gp2a <- lagmess(CMEDV ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2)
+ +  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT),
+ data=boston.c, lw)
+summary(gp2a)
+}
 
 }
 

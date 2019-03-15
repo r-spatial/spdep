@@ -6,7 +6,7 @@
 \alias{impacts.MCMC_sar_g}
 \alias{impacts.MCMC_sem_g}
 \alias{impacts.MCMC_sac_g}
-\alias{impacts.lagmess}
+%\alias{impacts.lagmess}
 \alias{plot.lagImpact}
 \alias{print.lagImpact}
 \alias{summary.lagImpact}
@@ -21,8 +21,8 @@
 \usage{
 \method{impacts}{sarlm}(obj, \dots, tr, R = NULL, listw = NULL, evalues=NULL,
  useHESS = NULL, tol = 1e-06, empirical = FALSE, Q=NULL)
-\method{impacts}{lagmess}(obj, ..., R=NULL, listw=NULL, tol=1e-6,
- empirical=FALSE)
+#\method{impacts}{lagmess}(obj, ..., R=NULL, listw=NULL, tol=1e-6,
+# empirical=FALSE)
 \method{impacts}{SLX}(obj, ...)
 \method{impacts}{MCMC_sar_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
 \method{impacts}{MCMC_sem_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
@@ -38,7 +38,8 @@ intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
  samples=NULL, zero_fill = NULL, dvars = NULL)
 }
 \arguments{
-  \item{obj}{A spatial regression object created by \code{lagsarlm}, \code{lagmess} or by \code{lmSLX}; in \code{HPDinterval.lagImpact}, a lagImpact object}
+  \item{obj}{A spatial regression object created by \code{lagsarlm}%, \code{lagmess}
+or by \code{lmSLX}; in \code{HPDinterval.lagImpact}, a lagImpact object}
   \item{\dots}{Arguments passed through to methods in the \pkg{coda} package}
   \item{tr}{A vector of traces of powers of the spatial weights matrix created using \code{trW}, for approximate impact measures; if not given, \code{listw} must be given for exact measures (for small to moderate spatial weights matrices); the traces must be for the same spatial weights as were used in fitting the spatial regression, and must be row-standardised}
   \item{listw}{If \code{tr} is not given, a spatial weights object as created by \code{nb2listw}; they must be the same spatial weights as were used in fitting the spatial regression, but do not have to be row-standardised}
