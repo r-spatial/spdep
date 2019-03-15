@@ -6,6 +6,27 @@
 \alias{l_max}
 \alias{griffith_sone}
 \alias{subgraph_eigenw}
+\alias{mom_calc}
+\alias{mom_calc_int2}
+\alias{stsls}
+\alias{print.stsls}
+\alias{print.summary.stsls}
+\alias{summary.stsls}
+\alias{residuals.stsls}
+\alias{coef.stsls}
+\alias{deviance.stsls}
+\alias{impacts.stsls}
+\alias{GMerrorsar}
+\alias{residuals.gmsar}
+\alias{deviance.gmsar}
+\alias{coef.gmsar}
+\alias{fitted.gmsar}
+\alias{print.gmsar}
+\alias{summary.gmsar}
+\alias{print.summary.gmsar}
+\alias{Hausman.test.gmsar}
+\alias{GMargminImage}
+\alias{gstsls}
 
 \title{Deprecated Functions in Package \pkg{spdep}}
 
@@ -22,6 +43,25 @@ lextrS(lw, zero.policy=TRUE, control=list())
 l_max(lw, zero.policy=TRUE, control=list())
 griffith_sone(P, Q, type="rook")
 subgraph_eigenw(nb, glist=NULL, style="W", zero.policy=NULL, quiet=NULL)
+mom_calc(lw, m)
+mom_calc_int2(is, m, nb, weights, Card)
+stsls(formula, data = list(), listw, zero.policy = NULL,
+ na.action = na.fail, robust = FALSE, HC=NULL, legacy=FALSE, W2X = TRUE)
+\method{impacts}{stsls}(obj, \dots, tr, R = NULL, listw = NULL, evalues=NULL,
+ tol = 1e-06, empirical = FALSE, Q=NULL)
+GMerrorsar(formula, data = list(), listw, na.action = na.fail,
+ zero.policy = NULL, method="nlminb", arnoldWied=FALSE, 
+ control = list(), pars=NULL, scaleU=FALSE, verbose=NULL, legacy=FALSE,
+ se.lambda=TRUE, returnHcov=FALSE, pWOrder=250, tol.Hcov=1.0e-10)
+\method{summary}{gmsar}(object, correlation = FALSE, Hausman=FALSE, ...)
+GMargminImage(obj, lambdaseq, s2seq)
+gstsls(formula, data = list(), listw, listw2 = NULL, na.action = na.fail, 
+    zero.policy = NULL, pars=NULL, scaleU=FALSE, control = list(), 
+    verbose=NULL, method="nlminb", robust=FALSE, legacy=FALSE, W2X=TRUE) 
+\method{impacts}{gmsar}(obj, \dots, n = NULL, tr = NULL, R = NULL,
+ listw = NULL, evalues=NULL, tol = 1e-06, empirical = FALSE, Q=NULL)
+\method{Hausman.test}{gmsar}(object, ..., tol=NULL)
+
 }
 
 \arguments{
@@ -35,6 +75,48 @@ subgraph_eigenw(nb, glist=NULL, style="W", zero.policy=NULL, quiet=NULL)
   \item{nb}{an object of class \code{nb}}
   \item{glist}{list of general weights corresponding to neighbours}
   \item{style}{\code{style} can take values \dQuote{W}, \dQuote{B}, \dQuote{C}, \dQuote{U}, \dQuote{minmax} and \dQuote{S}}
+  \item{m}{The number of powers; must be an even number for \sQuote{type}=\dQuote{moments} (default changed from 100 to 30 (2010-11-17))}
+  \item{is}{(used internally only in \code{mom_calc_int2} for \sQuote{type}=\dQuote{moments} on a cluster)}
+%  \item{nb}{(used internally only in \code{mom_calc_int2} for \sQuote{type}=\dQuote{moments} on a cluster)}
+  \item{weights}{(used internally only in \code{mom_calc_int2} for \sQuote{type}=\dQuote{moments} on a cluster)}
+  \item{Card}{(used internally only in \code{mom_calc_int2} for \sQuote{type}=\dQuote{moments} on a cluster)}
+  \item{formula}{a symbolic description of the model to be fit. The details 
+of model specification are given for \code{lm()}}
+  \item{data}{an optional data frame containing the variables in the model. 
+By default the variables are taken from the environment which the function 
+is called.}
+  \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
+  \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} with consequences for residuals and fitted values - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted.}
+  \item{robust}{default FALSE, if TRUE, apply a heteroskedasticity correction to the coefficients covariances}
+  \item{HC}{default NULL, if \code{robust} is TRUE, assigned \dQuote{HC0}, may take values \dQuote{HC0} or \dQuote{HC1} for White estimates or MacKinnon-White estimates respectively}
+ \item{legacy}{the argument chooses between two implementations of the robustness correction: default FALSE - use the estimate of Omega only in the White consistent estimator of the variance-covariance matrix, if TRUE, use the original implementation which runs a GLS using the estimate of Omega, and yields different coefficient estimates as well - see example below}
+ \item{W2X}{default TRUE, if FALSE only WX are used as instruments in the spatial two stage least squares; until release 0.4-60, only WX were used - see example below }
+  \item{obj}{A spatial regression object created by \code{lagsarlm}, \code{lagmess} or by \code{lmSLX}; in \code{HPDinterval.lagImpact}, a lagImpact object}
+  \item{...}{Arguments passed through to methods in the \pkg{coda} package}
+  \item{tr}{A vector of traces of powers of the spatial weights matrix created using \code{trW}, for approximate impact measures; if not given, \code{listw} must be given for exact measures (for small to moderate spatial weights matrices); the traces must be for the same spatial weights as were used in fitting the spatial regression, and must be row-standardised}
+  \item{evalues}{vector of eigenvalues of spatial weights matrix for impacts calculations}
+  \item{n}{defaults to \code{length(obj$residuals)}; in the method for \code{gmsar} objects it may be used in panel settings to compute the impacts for cross-sectional weights only, suggested by Angela Parenti}
+  \item{R}{If given, simulations are used to compute distributions for the impact measures, returned as \code{mcmc} objects; the objects are used for convenience but are not output by an MCMC process}
+%  \item{useHESS}{Use the Hessian approximation (if available) even if the asymptotic coefficient covariance matrix is available; used for comparing methods}
+  \item{tol}{Argument passed to \code{mvrnorm}: tolerance (relative to largest variance) for numerical lack of positive-definiteness in the coefficient covariance matrix}
+  \item{empirical}{Argument passed to \code{mvrnorm} (default FALSE): if true, the coefficients and their covariance matrix specify the empirical not population mean and covariance matrix}
+  \item{listw2}{a \code{listw} object created for example by \code{nb2listw}, if not given, set to the same spatial weights as the listw argument}
+  \item{pars}{starting values for \eqn{\lambda}{lambda} and \eqn{\sigma^2}{sigma squared} for GMM optimisation, 
+  if missing (default), approximated from initial 2sls model as the autocorrelation coefficient corrected for weights style 
+  and model sigma squared}
+  \item{scaleU}{Default FALSE: scale the OLS residuals before computing the moment matrices; only used if the \code{pars} argument is missing}
+  \item{method}{default \code{"nlminb"}, or optionally a method passed to \code{optim} to use an alternative optimizer}
+  \item{arnoldWied}{default FALSE}
+  \item{returnHcov}{default FALSE, return the Vo matrix for a spatial Hausman test}
+  \item{tol.Hcov}{the tolerance for computing the Vo matrix (default=1.0e-10)}
+  \item{pWOrder}{default 250, if returnHcov=TRUE, pass this order to \code{powerWeights} as the power series maximum limit}
+  \item{lambdaseq}{if given, an increasing sequence of lambda values for gridding}
+  \item{s2seq}{if given, an increasing sequence of sigma squared values for gridding}
+  \item{object}{\code{gmsar} object from \code{GMerrorsar}}
+  \item{correlation}{logical; (default=FALSE), TRUE not available}
+  \item{Hausman}{if TRUE, the results of the Hausman test for error models are reported}
+  \item{se.lambda}{default TRUE, use the analytical method described in \url{http://econweb.umd.edu/~prucha/STATPROG/OLS/desols.pdf}}
+  \item{verbose}{default NULL, use global option value; if TRUE, reports function values during optimization.}
 
 }
 \section{Control arguments: lextrB/W/S, l_max}{
@@ -117,6 +199,73 @@ table(nc$comp.id)
 k3eig <- eigenw(nb2listw(k3, style="W"))
 k3eigSG <- subgraph_eigenw(k3, style="W")
 all.equal(sort(k3eig), k3eigSG)
+
+data(oldcol)
+COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, nb2listw(COL.nb))
+summary(COL.lag.eig, correlation=TRUE)
+COL.lag.stsls <- stsls(CRIME ~ INC + HOVAL, data=COL.OLD, nb2listw(COL.nb))
+summary(COL.lag.stsls, correlation=TRUE)
+COL.lag.stslsW <- stsls(CRIME ~ INC + HOVAL, data=COL.OLD, nb2listw(COL.nb), W2X=FALSE)
+summary(COL.lag.stslsW, correlation=TRUE)
+COL.lag.stslsR <- stsls(CRIME ~ INC + HOVAL, data=COL.OLD, nb2listw(COL.nb),
+robust=TRUE, W2X=FALSE)
+summary(COL.lag.stslsR, correlation=TRUE)
+COL.lag.stslsRl <- stsls(CRIME ~ INC + HOVAL, data=COL.OLD, nb2listw(COL.nb),
+robust=TRUE, legacy=TRUE, W2X=FALSE)
+summary(COL.lag.stslsRl, correlation=TRUE)
+data(boston, package="spData")
+gp2a <- stsls(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2) +
+  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT),
+ data=boston.c, nb2listw(boston.soi))
+summary(gp2a)
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+listw <- nb2listw(col.gal.nb)
+ev <- eigenw(listw)
+W <- as(listw, "CsparseMatrix")
+trMatc <- trW(W, type="mult")
+lobj1 <- stsls(CRIME ~ INC + HOVAL, columbus, listw)
+loobj1 <- impacts(lobj1, R=200, tr=trMatc)
+summary(loobj1, zstats=TRUE, short=TRUE)
+loobj2 <- impacts(lobj1, R=200, evalues=ev)
+summary(loobj2, zstats=TRUE, short=TRUE)
+library(coda)
+HPDinterval(loobj1)
+lobj1r <- stsls(CRIME ~ INC + HOVAL, columbus, listw, robust=TRUE)
+loobj1r <- impacts(lobj1r, tr=trMatc, R=200)
+summary(loobj1r, zstats=TRUE, short=TRUE)
+data(oldcol)
+COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"), method="eigen")
+summary(COL.errW.eig, Hausman=TRUE)
+COL.errW.GM <- GMerrorsar(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"), returnHcov=TRUE)
+summary(COL.errW.GM, Hausman=TRUE)
+aa <- GMargminImage(COL.errW.GM)
+levs <- quantile(aa$z, seq(0, 1, 1/12))
+image(aa, breaks=levs, xlab="lambda", ylab="s2")
+points(COL.errW.GM$lambda, COL.errW.GM$s2, pch=3, lwd=2)
+contour(aa, levels=signif(levs, 4), add=TRUE)
+COL.errW.GM1 <- GMerrorsar(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"))
+summary(COL.errW.GM1)
+nydata <- st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData")[1], quiet=TRUE)
+suppressMessages(nyadjmat <- as.matrix(foreign::read.dbf(system.file(
+ "misc/nyadjwts.dbf", package="spData")[1])[-1]))
+suppressMessages(ID <- as.character(names(foreign::read.dbf(system.file(
+ "misc/nyadjwts.dbf", package="spData")[1]))[-1]))
+identical(substring(ID, 2, 10), substring(as.character(nydata$AREAKEY), 2, 10))
+nyadjlw <- mat2listw(nyadjmat, as.character(nydata$AREAKEY))
+listw_NY <- nb2listw(nyadjlw$neighbours, style="B")
+esar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, family="SAR", method="eigen")
+summary(esar1f)
+esar1gm <- GMerrorsar(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
+ data=nydata, listw=listw_NY)
+summary(esar1gm)
+esar1gm1 <- GMerrorsar(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
+ data=nydata, listw=listw_NY, method="Nelder-Mead")
+summary(esar1gm1)
 
 }
 

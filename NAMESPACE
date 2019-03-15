@@ -35,15 +35,17 @@ import(methods)
 
 exportMethods(coerce)
 
-export(EBImoran.mc, probmap, choynowski, EBest, EBlocal, LR.sarlm, 
-	LR1.sarlm, Wald1.sarlm, airdist, card, rookcell, 
-	queencell, mrc2vi, vi2mrc, cell2nb, n.comp.nb, diffnb,
-	dnearneigh, droplinks, eigenw, errorsarlm, lmSLX, create_WX,
-        predict.SLX, gabrielneigh, geary.test,
-	geary, geary.mc, globalG.test, graph2nb, joincount.test, joincount.mc,
-	joincount.multi, print.jcmulti,
-	knearneigh, knn2nb, lagsarlm, listw2sn, sn2listw, read.gwt2nb,
-	write.sn2gwt, lm.LMtests, lm.morantest, localG, localmoran, moran,
+export(EBImoran.mc, probmap, choynowski, EBest, EBlocal)
+
+export(airdist, card, rookcell, queencell, mrc2vi, vi2mrc, cell2nb,
+	n.comp.nb, diffnb, dnearneigh, droplinks)
+
+export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb, 
+	joincount.test, joincount.mc, joincount.multi, print.jcmulti,
+	knearneigh, knn2nb)
+
+export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests, 
+	lm.morantest, localG, localmoran, moran,
 	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
 	nb2listw, nb2mat, listw2mat, mat2listw, invIrM, invIrW, nbdists, nblag,
 	nblag_cumul, poly2nb, read.gal, write.nb.gal, read.geoda, relativeneigh,
@@ -56,69 +58,90 @@ export(EBImoran.mc, probmap, choynowski, EBest, EBlocal, LR.sarlm,
 	plot.Gabriel, plot.relative, print.jclist, print.LMtestlist, 
 	plot.mc.sim, as.data.frame.localmoransad, print.localmoransad, 
 	summary.localmoransad, print.summary.localmoransad, print.moransad, 
-	summary.moransad, print.summary.moransad, print.spcor, plot.spcor, 
-	print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm, 
-	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
-	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm,
-	write.sn2dat, read.dat2listw, nb2blocknb, p.adjustSP,
-#	asMatrixCsrListw, asMatrixCsrI, asMatrixCsrIrW, asListwMatrixCsr, 
+	summary.moransad, print.summary.moransad, print.spcor, plot.spcor)
+
+export(write.sn2dat, read.dat2listw, nb2blocknb, p.adjustSP,
 	is.symmetric.glist, similar.listw, nb2lines, listw2lines, df2sn, 
-	plot.listw, aggregate.nb, old.make.sym.nb, Hausman.test)
+	plot.listw, aggregate.nb, old.make.sym.nb)
+
+export(nb2WB, listw2WB, nb2INLA)
+
+export(lm.morantest.exact, print.moranex, localmoran.exact, localmoran.exact.alt, print.localmoranex, as.data.frame.localmoranex)
+
+export(mstree, nbcosts, nbcost, plot.mst, plot.skater, prunecost, ssw, prunemst, skater)
+
+export(aple, aple.mc, aple.plot, localAple)
+
+export(tolerance.nb, Rotation)
+
+export(lee.mc, lee, lee.test)
+
+export(LOSH, LOSH.cs, LOSH.mc)
+
+export(grid2nb)
 
 export(set.VerboseOption, get.VerboseOption, set.ZeroPolicyOption, 
         get.ZeroPolicyOption)
 export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
         set.ClusterOption, get.ClusterOption)
 
+
+
+export(eigenw, errorsarlm, lmSLX, create_WX, predict.SLX) # deprecate candidates (prabclus, spfrontier, ssfa)
+
+export(lagsarlm) # deprecate candidates (lagsarlmtree)
+
+export(sacsarlm) # deprecate candidates
+
+export(print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm, 
+	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
+	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm) # deprecate candidates
+
+export(LR.sarlm, LR1.sarlm, Wald1.sarlm) # deprecate candidates
+
+export(Hausman.test) # deprecate candidates
+
 export(spautolm, residuals.spautolm, deviance.spautolm, coef.spautolm, 
 	fitted.spautolm, print.spautolm, summary.spautolm, LR1.spautolm, 
-	logLik.spautolm, print.summary.spautolm, autocov_dist, GMerrorsar,
-        gstsls, GMargminImage,
-	residuals.gmsar, deviance.gmsar, coef.gmsar, fitted.gmsar, 
-	print.gmsar, summary.gmsar, 
-	print.summary.gmsar, SpatialFiltering, print.SFResult, fitted.SFResult,
-	ME, print.ME_res, fitted.ME_res, stsls, print.stsls, summary.stsls,
-	print.summary.stsls, residuals.stsls, coef.stsls, deviance.stsls)
+	logLik.spautolm, print.summary.spautolm) # deprecate candidates
 
-export(nb2WB, listw2WB, as_dgRMatrix_listw, as_dsTMatrix_listw, as_dsCMatrix_I,
-	as_dsCMatrix_IrW, Jacobian_W, powerWeights, nb2INLA)
+export(spBreg_lag, spBreg_err, spBreg_sac) # deprecate candidates
 
-export(lm.morantest.exact, print.moranex, localmoran.exact, localmoran.exact.alt, print.localmoranex, as.data.frame.localmoranex)
+export(MCMCsamp) # deprecate candidates
 
-export(as.spam.listw)
+export(SpatialFiltering, print.SFResult, fitted.SFResult,
+	ME, print.ME_res, fitted.ME_res) # deprecate candidates
 
-export(mstree, nbcosts, nbcost, plot.mst, plot.skater, prunecost, ssw, prunemst, skater)
+export(autocov_dist) # deprecate candidates
 
-export(aple, aple.mc, aple.plot, localAple)
+export(as_dgRMatrix_listw, as_dsTMatrix_listw, as_dsCMatrix_I,
+	as_dsCMatrix_IrW, Jacobian_W, powerWeights) # deprecate candidates
 
-export(trW, impacts, intImpacts)
+export(as.spam.listw) # deprecate candidates (latticeDensity, splm)
 
-export(lagmess, sacsarlm)
+export(trW, impacts, intImpacts) # deprecate candidates (splm, sphet)
 
-export(mom_calc, mom_calc_int2)
+export(lagmess) # deprecate candidates
 
 export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
         Matrix_setup, LU_setup, Matrix_J_setup, spam_update_setup,
         moments_setup, SE_classic_setup, SE_whichMin_setup, SE_interp_setup,
-        LU_prepermutate_setup, eigen_pre_setup)
+        LU_prepermutate_setup, eigen_pre_setup) # deprecate candidates (spatialprobit, splm, HSAR)
 
-export(jacobianSetup, can.be.simmed)
+export(jacobianSetup, can.be.simmed) # deprecate candidates
+
+export(GMerrorsar, gstsls, GMargminImage,
+	residuals.gmsar, deviance.gmsar, coef.gmsar, fitted.gmsar, 
+	print.gmsar, summary.gmsar, print.summary.gmsar) # deprecated
+
+export(stsls, print.stsls, summary.stsls, print.summary.stsls, 
+	residuals.stsls, coef.stsls, deviance.stsls) # deprecated
+
+export(mom_calc, mom_calc_int2) # deprecated
 
 export(griffith_sone, subgraph_eigenw) # deprecated
 
-export(MCMCsamp)
-
-export(tolerance.nb, Rotation)
-
 export(lextrB, lextrW, lextrS, l_max) # deprecated
-
-export(lee.mc, lee, lee.test)
-
-export(spBreg_lag, spBreg_err, spBreg_sac)
-
-export(LOSH, LOSH.cs, LOSH.mc)
-
-export(grid2nb)
 
 #import(maptools)
 
@@ -161,6 +184,10 @@ S3method(as.data.frame, localmoranex)
 S3method(print, spcor)
 S3method(plot, spcor)
 
+S3method(plot, mst)
+S3method(plot, skater)
+
+# deprecate candidates
 S3method(print, sarlm)
 S3method(summary, sarlm)
 S3method(residuals, sarlm)
@@ -197,33 +224,30 @@ S3method(MCMCsamp, spautolm)
 
 S3method(print, summary.spautolm)
 
-S3method(residuals, gmsar)
-S3method(deviance, gmsar)
-S3method(coef, gmsar)
-S3method(fitted, gmsar)
-S3method(print, gmsar)
-S3method(summary, gmsar)
-S3method(Hausman.test, gmsar)
-S3method(impacts, gmsar)
+S3method(residuals, gmsar) # deprecated
+S3method(deviance, gmsar) # deprecated
+S3method(coef, gmsar) # deprecated
+S3method(fitted, gmsar) # deprecated
+S3method(print, gmsar) # deprecated
+S3method(summary, gmsar) # deprecated
+S3method(Hausman.test, gmsar) # deprecated
+S3method(impacts, gmsar) # deprecated
 
-S3method(print, summary.gmsar)
+S3method(print, summary.gmsar) # deprecated
 
 S3method(fitted, SFResult)
 S3method(print, SFResult)
 S3method(fitted, ME_res)
 S3method(print, ME_res)
 
-S3method(residuals, stsls)
-S3method(deviance, stsls)
-S3method(coef, stsls)
-S3method(print, stsls)
-S3method(summary, stsls)
-S3method(impacts, stsls)
+S3method(residuals, stsls) # deprecated
+S3method(deviance, stsls) # deprecated
+S3method(coef, stsls) # deprecated
+S3method(print, stsls) # deprecated
+S3method(summary, stsls) # deprecated
+S3method(impacts, stsls) # deprecated
 
-S3method(print, summary.stsls)
-
-S3method(plot, mst)
-S3method(plot, skater)
+S3method(print, summary.stsls) # deprecated
 
 S3method(print, lagImpact)
 S3method(plot, lagImpact)

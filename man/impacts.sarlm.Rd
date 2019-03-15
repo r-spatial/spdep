@@ -2,8 +2,6 @@
 \Rdversion{1.1}
 \alias{impacts}
 \alias{impacts.sarlm}
-\alias{impacts.stsls}
-\alias{impacts.gmsar}
 \alias{impacts.SLX}
 \alias{impacts.MCMC_sar_g}
 \alias{impacts.MCMC_sem_g}
@@ -23,10 +21,6 @@
 \usage{
 \method{impacts}{sarlm}(obj, \dots, tr, R = NULL, listw = NULL, evalues=NULL,
  useHESS = NULL, tol = 1e-06, empirical = FALSE, Q=NULL)
-\method{impacts}{stsls}(obj, \dots, tr, R = NULL, listw = NULL, evalues=NULL,
- tol = 1e-06, empirical = FALSE, Q=NULL)
-\method{impacts}{gmsar}(obj, \dots, n = NULL, tr = NULL, R = NULL,
- listw = NULL, evalues=NULL, tol = 1e-06, empirical = FALSE, Q=NULL)
 \method{impacts}{lagmess}(obj, ..., R=NULL, listw=NULL, tol=1e-6,
  empirical=FALSE)
 \method{impacts}{SLX}(obj, ...)
@@ -128,16 +122,7 @@ impacts(lobj, listw=listw)
 impacts(lobj, tr=trMatc)
 impacts(lobj, tr=trMC)
 impacts(lobj, evalues=ev)
-lobj1 <- stsls(CRIME ~ INC + HOVAL, columbus, listw)
-loobj1 <- impacts(lobj1, R=200, tr=trMatc)
-summary(loobj1, zstats=TRUE, short=TRUE)
-loobj2 <- impacts(lobj1, R=200, evalues=ev)
-summary(loobj2, zstats=TRUE, short=TRUE)
 library(coda)
-HPDinterval(loobj1)
-lobj1r <- stsls(CRIME ~ INC + HOVAL, columbus, listw, robust=TRUE)
-loobj1r <- impacts(lobj1r, tr=trMatc, R=200)
-summary(loobj1r, zstats=TRUE, short=TRUE)
 lobjIQ5 <- impacts(lobj, tr=trMatc, R=200, Q=5)
 summary(lobjIQ5, zstats=TRUE, short=TRUE)
 summary(lobjIQ5, zstats=TRUE, short=TRUE, reportQ=TRUE)

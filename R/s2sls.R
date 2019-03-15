@@ -4,6 +4,11 @@
 stsls <- function(formula, data = list(), listw, zero.policy=NULL,
 	na.action=na.fail, robust=FALSE, HC=NULL, legacy=FALSE, W2X=TRUE) {
 
+    .Deprecated("spreg::stsls", msg="Function stsls moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::stsls(formula=formula, data = data, listw=listw, zero.policy=zero.policy, na.action=na.action, robust=robust, HC=HC, legacy=legacy, W2X=W2X))
+  if (FALSE) {
 
     	if (!inherits(listw, "listw")) 
         	stop("No neighbourhood list")
@@ -80,10 +85,16 @@ stsls <- function(formula, data = list(), listw, zero.policy=NULL,
 	class(result) <- "stsls"
 	result
 }
+}
 #	    result <- list(coefficients=biv,var=varb,s2=s2,
 #	          residuals=e)
 
 print.stsls <- function(x, ...) {
+    .Deprecated("spreg::print.stsls", msg="Method print.stsls moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.stsls(x=x, ...))
+  if (FALSE) {
 	cat("\nCall:\n")
 	print(x$call)
 	cat("\nCoefficients:\n")
@@ -91,8 +102,14 @@ print.stsls <- function(x, ...) {
 	cat("\n")
 	invisible(x)
 }
+}
 
 summary.stsls <- function(object, correlation = FALSE, ...) {
+    .Deprecated("spreg::summary.stsls", msg="Method summary.stsls moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::summary.stsls(object=object, correlation = correlation, ...))
+  if (FALSE) {
 	rest.se <- sqrt(diag(object$var))
 	object$Coef <- cbind(object$coefficients, rest.se, 
 		object$coefficients/rest.se,
@@ -111,9 +128,15 @@ summary.stsls <- function(object, correlation = FALSE, ...) {
 	}
 	structure(object, class=c("summary.stsls", class(object)))
 }
+}
 
 print.summary.stsls <- function(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...) {
+    .Deprecated("spreg::print.summary.stsls", msg="Method print.summary.stsls moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.summary.stsls(x=x, digits = digits, signif.stars=signif.stars, ...))
+  if (FALSE) {
 	cat("\nCall:", deparse(x$call),	sep = "", fill=TRUE)
 	cat("\nResiduals:\n")
 	resid <- residuals(x)
@@ -155,17 +178,85 @@ print.summary.stsls <- function(x, digits = max(5, .Options$digits - 3),
         invisible(x)
 
 }
+}
 
 residuals.stsls <- function(object, ...) {
+    .Deprecated("spreg::residuals.stsls", msg="Method residuals.stsls moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::residuals.stsls(object=object, ...))
+  if (FALSE) {
 	if (is.null(object$na.action))
 		object$residuals
 	else napredict(object$na.action, object$residuals)
 }
+}
 
-coef.stsls <- function(object, ...) object$coefficients
+coef.stsls <- function(object, ...) {
+    .Deprecated("spreg::coef.stsls", msg="Method coef.stsls moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::coef.stsls(object=object, ...))
+  if (FALSE) {
+	object$coefficients
+}
+}
 
-deviance.stsls <- function(object, ...) object$sse
+deviance.stsls <- function(object, ...) {
+    .Deprecated("spreg::deviance.stsls", msg="Method deviance.stsls moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::deviance.stsls(object=object, ...))
+  if (FALSE) {
 
+	object$sse
+}
+}
+
+
+impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
+  tol=1e-6, empirical=FALSE, Q=NULL) {
+    .Deprecated("spreg::impacts.stsls", msg="Method impacts.stsls moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::impacts.stsls(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues,  tol=tol, empirical=empirical, Q=Q))
+  if (FALSE) {
+    if (is.null(listw) && !is.null(obj$listw_style) && 
+            obj$listw_style != "W")
+            stop("Only row-standardised weights supported")
+    rho <- obj$coefficients[1]
+    beta <- obj$coefficients[-1]
+    icept <- grep("(Intercept)", names(beta))
+    iicept <- length(icept) > 0
+    if (iicept) {
+        P <- matrix(beta[-icept], ncol=1)
+        bnames <- names(beta[-icept])
+    } else {
+        P <- matrix(beta, ncol=1)
+        bnames <- names(beta)
+    }
+    p <- length(beta)
+    n <- length(obj$residuals)
+    mu <- c(rho, beta)
+    Sigma <- obj$var
+    irho <- 1
+    drop2beta <- 1
+    res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
+        irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
+        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
+        empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
+        zero_fill=NULL, dvars=NULL)
+    attr(res, "iClass") <- class(obj)
+    if (!is.null(obj$robust)) {
+        attr(res, "robust") <- obj$robust
+        attr(res, "HC") <- obj$HC
+    }
+    res
+}
+}
+
+
+if (FALSE) {
 # Copyright 2004 by Luc Anselin
 # spatial two stage least squares
 # Usage:
@@ -329,4 +420,5 @@ tsls <- function(y,yend,X,Zinst,robust=FALSE, HC="HC0", legacy=FALSE) {
 		df=df)
 	}
 	result
+}
 }

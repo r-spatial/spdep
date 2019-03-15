@@ -1,4 +1,5 @@
 /* Copyright 2010 by Roger S. Bivand. */
+#ifdef NOT_DEPRECATED
 
 #include "spdep.h"
 
@@ -53,3 +54,6 @@ SEXP mom_calc_int2(SEXP is, SEXP m, SEXP nb, SEXP weights, SEXP card) {
     UNPROTECT(1);
     return(Omega);
 }
+
+#endif
+

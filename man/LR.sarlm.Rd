@@ -5,7 +5,7 @@
 \alias{Wald1.sarlm}
 \alias{Hausman.test}
 \alias{Hausman.test.sarlm}
-\alias{Hausman.test.gmsar}
+%\alias{Hausman.test.gmsar}
 \alias{logLik.sarlm}
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{Likelihood ratio test}
@@ -18,7 +18,6 @@ LR.sarlm(x, y)
 LR1.sarlm(object)
 Wald1.sarlm(object)
 \method{Hausman.test}{sarlm}(object, ..., tol=NULL)
-\method{Hausman.test}{gmsar}(object, ..., tol=NULL)
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
