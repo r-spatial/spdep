@@ -37,6 +37,12 @@
 \alias{coef.lagmess}
 \alias{fitted.lagmess}
 \alias{logLik.lagmess}
+\alias{ME}
+\alias{print.ME_res}
+\alias{fitted.ME_res}
+\alias{SpatialFiltering}
+\alias{print.SFResult}
+\alias{fitted.SFResult}
 
 
 \title{Deprecated Functions in Package \pkg{spdep}}
@@ -75,6 +81,13 @@ gstsls(formula, data = list(), listw, listw2 = NULL, na.action = na.fail,
 lagmess(formula, data = list(), listw, zero.policy = NULL, na.action = na.fail,
  q = 10, start = -2.5, control=list(), method="BFGS", verbose=NULL,
  use_expm=FALSE)
+ME(formula, data=list(), family = gaussian, weights, offset,
+ na.action=na.fail, listw=NULL, alpha=0.05, nsim=99, verbose=NULL,
+ stdev=FALSE, zero.policy = NULL)
+SpatialFiltering(formula, lagformula=NULL, data=list(), na.action=na.fail,
+ nb=NULL, glist = NULL, style = "C", zero.policy = NULL, tol = 0.1,
+ zerovalue = 1e-04, ExactEV = FALSE, symmetric = TRUE, alpha=NULL,
+ alternative="two.sided", verbose=NULL)
 
 }
 
@@ -134,6 +147,18 @@ is called.}
   \item{q}{default 10; number of powers of the spatial weights to use}
   \item{start}{starting value for numerical optimization, should be a small negative number}
   \item{use_expm}{default FALSE; if TRUE use \code{expm::expAtv} instead of a truncated power series of W}
+  \item{family}{a description of the error distribution and link function to
+          be used in the model}
+%  \item{weights}{an optional vector of weights to be used in the fitting process}
+  \item{offset}{this can be used to specify an a priori known component to be included in the linear predictor during fitting}
+  \item{alpha}{used as a stopping rule to choose all eigenvectors up to and including the one with a p-value exceeding alpha}
+  \item{nsim}{number of permutations for permutation bootstrap for finding p-values}
+  \item{stdev}{if TRUE, p-value calculated from bootstrap permutation standard deviate using \code{pnorm} with alternative="greater", if FALSE the Hope-type p-value}
+  \item{lagformula}{An extra one-sided formula to be used when a spatial lag representation is desired; the intercept is excluded within the function if present because it is part of the formula argument, but excluding it explicitly in the lagformula argument in the presence of factors generates a collinear model matrix}
+  \item{zerovalue}{eigenvectors with eigenvalues of an absolute value smaller than zerovalue will be excluded in eigenvector search}
+  \item{ExactEV}{Set ExactEV=TRUE to use exact expectations and variances rather than the expectation and variance of Moran's I from the previous iteration, default FALSE}
+  \item{symmetric}{Should the spatial weights matrix be forced to symmetry, default TRUE}
+  \item{alternative}{a character string specifying the alternative hypothesis, must be one of greater, less or two.sided (default).}
 
 }
 \section{Control arguments: lextrB/W/S, l_max}{
@@ -309,6 +334,87 @@ gp2a <- lagmess(CMEDV ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2)
  data=boston.c, lw)
 summary(gp2a)
 }
+\dontrun{
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+lmbase <- lm(CRIME ~ INC + HOVAL, data=columbus)
+lagcol <- SpatialFiltering(CRIME ~ 1, ~ INC + HOVAL, data=columbus,
+ nb=col.gal.nb, style="W", alpha=0.1, verbose=TRUE)
+lagcol
+lmlag <- lm(CRIME ~ INC + HOVAL + fitted(lagcol), data=columbus)
+anova(lmbase, lmlag)
+set.seed(123)
+lagcol1 <- ME(CRIME ~ INC + HOVAL, data=columbus, family="gaussian",
+ listw=nb2listw(col.gal.nb), alpha=0.1, verbose=TRUE)
+lagcol1
+lmlag1 <- lm(CRIME ~ INC + HOVAL + fitted(lagcol1), data=columbus)
+anova(lmbase, lmlag1)
+set.seed(123)
+lagcol2 <- ME(CRIME ~ INC + HOVAL, data=columbus, family="gaussian",
+ listw=nb2listw(col.gal.nb), alpha=0.1, stdev=TRUE, verbose=TRUE)
+lagcol2
+lmlag2 <- lm(CRIME ~ INC + HOVAL + fitted(lagcol2), data=columbus)
+anova(lmbase, lmlag2)
+NA.columbus <- columbus
+NA.columbus$CRIME[20:25] <- NA
+COL.ME.NA <- ME(CRIME ~ INC + HOVAL, data=NA.columbus, family="gaussian",
+ listw=nb2listw(col.gal.nb), alpha=0.1, stdev=TRUE, verbose=TRUE,
+ na.action=na.exclude)
+COL.ME.NA$na.action
+summary(lm(CRIME ~ INC + HOVAL + fitted(COL.ME.NA), data=NA.columbus,
+ na.action=na.exclude))
+#nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+#rn <- as.character(nc.sids$FIPS)
+#ncCC89_nb <- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
+# region.id=rn)
+#ncCR85_nb <- read.gal(system.file("weights/ncCR85.gal", package="spData")[1],
+# region.id=rn)
+#glmbase <- glm(SID74 ~ 1, data=nc.sids, offset=log(BIR74),
+# family="poisson")
+#set.seed(123)
+#MEpois1 <- ME(SID74 ~ 1, data=nc.sids, offset=log(BIR74),
+# family="poisson", listw=nb2listw(ncCR85_nb, style="B"), alpha=0.2, verbose=TRUE)
+#MEpois1
+#glmME <- glm(SID74 ~ 1 + fitted(MEpois1), data=nc.sids, offset=log(BIR74),
+# family="poisson")
+#anova(glmME, test="Chisq")
+#anova(glmbase, glmME, test="Chisq")
+}
+data(hopkins, package="spData")
+hopkins_part <- hopkins[21:36,36:21]
+hopkins_part[which(hopkins_part > 0, arr.ind=TRUE)] <- 1
+hopkins.rook.nb <- cell2nb(16, 16, type="rook")
+glmbase <- glm(c(hopkins_part) ~ 1, family="binomial")
+set.seed(123)
+MEbinom1 <- ME(c(hopkins_part) ~ 1, family="binomial",
+ listw=nb2listw(hopkins.rook.nb, style="B"), alpha=0.2, verbose=TRUE)
+glmME <- glm(c(hopkins_part) ~ 1 + fitted(MEbinom1), family="binomial")
+anova(glmME, test="Chisq")
+anova(glmbase, glmME, test="Chisq")
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+lmbase <- lm(CRIME ~ INC + HOVAL, data=columbus)
+sarcol <- SpatialFiltering(CRIME ~ INC + HOVAL, data=columbus,
+ nb=col.gal.nb, style="W", ExactEV=TRUE)
+sarcol
+lmsar <- lm(CRIME ~ INC + HOVAL + fitted(sarcol), data=columbus)
+lmsar
+anova(lmbase, lmsar)
+lm.morantest(lmsar, nb2listw(col.gal.nb))
+lagcol <- SpatialFiltering(CRIME ~ 1, ~ INC + HOVAL - 1, data=columbus,
+ nb=col.gal.nb, style="W")
+lagcol
+lmlag <- lm(CRIME ~ INC + HOVAL + fitted(lagcol), data=columbus)
+lmlag
+anova(lmbase, lmlag)
+lm.morantest(lmlag, nb2listw(col.gal.nb))
+NA.columbus <- columbus
+NA.columbus$CRIME[20:25] <- NA
+COL.SF.NA <- SpatialFiltering(CRIME ~ INC + HOVAL, data=NA.columbus,
+ nb=col.gal.nb, style="W", na.action=na.exclude)
+COL.SF.NA$na.action
+summary(lm(CRIME ~ INC + HOVAL + fitted(COL.SF.NA), data=NA.columbus,
+ na.action=na.exclude))
 
 }
 

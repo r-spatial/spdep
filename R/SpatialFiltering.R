@@ -1,4 +1,4 @@
-SpatialFiltering <- function (formula, lagformula, data, na.action, nb,
+SpatialFiltering <- function (formula, lagformula=NULL, data=list(), na.action=na.fail, nb=NULL,
  glist=NULL, style="C", zero.policy=NULL, tol=0.1, zerovalue = 0.0001,
  ExactEV=FALSE, symmetric=TRUE, alpha=NULL, alternative="two.sided",
  verbose=NULL) {
@@ -34,6 +34,14 @@ SpatialFiltering <- function (formula, lagformula, data, na.action, nb,
 #
 #  Version 0.9.1 - September 11, 2004
 # Adaptation to formula format Roger Bivand December 2005
+    .Deprecated("spreg::SpatialFiltering", msg="Function SpatialFiltering moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::SpatialFiltering(formula=formula, lagformula=lagformula, data=data, na.action=na.action, nb=nb,
+ glist=glist, style=style, zero.policy=zero.policy, tol=tol, zerovalue = zerovalue,
+ ExactEV=ExactEV, symmetric=symmetric, alpha=alpha, alternative=alternative,
+ verbose=verbose))
+  if (FALSE) {
     
     if (missing(nb)) stop("Neighbour list argument missing")
     if (missing(formula)) stop("Formula argument missing")
@@ -297,12 +305,24 @@ SpatialFiltering <- function (formula, lagformula, data, na.action, nb,
     class(SFResult) <- "SFResult"
     return(SFResult)
 }
+}
 
 print.SFResult <- function(x, ...) {
+    .Deprecated("spreg::print.SFResult", msg="Method print.SFResult moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.SFResult(x=x, ...))
+  if (FALSE) {
 	print(x$selection, ...)
+}
 }
 
 fitted.SFResult <- function(object, ...) {
+    .Deprecated("spreg::fitted.SFResult", msg="Method fitted.SFResult moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::fitted.SFResult(object=object, ...))
+  if (FALSE) {
         if (is.null(object$na.action)) {
 	    res <- object$dataset
         } else {
@@ -323,7 +343,9 @@ fitted.SFResult <- function(object, ...) {
         }
         res
 }
+}
 
+if (FALSE) {
 GetMoranStat <- function(MSM, degfree) {
     #MSM    : M %*% S %*% M matrix
     #         M : projection matrix
@@ -338,6 +360,6 @@ GetMoranStat <- function(MSM, degfree) {
     V <- 2 * (degfree * t2 - t1 * t1)/(degfree * degfree * (degfree + 2))
     return(list(Mean=E,Var=V))     
 }
-
+}
 
 

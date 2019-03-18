@@ -109,9 +109,6 @@ export(spBreg_lag, spBreg_err, spBreg_sac) # deprecate candidates
 
 export(MCMCsamp) # deprecate candidates
 
-export(SpatialFiltering, print.SFResult, fitted.SFResult,
-	ME, print.ME_res, fitted.ME_res) # deprecate candidates
-
 export(autocov_dist) # deprecate candidates
 
 export(as_dgRMatrix_listw, as_dsTMatrix_listw, as_dsCMatrix_I,
@@ -127,6 +124,9 @@ export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
         LU_prepermutate_setup, eigen_pre_setup) # deprecate candidates (spatialprobit, splm, HSAR)
 
 export(jacobianSetup, can.be.simmed) # deprecate candidates
+
+export(SpatialFiltering, print.SFResult, fitted.SFResult,
+	ME, print.ME_res, fitted.ME_res) # deprecate candidates
 
 export(lagmess) # deprecated
 
@@ -235,10 +235,10 @@ S3method(impacts, gmsar) # deprecated
 
 S3method(print, summary.gmsar) # deprecated
 
-S3method(fitted, SFResult)
-S3method(print, SFResult)
-S3method(fitted, ME_res)
-S3method(print, ME_res)
+S3method(fitted, SFResult) # deprecated
+S3method(print, SFResult) # deprecated
+S3method(fitted, ME_res) # deprecated
+S3method(print, ME_res) # deprecated
 
 S3method(residuals, stsls) # deprecated
 S3method(deviance, stsls) # deprecated
