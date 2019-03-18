@@ -448,7 +448,7 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
             }
             nm <- paste(method, "fdHess", sep="_")
             timings[[nm]] <- proc.time() - .ptime_start
-        }
+        } else fdHess <- FALSE
 	call <- match.call()
         if (method=="SE_classic") {
             iC <- get("intern_classic", envir=env)

@@ -118,6 +118,11 @@ NK.sarlm <- function(obj) {
 
 LR1.sarlm <- function(object)
 {
+    .Deprecated("spreg::LR1.sarlm", msg="Method LR1.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::LR1.sarlm(object=object))
+  if (FALSE) {
 	if (!inherits(object, "sarlm")) stop("Not a sarlm object")
 	LLx <- logLik(object)
 #	LLy <- logLik(object$lm.model)
@@ -141,8 +146,14 @@ LR1.sarlm <- function(object)
 	class(res) <- "htest"
 	res
 }
+}
 
 Wald1.sarlm <- function(object) {
+    .Deprecated("spreg::Wald1.sarlm", msg="Method Wald1.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::Wald1.sarlm(object=object))
+  if (FALSE) {
 	if (!inherits(object, "sarlm")) stop("Not a sarlm object")
 #	if (!object$ase) 
 #		stop("Cannot compute Wald statistic: parameter a.s.e. missing")
@@ -176,11 +187,17 @@ Wald1.sarlm <- function(object) {
 	res
 
 }
+}
 
 Hausman.test <- function(object, ...)
     UseMethod("Hausman.test", object)
 
 Hausman.test.sarlm <- function(object, ..., tol=NULL) {
+    .Deprecated("spreg::Hausman.test.sarlm", msg="Method Hausman.test.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::Hausman.test.sarlm(object=object, ..., tol=tol))
+  if (FALSE) {
     if (!inherits(object, "sarlm")) stop("not a sarlm object")
     if (object$type != "error") stop("not a spatial error model")
     fmeth <- ifelse(object$method != "eigen", "(approximate)", "(asymptotic)") 
@@ -209,8 +226,14 @@ Hausman.test.sarlm <- function(object, ..., tol=NULL) {
     class(res) <- "htest"
     res
 }
+}
 
 Hausman.test.gmsar <- function(object, ..., tol=NULL) {
+    .Deprecated("spreg::Hausman.test.gmsar", msg="Method Hausman.test.gmsar moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::Hausman.test.gmsar(object=object, ..., tol=tol))
+  if (FALSE) {
     if (!inherits(object, "gmsar")) stop("not a gmsar object")
     if (is.null(object$Hcov)) stop("Vo not available")
     fmeth <- "(approximate)"
@@ -237,6 +260,7 @@ Hausman.test.gmsar <- function(object, ..., tol=NULL) {
         p.value = p.value, method = method, data.name=data.name)
     class(res) <- "htest"
     res
+}
 }
 
 print.summary.sarlm <- function(x, digits = max(5, .Options$digits - 3),

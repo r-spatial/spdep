@@ -80,6 +80,8 @@ export(LOSH, LOSH.cs, LOSH.mc)
 
 export(grid2nb)
 
+export(autocov_dist)
+
 export(set.VerboseOption, get.VerboseOption, set.ZeroPolicyOption, 
         get.ZeroPolicyOption)
 export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
@@ -97,10 +99,6 @@ export(print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm,
 	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
 	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm) # deprecate candidates
 
-export(LR.sarlm, LR1.sarlm, Wald1.sarlm) # deprecate candidates
-
-export(Hausman.test) # deprecate candidates
-
 export(spautolm, residuals.spautolm, deviance.spautolm, coef.spautolm, 
 	fitted.spautolm, print.spautolm, summary.spautolm, LR1.spautolm, 
 	logLik.spautolm, print.summary.spautolm) # deprecate candidates
@@ -108,8 +106,6 @@ export(spautolm, residuals.spautolm, deviance.spautolm, coef.spautolm,
 export(spBreg_lag, spBreg_err, spBreg_sac) # deprecate candidates
 
 export(MCMCsamp) # deprecate candidates
-
-export(autocov_dist) # deprecate candidates
 
 export(as_dgRMatrix_listw, as_dsTMatrix_listw, as_dsCMatrix_I,
 	as_dsCMatrix_IrW, Jacobian_W, powerWeights) # deprecate candidates
@@ -125,8 +121,12 @@ export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
 
 export(jacobianSetup, can.be.simmed) # deprecate candidates
 
+export(LR.sarlm, LR1.sarlm, Wald1.sarlm) # deprecated
+
+export(Hausman.test) # deprecated
+
 export(SpatialFiltering, print.SFResult, fitted.SFResult,
-	ME, print.ME_res, fitted.ME_res) # deprecate candidates
+	ME, print.ME_res, fitted.ME_res) # deprecated
 
 export(lagmess) # deprecated
 
@@ -199,7 +199,7 @@ S3method(logLik, sarlm)
 S3method(anova, sarlm)
 S3method(predict, sarlm)
 S3method(impacts, sarlm)
-S3method(Hausman.test, sarlm)
+S3method(Hausman.test, sarlm) # deprecated
 S3method(MCMCsamp, sarlm)
 
 S3method(impacts, MCMC_sar_g)

@@ -3,6 +3,11 @@
 
 LR.sarlm <- function(x, y)
 {
+    .Deprecated("spreg::LR.sarlm", msg="Method LR.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::LR.sarlm(x=x, y=y))
+  if (FALSE) {
 	if (!inherits(x, "logLik")) LLx <- logLik(x)
 	else LLx <- x
 	if (!inherits(y, "logLik")) LLy <- logLik(y)
@@ -24,8 +29,14 @@ LR.sarlm <- function(x, y)
 	class(res) <- "htest"
 	res
 }
+}
 
 logLik.sarlm <- function(object, ...) {
+    .Deprecated("spreg::logLik.sarlm", msg="Method logLik.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::logLik.sarlm(object=object, ...))
+  if (FALSE) {
 	LL <- c(object$LL)
 	class(LL) <- "logLik"
 	N <- length(residuals(object))
@@ -33,6 +44,7 @@ logLik.sarlm <- function(object, ...) {
 	attr(LL, "nobs") <- N
 	attr(LL, "df") <- object$parameters
 	LL
+}
 }
 
 #residuals.sarlm <- function(object, ...) return(object$residuals)

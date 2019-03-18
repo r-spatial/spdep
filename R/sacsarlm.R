@@ -369,7 +369,7 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
             }
             nm <- paste(method, "fdHess", sep="_")
             timings[[nm]] <- proc.time() - .ptime_start
-        }
+        } else fdHess <- FALSE
 	call <- match.call()
 	names(r) <- names(y)
 	names(fit) <- names(y)

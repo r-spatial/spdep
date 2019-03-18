@@ -43,6 +43,12 @@
 \alias{SpatialFiltering}
 \alias{print.SFResult}
 \alias{fitted.SFResult}
+\alias{LR.sarlm}
+\alias{LR1.sarlm}
+\alias{Wald1.sarlm}
+\alias{Hausman.test}
+\alias{Hausman.test.sarlm}
+\alias{logLik.sarlm}
 
 
 \title{Deprecated Functions in Package \pkg{spdep}}
@@ -88,6 +94,11 @@ SpatialFiltering(formula, lagformula=NULL, data=list(), na.action=na.fail,
  nb=NULL, glist = NULL, style = "C", zero.policy = NULL, tol = 0.1,
  zerovalue = 1e-04, ExactEV = FALSE, symmetric = TRUE, alpha=NULL,
  alternative="two.sided", verbose=NULL)
+LR.sarlm(x, y)
+\method{logLik}{sarlm}(object, ...)
+LR1.sarlm(object)
+Wald1.sarlm(object)
+\method{Hausman.test}{sarlm}(object, ..., tol=NULL)
 
 }
 
@@ -159,6 +170,11 @@ is called.}
   \item{ExactEV}{Set ExactEV=TRUE to use exact expectations and variances rather than the expectation and variance of Moran's I from the previous iteration, default FALSE}
   \item{symmetric}{Should the spatial weights matrix be forced to symmetry, default TRUE}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of greater, less or two.sided (default).}
+  \item{x}{a \code{logLik} object or an object for which a \code{logLik()} function exists}
+  \item{y}{a \code{logLik} object or an object for which a \code{logLik()} function exists}
+%  \item{object}{a \code{sarlm} object from \code{lagsarlm()} or \code{errorsarlm()}}
+%  \item{\dots}{further arguments passed to or from other methods}
+%  \item{tol}{\code{tol} argument passed to \code{solve}, default NULL}
 
 }
 \section{Control arguments: lextrB/W/S, l_max}{
@@ -415,6 +431,13 @@ COL.SF.NA <- SpatialFiltering(CRIME ~ INC + HOVAL, data=NA.columbus,
 COL.SF.NA$na.action
 summary(lm(CRIME ~ INC + HOVAL + fitted(COL.SF.NA), data=NA.columbus,
  na.action=na.exclude))
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+mixed <- lagsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb),
+  type="mixed")
+error <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb))
+LR.sarlm(mixed, error)
+Hausman.test(error)
 
 }
 
