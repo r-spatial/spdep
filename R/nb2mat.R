@@ -75,6 +75,11 @@ invIrW <- function(x, rho, method="solve", feasible=NULL) {
 }
 
 powerWeights <- function(W, rho, order=250, X, tol=.Machine$double.eps^(3/5)) {
+    .Deprecated("spreg::powerWeights", msg="Function powerWeights moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::powerWeights(W=W, rho=rho, order=order, X=X, tol=tol))
+  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
     n <- dim(W)[1]
@@ -111,6 +116,7 @@ powerWeights <- function(W, rho, order=250, X, tol=.Machine$double.eps^(3/5)) {
         tol=tol, iter=iter, conv=conv)
     attr(acc, "timings") <- do.call("rbind", timings)[, c(1, 3)]
     acc
+}
 }
 
 

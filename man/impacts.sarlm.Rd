@@ -7,14 +7,14 @@
 \alias{impacts.MCMC_sem_g}
 \alias{impacts.MCMC_sac_g}
 %\alias{impacts.lagmess}
-\alias{plot.lagImpact}
-\alias{print.lagImpact}
-\alias{summary.lagImpact}
-\alias{print.summary.lagImpact}
+%\alias{plot.lagImpact}
+%\alias{print.lagImpact}
+%\alias{summary.lagImpact}
+%\alias{print.summary.lagImpact}
 \alias{print.WXImpact}
 \alias{summary.WXImpact}
 \alias{print.summary.WXImpact}
-\alias{HPDinterval.lagImpact}
+%\alias{HPDinterval.lagImpact}
 \alias{intImpacts}
 \title{Impacts in spatial lag models}
 \description{The calculation of impacts for spatial lag and spatial Durbin models is needed in order to interpret the regression coefficients correctly, because of the spillovers between the terms in these data generation processes (unlike the spatial error model). Methods for \dQuote{SLX} and Bayesian fitted models are also provided, the former do not need MC simulations, while the latter pass through MCMC draws.}
@@ -27,15 +27,15 @@
 \method{impacts}{MCMC_sar_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
 \method{impacts}{MCMC_sem_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
 \method{impacts}{MCMC_sac_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
-\method{plot}{lagImpact}(x, ..., choice="direct", trace=FALSE, density=TRUE)
-\method{print}{lagImpact}(x, ..., reportQ=NULL)
-\method{summary}{lagImpact}(object, ..., zstats=FALSE, short=FALSE, reportQ=NULL)
+#\method{plot}{lagImpact}(x, ..., choice="direct", trace=FALSE, density=TRUE)
+#\method{print}{lagImpact}(x, ..., reportQ=NULL)
+#\method{summary}{lagImpact}(object, ..., zstats=FALSE, short=FALSE, reportQ=NULL)
 \method{print}{WXImpact}(x, ...)
 \method{summary}{WXImpact}(object, ..., adjust_k=(attr(object, "type") == "SDEM"))
-\method{HPDinterval}{lagImpact}(obj, prob = 0.95, ..., choice="direct")
-intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
- type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p, mess=FALSE,
- samples=NULL, zero_fill = NULL, dvars = NULL)
+#\method{HPDinterval}{lagImpact}(obj, prob = 0.95, ..., choice="direct")
+#intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
+# type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p, mess=FALSE,
+# samples=NULL, zero_fill = NULL, dvars = NULL)
 }
 \arguments{
   \item{obj}{A spatial regression object created by \code{lagsarlm}%, \code{lagmess}

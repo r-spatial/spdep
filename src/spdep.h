@@ -26,8 +26,8 @@ void hess_error_set(SEXP env);
 void hess_lag_set(SEXP env);
 
 SEXP card(SEXP nb);
-SEXP listw2dsT(SEXP nbs, SEXP wts, SEXP card, SEXP ncard2);
-SEXP listw2dgR(SEXP nbs, SEXP wts, SEXP card, SEXP ncard);
+/*SEXP listw2dsT(SEXP nbs, SEXP wts, SEXP card, SEXP ncard2);
+SEXP listw2dgR(SEXP nbs, SEXP wts, SEXP card, SEXP ncard);*/
 SEXP listw2sn(SEXP nbs, SEXP wts, SEXP card, SEXP ncard);
 SEXP dnearneigh(SEXP din1, SEXP din2, SEXP pnte, SEXP p, SEXP test, SEXP lonlat);
 SEXP gearyw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy, SEXP ftype);

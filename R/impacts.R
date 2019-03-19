@@ -2,6 +2,11 @@
 
 trW <- function(W=NULL, m=30, p=16, type="mult", listw=NULL, momentsSymmetry=TRUE) {
 # returns traces
+    .Deprecated("spreg::trW", msg="Function trW moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::trW(W=W, m=m, p=p, type=type, listw=listw, momentsSymmetry=momentsSymmetry))
+  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
     if (type == "mult") {
@@ -51,6 +56,7 @@ trW <- function(W=NULL, m=30, p=16, type="mult", listw=NULL, momentsSymmetry=TRU
     attr(tr, "type") <- type
     attr(tr, "n") <- n
     tr
+}
 }
 
 mom_calc_int <- function(is, m, W, eta0) {
@@ -381,6 +387,13 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
 intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
     interval, type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p,
     mess=FALSE, samples=NULL, zero_fill=NULL, dvars=NULL) {
+    .Deprecated("spreg::intImpacts", msg="Function intImpacts moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma, irho=irho, drop2beta=drop2beta, bnames=bnames,
+    interval=interval, type=type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
+    mess=mess, samples=samples, zero_fill=zero_fill, dvars=dvars))
+  if (FALSE) {
     if (is.null(evalues)) {
         if (is.null(listw) && is.null(tr))
             stop("either tr or listw must be given")
@@ -540,6 +553,7 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
     class(res) <- "lagImpact"
     res
 }
+}
 
 
 lagImpactMat <- function(x, reportQ=NULL) {
@@ -583,6 +597,11 @@ lagImpactMat <- function(x, reportQ=NULL) {
 
 
 print.lagImpact <- function(x, ..., reportQ=NULL) {
+    .Deprecated("spreg::print.lagImpact", msg="Method print.lagImpact moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.lagImpact(x=x, ..., reportQ=reportQ))
+  if (FALSE) {
     mat <- lagImpactMat(x, reportQ=reportQ)
     Qobj <- attr(mat, "Qobj")
     cat("Impact measures (", attr(x, "type"), ", ", attr(x, "method"), "):\n", sep="")
@@ -597,8 +616,14 @@ print.lagImpact <- function(x, ..., reportQ=NULL) {
     }
     invisible(x)
 }
+}
 
 summary.lagImpact <- function(object, ..., zstats=FALSE, short=FALSE, reportQ=NULL) {
+    .Deprecated("spreg::summary.lagImpact", msg="Method summary.lagImpact moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::summary.lagImpact(object=object, ..., zstats=zstats, short=short, reportQ=reportQ))
+  if (FALSE) {
     if (is.null(object$sres)) stop("summary method unavailable")
 # pass coda arguments 101006
     direct_sum <- summary(object$sres$direct, ...)
@@ -705,8 +730,14 @@ summary.lagImpact <- function(object, ..., zstats=FALSE, short=FALSE, reportQ=NU
     class(res) <- "summary.lagImpact"
     res
 }
+}
 
 print.summary.lagImpact <- function(x, ...) {
+    .Deprecated("spreg::print.summary.lagImpact", msg="Method print.summary.lagImpact moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.summary.lagImpact(x=x, ...))
+  if (FALSE) {
     reportQ <- attr(x, "reportQ")
     mat <- lagImpactMat(x, reportQ)
     Qobj <- attr(mat, "Qobj")
@@ -784,17 +815,31 @@ print.summary.lagImpact <- function(x, ...) {
     }
     invisible(x)
 }
+}
 
 plot.lagImpact <- function(x, ..., choice="direct", trace=FALSE,
     density=TRUE) {
+    .Deprecated("spreg::plot.lagImpact", msg="Method plot.lagImpact moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::plot.lagImpact(x=x, ..., choice=choice, trace=trace,
+    density=density))
+  if (FALSE) {
     if (is.null(x$sres)) stop("plot method unavailable")
     plot(x$sres[[choice]], trace=trace, density=density, sub=choice)
     invisible(x)
 }
+}
 
 HPDinterval.lagImpact <- function(obj, prob = 0.95, ..., choice="direct") {
+    .Deprecated("spreg::HPDinterval.lagImpact", msg="Method HPDinterval.lagImpact moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::HPDinterval.lagImpact(obj=obj, prob = prob, ..., choice=choice))
+  if (FALSE) {
     if (is.null(obj$sres)) stop("HPDinterval method unavailable")
     res <- HPDinterval(obj$sres[[choice]], prob=prob)
     res
+}
 }
 

@@ -99,20 +99,13 @@ export(print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm,
 	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
 	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm) # deprecate candidates
 
+export(spBreg_lag, spBreg_err, spBreg_sac) # deprecate candidates
+
 export(spautolm, residuals.spautolm, deviance.spautolm, coef.spautolm, 
 	fitted.spautolm, print.spautolm, summary.spautolm, LR1.spautolm, 
 	logLik.spautolm, print.summary.spautolm) # deprecate candidates
 
-export(spBreg_lag, spBreg_err, spBreg_sac) # deprecate candidates
-
 export(MCMCsamp) # deprecate candidates
-
-export(as_dgRMatrix_listw, as_dsTMatrix_listw, as_dsCMatrix_I,
-	as_dsCMatrix_IrW, Jacobian_W, powerWeights) # deprecate candidates
-
-export(as.spam.listw) # deprecate candidates (latticeDensity, splm)
-
-export(trW, impacts, intImpacts) # deprecate candidates (splm, sphet)
 
 export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
         Matrix_setup, LU_setup, Matrix_J_setup, spam_update_setup,
@@ -120,6 +113,13 @@ export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
         LU_prepermutate_setup, eigen_pre_setup) # deprecate candidates (spatialprobit, splm, HSAR)
 
 export(jacobianSetup, can.be.simmed) # deprecate candidates
+
+export(trW, impacts, intImpacts) # deprecated (splm, sphet)
+
+export(as_dgRMatrix_listw, as_dsTMatrix_listw, as_dsCMatrix_I,
+	as_dsCMatrix_IrW, Jacobian_W, powerWeights) # deprecated
+
+export(as.spam.listw) # deprecated (latticeDensity, splm)
 
 export(LR.sarlm, LR1.sarlm, Wald1.sarlm) # deprecated
 
@@ -249,12 +249,12 @@ S3method(impacts, stsls) # deprecated
 
 S3method(print, summary.stsls) # deprecated
 
-S3method(print, lagImpact)
-S3method(plot, lagImpact)
-S3method(summary, lagImpact)
-S3method(HPDinterval, lagImpact)
-export(HPDinterval.lagImpact)
-S3method(print, summary.lagImpact)
+S3method(print, lagImpact) # deprecated
+S3method(plot, lagImpact) # deprecated
+S3method(summary, lagImpact) # deprecated
+S3method(HPDinterval, lagImpact) # deprecated
+export(HPDinterval.lagImpact) # deprecated
+S3method(print, summary.lagImpact) # deprecated
 
 S3method(print, WXImpact)
 S3method(summary, WXImpact)

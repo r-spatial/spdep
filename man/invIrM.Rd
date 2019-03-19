@@ -2,7 +2,6 @@
 \name{invIrM}
 \alias{invIrM}
 \alias{invIrW}
-\alias{powerWeights}
 
 \title{Compute SAR generating operator}
 \description{
@@ -12,7 +11,6 @@
 invIrM(neighbours, rho, glist=NULL, style="W", method="solve",
  feasible=NULL)
 invIrW(x, rho, method="solve", feasible=NULL)
-powerWeights(W, rho, order=250, X, tol=.Machine$double.eps^(3/5))
 }
 
 \arguments{
@@ -23,10 +21,6 @@ powerWeights(W, rho, order=250, X, tol=.Machine$double.eps^(3/5))
   \item{method}{default \code{solve}, can also take value \code{chol}}
   \item{feasible}{if NULL, the given value of rho is checked to see if it lies within its feasible range, if TRUE, the test is not conducted}
   \item{x}{either a \code{listw} object from for example \code{nb2listw}, or a square spatial weights matrix, optionally a sparse matrix}
-  \item{W}{A spatial weights matrix (either a dense matrix or a CsparseMatrix)}
-  \item{order}{Power series maximum limit}
-  \item{X}{A numerical matrix}
-  \item{tol}{Tolerance for convergence of power series}
 }
 \details{
 The \code{invIrW} function generates the full weights matrix V, checks that rho lies in its feasible range between 1/min(eigen(V)) and 1/max(eigen(V)), and returns the nxn inverted matrix \deqn{(I - \rho V)^{-1}}. With method=\dQuote{chol} (only for a listw object), Cholesky decomposition is used, thanks to contributed code by Markus Reder and Werner Mueller.
@@ -93,23 +87,6 @@ system.time(e <- invIrM(nb7rt, rho=0.9, method="chol", feasible=TRUE) \%*\% x)
 system.time(e <- invIrM(nb7rt, rho=0.9, method="chol", feasible=NULL) \%*\% x)
 system.time(e <- invIrM(nb7rt, rho=0.9, method="solve", feasible=TRUE) \%*\% x)
 system.time(e <- invIrM(nb7rt, rho=0.9, method="solve", feasible=NULL) \%*\% x)
-W <- as(nb2listw(nb7rt), "CsparseMatrix")
-system.time(ee <- powerWeights(W, rho=0.9, X=x))
-all.equal(e, as(ee, "matrix"), check.attributes=FALSE)
-system.time(e <- invIrM(nb7rt, rho=0.98, method="solve", feasible=NULL) \%*\% x)
-system.time(ee <- powerWeights(W, rho=0.98, X=x))
-str(attr(ee, "internal"))
-all.equal(e, as(ee, "matrix"), check.attributes=FALSE)
-system.time(ee <- powerWeights(W, rho=0.98, order=1000, X=x))
-all.equal(e, as(ee, "matrix"), check.attributes=FALSE)
-nb60rt <- cell2nb(60, 60, torus=TRUE)
-W <- as(nb2listw(nb60rt), "CsparseMatrix")
-set.seed(1)
-x <- matrix(rnorm(dim(W)[1]), ncol=1)
-system.time(ee <- powerWeights(W, rho=0.3, X=x))
-str(as(ee, "matrix"))
-obj <- errorsarlm(as(ee, "matrix")[,1] ~ 1, listw=nb2listw(nb60rt), method="Matrix")
-coefficients(obj)
 }
 }
 \keyword{spatial}

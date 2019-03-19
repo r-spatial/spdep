@@ -7,6 +7,11 @@ setAs("listw", "symmetricMatrix", function(from) {as_dsTMatrix_listw(from)})
 
 
 as_dgRMatrix_listw <- function(listw) {
+    .Deprecated("spreg::as_dgRMatrix_listw", msg="Function as_dgRMatrix_listw moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::as_dgRMatrix_listw(listw=listw))
+  if (FALSE) {
 	if(!inherits(listw, "listw")) stop("not a listw object")
 	n <- length(listw$neighbours)
 	cardw <- card(listw$neighbours)
@@ -20,8 +25,14 @@ as_dgRMatrix_listw <- function(listw) {
         rownames(res) <- colnames(res)
 	res
 }
+}
 
 as_dsTMatrix_listw <- function(listw) {
+    .Deprecated("spreg::as_dsTMatrix_listw", msg="Function as_dsTMatrix_listw moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::as_dsTMatrix_listw(listw=listw))
+  if (FALSE) {
 	if (!inherits(listw, "listw")) stop("not a listw object")
 	if (!is.symmetric.glist(listw$neighbours, listw$weights))
 		stop("not a symmetric matrix")
@@ -38,22 +49,49 @@ as_dsTMatrix_listw <- function(listw) {
         rownames(res) <- colnames(res)
 	res
 }
+}
 
 as_dsCMatrix_I <- function(n) {
+    .Deprecated("spreg::as_dsCMatrix_I", msg="Function as_dsCMatrix_I moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::as_dsCMatrix_I(n=n))
+  if (FALSE) {
 	if (n < 1) stop("matrix must have positive dimensions")
 	as(as(Diagonal(n), "symmetricMatrix"), "CsparseMatrix")
 }
+}
 
 as_dsCMatrix_IrW <- function(W, rho) {
+    .Deprecated("spreg::as_dsCMatrix_IrW", msg="Function as_dsCMatrix_IrW moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::as_dsCMatrix_IrW(W=W, rho=rho))
+  if (FALSE) {
 	stopifnot(is(W, "symmetricMatrix"))
 	n <- dim(W)[1]
 	as_dsCMatrix_I(n) - rho * W
 }
+}
 
 Jacobian_W <- function(W, rho) {
+    .Deprecated("spreg::Jacobian_W", msg="Function Jacobian_W moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::Jacobian_W(W=W, rho=rho))
+  if (FALSE) {
 	sum(2*log(diag(chol(as_dsCMatrix_IrW(W, rho)))))
+}
 }
 
 
-listw2U_Matrix <- function(lw) 	
+listw2U_Matrix <- function(lw) {
+    .Deprecated("spreg::listw2U_Matrix", msg="Function listw2U_Matrix moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::listw2U_Matrix(lw=lw))
+  if (FALSE) {
+
 	as(as(0.5 * (lw + t(lw)), "symmetricMatrix"), "CsparseMatrix")
+}
+}

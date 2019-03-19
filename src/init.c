@@ -25,8 +25,8 @@ static R_CallMethodDef CallEntries[] = {
     {"R_ml1_sse_env", (DL_FUNC) &R_ml1_sse_env, 3},
     {"R_ml2_sse_env", (DL_FUNC) &R_ml2_sse_env, 3},
     {"card", (DL_FUNC) &card, 1},
-    {"listw2dsT", (DL_FUNC) &listw2dsT, 4},
-    {"listw2dgR", (DL_FUNC) &listw2dgR, 4},
+/*    {"listw2dsT", (DL_FUNC) &listw2dsT, 4},
+    {"listw2dgR", (DL_FUNC) &listw2dgR, 4},*/
     {"listw2sn", (DL_FUNC) &listw2sn, 4},
     {"dnearneigh", (DL_FUNC) &dnearneigh, 6},
     {"gearyw", (DL_FUNC) &gearyw, 6},

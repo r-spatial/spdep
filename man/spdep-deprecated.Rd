@@ -49,6 +49,22 @@
 \alias{Hausman.test}
 \alias{Hausman.test.sarlm}
 \alias{logLik.sarlm}
+\alias{as.spam.listw}
+\alias{as_dgRMatrix_listw}
+\alias{as_dsTMatrix_listw}
+\alias{as_dsCMatrix_I}
+\alias{as_dsCMatrix_IrW}
+\alias{Jacobian_W}
+\alias{coerce,listw,CsparseMatrix-method}
+\alias{coerce,listw,RsparseMatrix-method}
+\alias{coerce,listw,symmetricMatrix-method}
+\alias{powerWeights}
+\alias{impacts.lagmess}
+\alias{plot.lagImpact}
+\alias{print.lagImpact}
+\alias{summary.lagImpact}
+\alias{print.summary.lagImpact}
+\alias{HPDinterval.lagImpact}
 
 
 \title{Deprecated Functions in Package \pkg{spdep}}
@@ -99,6 +115,20 @@ LR.sarlm(x, y)
 LR1.sarlm(object)
 Wald1.sarlm(object)
 \method{Hausman.test}{sarlm}(object, ..., tol=NULL)
+as.spam.listw(listw)
+as_dgRMatrix_listw(listw)
+as_dsTMatrix_listw(listw)
+as_dsCMatrix_I(n)
+as_dsCMatrix_IrW(W, rho)
+Jacobian_W(W, rho)
+powerWeights(W, rho, order=250, X, tol=.Machine$double.eps^(3/5))
+\method{plot}{lagImpact}(x, ..., choice="direct", trace=FALSE, density=TRUE)
+\method{print}{lagImpact}(x, ..., reportQ=NULL)
+\method{summary}{lagImpact}(object, ..., zstats=FALSE, short=FALSE, reportQ=NULL)
+\method{HPDinterval}{lagImpact}(obj, prob = 0.95, ..., choice="direct")
+intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
+ type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p, mess=FALSE,
+ samples=NULL, zero_fill = NULL, dvars = NULL)
 
 }
 
@@ -175,6 +205,25 @@ is called.}
 %  \item{object}{a \code{sarlm} object from \code{lagsarlm()} or \code{errorsarlm()}}
 %  \item{\dots}{further arguments passed to or from other methods}
 %  \item{tol}{\code{tol} argument passed to \code{solve}, default NULL}
+  \item{W}{a \code{dsTMatrix} object created using \code{as_dsTMatrix_listw} from a symmetric \code{listw} object}
+  \item{rho}{spatial regression coefficient}
+  \item{order}{Power series maximum limit}
+  \item{X}{A numerical matrix}
+%  \item{tol}{Tolerance for convergence of power series}
+  \item{choice}{One of three impacts: direct, indirect, or total}
+  \item{trace}{Argument passed to \code{plot.mcmc}: plot trace plots}
+  \item{density}{Argument passed to \code{plot.mcmc}: plot density plots}
+  \item{prob}{Argument passed to \code{HPDinterval.mcmc}: a numeric scalar in the interval (0,1) giving the target probability content of the intervals}
+%  \item{adjust_k}{default TRUE if SDEM else FALSE, adjust internal OLS SDEM standard errors by dividing by n rather than (n-k) (default changed and bug fixed after 0.7-8; standard errors now ML in SDEM summary and impacts summary and identical - for SLX use FALSE)}
+  \item{
+beta, 
+mu, Sigma, irho, drop2beta, bnames,
+    interval, 
+ icept, iicept, p, mess, samples, zero_fill, dvars}{internal arguments shared inside impacts methods}
+  \item{reportQ}{default NULL; if TRUE and \code{Q} given as an argument to \code{impacts}, report impact components}
+%  \item{x, object}{lagImpact objects created by \code{impacts} methods}
+  \item{zstats}{default FALSE, if TRUE, also return z-values and p-values for the impacts based on the simulations}
+  \item{short}{default FALSE, if TRUE passed to the print summary method to omit printing of the mcmc summaries}
 
 }
 \section{Control arguments: lextrB/W/S, l_max}{
@@ -438,8 +487,53 @@ mixed <- lagsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb),
 error <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb))
 LR.sarlm(mixed, error)
 Hausman.test(error)
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+col.listw <- nb2listw(col.gal.nb)
+\dontrun{
+if (require("spam", quietly=TRUE)) {
+col.sp <- as.spam.listw(col.listw)
+str(col.sp)
+}
+}
+suppressMessages(nyadjmat <- as.matrix(foreign::read.dbf(system.file(
+ "misc/nyadjwts.dbf", package="spData")[1])[-1]))
+nyadjlw <- mat2listw(nyadjmat)
+listw_NY <- nb2listw(nyadjlw$neighbours, style="B")
+W_C <- as(listw_NY, "CsparseMatrix")
+W_R <- as(listw_NY, "RsparseMatrix")
+W_S <- as(listw_NY, "symmetricMatrix")
+n <- nrow(W_S)
+I <- Diagonal(n)
+rho <- 0.1
+c(determinant(I - rho * W_S, logarithm=TRUE)$modulus)
+sum(log(1 - rho * eigenw(listw_NY)))
+nW <- - W_S
+nChol <- Cholesky(nW, Imult=8)
+n * log(rho) + (2 * c(determinant(update(nChol, nW, 1/rho))$modulus))
+nb7rt <- cell2nb(7, 7, torus=TRUE)
+x <- matrix(sample(rnorm(500*length(nb7rt))), nrow=length(nb7rt))
+W <- as(nb2listw(nb7rt), "CsparseMatrix")
+system.time(ee <- powerWeights(W, rho=0.9, X=x))
+#all.equal(e, as(ee, "matrix"), check.attributes=FALSE)
+system.time(e <- invIrM(nb7rt, rho=0.98, method="solve", feasible=NULL) \%*\% x)
+system.time(ee <- powerWeights(W, rho=0.98, X=x))
+str(attr(ee, "internal"))
+all.equal(e, as(ee, "matrix"), check.attributes=FALSE)
+system.time(ee <- powerWeights(W, rho=0.98, order=1000, X=x))
+all.equal(e, as(ee, "matrix"), check.attributes=FALSE)
+nb60rt <- cell2nb(60, 60, torus=TRUE)
+W <- as(nb2listw(nb60rt), "CsparseMatrix")
+set.seed(1)
+x <- matrix(rnorm(dim(W)[1]), ncol=1)
+system.time(ee <- powerWeights(W, rho=0.3, X=x))
+str(as(ee, "matrix"))
+obj <- errorsarlm(as(ee, "matrix")[,1] ~ 1, listw=nb2listw(nb60rt), method="Matrix")
+coefficients(obj)
+
 
 }
+
 
 \keyword{spatial}
 

@@ -1,12 +1,11 @@
 /* Copyright 2006 by Roger S. Bivand. */
-
+/*
 #include "spdep.h"
 
 SEXP listw2dsT(SEXP nbs, SEXP wts, SEXP card, SEXP ncard2)
 {
 	int i, ii, j, jj, n, pc=0;
 	SEXP ans;
-/*	double *card; */
 
 	n = LENGTH(nbs);
 	PROTECT(ans = NEW_LIST(3)); pc++;
@@ -36,7 +35,6 @@ SEXP listw2dgR(SEXP nbs, SEXP wts, SEXP card, SEXP ncard)
 {
 	int i, ii, j, jj, n, pc=0;
 	SEXP ans;
-/*	double *card; */
 
 	n = LENGTH(nbs);
 	PROTECT(ans = NEW_LIST(2)); pc++;
@@ -57,4 +55,4 @@ SEXP listw2dgR(SEXP nbs, SEXP wts, SEXP card, SEXP ncard)
 	UNPROTECT(pc); 
 	return(ans);
 }
-
+*/
