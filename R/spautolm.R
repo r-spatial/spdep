@@ -3,6 +3,12 @@ spautolm <- function(formula, data = list(), listw, weights,
     na.action, family="SAR", method="eigen", verbose=NULL, trs=NULL,
     interval=NULL, zero.policy=NULL, tol.solve=.Machine$double.eps, llprof=NULL,
     control=list()) {
+    .Deprecated("spreg::spautolm", msg="Function spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    if (!missing(weights)) stop("run spreg::spautolm directly")
+    return(spreg::spautolm(formula=formula, data=data, listw=listw, na.action=na.action, family = family, method=method, verbose=verbose, trs=trs, interval=interval, zero.policy=zero.policy, tol.solve=tol.solve, llprof=llprof, control=control))
+  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
     con <- list(tol.opt=.Machine$double.eps^(2/3), 
@@ -189,7 +195,9 @@ spautolm <- function(formula, data = list(), listw, weights,
     class(res) <- "spautolm"
     res
 }
+}
 
+if (FALSE) {
 .opt.fit <- function(lambda, env, tol.solve=.Machine$double.eps) {
 # fitting function called from optimize()
     SSE <- .SPAR.fit(lambda=lambda, env=env, out=FALSE, tol.solve=tol.solve)
@@ -244,9 +252,14 @@ SMA <- function(IlW, weights) {
     IlW <- solve(IlW)
     t(IlW) %*% weights %*% IlW
 }
-
+}
 
 print.spautolm <- function(x, ...) {
+    .Deprecated("spreg::print.spautolm", msg="Method print.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.spautolm(x=x, ...))
+  if (FALSE) {
         if (isTRUE(all.equal(x$lambda, x$interval[1])) ||
             isTRUE(all.equal(x$lambda, x$interval[2]))) 
             warning("lambda on interval bound - results should not be used")
@@ -258,29 +271,59 @@ print.spautolm <- function(x, ...) {
 	invisible(x)
     
 }
+}
 
 residuals.spautolm <- function(object, ...) {
+    .Deprecated("spreg::residuals.spautolm", msg="Method residuals.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::residuals.spautolm(object=object, ...))
+  if (FALSE) {
 	if (is.null(object$na.action))
 		object$fit$residuals
 	else napredict(object$na.action, object$fit$residuals)
 }
+}
 
 fitted.spautolm <- function(object, ...) {
+    .Deprecated("spreg::fitted.spautolm", msg="Method fitted.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::fitted.spautolm(object=object, ...))
+  if (FALSE) {
 	if (is.null(object$na.action))
 		object$fit$fitted.values
 	else napredict(object$na.action, object$fit$fitted.values)
 }
+}
 
 deviance.spautolm <- function(object, ...) {
+    .Deprecated("spreg::deviance.spautolm", msg="Method deviance.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::deviance.spautolm(object=object, ...))
+  if (FALSE) {
 	object$SSE
+}
 }
 
 coef.spautolm <- function(object, ...) {
+    .Deprecated("spreg::coef.spautolm", msg="Method coef.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::coef.spautolm(object=object, ...))
+  if (FALSE) {
 	c(object$fit$coefficients, object$lambda)
+}
 }
 
 
 logLik.spautolm <- function(object, ...) {
+    .Deprecated("spreg::logLik.spautolm", msg="Method logLik.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::logLik.spautolm(object=object, ...))
+  if (FALSE) {
 	LL <- c(object$LL)
 	class(LL) <- "logLik"
 	N <- object$fit$N
@@ -289,9 +332,14 @@ logLik.spautolm <- function(object, ...) {
 	attr(LL, "df") <- object$parameters
 	LL
 }
+}
 
-LR1.spautolm <- function(object)
-{
+LR1.spautolm <- function(object) {
+    .Deprecated("spreg::LR1.spautolm", msg="Method LR1.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::LR1.spautolm(object=object))
+  if (FALSE) {
 	if (!inherits(object, "spautolm")) stop("Not a spautolm object")
 	LLx <- logLik(object)
 	LLy <- object$LL0
@@ -309,9 +357,16 @@ LR1.spautolm <- function(object)
 	class(res) <- "htest"
 	res
 }
+}
 
 summary.spautolm <- function(object, correlation = FALSE, adj.se=FALSE,
  Nagelkerke=FALSE, ...) {
+    .Deprecated("spreg::summary.spautolm", msg="Method summary.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::summary.spautolm(object=object, correlation = correlation, adj.se=adj.se,
+ Nagelkerke=Nagelkerke, ...))
+  if (FALSE) {
 	N <- object$fit$N
 	adj <- ifelse (adj.se, N/(N-length(object$fit$coefficients)), 1) 
 	object$fit$s2 <- object$fit$s2*adj
@@ -340,10 +395,17 @@ summary.spautolm <- function(object, correlation = FALSE, adj.se=FALSE,
 	rownames(object$Coef) <- names(object$fit$coefficients)
 	structure(object, class=c("summary.spautolm", class(object)))
 }
+}
 
 print.summary.spautolm <- function(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...)
 {
+    .Deprecated("spreg::print.summary.spautolm", msg="Method print.summary.spautolm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.summary.spautolm(x=x, digits = digits,
+	signif.stars = signif.stars, ...))
+  if (FALSE) {
 	cat("\nCall: ", deparse(x$call),	sep = "", fill=TRUE)
         if (isTRUE(all.equal(x$lambda, x$interval[1])) ||
             isTRUE(all.equal(x$lambda, x$interval[2]))) 
@@ -406,7 +468,9 @@ print.summary.spautolm <- function(x, digits = max(5, .Options$digits - 3),
     	cat("\n")
         invisible(x)
 }
+}
 
+if (FALSE) {
 getVcovmat <- function(coefs, env, tol.solve=.Machine$double.eps, optim=FALSE,
     optimM="optimHess") {
     if (optim) {
@@ -467,7 +531,7 @@ f_spautolm_hess <- function(coefs, env) {
     ret
 }
 
-
+}
 
 
 

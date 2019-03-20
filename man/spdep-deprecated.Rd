@@ -87,6 +87,16 @@
 \alias{MCMCsamp}
 \alias{MCMCsamp.spautolm}
 \alias{MCMCsamp.sarlm}
+\alias{spautolm}
+\alias{residuals.spautolm}
+\alias{deviance.spautolm}
+\alias{coef.spautolm}
+\alias{fitted.spautolm}
+\alias{print.spautolm}
+\alias{summary.spautolm}
+\alias{LR1.spautolm}
+\alias{logLik.spautolm}
+\alias{print.summary.spautolm}
 
 
 \title{Deprecated Functions in Package \pkg{spdep}}
@@ -178,6 +188,14 @@ MCMCsamp(object, mcmc = 1L, verbose = NULL, ...)
  burnin = 0L, scale=1, listw, control = list())
 \method{MCMCsamp}{sarlm}(object, mcmc = 1L, verbose = NULL, ...,
     burnin=0L, scale=1, listw, listw2=NULL, control=list())
+spautolm(formula, data = list(), listw, weights,
+ na.action, family = "SAR", method="eigen", verbose = NULL, trs=NULL,
+ interval=NULL, zero.policy = NULL, tol.solve=.Machine$double.eps,
+ llprof=NULL, control=list())
+\method{summary}{spautolm}(object, correlation = FALSE, adj.se=FALSE,
+ Nagelkerke=FALSE, ...)
+
+
 }
 
 \arguments{
@@ -303,6 +321,27 @@ mu, Sigma, irho, drop2beta, bnames,
   \item{scale}{a positive scale parameter}
 %  \item{listw, listw2}{\code{listw} objects created for example by \code{nb2listw}; should be the same object(s) used for fitting the model}
 %  \item{control}{list of extra control arguments - see \code{\link{spautolm}}}
+%  \item{formula}{a symbolic description of the model to be fit. The details 
+%of model specification are given for \code{lm()}}
+%  \item{data}{an optional data frame containing the variables in the model. 
+%By default the variables are taken from the environment which the function 
+%is called.}
+%  \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
+%  \item{weights}{an optional vector of weights to be used in the fitting process}
+%  \item{na.action}{a function (default \code{options("na.action")}), can also be \code{na.omit} or \code{na.exclude} with consequences for residuals and fitted values - in these cases the weights list will be subsetted to remove NAs in the data. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted.}
+%  \item{family}{character string: either \code{"SAR"} or \code{"CAR"} for simultaneous or conditional autoregressions; \code{"SMA"} for spatial moving average added thanks to Jielai Ma - \code{"SMA"} is only implemented for method=\code{"eigen"} because it necessarily involves dense matrices}
+%  \item{method}{character string: default \code{"eigen"} for use of dense matrices, \code{"Matrix_J"} for sparse matrices (restricted to spatial weights symmetric or similar to symmetric) using methods in the Matrix package; \dQuote{Matrix} provides updating Cholesky decomposition methods. Values of method may also include "LU", which provides an alternative sparse matrix decomposition approach, and the "Chebyshev" and Monte Carlo "MC" approximate log-determinant methods.}
+%  \item{verbose}{default NULL, use global option value; if TRUE, reports function values during optimization.}
+%  \item{trs}{default NULL, if given, a vector of powered spatial weights matrix traces output by \code{trW}; when given, used in some Jacobian methods}
+%  \item{interval}{search interval for autoregressive parameter when not using method="eigen"; default is c(-1,0.999), \code{optimize} will reset NA/NaN to a bound and gives a warning when the interval is poorly set; method="Matrix" will attempt to search for an appropriate interval, if find\_interval=TRUE (fails on some platforms)}
+%  \item{zero.policy}{default NULL, use global option value; Include list of no-neighbour observations in output if TRUE --- otherwise zero.policy is handled within the listw argument}
+  \item{tol.solve}{the tolerance for detecting linear dependencies in the columns of matrices to be inverted - passed to \code{solve()} (default=double precision machine tolerance). Errors in \code{solve()} may constitute indications of poorly scaled variables: if the variables have scales differing much from the autoregressive coefficient, the values in this matrix may be very different in scale, and inverting such a matrix is analytically possible by definition, but numerically unstable; rescaling the RHS variables alleviates this better than setting tol.solve to a very small value}
+  \item{llprof}{default NULL, can either be an integer, to divide the feasible range into llprof points, or a sequence of spatial coefficient values, at which to evaluate the likelihood function}
+% \item{control}{list of extra control arguments - see section below}
+%  \item{object}{\code{spautolm} object from \code{spautolm}}
+%  \item{correlation}{logical; if 'TRUE', the correlation matrix of the estimated parameters is returned and printed (default=FALSE)}
+  \item{adj.se}{if TRUE, adjust the coefficient standard errors for the number of fitted coefficients}
+  \item{Nagelkerke}{if TRUE, the Nagelkerke pseudo R-squared is reported}
 
 }
 \section{Control arguments: lextrB/W/S, l_max}{
@@ -773,26 +812,26 @@ esar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
 summary(esar1f)
 res <- MCMCsamp(esar1f, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-esar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
- listw=listw_NY, weights=POP8, family="SAR", method="eigen")
-summary(esar1fw)
-res <- MCMCsamp(esar1fw, mcmc=5000, burnin=500, listw=listw_NY)
-summary(res)
+#esar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+# listw=listw_NY, weights=POP8, family="SAR", method="eigen")
+#summary(esar1fw)
+#res <- MCMCsamp(esar1fw, mcmc=5000, burnin=500, listw=listw_NY)
+#summary(res)
 ecar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, family="CAR", method="eigen")
 summary(ecar1f)
 res <- MCMCsamp(ecar1f, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-esar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
- listw=listw_NY, weights=POP8, family="SAR", method="eigen")
-summary(esar1fw)
-res <- MCMCsamp(esar1fw, mcmc=5000, burnin=500, listw=listw_NY)
-summary(res)
-ecar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
- listw=listw_NY, weights=POP8, family="CAR", method="eigen")
-summary(ecar1fw)
-res <- MCMCsamp(ecar1fw, mcmc=5000, burnin=500, listw=listw_NY)
-summary(res)
+#esar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+# listw=listw_NY, weights=POP8, family="SAR", method="eigen")
+#summary(esar1fw)
+#res <- MCMCsamp(esar1fw, mcmc=5000, burnin=500, listw=listw_NY)
+#summary(res)
+#ecar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+# listw=listw_NY, weights=POP8, family="CAR", method="eigen")
+#summary(ecar1fw)
+#res <- MCMCsamp(ecar1fw, mcmc=5000, burnin=500, listw=listw_NY)
+#summary(res)
 esar0 <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY)
 summary(esar0)
@@ -828,6 +867,126 @@ ssar1 <- sacsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
 summary(ssar1)
 res <- MCMCsamp(ssar1, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
+nydata <- st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData")[1], quiet=TRUE)
+lm0 <- lm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata)
+summary(lm0)
+lm0w <- lm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata, weights=POP8)
+summary(lm0w)
+suppressMessages(nyadjmat <- as.matrix(foreign::read.dbf(system.file(
+ "misc/nyadjwts.dbf", package="spData")[1])[-1]))
+suppressMessages(ID <- as.character(names(foreign::read.dbf(system.file(
+ "misc/nyadjwts.dbf", package="spData")[1]))[-1]))
+identical(substring(ID, 2, 10), substring(as.character(nydata$AREAKEY), 2, 10))
+nyadjlw <- mat2listw(nyadjmat, as.character(nydata$AREAKEY))
+listw_NY <- nb2listw(nyadjlw$neighbours, style="B")
+esar0 <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY)
+summary(esar0)
+system.time(esar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
+ data=nydata, listw=listw_NY, family="SAR", method="eigen"))
+res <- summary(esar1f)
+print(res)
+sqrt(diag(res$resvar))
+sqrt(diag(esar1f$fit$imat)*esar1f$fit$s2)
+sqrt(diag(esar1f$fdHess))
+system.time(esar1M <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
+ data=nydata, listw=listw_NY, family="SAR", method="Matrix"))
+summary(esar1M)
+system.time(esar1M <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
+ data=nydata, listw=listw_NY, family="SAR", method="Matrix",
+ control=list(super=TRUE)))
+summary(esar1M)
+#esar1wf <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+# listw=listw_NY, weights=POP8, family="SAR", method="eigen")
+#summary(esar1wf)
+#system.time(esar1wM <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
+# data=nydata, listw=listw_NY, weights=POP8, family="SAR", method="Matrix"))
+#summary(esar1wM)
+#esar1wlu <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+# listw=listw_NY, weights=POP8, family="SAR", method="LU")
+#summary(esar1wlu)
+#esar1wch <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+# listw=listw_NY, weights=POP8, family="SAR", method="Chebyshev")
+#summary(esar1wch)
+ecar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, family="CAR", method="eigen")
+summary(ecar1f)
+system.time(ecar1M <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
+ data=nydata, listw=listw_NY, family="CAR", method="Matrix"))
+summary(ecar1M)
+#ecar1wf <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+# listw=listw_NY, weights=nydata$POP8, family="CAR", method="eigen")
+#summary(ecar1wf)
+#system.time(ecar1wM <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME,
+# data=nydata, listw=listw_NY, weights=POP8, family="CAR", method="Matrix"))
+#summary(ecar1wM)
+nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+ft.SID74 <- sqrt(1000)*(sqrt(nc.sids$SID74/nc.sids$BIR74) +
+ sqrt((nc.sids$SID74+1)/nc.sids$BIR74))
+lm_nc <- lm(ft.SID74 ~ 1)
+sids.nhbr30 <- dnearneigh(cbind(nc.sids$east, nc.sids$north), 0, 30, row.names=row.names(nc.sids))
+sids.nhbr30.dist <- nbdists(sids.nhbr30, cbind(nc.sids$east, nc.sids$north))
+sids.nhbr <- listw2sn(nb2listw(sids.nhbr30, glist=sids.nhbr30.dist, style="B", zero.policy=TRUE))
+dij <- sids.nhbr[,3]
+n <- nc.sids$BIR74
+el1 <- min(dij)/dij
+el2 <- sqrt(n[sids.nhbr$to]/n[sids.nhbr$from])
+sids.nhbr$weights <- el1*el2
+sids.nhbr.listw <- sn2listw(sids.nhbr)
+both <- factor(paste(nc.sids$L_id, nc.sids$M_id, sep=":"))
+ft.NWBIR74 <- sqrt(1000)*(sqrt(nc.sids$NWBIR74/nc.sids$BIR74) +
+ sqrt((nc.sids$NWBIR74+1)/nc.sids$BIR74))
+mdata <- data.frame(both, ft.NWBIR74, ft.SID74, BIR74=nc.sids$BIR74)
+outl <- which.max(rstandard(lm_nc))
+as.character(nc.sids$NAME[outl])
+mdata.4 <- mdata[-outl,]
+W <- listw2mat(sids.nhbr.listw)
+W.4 <- W[-outl, -outl]
+sids.nhbr.listw.4 <- mat2listw(W.4)
+esarI <- errorsarlm(ft.SID74 ~ 1, data=mdata, listw=sids.nhbr.listw,
+ zero.policy=TRUE)
+summary(esarI)
+esarIa <- spautolm(ft.SID74 ~ 1, data=mdata, listw=sids.nhbr.listw,
+ family="SAR")
+summary(esarIa)
+esarIV <- errorsarlm(ft.SID74 ~ ft.NWBIR74, data=mdata, listw=sids.nhbr.listw,
+ zero.policy=TRUE)
+summary(esarIV)
+esarIVa <- spautolm(ft.SID74 ~ ft.NWBIR74, data=mdata, listw=sids.nhbr.listw,
+ family="SAR")
+summary(esarIVa)
+#esarIaw <- spautolm(ft.SID74 ~ 1, data=mdata, listw=sids.nhbr.listw,
+# weights=BIR74, family="SAR")
+#summary(esarIaw)
+#esarIIaw <- spautolm(ft.SID74 ~ both - 1, data=mdata, listw=sids.nhbr.listw,
+# weights=BIR74, family="SAR")
+#summary(esarIIaw)
+#esarIVaw <- spautolm(ft.SID74 ~ ft.NWBIR74, data=mdata,
+# listw=sids.nhbr.listw, weights=BIR74, family="SAR")
+#summary(esarIVaw)
+#ecarIaw <- spautolm(ft.SID74 ~ 1, data=mdata.4, listw=sids.nhbr.listw.4,
+# weights=BIR74, family="CAR")
+#summary(ecarIaw)
+#ecarIIaw <- spautolm(ft.SID74 ~ both - 1, data=mdata.4,
+# listw=sids.nhbr.listw.4, weights=BIR74, family="CAR")
+#summary(ecarIIaw)
+#ecarIVaw <- spautolm(ft.SID74 ~ ft.NWBIR74, data=mdata.4,
+# listw=sids.nhbr.listw.4, weights=BIR74, family="CAR")
+#summary(ecarIVaw)
+#nc.sids$fitIV <- append(fitted.values(ecarIVaw), NA, outl-1)
+#plot(nc.sids[,"fitIV"], nbreaks=12) # Cressie 1993, p. 565
+data(oldcol)
+COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"))
+summary(COL.errW.eig)
+COL.errW.sar <- spautolm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="W"))
+summary(COL.errW.sar)
+data(boston, package="spData")
+gp1 <- spautolm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2)
+ + I(RM^2) + AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), 
+ data=boston.c, nb2listw(boston.soi), family="SMA")
+summary(gp1)
 
 } #dontrun
 }
