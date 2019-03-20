@@ -65,6 +65,28 @@
 \alias{summary.lagImpact}
 \alias{print.summary.lagImpact}
 \alias{HPDinterval.lagImpact}
+\alias{can.be.simmed}
+\alias{eigenw}
+\alias{similar.listw}
+\alias{do_ldet}
+\alias{jacobianSetup}
+\alias{eigen_setup}
+\alias{eigen_pre_setup}
+\alias{mcdet_setup}
+\alias{cheb_setup}
+\alias{spam_setup}
+\alias{spam_update_setup}
+\alias{Matrix_setup}
+\alias{Matrix_J_setup}
+\alias{LU_setup}
+\alias{LU_prepermutate_setup}
+\alias{moments_setup}
+\alias{SE_classic_setup}
+\alias{SE_whichMin_setup}
+\alias{SE_interp_setup}
+\alias{MCMCsamp}
+\alias{MCMCsamp.spautolm}
+\alias{MCMCsamp.sarlm}
 
 
 \title{Deprecated Functions in Package \pkg{spdep}}
@@ -129,7 +151,33 @@ powerWeights(W, rho, order=250, X, tol=.Machine$double.eps^(3/5))
 intImpacts(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames, interval,
  type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p, mess=FALSE,
  samples=NULL, zero_fill = NULL, dvars = NULL)
-
+can.be.simmed(listw)
+eigenw(listw, quiet=NULL)
+similar.listw(listw)
+do_ldet(coef, env, which=1)
+jacobianSetup(method, env, con, pre_eig=NULL, trs=NULL, interval=NULL, which=1)
+cheb_setup(env, q=5, which=1)
+mcdet_setup(env, p=16, m=30, which=1)
+eigen_setup(env, which=1)
+eigen_pre_setup(env, pre_eig, which=1)
+spam_setup(env, pivot="MMD", which=1)
+spam_update_setup(env, in_coef=0.1, pivot="MMD", which=1)
+Matrix_setup(env, Imult, super=as.logical(NA), which=1)
+Matrix_J_setup(env, super=FALSE, which=1)
+LU_setup(env, which=1)
+LU_prepermutate_setup(env, coef=0.1, order=FALSE, which=1)
+moments_setup(env, trs=NULL, m, p, type="MC", correct=TRUE, trunc=TRUE, eq7=TRUE, which=1)
+SE_classic_setup(env, SE_method="LU", p=16, m=30, nrho=200, interpn=2000,
+ interval=c(-1,0.999), SElndet=NULL, which=1)
+SE_whichMin_setup(env, SE_method="LU", p=16, m=30, nrho=200, interpn=2000,
+ interval=c(-1,0.999), SElndet=NULL, which=1)
+SE_interp_setup(env, SE_method="LU", p=16, m=30, nrho=200,
+ interval=c(-1,0.999), which=1)
+MCMCsamp(object, mcmc = 1L, verbose = NULL, ...)
+\method{MCMCsamp}{spautolm}(object, mcmc = 1L, verbose = NULL, ...,
+ burnin = 0L, scale=1, listw, control = list())
+\method{MCMCsamp}{sarlm}(object, mcmc = 1L, verbose = NULL, ...,
+    burnin=0L, scale=1, listw, listw2=NULL, control=list())
 }
 
 \arguments{
@@ -224,6 +272,37 @@ mu, Sigma, irho, drop2beta, bnames,
 %  \item{x, object}{lagImpact objects created by \code{impacts} methods}
   \item{zstats}{default FALSE, if TRUE, also return z-values and p-values for the impacts based on the simulations}
   \item{short}{default FALSE, if TRUE passed to the print summary method to omit printing of the mcmc summaries}
+  \item{coef}{spatial coefficient value}
+  \item{env}{environment containing pre-computed objects, fixed after assignment in setup functions}
+  \item{which}{default 1; if 2, use second listw object}
+%  \item{method}{string value, used by \code{jacobianSetup} to choose method}
+  \item{con}{control list passed from model fitting function and parsed in \code{jacobianSetup} to set environment variables for method-specific setup}
+  \item{pre_eig}{pre-computed eigenvalues of length n}
+%  \item{q}{Chebyshev approximation order; default in calling spdep functions is 5, here it cannot be missing and does not have a default}
+%  \item{p}{Monte Carlo approximation number of random normal variables; default calling spdep functions is 16, here it cannot be missing and does not have a default}
+%  \item{m}{Monte Carlo approximation number of series terms; default in calling spdep functions is 30, here it cannot be missing and does not have a default; \code{m} serves the same purpose in the moments method}
+  \item{pivot}{default \dQuote{MMD}, may also be \dQuote{RCM} for Cholesky decompisition using spam}
+  \item{in_coef}{fill-in initiation coefficient value, default 0.1}
+  \item{Imult}{see \code{\link[Matrix]{Cholesky}}; numeric scalar which defaults to zero. The matrix that is decomposed is A+m*I where m is the value of Imult and I is the identity matrix of order ncol(A). Default in calling spdep functions is 2, here it cannot be missing and does not have a default, but is rescaled for binary weights matrices in proportion to the maximim row sum in those calling functions}
+  \item{super}{see \code{\link[Matrix]{Cholesky}}; logical scalar indicating is a supernodal decomposition should be created.  The alternative is a simplicial decomposition. Default in calling spdep functions is FALSE for \dQuote{Matrix_J} and \code{as.logical(NA)} for \dQuote{Matrix}.  Setting it to NA leaves the choice to a CHOLMOD-internal heuristic}
+%  \item{order}{default FALSE; used in LU_prepermutate, note warnings given for \code{lu} method}
+  \item{trs}{A numeric vector of \code{m} traces, as from \code{trW}}
+%  \item{type}{moments trace type, see \code{\link{trW}}}
+  \item{correct}{default TRUE: use Smirnov correction term, see \code{\link{trW}}}
+  \item{trunc}{default TRUE: truncate Smirnov correction term, see \code{\link{trW}}}
+  \item{eq7}{default TRUE}{use equation 7 in Smirnov and Anselin (2009), if FALSE no unit root correction}
+  \item{SE_method}{default \dQuote{LU}, alternatively \dQuote{MC}; underlying lndet method to use for generating SE toolbox emulation grid}
+  \item{nrho}{default 200, number of lndet values in first stage SE toolbox emulation grid}
+%  \item{interval}{default c(-1,0.999) if interval argument NULL, bounds for SE toolbox emulation grid}
+  \item{interpn}{default 2000, number of lndet values to interpolate in second stage SE toolbox emulation grid}
+  \item{SElndet}{default NULL, used to pass a pre-computed two-column matrix of coefficient values and corresponding interpolated lndet values}
+  \item{mcmc}{The number of MCMC iterations after burnin}
+%  \item{verbose}{default NULL, use global option value; if TRUE, reports progress}
+%  \item{\dots}{Arguments passed through}
+  \item{burnin}{The number of burn-in iterations for the sampler}
+  \item{scale}{a positive scale parameter}
+%  \item{listw, listw2}{\code{listw} objects created for example by \code{nb2listw}; should be the same object(s) used for fitting the model}
+%  \item{control}{list of extra control arguments - see \code{\link{spautolm}}}
 
 }
 \section{Control arguments: lextrB/W/S, l_max}{
@@ -246,6 +325,7 @@ The \code{griffith_sone} function function may be used, following Ord and Gasim 
 }
 
 \examples{
+\dontrun{
 data(boston, package="spData")
 ab.listb <- nb2listw(boston.soi, style="B")
 er <- range(eigenw(ab.listb))
@@ -278,13 +358,11 @@ eigs(B, k=1, which="SR")$values
 if (run) {
 eigs(B, k=1, which="LR")$values
 }
-\dontrun{
 ab.listw <- nb2listw(boston.soi, style="S")
 er <- range(eigenw(similar.listw(ab.listw)))
 er
 res_1 <- lextrS(ab.listw)
 c(res_1)
-}
 if (run) {
 B <- as(similar.listw(ab.listw), "CsparseMatrix")
 eigs(B, k=1, which="SR")$values
@@ -387,7 +465,6 @@ system.time(obj2a <- lagmess(log(PRICE) ~ PATIO + log(AGE) + log(SQFT), data=bal
 summary(obj2a)
 obj3 <- lagsarlm(log(PRICE) ~ PATIO + log(AGE) + log(SQFT), data=baltimore, listw=lw)
 summary(obj3)
-\donttest{
 data(boston, package="spData")
 lw <- nb2listw(boston.soi)
 gp2 <- lagsarlm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2)
@@ -398,8 +475,6 @@ gp2a <- lagmess(CMEDV ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + I(RM^2)
  +  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT),
  data=boston.c, lw)
 summary(gp2a)
-}
-\dontrun{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 lmbase <- lm(CRIME ~ INC + HOVAL, data=columbus)
@@ -444,7 +519,6 @@ summary(lm(CRIME ~ INC + HOVAL + fitted(COL.ME.NA), data=NA.columbus,
 # family="poisson")
 #anova(glmME, test="Chisq")
 #anova(glmbase, glmME, test="Chisq")
-}
 data(hopkins, package="spData")
 hopkins_part <- hopkins[21:36,36:21]
 hopkins_part[which(hopkins_part > 0, arr.ind=TRUE)] <- 1
@@ -490,11 +564,9 @@ Hausman.test(error)
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 col.listw <- nb2listw(col.gal.nb)
-\dontrun{
 if (require("spam", quietly=TRUE)) {
 col.sp <- as.spam.listw(col.listw)
 str(col.sp)
-}
 }
 suppressMessages(nyadjmat <- as.matrix(foreign::read.dbf(system.file(
  "misc/nyadjwts.dbf", package="spData")[1])[-1]))
@@ -530,8 +602,234 @@ system.time(ee <- powerWeights(W, rho=0.3, X=x))
 str(as(ee, "matrix"))
 obj <- errorsarlm(as(ee, "matrix")[,1] ~ 1, listw=nb2listw(nb60rt), method="Matrix")
 coefficients(obj)
+data(oldcol)
+W.eig <- eigenw(nb2listw(COL.nb, style="W"))
+1/range(W.eig)
+S.eig <- eigenw(nb2listw(COL.nb, style="S"))
+1/range(S.eig)
+B.eig <- eigenw(nb2listw(COL.nb, style="B"))
+1/range(B.eig)
+# cases for intrinsically asymmetric weights
+crds <- cbind(COL.OLD$X, COL.OLD$Y)
+k3 <- knn2nb(knearneigh(crds, k=3))
+is.symmetric.nb(k3)
+k3eig <- eigenw(nb2listw(k3, style="W"))
+is.complex(k3eig)
+rho <- 0.5
+Jc <- sum(log(1 - rho * k3eig))
+# complex eigenvalue Jacobian
+Jc
+W <- as(nb2listw(k3, style="W"), "CsparseMatrix")
+I <- diag(length(k3))
+Jl <- sum(log(abs(diag(slot(lu(I - rho * W), "U")))))
+# LU Jacobian equals complex eigenvalue Jacobian
+Jl
+all.equal(Re(Jc), Jl)
+# wrong value if only real part used
+Jr <- sum(log(1 - rho * Re(k3eig)))
+Jr
+all.equal(Jr, Jl)
+# construction of Jacobian from complex conjugate pairs (Jan Hauke)
+Rev <- Re(k3eig)[which(Im(k3eig) == 0)]
+# real eigenvalues
+Cev <- k3eig[which(Im(k3eig) != 0)]
+pCev <- Cev[Im(Cev) > 0]
+# separate complex conjugate pairs
+RpCev <- Re(pCev)
+IpCev <- Im(pCev)
+# reassemble Jacobian
+Jc1 <- sum(log(1 - rho*Rev)) + sum(log((1 - rho * RpCev)^2 + (rho^2)*(IpCev^2)))
+all.equal(Re(Jc), Jc1)
+# impact of omitted complex part term in real part only Jacobian
+Jc2 <- sum(log(1 - rho*Rev)) + sum(log((1 - rho * RpCev)^2))
+all.equal(Jr, Jc2)
+# trace of asymmetric (WW) and crossprod of complex eigenvalues for APLE
+sum(diag(W \%*\% W))
+crossprod(k3eig)
+# analytical regular grid eigenvalues
+run <- FALSE
+if (require("RSpectra", quietly=TRUE)) run <- TRUE
+if (run) {
+rg <- cell2nb(ncol=7, nrow=7, type="rook")
+B <- as(nb2listw(rg, style="B"), "CsparseMatrix")
+res1 <- eigs(B, k=1, which="LR")$values
+resn <- eigs(B, k=1, which="SR")$values
+print(Re(c(resn, res1)))
+}
+if (run) {
+rg_eig <- eigenw(nb2listw(rg, style="B"))
+print(all.equal(range(Re(rg_eig)), c(resn, res1))) 
+}
+if (run) {
+lw <- nb2listw(rg, style="W")
+rg_eig <- eigenw(similar.listw(lw))
+print(range(Re(rg_eig)))
+}
+if (run) {
+W  <- as(lw, "CsparseMatrix")
+print(Re(c(eigs(W, k=1, which="SR")$values, eigs(W, k=1, which="LR")$values)))
+}
+data(oldcol)
+COL.W <- nb2listw(COL.nb, style="W")
+COL.S <- nb2listw(COL.nb, style="S")
+sum(log(1 - 0.5 * eigenw(COL.W)))
+sum(log(1 - 0.5 * eigenw(similar.listw(COL.W))))
+W_J <- as(as_dsTMatrix_listw(similar.listw(COL.W)), "CsparseMatrix")
+I <- as_dsCMatrix_I(dim(W_J)[1])
+c(determinant(I - 0.5 * W_J, logarithm=TRUE)$modulus)
+sum(log(1 - 0.5 * eigenw(COL.S)))
+sum(log(1 - 0.5 * eigenw(similar.listw(COL.S))))
+W_J <- as(as_dsTMatrix_listw(similar.listw(COL.S)), "CsparseMatrix")
+c(determinant(I - 0.5 * W_J, logarithm=TRUE)$modulus)
+data(boston, package="spData")
+lw <- nb2listw(boston.soi)
+can.sim <- spdep:::can.be.simmed(lw)
+env <- new.env(parent=globalenv())
+assign("listw", lw, envir=env)
+assign("can.sim", can.sim, envir=env)
+assign("similar", FALSE, envir=env)
+assign("verbose", FALSE, envir=env)
+assign("family", "SAR", envir=env)
+eigen_setup(env)
+get("similar", envir=env)
+do_ldet(0.5, env)
+rm(env)
+env <- new.env(parent=globalenv())
+assign("listw", lw, envir=env)
+assign("can.sim", can.sim, envir=env)
+assign("similar", FALSE, envir=env)
+assign("verbose", FALSE, envir=env)
+assign("family", "SAR", envir=env)
+assign("n", length(boston.soi), envir=env)
+eigen_pre_setup(env, pre_eig=eigenw(similar.listw(lw)))
+do_ldet(0.5, env)
+rm(env)
+env <- new.env(parent=globalenv())
+assign("listw", lw, envir=env)
+assign("can.sim", can.sim, envir=env)
+assign("similar", FALSE, envir=env)
+assign("family", "SAR", envir=env)
+assign("n", length(boston.soi), envir=env)
+Matrix_setup(env, Imult=2, super=FALSE)
+get("similar", envir=env)
+do_ldet(0.5, env)
+rm(env)
+env <- new.env(parent=globalenv())
+assign("listw", lw, envir=env)
+assign("n", length(boston.soi), envir=env)
+assign("can.sim", can.sim, envir=env)
+assign("similar", FALSE, envir=env)
+assign("family", "SAR", envir=env)
+spam_setup(env)
+get("similar", envir=env)
+do_ldet(0.5, env)
+rm(env)
+env <- new.env(parent=globalenv())
+assign("listw", lw, envir=env)
+assign("n", length(boston.soi), envir=env)
+assign("similar", FALSE, envir=env)
+assign("family", "SAR", envir=env)
+LU_setup(env)
+get("similar", envir=env)
+do_ldet(0.5, env)
+rm(env)
+env <- new.env(parent=globalenv())
+assign("listw", lw, envir=env)
+assign("n", length(boston.soi), envir=env)
+assign("similar", FALSE, envir=env)
+assign("family", "SAR", envir=env)
+LU_prepermutate_setup(env)
+get("similar", envir=env)
+do_ldet(0.5, env)
+rm(env)
+env <- new.env(parent=globalenv())
+assign("listw", lw, envir=env)
+assign("similar", FALSE, envir=env)
+assign("family", "SAR", envir=env)
+cheb_setup(env, q=5)
+get("similar", envir=env)
+do_ldet(0.5, env)
+rm(env)
+env <- new.env(parent=globalenv())
+assign("listw", lw, envir=env)
+assign("n", length(boston.soi), envir=env)
+assign("similar", FALSE, envir=env)
+assign("family", "SAR", envir=env)
+set.seed(12345)
+mcdet_setup(env, p=16, m=30)
+get("similar", envir=env)
+do_ldet(0.5, env)
+rm(env)
+nydata <- st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData")[1], quiet=TRUE)
+suppressMessages(nyadjmat <- as.matrix(foreign::read.dbf(system.file(
+ "misc/nyadjwts.dbf", package="spData")[1])[-1]))
+suppressMessages(ID <- as.character(names(foreign::read.dbf(system.file(
+ "misc/nyadjwts.dbf", package="spData")[1]))[-1]))
+identical(substring(ID, 2, 10), substring(as.character(nydata$AREAKEY), 2, 10))
+nyadjlw <- mat2listw(nyadjmat)
+listw_NY <- nb2listw(nyadjlw$neighbours, style="B")
+esar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, family="SAR", method="eigen")
+summary(esar1f)
+res <- MCMCsamp(esar1f, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+esar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, weights=POP8, family="SAR", method="eigen")
+summary(esar1fw)
+res <- MCMCsamp(esar1fw, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+ecar1f <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, family="CAR", method="eigen")
+summary(ecar1f)
+res <- MCMCsamp(ecar1f, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+esar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, weights=POP8, family="SAR", method="eigen")
+summary(esar1fw)
+res <- MCMCsamp(esar1fw, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+ecar1fw <- spautolm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, weights=POP8, family="CAR", method="eigen")
+summary(ecar1fw)
+res <- MCMCsamp(ecar1fw, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+esar0 <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY)
+summary(esar0)
+res <- MCMCsamp(esar0, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+esar0w <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, weights=POP8)
+summary(esar0)
+res <- MCMCsamp(esar0w, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+esar1 <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, etype="emixed")
+summary(esar1)
+res <- MCMCsamp(esar1, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+lsar0 <- lagsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY)
+summary(lsar0)
+res <- MCMCsamp(lsar0, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+lsar1 <- lagsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, type="mixed")
+summary(lsar1)
+res <- MCMCsamp(lsar1, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+ssar0 <- sacsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY)
+summary(ssar0)
+res <- MCMCsamp(ssar0, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
+ssar1 <- sacsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+ listw=listw_NY, type="sacmixed")
+summary(ssar1)
+res <- MCMCsamp(ssar1, mcmc=5000, burnin=500, listw=listw_NY)
+summary(res)
 
-
+} #dontrun
 }
 
 

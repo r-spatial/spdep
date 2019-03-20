@@ -20,11 +20,11 @@ setOldClass(c("listw"))
 #	require(methods)
 #}
 
-#.onLoad <- function(pkg, lib) {
-#cat("spdep: a package for analysing spatial dependence\n")
+.onAttach <- function(lib, pkg) {
+packageStartupMessage("spdep: a package for analysing spatial dependence\nDEPRECATED: from 1.1-1, spatial regression functions moved to the spreg package", appendLF = FALSE)
 #require(maptools)
 #.First.lib <- function(lib, pkg) {
 #	library.dynam("spdep", pkg, lib)
-#}
+}
 #.noGenerics <- TRUE
 

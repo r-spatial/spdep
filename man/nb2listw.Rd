@@ -1,21 +1,18 @@
 % Copyright 2001-2014 by Roger S. Bivand
 \name{nb2listw}
 \alias{nb2listw}
-\alias{can.be.simmed}
 \title{Spatial weights for neighbours lists}
 \description{
 The \code{nb2listw} function supplements a neighbours list with spatial weights for the chosen coding scheme. The \code{can.be.simmed} helper function checks whether a spatial weights object is similar to symmetric and can be so transformed to yield real eigenvalues or for Cholesky decomposition.
 }
 \usage{
 nb2listw(neighbours, glist=NULL, style="W", zero.policy=NULL)
-can.be.simmed(listw)
 }
 \arguments{
   \item{neighbours}{an object of class \code{nb}}
   \item{glist}{list of general weights corresponding to neighbours}
   \item{style}{\code{style} can take values \dQuote{W}, \dQuote{B}, \dQuote{C}, \dQuote{U}, \dQuote{minmax} and \dQuote{S}}
   \item{zero.policy}{default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
-  \item{listw}{a spatial weights object}
 }
 \details{
 Starting from a binary neighbours list, in which regions are either listed as neighbours or are absent (thus not in the set of neighbours for some definition), the function adds a weights list with values given by the coding scheme style chosen. B is the basic binary coding, W is row standardised (sums over all links to n), C is globally standardised (sums over all links to n), U is equal to C divided by the number of neighbours (sums over all links to unity), while S is the variance-stabilizing coding scheme proposed by Tiefelsdorf et al. 1999, p. 167-168 (sums over all links to n).

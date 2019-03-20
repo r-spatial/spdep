@@ -2,6 +2,11 @@
 
 # Chebyshev approximation setup and run functions
 cheb_setup <- function(env, q=5, which=1) {
+    .Deprecated("spreg::cheb_setup", msg="Function cheb_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::cheb_setup(env=env, q=5, which=which))
+  if (FALSE) {
     if (which == 1) {
         W <- as(get("listw", envir=env), "CsparseMatrix")
     } else {
@@ -32,6 +37,7 @@ cheb_setup <- function(env, q=5, which=1) {
     }
     assign("method", "Chebyshev", envir=env)
     invisible(NULL)
+}
 }
 
 cheb_ldet <- function(alpha, env, which=1) {
@@ -65,6 +71,11 @@ cheb_ldet <- function(alpha, env, which=1) {
 
 # MC approximation setup and run functions
 mcdet_setup <- function(env, p=16, m=30, which=1) {
+    .Deprecated("spreg::mcdet_setup", msg="Function mcdet_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::mcdet_setup(env=env, p=p, m=m, which=which))
+  if (FALSE) {
         if (which == 1) {
           W <- as(get("listw", envir=env), "CsparseMatrix")
         } else {
@@ -96,6 +107,7 @@ mcdet_setup <- function(env, p=16, m=30, which=1) {
         assign("method", "MC", envir=env)
         invisible(NULL)
 }
+}
 
 mcdet_ldet <- function(alpha, env, which=1) {
 # clx output from mcdet_setup()
@@ -116,6 +128,11 @@ mcdet_ldet <- function(alpha, env, which=1) {
 }
 
 eigen_setup <- function(env, which=1) {
+    .Deprecated("spreg::eigen_setup", msg="Function eigen_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::eigen_setup(env=env, which=which))
+  if (FALSE) {
     if (get("verbose", envir=env))
        cat("Computing eigenvalues ...\n")
     if (which == 1) {
@@ -143,8 +160,14 @@ eigen_setup <- function(env, which=1) {
     assign("method", "eigen", envir=env)
     invisible(NULL)
 }
+}
 
 eigen_pre_setup <- function(env, pre_eig, which=1) {
+    .Deprecated("spreg::eigen_pre_setup", msg="Function eigen_pre_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::eigen_pre_setup(env=env, pre_eig=pre_eig, which=which))
+  if (FALSE) {
     stopifnot(length(pre_eig) == get("n", envir=env))
     if (which == 1) {
 	if (is.complex(pre_eig))
@@ -159,9 +182,15 @@ eigen_pre_setup <- function(env, pre_eig, which=1) {
     assign("method", "eigen", envir=env)
     invisible(NULL)
 }
+}
 
 
 do_ldet <- function(coef, env, which=1) {
+    .Deprecated("spreg::do_ldet", msg="Function do_ldet moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::do_ldet(coef=coef, env=env, which=which))
+  if (FALSE) {
     method <- get("method", envir=env)
     if (get("family", envir=env) == "SMA") {
         ldet <- eigen_sma_ldet(coef, env, which=which)
@@ -183,6 +212,7 @@ do_ldet <- function(coef, env, which=1) {
            stop("...\n\nUnknown method\n"))
     }
     ldet
+}
 }
 
 eigen_sma_ldet <- function(coef, env, which=1) {
@@ -207,6 +237,11 @@ eigen_ldet <- function(coef, env, which=1) {
 }
 
 spam_setup <- function(env, pivot="MMD", which=1) {
+    .Deprecated("spreg::spam_setup", msg="Function spam_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::spam_setup(env=env, pivot=pivot, which=which))
+  if (FALSE) {
 #    if (!require(spam)) stop("spam not available")
   if (requireNamespace("spam", quietly = TRUE)) {
     if (which == 1) {
@@ -234,6 +269,7 @@ spam_setup <- function(env, pivot="MMD", which=1) {
   }
   invisible(NULL)
 }
+}
 
 spam_ldet <- function(coef, env, which=1) {
   if (requireNamespace("spam", quietly = TRUE)) {
@@ -259,6 +295,11 @@ spam_ldet <- function(coef, env, which=1) {
 }
 
 spam_update_setup <- function(env, in_coef=0.1, pivot="MMD", which=1) {
+    .Deprecated("spreg::spam_update_setup", msg="Function spam_update_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::spam_update_setup(env=env, in_coef=in_coef, pivot=pivot, which=which))
+  if (FALSE) {
 #    if (!require(spam)) stop("spam not available")
   if (requireNamespace("spam", quietly = TRUE)) {
     if (which == 1) {
@@ -291,6 +332,8 @@ spam_update_setup <- function(env, in_coef=0.1, pivot="MMD", which=1) {
   }
   invisible(NULL)
 }
+}
+
 
 spam_update_ldet <- function(coef, env, which=1) {
 #    if (!require(spam)) stop("spam not available")
@@ -321,6 +364,11 @@ spam_update_ldet <- function(coef, env, which=1) {
 }
 
 Matrix_setup <- function(env, Imult, super=as.logical(NA), which=1) {
+    .Deprecated("spreg::Matrix_setup", msg="Function Matrix_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::Matrix_setup(env=env, Imult=Imult, super=super, which=which))
+  if (FALSE) {
     if (which == 1) {
         if (get("listw", envir=env)$style %in% c("W", "S") && 
             get("can.sim", envir=env)) {
@@ -357,6 +405,7 @@ Matrix_setup <- function(env, Imult, super=as.logical(NA), which=1) {
     assign("method", "Matrix", envir=env)
     invisible(NULL)
 }
+}
 
 Matrix_ldet <- function(coef, env, which=1) {
     if (which == 1) {
@@ -384,6 +433,11 @@ Matrix_ldet <- function(coef, env, which=1) {
 }
 
 LU_setup <- function(env, which=1) {
+    .Deprecated("spreg::LU_setup", msg="Function LU_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::LU_setup(env=env, which=which))
+  if (FALSE) {
     if (which == 1) {
         W <- as(get("listw", envir=env), "CsparseMatrix")
         assign("W", W, envir=env)
@@ -395,6 +449,7 @@ LU_setup <- function(env, which=1) {
     assign("I", I, envir=env)
     assign("method", "LU", envir=env)
     invisible(NULL)
+}
 }
 
 LU_ldet <- function(coef, env, which=1) {
@@ -411,6 +466,11 @@ LU_ldet <- function(coef, env, which=1) {
 }
 
 LU_prepermutate_setup <- function(env, coef=0.1, order=FALSE, which=1) {
+    .Deprecated("spreg::LU_prepermutate_setup", msg="Function LU_prepermutate_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::LU_prepermutate_setup(env=env, coef=coef, order=order, which=which))
+  if (FALSE) {
     I <- as_dsCMatrix_I(get("n", envir=env))
     assign("I", I, envir=env)
     if (which == 1) {
@@ -430,6 +490,7 @@ LU_prepermutate_setup <- function(env, coef=0.1, order=FALSE, which=1) {
     }
     assign("method", "LU_prepermutate", envir=env)
     invisible(NULL)
+}
 }
 
 LU_prepermutate_ldet <- function(coef, env, which=1) {
@@ -451,6 +512,11 @@ LU_prepermutate_ldet <- function(coef, env, which=1) {
 }
 
 Matrix_J_setup <- function(env, super=FALSE, which=1) {
+    .Deprecated("spreg::Matrix_J_setup", msg="Function Matrix_J_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::Matrix_J_setup(env=env, super=super, which=which))
+  if (FALSE) {
     if (which == 1) {
         if (get("listw", envir=env)$style %in% c("W", "S") && 
             get("can.sim", envir=env)) {
@@ -477,6 +543,7 @@ Matrix_J_setup <- function(env, super=FALSE, which=1) {
     assign("super", super, envir=env)
     assign("method", "Matrix_J", envir=env)
     invisible(NULL)
+}
 }
 
 Matrix_J_ldet <- function(coef, env, which=1) {
@@ -566,6 +633,11 @@ ldetMoments <- function(Omega, rho, correct=TRUE, trunc=FALSE, q12,
 
 moments_setup <- function(env, trs=NULL, m, p, type="MC", correct=TRUE,
     trunc=TRUE, eq7=TRUE, which=1) {
+    .Deprecated("spreg::moments_setup", msg="Function moments_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::moments_setup(env=env, trs=trs, m=m, p=p, type=type, correct=correct, trunc=trunc, eq7=eq7, which=which))
+  if (FALSE) {
     if (which == 1) {
         if (eq7) {
             q12 <- find_q1_q2(get("listw", envir=env))
@@ -610,6 +682,7 @@ moments_setup <- function(env, trs=NULL, m, p, type="MC", correct=TRUE,
     assign("method", "moments", envir=env)
     invisible(NULL)
 }
+}
 
 moments_ldet <- function(x, env, which=1) {
     if (which == 1) {
@@ -629,6 +702,12 @@ moments_ldet <- function(x, env, which=1) {
 
 SE_classic_setup <- function(env, SE_method="LU", p=16, m=30, nrho=200,
   interpn=2000, interval=c(-1,0.999), SElndet=NULL, which=1) {
+    .Deprecated("spreg::SE_classic_setup", msg="Function SE_classic_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::SE_classic_setup(env=env, SE_method=SE_method, p=p, m=m, nrho=nrho,
+  interpn=interpn, interval=interval, SElndet=SElndet, which=which))
+  if (FALSE) {
 #  stopifnot(require(splines))
 
   if (is.null(SElndet)) {
@@ -658,6 +737,7 @@ SE_classic_setup <- function(env, SE_method="LU", p=16, m=30, nrho=200,
   assign("intern_classic", data.frame(), envir=env)
   invisible(NULL)
  
+}
 }
 
 SE_setup_intern <- function(env, SE_method="LU", p=16, m=30, nrho=100,
@@ -719,6 +799,12 @@ SE_classic <- function(rho, detval) {
 
 SE_whichMin_setup <- function(env, SE_method="LU", p=16, m=30, nrho=200,
   interpn=2000, interval=c(-1,0.999), SElndet=NULL, which=1) {
+    .Deprecated("spreg::SE_whichMin_setup", msg="Function SE_whichMin_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::SE_whichMin_setup(env=env, SE_method=SE_method, p=p, m=m, nrho=nrho,
+  interpn=interpn, interval=interval, SElndet=SElndet, which=which))
+  if (FALSE) {
 #  stopifnot(require(splines))
 
   if (is.null(SElndet)) {
@@ -748,6 +834,7 @@ SE_whichMin_setup <- function(env, SE_method="LU", p=16, m=30, nrho=200,
   }
 
   invisible(NULL)
+}
 }
 
 SE_whichMin_ldet <- function(x, env, which=1) {
@@ -779,6 +866,12 @@ SE_whichMin <- function(rho, detval) {
 
 SE_interp_setup <- function(env, SE_method="LU", p=16, m=30, nrho=200,
   interval=c(-1,0.999), which=1) {
+    .Deprecated("spreg::SE_interp_setup", msg="Function SE_interp_setup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::SE_interp_setup(env=env, SE_method=SE_method, p=p, m=m, nrho=nrho,
+  interval=interval, which=which))
+  if (FALSE) {
 
 #  stopifnot(require(splines))
 
@@ -799,6 +892,7 @@ SE_interp_setup <- function(env, SE_method="LU", p=16, m=30, nrho=200,
   }
 
   invisible(NULL)
+}
 }
 
 SE_interp_ldet <- function(x, env, which=1) {

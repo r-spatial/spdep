@@ -61,7 +61,7 @@ export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests,
 	summary.moransad, print.summary.moransad, print.spcor, plot.spcor)
 
 export(write.sn2dat, read.dat2listw, nb2blocknb, p.adjustSP,
-	is.symmetric.glist, similar.listw, nb2lines, listw2lines, df2sn, 
+	is.symmetric.glist, nb2lines, listw2lines, df2sn, 
 	plot.listw, aggregate.nb, old.make.sym.nb)
 
 export(nb2WB, listw2WB, nb2INLA)
@@ -89,7 +89,7 @@ export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
 
 
 
-export(eigenw, errorsarlm, lmSLX, create_WX, predict.SLX) # deprecate candidates (prabclus, spfrontier, ssfa)
+export(errorsarlm, lmSLX, create_WX, predict.SLX) # deprecate candidates (prabclus, spfrontier, ssfa)
 
 export(lagsarlm) # deprecate candidates (lagsarlmtree)
 
@@ -103,16 +103,16 @@ export(spBreg_lag, spBreg_err, spBreg_sac) # deprecate candidates
 
 export(spautolm, residuals.spautolm, deviance.spautolm, coef.spautolm, 
 	fitted.spautolm, print.spautolm, summary.spautolm, LR1.spautolm, 
-	logLik.spautolm, print.summary.spautolm) # deprecate candidates
+	logLik.spautolm, print.summary.spautolm) # deprecated
 
-export(MCMCsamp) # deprecate candidates
+export(MCMCsamp) # deprecated
 
 export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
         Matrix_setup, LU_setup, Matrix_J_setup, spam_update_setup,
         moments_setup, SE_classic_setup, SE_whichMin_setup, SE_interp_setup,
-        LU_prepermutate_setup, eigen_pre_setup) # deprecate candidates (spatialprobit, splm, HSAR)
+        LU_prepermutate_setup, eigen_pre_setup) # deprecated (spatialprobit, splm, HSAR)
 
-export(jacobianSetup, can.be.simmed) # deprecate candidates
+export(eigenw, jacobianSetup, can.be.simmed, similar.listw) # deprecated
 
 export(trW, impacts, intImpacts) # deprecated (splm, sphet)
 
@@ -200,7 +200,7 @@ S3method(anova, sarlm)
 S3method(predict, sarlm)
 S3method(impacts, sarlm)
 S3method(Hausman.test, sarlm) # deprecated
-S3method(MCMCsamp, sarlm)
+S3method(MCMCsamp, sarlm) # deprecated
 
 S3method(impacts, MCMC_sar_g)
 S3method(impacts, MCMC_sem_g)
@@ -220,7 +220,7 @@ S3method(fitted, spautolm)
 S3method(print, spautolm)
 S3method(summary, spautolm)
 S3method(logLik, spautolm)
-S3method(MCMCsamp, spautolm)
+S3method(MCMCsamp, spautolm) # deprecated
 
 S3method(print, summary.spautolm)
 

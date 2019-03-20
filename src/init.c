@@ -15,15 +15,15 @@ static const R_CMethodDef CEntries[]  = {
 };
 
 static R_CallMethodDef CallEntries[] = {
-    {"opt_error_free", (DL_FUNC) &opt_error_free, 1},
-    {"hess_error_free", (DL_FUNC) &hess_error_free, 1},
-    {"hess_lag_free", (DL_FUNC) &hess_lag_free, 1},
-    {"opt_error_init", (DL_FUNC) &opt_error_init, 0},
-    {"hess_error_init", (DL_FUNC) &hess_error_init, 0},
-    {"hess_lag_init", (DL_FUNC) &hess_lag_init, 0},
-    {"R_ml_sse_env", (DL_FUNC) &R_ml_sse_env, 2},
-    {"R_ml1_sse_env", (DL_FUNC) &R_ml1_sse_env, 3},
-    {"R_ml2_sse_env", (DL_FUNC) &R_ml2_sse_env, 3},
+    {"opt_error_free", (DL_FUNC) &opt_error_free, 1}, // deprecated
+    {"hess_error_free", (DL_FUNC) &hess_error_free, 1}, // deprecated
+    {"hess_lag_free", (DL_FUNC) &hess_lag_free, 1}, // deprecated
+    {"opt_error_init", (DL_FUNC) &opt_error_init, 0}, // deprecated
+    {"hess_error_init", (DL_FUNC) &hess_error_init, 0}, // deprecated
+    {"hess_lag_init", (DL_FUNC) &hess_lag_init, 0}, // deprecated
+    {"R_ml_sse_env", (DL_FUNC) &R_ml_sse_env, 2}, // deprecated
+    {"R_ml1_sse_env", (DL_FUNC) &R_ml1_sse_env, 3}, // deprecated
+    {"R_ml2_sse_env", (DL_FUNC) &R_ml2_sse_env, 3}, // deprecated
     {"card", (DL_FUNC) &card, 1},
 /*    {"listw2dsT", (DL_FUNC) &listw2dsT, 4},
     {"listw2dgR", (DL_FUNC) &listw2dgR, 4},*/

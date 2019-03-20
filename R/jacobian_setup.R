@@ -1,6 +1,11 @@
 # Copyright 2012 by Roger Bivand
 
 jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NULL, which=1) {
+    .Deprecated("spreg::jacobianSetup", msg="Function jacobianSetup moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::jacobianSetup(method=method, env=env, con=con, pre_eig=pre_eig, trs=trs, interval=interval, which=which))
+  if (FALSE) {
     switch(method,
         eigen = {
             if (get("verbose", envir=env))
@@ -171,4 +176,5 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
         },
         stop("...\n\nUnknown method\n"))
     interval
+}
 }

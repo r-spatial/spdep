@@ -3,6 +3,11 @@
 
 eigenw <- function(listw, quiet=NULL)
 {
+    .Deprecated("spreg::eigenw", msg="Function eigenw moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::eigenw(listw=listw, quiet=quiet))
+  if (FALSE) {
 	if(!inherits(listw, "listw")) stop("not a listw object")
         if (is.null(quiet)) quiet <- !get("verbose", envir = .spdepOptions)
         stopifnot(is.logical(quiet))
@@ -17,6 +22,7 @@ eigenw <- function(listw, quiet=NULL)
 		"Sum of eigenvalues:", sum(e), "\n")
 	}
 	e
+}
 }
 
 griffith_sone <- function(P, Q, type="rook") {
