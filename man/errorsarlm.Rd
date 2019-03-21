@@ -1,8 +1,8 @@
 % Copyright 2002-18 by Roger S. Bivand
 \name{errorsarlm}
 \alias{errorsarlm}
-\alias{lmSLX}
-\alias{create_WX}
+%\alias{lmSLX}
+%\alias{create_WX}
 %\alias{spBreg_err}
 %\alias{sar.error.f}
 %\alias{sar.error.f.s}
@@ -21,9 +21,9 @@ errorsarlm(formula, data=list(), listw, na.action, weights=NULL,
  interval = NULL, tol.solve=1.0e-10, trs=NULL, control=list())
 #spBreg_err(formula, data = list(), listw, na.action, Durbin, etype,
 #    zero.policy=NULL, control=list())
-lmSLX(formula, data = list(), listw, na.action, weights=NULL,
- Durbin=TRUE, zero.policy=NULL)
-create_WX(x, listw, zero.policy=NULL, prefix="")
+#lmSLX(formula, data = list(), listw, na.action, weights=NULL,
+# Durbin=TRUE, zero.policy=NULL)
+#create_WX(x, listw, zero.policy=NULL, prefix="")
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
@@ -47,8 +47,8 @@ neighbours, if FALSE assign NA - causing \code{errorsarlm()} to terminate with a
   \item{tol.solve}{the tolerance for detecting linear dependencies in the columns of matrices to be inverted - passed to \code{solve()} (default=1.0e-10). This may be used if necessary to extract coefficient standard errors (for instance lowering to 1e-12), but errors in \code{solve()} may constitute indications of poorly scaled variables: if the variables have scales differing much from the autoregressive coefficient, the values in this matrix may be very different in scale, and inverting such a matrix is analytically possible by definition, but numerically unstable; rescaling the RHS variables alleviates this better than setting tol.solve to a very small value}
   \item{trs}{default NULL, if given, a vector of powered spatial weights matrix traces output by \code{trW}; when given, insert the asymptotic analytical values into the numerical Hessian instead of the approximated values; may be used to get around some problems raised when the numerical Hessian is poorly conditioned, generating NaNs in subsequent operations. When using the numerical Hessian to get the standard error of lambda, it is very strongly advised that trs be given, as the parts of fdHess corresponding to the regression coefficients are badly approximated, affecting the standard error of lambda; the coefficient correlation matrix is unusable}
  \item{control}{list of extra control arguments - see section below}
- \item{x}{model matrix to be lagged}
- \item{prefix}{default empty string, may be \dQuote{lag} in some cases}
+% \item{x}{model matrix to be lagged}
+% \item{prefix}{default empty string, may be \dQuote{lag} in some cases}
 }
 \details{
 The asymptotic standard error of \eqn{\lambda}{lambda} is only computed when
@@ -227,38 +227,6 @@ COL.SDEM.eig <- errorsarlm(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD,
  lw, Durbin=~INC, control=list(pre_eig=ev))
 summary(COL.SDEM.eig)
 summary(impacts(COL.SDEM.eig))
-COL.SLX <- lmSLX(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
-summary(COL.SLX)
-summary(impacts(COL.SLX))
-COL.SLX <- lmSLX(CRIME ~ INC + HOVAL + I(HOVAL^2), data=COL.OLD, listw=lw, Durbin=TRUE)
-summary(impacts(COL.SLX))
-summary(COL.SLX)
-COL.SLX <- lmSLX(CRIME ~ INC + HOVAL + I(HOVAL^2), data=COL.OLD, listw=lw, Durbin=~INC)
-summary(impacts(COL.SLX))
-summary(COL.SLX)
-COL.SLX <- lmSLX(CRIME ~ INC, data=COL.OLD, listw=lw)
-summary(COL.SLX)
-summary(impacts(COL.SLX))
-\dontrun{
-crds <- cbind(COL.OLD$X, COL.OLD$Y)
-mdist <- sqrt(sum(diff(apply(crds, 2, range))^2))
-dnb <- dnearneigh(crds, 0, mdist)
-dists <- nbdists(dnb, crds)
-f <- function(x, form, data, dnb, dists, verbose) {
-  glst <- lapply(dists, function(d) 1/(d^x))
-  lw <- nb2listw(dnb, glist=glst, style="B")
-  res <- logLik(lmSLX(form=form, data=data, listw=lw))
-  if (verbose) cat("power:", x, "logLik:", res, "\n")
-  res
-}
-opt <- optimize(f, interval=c(0.1, 4), form=CRIME ~ INC + HOVAL,
- data=COL.OLD, dnb=dnb, dists=dists, verbose=TRUE, maximum=TRUE)
-glst <- lapply(dists, function(d) 1/(d^opt$maximum))
-lw <- nb2listw(dnb, glist=glst, style="B")
-SLX <- lmSLX(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
-summary(SLX)
-summary(impacts(SLX))
-}
 NA.COL.OLD <- COL.OLD
 NA.COL.OLD$CRIME[20:25] <- NA
 COL.err.NA <- errorsarlm(CRIME ~ INC + HOVAL, data=NA.COL.OLD,

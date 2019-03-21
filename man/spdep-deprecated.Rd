@@ -103,6 +103,9 @@
 \alias{impacts.MCMC_sac_g}
 \alias{spBreg_err}
 \alias{spBreg_lag}
+\alias{predict.SLX}
+\alias{lmSLX}
+\alias{create_WX}
 
 \title{Deprecated Functions in Package \pkg{spdep}}
 
@@ -208,7 +211,10 @@ spBreg_err(formula, data = list(), listw, na.action, Durbin, etype,
     zero.policy=NULL, control=list())
 spBreg_lag(formula, data = list(), listw, na.action, Durbin, type,
     zero.policy=NULL, control=list())
-
+\method{predict}{SLX}(object, newdata, listw, zero.policy=NULL, ...)
+lmSLX(formula, data = list(), listw, na.action, weights=NULL,
+ Durbin=TRUE, zero.policy=NULL)
+create_WX(x, listw, zero.policy=NULL, prefix="")
 
 }
 
@@ -358,20 +364,14 @@ mu, Sigma, irho, drop2beta, bnames,
   \item{Nagelkerke}{if TRUE, the Nagelkerke pseudo R-squared is reported}
   \item{Durbin}{default FALSE (spatial lag model); if TRUE, full spatial Durbin model; if a formula object, the subset of explanatory variables to lag}
   \item{etype}{(use the \sQuote{Durbin=} argument - retained for backwards compatibility only) default "error", may be set to "emixed" to include the spatially lagged independent variables added to X; when "emixed", the lagged intercept is dropped for spatial weights style "W", that is row-standardised weights, but otherwise included}
+  \item{newdata}{data frame in which to predict --- if NULL, predictions are
+for the data on which the model was fitted. Should have row names corresponding to region.id. If row names are exactly the same than the ones used for training, it uses in-sample predictors for forecast.  See \sQuote{Details}}
+ \item{prefix}{default empty string, may be \dQuote{lag} in some cases}
 
-}
-\section{Control arguments: lextrB/W/S, l_max}{
-\describe{
-  \item{trace}{report values in while loops, default NULL assuming FALSE; logical}
-  \item{tol}{tolerance for breaking while loops, default \code{.Machine$double.eps^(1/2)}; numeric}
-  \item{maxiter}{maximum number of iterations in while loops, default \code{6 * (length(lw$neighbours) - 2}; integer}
-  \item{useC}{use C code, default TRUE, logical (not in \code{l_max})}
-}
 }
 
 \details{
  Model-fitting functions and functions supporting model fitting are being moved to the \pkg{spreg} package.
-The \code{griffith_sone} function function may be used, following Ord and Gasim (for references see Griffith and Sone (1995)), to calculate analytical eigenvalues for binary rook or queen contiguous neighbours where the data are arranged as a regular P times Q grid. The \code{subgraph_eigenw} function may be used when there are multiple graph components, of which the largest may be handled as a dense matrix. Here the eigenvalues are computed for each subgraph in turn, and catenated to reconstruct the complete set. The functions may be used to provide pre-computed eigenvalues for spatial regression functions.
 }
 
 
@@ -1103,6 +1103,47 @@ el_B <- spBreg_lag(log(pc_turnout) ~ log(pc_college) + log(pc_homeownership)
 summary(el_B)
 el_ml$timings
 attr(el_B, "timings")
+data(oldcol, package="spdep")
+lw <- spdep::nb2listw(COL.nb)
+COL.SLX <- lmSLX(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
+pslx0 <- predict(COL.SLX)
+pslx1 <- predict(COL.SLX, newdata=COL.OLD, listw=lw)
+all.equal(pslx0, pslx1)
+COL.OLD1 <- COL.OLD
+COL.OLD1$INC <- COL.OLD1$INC + 1
+pslx2 <- predict(COL.SLX, newdata=COL.OLD1, listw=lw)
+sum(coef(COL.SLX)[c(2,4)])
+mean(pslx2-pslx1)
+COL.SLX <- lmSLX(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
+summary(COL.SLX)
+summary(impacts(COL.SLX))
+COL.SLX <- lmSLX(CRIME ~ INC + HOVAL + I(HOVAL^2), data=COL.OLD, listw=lw, Durbin=TRUE)
+summary(impacts(COL.SLX))
+summary(COL.SLX)
+COL.SLX <- lmSLX(CRIME ~ INC + HOVAL + I(HOVAL^2), data=COL.OLD, listw=lw, Durbin=~INC)
+summary(impacts(COL.SLX))
+summary(COL.SLX)
+COL.SLX <- lmSLX(CRIME ~ INC, data=COL.OLD, listw=lw)
+summary(COL.SLX)
+summary(impacts(COL.SLX))
+crds <- cbind(COL.OLD$X, COL.OLD$Y)
+mdist <- sqrt(sum(diff(apply(crds, 2, range))^2))
+dnb <- dnearneigh(crds, 0, mdist)
+dists <- nbdists(dnb, crds)
+f <- function(x, form, data, dnb, dists, verbose) {
+  glst <- lapply(dists, function(d) 1/(d^x))
+  lw <- nb2listw(dnb, glist=glst, style="B")
+  res <- logLik(lmSLX(form=form, data=data, listw=lw))
+  if (verbose) cat("power:", x, "logLik:", res, "\n")
+  res
+}
+opt <- optimize(f, interval=c(0.1, 4), form=CRIME ~ INC + HOVAL,
+ data=COL.OLD, dnb=dnb, dists=dists, verbose=TRUE, maximum=TRUE)
+glst <- lapply(dists, function(d) 1/(d^opt$maximum))
+lw <- nb2listw(dnb, glist=glst, style="B")
+SLX <- lmSLX(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
+summary(SLX)
+summary(impacts(SLX))
 
 } #dontrun
 }

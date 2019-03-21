@@ -518,6 +518,12 @@ sar.error.f <- function(lambda, env) {
 }
 
 lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin=TRUE, zero.policy=NULL) {
+    .Deprecated("spreg::lmSLX", msg="Function lmSLX moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+      if (!is.null(weights)) stop("Use spreg::lmSLX() directly")
+    return(spreg::lmSLX(formula=formula, data = data, listw=listw, na.action=na.action, Durbin=Durbin, zero.policy=zero.policy))
+  if (FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -692,9 +698,15 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin
         class(lm.model) <- c("SLX", class(lm.model))
         lm.model
 }
+}
 
 
 predict.SLX <- function(object, newdata, listw, zero.policy=NULL, ...) {
+    .Deprecated("spreg::predict.SLX", msg="Method predict.SLX moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::predict.SLX(object=object, newdata=newdata, listw=listw, zero.policy=zero.policy, ...))
+  if (FALSE) {
     if (is.null(zero.policy))
         zero.policy <- get("zeroPolicy", envir = .spdepOptions)
     stopifnot(is.logical(zero.policy))
@@ -720,8 +732,14 @@ predict.SLX <- function(object, newdata, listw, zero.policy=NULL, ...) {
     names(res) <- row.names(newdata)
     res
 }
+}
 
 create_WX <- function(x, listw, zero.policy=NULL, prefix="") {
+    .Deprecated("spreg::create_WX", msg="Function create_WX moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::create_WX(x=x, listw=listw, zero.policy=zero.policy, prefix=prefix))
+  if (FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -762,5 +780,6 @@ create_WX <- function(x, listw, zero.policy=NULL, prefix="") {
         if (!is.null(wxI)) WX <- cbind(wxI, WX)
         colnames(WX) <- Wvars
         WX
+}
 }
 

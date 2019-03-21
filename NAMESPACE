@@ -99,7 +99,7 @@ export(print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm,
 	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
 	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm) # deprecate candidates
 
-export(lmSLX, create_WX, predict.SLX) # deprecate candidates
+export(lmSLX, create_WX, predict.SLX) # deprecated
 
 export(spBreg_lag, spBreg_err, spBreg_sac) # deprecated
 
@@ -190,6 +190,7 @@ S3method(plot, mst)
 S3method(plot, skater)
 
 # deprecate candidates
+
 S3method(print, sarlm)
 S3method(summary, sarlm)
 S3method(residuals, sarlm)
@@ -201,6 +202,10 @@ S3method(logLik, sarlm)
 S3method(anova, sarlm)
 S3method(predict, sarlm)
 S3method(impacts, sarlm)
+S3method(print, summary.sarlm)
+S3method(print, sarlm.pred)
+S3method(as.data.frame, sarlm.pred)
+
 S3method(Hausman.test, sarlm) # deprecated
 S3method(MCMCsamp, sarlm) # deprecated
 
@@ -208,12 +213,8 @@ S3method(impacts, MCMC_sar_g) # deprecated
 S3method(impacts, MCMC_sem_g) # deprecated
 S3method(impacts, MCMC_sac_g) # deprecated
 
-S3method(impacts, SLX)
-S3method(predict, SLX)
-
-S3method(print, summary.sarlm)
-S3method(print, sarlm.pred)
-S3method(as.data.frame, sarlm.pred)
+S3method(impacts, SLX) # deprecated
+S3method(predict, SLX) # deprecated
 
 S3method(residuals, spautolm) # deprecated
 S3method(deviance, spautolm) # deprecated
@@ -258,9 +259,9 @@ S3method(HPDinterval, lagImpact) # deprecated
 export(HPDinterval.lagImpact) # deprecated
 S3method(print, summary.lagImpact) # deprecated
 
-S3method(print, WXImpact)
-S3method(summary, WXImpact)
-S3method(print, summary.WXImpact)
+S3method(print, WXImpact) # deprecated
+S3method(summary, WXImpact) # deprecated
+S3method(print, summary.WXImpact) # deprecated
 
 S3method(print, lagmess) # deprecated
 S3method(summary, lagmess) # deprecated

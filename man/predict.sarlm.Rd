@@ -1,7 +1,7 @@
 % Copyright 2002 by Roger S. Bivand, 2015 Martin Gubri
 \name{predict.sarlm}
 \alias{predict.sarlm}
-\alias{predict.SLX}
+%\alias{predict.SLX}
 \alias{print.sarlm.pred}
 \alias{as.data.frame.sarlm.pred}
 
@@ -16,7 +16,7 @@ trend, signal, and noise, or other types of predictors --- see references.
 \method{predict}{sarlm}(object, newdata = NULL, listw = NULL, pred.type = "TS", all.data = FALSE,
  zero.policy = NULL, legacy = TRUE, legacy.mixed = FALSE, power = NULL, order = 250,
  tol = .Machine$double.eps^(3/5), spChk = NULL, ...)
-\method{predict}{SLX}(object, newdata, listw, zero.policy=NULL, ...)
+#\method{predict}{SLX}(object, newdata, listw, zero.policy=NULL, ...)
 \method{print}{sarlm.pred}(x, ...)
 \method{as.data.frame}{sarlm.pred}(x, ...)
 }
@@ -206,16 +206,6 @@ all.equal(p2, p4, check.attributes=FALSE)
 p5 <- predict(COL.mix.eig, newdata=COL.OLD, listw=lw, pred.type = "TS",
  legacy=TRUE, power=TRUE, legacy.mixed = TRUE)
 all.equal(p2, p5, check.attributes=FALSE)
-
-COL.SLX <- lmSLX(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
-pslx0 <- predict(COL.SLX)
-pslx1 <- predict(COL.SLX, newdata=COL.OLD, listw=lw)
-all.equal(pslx0, pslx1)
-COL.OLD1 <- COL.OLD
-COL.OLD1$INC <- COL.OLD1$INC + 1
-pslx2 <- predict(COL.SLX, newdata=COL.OLD1, listw=lw)
-sum(coef(COL.SLX)[c(2,4)])
-mean(pslx2-pslx1)
 }
 
 

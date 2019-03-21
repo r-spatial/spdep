@@ -143,10 +143,16 @@ impacts <- function(obj, ...)
     UseMethod("impacts", obj)
 
 impacts.SLX <- function(obj, ...) {
+    .Deprecated("spreg::impacts.SLX", msg="Method impacts.SLX moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::impacts.SLX(obj=obj, ...))
+  if (FALSE) {
     stopifnot(!is.null(attr(obj, "mixedImps")))
     n <- nrow(obj$model)
     k <- obj$qr$rank
     impactsWX(attr(obj, "mixedImps"), n, k, type="SLX", method="estimable")
+}
 }
 
 impactSDEM <- function(obj) {
