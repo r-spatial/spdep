@@ -1,7 +1,7 @@
 % Copyright 2002-18 by Roger S. Bivand
 \name{lagsarlm}
 \alias{lagsarlm}
-\alias{spBreg_lag}
+%\alias{spBreg_lag}
 \title{Spatial simultaneous autoregressive lag model estimation}
 \description{
   The \code{lagsarlm} function provides Maximum likelihood estimation of spatial simultaneous autoregressive lag and spatial Durbin (mixed) models of the form:
@@ -17,8 +17,8 @@ lagsarlm(formula, data = list(), listw,
 	na.action, Durbin, type, method="eigen", quiet=NULL, 
 	zero.policy=NULL, interval=NULL, tol.solve=1.0e-10, trs=NULL, 
 	control=list())
-spBreg_lag(formula, data = list(), listw, na.action, Durbin, type,
-    zero.policy=NULL, control=list())
+#spBreg_lag(formula, data = list(), listw, na.action, Durbin, type,
+#    zero.policy=NULL, control=list())
 }
 \arguments{
   \item{formula}{a symbolic description of the model to be fit. The details 
@@ -288,37 +288,6 @@ I(RM^2) +  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT),
 data=boston.c, nb2listw(boston.soi), type="mixed", method="Matrix", 
 trs=trMatb)
 summary(gp2mMi)
-}
-\dontrun{
-set.seed(1)
-COL.lag.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
- listw=listw)
-summary(COL.lag.Bayes)
-summary(impacts(COL.lag.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
-summary(impacts(COL.lag.Bayes, evalues=ev), short=TRUE, zstats=TRUE)
-set.seed(1)
-COL.D0.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
- listw=listw, Durbin=TRUE)
-summary(COL.D0.Bayes)
-summary(impacts(COL.D0.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
-}
-set.seed(1)
-COL.D1.Bayes <- spBreg_lag(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD,
- listw=listw, Durbin= ~ INC)
-summary(COL.D1.Bayes)
-summary(impacts(COL.D1.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
-\dontrun{
-data(elect80, package="spData")
-lw <- nb2listw(e80_queen, zero.policy=TRUE)
-el_ml <- lagsarlm(log(pc_turnout) ~ log(pc_college) + log(pc_homeownership)
- + log(pc_income), data=elect80, listw=lw, zero.policy=TRUE, method="LU")
-summary(el_ml)
-set.seed(1)
-el_B <- spBreg_lag(log(pc_turnout) ~ log(pc_college) + log(pc_homeownership)
- + log(pc_income), data=elect80, listw=lw, zero.policy=TRUE)
-summary(el_B)
-el_ml$timings
-attr(el_B, "timings")
 }
 }
 \keyword{spatial}

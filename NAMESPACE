@@ -89,7 +89,7 @@ export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
 
 
 
-export(errorsarlm, lmSLX, create_WX, predict.SLX) # deprecate candidates (prabclus, spfrontier, ssfa)
+export(errorsarlm) # deprecate candidates (prabclus, spfrontier, ssfa)
 
 export(lagsarlm) # deprecate candidates (lagsarlmtree)
 
@@ -99,7 +99,9 @@ export(print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm,
 	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
 	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm) # deprecate candidates
 
-export(spBreg_lag, spBreg_err, spBreg_sac) # deprecate candidates
+export(lmSLX, create_WX, predict.SLX) # deprecate candidates
+
+export(spBreg_lag, spBreg_err, spBreg_sac) # deprecated
 
 export(spautolm, residuals.spautolm, deviance.spautolm, coef.spautolm, 
 	fitted.spautolm, print.spautolm, summary.spautolm, LR1.spautolm, 
@@ -202,9 +204,9 @@ S3method(impacts, sarlm)
 S3method(Hausman.test, sarlm) # deprecated
 S3method(MCMCsamp, sarlm) # deprecated
 
-S3method(impacts, MCMC_sar_g)
-S3method(impacts, MCMC_sem_g)
-S3method(impacts, MCMC_sac_g)
+S3method(impacts, MCMC_sar_g) # deprecated
+S3method(impacts, MCMC_sem_g) # deprecated
+S3method(impacts, MCMC_sac_g) # deprecated
 
 S3method(impacts, SLX)
 S3method(predict, SLX)
@@ -213,16 +215,16 @@ S3method(print, summary.sarlm)
 S3method(print, sarlm.pred)
 S3method(as.data.frame, sarlm.pred)
 
-S3method(residuals, spautolm)
-S3method(deviance, spautolm)
-S3method(coef, spautolm)
-S3method(fitted, spautolm)
-S3method(print, spautolm)
-S3method(summary, spautolm)
-S3method(logLik, spautolm)
+S3method(residuals, spautolm) # deprecated
+S3method(deviance, spautolm) # deprecated
+S3method(coef, spautolm) # deprecated
+S3method(fitted, spautolm) # deprecated
+S3method(print, spautolm) # deprecated
+S3method(summary, spautolm) # deprecated
+S3method(logLik, spautolm) # deprecated
 S3method(MCMCsamp, spautolm) # deprecated
 
-S3method(print, summary.spautolm)
+S3method(print, summary.spautolm) # deprecated
 
 S3method(residuals, gmsar) # deprecated
 S3method(deviance, gmsar) # deprecated

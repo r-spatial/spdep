@@ -97,7 +97,12 @@
 \alias{LR1.spautolm}
 \alias{logLik.spautolm}
 \alias{print.summary.spautolm}
-
+\alias{spBreg_sac}
+\alias{impacts.MCMC_sar_g}
+\alias{impacts.MCMC_sem_g}
+\alias{impacts.MCMC_sac_g}
+\alias{spBreg_err}
+\alias{spBreg_lag}
 
 \title{Deprecated Functions in Package \pkg{spdep}}
 
@@ -194,6 +199,15 @@ spautolm(formula, data = list(), listw, weights,
  llprof=NULL, control=list())
 \method{summary}{spautolm}(object, correlation = FALSE, adj.se=FALSE,
  Nagelkerke=FALSE, ...)
+spBreg_sac(formula, data = list(), listw, listw2=NULL, na.action, 
+    Durbin, type, zero.policy=NULL, control=list())
+\method{impacts}{MCMC_sar_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
+\method{impacts}{MCMC_sem_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
+\method{impacts}{MCMC_sac_g}(obj, ..., tr=NULL, listw=NULL, evalues=NULL, Q=NULL)
+spBreg_err(formula, data = list(), listw, na.action, Durbin, etype,
+    zero.policy=NULL, control=list())
+spBreg_lag(formula, data = list(), listw, na.action, Durbin, type,
+    zero.policy=NULL, control=list())
 
 
 }
@@ -342,6 +356,8 @@ mu, Sigma, irho, drop2beta, bnames,
 %  \item{correlation}{logical; if 'TRUE', the correlation matrix of the estimated parameters is returned and printed (default=FALSE)}
   \item{adj.se}{if TRUE, adjust the coefficient standard errors for the number of fitted coefficients}
   \item{Nagelkerke}{if TRUE, the Nagelkerke pseudo R-squared is reported}
+  \item{Durbin}{default FALSE (spatial lag model); if TRUE, full spatial Durbin model; if a formula object, the subset of explanatory variables to lag}
+  \item{etype}{(use the \sQuote{Durbin=} argument - retained for backwards compatibility only) default "error", may be set to "emixed" to include the spatially lagged independent variables added to X; when "emixed", the lagged intercept is dropped for spatial weights style "W", that is row-standardised weights, but otherwise included}
 
 }
 \section{Control arguments: lextrB/W/S, l_max}{
@@ -987,6 +1003,106 @@ gp1 <- spautolm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2)
  + I(RM^2) + AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), 
  data=boston.c, nb2listw(boston.soi), family="SMA")
 summary(gp1)
+data(oldcol)
+listw <- nb2listw(COL.nb, style="W")
+ev <- eigenw(listw)
+COL.sacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.sacW.eig)
+W <- as(listw, "CsparseMatrix")
+trMatc <- trW(W, type="mult")
+set.seed(1)
+summary(impacts(COL.sacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+library(coda)
+set.seed(1)
+COL.sacW.B0 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ Durbin=FALSE, control=list(ndraw=1500L, nomit=500L))
+print(summary(COL.sacW.B0))
+print(summary(impacts(COL.sacW.B0, tr=trMatc), zstats=TRUE, short=TRUE))
+set.seed(1)
+COL.sacW.B1 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ Durbin=TRUE, control=list(ndraw=1500L, nomit=500L))
+print(summary(COL.sacW.B1))
+print(summary(impacts(COL.sacW.B1, tr=trMatc), zstats=TRUE, short=TRUE))
+COL.msacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ type="sacmixed", control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW.eig)
+set.seed(1)
+summary(impacts(COL.msacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+COL.msacW1.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ Durbin=TRUE, control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW1.eig)
+set.seed(1)
+summary(impacts(COL.msacW1.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+COL.msacW2.eig <- sacsarlm(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD, 
+ listw, Durbin= ~ INC, control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW2.eig)
+summary(impacts(COL.msacW2.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+library(coda)
+set.seed(1)
+data(oldcol)
+lw <- nb2listw(COL.nb, style="W")
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
+print(summary(COL.err.Bayes))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
+ control=list(prior=list(lambdaMH=TRUE)))
+print(summary(COL.err.Bayes))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
+ Durbin=TRUE)
+print(summary(COL.err.Bayes))
+print(summary(impacts(COL.err.Bayes)))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
+ Durbin=TRUE, control=list(prior=list(lambdaMH=TRUE)))
+print(summary(COL.err.Bayes))
+print(summary(impacts(COL.err.Bayes)))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
+ Durbin=~INC)
+print(summary(COL.err.Bayes))
+print(summary(impacts(COL.err.Bayes)))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
+ Durbin=~INC, control=list(prior=list(lambdaMH=TRUE)))
+print(summary(COL.err.Bayes))
+print(summary(impacts(COL.err.Bayes)))
+print(raftery.diag(COL.err.Bayes, r=0.01))
+set.seed(1)
+data(oldcol)
+listw <- nb2listw(COL.nb, style="W")
+COL.lag.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw=listw)
+summary(COL.lag.Bayes)
+summary(impacts(COL.lag.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
+summary(impacts(COL.lag.Bayes, evalues=ev), short=TRUE, zstats=TRUE)
+set.seed(1)
+COL.D0.Bayes <- spBreg_lag(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw=listw, Durbin=TRUE)
+summary(COL.D0.Bayes)
+summary(impacts(COL.D0.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
+set.seed(1)
+COL.D1.Bayes <- spBreg_lag(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD,
+ listw=listw, Durbin= ~ INC)
+summary(COL.D1.Bayes)
+summary(impacts(COL.D1.Bayes, tr=trMatc), short=TRUE, zstats=TRUE)
+data(elect80, package="spData")
+lw <- nb2listw(e80_queen, zero.policy=TRUE)
+el_ml <- lagsarlm(log(pc_turnout) ~ log(pc_college) + log(pc_homeownership)
+ + log(pc_income), data=elect80, listw=lw, zero.policy=TRUE, method="LU")
+summary(el_ml)
+set.seed(1)
+el_B <- spBreg_lag(log(pc_turnout) ~ log(pc_college) + log(pc_homeownership)
+ + log(pc_income), data=elect80, listw=lw, zero.policy=TRUE)
+summary(el_B)
+el_ml$timings
+attr(el_B, "timings")
 
 } #dontrun
 }

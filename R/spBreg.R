@@ -4,6 +4,11 @@
 
 spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     zero.policy=NULL, control=list()) {
+    .Deprecated("spreg::spBreg_lag", msg="Function spBreg_lag moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::spBreg_lag(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
+  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
 #control
@@ -374,10 +379,17 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
 
 #output mcmc object
 }
+}
 
 
 impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
+    .Deprecated("spreg::impacts.MCMC_sar_g", msg="Method impacts.MCMC_sar_g moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::impacts.MCMC_sar_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
+    Q=Q))
+  if (FALSE) {
     if (is.null(listw) && !is.null(attr(obj, "listw_style")) && 
         attr(obj, "listw_style") != "W")
         stop("Only row-standardised weights supported")
@@ -466,6 +478,7 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 
 
 }
+}
 
 
 # translated from Matlab code sem_g.m in the Spatial Econometrics toolbox by
@@ -474,6 +487,11 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 
 spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     zero.policy=NULL, control=list()) {
+    .Deprecated("spreg::spBreg_err", msg="Function spBreg_err moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::spBreg_err(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, etype=etype, zero.policy=zero.policy, control=control))
+  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
 #control
@@ -588,7 +606,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     }
 #        x <- cbind(x, WX)
 #        rm(WX)
-#    } else if (type != "lag") stop("No such type:", type)
+#     else if (type != "lag") stop("No such type:", type)
     lm.base <- lm(y ~ x - 1) # doesn't like dgCMatrix
     aliased <- is.na(coefficients(lm.base))
     cn <- names(aliased)
@@ -921,9 +939,16 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 #output mcmc object
 
 }
+}
 
 impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
+    .Deprecated("spreg::impacts.MCMC_sem_g", msg="Method impacts.MCMC_sem_g moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::impacts.MCMC_sem_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
+    Q=Q))
+  if (FALSE) {
     emixedImps <- attr(obj, "emixedImps")
     if (is.null(emixedImps)) {
         stop("No indirect impacts, use summary()")
@@ -931,6 +956,7 @@ impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     n <- attr(obj, "n")
     k <- attr(obj, "k")
     impactsWX(emixedImps, n, k, type="SDEM", method="MCMC")
+}
 }
 
 
@@ -940,6 +966,11 @@ impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 
 spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action, 
     Durbin, type, zero.policy=NULL, control=list()) {
+    .Deprecated("spreg::spBreg_sac", msg="Function spBreg_sac moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::spBreg_sac(formula=formula, data=data, listw=listw, listw2=listw2, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
+  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
 #control
@@ -1016,7 +1047,7 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
     m <- ncol(x)
     dvars <- c(NCOL(x), 0L)
 
-#    if (type == "Durbin") {
+#    if (type == "Durbin") 
 #        WX <- create_WX(x, listw, zero.policy=zero.policy, prefix="lag")
 #FIXME
     if (is.formula(Durbin) || isTRUE(Durbin)) {
@@ -1331,10 +1362,17 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
 
 #output mcmc object
 }
+}
 
 
 impacts.MCMC_sac_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
+    .Deprecated("spreg::impacts.MCMC_sac_g", msg="Method impacts.MCMC_sac_g moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::impacts.MCMC_sac_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
+    Q=Q))
+  if (FALSE) {
     obj_lag <- obj[, -(which(colnames(obj) == "lambda"))]
     attributes(obj_lag) <- c(attributes(obj_lag),
         attributes(obj)[5:13])
@@ -1352,4 +1390,5 @@ impacts.MCMC_sac_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
         attr(res, "type") <- "sacmixed"
     }
     res
+}
 }

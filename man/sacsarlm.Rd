@@ -1,7 +1,7 @@
 % Copyright 2010 by Roger S. Bivand
 \name{sacsarlm}
 \alias{sacsarlm}
-\alias{spBreg_sac}
+%\alias{spBreg_sac}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Spatial simultaneous autoregressive SAC model estimation}
 \description{
@@ -16,8 +16,8 @@ sacsarlm(formula, data = list(), listw, listw2 = NULL, na.action, Durbin, type,
  method = "eigen", quiet = NULL, zero.policy = NULL, tol.solve = 1e-10,
  llprof=NULL, interval1=NULL, interval2=NULL, trs1=NULL, trs2=NULL,
  control = list())
-spBreg_sac(formula, data = list(), listw, listw2=NULL, na.action, 
-    Durbin, type, zero.policy=NULL, control=list())
+#spBreg_sac(formula, data = list(), listw, listw2=NULL, na.action, 
+#    Durbin, type, zero.policy=NULL, control=list())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -151,19 +151,6 @@ W <- as(listw, "CsparseMatrix")
 trMatc <- trW(W, type="mult")
 set.seed(1)
 summary(impacts(COL.sacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
-\dontrun{
-library(coda)
-set.seed(1)
-COL.sacW.B0 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
- Durbin=FALSE, control=list(ndraw=1500L, nomit=500L))
-print(summary(COL.sacW.B0))
-print(summary(impacts(COL.sacW.B0, tr=trMatc), zstats=TRUE, short=TRUE))
-set.seed(1)
-COL.sacW.B1 <- spBreg_sac(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
- Durbin=TRUE, control=list(ndraw=1500L, nomit=500L))
-print(summary(COL.sacW.B1))
-print(summary(impacts(COL.sacW.B1, tr=trMatc), zstats=TRUE, short=TRUE))
-}
 COL.msacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
  type="sacmixed", control=list(pre_eig1=ev, pre_eig2=ev))
 summary(COL.msacW.eig)

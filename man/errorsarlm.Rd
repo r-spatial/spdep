@@ -3,7 +3,7 @@
 \alias{errorsarlm}
 \alias{lmSLX}
 \alias{create_WX}
-\alias{spBreg_err}
+%\alias{spBreg_err}
 %\alias{sar.error.f}
 %\alias{sar.error.f.s}
 \title{Spatial simultaneous autoregressive error model estimation}
@@ -19,8 +19,8 @@ where \eqn{\lambda}{lambda} is found by \code{optimize()} first, and \eqn{\beta}
 errorsarlm(formula, data=list(), listw, na.action, weights=NULL,
  Durbin, etype, method="eigen", quiet=NULL, zero.policy=NULL,
  interval = NULL, tol.solve=1.0e-10, trs=NULL, control=list())
-spBreg_err(formula, data = list(), listw, na.action, Durbin, etype,
-    zero.policy=NULL, control=list())
+#spBreg_err(formula, data = list(), listw, na.action, Durbin, etype,
+#    zero.policy=NULL, control=list())
 lmSLX(formula, data = list(), listw, na.action, weights=NULL,
  Durbin=TRUE, zero.policy=NULL)
 create_WX(x, listw, zero.policy=NULL, prefix="")
@@ -308,42 +308,6 @@ print(all.equal(ocoef, coefficients(COL.errW.eig)))
 print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  lw, method="spam_update", control=list(spamPivot="RCM"))))
 print(all.equal(ocoef, coefficients(COL.errW.eig)))
-}
-\dontrun{
-library(coda)
-set.seed(1)
-COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
-print(summary(COL.err.Bayes))
-print(raftery.diag(COL.err.Bayes, r=0.01))
-set.seed(1)
-COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
- control=list(prior=list(lambdaMH=TRUE)))
-print(summary(COL.err.Bayes))
-print(raftery.diag(COL.err.Bayes, r=0.01))
-set.seed(1)
-COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
- Durbin=TRUE)
-print(summary(COL.err.Bayes))
-print(summary(impacts(COL.err.Bayes)))
-print(raftery.diag(COL.err.Bayes, r=0.01))
-set.seed(1)
-COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
- Durbin=TRUE, control=list(prior=list(lambdaMH=TRUE)))
-print(summary(COL.err.Bayes))
-print(summary(impacts(COL.err.Bayes)))
-print(raftery.diag(COL.err.Bayes, r=0.01))
-set.seed(1)
-COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
- Durbin=~INC)
-print(summary(COL.err.Bayes))
-print(summary(impacts(COL.err.Bayes)))
-print(raftery.diag(COL.err.Bayes, r=0.01))
-set.seed(1)
-COL.err.Bayes <- spBreg_err(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw,
- Durbin=~INC, control=list(prior=list(lambdaMH=TRUE)))
-print(summary(COL.err.Bayes))
-print(summary(impacts(COL.err.Bayes)))
-print(raftery.diag(COL.err.Bayes, r=0.01))
 }
 }
 \keyword{spatial}
