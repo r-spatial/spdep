@@ -13,42 +13,6 @@ citEntry(entry = "Article",
   paste("Bivand, Roger S. and Wong, David W. S. (2018)", "Comparing implementations of global and local indicators of spatial association", "TEST, 27(3), 716-748.", "URL https://doi.org/10.1007/s11749-018-0599-x")
 )
 
-citEntry(entry = "Article",
-  title        = "Comparing Implementations of Estimation Methods for Spatial Econometrics",
-  author       = personList(as.person("Roger Bivand"),
-                   as.person("Gianfranco Piras")),
-  journal      = "Journal of Statistical Software",
-  year         = "2015",
-  volume       = "63",
-  number       = "18",
-  pages        = "1--36",
-  url          = "https://www.jstatsoft.org/v63/i18/",
-
-  textVersion  =
-  paste("Roger Bivand, Gianfranco Piras (2015).",
-        "Comparing Implementations of Estimation Methods for Spatial Econometrics.",
-        "Journal of Statistical Software, 63(18), 1-36.",
-        "URL http://www.jstatsoft.org/v63/i18/.")
-)
-
-citEntry(entry = "Article",
-  title        = "Computing the Jacobian in Gaussian spatial autoregressive models: An illustrated comparison of available methods",
-  author       = personList(as.person("Roger Bivand"),
-                   as.person("Jan Hauke"),
-                   as.person("Tomasz Kossowski")),
-  journal      = "Geographical Analysis",
-  year         = "2013",
-  volume       = "45",
-  number       = "2",
-  pages        = "150--179",
-  url          = "https://doi.org/10.1111/gean.12008",
-
-  textVersion  =
-  paste("Bivand, R. S., Hauke, J., and Kossowski, T. (2013).",
-        "Computing the Jacobian in Gaussian spatial autoregressive models:",
-        "An illustrated comparison of available methods. Geographical",
-        "Analysis, 45(2), 150-179.", "URL https://doi.org/10.1111/gean.12008")
-)
 citEntry(entry="book",
   author       = "Roger S. Bivand, Edzer Pebesma and Virgilio Gomez-Rubio",
   title        = "Applied spatial data analysis with {R}, Second edition",

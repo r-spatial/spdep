@@ -2,6 +2,11 @@
 #
 
 anova.sarlm <- function(object, ...) {
+    .Deprecated("spreg::anova.sarlm", msg="Method anova.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::anova.sarlm(object=object, ...))
+  if (FALSE) {
     if (length(list(object, ...)) > 1L) {
         getResponseFormula <- function (object) 
         {
@@ -71,6 +76,7 @@ anova.sarlm <- function(object, ...) {
 	class(res) <- c("anova", "data.frame")
         return(res)
     }
+}
 }
 
 

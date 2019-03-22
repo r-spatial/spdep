@@ -4,6 +4,11 @@
 
 print.sarlm <- function(x, ...)
 {
+    .Deprecated("spreg::print.sarlm", msg="Method print.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.sarlm(x=x, ...))
+  if (FALSE) {
 #FIXME
        if (x$type == "error") if (isTRUE(all.equal(x$lambda, x$interval[1])) ||
             isTRUE(all.equal(x$lambda, x$interval[2]))) 
@@ -20,10 +25,16 @@ print.sarlm <- function(x, ...)
 	cat("\nLog likelihood:", logLik(x), "\n")
 	invisible(x)
 }
+}
 
 summary.sarlm <- function(object, correlation = FALSE, Nagelkerke=FALSE,
  Hausman=FALSE, adj.se=FALSE, ...)
 {
+    .Deprecated("spreg::summary.sarlm", msg="Method summary.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::summary.sarlm(object, correlation = correlation, Nagelkerke=Nagelkerke, Hausman=Hausman, adj.se=adj.se, ...))
+  if (FALSE) {
 #FIXME
 	adj <- NULL
 	if (object$type == "error" || ((object$type == "lag" || 
@@ -107,14 +118,15 @@ summary.sarlm <- function(object, correlation = FALSE, Nagelkerke=FALSE,
 
 	structure(object, class=c("summary.sarlm", class(object)))
 }
-
+}
+if (FALSE) {
 NK.sarlm <- function(obj) {
      n <- length(residuals(obj))
      nullLL <- obj$LLNullLlm
      if (is.null(nullLL)) return(nullLL)
      c(1 - exp(-(2/n)*(logLik(obj) - nullLL)))
 }
-
+}
 
 LR1.sarlm <- function(object)
 {
@@ -266,6 +278,12 @@ Hausman.test.gmsar <- function(object, ..., tol=NULL) {
 print.summary.sarlm <- function(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...)
 {
+    .Deprecated("spreg::print.summary.sarlm", msg="Method print.summary.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.summary.sarlm(x=x, digits = digits,
+	signif.stars = signif.stars, ...))
+  if (FALSE) {
 	cat("\nCall:", deparse(x$call),	sep = "", fill=TRUE)
        if (x$type == "error") if (isTRUE(all.equal(x$lambda, x$interval[1])) ||
             isTRUE(all.equal(x$lambda, x$interval[2]))) 
@@ -425,4 +443,5 @@ print.summary.sarlm <- function(x, digits = max(5, .Options$digits - 3),
     	}
     	cat("\n")
         invisible(x)
+}
 }

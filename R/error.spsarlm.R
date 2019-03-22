@@ -4,6 +4,12 @@
 errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
         Durbin, etype, method="eigen", quiet=NULL, zero.policy=NULL,
         interval=NULL, tol.solve=1.0e-10, trs=NULL, control=list()) {
+    .Deprecated("spreg::errorsarlm", msg="Function errorsarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    if (!missing(weights)) stop("run spreg::errorsarlm directly")
+    return(spreg::errorsarlm(formula=formula, data=data,listw=listw, na.action=na.action, Durbin=Durbin, etype=etype, method=method, quiet=quiet, zero.policy=zero.policy, interval=interval, tol.solve=tol.solve, trs=trs, control=control))
+  if (FALSE) {
         timings <- list()
         .ptime_start <- proc.time()
         con <- list(tol.opt=.Machine$double.eps^0.5, returnHcov=TRUE,
@@ -485,7 +491,9 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
 		ret$na.action <- na.act
 	ret
 }
+}
 
+if (FALSE) {
 sar_error_sse <- function(lambda, env) {
     if (get("compiled_sse", envir=env)) {
         ft <- get("first_time", envir=env)
@@ -515,6 +523,7 @@ sar.error.f <- function(lambda, env) {
     if (get("verbose", envir=env)) cat("lambda:", lambda, " function:", ret, " Jacobian:", ldet, " SSE:", SSE, "\n")
     assign("f_calls", get("f_calls", envir=env)+1L, envir=env)
     ret
+}
 }
 
 lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin=TRUE, zero.policy=NULL) {

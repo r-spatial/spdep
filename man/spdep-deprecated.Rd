@@ -105,7 +105,28 @@
 \alias{spBreg_lag}
 \alias{predict.SLX}
 \alias{lmSLX}
+\alias{impacts.SLX}
 \alias{create_WX}
+\alias{anova.sarlm}
+\alias{bptest.sarlm}
+\alias{errorsarlm}
+\alias{impacts}
+\alias{impacts.sarlm}
+\alias{intImpacts}
+\alias{lagsarlm}
+\alias{predict.sarlm}
+\alias{print.sarlm.pred}
+\alias{as.data.frame.sarlm.pred}
+\alias{residuals.sarlm}
+\alias{deviance.sarlm}
+\alias{coef.sarlm}
+\alias{vcov.sarlm}
+\alias{fitted.sarlm}
+\alias{sacsarlm}
+\alias{summary.sarlm}
+\alias{print.sarlm}
+\alias{print.summary.sarlm}
+
 
 \title{Deprecated Functions in Package \pkg{spdep}}
 
@@ -214,7 +235,37 @@ spBreg_lag(formula, data = list(), listw, na.action, Durbin, type,
 \method{predict}{SLX}(object, newdata, listw, zero.policy=NULL, ...)
 lmSLX(formula, data = list(), listw, na.action, weights=NULL,
  Durbin=TRUE, zero.policy=NULL)
+\method{impacts}{SLX}(obj, ...)
 create_WX(x, listw, zero.policy=NULL, prefix="")
+\method{anova}{sarlm}(object, ...)
+bptest.sarlm(object, varformula=NULL, studentize = TRUE, data=list())
+errorsarlm(formula, data=list(), listw, na.action, weights=NULL,
+ Durbin, etype, method="eigen", quiet=NULL, zero.policy=NULL,
+ interval = NULL, tol.solve=1.0e-10, trs=NULL, control=list())
+\method{impacts}{sarlm}(obj, \dots, tr, R = NULL, listw = NULL, evalues=NULL,
+ useHESS = NULL, tol = 1e-06, empirical = FALSE, Q=NULL)
+lagsarlm(formula, data = list(), listw, 
+	na.action, Durbin, type, method="eigen", quiet=NULL, 
+	zero.policy=NULL, interval=NULL, tol.solve=1.0e-10, trs=NULL, 
+	control=list())
+\method{predict}{sarlm}(object, newdata = NULL, listw = NULL, pred.type = "TS", all.data = FALSE,
+ zero.policy = NULL, legacy = TRUE, legacy.mixed = FALSE, power = NULL, order = 250,
+ tol = .Machine$double.eps^(3/5), spChk = NULL, ...)
+\method{print}{sarlm.pred}(x, ...)
+\method{as.data.frame}{sarlm.pred}(x, ...)
+\method{residuals}{sarlm}(object, ...)
+\method{deviance}{sarlm}(object, ...)
+\method{coef}{sarlm}(object, ...)
+\method{vcov}{sarlm}(object, ...)
+\method{fitted}{sarlm}(object, ...)
+sacsarlm(formula, data = list(), listw, listw2 = NULL, na.action, Durbin, type,
+ method = "eigen", quiet = NULL, zero.policy = NULL, tol.solve = 1e-10,
+ llprof=NULL, interval1=NULL, interval2=NULL, trs1=NULL, trs2=NULL,
+ control = list())
+\method{summary}{sarlm}(object, correlation = FALSE, Nagelkerke = FALSE, Hausman=FALSE, adj.se=FALSE, ...)
+\method{print}{sarlm}(x, ...)
+\method{print}{summary.sarlm}(x, digits = max(5, .Options$digits - 3),
+	signif.stars = FALSE, ...)
 
 }
 
@@ -324,14 +375,14 @@ mu, Sigma, irho, drop2beta, bnames,
   \item{Imult}{see \code{\link[Matrix]{Cholesky}}; numeric scalar which defaults to zero. The matrix that is decomposed is A+m*I where m is the value of Imult and I is the identity matrix of order ncol(A). Default in calling spdep functions is 2, here it cannot be missing and does not have a default, but is rescaled for binary weights matrices in proportion to the maximim row sum in those calling functions}
   \item{super}{see \code{\link[Matrix]{Cholesky}}; logical scalar indicating is a supernodal decomposition should be created.  The alternative is a simplicial decomposition. Default in calling spdep functions is FALSE for \dQuote{Matrix_J} and \code{as.logical(NA)} for \dQuote{Matrix}.  Setting it to NA leaves the choice to a CHOLMOD-internal heuristic}
 %  \item{order}{default FALSE; used in LU_prepermutate, note warnings given for \code{lu} method}
-  \item{trs}{A numeric vector of \code{m} traces, as from \code{trW}}
+  \item{trs, trs1, trs2}{A numeric vector of \code{m} traces, as from \code{trW}}
 %  \item{type}{moments trace type, see \code{\link{trW}}}
   \item{correct}{default TRUE: use Smirnov correction term, see \code{\link{trW}}}
   \item{trunc}{default TRUE: truncate Smirnov correction term, see \code{\link{trW}}}
   \item{eq7}{default TRUE}{use equation 7 in Smirnov and Anselin (2009), if FALSE no unit root correction}
   \item{SE_method}{default \dQuote{LU}, alternatively \dQuote{MC}; underlying lndet method to use for generating SE toolbox emulation grid}
   \item{nrho}{default 200, number of lndet values in first stage SE toolbox emulation grid}
-%  \item{interval}{default c(-1,0.999) if interval argument NULL, bounds for SE toolbox emulation grid}
+  \item{interval1, interval2}{default c(-1,0.999) if interval argument NULL, bounds for SE toolbox emulation grid}
   \item{interpn}{default 2000, number of lndet values to interpolate in second stage SE toolbox emulation grid}
   \item{SElndet}{default NULL, used to pass a pre-computed two-column matrix of coefficient values and corresponding interpolated lndet values}
   \item{mcmc}{The number of MCMC iterations after burnin}
@@ -367,7 +418,10 @@ mu, Sigma, irho, drop2beta, bnames,
   \item{newdata}{data frame in which to predict --- if NULL, predictions are
 for the data on which the model was fitted. Should have row names corresponding to region.id. If row names are exactly the same than the ones used for training, it uses in-sample predictors for forecast.  See \sQuote{Details}}
  \item{prefix}{default empty string, may be \dQuote{lag} in some cases}
-
+  \item{varformula}{a formula describing only the potential explanatory variables for the variance (no dependent variable needed). By default the same explanatory variables are taken as in the main regression model}
+  \item{studentize}{logical. If set to \code{TRUE} Koenker's studentized
+   version of the test statistic will be used.}
+  \item{useHESS, pred.type, all.data, legacy.mixed, power, spChk, digits, signif.stars}{other arguments in deprecated functions}
 }
 
 \details{
@@ -853,11 +907,11 @@ esar0 <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
 summary(esar0)
 res <- MCMCsamp(esar0, mcmc=5000, burnin=500, listw=listw_NY)
 summary(res)
-esar0w <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
- listw=listw_NY, weights=POP8)
-summary(esar0)
-res <- MCMCsamp(esar0w, mcmc=5000, burnin=500, listw=listw_NY)
-summary(res)
+#esar0w <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
+# listw=listw_NY, weights=POP8)
+#summary(esar0w)
+#res <- MCMCsamp(esar0w, mcmc=5000, burnin=500, listw=listw_NY)
+#summary(res)
 esar1 <- errorsarlm(Z ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME, data=nydata,
  listw=listw_NY, etype="emixed")
 summary(esar1)
@@ -1144,6 +1198,355 @@ lw <- nb2listw(dnb, glist=glst, style="B")
 SLX <- lmSLX(CRIME ~ INC + HOVAL, data=COL.OLD, listw=lw)
 summary(SLX)
 summary(impacts(SLX))
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+# fit models for comparison
+lm.mod <- lm(CRIME ~ HOVAL + INC, data=columbus)
+lag <- lagsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb))
+mixed <- lagsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb),
+  Durbin=TRUE)
+error <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus, nb2listw(col.gal.nb))
+# compare nested models
+LR.sarlm(mixed, error)
+#anova(lag, lm.mod)
+#anova(lag, error, mixed)
+AIC(lag, error, mixed)
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+error.col <- errorsarlm(CRIME ~ HOVAL + INC, data=columbus,
+ nb2listw(col.gal.nb))
+bptest.sarlm(error.col)
+bptest.sarlm(error.col, studentize=FALSE)
+lm.target <- lm(error.col$tary ~ error.col$tarX - 1)
+if (require(lmtest) && require(sandwich)) {
+  print(coeftest(lm.target, vcov=vcovHC(lm.target, type="HC0"), df=Inf))
+}
+data(oldcol)
+lw <- nb2listw(COL.nb, style="W")
+ev <- eigenw(similar.listw(lw))
+COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, quiet=FALSE, control=list(pre_eig=ev))
+summary(COL.errW.eig)
+COL.errW.eig_ev <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, control=list(pre_eig=ev))
+all.equal(coefficients(COL.errW.eig), coefficients(COL.errW.eig_ev))
+COL.errB.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="B"))
+summary(COL.errB.eig)
+W <- as(nb2listw(COL.nb), "CsparseMatrix")
+trMatc <- trW(W, type="mult")
+COL.errW.M <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix", quiet=FALSE, trs=trMatc)
+summary(COL.errW.M)
+COL.SDEM.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, etype="emixed", control=list(pre_eig=ev))
+summary(COL.SDEM.eig)
+COL.SDEM.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, Durbin=TRUE, control=list(pre_eig=ev))
+summary(COL.SDEM.eig)
+COL.SDEM.eig <- errorsarlm(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD,
+ lw, Durbin=~INC, control=list(pre_eig=ev))
+summary(COL.SDEM.eig)
+summary(impacts(COL.SDEM.eig))
+NA.COL.OLD <- COL.OLD
+NA.COL.OLD$CRIME[20:25] <- NA
+COL.err.NA <- errorsarlm(CRIME ~ INC + HOVAL, data=NA.COL.OLD,
+ nb2listw(COL.nb), na.action=na.exclude)
+COL.err.NA$na.action
+COL.err.NA
+resid(COL.err.NA)
+lw <- nb2listw(COL.nb, style="W")
+print(system.time(ev <- eigenw(similar.listw(lw))))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="eigen", control=list(pre_eig=ev))))
+ocoef <- coefficients(COL.errW.eig)
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="eigen", control=list(pre_eig=ev, LAPACK=FALSE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="eigen", control=list(pre_eig=ev, compiled_sse=TRUE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix_J", control=list(super=TRUE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix_J", control=list(super=FALSE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix_J", control=list(super=as.logical(NA)))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix", control=list(super=TRUE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix", control=list(super=FALSE))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="Matrix", control=list(super=as.logical(NA)))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="spam", control=list(spamPivot="MMD"))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="spam", control=list(spamPivot="RCM"))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="spam_update", control=list(spamPivot="MMD"))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ lw, method="spam_update", control=list(spamPivot="RCM"))))
+print(all.equal(ocoef, coefficients(COL.errW.eig)))
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+listw <- nb2listw(col.gal.nb)
+ev <- eigenw(listw)
+lobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw,
+ control=list(pre_eig=ev))
+summary(lobj)
+mobj <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, Durbin=TRUE,
+ control=list(pre_eig=ev))
+summary(mobj)
+mobj1 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, Durbin= ~ INC,
+ control=list(pre_eig=ev))
+summary(mobj1)
+W <- as(listw, "CsparseMatrix")
+trMatc <- trW(W, type="mult")
+trMC <- trW(W, type="MC")
+set.seed(1)
+impacts(lobj, listw=listw)
+impacts(lobj, tr=trMatc)
+impacts(lobj, tr=trMC)
+impacts(lobj, evalues=ev)
+library(coda)
+lobjIQ5 <- impacts(lobj, tr=trMatc, R=200, Q=5)
+summary(lobjIQ5, zstats=TRUE, short=TRUE)
+summary(lobjIQ5, zstats=TRUE, short=TRUE, reportQ=TRUE)
+impacts(mobj, listw=listw)
+impacts(mobj, tr=trMatc)
+impacts(mobj, tr=trMC)
+impacts(mobj1, tr=trMatc)
+impacts(mobj1, listw=listw)
+cat(try(impacts(mobj, evalues=ev), silent=TRUE), "\n")
+summary(impacts(mobj, tr=trMatc, R=200), short=TRUE, zstats=TRUE)
+summary(impacts(mobj1, tr=trMatc, R=200), short=TRUE, zstats=TRUE)
+#xobj <- lmSLX(CRIME ~ INC + HOVAL, columbus, listw)
+#summary(impacts(xobj))
+eobj <- errorsarlm(CRIME ~ INC + HOVAL, columbus, listw, etype="emixed")
+summary(impacts(eobj), adjust_k=TRUE)
+mobj1 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed", 
+method="Matrix", control=list(fdHess=TRUE))
+summary(mobj1)
+set.seed(1)
+summary(impacts(mobj1, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
+summary(impacts(mobj, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
+mobj2 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed", 
+method="Matrix", control=list(fdHess=TRUE, optimHess=TRUE))
+summary(impacts(mobj2, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
+mobj3 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed", 
+method="spam", control=list(fdHess=TRUE))
+summary(impacts(mobj3, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
+data(boston, package="spData")
+Wb <- as(nb2listw(boston.soi), "CsparseMatrix")
+trMatb <- trW(Wb, type="mult")
+gp2mMi <- lagsarlm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + 
+I(RM^2) +  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), 
+data=boston.c, nb2listw(boston.soi), type="mixed", method="Matrix", 
+control=list(fdHess=TRUE), trs=trMatb)
+summary(gp2mMi)
+summary(impacts(gp2mMi, tr=trMatb, R=1000), zstats=TRUE, short=TRUE)
+data(house, package="spData")
+lw <- nb2listw(LO_nb)
+form <- formula(log(price) ~ age + I(age^2) + I(age^3) + log(lotsize) +
+   rooms + log(TLA) + beds + syear)
+lobj <- lagsarlm(form, house, lw, method="Matrix",
+ control=list(fdHess=TRUE), trs=trMat)
+summary(lobj)
+loobj <- impacts(lobj, tr=trMat, R=1000)
+summary(loobj, zstats=TRUE, short=TRUE)
+lobj1 <- stsls(form, house, lw)
+loobj1 <- impacts(lobj1, tr=trMat, R=1000)
+summary(loobj1, zstats=TRUE, short=TRUE)
+mobj <- lagsarlm(form, house, lw, type="mixed",
+ method="Matrix", control=list(fdHess=TRUE), trs=trMat)
+summary(mobj)
+moobj <- impacts(mobj, tr=trMat, R=1000)
+summary(moobj, zstats=TRUE, short=TRUE)
+data(oldcol)
+listw <- nb2listw(COL.nb, style="W")
+ev <- eigenw(listw)
+W <- as(listw, "CsparseMatrix")
+trMatc <- trW(W, type="mult")
+COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw=listw,
+ method="eigen", quiet=FALSE, control=list(pre_eig=ev, OrdVsign=1))
+summary(COL.lag.eig, correlation=TRUE)
+COL.lag.eig$fdHess
+COL.lag.eig$resvar
+# using the apparent sign in Ord (1975, equation B.1) 
+COL.lag.eigb <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw=listw,
+ method="eigen", control=list(pre_eig=ev, OrdVsign=-1))
+summary(COL.lag.eigb)
+COL.lag.eigb$fdHess
+COL.lag.eigb$resvar
+# force numerical Hessian
+COL.lag.eig1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw=listw, method="Matrix", control=list(small=25))
+summary(COL.lag.eig1)
+COL.lag.eig1$fdHess
+# force LeSage & Pace (2008, p. 57) approximation 
+COL.lag.eig1a <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw=listw, method="Matrix", control=list(small=25), trs=trMatc)
+summary(COL.lag.eig1a)
+COL.lag.eig1a$fdHess
+COL.lag.eig$resvar[2,2]
+# using the apparent sign in Ord (1975, equation B.1) 
+COL.lag.eigb$resvar[2,2]
+# force numerical Hessian
+COL.lag.eig1$fdHess[1,1]
+# force LeSage & Pace (2008, p. 57) approximation 
+COL.lag.eig1a$fdHess[2,2]
+system.time(COL.lag.M <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb), method="Matrix", quiet=FALSE))
+summary(COL.lag.M)
+impacts(COL.lag.M, listw=nb2listw(COL.nb))
+system.time(COL.lag.sp <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb), method="spam", quiet=FALSE))
+summary(COL.lag.sp)
+COL.lag.B <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="B"))
+summary(COL.lag.B)
+COL.mixed.B <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb, style="B"), type="mixed", tol.solve=1e-9,
+ control=list(pre_eig=ev))
+summary(COL.mixed.B)
+COL.mixed.W <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw, type="mixed",
+ control=list(pre_eig=ev))
+summary(COL.mixed.W)
+COL.mixed.D00 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw, Durbin=TRUE,
+ control=list(pre_eig=ev))
+summary(COL.mixed.D00)
+COL.mixed.D01 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw, Durbin=FALSE,
+ control=list(pre_eig=ev))
+summary(COL.mixed.D01)
+COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw, Durbin= ~ INC + HOVAL,
+ control=list(pre_eig=ev))
+summary(COL.mixed.D1)
+f <- CRIME ~ INC + HOVAL
+COL.mixed.D2 <- lagsarlm(f, data=COL.OLD, listw,
+ Durbin=as.formula(delete.response(terms(f))),
+ control=list(pre_eig=ev))
+summary(COL.mixed.D2)
+COL.mixed.D1a <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw, Durbin= ~ INC,
+ control=list(pre_eig=ev))
+summary(COL.mixed.D1a)
+try(COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw, Durbin= ~ inc + HOVAL,
+ control=list(pre_eig=ev)))
+try(COL.mixed.D1 <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ listw, Durbin= ~ DISCBD + HOVAL,
+ control=list(pre_eig=ev)))
+NA.COL.OLD <- COL.OLD
+NA.COL.OLD$CRIME[20:25] <- NA
+COL.lag.NA <- lagsarlm(CRIME ~ INC + HOVAL, data=NA.COL.OLD,
+ nb2listw(COL.nb), na.action=na.exclude, 
+ control=list(tol.opt=.Machine$double.eps^0.4))
+COL.lag.NA$na.action
+COL.lag.NA
+resid(COL.lag.NA)
+data(boston, package="spData")
+gp2mM <- lagsarlm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + 
+I(RM^2) +  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), 
+data=boston.c, nb2listw(boston.soi), type="mixed", method="Matrix")
+summary(gp2mM)
+W <- as(nb2listw(boston.soi), "CsparseMatrix")
+trMatb <- trW(W, type="mult")
+gp2mMi <- lagsarlm(log(CMEDV) ~ CRIM + ZN + INDUS + CHAS + I(NOX^2) + 
+I(RM^2) +  AGE + log(DIS) + log(RAD) + TAX + PTRATIO + B + log(LSTAT), 
+data=boston.c, nb2listw(boston.soi), type="mixed", method="Matrix", 
+trs=trMatb)
+summary(gp2mMi)
+data(oldcol)
+lw <- nb2listw(COL.nb)
+COL.lag.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, lw)
+
+COL.mix.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, lw,
+  type="mixed")
+print(p1 <- predict(COL.mix.eig))
+#print(p2 <- predict(COL.mix.eig, newdata=COL.OLD, listw=lw, pred.type = "TS",
+# legacy.mixed = TRUE))
+AIC(COL.mix.eig)
+sqrt(deviance(COL.mix.eig)/length(COL.nb))
+sqrt(sum((COL.OLD$CRIME - as.vector(p1))^2)/length(COL.nb))
+#sqrt(sum((COL.OLD$CRIME - as.vector(p2))^2)/length(COL.nb))
+
+COL.err.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, lw)
+AIC(COL.err.eig)
+sqrt(deviance(COL.err.eig)/length(COL.nb))
+sqrt(sum((COL.OLD$CRIME - as.vector(predict(COL.err.eig)))^2)/length(COL.nb))
+#sqrt(sum((COL.OLD$CRIME - as.vector(predict(COL.err.eig, newdata=COL.OLD,
+#  listw=lw, pred.type = "TS")))^2)/length(COL.nb))
+
+COL.SDerr.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, lw,
+ etype="emixed")
+AIC(COL.SDerr.eig)
+sqrt(deviance(COL.SDerr.eig)/length(COL.nb))
+sqrt(sum((COL.OLD$CRIME - as.vector(predict(COL.SDerr.eig)))^2)/length(COL.nb))
+#sqrt(sum((COL.OLD$CRIME - as.vector(predict(COL.SDerr.eig, newdata=COL.OLD,
+#  listw=lw, pred.type = "TS")))^2)/length(COL.nb))
+
+AIC(COL.lag.eig)
+sqrt(deviance(COL.lag.eig)/length(COL.nb))
+sqrt(sum((COL.OLD$CRIME - as.vector(predict(COL.lag.eig)))^2)/length(COL.nb))
+#sqrt(sum((COL.OLD$CRIME - as.vector(predict(COL.lag.eig, newdata=COL.OLD,
+#  listw=lw, pred.type = "TS")))^2)/length(COL.nb))
+
+#p3 <- predict(COL.mix.eig, newdata=COL.OLD, listw=lw, pred.type = "TS",
+# legacy=FALSE, legacy.mixed = TRUE)
+#all.equal(p2, p3, check.attributes=FALSE)
+#p4 <- predict(COL.mix.eig, newdata=COL.OLD, listw=lw, pred.type = "TS",
+# legacy=FALSE, power=TRUE, legacy.mixed = TRUE)
+#all.equal(p2, p4, check.attributes=FALSE)
+#p5 <- predict(COL.mix.eig, newdata=COL.OLD, listw=lw, pred.type = "TS",
+# legacy=TRUE, power=TRUE, legacy.mixed = TRUE)
+#all.equal(p2, p5, check.attributes=FALSE)
+data(oldcol)
+listw <- nb2listw(COL.nb, style="W")
+ev <- eigenw(listw)
+COL.sacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.sacW.eig)
+W <- as(listw, "CsparseMatrix")
+trMatc <- trW(W, type="mult")
+set.seed(1)
+summary(impacts(COL.sacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+COL.msacW.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ type="sacmixed", control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW.eig)
+set.seed(1)
+summary(impacts(COL.msacW.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+COL.msacW1.eig <- sacsarlm(CRIME ~ INC + HOVAL, data=COL.OLD, listw,
+ Durbin=TRUE, control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW1.eig)
+set.seed(1)
+summary(impacts(COL.msacW1.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+COL.msacW2.eig <- sacsarlm(CRIME ~ DISCBD + INC + HOVAL, data=COL.OLD, 
+ listw, Durbin= ~ INC, control=list(pre_eig1=ev, pre_eig2=ev))
+summary(COL.msacW2.eig)
+summary(impacts(COL.msacW2.eig, tr=trMatc, R=2000), zstats=TRUE, short=TRUE)
+data(oldcol)
+COL.mix.eig <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb), type="mixed", method="eigen")
+summary(COL.mix.eig, correlation=TRUE, Nagelkerke=TRUE)
+COL.mix.M <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+ nb2listw(COL.nb), type="mixed", method="Matrix")
+summary(COL.mix.M, correlation=TRUE, Nagelkerke=TRUE)
+COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
+  nb2listw(COL.nb, style="W"), method="eigen")
+summary(COL.errW.eig, correlation=TRUE, Nagelkerke=TRUE, Hausman=TRUE)
 
 } #dontrun
 }

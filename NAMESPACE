@@ -89,15 +89,15 @@ export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
 
 
 
-export(errorsarlm) # deprecate candidates (prabclus, spfrontier, ssfa)
+export(errorsarlm) # deprecated (prabclus, spfrontier, ssfa)
 
-export(lagsarlm) # deprecate candidates (lagsarlmtree)
+export(lagsarlm) # deprecated (lagsarlmtree)
 
-export(sacsarlm) # deprecate candidates
+export(sacsarlm) # deprecated
 
 export(print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm, 
 	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
-	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm) # deprecate candidates
+	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm) # deprecated
 
 export(lmSLX, create_WX, predict.SLX) # deprecated
 
@@ -191,19 +191,19 @@ S3method(plot, skater)
 
 # deprecate candidates
 
-S3method(print, sarlm)
-S3method(summary, sarlm)
-S3method(residuals, sarlm)
-S3method(deviance, sarlm)
-S3method(coef, sarlm)
-S3method(vcov, sarlm)
-S3method(fitted, sarlm)
-S3method(logLik, sarlm)
-S3method(anova, sarlm)
-S3method(predict, sarlm)
-S3method(impacts, sarlm)
-S3method(print, summary.sarlm)
-S3method(print, sarlm.pred)
+S3method(print, sarlm) # deprecated
+S3method(summary, sarlm) # deprecated
+S3method(residuals, sarlm) # deprecated
+S3method(deviance, sarlm) # deprecated
+S3method(coef, sarlm) # deprecated
+S3method(vcov, sarlm) # deprecated
+S3method(fitted, sarlm) # deprecated
+S3method(logLik, sarlm) # deprecated
+S3method(anova, sarlm) # deprecated
+S3method(predict, sarlm) # deprecated
+S3method(impacts, sarlm) # deprecated
+S3method(print, summary.sarlm) # deprecated
+S3method(print, sarlm.pred) # deprecated
 S3method(as.data.frame, sarlm.pred)
 
 S3method(Hausman.test, sarlm) # deprecated

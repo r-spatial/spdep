@@ -5,6 +5,11 @@
 
 bptest.sarlm <- function (object, varformula=NULL, studentize = TRUE, data=list()) 
 {
+    .Deprecated("spreg::bptest.sarlm", msg="Method bptest.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::bptest.sarlm(object=object, varformula=varformula, studentize = studentize, data=data))
+  if (FALSE) {
     if(!inherits(object, "sarlm")) stop("not sarlm object")
     Z <- object$tarX
     if (!is.null(varformula)) Z <- model.matrix(varformula, data = data)
@@ -33,5 +38,6 @@ bptest.sarlm <- function (object, varformula=NULL, studentize = TRUE, data=list(
         p.value = 1 - pchisq(bp, df))
     class(RVAL) <- "htest"
     return(RVAL)
+}
 }
 

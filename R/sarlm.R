@@ -2,16 +2,33 @@
 #
 
 residuals.sarlm <- function(object, ...) {
+    .Deprecated("spreg::residuals.sarlm", msg="Method residuals.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::residuals.sarlm(object=object, ...))
+  if (FALSE) {
   if (is.null(object$na.action))
     object$residuals
   else napredict(object$na.action, object$residuals)
 }
+}
 
 deviance.sarlm <- function(object, ...) {
+    .Deprecated("spreg::deviance.sarlm", msg="Method deviance.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::deviance.sarlm(object=object, ...))
+  if (FALSE) {
   object$SSE
+}
 }
 
 coef.sarlm <- function(object, ...) {
+    .Deprecated("spreg::coef.sarlm", msg="Method coef.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::coef.sarlm(object=object, ...))
+  if (FALSE) {
   ret <- NULL
   #	ret <- sqrt(object$s2)
   #	names(ret) <- "sigma"
@@ -24,8 +41,14 @@ coef.sarlm <- function(object, ...) {
   
   ret
 }
+}
 
 vcov.sarlm <- function(object, ...) {
+    .Deprecated("spreg::vcov.sarlm", msg="Method vcov.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::vcov.sarlm(object=object, ...))
+  if (FALSE) {
   if (object$ase) res <- object$resvar[-1,-1]
   else {
     if (!is.null(object$fdHess)) {
@@ -37,17 +60,29 @@ vcov.sarlm <- function(object, ...) {
   }
   res
 }
+}
 
 
 fitted.sarlm <- function(object, ...) {
+    .Deprecated("spreg::fitted.sarlm", msg="Method fitted.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::fitted.sarlm(object=object, ...))
+  if (FALSE) {
   if (is.null(object$na.action))
     object$fitted.values
   else napredict(object$na.action, object$fitted.values)
+}
 }
 
 
 impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
   useHESS=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
+    .Deprecated("spreg::impacts.sarlm", msg="Method impacts.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::impacts.sarlm(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues, useHESS=useHESS, tol=tol, empirical=empirical, Q=Q))
+  if (FALSE) {
     if (obj$type == "error") {
         if (obj$etype == "emixed") {
             return(impactSDEM(obj))
@@ -128,9 +163,6 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
             b1_long[(dvars[1]-1L)+(inds[i]-1L)] <- b1[(dvars[1]-1L)+i]
           }
           b1 <- b1_long
-#          for (i in s_zero_fill) {
-#            b1 <- append(b1, values=as.numeric(NA), after=i-1L)
-#          }
         }
       }
       p <- length(b1)
@@ -168,12 +200,19 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
     attr(res, "iClass") <- class(obj)
     res
 }
+}
 
 
 
 predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.data=FALSE,
                           zero.policy=NULL, legacy=TRUE, legacy.mixed=FALSE, power=NULL, order=250, tol=.Machine$double.eps^(3/5), #pred.se=FALSE, lagImpact=NULL, 
                           spChk=NULL, ...) {
+    .Deprecated("spreg::predict.sarlm", msg="Method predict.sarlm moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    if (!is.null(newdata)) stop("use spreg::predict.sarlm() directly")
+    return(spreg::predict.sarlm(object=object, newdata=newdata, listw=listw, pred.type=pred.type, all.data=all.data, zero.policy=zero.policy, legacy=legacy, legacy.mixed=legacy.mixed, power=power, order=order, tol=tol, spChk=spChk, ...))
+  if (FALSE) {
   if (is.null(zero.policy))
     zero.policy <- get("zeroPolicy", envir = .spdepOptions)
   stopifnot(is.logical(zero.policy))
@@ -936,7 +975,9 @@ predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.
   class(res) <- "sarlm.pred"
   res
 }
+}
 
+if (FALSE) {
 # decompose a listw object into Wss Wso Wos and Woo sparse matrices
 .listw.decompose <- function(listw, region.id.data, region.id.newdata, type = c("Wss", "Wos", "Wso", "Woo")) { # TODO: hidden? in this file? zero.policy?
   if (is.null(listw) || !inherits(listw, "listw")) 
@@ -960,23 +1001,35 @@ predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.
     s$Woo <- W[region.id.newdata, region.id.newdata, drop=F]
   return(s)
 }
-
+}
 
 print.sarlm.pred <- function(x, ...) {
+    .Deprecated("spreg::print.sarlm.pred", msg="Method print.sarlm.pred moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::print.sarlm.pred(x=x, ...))
+  if (FALSE) {
   res <- as.data.frame(x)
   print(res, ...)
   invisible(res)
 }
+}
+
 
 
 as.data.frame.sarlm.pred <- function(x, ...) {
   #    res <- data.frame(fit=as.vector(x), trend=attr(x, "trend"), 
   #        signal=attr(x, "signal"))
   #fix bug when no signal or trend attributes
+    .Deprecated("spreg::as.data.frame.sarlm.pred", msg="Method as.data.frame.sarlm.pred moved to the spreg package")
+    if (!requireNamespace("spreg", quietly=TRUE))
+      stop("install the spreg package")
+    return(spreg::as.data.frame.sarlm.pred(x=x, ...))
+  if (FALSE) {
   res <- data.frame(fit=as.vector(x))
   if(!is.null(attr(x, "region.id"))) row.names(res) <- attr(x, "region.id")
   if(!is.null(attr(x, "trend"))) res$trend <- attr(x, "trend")
   if(!is.null(attr(x, "signal"))) res$signal <- attr(x, "signal")
   res
 }
-
+}
