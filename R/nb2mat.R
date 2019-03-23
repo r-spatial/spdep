@@ -75,10 +75,10 @@ invIrW <- function(x, rho, method="solve", feasible=NULL) {
 }
 
 powerWeights <- function(W, rho, order=250, X, tol=.Machine$double.eps^(3/5)) {
-    .Deprecated("spreg::powerWeights", msg="Function powerWeights moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::powerWeights(W=W, rho=rho, order=order, X=X, tol=tol))
+    .Deprecated("spatialreg::powerWeights", msg="Function powerWeights moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::powerWeights(W=W, rho=rho, order=order, X=X, tol=tol))
   if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()

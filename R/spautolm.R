@@ -3,11 +3,11 @@ spautolm <- function(formula, data = list(), listw, weights,
     na.action, family="SAR", method="eigen", verbose=NULL, trs=NULL,
     interval=NULL, zero.policy=NULL, tol.solve=.Machine$double.eps, llprof=NULL,
     control=list()) {
-    .Deprecated("spreg::spautolm", msg="Function spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    if (!missing(weights)) stop("run spreg::spautolm directly")
-    return(spreg::spautolm(formula=formula, data=data, listw=listw, na.action=na.action, family = family, method=method, verbose=verbose, trs=trs, interval=interval, zero.policy=zero.policy, tol.solve=tol.solve, llprof=llprof, control=control))
+    .Deprecated("spatialreg::spautolm", msg="Function spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    if (!missing(weights)) stop("run spatialreg::spautolm directly")
+    return(spatialreg::spautolm(formula=formula, data=data, listw=listw, na.action=na.action, family = family, method=method, verbose=verbose, trs=trs, interval=interval, zero.policy=zero.policy, tol.solve=tol.solve, llprof=llprof, control=control))
   if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
@@ -255,10 +255,10 @@ SMA <- function(IlW, weights) {
 }
 
 print.spautolm <- function(x, ...) {
-    .Deprecated("spreg::print.spautolm", msg="Method print.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.spautolm(x=x, ...))
+    .Deprecated("spatialreg::print.spautolm", msg="Method print.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.spautolm(x=x, ...))
   if (FALSE) {
         if (isTRUE(all.equal(x$lambda, x$interval[1])) ||
             isTRUE(all.equal(x$lambda, x$interval[2]))) 
@@ -274,10 +274,10 @@ print.spautolm <- function(x, ...) {
 }
 
 residuals.spautolm <- function(object, ...) {
-    .Deprecated("spreg::residuals.spautolm", msg="Method residuals.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::residuals.spautolm(object=object, ...))
+    .Deprecated("spatialreg::residuals.spautolm", msg="Method residuals.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::residuals.spautolm(object=object, ...))
   if (FALSE) {
 	if (is.null(object$na.action))
 		object$fit$residuals
@@ -286,10 +286,10 @@ residuals.spautolm <- function(object, ...) {
 }
 
 fitted.spautolm <- function(object, ...) {
-    .Deprecated("spreg::fitted.spautolm", msg="Method fitted.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::fitted.spautolm(object=object, ...))
+    .Deprecated("spatialreg::fitted.spautolm", msg="Method fitted.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::fitted.spautolm(object=object, ...))
   if (FALSE) {
 	if (is.null(object$na.action))
 		object$fit$fitted.values
@@ -298,20 +298,20 @@ fitted.spautolm <- function(object, ...) {
 }
 
 deviance.spautolm <- function(object, ...) {
-    .Deprecated("spreg::deviance.spautolm", msg="Method deviance.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::deviance.spautolm(object=object, ...))
+    .Deprecated("spatialreg::deviance.spautolm", msg="Method deviance.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::deviance.spautolm(object=object, ...))
   if (FALSE) {
 	object$SSE
 }
 }
 
 coef.spautolm <- function(object, ...) {
-    .Deprecated("spreg::coef.spautolm", msg="Method coef.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::coef.spautolm(object=object, ...))
+    .Deprecated("spatialreg::coef.spautolm", msg="Method coef.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::coef.spautolm(object=object, ...))
   if (FALSE) {
 	c(object$fit$coefficients, object$lambda)
 }
@@ -319,10 +319,10 @@ coef.spautolm <- function(object, ...) {
 
 
 logLik.spautolm <- function(object, ...) {
-    .Deprecated("spreg::logLik.spautolm", msg="Method logLik.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::logLik.spautolm(object=object, ...))
+    .Deprecated("spatialreg::logLik.spautolm", msg="Method logLik.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::logLik.spautolm(object=object, ...))
   if (FALSE) {
 	LL <- c(object$LL)
 	class(LL) <- "logLik"
@@ -335,10 +335,10 @@ logLik.spautolm <- function(object, ...) {
 }
 
 LR1.spautolm <- function(object) {
-    .Deprecated("spreg::LR1.spautolm", msg="Method LR1.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::LR1.spautolm(object=object))
+    .Deprecated("spatialreg::LR1.spautolm", msg="Method LR1.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::LR1.spautolm(object=object))
   if (FALSE) {
 	if (!inherits(object, "spautolm")) stop("Not a spautolm object")
 	LLx <- logLik(object)
@@ -361,10 +361,10 @@ LR1.spautolm <- function(object) {
 
 summary.spautolm <- function(object, correlation = FALSE, adj.se=FALSE,
  Nagelkerke=FALSE, ...) {
-    .Deprecated("spreg::summary.spautolm", msg="Method summary.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::summary.spautolm(object=object, correlation = correlation, adj.se=adj.se,
+    .Deprecated("spatialreg::summary.spautolm", msg="Method summary.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::summary.spautolm(object=object, correlation = correlation, adj.se=adj.se,
  Nagelkerke=Nagelkerke, ...))
   if (FALSE) {
 	N <- object$fit$N
@@ -400,10 +400,10 @@ summary.spautolm <- function(object, correlation = FALSE, adj.se=FALSE,
 print.summary.spautolm <- function(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...)
 {
-    .Deprecated("spreg::print.summary.spautolm", msg="Method print.summary.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.summary.spautolm(x=x, digits = digits,
+    .Deprecated("spatialreg::print.summary.spautolm", msg="Method print.summary.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.summary.spautolm(x=x, digits = digits,
 	signif.stars = signif.stars, ...))
   if (FALSE) {
 	cat("\nCall: ", deparse(x$call),	sep = "", fill=TRUE)

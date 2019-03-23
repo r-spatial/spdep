@@ -4,11 +4,11 @@
 errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
         Durbin, etype, method="eigen", quiet=NULL, zero.policy=NULL,
         interval=NULL, tol.solve=1.0e-10, trs=NULL, control=list()) {
-    .Deprecated("spreg::errorsarlm", msg="Function errorsarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    if (!missing(weights)) stop("run spreg::errorsarlm directly")
-    return(spreg::errorsarlm(formula=formula, data=data,listw=listw, na.action=na.action, Durbin=Durbin, etype=etype, method=method, quiet=quiet, zero.policy=zero.policy, interval=interval, tol.solve=tol.solve, trs=trs, control=control))
+    .Deprecated("spatialreg::errorsarlm", msg="Function errorsarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    if (!missing(weights)) stop("run spatialreg::errorsarlm directly")
+    return(spatialreg::errorsarlm(formula=formula, data=data,listw=listw, na.action=na.action, Durbin=Durbin, etype=etype, method=method, quiet=quiet, zero.policy=zero.policy, interval=interval, tol.solve=tol.solve, trs=trs, control=control))
   if (FALSE) {
         timings <- list()
         .ptime_start <- proc.time()
@@ -527,11 +527,11 @@ sar.error.f <- function(lambda, env) {
 }
 
 lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin=TRUE, zero.policy=NULL) {
-    .Deprecated("spreg::lmSLX", msg="Function lmSLX moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-      if (!is.null(weights)) stop("Use spreg::lmSLX() directly")
-    return(spreg::lmSLX(formula=formula, data = data, listw=listw, na.action=na.action, Durbin=Durbin, zero.policy=zero.policy))
+    .Deprecated("spatialreg::lmSLX", msg="Function lmSLX moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+      if (!is.null(weights)) stop("Use spatialreg::lmSLX() directly")
+    return(spatialreg::lmSLX(formula=formula, data = data, listw=listw, na.action=na.action, Durbin=Durbin, zero.policy=zero.policy))
   if (FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
@@ -711,10 +711,10 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin
 
 
 predict.SLX <- function(object, newdata, listw, zero.policy=NULL, ...) {
-    .Deprecated("spreg::predict.SLX", msg="Method predict.SLX moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::predict.SLX(object=object, newdata=newdata, listw=listw, zero.policy=zero.policy, ...))
+    .Deprecated("spatialreg::predict.SLX", msg="Method predict.SLX moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::predict.SLX(object=object, newdata=newdata, listw=listw, zero.policy=zero.policy, ...))
   if (FALSE) {
     if (is.null(zero.policy))
         zero.policy <- get("zeroPolicy", envir = .spdepOptions)
@@ -744,10 +744,10 @@ predict.SLX <- function(object, newdata, listw, zero.policy=NULL, ...) {
 }
 
 create_WX <- function(x, listw, zero.policy=NULL, prefix="") {
-    .Deprecated("spreg::create_WX", msg="Function create_WX moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::create_WX(x=x, listw=listw, zero.policy=zero.policy, prefix=prefix))
+    .Deprecated("spatialreg::create_WX", msg="Function create_WX moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::create_WX(x=x, listw=listw, zero.policy=zero.policy, prefix=prefix))
   if (FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)

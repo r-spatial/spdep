@@ -36,7 +36,7 @@ Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bi
 	person("Danlin", "Yu", role = "ctb"))
 Depends: R (>= 3.3.0), methods, sp (>= 1.0), Matrix (>= 1.0.12), spData (>= 0.2.6.0), sf
 Imports: LearnBayes, deldir, boot (>= 1.3-1), splines, coda, nlme, MASS, stats, gmodels, expm, graphics, grDevices, utils
-Suggests: parallel, spam (>= 2.1-0), RANN, rgeos, RColorBrewer, lattice, xtable, maptools (>= 0.5-4), foreign, igraph, RSpectra, knitr, rgdal, classInt, tmap, spreg
+Suggests: parallel, spam (>= 2.1-0), RANN, rgeos, RColorBrewer, lattice, xtable, maptools (>= 0.5-4), foreign, igraph, RSpectra, knitr, rgdal, classInt, tmap, spatialreg
 URL: https://github.com/r-spatial/spdep/
 BugReports: https://github.com/r-spatial/spdep/issues/
 Description: A collection of functions to create spatial weights matrix

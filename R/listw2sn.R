@@ -2,10 +2,10 @@
 #
 
 as.spam.listw <- function(listw) {
-    .Deprecated("spreg::as.spam.listw", msg="Function as.spam.listw moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::as.spam.listw(listw=listw))
+    .Deprecated("spatialreg::as.spam.listw", msg="Function as.spam.listw moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::as.spam.listw(listw=listw))
   if (FALSE) {
     if (requireNamespace("spam", quietly = TRUE)) {
 #if (!require(spam)) stop("spam not available")
@@ -22,10 +22,10 @@ as.spam.listw <- function(listw) {
 
 
 listw2U_spam <- function(lw) { 
-    .Deprecated("spreg::listw2U_spam", msg="Function listw2U_spam moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::listw2U_spam(lw=lw))
+    .Deprecated("spatialreg::listw2U_spam", msg="Function listw2U_spam moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::listw2U_spam(lw=lw))
   if (FALSE) {
     return(0.5 * (lw + t(lw)))
 }

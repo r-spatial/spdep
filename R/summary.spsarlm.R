@@ -4,10 +4,10 @@
 
 print.sarlm <- function(x, ...)
 {
-    .Deprecated("spreg::print.sarlm", msg="Method print.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.sarlm(x=x, ...))
+    .Deprecated("spatialreg::print.sarlm", msg="Method print.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.sarlm(x=x, ...))
   if (FALSE) {
 #FIXME
        if (x$type == "error") if (isTRUE(all.equal(x$lambda, x$interval[1])) ||
@@ -30,10 +30,10 @@ print.sarlm <- function(x, ...)
 summary.sarlm <- function(object, correlation = FALSE, Nagelkerke=FALSE,
  Hausman=FALSE, adj.se=FALSE, ...)
 {
-    .Deprecated("spreg::summary.sarlm", msg="Method summary.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::summary.sarlm(object, correlation = correlation, Nagelkerke=Nagelkerke, Hausman=Hausman, adj.se=adj.se, ...))
+    .Deprecated("spatialreg::summary.sarlm", msg="Method summary.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::summary.sarlm(object, correlation = correlation, Nagelkerke=Nagelkerke, Hausman=Hausman, adj.se=adj.se, ...))
   if (FALSE) {
 #FIXME
 	adj <- NULL
@@ -130,10 +130,10 @@ NK.sarlm <- function(obj) {
 
 LR1.sarlm <- function(object)
 {
-    .Deprecated("spreg::LR1.sarlm", msg="Method LR1.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::LR1.sarlm(object=object))
+    .Deprecated("spatialreg::LR1.sarlm", msg="Method LR1.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::LR1.sarlm(object=object))
   if (FALSE) {
 	if (!inherits(object, "sarlm")) stop("Not a sarlm object")
 	LLx <- logLik(object)
@@ -161,10 +161,10 @@ LR1.sarlm <- function(object)
 }
 
 Wald1.sarlm <- function(object) {
-    .Deprecated("spreg::Wald1.sarlm", msg="Method Wald1.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::Wald1.sarlm(object=object))
+    .Deprecated("spatialreg::Wald1.sarlm", msg="Method Wald1.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::Wald1.sarlm(object=object))
   if (FALSE) {
 	if (!inherits(object, "sarlm")) stop("Not a sarlm object")
 #	if (!object$ase) 
@@ -205,10 +205,10 @@ Hausman.test <- function(object, ...)
     UseMethod("Hausman.test", object)
 
 Hausman.test.sarlm <- function(object, ..., tol=NULL) {
-    .Deprecated("spreg::Hausman.test.sarlm", msg="Method Hausman.test.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::Hausman.test.sarlm(object=object, ..., tol=tol))
+    .Deprecated("spatialreg::Hausman.test.sarlm", msg="Method Hausman.test.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::Hausman.test.sarlm(object=object, ..., tol=tol))
   if (FALSE) {
     if (!inherits(object, "sarlm")) stop("not a sarlm object")
     if (object$type != "error") stop("not a spatial error model")
@@ -241,10 +241,10 @@ Hausman.test.sarlm <- function(object, ..., tol=NULL) {
 }
 
 Hausman.test.gmsar <- function(object, ..., tol=NULL) {
-    .Deprecated("spreg::Hausman.test.gmsar", msg="Method Hausman.test.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::Hausman.test.gmsar(object=object, ..., tol=tol))
+    .Deprecated("spatialreg::Hausman.test.gmsar", msg="Method Hausman.test.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::Hausman.test.gmsar(object=object, ..., tol=tol))
   if (FALSE) {
     if (!inherits(object, "gmsar")) stop("not a gmsar object")
     if (is.null(object$Hcov)) stop("Vo not available")
@@ -278,10 +278,10 @@ Hausman.test.gmsar <- function(object, ..., tol=NULL) {
 print.summary.sarlm <- function(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...)
 {
-    .Deprecated("spreg::print.summary.sarlm", msg="Method print.summary.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.summary.sarlm(x=x, digits = digits,
+    .Deprecated("spatialreg::print.summary.sarlm", msg="Method print.summary.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.summary.sarlm(x=x, digits = digits,
 	signif.stars = signif.stars, ...))
   if (FALSE) {
 	cat("\nCall:", deparse(x$call),	sep = "", fill=TRUE)

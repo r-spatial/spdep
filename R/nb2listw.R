@@ -111,10 +111,10 @@ nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 }
 
 can.be.simmed <- function(listw) {
-    .Deprecated("spreg::can.be.simmed", msg="Function can.be.simmed moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::can.be.simmed(listw=listw))
+    .Deprecated("spatialreg::can.be.simmed", msg="Function can.be.simmed moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::can.be.simmed(listw=listw))
   if (FALSE) {
 	res <- is.symmetric.nb(listw$neighbours, FALSE)
 	if (res) {
@@ -127,10 +127,10 @@ can.be.simmed <- function(listw) {
 
 
 similar.listw <- function(listw) {
-    .Deprecated("spreg::similar.listw", msg="Function similar.listw moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::similar.listw(listw=listw))
+    .Deprecated("spatialreg::similar.listw", msg="Function similar.listw moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::similar.listw(listw=listw))
   if (FALSE) {
 	nbsym <- attr(listw$neighbours, "sym")
 	if(is.null(nbsym)) nbsym <- is.symmetric.nb(listw$neighbours, FALSE)

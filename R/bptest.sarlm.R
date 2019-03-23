@@ -5,10 +5,10 @@
 
 bptest.sarlm <- function (object, varformula=NULL, studentize = TRUE, data=list()) 
 {
-    .Deprecated("spreg::bptest.sarlm", msg="Method bptest.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::bptest.sarlm(object=object, varformula=varformula, studentize = studentize, data=data))
+    .Deprecated("spatialreg::bptest.sarlm", msg="Method bptest.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::bptest.sarlm(object=object, varformula=varformula, studentize = studentize, data=data))
   if (FALSE) {
     if(!inherits(object, "sarlm")) stop("not sarlm object")
     Z <- object$tarX

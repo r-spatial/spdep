@@ -1,10 +1,10 @@
 # Copyright 2015 by Roger S. Bivand, Yongwan Chun and Daniel A. Griffith
 
 l_max <- function(lw, zero.policy=TRUE, control=list()) {
-    .Deprecated("spreg::l_max", msg="Function l_max moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::l_max(lw=lw, zero.policy=zero.policy, control=control))
+    .Deprecated("spatialreg::l_max", msg="Function l_max moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::l_max(lw=lw, zero.policy=zero.policy, control=control))
   if (FALSE) {
     tol <- control$tol
     if (is.null(tol)) tol <- .Machine$double.eps^(1/2)
@@ -76,10 +76,10 @@ l_max <- function(lw, zero.policy=TRUE, control=list()) {
 
 
 lextrB <- function(lw, zero.policy=TRUE, control=list()) {
-    .Deprecated("spreg::lextrB", msg="Function lextrB moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::lextrB(lw=lw, zero.policy=zero.policy, control=control))
+    .Deprecated("spatialreg::lextrB", msg="Function lextrB moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::lextrB(lw=lw, zero.policy=zero.policy, control=control))
   if (FALSE) {
 # must be binary listw object
   stopifnot(lw$style == "B")

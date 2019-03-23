@@ -4,10 +4,10 @@
 stsls <- function(formula, data = list(), listw, zero.policy=NULL,
 	na.action=na.fail, robust=FALSE, HC=NULL, legacy=FALSE, W2X=TRUE) {
 
-    .Deprecated("spreg::stsls", msg="Function stsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::stsls(formula=formula, data = data, listw=listw, zero.policy=zero.policy, na.action=na.action, robust=robust, HC=HC, legacy=legacy, W2X=W2X))
+    .Deprecated("spatialreg::stsls", msg="Function stsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::stsls(formula=formula, data = data, listw=listw, zero.policy=zero.policy, na.action=na.action, robust=robust, HC=HC, legacy=legacy, W2X=W2X))
   if (FALSE) {
 
     	if (!inherits(listw, "listw")) 
@@ -90,10 +90,10 @@ stsls <- function(formula, data = list(), listw, zero.policy=NULL,
 #	          residuals=e)
 
 print.stsls <- function(x, ...) {
-    .Deprecated("spreg::print.stsls", msg="Method print.stsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.stsls(x=x, ...))
+    .Deprecated("spatialreg::print.stsls", msg="Method print.stsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.stsls(x=x, ...))
   if (FALSE) {
 	cat("\nCall:\n")
 	print(x$call)
@@ -105,10 +105,10 @@ print.stsls <- function(x, ...) {
 }
 
 summary.stsls <- function(object, correlation = FALSE, ...) {
-    .Deprecated("spreg::summary.stsls", msg="Method summary.stsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::summary.stsls(object=object, correlation = correlation, ...))
+    .Deprecated("spatialreg::summary.stsls", msg="Method summary.stsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::summary.stsls(object=object, correlation = correlation, ...))
   if (FALSE) {
 	rest.se <- sqrt(diag(object$var))
 	object$Coef <- cbind(object$coefficients, rest.se, 
@@ -132,10 +132,10 @@ summary.stsls <- function(object, correlation = FALSE, ...) {
 
 print.summary.stsls <- function(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...) {
-    .Deprecated("spreg::print.summary.stsls", msg="Method print.summary.stsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.summary.stsls(x=x, digits = digits, signif.stars=signif.stars, ...))
+    .Deprecated("spatialreg::print.summary.stsls", msg="Method print.summary.stsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.summary.stsls(x=x, digits = digits, signif.stars=signif.stars, ...))
   if (FALSE) {
 	cat("\nCall:", deparse(x$call),	sep = "", fill=TRUE)
 	cat("\nResiduals:\n")
@@ -181,10 +181,10 @@ print.summary.stsls <- function(x, digits = max(5, .Options$digits - 3),
 }
 
 residuals.stsls <- function(object, ...) {
-    .Deprecated("spreg::residuals.stsls", msg="Method residuals.stsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::residuals.stsls(object=object, ...))
+    .Deprecated("spatialreg::residuals.stsls", msg="Method residuals.stsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::residuals.stsls(object=object, ...))
   if (FALSE) {
 	if (is.null(object$na.action))
 		object$residuals
@@ -193,20 +193,20 @@ residuals.stsls <- function(object, ...) {
 }
 
 coef.stsls <- function(object, ...) {
-    .Deprecated("spreg::coef.stsls", msg="Method coef.stsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::coef.stsls(object=object, ...))
+    .Deprecated("spatialreg::coef.stsls", msg="Method coef.stsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::coef.stsls(object=object, ...))
   if (FALSE) {
 	object$coefficients
 }
 }
 
 deviance.stsls <- function(object, ...) {
-    .Deprecated("spreg::deviance.stsls", msg="Method deviance.stsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::deviance.stsls(object=object, ...))
+    .Deprecated("spatialreg::deviance.stsls", msg="Method deviance.stsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::deviance.stsls(object=object, ...))
   if (FALSE) {
 
 	object$sse
@@ -216,10 +216,10 @@ deviance.stsls <- function(object, ...) {
 
 impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
   tol=1e-6, empirical=FALSE, Q=NULL) {
-    .Deprecated("spreg::impacts.stsls", msg="Method impacts.stsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::impacts.stsls(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues,  tol=tol, empirical=empirical, Q=Q))
+    .Deprecated("spatialreg::impacts.stsls", msg="Method impacts.stsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::impacts.stsls(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues,  tol=tol, empirical=empirical, Q=Q))
   if (FALSE) {
     if (is.null(listw) && !is.null(obj$listw_style) && 
             obj$listw_style != "W")

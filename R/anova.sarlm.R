@@ -2,10 +2,10 @@
 #
 
 anova.sarlm <- function(object, ...) {
-    .Deprecated("spreg::anova.sarlm", msg="Method anova.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::anova.sarlm(object=object, ...))
+    .Deprecated("spatialreg::anova.sarlm", msg="Method anova.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::anova.sarlm(object=object, ...))
   if (FALSE) {
     if (length(list(object, ...)) > 1L) {
         getResponseFormula <- function (object) 

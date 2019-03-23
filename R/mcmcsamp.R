@@ -2,10 +2,10 @@ MCMCsamp <- function(object, mcmc = 1L, verbose = NULL, ...) UseMethod("MCMCsamp
 # from lme4/R/AllGeneric.R
 MCMCsamp.spautolm <- function(object, mcmc = 1L, verbose = NULL, ...,
     burnin=0L, scale=1, listw, control=list()) {
-    .Deprecated("spreg::MCMCsamp.spautolm", msg="Method MCMCsamp.spautolm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::MCMCsamp.spautolm(object=object, mcmc = mcmc, verbose = verbose, ...,
+    .Deprecated("spatialreg::MCMCsamp.spautolm", msg="Method MCMCsamp.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::MCMCsamp.spautolm(object=object, mcmc = mcmc, verbose = verbose, ...,
     burnin=burnin, scale=scale, listw=listw, control=control))
   if (FALSE) {
     con <- list(Imult=2, cheb_q=5, MC_p=16, MC_m=30, super=NULL,
@@ -89,10 +89,10 @@ MCMCsamp.spautolm <- function(object, mcmc = 1L, verbose = NULL, ...,
 
 MCMCsamp.sarlm <- function(object, mcmc = 1L, verbose = NULL, ...,
     burnin=0L, scale=1, listw, listw2=NULL, control=list()) {
-    .Deprecated("spreg::MCMCsamp.sarlm", msg="Method MCMCsamp.sarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::MCMCsamp.sarlm(object=object, mcmc = mcmc, verbose = verbose, ...,
+    .Deprecated("spatialreg::MCMCsamp.sarlm", msg="Method MCMCsamp.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::MCMCsamp.sarlm(object=object, mcmc = mcmc, verbose = verbose, ...,
     burnin=burnin, scale=scale, listw=listw, listw2=listw2, control=control))
   if (FALSE) {
     timings <- list()

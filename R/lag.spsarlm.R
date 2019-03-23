@@ -11,10 +11,10 @@ lagsarlm <- function(formula, data = list(), listw,
 	na.action, Durbin, type, method="eigen", quiet=NULL, 
 	zero.policy=NULL, interval=NULL, tol.solve=1.0e-10, 
 	trs=NULL, control=list()) {
-    .Deprecated("spreg::lagsarlm", msg="Function lagsarlm moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::lagsarlm(formula=formula, data=data,listw=listw, na.action=na.action, Durbin=Durbin, type=type, method=method, quiet=quiet, zero.policy=zero.policy, interval=interval, tol.solve=tol.solve, trs=trs, control=control))
+    .Deprecated("spatialreg::lagsarlm", msg="Function lagsarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::lagsarlm(formula=formula, data=data,listw=listw, na.action=na.action, Durbin=Durbin, type=type, method=method, quiet=quiet, zero.policy=zero.policy, interval=interval, tol.solve=tol.solve, trs=trs, control=control))
   if (FALSE) {
         timings <- list()
         .ptime_start <- proc.time()

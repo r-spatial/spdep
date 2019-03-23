@@ -24,10 +24,10 @@ GMerrorsar <- function(#W, y, X,
 	zero.policy=NULL, method="nlminb", arnoldWied=FALSE, 
         control=list(), pars=NULL, scaleU=FALSE, verbose=NULL, legacy=FALSE,
         se.lambda=TRUE, returnHcov=FALSE, pWOrder=250, tol.Hcov=1.0e-10) {
-    .Deprecated("spreg::GMerrorsar", msg="Function GMerrorsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::GMerrorsar(formula=formula, data = data, listw = listw, na.action=na.action, 
+    .Deprecated("spatialreg::GMerrorsar", msg="Function GMerrorsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::GMerrorsar(formula=formula, data = data, listw = listw, na.action=na.action, 
 	zero.policy=zero.policy, method=method, arnoldWied=arnoldWied, 
         control=control, pars=pars, scaleU=scaleU, verbose=verbose, legacy=legacy,
         se.lambda=se.lambda, returnHcov=returnHcov, pWOrder=pWOrder, tol.Hcov=tol.Hcov))
@@ -249,10 +249,10 @@ GMerrorsar <- function(#W, y, X,
 # Copyright 2005 by Roger Bivand
 
 residuals.gmsar <- function(object, ...) {
-    .Deprecated("spreg::residuals.gmsar", msg="Method residuals.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::residuals.gmsar(object=object, ...))
+    .Deprecated("spatialreg::residuals.gmsar", msg="Method residuals.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::residuals.gmsar(object=object, ...))
   if (FALSE) {
 	if (is.null(object$na.action))
 		object$residuals
@@ -261,10 +261,10 @@ residuals.gmsar <- function(object, ...) {
 }
 
 deviance.gmsar <- function(object, ...) {
-    .Deprecated("spreg::deviance.gmsar", msg="Method deviance.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::deviance.gmsar(object=object, ...))
+    .Deprecated("spatialreg::deviance.gmsar", msg="Method deviance.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::deviance.gmsar(object=object, ...))
   if (FALSE) {
 	deviance(object$lm.target)
 }
@@ -272,10 +272,10 @@ deviance.gmsar <- function(object, ...) {
 
 
 coef.gmsar <- function(object, ...) {
-    .Deprecated("spreg::coef.gmsar", msg="Method coef.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::coef.gmsar(object=object, ...))
+    .Deprecated("spatialreg::coef.gmsar", msg="Method coef.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::coef.gmsar(object=object, ...))
   if (FALSE) {
 	ret <- c(object$coefficients, object$lambda)
 	ret
@@ -283,10 +283,10 @@ coef.gmsar <- function(object, ...) {
 }
 
 fitted.gmsar <- function(object, ...) {
-    .Deprecated("spreg::fitted.gmsar", msg="Method fitted.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::fitted.gmsar(object=object, ...))
+    .Deprecated("spatialreg::fitted.gmsar", msg="Method fitted.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::fitted.gmsar(object=object, ...))
   if (FALSE) {
 	if (is.null(object$na.action))
 		object$fitted.values
@@ -296,10 +296,10 @@ fitted.gmsar <- function(object, ...) {
 
 print.gmsar <- function(x, ...)
 {
-    .Deprecated("spreg::print.gmsar", msg="Method print.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.gmsar(x=x, ...))
+    .Deprecated("spatialreg::print.gmsar", msg="Method print.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.gmsar(x=x, ...))
   if (FALSE) {
 	cat("\nCall:\n")
 	print(x$call)
@@ -312,10 +312,10 @@ print.gmsar <- function(x, ...)
 
 summary.gmsar <- function(object, correlation = FALSE, Hausman=FALSE, ...)
 {
-    .Deprecated("spreg::summary.gmsar", msg="Method summary.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::summary.gmsar(object=object, correlation = correlation, Hausman=Hausman, ...))
+    .Deprecated("spatialreg::summary.gmsar", msg="Method summary.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::summary.gmsar(object=object, correlation = correlation, Hausman=Hausman, ...))
   if (FALSE) {
 
 	object$coeftitle <- "(GM standard errors)"
@@ -340,10 +340,10 @@ summary.gmsar <- function(object, correlation = FALSE, Hausman=FALSE, ...)
 print.summary.gmsar<-function (x, digits = max(5, .Options$digits - 3), signif.stars = FALSE, 
     ...) 
 {
-    .Deprecated("spreg::print.summary.gmsar", msg="Method print.summary.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.summary.gmsar(x=x, digits = digits, signif.stars = signif.stars, ...))
+    .Deprecated("spatialreg::print.summary.gmsar", msg="Method print.summary.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.summary.gmsar(x=x, digits = digits, signif.stars = signif.stars, ...))
   if (FALSE) {
     cat("\nCall:", deparse(x$call), sep = "", fill = TRUE)
     cat("\nResiduals:\n")
@@ -404,10 +404,10 @@ print.summary.gmsar<-function (x, digits = max(5, .Options$digits - 3), signif.s
 
 impacts.gmsar <- function(obj, ..., n=NULL, tr=NULL, R=NULL, listw=NULL,
   evalues=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
-    .Deprecated("spreg::impacts.gmsar", msg="Method impacts.gmsar moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::impacts.gmsar(obj=obj, ..., n=n, tr=tr, R=R, listw=listw,
+    .Deprecated("spatialreg::impacts.gmsar", msg="Method impacts.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::impacts.gmsar(obj=obj, ..., n=n, tr=tr, R=R, listw=listw,
   evalues=evalues, tol=tol, empirical=empirical, Q=Q))
   if (FALSE) {
 
@@ -548,10 +548,10 @@ gstsls<-function (formula, data = list(), listw, listw2=NULL,
  control = list(), verbose = NULL, method = "nlminb", robust = FALSE,
  legacy = FALSE, W2X = TRUE ) 
 {
-    .Deprecated("spreg::gstsls", msg="Function gstsls moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::gstsls(formula=formula, data = data, listw = listw, listw2=listw2, na.action=na.action, 
+    .Deprecated("spatialreg::gstsls", msg="Function gstsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::gstsls(formula=formula, data = data, listw = listw, listw2=listw2, na.action=na.action, 
 	zero.policy=zero.policy, pars=pars, scaleU=scaleU, 
         control=control, verbose=verbose, method=method, robust = robust,
  legacy = legacy, W2X = W2X))
@@ -709,10 +709,10 @@ gstsls<-function (formula, data = list(), listw, listw2=NULL,
 }
 
 GMargminImage <- function(obj, lambdaseq, s2seq) {
-    .Deprecated("spreg::GMargminImage", msg="Function GMargminImage moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::GMargminImage(obj=obj, lambdaseq=lambdaseq, s2seq=s2seq))
+    .Deprecated("spatialreg::GMargminImage", msg="Function GMargminImage moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::GMargminImage(obj=obj, lambdaseq=lambdaseq, s2seq=s2seq))
   if (FALSE) {
     if (missing(lambdaseq)) {
         lamin <- obj$lambda-0.5

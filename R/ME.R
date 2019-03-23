@@ -4,11 +4,11 @@
 ME <- function(formula, data=list(), family = gaussian, weights, offset,
  na.action=na.fail,listw=NULL, alpha=0.05, nsim=99, verbose=NULL,
  stdev=FALSE, zero.policy=NULL) {
-    .Deprecated("spreg::ME", msg="Function ME moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    if (!missing(weights) || !missing(offset)) stop("run spreg::ME directly")
-    return(spreg::ME(formula=formula, data=data, family = family,
+    .Deprecated("spatialreg::ME", msg="Function ME moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    if (!missing(weights) || !missing(offset)) stop("run spatialreg::ME directly")
+    return(spatialreg::ME(formula=formula, data=data, family = family,
  na.action=na.action,listw=listw, alpha=alpha, nsim=nsim, verbose=verbose,
  stdev=stdev, zero.policy=zero.policy))
   if (FALSE) {
@@ -189,20 +189,20 @@ ME <- function(formula, data=list(), family = gaussian, weights, offset,
 }
 
 print.ME_res <- function(x, ...) {
-    .Deprecated("spreg::print.ME_res", msg="Method print.ME_res moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::print.ME_res(x=x, ...))
+    .Deprecated("spatialreg::print.ME_res", msg="Method print.ME_res moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.ME_res(x=x, ...))
   if (FALSE) {
 	print(x$selection)
 }
 }
 
 fitted.ME_res <- function(object, ...) {
-    .Deprecated("spreg::fitted.ME_res", msg="Method fitted.ME_res moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::fitted.ME_res(object=object, ...))
+    .Deprecated("spatialreg::fitted.ME_res", msg="Method fitted.ME_res moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::fitted.ME_res(object=object, ...))
   if (FALSE) {
         if (is.null(object$na.action)) {
 	    res <- object$vectors

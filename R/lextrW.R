@@ -1,9 +1,9 @@
 
 lextrW <- function(lw, zero.policy=TRUE, control=list()) {
-    .Deprecated("spreg::lextrW", msg="Function lextrW moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::lextrW(lw=lw, zero.policy=zero.policy, control=control))
+    .Deprecated("spatialreg::lextrW", msg="Function lextrW moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::lextrW(lw=lw, zero.policy=zero.policy, control=control))
   if (FALSE) {
 # must be row-standardized listw object
 
@@ -145,10 +145,10 @@ lminW_3 <- function(lw, ev1, n.nei, zero.policy=TRUE,
 
 
 lextrS <- function(lw, zero.policy=TRUE, control=list()) {
-    .Deprecated("spreg::lextrS", msg="Function lextrS moved to the spreg package")
-    if (!requireNamespace("spreg", quietly=TRUE))
-      stop("install the spreg package")
-    return(spreg::lextrS(lw=lw, zero.policy=zero.policy, control=control))
+    .Deprecated("spatialreg::lextrS", msg="Function lextrS moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::lextrS(lw=lw, zero.policy=zero.policy, control=control))
   if (FALSE) {
 
 # must be variance-stabilized listw object

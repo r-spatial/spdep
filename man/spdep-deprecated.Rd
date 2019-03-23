@@ -133,7 +133,7 @@
 \description{
   These functions are provided for compatibility with older versions of
   \pkg{spdep} only, and may be defunct as soon as the next release. The
-  functions have been moved to the \pkg{spreg} package.
+  functions have been moved to the \pkg{spatialreg} package.
 }
 
 \usage{
@@ -425,7 +425,7 @@ for the data on which the model was fitted. Should have row names corresponding 
 }
 
 \details{
- Model-fitting functions and functions supporting model fitting are being moved to the \pkg{spreg} package.
+ Model-fitting functions and functions supporting model fitting are being moved to the \pkg{spatialreg} package.
 }
 
 
