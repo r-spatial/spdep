@@ -681,6 +681,7 @@ suppressMessages(nyadjmat <- as.matrix(foreign::read.dbf(system.file(
  "misc/nyadjwts.dbf", package="spData")[1])[-1]))
 nyadjlw <- mat2listw(nyadjmat)
 listw_NY <- nb2listw(nyadjlw$neighbours, style="B")
+library(Matrix)
 W_C <- as(listw_NY, "CsparseMatrix")
 W_R <- as(listw_NY, "RsparseMatrix")
 W_S <- as(listw_NY, "symmetricMatrix")

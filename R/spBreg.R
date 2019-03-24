@@ -227,7 +227,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
         ys = y - rho*wy          
         b = crossprod(x, ys) + sige*TIc
         b0 = AI %*% b # see eq 5.29, p. 140
-        bhat = MASS::mvrnorm(1, b0, sige*AI) #norm_rnd(sige*AI) + b0;  
+        bhat = #MASS::mvrnorm(1, b0, sige*AI) #norm_rnd(sige*AI) + b0;  
         bsave[iter, 1:k] = as.vector(bhat)
 #        nano_1 <- nano_1 + microbenchmark::get_nanotime() - nano_p
           
@@ -349,7 +349,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
 
     mat <- cbind(bsave, psave, ssave)
     colnames(mat) <- c(colnames(x), "rho", "sige")
-    res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
+    res <- #coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
     means <- summary(res)$statistics[,1]
     beta <- means[1:(length(means)-2)]
     rho <- means[(length(means)-1)]
@@ -736,7 +736,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
         yss = y - lambda*wy
         b = crossprod(xss, yss) + sige*TIc
         b0 = AI %*% b
-        bhat = MASS::mvrnorm(1, b0, sige*AI)
+        bhat = #MASS::mvrnorm(1, b0, sige*AI)
         bsave[iter, 1:k] = as.vector(bhat)
 
 	#update sige:
@@ -822,7 +822,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 
     mat <- cbind(bsave, psave, ssave)
     colnames(mat) <- c(colnames(x), "lambda", "sige")
-    res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
+    res <- #coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
 
     emixedImps <- NULL
     if (etype == "emixed") {
@@ -1221,7 +1221,7 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
         yss = y - rho*wy -lambda*w2y + rho*lambda*w2wy
         b = crossprod(xss, yss) + sige*TIc
         b0 = AI %*% b
-        bhat = MASS::mvrnorm(1, b0, sige*AI)
+        bhat = #MASS::mvrnorm(1, b0, sige*AI)
         bsave[iter, 1:k] = as.vector(bhat)
           
           ##% update sige
@@ -1333,7 +1333,7 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
 
     mat <- cbind(bsave, psave, lsave, ssave)
     colnames(mat) <- c(colnames(x), "rho", "lambda", "sige")
-    res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
+    res <- #coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
     means <- summary(res)$statistics[,1]
     beta <- means[1:(length(means)-3)]
     rho <- means[(length(means)-2)]

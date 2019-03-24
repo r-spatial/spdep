@@ -2,36 +2,47 @@ useDynLib(spdep)
 
 import(spData)
 import(sf)
-importFrom(stats, model.matrix, model.response, aggregate, optimize, optim, nlminb, influence.measures, lag, punif, na.fail, as.formula, terms, lm, model.extract, coefficients, residuals, var, deviance, integrate, summary.lm, coef, pchisq, logLik, gaussian, pnorm, model.weights, model.offset, glm.fit, sd, predict, formula, lm.fit, anova, ppois, model.frame, AIC, qnorm, napredict, nlm, optimHess, resid, fitted, weighted.residuals, weights, naresid, rnorm, optimise, uniroot, mahalanobis, dist, p.adjust, density, fitted.values, delete.response, printCoefmat, quantile, na.omit, cor, predict.lm)
-importFrom("stats", "dbeta", "rchisq", "runif")
-importFrom("stats", "spline")
-importFrom(nlme, fdHess)
+import(sp)
+import(methods)
+
+importFrom(stats, influence.measures, lag, punif, lm, var, integrate,
+             summary.lm, pchisq, pnorm, sd, ppois, qnorm, rnorm,
+             mahalanobis, dist, p.adjust, density, quantile, cor,
+             aggregate, "coefficients", "fitted", "gaussian",
+             "model.frame", "model.matrix", "model.response", "na.fail",
+             "na.omit", "naresid", "optimise", "printCoefmat", "resid",
+             "terms", "uniroot", "weighted.residuals", "weights")
+
+#importFrom(stats, model.matrix, model.response, model.extract, coefficients, residuals, deviance, optimize, optim, nlminb, na.fail, as.formula, terms, coef, gaussian, model.weights, model.offset, glm.fit, logLik, predict, formula, lm.fit, model.frame, AIC, anova, napredict, nlm, optimHess, resid, fitted, weighted.residuals, weights, naresid, optimise, fitted.values, delete.response, printCoefmat, uniroot, na.omit, predict.lm, "dbeta", "rchisq", "runif", "spline")
+
 importFrom(deldir, deldir)
 importFrom(boot, boot)
-importFrom(MASS, mvrnorm)
-importFrom(coda, as.mcmc, HPDinterval)
-importFrom(splines, interpSpline)
+
 importFrom(graphics, par, locator, lines, text, plot.new, plot.window, segments, points, identify, symbols, abline, hist, arrows, axis, stem)
 importFrom(utils, write.table, object.size, read.table, read.csv, packageDescription)
 importFrom(grDevices, rainbow)
 if (.Platform$OS.type == "windows") importFrom(grDevices, bringToTop)
 
-if (R.version$major >= 3) {
-  if (R.version$major == 3 && R.version$minor < 3) {
-    import(Matrix)
-  } else if (R.version$major == 3 && R.version$minor >= 3) {
-    import(Matrix, except=c("expm"))
-  } else if(R.version$major > 3)
-    import(Matrix, except=c("expm"))
-} else {
-  import(Matrix)
-}
-importFrom(LearnBayes, rwmetrop)
-importFrom(gmodels, estimable)
-importFrom(expm, expAtv, expm)
+#importFrom(MASS, mvrnorm)
+#importFrom(coda, as.mcmc, HPDinterval)
+#importFrom(splines, interpSpline)
+#importFrom(nlme, fdHess)
+#if (R.version$major >= 3) {
+#  if (R.version$major == 3 && R.version$minor < 3) {
+#    import(Matrix)
+#  } else if (R.version$major == 3 && R.version$minor >= 3) {
+#    import(Matrix, except=c("expm"))
+#  } else if(R.version$major > 3)
+#    import(Matrix, except=c("expm"))
+#} else {
+#  import(Matrix)
+#}
+#importFrom(LearnBayes, rwmetrop)
+#importFrom(gmodels, estimable)
+#importFrom(expm, expAtv, expm)
 
-import(sp)
-import(methods)
+importMethodsFrom("Matrix", "%*%", "crossprod", "t", "diag", "rowSums", "colSums")
+importFrom("Matrix", "Diagonal", "drop")
 
 exportMethods(coerce)
 
@@ -255,8 +266,8 @@ S3method(print, summary.stsls) # deprecated
 S3method(print, lagImpact) # deprecated
 S3method(plot, lagImpact) # deprecated
 S3method(summary, lagImpact) # deprecated
-S3method(HPDinterval, lagImpact) # deprecated
-export(HPDinterval.lagImpact) # deprecated
+#S3method(HPDinterval, lagImpact) # deprecated
+#export(HPDinterval.lagImpact) # deprecated
 S3method(print, summary.lagImpact) # deprecated
 
 S3method(print, WXImpact) # deprecated

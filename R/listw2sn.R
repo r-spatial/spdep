@@ -7,16 +7,16 @@ as.spam.listw <- function(listw) {
       stop("install the spatialreg package")
     return(spatialreg::as.spam.listw(listw=listw))
   if (FALSE) {
-    if (requireNamespace("spam", quietly = TRUE)) {
+#    if (requireNamespace("spam", quietly = TRUE)) {
 #if (!require(spam)) stop("spam not available")
-        N <- length(listw$neighbours)
-        W_sn <- listw2sn(listw)
-        rpts <- as.integer(cumsum(c(1, card(listw$neighbours))))
-        W <- new("spam", entries=W_sn$weights, colindices=W_sn$to,
-            rowpointers=rpts, dimension=as.integer(c(N, N)))
-        stopifnot(spam::validate_spam(W))
-        return(W)
-    } else stop("spam not available")
+#        N <- length(listw$neighbours)
+#        W_sn <- listw2sn(listw)
+#        rpts <- as.integer(cumsum(c(1, card(listw$neighbours))))
+#        W <- new("spam", entries=W_sn$weights, colindices=W_sn$to,
+#            rowpointers=rpts, dimension=as.integer(c(N, N)))
+#        stopifnot(spam::validate_spam(W))
+#        return(W)
+#    } else stop("spam not available")
 }
 }
 

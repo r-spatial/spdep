@@ -45,7 +45,7 @@ for(i in 3:length(trMC)) {
   trMC[i]+2*attr(trMC, "sd")[i])
 }
 listwS <- similar.listw(listw)
-W <- forceSymmetric(as(listwS, "CsparseMatrix"))
+W <- Matrix::forceSymmetric(as(listwS, "CsparseMatrix"))
 system.time(trmom <- trW(W, m=24, type="moments"))
 str(trmom)
 all.equal(trMat[1:24], trmom, check.attributes=FALSE)
