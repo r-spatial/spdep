@@ -824,6 +824,7 @@ Matrix_setup(env, Imult=2, super=FALSE)
 get("similar", envir=env)
 do_ldet(0.5, env)
 rm(env)
+if (require("spam", quietly=TRUE)) {
 env <- new.env(parent=globalenv())
 assign("listw", lw, envir=env)
 assign("n", length(boston.soi), envir=env)
@@ -834,6 +835,7 @@ spam_setup(env)
 get("similar", envir=env)
 do_ldet(0.5, env)
 rm(env)
+}
 env <- new.env(parent=globalenv())
 assign("listw", lw, envir=env)
 assign("n", length(boston.soi), envir=env)
@@ -1285,6 +1287,7 @@ print(all.equal(ocoef, coefficients(COL.errW.eig)))
 print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  lw, method="Matrix", control=list(super=as.logical(NA)))))
 print(all.equal(ocoef, coefficients(COL.errW.eig)))
+if (require("spam", quietly=TRUE)) {
 print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  lw, method="spam", control=list(spamPivot="MMD"))))
 print(all.equal(ocoef, coefficients(COL.errW.eig)))
@@ -1297,6 +1300,7 @@ print(all.equal(ocoef, coefficients(COL.errW.eig)))
 print(system.time(COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  lw, method="spam_update", control=list(spamPivot="RCM"))))
 print(all.equal(ocoef, coefficients(COL.errW.eig)))
+}
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 listw <- nb2listw(col.gal.nb)
@@ -1343,9 +1347,11 @@ summary(impacts(mobj, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
 mobj2 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed", 
 method="Matrix", control=list(fdHess=TRUE, optimHess=TRUE))
 summary(impacts(mobj2, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
+if (require("spam", quietly=TRUE)) {
 mobj3 <- lagsarlm(CRIME ~ INC + HOVAL, columbus, listw, type="mixed", 
 method="spam", control=list(fdHess=TRUE))
 summary(impacts(mobj3, tr=trMatc, R=1000), zstats=TRUE, short=TRUE)
+}
 data(boston, package="spData")
 Wb <- as(nb2listw(boston.soi), "CsparseMatrix")
 trMatb <- trW(Wb, type="mult")
@@ -1409,9 +1415,11 @@ system.time(COL.lag.M <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb), method="Matrix", quiet=FALSE))
 summary(COL.lag.M)
 impacts(COL.lag.M, listw=nb2listw(COL.nb))
+if (require("spam", quietly=TRUE)) {
 system.time(COL.lag.sp <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb), method="spam", quiet=FALSE))
 summary(COL.lag.sp)
+}
 COL.lag.B <- lagsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
  nb2listw(COL.nb, style="B"))
 summary(COL.lag.B)
