@@ -2,6 +2,11 @@
 #
 
 anova.sarlm <- function(object, ...) {
+    .Deprecated("spatialreg::anova.sarlm", msg="Method anova.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::anova.sarlm(object=object, ...))
+  if (FALSE) {
     if (length(list(object, ...)) > 1L) {
         getResponseFormula <- function (object) 
         {
@@ -71,6 +76,7 @@ anova.sarlm <- function(object, ...) {
 	class(res) <- c("anova", "data.frame")
         return(res)
     }
+}
 }
 
 

@@ -2,6 +2,12 @@ MCMCsamp <- function(object, mcmc = 1L, verbose = NULL, ...) UseMethod("MCMCsamp
 # from lme4/R/AllGeneric.R
 MCMCsamp.spautolm <- function(object, mcmc = 1L, verbose = NULL, ...,
     burnin=0L, scale=1, listw, control=list()) {
+    .Deprecated("spatialreg::MCMCsamp.spautolm", msg="Method MCMCsamp.spautolm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::MCMCsamp.spautolm(object=object, mcmc = mcmc, verbose = verbose, ...,
+    burnin=burnin, scale=scale, listw=listw, control=control))
+  if (FALSE) {
     con <- list(Imult=2, cheb_q=5, MC_p=16, MC_m=30, super=NULL,
         spamPivot="MMD", in_coef=0.1, type="MC",
         correct=TRUE, trunc=TRUE, SE_method="LU", nrho=200,
@@ -79,9 +85,16 @@ MCMCsamp.spautolm <- function(object, mcmc = 1L, verbose = NULL, ...,
     attr(res, "timings") <- do.call("rbind", timings)[, c(1, 3)]
     res
 }
+}
 
 MCMCsamp.sarlm <- function(object, mcmc = 1L, verbose = NULL, ...,
     burnin=0L, scale=1, listw, listw2=NULL, control=list()) {
+    .Deprecated("spatialreg::MCMCsamp.sarlm", msg="Method MCMCsamp.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::MCMCsamp.sarlm(object=object, mcmc = mcmc, verbose = verbose, ...,
+    burnin=burnin, scale=scale, listw=listw, listw2=listw2, control=control))
+  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
     con <- list(compiled_sse=FALSE, Imult=2, cheb_q=5, MC_p=16, MC_m=30,
@@ -242,5 +255,6 @@ MCMCsamp.sarlm <- function(object, mcmc = 1L, verbose = NULL, ...,
     if (attr(res, "accept") < 0.05)
         warning("MCMCsamp: very low acceptance rate")
     res
+}
 }
 

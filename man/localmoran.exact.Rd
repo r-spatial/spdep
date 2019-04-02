@@ -6,7 +6,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Exact local Moran's Ii tests}
 \description{
- \code{localmoran.exact} provides exact local Moran's Ii tests under the null hypothesis, while \code{localmoran.exact.alt} provides exact local Moran's Ii tests under the alternative hypothesis. In this case, the model may be a fitted model derived from a model fitted by \code{errorsarlm}, with the covariance matrix can be passed through the \code{Omega=} argument.
+ \code{localmoran.exact} provides exact local Moran's Ii tests under the null hypothesis, while \code{localmoran.exact.alt} provides exact local Moran's Ii tests under the alternative hypothesis. In this case, the model may be a fitted model derived from a model fitted by \code{spatialreg::errorsarlm}, with the covariance matrix can be passed through the \code{Omega=} argument.
 }
 \usage{
 localmoran.exact(model, select, nb, glist = NULL, style = "W", 
@@ -80,14 +80,22 @@ e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
 localmoran.sad(e.lm, nb=eire.nb)
 localmoran.exact(e.lm, nb=eire.nb)
 localmoran.exact(e.lm, nb=eire.nb, useTP=TRUE)
-e.errorsar <- errorsarlm(OWNCONS ~ ROADACC, data=eire,
+run <- FALSE
+if (requireNamespace("spatialreg", quietly=TRUE)) run <- TRUE
+if (run) {
+e.errorsar <- spatialreg::errorsarlm(OWNCONS ~ ROADACC, data=eire,
  listw=nb2listw(eire.nb))
 lm.target <- lm(e.errorsar$tary ~ e.errorsar$tarX - 1)
 localmoran.exact.alt(lm.target, nb=eire.nb)
-Omega <- invIrW(nb2listw(eire.nb), rho=0.6)
+}
+if (run) {
+Omega <- invIrW(nb2listw(eire.nb), rho=e.errorsar$lambda)
 Omega1 <- tcrossprod(Omega)
 localmoran.exact.alt(lm.target, nb=eire.nb, Omega=Omega1)
+}
+if (run) {
 localmoran.exact.alt(lm.target, nb=eire.nb, Omega=Omega1, useTP=TRUE)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

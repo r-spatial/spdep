@@ -38,7 +38,7 @@ module user’s manual [@kaluznyetal:1996].
 library(spdep)
 ```
 
-We will be using the **spdep** package, here version: `r spdep()[1]`, the **sf** package and the **tmap** package. The data from the sources
+We will be using the **spdep** and **spreg** packages, here version: `r spdep()[1]`, the **sf** package and the **tmap** package. The data from the sources
 referred to above is documented in the [help page](https://nowosad.github.io/spData/reference/nc.sids.html) for the `nc.sids`
 data set in **spData**. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the **maptools** package [^1]. These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.
 
@@ -447,96 +447,6 @@ against the outer product of the row and column effects divided by the
 overall effect, which would indicate a lack of additivity between row
 and column if this was the case — this is more relevant for analysis of
 tables of covariates rather than geographical grids.
-
-### CAR model fitting
-
-We will now try to replicate three of the four models fitted by
-[@cressie+chan:1989] to the transformed rates variable. The first thing
-to do is to try to replicate their 30 mile distance between county seats
-neighbours, which almost works. From there we try to reconstruct three
-of the four models they fit, concluding that we can get quite close, but
-that a number of questions are raised along the way.
-
-Building the weights is much more complicated, because they use a
-combination of distance-metric and population-at-risk based weights, but
-we can get quite close [see also @kaluznyetal:1996]:
-
-```{r echo=TRUE}
-sids.nhbr30.dist <- nbdists(ncCC89, cbind(nc$east, nc$north))
-sids.nhbr <- listw2sn(nb2listw(ncCC89, glist=sids.nhbr30.dist, style="B", zero.policy=TRUE))
-dij <- sids.nhbr[,3]
-n <- nc$BIR74
-el1 <- min(dij)/dij
-el2 <- sqrt(n[sids.nhbr$to]/n[sids.nhbr$from])
-sids.nhbr$weights <- el1*el2
-sids.nhbr.listw <- sn2listw(sids.nhbr)
-```
-
-The first model (I) is a null model with just an intercept, the second
-(II) includes all the 12 parcels of contiguous counties in 4 east-west
-and 4 north-south bands, while the fourth (IV) includes the transformed
-non-white birth-rate:
-
-```{r echo=TRUE}
-nc$ft.NWBIR74 <- sqrt(1000)*(sqrt(nc$NWBIR74/nc$BIR74) + sqrt((nc$NWBIR74+1)/nc$BIR74))
-```
-
-Cressie identifies Anson county as an outlier, and drops it from further
-analysis. Because the weights are constructed in a complicated way, they
-will be subsetted by dropping the row and column of the weights matrix:
-
-```{r echo=TRUE}
-lm_nc <- lm(ft.SID74 ~ 1, data=nc)
-outl <- which.max(rstandard(lm_nc))
-as.character(nc$NAME[outl])
-``` 
-
-```{r echo=TRUE}
-W <- listw2mat(sids.nhbr.listw)
-W.4 <- W[-outl, -outl]
-sids.nhbr.listw.4 <- mat2listw(W.4)
-nc2 <- nc[!(1:length(nc$CNTY_ID) %in% outl),]
-``` 
-
-It appears that both numerical issues (convergence in particular) and
-uncertainties about the exact spatial weights matrix used make it
-difficult to reproduce the results of @cressie+chan:1989, also given in
-@cressie:1991. We now try to replicate them for the null weighted CAR
-model (Cressie has intercept 2.838, $\hat{\theta}$ 0.833, for k=1):
-
-```{r echo=TRUE}
-ecarIaw <- spautolm(ft.SID74 ~ 1, data=nc2, listw=sids.nhbr.listw.4, weights=BIR74, family="CAR")
-summary(ecarIaw)
-```
-
-The spatial parcels model seems not to work, with Cressie's $\hat{\theta}$ 0.710, and failure in the numerical Hessian used to calculate the standard error of the spatial coefficient:
-
-```{r echo=TRUE}
-ecarIIaw <- spautolm(ft.SID74 ~ both - 1, data=nc2, listw=sids.nhbr.listw.4, weights=BIR74, family="CAR")
-summary(ecarIIaw)
-```
-
-Finally, the non-white model repeats Cressie’s finding that much of the
-variance of the transformed SIDS rate for 1974–8 can be accounted for by
-the transformed non-white birth variable (Cressie intercept 1.644,
-$\hat{b}$ 0.0346, $\hat{\theta}$ 0.640 — not significant), but the estimate of the spatial coefficient is not close here:
-
-```{r echo=TRUE}
-ecarIVaw <- spautolm(ft.SID74 ~ ft.NWBIR74, data=nc2, listw=sids.nhbr.listw.4, weights=BIR74, family="CAR")
-summary(ecarIVaw)
-```
-
-```{r, eval=is_tmap, echo=TRUE}
-nc2$fitIV <- fitted.values(ecarIVaw)
-tm_shape(nc2) + tm_fill("fitIV")
-```
-
-The final figure shows the value of the log likelihood function for the null model (I):
-
-```{r echo=TRUE}
-ecarIawll <- spautolm(ft.SID74 ~ 1, data=nc2, listw=sids.nhbr.listw.4, weights=BIR74, family="CAR", llprof=seq(-0.1, 0.9020532358, length.out=100))
-plot(ll ~ lambda, ecarIawll$llprof, type="l")
-```
 
 ## References
 

@@ -1,6 +1,6 @@
 Package: spdep
-Version: 1.0-2
-Date: 2019-02-11
+Version: 1.1-1
+Date: 2019-04-02
 Title: Spatial Dependence: Weighting Schemes, Statistics and Models
 Encoding: UTF-8
 Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),	person("Micah", "Altman", role = "ctb"),
@@ -34,9 +34,9 @@ Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bi
 	person("Michael", "Tiefelsdorf", role = "ctb"),
 	person("René", "Westerholt", role="ctb"),
 	person("Danlin", "Yu", role = "ctb"))
-Depends: R (>= 3.3.0), methods, sp (>= 1.0), Matrix (>= 1.0.12), spData (>= 0.2.6.0), sf
-Imports: LearnBayes, deldir, boot (>= 1.3-1), splines, coda, nlme, MASS, stats, gmodels, expm, graphics, grDevices, utils
-Suggests: parallel, spam (>= 2.1-0), RANN, rgeos, RColorBrewer, lattice, xtable, maptools (>= 0.5-4), foreign, igraph, RSpectra, knitr, rgdal, classInt, tmap
+Depends: R (>= 3.3.0), methods, sp (>= 1.0), spData (>= 0.2.6.0), sf 
+Imports: deldir, boot (>= 1.3-1), graphics, grDevices, utils, stats, Matrix
+Suggests: spatialreg (>= 1.1-1), parallel, RANN, rgeos, RColorBrewer, lattice, xtable, maptools (>= 0.5-4), foreign, igraph, RSpectra, knitr, rgdal, classInt, tmap 
 URL: https://github.com/r-spatial/spdep/
 BugReports: https://github.com/r-spatial/spdep/issues/
 Description: A collection of functions to create spatial weights matrix
@@ -44,17 +44,32 @@ Description: A collection of functions to create spatial weights matrix
   tessellations, for summarizing these objects, and for permitting their
   use in spatial data analysis, including regional aggregation by minimum
   spanning tree; a collection of tests for spatial 'autocorrelation',
-  including global 'Morans I', 'APLE', 'Gearys C', 'Hubert/Mantel' general cross
-  product statistic, Empirical Bayes estimates and 'Assunção/Reis' Index,
-  'Getis/Ord' G and multicoloured join count statistics, local 'Moran's I'
-  and 'Getis/Ord' G, 'saddlepoint' approximations, exact tests for global
-  and local 'Moran's I' and 'LOSH' local indicators of spatial heteroscedasticity;
-  and functions for estimating spatial simultaneous
-  'autoregressive' ('SAR') lag, error, general nested spatial and 'SARAR' models using maximum likelihood and 'MCMC', 
-  impact measures for lag, spatial 'Durbin', 'SLX', spatial 'Durbin' error, 'SARAR' and 'GNS'
-  models, weighted and 'unweighted' 'SAR' and 'CAR' spatial regression models,
-  semi-parametric and Moran 'eigenvector' spatial filtering, 'GM SAR' error
-  models, and generalized spatial two stage least squares models.
+  including global 'Morans I' and 'Gearys C' proposed by 'Cliff' and 'Ord'
+  (1973, ISBN: 0850860369) and (1981, ISBN: 0850860814), 'Hubert/Mantel'
+  general cross product statistic, Empirical Bayes estimates and
+  'Assunção/Reis' (1999) <doi:10.1002/(SICI)1097-0258(19990830)18:16%3C2147::AID-SIM179%3E3.0.CO;2-I> Index, 'Getis/Ord' G ('Getis' and 'Ord' 1992)
+  <doi:10.1111/j.1538-4632.1992.tb00261.x> and multicoloured
+  join count statistics, 'APLE' ('Li 'et al.' )
+  <doi:10.1111/j.1538-4632.2007.00708.x>, local 'Moran's I'
+  (Anselin 1995) <doi:10.1111/j.1538-4632.1995.tb00338.x> and
+  'Getis/Ord' G ('Ord' and 'Getis' 1995)
+  <doi:10.1111/j.1538-4632.1995.tb00912.x>,
+  'saddlepoint' approximations ('Tiefelsdorf' 2002)
+  <doi:10.1111/j.1538-4632.2002.tb01084.x> and exact tests
+  for global and local 'Moran's I' ('Bivand et al.' 2009)
+  <doi:10.1016/j.csda.2008.07.021> and 'LOSH' local indicators
+  of spatial heteroscedasticity ('Ord' and 'Getis')
+  <doi:10.1007/s00168-011-0492-y>. The implemenation of most of
+  the measures is described in 'Bivand' and 'Wong' (2018)
+  <doi:10.1007/s11749-018-0599-x>.
+  'spdep' >= 1.1-1 corresponds to 'spatialreg' >= 1.1-1, in which the model
+  fitting functions are deprecated and pass through to 'spatialreg', but
+  will mask those in 'spatialreg'. From versions 1.2-1, the functions will
+  be made defunct in 'spdep'.
+  For now 'spatialreg' only has functions from 'spdep', where they are shown
+  as deprecated. 'spatialreg' only loads the namespace of 'spdep'; if you
+  attach 'spdep', the same functions in the other package will be masked.
+  Some feed through adequately, others do not.
 License: GPL (>= 2)
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

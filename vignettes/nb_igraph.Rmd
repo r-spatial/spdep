@@ -87,6 +87,7 @@ nb_B$style
 **spdep** provides coercion methods from `listw` to the `"symmetricMatrix"`, `"RsparseMatrix"` and `"CsparseMatrix"` classes defined in **Matrix**. The `"RsparseMatrix"` is the representation that is most similar to `listw`, as it is row-based, but it is used less frequently in operations on sparse matrices. The entity IDs are passed using sparse matrix row and column names at present. Here we believe that our `listw` object can be represented as a symmetric matrix, storing only a triangle rather than both `i`-`j` and `j`-`i` weights. The coercion method does check whether symmetry is present before proceeding:
 
 ```{r, echo=dothis, eval=dothis}
+library(Matrix)
 B <- as(nb_B, "CsparseMatrix")
 all(B == t(B))
 str(B)

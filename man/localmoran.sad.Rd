@@ -124,13 +124,21 @@ e.locmorw1 <- summary(localmoran.sad(e.wlm, nb=eire.nb, resfun=weighted.residual
 e.locmorw1
 e.locmorw2 <- summary(localmoran.sad(e.wlm, nb=eire.nb, resfun=rstudent))
 e.locmorw2
-e.errorsar <- errorsarlm(OWNCONS ~ ROADACC, data=eire,
+run <- FALSE
+if (requireNamespace("spatialreg", quietly=TRUE)) run <- TRUE
+if (run) {
+e.errorsar <- spatialreg::errorsarlm(OWNCONS ~ ROADACC, data=eire,
   listw=lw)
-e.errorsar
+spatialreg::print.sarlm(e.errorsar)
+}
+if (run) {
 lm.target <- lm(e.errorsar$tary ~ e.errorsar$tarX - 1)
 Omega <- tcrossprod(invIrW(lw, rho=e.errorsar$lambda))
 e.clocmor <- summary(localmoran.sad(lm.target, nb=eire.nb, Omega=Omega))
 e.clocmor
+}
+if (run) {
 hist(e.clocmor[,"Pr. (Sad)"])
+}
 }
 \keyword{spatial}

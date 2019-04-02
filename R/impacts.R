@@ -2,6 +2,11 @@
 
 trW <- function(W=NULL, m=30, p=16, type="mult", listw=NULL, momentsSymmetry=TRUE) {
 # returns traces
+    .Deprecated("spatialreg::trW", msg="Function trW moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::trW(W=W, m=m, p=p, type=type, listw=listw, momentsSymmetry=momentsSymmetry))
+  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
     if (type == "mult") {
@@ -52,6 +57,7 @@ trW <- function(W=NULL, m=30, p=16, type="mult", listw=NULL, momentsSymmetry=TRU
     attr(tr, "n") <- n
     tr
 }
+}
 
 mom_calc_int <- function(is, m, W, eta0) {
     Omega <- rep(0.0, m)
@@ -69,11 +75,22 @@ mom_calc_int <- function(is, m, W, eta0) {
 }
 
 mom_calc_int2 <- function(is, m, nb, weights, Card) {
+    .Deprecated("spatialreg::mom_calc_int2", msg="Function mom_calc_int2 moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::mom_calc_int2(is=is, m=m, nb=nb, weights=weights, Card=Card))
+  if (FALSE) {
     Omega <- .Call("mom_calc_int2", is, as.integer(m), nb, weights, Card, PACKAGE="spdep")
     Omega
 }
+}
 
 mom_calc <- function(lw, m) {
+    .Deprecated("spatialreg::mom_calc", msg="Function mom_calc moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::mom_calc(lw=lw, m=m))
+  if (FALSE) {
     stopifnot((m %% 2) == 0)
     nb <- lw$neighbours
     n <- length(nb)
@@ -120,15 +137,22 @@ mom_calc <- function(lw, m) {
     }
     Omega
 }
+}
 
 impacts <- function(obj, ...)
     UseMethod("impacts", obj)
 
 impacts.SLX <- function(obj, ...) {
+    .Deprecated("spatialreg::impacts.SLX", msg="Method impacts.SLX moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::impacts.SLX(obj=obj, ...))
+  if (FALSE) {
     stopifnot(!is.null(attr(obj, "mixedImps")))
     n <- nrow(obj$model)
     k <- obj$qr$rank
     impactsWX(attr(obj, "mixedImps"), n, k, type="SLX", method="estimable")
+}
 }
 
 impactSDEM <- function(obj) {
@@ -213,77 +237,6 @@ summary.WXImpact <- function(object, ...,
 }
 
 
-
-impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
-  tol=1e-6, empirical=FALSE, Q=NULL) {
-    if (is.null(listw) && !is.null(obj$listw_style) && 
-            obj$listw_style != "W")
-            stop("Only row-standardised weights supported")
-    rho <- obj$coefficients[1]
-    beta <- obj$coefficients[-1]
-    icept <- grep("(Intercept)", names(beta))
-    iicept <- length(icept) > 0
-    if (iicept) {
-        P <- matrix(beta[-icept], ncol=1)
-        bnames <- names(beta[-icept])
-    } else {
-        P <- matrix(beta, ncol=1)
-        bnames <- names(beta)
-    }
-    p <- length(beta)
-    n <- length(obj$residuals)
-    mu <- c(rho, beta)
-    Sigma <- obj$var
-    irho <- 1
-    drop2beta <- 1
-    res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
-        irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
-        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
-        empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
-        zero_fill=NULL, dvars=NULL)
-    attr(res, "iClass") <- class(obj)
-    if (!is.null(obj$robust)) {
-        attr(res, "robust") <- obj$robust
-        attr(res, "HC") <- obj$HC
-    }
-    res
-}
-
-impacts.gmsar <- function(obj, ..., n=NULL, tr=NULL, R=NULL, listw=NULL,
-  evalues=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
-    stopifnot(obj$type == "SARAR") 
-    if (is.null(listw) && !is.null(obj$listw_style) && 
-            obj$listw_style != "W")
-            stop("Only row-standardised weights supported")
-    rho <- obj$coefficients[1]
-    beta <- obj$coefficients[-1]
-    icept <- grep("(Intercept)", names(beta))
-    iicept <- length(icept) > 0
-    if (iicept) {
-        P <- matrix(beta[-icept], ncol=1)
-        bnames <- names(beta[-icept])
-    } else {
-        P <- matrix(beta, ncol=1)
-        bnames <- names(beta)
-    }
-    p <- length(beta)
-# allow n passthrough 140305 Angela Parenti
-    if (is.null(n)) n <- length(obj$residuals)
-    stopifnot(is.integer(n))
-    stopifnot(length(n) == 1)
-    stopifnot(is.finite(n))
-    mu <- c(rho, beta)
-    Sigma <- obj$secstep_var
-    irho <- 1
-    drop2beta <- 1
-    res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
-        irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
-        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
-        empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
-        zero_fill=NULL, dvars=NULL)
-    attr(res, "iClass") <- class(obj)
-    res
-}
 
 
 lagImpacts <- function(T, g, P) {
@@ -440,6 +393,13 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
 intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
     interval, type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p,
     mess=FALSE, samples=NULL, zero_fill=NULL, dvars=NULL) {
+    .Deprecated("spatialreg::intImpacts", msg="Function intImpacts moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma, irho=irho, drop2beta=drop2beta, bnames=bnames,
+    interval=interval, type=type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
+    mess=mess, samples=samples, zero_fill=zero_fill, dvars=dvars))
+  if (FALSE) {
     if (is.null(evalues)) {
         if (is.null(listw) && is.null(tr))
             stop("either tr or listw must be given")
@@ -599,129 +559,8 @@ intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
     class(res) <- "lagImpact"
     res
 }
-
-impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
-  useHESS=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
-    if (obj$type == "error") {
-        if (obj$etype == "emixed") {
-            return(impactSDEM(obj))
-        } else {
-            stop("impact measures not for error models")
-        }
-    }
-    if (is.null(listw) && !is.null(obj$listw_style) && 
-            obj$listw_style != "W")
-            stop("Only row-standardised weights supported")
-    rho <- obj$rho
-    beta <- obj$coefficients
-    s2 <- obj$s2
-    if (obj$type == "sac" || obj$type == "sacmixed") lambda <- obj$lambda
-    usingHESS <- NULL
-    iNsert <- obj$insert
-    if (!is.null(R)) {
-        resvar <- obj$resvar
-        usingHESS <- FALSE
-        irho <- 2
-        drop2beta <- 1:2
-        if (obj$type == "sac" || obj$type == "sacmixed")
-            drop2beta <- c(drop2beta, 3)
-        if (is.logical(resvar)) {
-            fdHess <- obj$fdHess
-            if (is.logical(fdHess)) 
-                stop("coefficient covariance matrix not available")
-            usingHESS <- TRUE
-            if (!iNsert) {
-                irho <- 1
-                drop2beta <- 1
-                if (obj$type == "sac" || obj$type == "sacmixed")
-                    drop2beta <- c(drop2beta, 2)
-            }
-        }
-        if (!is.null(useHESS) && useHESS) {
-            fdHess <- obj$fdHess
-            if (is.logical(fdHess)) 
-                stop("Hessian matrix not available")
-            usingHESS <- TRUE
-            if (!iNsert) {
-                irho <- 1
-                drop2beta <- 1
-                if (obj$type == "sac" || obj$type == "sacmixed")
-                    drop2beta <- c(drop2beta, 2)
-            }
-        }
-        interval <- obj$interval
-        if (is.null(interval)) interval <- c(-1,0.999)
-    }
-    icept <- grep("(Intercept)", names(beta))
-    iicept <- length(icept) > 0L
-    zero_fill <- NULL
-    dvars <- obj$dvars
-    if (obj$type == "lag" || obj$type == "sac") {
-      if (iicept) {
-        P <- matrix(beta[-icept], ncol=1)
-        bnames <- names(beta[-icept])
-      } else {
-        P <- matrix(beta, ncol=1)
-        bnames <- names(beta)
-      }
-      p <- length(beta)
-    } else if (obj$type == "mixed" || obj$type == "sacmixed") {
-      if (!is.null(dvars)) zero_fill <- attr(dvars, "zero_fill")
-      if (iicept) {
-        b1 <- beta[-icept]
-      } else {
-        b1 <- beta
-      }
-      if (!is.null(zero_fill)) {
-        if (length(zero_fill) > 0L) {
-          inds <- attr(dvars, "inds")
-          b1_long <- rep(0, 2*(dvars[1]-1))
-          b1_long[1:(dvars[1]-1L)] <- b1[1:(dvars[1]-1)]
-          names(b1_long)[1:(dvars[1]-1L)] <- names(b1)[1:(dvars[1]-1)]
-          for (i in seq(along=inds)) {
-            b1_long[(dvars[1]-1L)+(inds[i]-1L)] <- b1[(dvars[1]-1L)+i]
-          }
-          b1 <- b1_long
-#          for (i in s_zero_fill) {
-#            b1 <- append(b1, values=as.numeric(NA), after=i-1L)
-#          }
-        }
-      }
-      p <- length(b1)
-      if (p %% 2 != 0) stop("non-matched coefficient pairs")
-      P <- cbind(b1[1:(p/2)], b1[((p/2)+1):p])
-      bnames <- names(b1[1:(p/2)])
-    }
-    n <- length(obj$residuals)
-    mu <- NULL
-    Sigma <- NULL
-    if (!is.null(R)) {
-        if (usingHESS && !iNsert) {
-            mu <- c(rho, beta)
-            if (obj$type == "sac" || obj$type == "sacmixed")
-                mu <- c(rho, lambda, beta)
-            Sigma <- fdHess
-        } else {
-            mu <- c(s2, rho, beta)
-            if (obj$type == "sac" || obj$type == "sacmixed")
-                mu <- c(s2, rho, lambda, beta)
-            if (usingHESS) {
-                Sigma <- fdHess
-            } else {
-                Sigma <- resvar
-            }
-        }
-    }
-    res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
-        irho=irho, drop2beta=drop2beta, bnames=bnames, interval=interval,
-        type=obj$type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
-        empirical=empirical,Q=Q, icept=icept, iicept=iicept, p=p,
-        zero_fill=zero_fill, dvars=dvars)
-    attr(res, "useHESS") <- usingHESS
-    attr(res, "insert") <- iNsert
-    attr(res, "iClass") <- class(obj)
-    res
 }
+
 
 lagImpactMat <- function(x, reportQ=NULL) {
     if (is.null(x$res)) {
@@ -764,6 +603,11 @@ lagImpactMat <- function(x, reportQ=NULL) {
 
 
 print.lagImpact <- function(x, ..., reportQ=NULL) {
+    .Deprecated("spatialreg::print.lagImpact", msg="Method print.lagImpact moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.lagImpact(x=x, ..., reportQ=reportQ))
+  if (FALSE) {
     mat <- lagImpactMat(x, reportQ=reportQ)
     Qobj <- attr(mat, "Qobj")
     cat("Impact measures (", attr(x, "type"), ", ", attr(x, "method"), "):\n", sep="")
@@ -778,8 +622,14 @@ print.lagImpact <- function(x, ..., reportQ=NULL) {
     }
     invisible(x)
 }
+}
 
 summary.lagImpact <- function(object, ..., zstats=FALSE, short=FALSE, reportQ=NULL) {
+    .Deprecated("spatialreg::summary.lagImpact", msg="Method summary.lagImpact moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::summary.lagImpact(object=object, ..., zstats=zstats, short=short, reportQ=reportQ))
+  if (FALSE) {
     if (is.null(object$sres)) stop("summary method unavailable")
 # pass coda arguments 101006
     direct_sum <- summary(object$sres$direct, ...)
@@ -886,8 +736,14 @@ summary.lagImpact <- function(object, ..., zstats=FALSE, short=FALSE, reportQ=NU
     class(res) <- "summary.lagImpact"
     res
 }
+}
 
 print.summary.lagImpact <- function(x, ...) {
+    .Deprecated("spatialreg::print.summary.lagImpact", msg="Method print.summary.lagImpact moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.summary.lagImpact(x=x, ...))
+  if (FALSE) {
     reportQ <- attr(x, "reportQ")
     mat <- lagImpactMat(x, reportQ)
     Qobj <- attr(mat, "Qobj")
@@ -965,17 +821,31 @@ print.summary.lagImpact <- function(x, ...) {
     }
     invisible(x)
 }
+}
 
 plot.lagImpact <- function(x, ..., choice="direct", trace=FALSE,
     density=TRUE) {
+    .Deprecated("spatialreg::plot.lagImpact", msg="Method plot.lagImpact moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::plot.lagImpact(x=x, ..., choice=choice, trace=trace,
+    density=density))
+  if (FALSE) {
     if (is.null(x$sres)) stop("plot method unavailable")
     plot(x$sres[[choice]], trace=trace, density=density, sub=choice)
     invisible(x)
 }
+}
 
 HPDinterval.lagImpact <- function(obj, prob = 0.95, ..., choice="direct") {
+    .Deprecated("spatialreg::HPDinterval.lagImpact", msg="Method HPDinterval.lagImpact moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::HPDinterval.lagImpact(obj=obj, prob = prob, ..., choice=choice))
+  if (FALSE) {
     if (is.null(obj$sres)) stop("HPDinterval method unavailable")
     res <- HPDinterval(obj$sres[[choice]], prob=prob)
     res
+}
 }
 

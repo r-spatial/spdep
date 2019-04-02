@@ -1,9 +1,17 @@
 # Copyright 2005-2008 by Roger Bivand and Pedro Peres-Neto (from Matlab)
 #
 
-ME <- function(formula, data, family = gaussian, weights, offset, na.action, 
-        listw, alpha=0.05, nsim=99, verbose=NULL, stdev=FALSE,
-        zero.policy=NULL) {
+ME <- function(formula, data=list(), family = gaussian, weights, offset,
+ na.action=na.fail,listw=NULL, alpha=0.05, nsim=99, verbose=NULL,
+ stdev=FALSE, zero.policy=NULL) {
+    .Deprecated("spatialreg::ME", msg="Function ME moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    if (!missing(weights) || !missing(offset)) stop("run spatialreg::ME directly")
+    return(spatialreg::ME(formula=formula, data=data, family = family,
+ na.action=na.action,listw=listw, alpha=alpha, nsim=nsim, verbose=verbose,
+ stdev=stdev, zero.policy=zero.policy))
+  if (FALSE) {
 	MoraneI.boot <- function(var, i, ...) {
 		var <- var[i]
 		I <- (n/S0)*(crossprod(sW %*% var, var))/cpvar
@@ -178,12 +186,24 @@ ME <- function(formula, data, family = gaussian, weights, offset, na.action,
 	class(res) <- "ME_res"
 	res
 }
+}
 
 print.ME_res <- function(x, ...) {
+    .Deprecated("spatialreg::print.ME_res", msg="Method print.ME_res moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.ME_res(x=x, ...))
+  if (FALSE) {
 	print(x$selection)
+}
 }
 
 fitted.ME_res <- function(object, ...) {
+    .Deprecated("spatialreg::fitted.ME_res", msg="Method fitted.ME_res moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::fitted.ME_res(object=object, ...))
+  if (FALSE) {
         if (is.null(object$na.action)) {
 	    res <- object$vectors
         } else {
@@ -203,6 +223,7 @@ fitted.ME_res <- function(object, ...) {
             }
         }
         res
+}
 }
 
 

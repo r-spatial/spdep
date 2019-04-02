@@ -47,7 +47,7 @@ W <- as(nb2listw(col005, style="W", zero.policy=TRUE), "CsparseMatrix")
 col005.spM <- mat2listw(W)
 summary(col005.spM$neighbours)
 diffnb(col005, col005.spM$neighbours)
-IW <- kronecker(Diagonal(3), W)
+IW <- kronecker(Matrix::Diagonal(3), W)
 col005.spM.3T <- mat2listw(IW, style="W")
 summary(col005.spM.3T$neighbours)
 }

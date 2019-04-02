@@ -1,6 +1,11 @@
 # Copyright 2012 by Roger Bivand
 
 jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NULL, which=1) {
+    .Deprecated("spatialreg::jacobianSetup", msg="Function jacobianSetup moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::jacobianSetup(method=method, env=env, con=con, pre_eig=pre_eig, trs=trs, interval=interval, which=which))
+  if (FALSE) {
     switch(method,
         eigen = {
             if (get("verbose", envir=env))
@@ -59,7 +64,7 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
         },
         spam = {
 #            if (!require(spam)) stop("spam not available")
-          if (requireNamespace("spam", quietly = TRUE)) {
+#          if (requireNamespace("spam", quietly = TRUE)) {
             if (get("listw", envir=env)$style %in% c("W", "S") &&
                 !get("can.sim", envir=env))
                 stop("spam method requires symmetric weights")
@@ -71,13 +76,13 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
                 cat("sparse matrix Cholesky decomposition\n")
             spam_setup(env, pivot=con$spamPivot, which=which)
             if (is.null(interval)) interval <- c(-1,0.999)
-          } else {
-            stop("spam not available")
-          }
+#          } else {
+#            stop("spam not available")
+#          }
         },
         spam_update = {
 #            if (!require(spam)) stop("spam not available")
-          if (requireNamespace("spam", quietly = TRUE)) {
+#          if (requireNamespace("spam", quietly = TRUE)) {
             if (get("listw", envir=env)$style %in% c("W", "S") &&
                 !get("can.sim", envir=env))
                 stop("spam method requires symmetric weights")
@@ -90,9 +95,9 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
             spam_update_setup(env, in_coef=con$in_coef,
                  pivot=con$spamPivot, which=which)
             if (is.null(interval)) interval <- c(-1,0.999)
-          } else {
-            stop("spam not available")
-          }
+#          } else {
+#            stop("spam not available")
+#          }
         },
         Chebyshev = {
             if (get("listw", envir=env)$style %in% c("W", "S") &&
@@ -171,4 +176,5 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
         },
         stop("...\n\nUnknown method\n"))
     interval
+}
 }

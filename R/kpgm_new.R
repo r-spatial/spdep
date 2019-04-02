@@ -22,8 +22,16 @@
 GMerrorsar <- function(#W, y, X, 
 	formula, data = list(), listw, na.action=na.fail, 
 	zero.policy=NULL, method="nlminb", arnoldWied=FALSE, 
-        control=list(), pars, scaleU=FALSE, verbose=NULL, legacy=FALSE,
+        control=list(), pars=NULL, scaleU=FALSE, verbose=NULL, legacy=FALSE,
         se.lambda=TRUE, returnHcov=FALSE, pWOrder=250, tol.Hcov=1.0e-10) {
+    .Deprecated("spatialreg::GMerrorsar", msg="Function GMerrorsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::GMerrorsar(formula=formula, data = data, listw = listw, na.action=na.action, 
+	zero.policy=zero.policy, method=method, arnoldWied=arnoldWied, 
+        control=control, pars=pars, scaleU=scaleU, verbose=verbose, legacy=legacy,
+        se.lambda=se.lambda, returnHcov=returnHcov, pWOrder=pWOrder, tol.Hcov=tol.Hcov))
+  if (FALSE) {
 #	ols <- lm(I(y) ~ I(X) - 1)
         if (is.null(verbose)) verbose <- get("verbose", envir = .spdepOptions)
         stopifnot(is.logical(verbose))
@@ -236,34 +244,63 @@ GMerrorsar <- function(#W, y, X,
 		ret$na.action <- na.act
 	ret
 }
+}
 
 # Copyright 2005 by Roger Bivand
 
 residuals.gmsar <- function(object, ...) {
+    .Deprecated("spatialreg::residuals.gmsar", msg="Method residuals.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::residuals.gmsar(object=object, ...))
+  if (FALSE) {
 	if (is.null(object$na.action))
 		object$residuals
 	else napredict(object$na.action, object$residuals)
 }
+}
 
 deviance.gmsar <- function(object, ...) {
+    .Deprecated("spatialreg::deviance.gmsar", msg="Method deviance.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::deviance.gmsar(object=object, ...))
+  if (FALSE) {
 	deviance(object$lm.target)
+}
 }
 
 
 coef.gmsar <- function(object, ...) {
+    .Deprecated("spatialreg::coef.gmsar", msg="Method coef.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::coef.gmsar(object=object, ...))
+  if (FALSE) {
 	ret <- c(object$coefficients, object$lambda)
 	ret
 }
+}
 
 fitted.gmsar <- function(object, ...) {
+    .Deprecated("spatialreg::fitted.gmsar", msg="Method fitted.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::fitted.gmsar(object=object, ...))
+  if (FALSE) {
 	if (is.null(object$na.action))
 		object$fitted.values
 	else napredict(object$na.action, object$fitted.values)
 }
-
+}
 
 print.gmsar <- function(x, ...)
 {
+    .Deprecated("spatialreg::print.gmsar", msg="Method print.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.gmsar(x=x, ...))
+  if (FALSE) {
 	cat("\nCall:\n")
 	print(x$call)
 	cat("\n")
@@ -271,9 +308,16 @@ print.gmsar <- function(x, ...)
 	print(coef(x))
 	invisible(x)
 }
+}
 
 summary.gmsar <- function(object, correlation = FALSE, Hausman=FALSE, ...)
 {
+    .Deprecated("spatialreg::summary.gmsar", msg="Method summary.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::summary.gmsar(object=object, correlation = correlation, Hausman=Hausman, ...))
+  if (FALSE) {
+
 	object$coeftitle <- "(GM standard errors)"
 	object$Coef <- cbind(object$coefficients, object$rest.se, 
 		object$coefficients/object$rest.se,
@@ -287,7 +331,7 @@ summary.gmsar <- function(object, correlation = FALSE, Hausman=FALSE, ...)
 
 	structure(object, class=c("summary.gmsar", class(object)))
 }
-
+}
 
 
 
@@ -296,6 +340,11 @@ summary.gmsar <- function(object, correlation = FALSE, Hausman=FALSE, ...)
 print.summary.gmsar<-function (x, digits = max(5, .Options$digits - 3), signif.stars = FALSE, 
     ...) 
 {
+    .Deprecated("spatialreg::print.summary.gmsar", msg="Method print.summary.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.summary.gmsar(x=x, digits = digits, signif.stars = signif.stars, ...))
+  if (FALSE) {
     cat("\nCall:", deparse(x$call), sep = "", fill = TRUE)
     cat("\nResiduals:\n")
     resid <- residuals(x)
@@ -349,6 +398,52 @@ print.summary.gmsar<-function (x, digits = max(5, .Options$digits - 3), signif.s
     }
     cat("\n")
     invisible(x)
+}
+}
+
+
+impacts.gmsar <- function(obj, ..., n=NULL, tr=NULL, R=NULL, listw=NULL,
+  evalues=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
+    .Deprecated("spatialreg::impacts.gmsar", msg="Method impacts.gmsar moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::impacts.gmsar(obj=obj, ..., n=n, tr=tr, R=R, listw=listw,
+  evalues=evalues, tol=tol, empirical=empirical, Q=Q))
+  if (FALSE) {
+
+    stopifnot(obj$type == "SARAR") 
+    if (is.null(listw) && !is.null(obj$listw_style) && 
+            obj$listw_style != "W")
+            stop("Only row-standardised weights supported")
+    rho <- obj$coefficients[1]
+    beta <- obj$coefficients[-1]
+    icept <- grep("(Intercept)", names(beta))
+    iicept <- length(icept) > 0
+    if (iicept) {
+        P <- matrix(beta[-icept], ncol=1)
+        bnames <- names(beta[-icept])
+    } else {
+        P <- matrix(beta, ncol=1)
+        bnames <- names(beta)
+    }
+    p <- length(beta)
+# allow n passthrough 140305 Angela Parenti
+    if (is.null(n)) n <- length(obj$residuals)
+    stopifnot(is.integer(n))
+    stopifnot(length(n) == 1)
+    stopifnot(is.finite(n))
+    mu <- c(rho, beta)
+    Sigma <- obj$secstep_var
+    irho <- 1
+    drop2beta <- 1
+    res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
+        irho=irho, drop2beta=drop2beta, bnames=bnames, interval=NULL,
+        type="lag", tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
+        empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
+        zero_fill=NULL, dvars=NULL)
+    attr(res, "iClass") <- class(obj)
+    res
+}
 }
 
 # Copyright 2004 by Luc Anselin
@@ -449,10 +544,18 @@ print.summary.gmsar<-function (x, digits = max(5, .Options$digits - 3), signif.s
 ####SARAR model
 
 gstsls<-function (formula, data = list(), listw, listw2=NULL,
- na.action = na.fail, zero.policy = NULL, pars, scaleU=FALSE,
+ na.action = na.fail, zero.policy = NULL, pars=NULL, scaleU=FALSE,
  control = list(), verbose = NULL, method = "nlminb", robust = FALSE,
  legacy = FALSE, W2X = TRUE ) 
 {
+    .Deprecated("spatialreg::gstsls", msg="Function gstsls moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::gstsls(formula=formula, data = data, listw = listw, listw2=listw2, na.action=na.action, 
+	zero.policy=zero.policy, pars=pars, scaleU=scaleU, 
+        control=control, verbose=verbose, method=method, robust = robust,
+ legacy = legacy, W2X = W2X))
+  if (FALSE) {
 	
 	
 	 if (is.null(verbose)) 
@@ -603,8 +706,14 @@ gstsls<-function (formula, data = list(), listw, listw2=NULL,
     if (!is.null(na.act)) ret$na.action <- na.act
     ret
 }
+}
 
 GMargminImage <- function(obj, lambdaseq, s2seq) {
+    .Deprecated("spatialreg::GMargminImage", msg="Function GMargminImage moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::GMargminImage(obj=obj, lambdaseq=lambdaseq, s2seq=s2seq))
+  if (FALSE) {
     if (missing(lambdaseq)) {
         lamin <- obj$lambda-0.5
         lamin <- ifelse(lamin < -1, -1, lamin)
@@ -618,5 +727,6 @@ GMargminImage <- function(obj, lambdaseq, s2seq) {
     vres <- apply(xy, 1, function(x) .kpgm(rhopar=x, v=obj$vv))
     res <- matrix(vres, ncol=length(lambdaseq))
     list(x=lambdaseq, y=s2seq, z=res)
+}
 }
 

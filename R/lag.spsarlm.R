@@ -1,14 +1,21 @@
 # Copyright 1998-2018 by Roger Bivand and Andrew Bernat
 #
 
+if (FALSE) {
 is.formula <- function(x){
    inherits(x,"formula")
+}
 }
 
 lagsarlm <- function(formula, data = list(), listw, 
 	na.action, Durbin, type, method="eigen", quiet=NULL, 
 	zero.policy=NULL, interval=NULL, tol.solve=1.0e-10, 
 	trs=NULL, control=list()) {
+    .Deprecated("spatialreg::lagsarlm", msg="Function lagsarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::lagsarlm(formula=formula, data=data,listw=listw, na.action=na.action, Durbin=Durbin, type=type, method=method, quiet=quiet, zero.policy=zero.policy, interval=interval, tol.solve=tol.solve, trs=trs, control=control))
+  if (FALSE) {
         timings <- list()
         .ptime_start <- proc.time()
         con <- list(tol.opt=.Machine$double.eps^0.5,
@@ -335,7 +342,9 @@ lagsarlm <- function(formula, data = list(), listw,
 		ret$na.action <- na.act
 	ret
 }
+}
 
+if (FALSE) {
 sar.lag.mixed.f <- function(rho, env) {
         e.a <- get("e.a", envir=env)
         e.b <- get("e.b", envir=env)
@@ -351,7 +360,7 @@ sar.lag.mixed.f <- function(rho, env) {
 
 	ret
 }
-
+}
 
 
 

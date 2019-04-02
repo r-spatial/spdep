@@ -2,16 +2,33 @@
 #
 
 residuals.sarlm <- function(object, ...) {
+    .Deprecated("spatialreg::residuals.sarlm", msg="Method residuals.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::residuals.sarlm(object=object, ...))
+  if (FALSE) {
   if (is.null(object$na.action))
     object$residuals
   else napredict(object$na.action, object$residuals)
 }
+}
 
 deviance.sarlm <- function(object, ...) {
+    .Deprecated("spatialreg::deviance.sarlm", msg="Method deviance.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::deviance.sarlm(object=object, ...))
+  if (FALSE) {
   object$SSE
+}
 }
 
 coef.sarlm <- function(object, ...) {
+    .Deprecated("spatialreg::coef.sarlm", msg="Method coef.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::coef.sarlm(object=object, ...))
+  if (FALSE) {
   ret <- NULL
   #	ret <- sqrt(object$s2)
   #	names(ret) <- "sigma"
@@ -24,8 +41,14 @@ coef.sarlm <- function(object, ...) {
   
   ret
 }
+}
 
 vcov.sarlm <- function(object, ...) {
+    .Deprecated("spatialreg::vcov.sarlm", msg="Method vcov.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::vcov.sarlm(object=object, ...))
+  if (FALSE) {
   if (object$ase) res <- object$resvar[-1,-1]
   else {
     if (!is.null(object$fdHess)) {
@@ -37,18 +60,159 @@ vcov.sarlm <- function(object, ...) {
   }
   res
 }
+}
 
 
 fitted.sarlm <- function(object, ...) {
+    .Deprecated("spatialreg::fitted.sarlm", msg="Method fitted.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::fitted.sarlm(object=object, ...))
+  if (FALSE) {
   if (is.null(object$na.action))
     object$fitted.values
   else napredict(object$na.action, object$fitted.values)
 }
+}
+
+
+impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
+  useHESS=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
+    .Deprecated("spatialreg::impacts.sarlm", msg="Method impacts.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::impacts.sarlm(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues, useHESS=useHESS, tol=tol, empirical=empirical, Q=Q))
+  if (FALSE) {
+    if (obj$type == "error") {
+        if (obj$etype == "emixed") {
+            return(impactSDEM(obj))
+        } else {
+            stop("impact measures not for error models")
+        }
+    }
+    if (is.null(listw) && !is.null(obj$listw_style) && 
+            obj$listw_style != "W")
+            stop("Only row-standardised weights supported")
+    rho <- obj$rho
+    beta <- obj$coefficients
+    s2 <- obj$s2
+    if (obj$type == "sac" || obj$type == "sacmixed") lambda <- obj$lambda
+    usingHESS <- NULL
+    iNsert <- obj$insert
+    if (!is.null(R)) {
+        resvar <- obj$resvar
+        usingHESS <- FALSE
+        irho <- 2
+        drop2beta <- 1:2
+        if (obj$type == "sac" || obj$type == "sacmixed")
+            drop2beta <- c(drop2beta, 3)
+        if (is.logical(resvar)) {
+            fdHess <- obj$fdHess
+            if (is.logical(fdHess)) 
+                stop("coefficient covariance matrix not available")
+            usingHESS <- TRUE
+            if (!iNsert) {
+                irho <- 1
+                drop2beta <- 1
+                if (obj$type == "sac" || obj$type == "sacmixed")
+                    drop2beta <- c(drop2beta, 2)
+            }
+        }
+        if (!is.null(useHESS) && useHESS) {
+            fdHess <- obj$fdHess
+            if (is.logical(fdHess)) 
+                stop("Hessian matrix not available")
+            usingHESS <- TRUE
+            if (!iNsert) {
+                irho <- 1
+                drop2beta <- 1
+                if (obj$type == "sac" || obj$type == "sacmixed")
+                    drop2beta <- c(drop2beta, 2)
+            }
+        }
+        interval <- obj$interval
+        if (is.null(interval)) interval <- c(-1,0.999)
+    }
+    icept <- grep("(Intercept)", names(beta))
+    iicept <- length(icept) > 0L
+    zero_fill <- NULL
+    dvars <- obj$dvars
+    if (obj$type == "lag" || obj$type == "sac") {
+      if (iicept) {
+        P <- matrix(beta[-icept], ncol=1)
+        bnames <- names(beta[-icept])
+      } else {
+        P <- matrix(beta, ncol=1)
+        bnames <- names(beta)
+      }
+      p <- length(beta)
+    } else if (obj$type == "mixed" || obj$type == "sacmixed") {
+      if (!is.null(dvars)) zero_fill <- attr(dvars, "zero_fill")
+      if (iicept) {
+        b1 <- beta[-icept]
+      } else {
+        b1 <- beta
+      }
+      if (!is.null(zero_fill)) {
+        if (length(zero_fill) > 0L) {
+          inds <- attr(dvars, "inds")
+          b1_long <- rep(0, 2*(dvars[1]-1))
+          b1_long[1:(dvars[1]-1L)] <- b1[1:(dvars[1]-1)]
+          names(b1_long)[1:(dvars[1]-1L)] <- names(b1)[1:(dvars[1]-1)]
+          for (i in seq(along=inds)) {
+            b1_long[(dvars[1]-1L)+(inds[i]-1L)] <- b1[(dvars[1]-1L)+i]
+          }
+          b1 <- b1_long
+        }
+      }
+      p <- length(b1)
+      if (p %% 2 != 0) stop("non-matched coefficient pairs")
+      P <- cbind(b1[1:(p/2)], b1[((p/2)+1):p])
+      bnames <- names(b1[1:(p/2)])
+    }
+    n <- length(obj$residuals)
+    mu <- NULL
+    Sigma <- NULL
+    if (!is.null(R)) {
+        if (usingHESS && !iNsert) {
+            mu <- c(rho, beta)
+            if (obj$type == "sac" || obj$type == "sacmixed")
+                mu <- c(rho, lambda, beta)
+            Sigma <- fdHess
+        } else {
+            mu <- c(s2, rho, beta)
+            if (obj$type == "sac" || obj$type == "sacmixed")
+                mu <- c(s2, rho, lambda, beta)
+            if (usingHESS) {
+                Sigma <- fdHess
+            } else {
+                Sigma <- resvar
+            }
+        }
+    }
+    res <- intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma,
+        irho=irho, drop2beta=drop2beta, bnames=bnames, interval=interval,
+        type=obj$type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol,
+        empirical=empirical,Q=Q, icept=icept, iicept=iicept, p=p,
+        zero_fill=zero_fill, dvars=dvars)
+    attr(res, "useHESS") <- usingHESS
+    attr(res, "insert") <- iNsert
+    attr(res, "iClass") <- class(obj)
+    res
+}
+}
+
 
 
 predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.data=FALSE,
                           zero.policy=NULL, legacy=TRUE, legacy.mixed=FALSE, power=NULL, order=250, tol=.Machine$double.eps^(3/5), #pred.se=FALSE, lagImpact=NULL, 
                           spChk=NULL, ...) {
+    .Deprecated("spatialreg::predict.sarlm", msg="Method predict.sarlm moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    if (!is.null(newdata)) stop("use spatialreg::predict.sarlm() directly")
+    return(spatialreg::predict.sarlm(object=object, newdata=newdata, listw=listw, pred.type=pred.type, all.data=all.data, zero.policy=zero.policy, legacy=legacy, legacy.mixed=legacy.mixed, power=power, order=order, tol=tol, spChk=spChk, ...))
+  if (FALSE) {
   if (is.null(zero.policy))
     zero.policy <- get("zeroPolicy", envir = .spdepOptions)
   stopifnot(is.logical(zero.policy))
@@ -811,7 +975,9 @@ predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.
   class(res) <- "sarlm.pred"
   res
 }
+}
 
+if (FALSE) {
 # decompose a listw object into Wss Wso Wos and Woo sparse matrices
 .listw.decompose <- function(listw, region.id.data, region.id.newdata, type = c("Wss", "Wos", "Wso", "Woo")) { # TODO: hidden? in this file? zero.policy?
   if (is.null(listw) || !inherits(listw, "listw")) 
@@ -835,23 +1001,35 @@ predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.
     s$Woo <- W[region.id.newdata, region.id.newdata, drop=F]
   return(s)
 }
-
+}
 
 print.sarlm.pred <- function(x, ...) {
+    .Deprecated("spatialreg::print.sarlm.pred", msg="Method print.sarlm.pred moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::print.sarlm.pred(x=x, ...))
+  if (FALSE) {
   res <- as.data.frame(x)
   print(res, ...)
   invisible(res)
 }
+}
+
 
 
 as.data.frame.sarlm.pred <- function(x, ...) {
   #    res <- data.frame(fit=as.vector(x), trend=attr(x, "trend"), 
   #        signal=attr(x, "signal"))
   #fix bug when no signal or trend attributes
+    .Deprecated("spatialreg::as.data.frame.sarlm.pred", msg="Method as.data.frame.sarlm.pred moved to the spatialreg package")
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+      stop("install the spatialreg package")
+    return(spatialreg::as.data.frame.sarlm.pred(x=x, ...))
+  if (FALSE) {
   res <- data.frame(fit=as.vector(x))
   if(!is.null(attr(x, "region.id"))) row.names(res) <- attr(x, "region.id")
   if(!is.null(attr(x, "trend"))) res$trend <- attr(x, "trend")
   if(!is.null(attr(x, "signal"))) res$signal <- attr(x, "signal")
   res
 }
-
+}
