@@ -126,6 +126,7 @@
 \alias{summary.sarlm}
 \alias{print.sarlm}
 \alias{print.summary.sarlm}
+\alias{trW}
 
 
 \title{Deprecated Functions in Package \pkg{spdep}}
@@ -266,7 +267,7 @@ sacsarlm(formula, data = list(), listw, listw2 = NULL, na.action, Durbin, type,
 \method{print}{sarlm}(x, ...)
 \method{print}{summary.sarlm}(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...)
-
+trW(W=NULL, m = 30, p = 16, type = "mult", listw=NULL, momentsSymmetry=TRUE)
 }
 
 \arguments{
@@ -422,6 +423,7 @@ for the data on which the model was fitted. Should have row names corresponding 
   \item{studentize}{logical. If set to \code{TRUE} Koenker's studentized
    version of the test statistic will be used.}
   \item{useHESS, pred.type, all.data, legacy.mixed, power, spChk, digits, signif.stars}{other arguments in deprecated functions}
+  \item{momentsSymmetry}{default TRUE; assert Smirnov/Anselin symmetry assumption}
 }
 
 \details{
@@ -1556,7 +1558,47 @@ summary(COL.mix.M, correlation=TRUE, Nagelkerke=TRUE)
 COL.errW.eig <- errorsarlm(CRIME ~ INC + HOVAL, data=COL.OLD,
   nb2listw(COL.nb, style="W"), method="eigen")
 summary(COL.errW.eig, correlation=TRUE, Nagelkerke=TRUE, Hausman=TRUE)
-
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
+listw <- nb2listw(col.gal.nb)
+W <- as(listw, "CsparseMatrix")
+system.time(trMat <- trW(W, type="mult"))
+str(trMat)
+set.seed(1100)
+system.time(trMC <- trW(W, type="MC"))
+str(trMC)
+plot(trMat, trMC)
+abline(a=0, b=1)
+for(i in 3:length(trMC)) {
+ segments(trMat[i], trMC[i]-2*attr(trMC, "sd")[i], trMat[i],
+  trMC[i]+2*attr(trMC, "sd")[i])
+}
+listwS <- similar.listw(listw)
+W <- Matrix::forceSymmetric(as(listwS, "CsparseMatrix"))
+system.time(trmom <- trW(W, m=24, type="moments"))
+str(trmom)
+all.equal(trMat[1:24], trmom, check.attributes=FALSE)
+system.time(trMat <- trW(W, m=24, type="mult"))
+str(trMat)
+all.equal(trMat, trmom, check.attributes=FALSE)
+set.seed(1)
+system.time(trMC <- trW(W, m=24, type="MC"))
+str(trMC)
+data(boston, package="spData")
+listw <- nb2listw(boston.soi)
+listwS <- similar.listw(listw)
+system.time(trmom <- trW(listw=listwS, m=24, type="moments"))
+str(trmom)
+library(parallel)
+nc <- detectCores(logical=FALSE)
+# set nc to 1L here
+if (nc > 1L) nc <- 1L
+coresOpt <- get.coresOption()
+invisible(set.coresOption(nc))
+if(!get.mcOption()) {
+  cl <- makeCluster(get.coresOption())
+  set.ClusterOption(cl)
+}
 } #dontrun
 }
 
