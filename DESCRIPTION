@@ -47,8 +47,7 @@ Description: A collection of functions to create spatial weights matrix
   including global 'Morans I' and 'Gearys C' proposed by 'Cliff' and 'Ord'
   (1973, ISBN: 0850860369) and (1981, ISBN: 0850860814), 'Hubert/Mantel'
   general cross product statistic, Empirical Bayes estimates and
-  'Assunção/Reis' (1999) <doi:10.1002/(SICI)1097-0258(19990830)18:16<2147::AID-SIM179>3.0.CO;2-I>
-  Index, 'Getis/Ord' G ('Getis' and 'Ord' 1992)
+  'Assunção/Reis' (1999) <doi:10.1002/(SICI)1097-0258(19990830)18:16%3C2147::AID-SIM179%3E3.0.CO;2-I> Index, 'Getis/Ord' G ('Getis' and 'Ord' 1992)
   <doi:10.1111/j.1538-4632.1992.tb00261.x> and multicoloured
   join count statistics, 'APLE' ('Li 'et al.' )
   <doi:10.1111/j.1538-4632.2007.00708.x>, local 'Moran's I'

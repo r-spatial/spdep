@@ -1,9 +1,27 @@
 # Copyright 2006-14 by Roger Bivand
 #
 
-setAs("listw", "CsparseMatrix", function(from) {as(as_dgRMatrix_listw(from), "CsparseMatrix")})
-setAs("listw", "RsparseMatrix", function(from) {as_dgRMatrix_listw(from)})
-setAs("listw", "symmetricMatrix", function(from) {as_dsTMatrix_listw(from)})
+setAs("listw", "CsparseMatrix", function(from) {
+if (requireNamespace("spatialreg", quietly=TRUE)) {
+  as(spatialreg::as_dgRMatrix_listw(from), "CsparseMatrix")
+} else {
+  stop("install the spatialreg package")
+}
+})
+setAs("listw", "RsparseMatrix", function(from) {
+if (requireNamespace("spatialreg", quietly=TRUE)) {
+  spatialreg::as_dgRMatrix_listw(from)
+} else {
+  stop("install the spatialreg package")
+}
+})
+setAs("listw", "symmetricMatrix", function(from) {
+if (requireNamespace("spatialreg", quietly=TRUE)) {
+  as_dsTMatrix_listw(from)
+} else {
+  stop("install the spatialreg package")
+}
+})
 
 
 as_dgRMatrix_listw <- function(listw) {

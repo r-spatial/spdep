@@ -1,6 +1,8 @@
 preAple <- function(x, listw, override_similarity_check=FALSE, useTrace=TRUE) {
     stopifnot(isTRUE(all.equal(mean(x), 0.0)))
     stopifnot(is.vector(x))
+    if (!requireNamespace("spatialreg", quietly=TRUE))
+        stop("install the spatialreg package")
     W <- as(listw, "CsparseMatrix")
     n <- dim(W)[1]
     if (useTrace) {

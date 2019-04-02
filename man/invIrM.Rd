@@ -43,17 +43,19 @@ Before version 0.6-10, \code{powerWeights} only worked correctly for positive rh
 \examples{
 nb7rt <- cell2nb(7, 7, torus=TRUE)
 lw <- nb2listw(nb7rt, style="W")
-e <- eigenw(lw)
 set.seed(1)
 x <- matrix(sample(rnorm(500*length(nb7rt))), nrow=length(nb7rt))
-if (FALSE) {
+if (requireNamespace("spatialreg", quietly=TRUE)) {
 # Only needed in some simulation settings where the input and
 # output distributions must agree in all but autocorrelation
+if (FALSE) {
+e <- spatialreg::eigenw(lw)
 x <- apply(x, 2, scale)
 st <- apply(x, 2, function(x) shapiro.test(x)$p.value)
 x <- x[, (st > 0.2 & st < 0.8)]
-x <- apply(x, 2, function(v) residuals(spautolm(v ~ 1, listw=lw,
- method="eigen", control=list(pre_eig=e, fdHess=FALSE))))
+x <- apply(x, 2, function(v) spatialreg::residuals.spautolm(
+ spatialreg::spautolm(v ~ 1, listw=lw, method="eigen",
+ control=list(pre_eig=e, fdHess=FALSE))))
 x <- apply(x, 2, scale)
 }
 res0 <- apply(invIrM(nb7rt, rho=0.0, method="chol",
@@ -81,6 +83,7 @@ lines(density(res8), col="pink")
 legend(c(-0.02, 0.01), c(7, 25),
  legend=c("0.0", "0.2", "0.4", "0.6", "0.8", "0.9"),
  col=c("black", "brown", "green", "orange", "pink", "red"), lty=1, bty="n")
+}
 \dontrun{
 x <- matrix(rnorm(length(nb7rt)), ncol=1)
 system.time(e <- invIrM(nb7rt, rho=0.9, method="chol", feasible=TRUE) \%*\% x)
