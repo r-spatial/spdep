@@ -67,7 +67,7 @@ and its expectation and variance are given in Anselin (1995)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -91,9 +91,6 @@ and its expectation and variance are given in Anselin (1995)." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -324,55 +321,55 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 #&gt; SUDAN                     2.9877738 -0.0243902  0.0926129  9.8978982    0.0000
 #&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist</a></span>(<span class='no'>resI</span>[,<span class='fl'>5</span>])</div><div class='img'><img src='localmoran-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>totcon</span> <span class='kw'>&lt;-</span><span class='no'>afcon</span>$<span class='no'>totcon</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>totcon</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>totcon</span>), <span class='fl'>5</span>)
-<span class='no'>totcon</span></div><div class='output co'>#&gt;  [1] 1363 1421 1861 2355 5246  811  299  358  895 4751   NA  933   NA 1130  241
-#&gt; [16]  604 1015  998 2122 1090  848  618  758  423  980 3087 2273 3134 1142   NA
-#&gt; [31] 2881   NA  604   NA 1554  629  792  795 1266 1875  147  363</div><div class='input'><span class='no'>resI.na</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>), <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>,
+<span class='no'>totcon</span></div><div class='output co'>#&gt;  [1] 1363 1421 1861   NA 5246  811  299  358   NA 4751 1878  933  347 1130   NA
+#&gt; [16]  604 1015   NA 2122 1090  848  618  758  423  980 3087 2273 3134 1142  824
+#&gt; [31]   NA  487  604 1528 1554  629  792  795 1266 1875  147  363</div><div class='input'><span class='no'>resI.na</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>), <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>,
  <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>resI.na</span>, <span class='st'>"na.action"</span>)) <span class='kw'>==</span> <span class='st'>"exclude"</span>) {
  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>resI.na</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]), <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)
-} <span class='kw'>else</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>resI.na</span>, <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                               Ii   E.Ii Var.Ii   Z.Ii Pr.z...0.
-#&gt; THE GAMBIA                0.4004 -0.028   0.87  0.460   3.2e-01
-#&gt; MALI                      0.4217 -0.028   0.13  1.261   1.0e-01
-#&gt; SENEGAL                   0.2789 -0.028   0.20  0.684   2.5e-01
-#&gt; BENIN                     0.1840 -0.028   0.27  0.404   3.4e-01
-#&gt; MAURITANIA                0.1173 -0.028   0.20  0.324   3.7e-01
-#&gt; NIGER                     0.1657 -0.028   0.13  0.543   2.9e-01
-#&gt; IVORY COAST               0.2628 -0.028   0.20  0.648   2.6e-01
-#&gt; GUINEA                    0.2047 -0.028   0.16  0.588   2.8e-01
-#&gt; BURKINA FASO                  NA     NA     NA     NA        NA
-#&gt; LIBERIA                   0.2069 -0.028   0.27  0.448   3.3e-01
-#&gt; SIERRA LEONE              0.2904 -0.028   0.42  0.489   3.1e-01
-#&gt; GHANA                     0.1359 -0.028   0.42  0.252   4.0e-01
-#&gt; TOGO                      0.1445 -0.028   0.42  0.265   4.0e-01
-#&gt; CAMEROON                  0.2668 -0.028   0.20  0.657   2.6e-01
-#&gt; NIGERIA                   0.1360 -0.028   0.20  0.365   3.6e-01
-#&gt; GABON                         NA     NA     NA     NA        NA
-#&gt; CENTRAL AFRICAN REPUBLIC -0.4073 -0.028   0.16 -0.959   8.3e-01
-#&gt; CHAD                     -0.0899 -0.028   0.13 -0.174   5.7e-01
-#&gt; CONGO                    -0.0076 -0.028   0.27  0.038   4.8e-01
-#&gt; ZAIRE                     0.8873 -0.028   0.11  2.813   2.5e-03
-#&gt; ANGOLA                        NA     NA     NA     NA        NA
-#&gt; UGANDA                    2.4075 -0.028   0.20  5.433   2.8e-08
-#&gt; KENYA                     1.1976 -0.028   0.20  2.734   3.1e-03
-#&gt; TANZANIA                  0.3649 -0.028   0.11  1.207   1.1e-01
-#&gt; BURUNDI                  -0.9412 -0.028   0.42 -1.405   9.2e-01
-#&gt; RWANDA                        NA     NA     NA     NA        NA
-#&gt; SOMALIA                   0.4761 -0.028   0.87  0.541   2.9e-01
-#&gt; ETHIOPIA                      NA     NA     NA     NA        NA
-#&gt; ZAMBIA                    0.0262 -0.028   0.11  0.166   4.3e-01
-#&gt; ZIMBABWE                  0.0110 -0.028   0.20  0.087   4.7e-01
-#&gt; MALAWI                   -0.1987 -0.028   0.27 -0.326   6.3e-01
-#&gt; MOZAMBIQUE                0.0374 -0.028   0.13  0.183   4.3e-01
-#&gt; SOUTH AFRICA             -0.2066 -0.028   0.13 -0.502   6.9e-01
-#&gt; LESOTHO                  -0.3701 -0.028   0.87 -0.368   6.4e-01
-#&gt; BOTSWANA                 -0.0011 -0.028   0.27  0.051   4.8e-01
-#&gt; SWAZILAND                 0.0587 -0.028   0.42  0.133   4.5e-01
-#&gt; MOROCCO                  -0.0975 -0.028   0.42 -0.107   5.4e-01
-#&gt; ALGERIA                  -0.0041 -0.028   0.13  0.066   4.7e-01
-#&gt; TUNISIA                  -0.0122 -0.028   0.42  0.024   4.9e-01
-#&gt; LIBYA                     0.6762 -0.028   0.13  1.976   2.4e-02
-#&gt; SUDAN                     2.8091 -0.028   0.11  8.720   1.4e-18
-#&gt; EGYPT                     6.2121 -0.028   0.42  9.596   4.2e-22</div><div class='input'><span class='no'>resG</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='localG.html'>localG</a></span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='fu'><a href='include.self.html'>include.self</a></span>(<span class='no'>paper.nb</span>)))
+} <span class='kw'>else</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>resI.na</span>, <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                                Ii   E.Ii Var.Ii    Z.Ii Pr.z...0.
+#&gt; THE GAMBIA                     NA     NA     NA      NA        NA
+#&gt; MALI                      0.43053 -0.028  0.103  1.4256   7.7e-02
+#&gt; SENEGAL                   0.19770 -0.028  0.267  0.4363   3.3e-01
+#&gt; BENIN                          NA     NA     NA      NA        NA
+#&gt; MAURITANIA                0.08468 -0.028  0.195  0.2544   4.0e-01
+#&gt; NIGER                     0.41129 -0.028  0.195  0.9931   1.6e-01
+#&gt; IVORY COAST               0.26680 -0.028  0.152  0.7544   2.3e-01
+#&gt; GUINEA                    0.16474 -0.028  0.152  0.4930   3.1e-01
+#&gt; BURKINA FASO              0.51599 -0.028  0.152  1.3926   8.2e-02
+#&gt; LIBERIA                   0.16792 -0.028  0.267  0.3787   3.5e-01
+#&gt; SIERRA LEONE              0.24156 -0.028  0.410  0.4204   3.4e-01
+#&gt; GHANA                     0.13131 -0.028  0.267  0.3078   3.8e-01
+#&gt; TOGO                      0.23572 -0.028  0.410  0.4113   3.4e-01
+#&gt; CAMEROON                  0.23326 -0.028  0.195  0.5904   2.8e-01
+#&gt; NIGERIA                   0.13710 -0.028  0.410  0.2574   4.0e-01
+#&gt; GABON                     0.18526 -0.028  0.410  0.3326   3.7e-01
+#&gt; CENTRAL AFRICAN REPUBLIC -0.59929 -0.028  0.195 -1.2927   9.0e-01
+#&gt; CHAD                           NA     NA     NA      NA        NA
+#&gt; CONGO                     0.00767 -0.028  0.195  0.0802   4.7e-01
+#&gt; ZAIRE                     0.54342 -0.028  0.088  1.9256   2.7e-02
+#&gt; ANGOLA                    0.12818 -0.028  0.267  0.3018   3.8e-01
+#&gt; UGANDA                    1.86640 -0.028  0.195  4.2845   9.2e-06
+#&gt; KENYA                     1.21180 -0.028  0.195  2.8039   2.5e-03
+#&gt; TANZANIA                       NA     NA     NA      NA        NA
+#&gt; BURUNDI                  -0.26065 -0.028  0.410 -0.3635   6.4e-01
+#&gt; RWANDA                   -0.62818 -0.028  0.267 -1.1618   8.8e-01
+#&gt; SOMALIA                   0.46059 -0.028  0.410  0.7624   2.2e-01
+#&gt; ETHIOPIA                  0.73527 -0.028  0.267  1.4765   7.0e-02
+#&gt; ZAMBIA                    0.01572 -0.028  0.103  0.1353   4.5e-01
+#&gt; ZIMBABWE                 -0.01606 -0.028  0.195  0.0265   4.9e-01
+#&gt; MALAWI                    0.08942 -0.028  0.410  0.1830   4.3e-01
+#&gt; MOZAMBIQUE                0.14264 -0.028  0.152  0.4364   3.3e-01
+#&gt; SOUTH AFRICA             -0.17622 -0.028  0.103 -0.4617   6.8e-01
+#&gt; LESOTHO                  -0.41404 -0.028  0.840 -0.4214   6.6e-01
+#&gt; BOTSWANA                 -0.00397 -0.028  0.267  0.0461   4.8e-01
+#&gt; SWAZILAND                 0.00042 -0.028  0.410  0.0440   4.8e-01
+#&gt; MOROCCO                  -0.09053 -0.028  0.410 -0.0980   5.4e-01
+#&gt; ALGERIA                  -0.02714 -0.028  0.152  0.0016   5.0e-01
+#&gt; TUNISIA                   0.00199 -0.028  0.840  0.0325   4.9e-01
+#&gt; LIBYA                          NA     NA     NA      NA        NA
+#&gt; SUDAN                     3.69517 -0.028  0.124 10.5805   1.8e-26
+#&gt; EGYPT                    10.53582 -0.028  0.840 11.5246   5.0e-31</div><div class='input'><span class='no'>resG</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='localG.html'>localG</a></span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='fu'><a href='include.self.html'>include.self</a></span>(<span class='no'>paper.nb</span>)))
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>resG</span>[<span class='no'>oid</span>], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]), <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                          resG.oid.
 #&gt; THE GAMBIA                  -0.984
 #&gt; MALI                        -1.699

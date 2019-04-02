@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -87,9 +87,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -359,8 +356,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 #&gt; </div><div class='input'><span class='no'>crime</span> <span class='kw'>&lt;-</span> <span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>crime</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>crime</span>), <span class='fl'>10</span>)
 <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'>moran.test</span>(<span class='no'>crime</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>),
- <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.fail</span>))
-<span class='no'>res</span></div><div class='output co'>#&gt; [1] "Error in na.fail.default(x) : missing values in object\n"
+ <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.fail</span>))</div><div class='output co'>#&gt; Error in na.fail.default(x) : missing values in object</div><div class='input'><span class='no'>res</span></div><div class='output co'>#&gt; [1] "Error in na.fail.default(x) : missing values in object\n"
 #&gt; attr(,"class")
 #&gt; [1] "try-error"
 #&gt; attr(,"condition")

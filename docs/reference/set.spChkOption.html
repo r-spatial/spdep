@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -87,9 +87,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -219,8 +216,8 @@
 #&gt; sample estimates:
 #&gt; Moran I statistic       Expectation          Variance 
 #&gt;       0.485770914      -0.020833333       0.008991121 
-#&gt; </div><div class='input'><span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='fu'>spNamedVec</span>(<span class='st'>"CRIME"</span>, <span class='no'>columbus</span>), <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>tmp</span>)</div><div class='output co'>#&gt; [1] "Error in moran.test(spNamedVec(\"CRIME\", columbus), nb2listw(COL.nb)) : \n  Check of data and weights ID integrity failed\n"
+#&gt; </div><div class='input'><span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='fu'>spNamedVec</span>(<span class='st'>"CRIME"</span>, <span class='no'>columbus</span>), <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>)))</div><div class='output co'>#&gt; Error in moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb)) : 
+#&gt;   Check of data and weights ID integrity failed</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>tmp</span>)</div><div class='output co'>#&gt; [1] "Error in moran.test(spNamedVec(\"CRIME\", columbus), nb2listw(COL.nb)) : \n  Check of data and weights ID integrity failed\n"
 #&gt; attr(,"class")
 #&gt; [1] "try-error"
 #&gt; attr(,"condition")

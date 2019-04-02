@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -87,9 +87,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -134,8 +131,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>nb2listw</span>(<span class='no'>neighbours</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>)
-<span class='fu'>can.be.simmed</span>(<span class='no'>listw</span>)</pre>
+    <pre class="usage"><span class='fu'>nb2listw</span>(<span class='no'>neighbours</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,10 +151,6 @@
     <tr>
       <th>zero.policy</th>
       <td><p>default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors</p></td>
-    </tr>
-    <tr>
-      <th>listw</th>
-      <td><p>a spatial weights object</p></td>
     </tr>
     </table>
     

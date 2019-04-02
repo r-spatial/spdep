@@ -66,7 +66,7 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -90,9 +90,6 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -249,7 +246,7 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
 #&gt; Percentage nonzero weights: 0 
 #&gt; Average number of links: 0 
 #&gt; 49 regions with no links:
-#&gt; 1005 1001 1006 1002 1007 1008 1004 1003 1018 1010 1038 1037 1039 1040 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049 1029 1025 1028 1048 1015 1027 1026</div><div class='input'><span class='no'>IW</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/kronecker'>kronecker</a></span>(<span class='fu'>Diagonal</span>(<span class='fl'>3</span>), <span class='no'>W</span>)
+#&gt; 1005 1001 1006 1002 1007 1008 1004 1003 1018 1010 1038 1037 1039 1040 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049 1029 1025 1028 1048 1015 1027 1026</div><div class='input'><span class='no'>IW</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/kronecker'>kronecker</a></span>(<span class='kw pkg'>Matrix</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/Matrix/topics/Diagonal'>Diagonal</a></span>(<span class='fl'>3</span>), <span class='no'>W</span>)
 <span class='no'>col005.spM.3T</span> <span class='kw'>&lt;-</span> <span class='fu'>mat2listw</span>(<span class='no'>IW</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 1, 3, 6, 21, 50, 52, 55, 70, 99, 101, 104, 119 are not origins</span></div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col005.spM.3T</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 147 
 #&gt; Number of nonzero links: 510 

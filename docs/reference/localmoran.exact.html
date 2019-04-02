@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Exact local Moran's Ii tests — localmoran.exact" />
 
-<meta property="og:description" content="localmoran.exact provides exact local Moran's Ii tests under the null hypothesis, while localmoran.exact.alt provides exact local Moran's Ii tests under the alternative hypothesis. In this case, the model may be a fitted model derived from a model fitted by errorsarlm, with the covariance matrix can be passed through the Omega= argument." />
+<meta property="og:description" content="localmoran.exact provides exact local Moran's Ii tests under the null hypothesis, while localmoran.exact.alt provides exact local Moran's Ii tests under the alternative hypothesis. In this case, the model may be a fitted model derived from a model fitted by spatialreg::errorsarlm, with the covariance matrix can be passed through the Omega= argument." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -87,9 +87,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -130,7 +127,7 @@
 
     <div class="ref-description">
     
-    <p><code>localmoran.exact</code> provides exact local Moran's Ii tests under the null hypothesis, while <code>localmoran.exact.alt</code> provides exact local Moran's Ii tests under the alternative hypothesis. In this case, the model may be a fitted model derived from a model fitted by <code>errorsarlm</code>, with the covariance matrix can be passed through the <code>Omega=</code> argument.</p>
+    <p><code>localmoran.exact</code> provides exact local Moran's Ii tests under the null hypothesis, while <code>localmoran.exact.alt</code> provides exact local Moran's Ii tests under the alternative hypothesis. In this case, the model may be a fitted model derived from a model fitted by <code><a href='https://www.rdocumentation.org/packages/spatialreg/topics/ML_models'>spatialreg::errorsarlm</a></code>, with the covariance matrix can be passed through the <code>Omega=</code> argument.</p>
     
     </div>
 
@@ -350,10 +347,14 @@ When the alternative is being tested, a list of left and right M products in att
 #&gt; 23 Waterford     0.85723423  1.94188711 2.607538e-02
 #&gt; 24 Westmeath     0.45138572  1.40091457 8.061981e-02
 #&gt; 25 Wexford       0.64371834  1.66488069 4.796828e-02
-#&gt; 26 Wicklow       0.02441950  0.29790569 3.828876e-01</div><div class='input'><span class='no'>e.errorsar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>,
+#&gt; 26 Wicklow       0.02441950  0.29790569 3.828876e-01</div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"spatialreg"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>e.errorsar</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatialreg/topics/ML_models'>errorsarlm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>,
  <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))
 <span class='no'>lm.target</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>e.errorsar</span>$<span class='no'>tary</span> ~ <span class='no'>e.errorsar</span>$<span class='no'>tarX</span> - <span class='fl'>1</span>)
-<span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>)</div><div class='output co'>#&gt;              Local Morans I    Exact SD Pr. (exact)
+<span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>)
+}</div><div class='output co'>#&gt;              Local Morans I    Exact SD Pr. (exact)
 #&gt; 1 Carlow         0.17958462  0.83313548 0.202384163
 #&gt; 2 Cavan         -0.24752628 -0.82861508 0.796338874
 #&gt; 3 Clare         -0.27901334 -0.72313220 0.765200665
@@ -379,61 +380,65 @@ When the alternative is being tested, a list of left and right M products in att
 #&gt; 23 Waterford     0.44099279  1.28152280 0.100005048
 #&gt; 24 Westmeath    -0.06329661 -0.26575204 0.604784909
 #&gt; 25 Wexford       0.30764883  1.02115599 0.153590270
-#&gt; 26 Wicklow      -0.01696406 -0.04109885 0.516391453</div><div class='input'><span class='no'>Omega</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='invIrM.html'>invIrW</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>), <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.6</span>)
+#&gt; 26 Wicklow      -0.01696406 -0.04109885 0.516391453</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>Omega</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='invIrM.html'>invIrW</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>), <span class='kw'>rho</span><span class='kw'>=</span><span class='no'>e.errorsar</span>$<span class='no'>lambda</span>)
 <span class='no'>Omega1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/crossprod'>tcrossprod</a></span>(<span class='no'>Omega</span>)
-<span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='no'>Omega1</span>)</div><div class='output co'>#&gt;              Local Morans I    Exact SD Pr. (exact)
-#&gt; 1 Carlow         0.17958462  0.23106310  0.40863289
-#&gt; 2 Cavan         -0.24752628 -1.23468946  0.89152695
-#&gt; 3 Clare         -0.27901334 -1.23568141  0.89171149
-#&gt; 4 Cork           0.37808655  0.37129164  0.35521016
-#&gt; 5 Donegal       -1.01894688 -1.84902973  0.96777324
-#&gt; 6 Dublin        -0.18171297 -0.98014854  0.83649360
-#&gt; 7 Galway         1.02193390  1.60349636  0.05441256
-#&gt; 8 Kerry         -0.94967914 -2.12070807  0.98302681
-#&gt; 9 Kildare        0.07005053  0.10764694  0.45713788
-#&gt; 10 Kilkenny      0.43022231  0.72290576  0.23486889
-#&gt; 11 Laoghis      -0.12239133 -0.87106287  0.80814009
-#&gt; 12 Leitrim      -0.24203970 -1.37942752  0.91611851
-#&gt; 13 Limerick     -0.03214546 -0.68255487  0.75255592
-#&gt; 14 Longford      0.38307454  0.47071571  0.31892188
-#&gt; 15 Louth         0.21301552  0.02198178  0.49123125
-#&gt; 16 Mayo          0.93971200  1.30000024  0.09680044
-#&gt; 17 Meath         0.12484415  0.15994490  0.43646224
-#&gt; 18 Monaghan     -0.16109919 -1.05555833  0.85441498
-#&gt; 19 Offaly       -0.00632492 -0.29850266  0.61734023
-#&gt; 20 Roscommon     1.02089429  1.58863478  0.05607144
-#&gt; 21 Sligo        -2.01629233 -3.26456072  0.99945183
-#&gt; 22 Tipperary    -0.10810709 -0.98217198  0.83699244
-#&gt; 23 Waterford     0.44099279  0.66779678  0.25213166
-#&gt; 24 Westmeath    -0.06329661 -0.70911718  0.76087412
-#&gt; 25 Wexford       0.30764883  0.37769998  0.35282674
-#&gt; 26 Wicklow      -0.01696406 -0.54705602  0.70782988</div><div class='input'><span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='no'>Omega1</span>, <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;              Local Morans I    Exact SD Pr. (exact)
-#&gt; 1 Carlow         0.17958462  0.23106345  0.40863276
-#&gt; 2 Cavan         -0.24752628 -1.23468995  0.89152704
-#&gt; 3 Clare         -0.27901334 -1.23568183  0.89171157
-#&gt; 4 Cork           0.37808655  0.37129179  0.35521011
-#&gt; 5 Donegal       -1.01894688 -1.84902980  0.96777324
-#&gt; 6 Dublin        -0.18171297 -0.98014903  0.83649372
-#&gt; 7 Galway         1.02193390  1.60349632  0.05441256
-#&gt; 8 Kerry         -0.94967914 -2.12070821  0.98302682
-#&gt; 9 Kildare        0.07005053  0.10764406  0.45713902
-#&gt; 10 Kilkenny      0.43022231  0.72290590  0.23486885
-#&gt; 11 Laoghis      -0.12239133 -0.87106429  0.80814047
-#&gt; 12 Leitrim      -0.24203970 -1.37942813  0.91611860
-#&gt; 13 Limerick     -0.03214546 -0.68260211  0.75257085
-#&gt; 14 Longford      0.38307454  0.47071586  0.31892183
-#&gt; 15 Louth         0.21301552  0.02198203  0.49123115
-#&gt; 16 Mayo          0.93971200  1.30000026  0.09680044
-#&gt; 17 Meath         0.12484415  0.15994587  0.43646186
-#&gt; 18 Monaghan     -0.16109919 -1.05555896  0.85441512
-#&gt; 19 Offaly       -0.00632492 -0.29479749  0.61592571
-#&gt; 20 Roscommon     1.02089429  1.58863472  0.05607144
-#&gt; 21 Sligo        -2.01629233 -3.26455056  0.99945181
-#&gt; 22 Tipperary    -0.10810709 -0.98217470  0.83699310
-#&gt; 23 Waterford     0.44099279  0.66779690  0.25213162
-#&gt; 24 Westmeath    -0.06329661 -0.70910521  0.76087041
-#&gt; 25 Wexford       0.30764883  0.37770018  0.35282667
-#&gt; 26 Wicklow      -0.01696406 -0.54778213  0.70807925</div></pre>
+<span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='no'>Omega1</span>)
+}</div><div class='output co'>#&gt;              Local Morans I     Exact SD Pr. (exact)
+#&gt; 1 Carlow         0.17958462  0.009413917  0.49624445
+#&gt; 2 Cavan         -0.24752628 -1.416786314  0.92172729
+#&gt; 3 Clare         -0.27901334 -1.512813056  0.93483642
+#&gt; 4 Cork           0.37808655  0.078686494  0.46864099
+#&gt; 5 Donegal       -1.01894688 -1.935314161  0.97352412
+#&gt; 6 Dublin        -0.18171297 -1.226543250  0.89000285
+#&gt; 7 Galway         1.02193390  1.477322295  0.06979463
+#&gt; 8 Kerry         -0.94967914 -2.427948364  0.99240775
+#&gt; 9 Kildare        0.07005053 -0.042522018  0.51695872
+#&gt; 10 Kilkenny      0.43022231  0.488471215  0.31260805
+#&gt; 11 Laoghis      -0.12239133 -1.091910863  0.86256386
+#&gt; 12 Leitrim      -0.24203970 -1.631825830  0.94864191
+#&gt; 13 Limerick     -0.03214546 -0.921751557  0.82167091
+#&gt; 14 Longford      0.38307454  0.183273192  0.42729183
+#&gt; 15 Louth         0.21301552 -0.184065307  0.57301889
+#&gt; 16 Mayo          0.93971200  1.182398031  0.11852390
+#&gt; 17 Meath         0.12484415 -0.060499926  0.52412126
+#&gt; 18 Monaghan     -0.16109919 -1.342787510  0.91032961
+#&gt; 19 Offaly       -0.00632492 -0.409598788  0.65894986
+#&gt; 20 Roscommon     1.02089429  1.238387416  0.10778622
+#&gt; 21 Sligo        -2.01629233 -3.623597238  0.99985473
+#&gt; 22 Tipperary    -0.10810709 -1.227333133  0.89015130
+#&gt; 23 Waterford     0.44099279  0.433358039  0.33237734
+#&gt; 24 Westmeath    -0.06329661 -0.956519228  0.83059501
+#&gt; 25 Wexford       0.30764883  0.141381248  0.44378438
+#&gt; 26 Wicklow      -0.01696406 -0.783977878  0.78347345</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='no'>Omega1</span>, <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+}</div><div class='output co'>#&gt;              Local Morans I     Exact SD Pr. (exact)
+#&gt; 1 Carlow         0.17958462  0.009414171  0.49624434
+#&gt; 2 Cavan         -0.24752628 -1.416786809  0.92172737
+#&gt; 3 Clare         -0.27901334 -1.512813520  0.93483648
+#&gt; 4 Cork           0.37808655  0.078686627  0.46864094
+#&gt; 5 Donegal       -1.01894688 -1.935314436  0.97352414
+#&gt; 6 Dublin        -0.18171297 -1.226543735  0.89000294
+#&gt; 7 Galway         1.02193390  1.477322398  0.06979462
+#&gt; 8 Kerry         -0.94967914 -2.427949221  0.99240777
+#&gt; 9 Kildare        0.07005053 -0.042526751  0.51696061
+#&gt; 10 Kilkenny      0.43022231  0.488471348  0.31260801
+#&gt; 11 Laoghis      -0.12239133 -1.091912027  0.86256411
+#&gt; 12 Leitrim      -0.24203970 -1.631826544  0.94864198
+#&gt; 13 Limerick     -0.03214546 -0.921785589  0.82167979
+#&gt; 14 Longford      0.38307454  0.183273324  0.42729178
+#&gt; 15 Louth         0.21301552 -0.184065128  0.57301882
+#&gt; 16 Mayo          0.93971200  1.182398127  0.11852388
+#&gt; 17 Meath         0.12484415 -0.060499243  0.52412099
+#&gt; 18 Monaghan     -0.16109919 -1.342788192  0.91032972
+#&gt; 19 Offaly       -0.00632492 -0.407816672  0.65829586
+#&gt; 20 Roscommon     1.02089429  1.238387487  0.10778621
+#&gt; 21 Sligo        -2.01629233 -3.623590127  0.99985473
+#&gt; 22 Tipperary    -0.10810709 -1.227335007  0.89015165
+#&gt; 23 Waterford     0.44099279  0.433358168  0.33237729
+#&gt; 24 Westmeath    -0.06329661 -0.956505670  0.83059159
+#&gt; 25 Wexford       0.30764883  0.141381401  0.44378432
+#&gt; 26 Wicklow      -0.01696406 -0.784451761  0.78361246</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -54,9 +54,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -154,7 +151,7 @@
 <a class="sourceLine" id="cb2-4" data-line-number="4">}</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5"><span class="cf">if</span> (dothis) <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/sf_extSoftVersion">sf_extSoftVersion</a></span>()</a></code></pre></div>
 <pre><code>##           GEOS           GDAL         proj.4 GDAL_with_GEOS 
-##        "3.7.1"        "2.4.0"        "5.2.0"         "true"</code></pre>
+##        "3.7.1"        "2.4.1"        "6.0.0"         "true"</code></pre>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(rgdal, <span class="dt">quietly=</span><span class="ot">TRUE</span>))) {</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="st">"install the rgdal package"</span>)</a>
 <a class="sourceLine" id="cb4-3" data-line-number="3">  dothis &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
@@ -164,7 +161,7 @@
 <a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="cf">else</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/rgdal/topics/GDALDriver-class">getGDALVersionInfo</a></span>()</a>
 <a class="sourceLine" id="cb4-8" data-line-number="8">}</a></code></pre></div>
 <pre><code>##           GDAL GDAL_with_GEOS         PROJ.4             sp 
-##        "2.4.0"         "TRUE"        "5.2.0"        "1.3-1"</code></pre>
+##        "2.4.1"         "TRUE"        "6.0.0"        "1.3-1"</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(rgeos, <span class="dt">quietly=</span><span class="ot">TRUE</span>))) {</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="st">"install the rgeos package"</span>)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">  dothis &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
@@ -195,7 +192,7 @@
 <a class="sourceLine" id="cb12-3" data-line-number="3">eps &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(.Machine<span class="op">$</span>double.eps)</a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sp_<span class="dv">1</span>_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/poly2nb.html">poly2nb</a></span>(NY8_sp, <span class="dt">queen=</span><span class="ot">TRUE</span>, <span class="dt">snap=</span>eps))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0514  0.0011  0.0527</code></pre>
+##  0.0446  0.0003  0.0455</code></pre>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">NY8_sp_<span class="dv">1</span>_nb</a></code></pre></div>
 <pre><code>## Neighbour list object:
 ## Number of regions: 281 
@@ -206,7 +203,7 @@
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">STRQ &lt;-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) a2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/experimental-functions">gUnarySTRtreeQuery</a></span>(NY8_sp))<span class="op">/</span>reps</a>
 <a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sp_<span class="dv">1</span>_fB_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/poly2nb.html">poly2nb</a></span>(NY8_sp, <span class="dt">queen=</span><span class="ot">TRUE</span>, <span class="dt">snap=</span>eps, <span class="dt">foundInBox=</span>a2))<span class="op">/</span>reps <span class="op">+</span><span class="st"> </span>STRQ</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0240  0.0000  0.0241</code></pre>
+##  0.0229  0.0002  0.0233</code></pre>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sp_<span class="dv">1</span>_fB_nb, NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>Using sf::st_relate, we can define an un-snapped relational pattern for queen contiguities:</p>
@@ -214,7 +211,7 @@
 <p>The output from st_queen is a list with attributes:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sf_<span class="dv">1</span>_sgbp &lt;-<span class="st"> </span><span class="kw">st_queen</span>(NY8_sf))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.5227  0.0000  0.5242</code></pre>
+##  0.5193  0.0001  0.5257</code></pre>
 <p>As we can see, the sf-based contiguity test is an order of magnitude slower than spdep::poly2nb; fortunately, it also scales linearly in the number of observations. spdep::poly2nb uses two heuristics, first to find candidate neighbours from intersecting bounding boxes, and second to use the symmetry of the relationship to halve the number of remaining tests. This means that performance is linear in n, but with overhead for identifying candidates, and back-filling symmetric neighbours. Further, spdep::poly2nb stops searching for queen contiguity as soon as the first neighbour point is found within snap distance (if not identical, which is tested first); second neighbour point for rook contiguities. spdep::poly2nb was heavily optimised when written, as processor speed was a major constraint at that time.</p>
 <p>The addition of STR tree queries to identify candidates permits the construction of contiguous neighbour objects for quite large objects, for example the ZCTA 2016 shapefile with 33144 features. sf::st_read imports the data in about 3 s., rgdal::readOGR in under 8 s; in both cases the polygon geometries are valid. Finding the candidate neighbours with rgeos::gUnarySTRtreeQuery takes 4.5 s, and spdep::poly2nb a further 4.4 s. So for the sp variant, the total time is about 17 s., and using sf::st_read 3 s. and coercion to sp 7.5 s., then rgeos::gUnarySTRtreeQuery 4.5 s, and spdep::poly2nb 4.4 s., in total about 20 s. Running st_queen defined above using sf::st_relate takes about 136 s. for a total of 139 s. to generate a queen neighbour object. The contiguity neighbour objects using st_queen and spdep::poly2nb are identical.</p>
 <p>Using sf::st_is_within_distance to emulate the snap= argument in spdep::poly2nb is very time-consuming; it takes more than 70 s. to run:</p>
@@ -237,17 +234,17 @@
 <p>To get around the time penalty of using GEOS functions in sf to find contiguous neighbours, we may coerce to the sp representation first:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(NY8_sf, <span class="st">"Spatial"</span>))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0555  0.0000  0.0557</code></pre>
+##  0.0573  0.0004  0.0585</code></pre>
 <p>It is the use of GEOS functionality that costs time, as we can see by using rgeos::gTouches:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) sp_touches &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/pred-binary-gTouches">gTouches</a></span>(NY8_sp, <span class="dt">byid=</span><span class="ot">TRUE</span>, <span class="dt">returnDense=</span><span class="ot">FALSE</span>))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.5348  0.0000  0.5362</code></pre>
+##  0.6025  0.0008  0.6150</code></pre>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(sp_touches, NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>or equivalently sf::st_touches with very similar timings, like those of sf::st_relate in st_queen:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sf_<span class="dv">1</span>_touch &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_touches</a></span>(NY8_sf, NY8_sf))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.5294  0.0000  0.5308</code></pre>
+##  0.5353  0.0001  0.5410</code></pre>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(NY8_sf_<span class="dv">1</span>_touch) &lt;-<span class="st"> "sgbp"</span></a>
 <a class="sourceLine" id="cb36-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw">as.nb.sgbp</span>(NY8_sf_<span class="dv">1</span>_touch), NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -339,7 +336,7 @@
 <p>Getting a 2D matrix of centroid coordinates (centroids of largest exterior ring) from SpatialPolygons* is just ‘coordinates’, which takes trivial time because the values are computed (as label points) when the objects are constructed:</p>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) coords &lt;-<span class="st">  </span><span class="kw">coordinates</span>(NY8_sp))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   8e-04   0e+00   7e-04</code></pre>
+##   7e-04   0e+00   7e-04</code></pre>
 <p>‘row.names’ gives the IDs (from feature FIDs if read with ‘rgdal::readOGR’):</p>
 <div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">IDs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/row.names">row.names</a></span>(NY8_sp)</a>
 <a class="sourceLine" id="cb61-2" data-line-number="2"><span class="kw">is.projected</span>(NY8_sp)</a></code></pre></div>
@@ -351,7 +348,7 @@
 <a class="sourceLine" id="cb63-4" data-line-number="4">  NY8_pt_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_unary">st_centroid</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_geometry</a></span>(NY8_sf))</a>
 <a class="sourceLine" id="cb63-5" data-line-number="5">})<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0177  0.0000  0.0178</code></pre>
+##  0.0184  0.0000  0.0187</code></pre>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(NY8_pt_sf), <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(NY8_sf)))) <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(NY8_pt_sf) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(NY8_sf)</a>
 <a class="sourceLine" id="cb65-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_geometry</a></span>(NY8_pt_sf))[<span class="dv">1</span>]</a></code></pre></div>
 <pre><code>## [1] "sfc_POINT"</code></pre>
@@ -391,7 +388,7 @@
 <p>The reason for the discrepancy is that the label point (a.k.a. centroid) returned by sp::coordinates for Polygons objects takes the centroid gross of holes. This is not done by sf::st_centroid, nor by rgeos::gCentroid (which is much quicker than st_centroid even when using the same underlying GEOS code and converting to GEOS SF representation internally):</p>
 <div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) gcoords &lt;-<span class="st"> </span><span class="kw">coordinates</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/topo-unary-gCentroid">gCentroid</a></span>(NY8_sp, <span class="dt">byid=</span><span class="ot">TRUE</span>)))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0045  0.0000  0.0045</code></pre>
+##  0.0044  0.0000  0.0045</code></pre>
 <p>The output coordinates are still off, but much less:</p>
 <div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(coords_sf, gcoords, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>, <span class="dt">scale=</span><span class="dv">1</span>)</a></code></pre></div>
 <pre><code>## [1] "Mean absolute difference: 0.130541"</code></pre>
@@ -477,7 +474,7 @@
 <p>If we coerce from sf to sp representation before extracting point coordinates, we get:</p>
 <div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) coords_sf_sp &lt;-<span class="st"> </span><span class="kw">coordinates</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(NY8_sf, <span class="st">"Spatial"</span>)))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0543  0.0000  0.0545</code></pre>
+##  0.0538  0.0000  0.0543</code></pre>
 <p>It turns out that the geometries are identical after coercion (as we would expect from obtaining the same contiguity neighbours above):</p>
 <div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(NY8_sp, <span class="st">"SpatialPolygons"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(NY8_sf, <span class="st">"Spatial"</span>),<span class="st">"SpatialPolygons"</span>))</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -518,10 +515,10 @@
 <p><code>dnearneigh</code> can also handle Great Circle distances, but this is not demonstrated here, as the data set used is planar:</p>
 <div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY811_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnearneigh.html">dnearneigh</a></span>(coords, <span class="dt">d1=</span><span class="dv">0</span>, <span class="dt">d2=</span><span class="fl">0.75</span><span class="op">*</span>max_1nn, <span class="dt">row.names=</span>IDs))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0113  0.0000  0.0114</code></pre>
+##  0.0128  0.0001  0.0130</code></pre>
 <div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY811_nb_sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnearneigh.html">dnearneigh</a></span>(coords_sf, <span class="dt">d1=</span><span class="dv">0</span>, <span class="dt">d2=</span><span class="fl">0.75</span><span class="op">*</span>max_1nn))<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0112  0.0000  0.0112</code></pre>
+##  0.0124  0.0000  0.0125</code></pre>
 <div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY811_nb_sf, NY811_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>We could use more sf functionality, but it is an order of magnitude slower, through buffering all points by the threshold while distance is symmetric, so i to j and j to i are equal. Buffering also presupposes planar coordinates. In addition, the point itself intersects, so has to be removed:</p>
@@ -529,7 +526,7 @@
 <a class="sourceLine" id="cb125-2" data-line-number="2">NY811_nb_sf_buff0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_intersects</a></span>(NY811_buf, NY8_pt_sf)</a>
 <a class="sourceLine" id="cb125-3" data-line-number="3">NY811_nb_sf_buff &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(NY811_nb_sf_buff0), <span class="cf">function</span>(i) NY811_nb_sf_buff0[[i]][<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/match">match</a></span>(i, NY811_nb_sf_buff0[[i]])])})<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0349  0.0000  0.0349</code></pre>
+##  0.0347  0.0000  0.0351</code></pre>
 <p>And it does not match:</p>
 <div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw">as.nb.sgbp</span>(NY811_nb_sf_buff), NY811_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] "Component 123: Numeric: lengths (106, 107) differ"
@@ -541,14 +538,14 @@
 <a class="sourceLine" id="cb129-2" data-line-number="2">NY811_nb_sf_buff0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_intersects</a></span>(NY811_buf, NY8_pt_sf)</a>
 <a class="sourceLine" id="cb129-3" data-line-number="3">NY811_nb_sf_buff &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(NY811_nb_sf_buff0), <span class="cf">function</span>(i) NY811_nb_sf_buff0[[i]][<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/match">match</a></span>(i, NY811_nb_sf_buff0[[i]])])})<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0751  0.0000  0.0753</code></pre>
+##  0.0764  0.0001  0.0774</code></pre>
 <div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw">as.nb.sgbp</span>(NY811_nb_sf_buff), NY811_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>We can do the same with sf::st_is_within_distance too:</p>
 <div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) {NY811_nb_sf_dist0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_is_within_distance</a></span>(NY8_pt_sf, NY8_pt_sf, <span class="dt">dist=</span><span class="fl">0.75</span><span class="op">*</span>max_1nn)</a>
 <a class="sourceLine" id="cb133-2" data-line-number="2">NY811_nb_sf_dist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(NY811_nb_sf_dist0), <span class="cf">function</span>(i) NY811_nb_sf_dist0[[i]][<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/match">match</a></span>(i, NY811_nb_sf_dist0[[i]])])})<span class="op">/</span>reps</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0518  0.0000  0.0519</code></pre>
+##  0.0526  0.0000  0.0531</code></pre>
 <div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw">as.nb.sgbp</span>(NY811_nb_sf_dist), NY811_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -87,9 +87,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -227,10 +224,10 @@
 #&gt;  Mean   :0.2130  
 #&gt;  3rd Qu.:0.2500  
 #&gt;  Max.   :0.5000  </div><div class='input'><span class='no'>tf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(), <span class='st'>".gpkg"</span>)
-<span class='fu'>st_write</span>(<span class='fu'>st_as_sf</span>(<span class='no'>res</span>), <span class='kw'>dsn</span><span class='kw'>=</span><span class='no'>tf</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"GPKG"</span>)</div><div class='output co'>#&gt; Writing layer `file7ed2156e66d' to data source `/tmp/RtmpBVVhFc/file7ed2156e66d.gpkg' using driver `GPKG'
+<span class='fu'>st_write</span>(<span class='fu'>st_as_sf</span>(<span class='no'>res</span>), <span class='kw'>dsn</span><span class='kw'>=</span><span class='no'>tf</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"GPKG"</span>)</div><div class='output co'>#&gt; Writing layer `file2cc84b8d431b' to data source `/tmp/RtmpAbeFK7/file2cc84b8d431b.gpkg' using driver `GPKG'
 #&gt; features:       230
 #&gt; fields:         5
-#&gt; geometry type:  Line String</div><div class='input'><span class='no'>inMap</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='no'>tf</span>)</div><div class='output co'>#&gt; Reading layer `file7ed2156e66d' from data source `/tmp/RtmpBVVhFc/file7ed2156e66d.gpkg' using driver `GPKG'
+#&gt; geometry type:  Line String</div><div class='input'><span class='no'>inMap</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='no'>tf</span>)</div><div class='output co'>#&gt; Reading layer `file2cc84b8d431b' from data source `/tmp/RtmpAbeFK7/file2cc84b8d431b.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 230 features and 5 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY

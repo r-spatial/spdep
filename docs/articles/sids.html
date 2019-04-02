@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -54,9 +54,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -108,7 +105,7 @@
 <div id="getting-the-data-into-r" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-the-data-into-r" class="anchor"></a>Getting the data into R</h2>
-<p>We will be using the <strong>spdep</strong> package, here version: spdep, version 1.0-2, 2019-01-29, the <strong>sf</strong> package and the <strong>tmap</strong> package. The data from the sources referred to above is documented in the <a href="https://nowosad.github.io/spData/reference/nc.sids.html">help page</a> for the <code>nc.sids</code> data set in <strong>spData</strong>. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the <strong>maptools</strong> package.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.</p>
+<p>We will be using the <strong>spdep</strong> and <strong>spreg</strong> packages, here version: spdep, version 1.1-1, 2019-03-24, the <strong>sf</strong> package and the <strong>tmap</strong> package. The data from the sources referred to above is documented in the <a href="https://nowosad.github.io/spData/reference/nc.sids.html">help page</a> for the <code>nc.sids</code> data set in <strong>spData</strong>. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the <strong>maptools</strong> package.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(spdep)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">nc &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shapes/sids.shp"</span>, <span class="dt">package=</span><span class="st">"spData"</span>)[<span class="dv">1</span>], <span class="dt">quiet=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">st_crs</span>(nc) &lt;-<span class="st"> "+proj=longlat +datum=NAD27"</span></a>
@@ -387,122 +384,6 @@
 <a class="sourceLine" id="cb65-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/tmap/topics/tmap_arrange">tmap_arrange</a></span>(out1, out2, <span class="dt">ncol=</span><span class="dv">1</span>)</a></code></pre></div>
 <p><img src="sids_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <p>The figure shows the median polish smoothing results as three maps, the observed Freeman-Tukey transformed SIDS rates, the fitted smoothed values, and the residuals. In addition, a plot for the median polish object is also shown, plotting the smooth residuals against the outer product of the row and column effects divided by the overall effect, which would indicate a lack of additivity between row and column if this was the case — this is more relevant for analysis of tables of covariates rather than geographical grids.</p>
-</div>
-<div id="car-model-fitting" class="section level3">
-<h3 class="hasAnchor">
-<a href="#car-model-fitting" class="anchor"></a>CAR model fitting</h3>
-<p>We will now try to replicate three of the four models fitted by <span class="citation">(Cressie and Chan 1989)</span> to the transformed rates variable. The first thing to do is to try to replicate their 30 mile distance between county seats neighbours, which almost works. From there we try to reconstruct three of the four models they fit, concluding that we can get quite close, but that a number of questions are raised along the way.</p>
-<p>Building the weights is much more complicated, because they use a combination of distance-metric and population-at-risk based weights, but we can get quite close <span class="citation">(see also Kaluzny et al. 1996)</span>:</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">sids.nhbr30.dist &lt;-<span class="st"> </span><span class="kw"><a href="../reference/nbdists.html">nbdists</a></span>(ncCC89, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(nc<span class="op">$</span>east, nc<span class="op">$</span>north))</a>
-<a class="sourceLine" id="cb66-2" data-line-number="2">sids.nhbr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/listw2sn.html">listw2sn</a></span>(<span class="kw"><a href="../reference/nb2listw.html">nb2listw</a></span>(ncCC89, <span class="dt">glist=</span>sids.nhbr30.dist, <span class="dt">style=</span><span class="st">"B"</span>, <span class="dt">zero.policy=</span><span class="ot">TRUE</span>))</a>
-<a class="sourceLine" id="cb66-3" data-line-number="3">dij &lt;-<span class="st"> </span>sids.nhbr[,<span class="dv">3</span>]</a>
-<a class="sourceLine" id="cb66-4" data-line-number="4">n &lt;-<span class="st"> </span>nc<span class="op">$</span>BIR74</a>
-<a class="sourceLine" id="cb66-5" data-line-number="5">el1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min</a></span>(dij)<span class="op">/</span>dij</a>
-<a class="sourceLine" id="cb66-6" data-line-number="6">el2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(n[sids.nhbr<span class="op">$</span>to]<span class="op">/</span>n[sids.nhbr<span class="op">$</span>from])</a>
-<a class="sourceLine" id="cb66-7" data-line-number="7">sids.nhbr<span class="op">$</span>weights &lt;-<span class="st"> </span>el1<span class="op">*</span>el2</a>
-<a class="sourceLine" id="cb66-8" data-line-number="8">sids.nhbr.listw &lt;-<span class="st"> </span><span class="kw"><a href="../reference/listw2sn.html">sn2listw</a></span>(sids.nhbr)</a></code></pre></div>
-<p>The first model (I) is a null model with just an intercept, the second (II) includes all the 12 parcels of contiguous counties in 4 east-west and 4 north-south bands, while the fourth (IV) includes the transformed non-white birth-rate:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">nc<span class="op">$</span>ft.NWBIR74 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(<span class="dv">1000</span>)<span class="op">*</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(nc<span class="op">$</span>NWBIR74<span class="op">/</span>nc<span class="op">$</span>BIR74) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>((nc<span class="op">$</span>NWBIR74<span class="op">+</span><span class="dv">1</span>)<span class="op">/</span>nc<span class="op">$</span>BIR74))</a></code></pre></div>
-<p>Cressie identifies Anson county as an outlier, and drops it from further analysis. Because the weights are constructed in a complicated way, they will be subsetted by dropping the row and column of the weights matrix:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">lm_nc &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/lm">lm</a></span>(ft.SID74 <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>nc)</a>
-<a class="sourceLine" id="cb68-2" data-line-number="2">outl &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which.min">which.max</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/influence.measures">rstandard</a></span>(lm_nc))</a>
-<a class="sourceLine" id="cb68-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">as.character</a></span>(nc<span class="op">$</span>NAME[outl])</a></code></pre></div>
-<pre><code>## [1] "Anson"</code></pre>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1">W &lt;-<span class="st"> </span><span class="kw"><a href="../reference/nb2mat.html">listw2mat</a></span>(sids.nhbr.listw)</a>
-<a class="sourceLine" id="cb70-2" data-line-number="2">W<span class="fl">.4</span> &lt;-<span class="st"> </span>W[<span class="op">-</span>outl, <span class="op">-</span>outl]</a>
-<a class="sourceLine" id="cb70-3" data-line-number="3">sids.nhbr.listw<span class="fl">.4</span> &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mat2listw.html">mat2listw</a></span>(W<span class="fl">.4</span>)</a>
-<a class="sourceLine" id="cb70-4" data-line-number="4">nc2 &lt;-<span class="st"> </span>nc[<span class="op">!</span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(nc<span class="op">$</span>CNTY_ID) <span class="op">%in%</span><span class="st"> </span>outl),]</a></code></pre></div>
-<p>It appears that both numerical issues (convergence in particular) and uncertainties about the exact spatial weights matrix used make it difficult to reproduce the results of <span class="citation">Cressie and Chan (1989)</span>, also given in <span class="citation">Cressie (1991)</span>. We now try to replicate them for the null weighted CAR model (Cressie has intercept 2.838, <span class="math inline">\(\hat{\theta}\)</span> 0.833, for k=1):</p>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">ecarIaw &lt;-<span class="st"> </span><span class="kw"><a href="../reference/spautolm.html">spautolm</a></span>(ft.SID74 <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>nc2, <span class="dt">listw=</span>sids.nhbr.listw<span class="fl">.4</span>, <span class="dt">weights=</span>BIR74, <span class="dt">family=</span><span class="st">"CAR"</span>)</a>
-<a class="sourceLine" id="cb71-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(ecarIaw)</a></code></pre></div>
-<pre><code>## 
-## Call: 
-## spautolm(formula = ft.SID74 ~ 1, data = nc2, listw = sids.nhbr.listw.4, 
-##     weights = BIR74, family = "CAR")
-## 
-## Residuals:
-##       Min        1Q    Median        3Q       Max 
-## -2.010292 -0.639658 -0.062209  0.443549  2.018065 
-## 
-## Coefficients: 
-##             Estimate Std. Error z value  Pr(&gt;|z|)
-## (Intercept) 2.945323   0.095135  30.959 &lt; 2.2e-16
-## 
-## Lambda: 0.86814 LR test value: 22.83 p-value: 1.7701e-06 
-## Numerical Hessian standard error of lambda: 0.04838 
-## 
-## Log likelihood: -118.8432 
-## ML residual variance (sigma squared): 1266.5, (sigma: 35.588)
-## Number of observations: 99 
-## Number of parameters estimated: 3 
-## AIC: 243.69</code></pre>
-<p>The spatial parcels model seems not to work, with Cressie’s <span class="math inline">\(\hat{\theta}\)</span> 0.710, and failure in the numerical Hessian used to calculate the standard error of the spatial coefficient:</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">ecarIIaw &lt;-<span class="st"> </span><span class="kw"><a href="../reference/spautolm.html">spautolm</a></span>(ft.SID74 <span class="op">~</span><span class="st"> </span>both <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>nc2, <span class="dt">listw=</span>sids.nhbr.listw<span class="fl">.4</span>, <span class="dt">weights=</span>BIR74, <span class="dt">family=</span><span class="st">"CAR"</span>)</a>
-<a class="sourceLine" id="cb73-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(ecarIIaw)</a></code></pre></div>
-<pre><code>## 
-## Call: 
-## spautolm(formula = ft.SID74 ~ both - 1, data = nc2, listw = sids.nhbr.listw.4, 
-##     weights = BIR74, family = "CAR")
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -2.55896 -0.46338 -0.02035  0.38935  2.05682 
-## 
-## Coefficients: 
-##         Estimate Std. Error z value  Pr(&gt;|z|)
-## both1:2  2.06223    0.20016 10.3031 &lt; 2.2e-16
-## both1:3  2.91823    0.14139 20.6400 &lt; 2.2e-16
-## both1:4  4.11486    0.29939 13.7439 &lt; 2.2e-16
-## both2:1  2.57650    0.26905  9.5762 &lt; 2.2e-16
-## both2:2  2.17403    0.18222 11.9305 &lt; 2.2e-16
-## both2:3  2.67397    0.15329 17.4443 &lt; 2.2e-16
-## both2:4  3.11361    0.24699 12.6062 &lt; 2.2e-16
-## both3:1  2.94400    0.29893  9.8486 &lt; 2.2e-16
-## both3:2  2.65391    0.14098 18.8250 &lt; 2.2e-16
-## both3:3  2.91619    0.17099 17.0552 &lt; 2.2e-16
-## both3:4  3.20425    0.20349 15.7468 &lt; 2.2e-16
-## both4:3  3.80286    0.20806 18.2781 &lt; 2.2e-16
-## 
-## Lambda: 0.2109 LR test value: 1.3088 p-value: 0.25261 
-## Numerical Hessian standard error of lambda: NaN 
-## 
-## Log likelihood: -99.25505 
-## ML residual variance (sigma squared): 891.48, (sigma: 29.858)
-## Number of observations: 99 
-## Number of parameters estimated: 14 
-## AIC: 226.51</code></pre>
-<p>Finally, the non-white model repeats Cressie’s finding that much of the variance of the transformed SIDS rate for 1974–8 can be accounted for by the transformed non-white birth variable (Cressie intercept 1.644, <span class="math inline">\(\hat{b}\)</span> 0.0346, <span class="math inline">\(\hat{\theta}\)</span> 0.640 — not significant), but the estimate of the spatial coefficient is not close here:</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">ecarIVaw &lt;-<span class="st"> </span><span class="kw"><a href="../reference/spautolm.html">spautolm</a></span>(ft.SID74 <span class="op">~</span><span class="st"> </span>ft.NWBIR74, <span class="dt">data=</span>nc2, <span class="dt">listw=</span>sids.nhbr.listw<span class="fl">.4</span>, <span class="dt">weights=</span>BIR74, <span class="dt">family=</span><span class="st">"CAR"</span>)</a>
-<a class="sourceLine" id="cb75-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(ecarIVaw)</a></code></pre></div>
-<pre><code>## 
-## Call: 
-## spautolm(formula = ft.SID74 ~ ft.NWBIR74, data = nc2, listw = sids.nhbr.listw.4, 
-##     weights = BIR74, family = "CAR")
-## 
-## Residuals:
-##      Min       1Q   Median       3Q      Max 
-## -1.99056 -0.44858  0.15468  0.60623  1.95541 
-## 
-## Coefficients: 
-##              Estimate Std. Error z value  Pr(&gt;|z|)
-## (Intercept) 1.4371519  0.2252729  6.3796 1.775e-10
-## ft.NWBIR74  0.0408354  0.0062919  6.4902 8.572e-11
-## 
-## Lambda: 0.22391 LR test value: 1.1577 p-value: 0.28194 
-## Numerical Hessian standard error of lambda: 0.5539 
-## 
-## Log likelihood: -114.0376 
-## ML residual variance (sigma squared): 1201.5, (sigma: 34.663)
-## Number of observations: 99 
-## Number of parameters estimated: 4 
-## AIC: 236.08</code></pre>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">nc2<span class="op">$</span>fitIV &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/fitted.values">fitted.values</a></span>(ecarIVaw)</a>
-<a class="sourceLine" id="cb77-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/tmap/topics/tm_shape">tm_shape</a></span>(nc2) <span class="op">+</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/tmap/topics/tm_polygons">tm_fill</a></span>(<span class="st">"fitIV"</span>)</a></code></pre></div>
-<p><img src="sids_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
-<p>The final figure shows the value of the log likelihood function for the null model (I):</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1">ecarIawll &lt;-<span class="st"> </span><span class="kw"><a href="../reference/spautolm.html">spautolm</a></span>(ft.SID74 <span class="op">~</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>nc2, <span class="dt">listw=</span>sids.nhbr.listw<span class="fl">.4</span>, <span class="dt">weights=</span>BIR74, <span class="dt">family=</span><span class="st">"CAR"</span>, <span class="dt">llprof=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="op">-</span><span class="fl">0.1</span>, <span class="fl">0.9020532358</span>, <span class="dt">length.out=</span><span class="dv">100</span>))</a>
-<a class="sourceLine" id="cb78-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(ll <span class="op">~</span><span class="st"> </span>lambda, ecarIawll<span class="op">$</span>llprof, <span class="dt">type=</span><span class="st">"l"</span>)</a></code></pre></div>
-<p><img src="sids_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
 </div>
 </div>
 <div id="references" class="section level2 unnumbered">

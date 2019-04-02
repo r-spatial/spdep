@@ -71,7 +71,7 @@ approximation - is based on the randomisation assumption." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -95,9 +95,6 @@ approximation - is based on the randomisation assumption." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -306,7 +303,7 @@ Geographical Analysis, 34, pp. 187--206.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='localmoran.html'>localmoran</a></code>, <code><a href='lm.morantest.html'>lm.morantest</a></code>,
- <code><a href='lm.morantest.sad.html'>lm.morantest.sad</a></code>, <code><a href='errorsarlm.html'>errorsarlm</a></code></p></div>
+ <code><a href='lm.morantest.sad.html'>lm.morantest.sad</a></code>, <code><a href='spdep-deprecated.html'>errorsarlm</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -579,21 +576,28 @@ Geographical Analysis, 34, pp. 187--206.</p>
 #&gt; 23 Waterford 5.297500  0.0941811771  1.762051071  2.998984773
 #&gt; 24 Westmeath 5.351214  0.0379323563  0.457473561  0.506014991
 #&gt; 25 Wexford   5.781330  0.0582538352  0.911459483  1.197527949
-#&gt; 26 Wicklow   4.537075  0.0083101099  0.084281843  0.083952776</div><div class='input'><span class='no'>e.errorsar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='errorsarlm.html'>errorsarlm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>,
+#&gt; 26 Wicklow   4.537075  0.0083101099  0.084281843  0.083952776</div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"spatialreg"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+<span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>e.errorsar</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatialreg/topics/ML_models'>errorsarlm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>,
   <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>)
-<span class='no'>e.errorsar</span></div><div class='output co'>#&gt; 
+<span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatialreg/topics/ML_models'>print.sarlm</a></span>(<span class='no'>e.errorsar</span>)
+}</div><div class='output co'>#&gt; 
 #&gt; Call:
-#&gt; errorsarlm(formula = OWNCONS ~ ROADACC, data = eire, listw = lw)
+#&gt; spatialreg::errorsarlm(formula = OWNCONS ~ ROADACC, data = eire, 
+#&gt;     listw = lw)
 #&gt; Type: error 
 #&gt; 
 #&gt; Coefficients:
 #&gt;      lambda (Intercept)     ROADACC 
 #&gt; 0.783970989 2.892719571 0.002800913 
 #&gt; 
-#&gt; Log likelihood: -64.12465 </div><div class='input'><span class='no'>lm.target</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>e.errorsar</span>$<span class='no'>tary</span> ~ <span class='no'>e.errorsar</span>$<span class='no'>tarX</span> - <span class='fl'>1</span>)
+#&gt; Log likelihood: -64.12465 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='no'>lm.target</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>e.errorsar</span>$<span class='no'>tary</span> ~ <span class='no'>e.errorsar</span>$<span class='no'>tarX</span> - <span class='fl'>1</span>)
 <span class='no'>Omega</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/crossprod'>tcrossprod</a></span>(<span class='fu'><a href='invIrM.html'>invIrW</a></span>(<span class='no'>lw</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='no'>e.errorsar</span>$<span class='no'>lambda</span>))
 <span class='no'>e.clocmor</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>localmoran.sad</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='no'>Omega</span>))
-<span class='no'>e.clocmor</span></div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)   Pr. (N) Saddlepoint Pr. (Sad)
+<span class='no'>e.clocmor</span>
+}</div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)   Pr. (N) Saddlepoint Pr. (Sad)
 #&gt; 1 Carlow         0.17958462      -0.5947094 0.7239811 -0.01890335 0.5075409
 #&gt; 2 Cavan         -0.24752628      -0.9775195 0.8358440 -1.30903979 0.9047396
 #&gt; 3 Clare         -0.27901334      -0.9987481 0.8410416 -1.41535136 0.9215172
@@ -673,7 +677,9 @@ Geographical Analysis, 34, pp. 187--206.</p>
 #&gt; 23 Waterford  0.001151041  0.03534520  0.03581913
 #&gt; 24 Westmeath -0.058470593 -0.88397327 -0.83127666
 #&gt; 25 Wexford   -0.009550496 -0.26689930 -0.24045996
-#&gt; 26 Wicklow   -0.050401553 -0.84395069 -0.73641410</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist</a></span>(<span class='no'>e.clocmor</span>[,<span class='st'>"Pr. (Sad)"</span>])</div><div class='img'><img src='localmoran.sad-2.png' alt='' width='700' height='433' /></div></pre>
+#&gt; 26 Wicklow   -0.050401553 -0.84395069 -0.73641410</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist</a></span>(<span class='no'>e.clocmor</span>[,<span class='st'>"Pr. (Sad)"</span>])
+}</div><div class='img'><img src='localmoran.sad-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

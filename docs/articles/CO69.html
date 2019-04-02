@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -54,9 +54,6 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -427,7 +424,7 @@ County boundaries and contiguities
 <a class="sourceLine" id="cb45-9" data-line-number="9">Prop_stdR  &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(vars, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/moran.test.html">moran.test</a></span>(eire_ge1[[x]], <span class="dt">listw=</span>lw_std, <span class="dt">randomisation=</span><span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb45-10" data-line-number="10">})</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.207   0.000   0.207</code></pre>
+##   0.148   0.000   0.151</code></pre>
 <div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MoranN"</span>, <span class="st">"MoranR"</span>, <span class="st">"GearyN"</span>, <span class="st">"GearyR"</span>, <span class="st">"Prop_unstdN"</span>, <span class="st">"Prop_unstdR"</span>, <span class="st">"Prop_stdN"</span>, <span class="st">"Prop_stdR"</span>), <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(x), <span class="st">"[["</span>, <span class="st">"statistic"</span>))</a>
 <a class="sourceLine" id="cb47-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">rownames</a></span>(res) &lt;-<span class="st"> </span>vars</a>
 <a class="sourceLine" id="cb47-3" data-line-number="3">ores &lt;-<span class="st"> </span>res[,<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">5</span><span class="op">:</span><span class="dv">8</span>)]</a></code></pre></div>
@@ -567,7 +564,7 @@ County boundaries and contiguities
 <a class="sourceLine" id="cb65-5" data-line-number="5">Prop_stdSad  &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(lm_objs, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/lm.morantest.sad.html">lm.morantest.sad</a></span>(x, <span class="dt">listw=</span>lw_std))</a>
 <a class="sourceLine" id="cb65-6" data-line-number="6">})</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.103   0.000   0.104</code></pre>
+##   0.082   0.001   0.084</code></pre>
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MoranSad"</span>, <span class="st">"Prop_unstdSad"</span>, <span class="st">"Prop_stdSad"</span>), <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(x), <span class="st">"[["</span>, <span class="st">"statistic"</span>))</a>
 <a class="sourceLine" id="cb67-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">rownames</a></span>(res) &lt;-<span class="st"> </span>vars</a></code></pre></div>
 <p>Although the analytical standard deviates (under Normality) are larger than those reached using the Saddlepoint approximation when measured by median absolute deviation, the differences do not lead to different inferences at this chosen cut-off. This reflects the fact that the shape of the distribution is very sensitive to small <span class="math inline">\(n\)</span>, but for moderate <span class="math inline">\(n\)</span> and global Moran’s <span class="math inline">\(I\)</span>, the effects are seen only further out in the tails. The consequences for local Moran’s <span class="math inline">\(I_i\)</span> are much stronger, because the clique of neighbours of each observation is typically very small. It is perhaps of interest that the differences are much smaller for the case of general weights than for unstandardised binary weights.</p>
@@ -602,7 +599,7 @@ County boundaries and contiguities
 <a class="sourceLine" id="cb74-4" data-line-number="4">Prop_stdEx  &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(lm_objs, <span class="cf">function</span>(x) <span class="kw"><a href="../reference/lm.morantest.exact.html">lm.morantest.exact</a></span>(x, <span class="dt">listw=</span>lw_std))</a>
 <a class="sourceLine" id="cb74-5" data-line-number="5">})</a></code></pre></div>
 <pre><code>##    user  system elapsed 
-##   0.135   0.000   0.136</code></pre>
+##   0.114   0.000   0.116</code></pre>
 <div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"MoranEx"</span>, <span class="st">"Prop_unstdEx"</span>, <span class="st">"Prop_stdEx"</span>), <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">sapply</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/get">get</a></span>(x), <span class="st">"[["</span>, <span class="st">"statistic"</span>))</a>
 <a class="sourceLine" id="cb76-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/colnames">rownames</a></span>(res) &lt;-<span class="st"> </span>vars</a></code></pre></div>
 <p>The output is comparable with that of the Saddlepoint approximation, and the inferences drawn here are the same for the chosen cut-off as for the analytical standard deviates calculated under Normality.</p>

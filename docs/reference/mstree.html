@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -91,9 +91,6 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
-    </li>
-    <li>
-      <a href="../articles/SpatialFiltering.html">Moran Eigenvectors</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -199,7 +196,7 @@
 
 <span class='co'>### find a minimum spanning tree</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'>mstree</span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.003   0.000   0.003 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dim'>dim</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt; [1] 97  3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;      [,1] [,2]      [,3]
+#&gt;   0.003   0.000   0.002 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dim'>dim</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt; [1] 97  3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;      [,1] [,2]      [,3]
 #&gt; [1,]    5   12 1.2951120
 #&gt; [2,]   12   13 0.6141101
 #&gt; [3,]   13   11 0.7913745
