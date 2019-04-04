@@ -49,7 +49,7 @@ l_max <- function(lw, zero.policy=TRUE, control=list()) {
         }
         lambda1 <- numer/denom
         if (trace) cat(k, lambda1, numer, denom, constant, "\n")
-#        if (abs(lamlag - lambda1) < tol) {
+#        if (abs(lamlag - lambda1) < tol) 
         if (abs(constant0 - constant) < tol) {
             lambda1 <- constant
             msg <- "converged"
@@ -64,14 +64,14 @@ l_max <- function(lw, zero.policy=TRUE, control=list()) {
             msg <- "iteration limit exceeded"
             keepgoing <- FALSE
             break
-      }
+        }
+        attr(lambda1, "k") <- k
+        attr(lambda1, "msg") <- msg
+        attr(lambda1, "constant") <- constant
+        attr(lambda1, "e1") <- nik
+        lambda1
     }
-    attr(lambda1, "k") <- k
-    attr(lambda1, "msg") <- msg
-    attr(lambda1, "constant") <- constant
-    attr(lambda1, "e1") <- nik
-    lambda1
-  }
+}
 }
 
 
