@@ -66,7 +66,7 @@ locations as the key." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -183,62 +183,31 @@ the post code locations are known).</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>as.vector</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>boston.c</span>$<span class='no'>TOWN</span>)))</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;     1.0     2.0     4.0     5.5     7.0    30.0 </div><div class='input'><span class='no'>townaggr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aggregate'>aggregate</a></span>(<span class='no'>boston.utm</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>town</span><span class='kw'>=</span><span class='no'>boston.c</span>$<span class='no'>TOWN</span>), <span class='no'>mean</span>)
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>as.vector</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/table'>table</a></span>(<span class='no'>boston.c</span>$<span class='no'>TOWN</span>)))
+<span class='no'>townaggr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/aggregate'>aggregate</a></span>(<span class='no'>boston.utm</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>town</span><span class='kw'>=</span><span class='no'>boston.c</span>$<span class='no'>TOWN</span>), <span class='no'>mean</span>)
 <span class='no'>block.rel</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='graphneigh.html'>graph2nb</a></span>(<span class='fu'><a href='graphneigh.html'>relativeneigh</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>townaggr</span>[,<span class='fl'>2</span>:<span class='fl'>3</span>])),
  <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>townaggr</span>[,<span class='fl'>1</span>]), <span class='kw'>sym</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>block.rel</span></div><div class='output co'>#&gt; Neighbour list object:
-#&gt; Number of regions: 92 
-#&gt; Number of nonzero links: 240 
-#&gt; Percentage nonzero weights: 2.835539 
-#&gt; Average number of links: 2.608696 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>block.rel</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>block.rel</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>townaggr</span>[,<span class='fl'>2</span>:<span class='fl'>3</span>]))</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>boston.utm</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>18</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"lightgreen"</span>)</div><div class='img'><img src='nb2blocknb-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>block.nb</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2blocknb</span>(<span class='no'>block.rel</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>boston.c</span>$<span class='no'>TOWN</span>))
-<span class='no'>block.nb</span></div><div class='output co'>#&gt; Neighbour list object:
-#&gt; Number of regions: 506 
-#&gt; Number of nonzero links: 15234 
-#&gt; Percentage nonzero weights: 5.949945 
-#&gt; Average number of links: 30.10672 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>block.nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>block.nb</span>, <span class='no'>boston.utm</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>boston.utm</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>18</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"lightgreen"</span>)</div><div class='img'><img src='nb2blocknb-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='compon.html'>n.comp.nb</a></span>(<span class='no'>block.nb</span>)$<span class='no'>nc</span></div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>boston.c</span>$<span class='no'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>))</div><div class='output co'>#&gt; 
-#&gt; 	Moran I test under randomisation
-#&gt; 
-#&gt; data:  boston.c$CMEDV  
-#&gt; weights: nb2listw(boston.soi)    
-#&gt; 
-#&gt; Moran I statistic standard deviate = 21.786, p-value &lt; 2.2e-16
-#&gt; alternative hypothesis: greater
-#&gt; sample estimates:
-#&gt; Moran I statistic       Expectation          Variance 
-#&gt;       0.690285059      -0.001980198       0.001009685 
-#&gt; </div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>boston.c</span>$<span class='no'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>block.nb</span>))</div><div class='output co'>#&gt; 
-#&gt; 	Moran I test under randomisation
-#&gt; 
-#&gt; data:  boston.c$CMEDV  
-#&gt; weights: nb2listw(block.nb)    
-#&gt; 
-#&gt; Moran I statistic standard deviate = 22.455, p-value &lt; 2.2e-16
-#&gt; alternative hypothesis: greater
-#&gt; sample estimates:
-#&gt; Moran I statistic       Expectation          Variance 
-#&gt;      0.3122905961     -0.0019801980      0.0001958827 
-#&gt; </div><div class='input'><span class='no'>block.nb</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2blocknb</span>(<span class='kw'>NULL</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>boston.c</span>$<span class='no'>TOWN</span>))
-<span class='no'>block.nb</span></div><div class='output co'>#&gt; Neighbour list object:
-#&gt; Number of regions: 506 
-#&gt; Number of nonzero links: 4868 
-#&gt; Percentage nonzero weights: 1.901295 
-#&gt; Average number of links: 9.620553 
-#&gt; 17 regions with no links:
-#&gt; 1 55 56 57 58 65 196 257 284 285 286 287 342 343 348 349 354</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>block.nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>block.nb</span>, <span class='no'>boston.utm</span>)</div><div class='img'><img src='nb2blocknb-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='compon.html'>n.comp.nb</a></span>(<span class='no'>block.nb</span>)$<span class='no'>nc</span></div><div class='output co'>#&gt; [1] 92</div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>boston.c</span>$<span class='no'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>block.nb</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
-#&gt; 	Moran I test under randomisation
-#&gt; 
-#&gt; data:  boston.c$CMEDV  
-#&gt; weights: nb2listw(block.nb, zero.policy = TRUE)  n reduced by no-neighbour observations
-#&gt;   
-#&gt; 
-#&gt; Moran I statistic standard deviate = 21.145, p-value &lt; 2.2e-16
-#&gt; alternative hypothesis: greater
-#&gt; sample estimates:
-#&gt; Moran I statistic       Expectation          Variance 
-#&gt;      0.6188830566     -0.0020491803      0.0008623116 
-#&gt; </div></pre>
+<span class='no'>block.rel</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>block.rel</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>block.rel</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='no'>townaggr</span>[,<span class='fl'>2</span>:<span class='fl'>3</span>]))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>boston.utm</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>18</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"lightgreen"</span>)
+<span class='no'>block.nb</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2blocknb</span>(<span class='no'>block.rel</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>boston.c</span>$<span class='no'>TOWN</span>))
+<span class='no'>block.nb</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>block.nb</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>block.nb</span>, <span class='no'>boston.utm</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>boston.utm</span>, <span class='kw'>pch</span><span class='kw'>=</span><span class='fl'>18</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"lightgreen"</span>)
+<span class='fu'><a href='compon.html'>n.comp.nb</a></span>(<span class='no'>block.nb</span>)$<span class='no'>nc</span>
+<span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>boston.c</span>$<span class='no'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>))
+<span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>boston.c</span>$<span class='no'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>block.nb</span>))
+<span class='no'>block.nb</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2blocknb</span>(<span class='kw'>NULL</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>boston.c</span>$<span class='no'>TOWN</span>))
+<span class='no'>block.nb</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>block.nb</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>block.nb</span>, <span class='no'>boston.utm</span>)
+<span class='fu'><a href='compon.html'>n.comp.nb</a></span>(<span class='no'>block.nb</span>)$<span class='no'>nc</span>
+<span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>boston.c</span>$<span class='no'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>block.nb</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

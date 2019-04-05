@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
 <div id="getting-the-data-into-r" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-the-data-into-r" class="anchor"></a>Getting the data into R</h2>
-<p>We will be using the <strong>spdep</strong> and <strong>spreg</strong> packages, here version: spdep, version 1.1-1, 2019-03-24, the <strong>sf</strong> package and the <strong>tmap</strong> package. The data from the sources referred to above is documented in the <a href="https://nowosad.github.io/spData/reference/nc.sids.html">help page</a> for the <code>nc.sids</code> data set in <strong>spData</strong>. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the <strong>maptools</strong> package.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.</p>
+<p>We will be using the <strong>spdep</strong> and <strong>spreg</strong> packages, here version: spdep, version 1.1-2, 2019-04-05, the <strong>sf</strong> package and the <strong>tmap</strong> package. The data from the sources referred to above is documented in the <a href="https://nowosad.github.io/spData/reference/nc.sids.html">help page</a> for the <code>nc.sids</code> data set in <strong>spData</strong>. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the <strong>maptools</strong> package.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(spdep)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2">nc &lt;-<span class="st"> </span><span class="kw">st_read</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shapes/sids.shp"</span>, <span class="dt">package=</span><span class="st">"spData"</span>)[<span class="dv">1</span>], <span class="dt">quiet=</span><span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">st_crs</span>(nc) &lt;-<span class="st"> "+proj=longlat +datum=NAD27"</span></a>

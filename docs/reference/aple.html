@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -192,19 +192,9 @@
 #&gt; sample estimates:
 #&gt; Moran I statistic       Expectation          Variance 
 #&gt;       0.133391679      -0.002004008       0.000246570 
-#&gt; </div><div class='input'><span class='fu'>aple</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>as.vector</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='no'>wheat</span>$<span class='no'>yield_detrend</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>FALSE</span>)), <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbr12</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; [1] 0.6320073</div><div class='input'><span class='fu'><a href='spdep-deprecated.html'>errorsarlm</a></span>(<span class='no'>yield_detrend</span> ~ <span class='fl'>1</span>, <span class='no'>wheat</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbr12</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Function errorsarlm moved to the spatialreg package</span></div><div class='output co'>#&gt; 
-#&gt; Call:
-#&gt; spatialreg::errorsarlm(formula = formula, data = data, listw = listw, 
-#&gt;     na.action = na.action, Durbin = Durbin, etype = etype, method = method, 
-#&gt;     quiet = quiet, zero.policy = zero.policy, interval = interval, 
-#&gt;     tol.solve = tol.solve, trs = trs, control = control)
-#&gt; Type: error 
-#&gt; 
-#&gt; Coefficients:
-#&gt;       lambda  (Intercept) 
-#&gt;  0.563236586 -0.001989965 
-#&gt; 
-#&gt; Log likelihood: -205.0674 </div></pre>
+#&gt; </div><div class='input'><span class='fu'>aple</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>as.vector</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='no'>wheat</span>$<span class='no'>yield_detrend</span>, <span class='kw'>scale</span><span class='kw'>=</span><span class='fl'>FALSE</span>)), <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbr12</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; [1] 0.6320073</div><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='spdep-deprecated.html'>errorsarlm</a></span>(<span class='no'>yield_detrend</span> ~ <span class='fl'>1</span>, <span class='no'>wheat</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbr12</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
