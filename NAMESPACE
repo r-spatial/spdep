@@ -13,7 +13,7 @@ importFrom(stats, influence.measures, lag, punif, lm, var, integrate,
              "na.omit", "naresid", "optimise", "printCoefmat", "resid",
              "terms", "uniroot", "weighted.residuals", "weights")
 
-#importFrom(stats, model.matrix, model.response, model.extract, coefficients, residuals, deviance, optimize, optim, nlminb, na.fail, as.formula, terms, coef, gaussian, model.weights, model.offset, glm.fit, logLik, predict, formula, lm.fit, model.frame, AIC, anova, napredict, nlm, optimHess, resid, fitted, weighted.residuals, weights, naresid, optimise, fitted.values, delete.response, printCoefmat, uniroot, na.omit, predict.lm, "dbeta", "rchisq", "runif", "spline")
+importFrom(stats, model.matrix, model.response, model.extract, coefficients, residuals, deviance, optimize, optim, nlminb, na.fail, as.formula, terms, coef, gaussian, model.weights, model.offset, glm.fit, logLik, predict, formula, lm.fit, model.frame, AIC, anova, napredict, nlm, optimHess, resid, fitted, weighted.residuals, weights, naresid, optimise, fitted.values, delete.response, printCoefmat, uniroot, na.omit, predict.lm, "dbeta", "rchisq", "runif", "spline") # deprecated
 
 importFrom(deldir, deldir)
 importFrom(boot, boot)
@@ -23,26 +23,26 @@ importFrom(utils, write.table, object.size, read.table, read.csv, packageDescrip
 importFrom(grDevices, rainbow)
 if (.Platform$OS.type == "windows") importFrom(grDevices, bringToTop)
 
-#importFrom(MASS, mvrnorm)
-#importFrom(coda, as.mcmc, HPDinterval)
-#importFrom(splines, interpSpline)
-#importFrom(nlme, fdHess)
-#if (R.version$major >= 3) {
-#  if (R.version$major == 3 && R.version$minor < 3) {
-#    import(Matrix)
-#  } else if (R.version$major == 3 && R.version$minor >= 3) {
-#    import(Matrix, except=c("expm"))
-#  } else if(R.version$major > 3)
-#    import(Matrix, except=c("expm"))
-#} else {
-#  import(Matrix)
-#}
-#importFrom(LearnBayes, rwmetrop)
-#importFrom(gmodels, estimable)
-#importFrom(expm, expAtv, expm)
+importFrom(MASS, mvrnorm) # deprecated
+importFrom(coda, as.mcmc, HPDinterval) # deprecated
+importFrom(splines, interpSpline) # deprecated
+importFrom(nlme, fdHess) # deprecated
+if (R.version$major >= 3) { # deprecated
+  if (R.version$major == 3 && R.version$minor < 3) {
+    import(Matrix)
+  } else if (R.version$major == 3 && R.version$minor >= 3) {
+    import(Matrix, except=c("expm"))
+  } else if(R.version$major > 3)
+    import(Matrix, except=c("expm"))
+} else {
+  import(Matrix)
+}
+importFrom(LearnBayes, rwmetrop) # deprecated
+importFrom(gmodels, estimable) # deprecated
+importFrom(expm, expAtv, expm) # deprecated
 
-importMethodsFrom("Matrix", "%*%", "crossprod", "t", "diag", "rowSums", "colSums")
-importFrom("Matrix", "Diagonal", "drop")
+#importMethodsFrom("Matrix", "%*%", "crossprod", "t", "diag", "rowSums", "colSums") # defunct
+#importFrom("Matrix", "Diagonal", "drop") # defunct
 
 exportMethods(coerce)
 
@@ -266,8 +266,8 @@ S3method(print, summary.stsls) # deprecated
 S3method(print, lagImpact) # deprecated
 S3method(plot, lagImpact) # deprecated
 S3method(summary, lagImpact) # deprecated
-#S3method(HPDinterval, lagImpact) # deprecated
-#export(HPDinterval.lagImpact) # deprecated
+S3method(HPDinterval, lagImpact) # deprecated
+export(HPDinterval.lagImpact) # deprecated
 S3method(print, summary.lagImpact) # deprecated
 
 S3method(print, WXImpact) # deprecated

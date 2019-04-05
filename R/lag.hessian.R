@@ -1,6 +1,6 @@
 # Copyright 2009-2013 by Roger Bivand
 #
-if (FALSE) {
+#if (FALSE) {
 getVmatl <- function(coefs, env, s2, trs, tol.solve=1.0e-10, optim=FALSE,
     optimM="optimHess") {
     if (optim) {
@@ -94,4 +94,4 @@ insert_asy <- function(coefs, env, s2, mat, trs) {
     omat[1, 2] <- omat[2, 1] <- -trB(coefs[1], trs)/s2
     omat
 }
-}
+#}

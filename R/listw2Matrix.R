@@ -5,31 +5,37 @@ setAs("listw", "CsparseMatrix", function(from) {
 if (requireNamespace("spatialreg", quietly=TRUE)) {
   as(spatialreg::as_dgRMatrix_listw(from), "CsparseMatrix")
 } else {
-  stop("install the spatialreg package")
+  as(as_dgRMatrix_listw(from), "CsparseMatrix")
+#  stop("install the spatialreg package")
 }
 })
 setAs("listw", "RsparseMatrix", function(from) {
 if (requireNamespace("spatialreg", quietly=TRUE)) {
   spatialreg::as_dgRMatrix_listw(from)
 } else {
-  stop("install the spatialreg package")
+  as_dgRMatrix_listw(from)
+#  stop("install the spatialreg package")
 }
 })
 setAs("listw", "symmetricMatrix", function(from) {
 if (requireNamespace("spatialreg", quietly=TRUE)) {
-  as_dsTMatrix_listw(from)
+  spatialreg::as_dsTMatrix_listw(from)
 } else {
-  stop("install the spatialreg package")
+  as_dsTMatrix_listw(from)
+#  stop("install the spatialreg package")
 }
 })
 
 
 as_dgRMatrix_listw <- function(listw) {
     .Deprecated("spatialreg::as_dgRMatrix_listw", msg="Function as_dgRMatrix_listw moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::as_dgRMatrix_listw(listw=listw))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::as_dgRMatrix_listw(listw=listw))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	if(!inherits(listw, "listw")) stop("not a listw object")
 	n <- length(listw$neighbours)
 	cardw <- card(listw$neighbours)
@@ -43,14 +49,17 @@ as_dgRMatrix_listw <- function(listw) {
         rownames(res) <- colnames(res)
 	res
 }
-}
+#}
 
 as_dsTMatrix_listw <- function(listw) {
     .Deprecated("spatialreg::as_dsTMatrix_listw", msg="Function as_dsTMatrix_listw moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::as_dsTMatrix_listw(listw=listw))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::as_dsTMatrix_listw(listw=listw))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	if (!inherits(listw, "listw")) stop("not a listw object")
 	if (!is.symmetric.glist(listw$neighbours, listw$weights))
 		stop("not a symmetric matrix")
@@ -67,49 +76,63 @@ as_dsTMatrix_listw <- function(listw) {
         rownames(res) <- colnames(res)
 	res
 }
-}
+#}
 
 as_dsCMatrix_I <- function(n) {
     .Deprecated("spatialreg::as_dsCMatrix_I", msg="Function as_dsCMatrix_I moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::as_dsCMatrix_I(n=n))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::as_dsCMatrix_I(n=n))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	if (n < 1) stop("matrix must have positive dimensions")
 	as(as(Diagonal(n), "symmetricMatrix"), "CsparseMatrix")
 }
-}
+#}
 
 as_dsCMatrix_IrW <- function(W, rho) {
     .Deprecated("spatialreg::as_dsCMatrix_IrW", msg="Function as_dsCMatrix_IrW moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::as_dsCMatrix_IrW(W=W, rho=rho))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::as_dsCMatrix_IrW(W=W, rho=rho))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	stopifnot(is(W, "symmetricMatrix"))
 	n <- dim(W)[1]
 	as_dsCMatrix_I(n) - rho * W
 }
-}
+#}
 
 Jacobian_W <- function(W, rho) {
     .Deprecated("spatialreg::Jacobian_W", msg="Function Jacobian_W moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::Jacobian_W(W=W, rho=rho))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::Jacobian_W(W=W, rho=rho))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	sum(2*log(diag(chol(as_dsCMatrix_IrW(W, rho)))))
 }
-}
+#}
 
 
 listw2U_Matrix <- function(lw) {
     .Deprecated("spatialreg::listw2U_Matrix", msg="Function listw2U_Matrix moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::listw2U_Matrix(lw=lw))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::listw2U_Matrix(lw=lw))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 
 	as(as(0.5 * (lw + t(lw)), "symmetricMatrix"), "CsparseMatrix")
 }
-}
+#}
+
+

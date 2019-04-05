@@ -3,32 +3,41 @@
 
 residuals.sarlm <- function(object, ...) {
     .Deprecated("spatialreg::residuals.sarlm", msg="Method residuals.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::residuals.sarlm(object=object, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::residuals.sarlm(object=object, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
   if (is.null(object$na.action))
     object$residuals
   else napredict(object$na.action, object$residuals)
 }
-}
+#}
 
 deviance.sarlm <- function(object, ...) {
     .Deprecated("spatialreg::deviance.sarlm", msg="Method deviance.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::deviance.sarlm(object=object, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::deviance.sarlm(object=object, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
   object$SSE
 }
-}
+#}
 
 coef.sarlm <- function(object, ...) {
     .Deprecated("spatialreg::coef.sarlm", msg="Method coef.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::coef.sarlm(object=object, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::coef.sarlm(object=object, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
   ret <- NULL
   #	ret <- sqrt(object$s2)
   #	names(ret) <- "sigma"
@@ -41,14 +50,17 @@ coef.sarlm <- function(object, ...) {
   
   ret
 }
-}
+#}
 
 vcov.sarlm <- function(object, ...) {
     .Deprecated("spatialreg::vcov.sarlm", msg="Method vcov.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::vcov.sarlm(object=object, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::vcov.sarlm(object=object, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
   if (object$ase) res <- object$resvar[-1,-1]
   else {
     if (!is.null(object$fdHess)) {
@@ -60,29 +72,35 @@ vcov.sarlm <- function(object, ...) {
   }
   res
 }
-}
+#}
 
 
 fitted.sarlm <- function(object, ...) {
     .Deprecated("spatialreg::fitted.sarlm", msg="Method fitted.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::fitted.sarlm(object=object, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::fitted.sarlm(object=object, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
   if (is.null(object$na.action))
     object$fitted.values
   else napredict(object$na.action, object$fitted.values)
 }
-}
+#}
 
 
 impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
   useHESS=NULL, tol=1e-6, empirical=FALSE, Q=NULL) {
     .Deprecated("spatialreg::impacts.sarlm", msg="Method impacts.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::impacts.sarlm(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues, useHESS=useHESS, tol=tol, empirical=empirical, Q=Q))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::impacts.sarlm(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues, useHESS=useHESS, tol=tol, empirical=empirical, Q=Q))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     if (obj$type == "error") {
         if (obj$etype == "emixed") {
             return(impactSDEM(obj))
@@ -200,7 +218,7 @@ impacts.sarlm <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
     attr(res, "iClass") <- class(obj)
     res
 }
-}
+#}
 
 
 
@@ -208,11 +226,14 @@ predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.
                           zero.policy=NULL, legacy=TRUE, legacy.mixed=FALSE, power=NULL, order=250, tol=.Machine$double.eps^(3/5), #pred.se=FALSE, lagImpact=NULL, 
                           spChk=NULL, ...) {
     .Deprecated("spatialreg::predict.sarlm", msg="Method predict.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    if (!is.null(newdata)) stop("use spatialreg::predict.sarlm() directly")
-    return(spatialreg::predict.sarlm(object=object, newdata=newdata, listw=listw, pred.type=pred.type, all.data=all.data, zero.policy=zero.policy, legacy=legacy, legacy.mixed=legacy.mixed, power=power, order=order, tol=tol, spChk=spChk, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      if (!is.null(newdata)) stop("use spatialreg::predict.sarlm() directly")
+      return(spatialreg::predict.sarlm(object=object, newdata=newdata, listw=listw, pred.type=pred.type, all.data=all.data, zero.policy=zero.policy, legacy=legacy, legacy.mixed=legacy.mixed, power=power, order=order, tol=tol, spChk=spChk, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
   if (is.null(zero.policy))
     zero.policy <- get("zeroPolicy", envir = .spdepOptions)
   stopifnot(is.logical(zero.policy))
@@ -975,9 +996,9 @@ predict.sarlm <- function(object, newdata=NULL, listw=NULL, pred.type="TS", all.
   class(res) <- "sarlm.pred"
   res
 }
-}
+#}
 
-if (FALSE) {
+#if (FALSE) {
 # decompose a listw object into Wss Wso Wos and Woo sparse matrices
 .listw.decompose <- function(listw, region.id.data, region.id.newdata, type = c("Wss", "Wos", "Wso", "Woo")) { # TODO: hidden? in this file? zero.policy?
   if (is.null(listw) || !inherits(listw, "listw")) 
@@ -1001,19 +1022,22 @@ if (FALSE) {
     s$Woo <- W[region.id.newdata, region.id.newdata, drop=F]
   return(s)
 }
-}
+#}
 
 print.sarlm.pred <- function(x, ...) {
     .Deprecated("spatialreg::print.sarlm.pred", msg="Method print.sarlm.pred moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::print.sarlm.pred(x=x, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::print.sarlm.pred(x=x, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
   res <- as.data.frame(x)
   print(res, ...)
   invisible(res)
 }
-}
+#}
 
 
 
@@ -1022,14 +1046,17 @@ as.data.frame.sarlm.pred <- function(x, ...) {
   #        signal=attr(x, "signal"))
   #fix bug when no signal or trend attributes
     .Deprecated("spatialreg::as.data.frame.sarlm.pred", msg="Method as.data.frame.sarlm.pred moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::as.data.frame.sarlm.pred(x=x, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::as.data.frame.sarlm.pred(x=x, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
   res <- data.frame(fit=as.vector(x))
   if(!is.null(attr(x, "region.id"))) row.names(res) <- attr(x, "region.id")
   if(!is.null(attr(x, "trend"))) res$trend <- attr(x, "trend")
   if(!is.null(attr(x, "signal"))) res$signal <- attr(x, "signal")
   res
 }
-}
+#}

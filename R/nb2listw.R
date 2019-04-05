@@ -112,10 +112,13 @@ nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 
 can.be.simmed <- function(listw) {
     .Deprecated("spatialreg::can.be.simmed", msg="Function can.be.simmed moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
     return(spatialreg::can.be.simmed(listw=listw))
-  if (FALSE) {
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	res <- is.symmetric.nb(listw$neighbours, FALSE)
 	if (res) {
 		if (attr(listw$weights, "mode") == "general")
@@ -123,15 +126,18 @@ can.be.simmed <- function(listw) {
 	} else return(res)
 	res
 }
-}
+#}
 
 
 similar.listw <- function(listw) {
     .Deprecated("spatialreg::similar.listw", msg="Function similar.listw moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::similar.listw(listw=listw))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::similar.listw(listw=listw))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	nbsym <- attr(listw$neighbours, "sym")
 	if(is.null(nbsym)) nbsym <- is.symmetric.nb(listw$neighbours, FALSE)
 	if (!nbsym) 
@@ -199,7 +205,7 @@ similar.listw <- function(listw) {
 	}
 	res
 }
-}
+#}
 
 #This code converts a "nb" object into a list of three elements 
 #(adj, weights, num) in the format required by WinBUGS

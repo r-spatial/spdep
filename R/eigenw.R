@@ -4,10 +4,13 @@
 eigenw <- function(listw, quiet=NULL)
 {
     .Deprecated("spatialreg::eigenw", msg="Function eigenw moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::eigenw(listw=listw, quiet=quiet))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::eigenw(listw=listw, quiet=quiet))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	if(!inherits(listw, "listw")) stop("not a listw object")
         if (is.null(quiet)) quiet <- !get("verbose", envir = .spdepOptions)
         stopifnot(is.logical(quiet))
@@ -23,14 +26,17 @@ eigenw <- function(listw, quiet=NULL)
 	}
 	e
 }
-}
+#}
 
 griffith_sone <- function(P, Q, type="rook") {
     .Deprecated("spatialreg::griffith_sone", msg="Function griffith_sone moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::griffith_sone(P=P, Q=Q, type=type))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::griffith_sone(P=P, Q=Q, type=type))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     stopifnot(P >= 1)
     stopifnot(Q >= 1)
     p <- seq(1:P)
@@ -45,16 +51,19 @@ griffith_sone <- function(P, Q, type="rook") {
     res <- sort(c(res0), decreasing=TRUE)
     res
 }
-}
+#}
 
 subgraph_eigenw <- function(nb, glist=NULL, style="W", zero.policy=NULL,
     quiet=NULL) {
     .Deprecated("spatialreg::subgraph_eigenw", msg="Function subgraph_eigenw moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::subgraph_eigenw(nb=nb, glist=glist, style=style, zero.policy=zero.policy,
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::subgraph_eigenw(nb=nb, glist=glist, style=style, zero.policy=zero.policy,
     quiet=quiet))
-  if (FALSE) {
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     if(!inherits(nb, "nb")) stop("Not a neighbours list")
     if (is.null(quiet)) quiet <- !get("verbose", envir = .spdepOptions)
     stopifnot(is.logical(quiet))
@@ -92,4 +101,5 @@ subgraph_eigenw <- function(nb, glist=NULL, style="W", zero.policy=NULL,
         stop("length mismatch, eout:", length(eout))
     eout
 }
-}
+#}
+

@@ -2,10 +2,13 @@
 
 jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NULL, which=1) {
     .Deprecated("spatialreg::jacobianSetup", msg="Function jacobianSetup moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::jacobianSetup(method=method, env=env, con=con, pre_eig=pre_eig, trs=trs, interval=interval, which=which))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::jacobianSetup(method=method, env=env, con=con, pre_eig=pre_eig, trs=trs, interval=interval, which=which))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     switch(method,
         eigen = {
             if (get("verbose", envir=env))
@@ -64,7 +67,7 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
         },
         spam = {
 #            if (!require(spam)) stop("spam not available")
-#          if (requireNamespace("spam", quietly = TRUE)) {
+          if (requireNamespace("spam", quietly = TRUE)) {
             if (get("listw", envir=env)$style %in% c("W", "S") &&
                 !get("can.sim", envir=env))
                 stop("spam method requires symmetric weights")
@@ -76,13 +79,13 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
                 cat("sparse matrix Cholesky decomposition\n")
             spam_setup(env, pivot=con$spamPivot, which=which)
             if (is.null(interval)) interval <- c(-1,0.999)
-#          } else {
-#            stop("spam not available")
-#          }
+          } else {
+            stop("spam not available")
+          }
         },
         spam_update = {
 #            if (!require(spam)) stop("spam not available")
-#          if (requireNamespace("spam", quietly = TRUE)) {
+          if (requireNamespace("spam", quietly = TRUE)) {
             if (get("listw", envir=env)$style %in% c("W", "S") &&
                 !get("can.sim", envir=env))
                 stop("spam method requires symmetric weights")
@@ -95,9 +98,9 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
             spam_update_setup(env, in_coef=con$in_coef,
                  pivot=con$spamPivot, which=which)
             if (is.null(interval)) interval <- c(-1,0.999)
-#          } else {
-#            stop("spam not available")
-#          }
+          } else {
+            stop("spam not available")
+          }
         },
         Chebyshev = {
             if (get("listw", envir=env)$style %in% c("W", "S") &&
@@ -177,4 +180,89 @@ jacobianSetup <- function(method, env, con, pre_eig=NULL, trs=NULL, interval=NUL
         stop("...\n\nUnknown method\n"))
     interval
 }
+#}
+
+
+#if (FALSE) {
+similar.listw_Matrix <- function(listw) {
+	nbsym <- attr(listw$neighbours, "sym")
+	if(is.null(nbsym)) nbsym <- is.symmetric.nb(listw$neighbours, FALSE)
+	if (!nbsym) 
+		stop("Only symmetric nb can yield similar to symmetric weights")
+	if (attr(listw$weights, "mode") == "general")
+		if (!attr(listw$weights, "glistsym"))
+			stop("General weights must be symmetric")
+	n <- length(listw$neighbours)
+	if (n < 1) stop("non-positive number of entities")
+	ww <- as(listw, "CsparseMatrix")
+	if (listw$style == "W") {
+		d <- attr(listw$weights, "comp")$d
+		d1 <- 1/(sqrt(d))
+		dd <- as(as(Diagonal(x=d), "symmetricMatrix"), "CsparseMatrix")
+		dd1 <- as(as(Diagonal(x=d1), "symmetricMatrix"),
+		    "CsparseMatrix")
+		ww1 <- dd %*% ww
+		res <- dd1 %*% ww1 %*% dd1
+	} else if (listw$style == "S") {
+		q <- attr(listw$weights, "comp")$q
+		Q <- attr(listw$weights, "comp")$Q
+		eff.n <- attr(listw$weights, "comp")$eff.n
+		q1 <- 1/(sqrt(q))
+		qq <- as(as(Diagonal(x=q), "symmetricMatrix"), "CsparseMatrix")
+		qq1 <- as(as(Diagonal(x=q1), "symmetricMatrix"),
+		    "CsparseMatrix")
+		ww0 <- (Q/eff.n) * ww
+		ww1 <- qq %*% ww0
+		sim0 <- qq1 %*% ww1 %*% qq1
+		res <- (eff.n/Q) * sim0
+	} else stop("Conversion not suitable for this weights style")
+	res
 }
+
+
+similar.listw_spam <- function(listw) {
+    if (requireNamespace("spam", quietly = TRUE)) {
+#        if (!require(spam)) stop("spam not available")
+	nbsym <- attr(listw$neighbours, "sym")
+	if(is.null(nbsym)) nbsym <- is.symmetric.nb(listw$neighbours, FALSE)
+	if (!nbsym) 
+		stop("Only symmetric nb can yield similar to symmetric weights")
+	if (attr(listw$weights, "mode") == "general")
+		if (!attr(listw$weights, "glistsym"))
+			stop("General weights must be symmetric")
+	n <- length(listw$neighbours)
+	if (n < 1) stop("non-positive number of entities")
+	sww <- as.spam.listw(listw)
+	if (listw$style == "W") {
+		sd <- attr(listw$weights, "comp")$d
+		sd1 <- 1/(sqrt(sd))
+                if (any(!is.finite(sd1))) {
+                    sd1[!is.finite(sd1)] <- 0
+                    warning("non-finite inverse diagonal values set to zero")
+                }
+		sdd <- spam::diag.spam(sd, n, n)
+		sdd1 <- spam::diag.spam(sd1, n, n)
+		sww1 <- sdd %*% sww
+		res <- sdd1 %*% sww1 %*% sdd1
+	} else if (listw$style == "S") {
+		q <- attr(listw$weights, "comp")$q
+		Q <- attr(listw$weights, "comp")$Q
+		eff.n <- attr(listw$weights, "comp")$eff.n
+		q1 <- 1/(sqrt(q))
+                if (any(!is.finite(q1))) {
+                    sd1[!is.finite(q1)] <- 0
+                    warning("non-finite inverse diagonal values set to zero")
+                }
+		qq <- spam::diag.spam(q, n, n)
+		qq1 <- spam::diag.spam(q1, n, n)
+		ww0 <- (Q/eff.n) * sww
+		ww1 <- qq %*% ww0
+		sim0 <- qq1 %*% ww1 %*% qq1
+		res <- (eff.n/Q) * sim0
+	} else stop("Conversion not suitable for this weights style")
+	return(res)
+    } else {
+        stop("spam not available")
+    }
+}
+#}

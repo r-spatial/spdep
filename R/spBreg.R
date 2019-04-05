@@ -5,10 +5,13 @@
 spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     zero.policy=NULL, control=list()) {
     .Deprecated("spatialreg::spBreg_lag", msg="Function spBreg_lag moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::spBreg_lag(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::spBreg_lag(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
 #control
@@ -227,7 +230,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
         ys = y - rho*wy          
         b = crossprod(x, ys) + sige*TIc
         b0 = AI %*% b # see eq 5.29, p. 140
-        bhat = #MASS::mvrnorm(1, b0, sige*AI) #norm_rnd(sige*AI) + b0;  
+        bhat = MASS::mvrnorm(1, b0, sige*AI) #norm_rnd(sige*AI) + b0;  
         bsave[iter, 1:k] = as.vector(bhat)
 #        nano_1 <- nano_1 + microbenchmark::get_nanotime() - nano_p
           
@@ -349,7 +352,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
 
     mat <- cbind(bsave, psave, ssave)
     colnames(mat) <- c(colnames(x), "rho", "sige")
-    res <- #coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
+    res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
     means <- summary(res)$statistics[,1]
     beta <- means[1:(length(means)-2)]
     rho <- means[(length(means)-1)]
@@ -379,17 +382,19 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
 
 #output mcmc object
 }
-}
+#}
 
 
 impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
     .Deprecated("spatialreg::impacts.MCMC_sar_g", msg="Method impacts.MCMC_sar_g moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::impacts.MCMC_sar_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
-    Q=Q))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::impacts.MCMC_sar_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues, Q=Q))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     if (is.null(listw) && !is.null(attr(obj, "listw_style")) && 
         attr(obj, "listw_style") != "W")
         stop("Only row-standardised weights supported")
@@ -478,7 +483,7 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 
 
 }
-}
+#}
 
 
 # translated from Matlab code sem_g.m in the Spatial Econometrics toolbox by
@@ -488,10 +493,13 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     zero.policy=NULL, control=list()) {
     .Deprecated("spatialreg::spBreg_err", msg="Function spBreg_err moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::spBreg_err(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, etype=etype, zero.policy=zero.policy, control=control))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::spBreg_err(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, etype=etype, zero.policy=zero.policy, control=control))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
 #control
@@ -736,7 +744,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
         yss = y - lambda*wy
         b = crossprod(xss, yss) + sige*TIc
         b0 = AI %*% b
-        bhat = #MASS::mvrnorm(1, b0, sige*AI)
+        bhat = MASS::mvrnorm(1, b0, sige*AI)
         bsave[iter, 1:k] = as.vector(bhat)
 
 	#update sige:
@@ -822,7 +830,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 
     mat <- cbind(bsave, psave, ssave)
     colnames(mat) <- c(colnames(x), "lambda", "sige")
-    res <- #coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
+    res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
 
     emixedImps <- NULL
     if (etype == "emixed") {
@@ -939,16 +947,19 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 #output mcmc object
 
 }
-}
+#}
 
 impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
     .Deprecated("spatialreg::impacts.MCMC_sem_g", msg="Method impacts.MCMC_sem_g moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::impacts.MCMC_sem_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::impacts.MCMC_sem_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
     Q=Q))
-  if (FALSE) {
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     emixedImps <- attr(obj, "emixedImps")
     if (is.null(emixedImps)) {
         stop("No indirect impacts, use summary()")
@@ -957,7 +968,7 @@ impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     k <- attr(obj, "k")
     impactsWX(emixedImps, n, k, type="SDEM", method="MCMC")
 }
-}
+#}
 
 
 # translated from Matlab code sac_g.m in the Spatial Econometrics toolbox by
@@ -967,10 +978,13 @@ impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action, 
     Durbin, type, zero.policy=NULL, control=list()) {
     .Deprecated("spatialreg::spBreg_sac", msg="Function spBreg_sac moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::spBreg_sac(formula=formula, data=data, listw=listw, listw2=listw2, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::spBreg_sac(formula=formula, data=data, listw=listw, listw2=listw2, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     timings <- list()
     .ptime_start <- proc.time()
 #control
@@ -1221,7 +1235,7 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
         yss = y - rho*wy -lambda*w2y + rho*lambda*w2wy
         b = crossprod(xss, yss) + sige*TIc
         b0 = AI %*% b
-        bhat = #MASS::mvrnorm(1, b0, sige*AI)
+        bhat = MASS::mvrnorm(1, b0, sige*AI)
         bsave[iter, 1:k] = as.vector(bhat)
           
           ##% update sige
@@ -1333,7 +1347,7 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
 
     mat <- cbind(bsave, psave, lsave, ssave)
     colnames(mat) <- c(colnames(x), "rho", "lambda", "sige")
-    res <- #coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
+    res <- coda::mcmc(mat, start=con$nomit+1, end=con$ndraw, thin=con$thin)
     means <- summary(res)$statistics[,1]
     beta <- means[1:(length(means)-3)]
     rho <- means[(length(means)-2)]
@@ -1362,17 +1376,20 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
 
 #output mcmc object
 }
-}
+#}
 
 
 impacts.MCMC_sac_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
     .Deprecated("spatialreg::impacts.MCMC_sac_g", msg="Method impacts.MCMC_sac_g moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::impacts.MCMC_sac_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::impacts.MCMC_sac_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
     Q=Q))
-  if (FALSE) {
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     obj_lag <- obj[, -(which(colnames(obj) == "lambda"))]
     attributes(obj_lag) <- c(attributes(obj_lag),
         attributes(obj)[5:13])
@@ -1391,4 +1408,4 @@ impacts.MCMC_sac_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     }
     res
 }
-}
+#}

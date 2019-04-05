@@ -4,10 +4,13 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
 	tol.solve=1.0e-10, llprof=NULL, interval1=NULL, interval2=NULL,
         trs1=NULL, trs2=NULL, control=list()) {
     .Deprecated("spatialreg::sacsarlm", msg="Function sacsarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::sacsarlm(formula=formula, data=data,listw=listw,listw2=listw2, na.action=na.action, Durbin=Durbin, type=type, method=method, quiet=quiet, zero.policy=zero.policy, tol.solve=tol.solve, llprof=llprof, interval1=interval1, interval2=interval2, trs1=trs1, trs2=trs2, control=control))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::sacsarlm(formula=formula, data=data,listw=listw,listw2=listw2, na.action=na.action, Durbin=Durbin, type=type, method=method, quiet=quiet, zero.policy=zero.policy, tol.solve=tol.solve, llprof=llprof, interval1=interval1, interval2=interval2, trs1=trs1, trs2=trs2, control=control))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
         timings <- list()
         .ptime_start <- proc.time()
         con <- list(fdHess=NULL, #LAPACK=FALSE,
@@ -404,9 +407,9 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
 	ret
 
 }
-}
+#}
 
-if (FALSE) {
+#if (FALSE) {
 sacsar_sse <- function(coefs, env) {
     rho <- coefs[1]
     lambda <- coefs[2]
@@ -473,5 +476,5 @@ f_sac_hess <- function(coefs, env) {
     if (!is.finite(ret)) return(-Inf)
    ret
 }
-}
+#}
 

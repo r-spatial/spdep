@@ -3,10 +3,13 @@
 
 anova.sarlm <- function(object, ...) {
     .Deprecated("spatialreg::anova.sarlm", msg="Method anova.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::anova.sarlm(object=object, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::anova.sarlm(object=object, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     if (length(list(object, ...)) > 1L) {
         getResponseFormula <- function (object) 
         {
@@ -77,6 +80,6 @@ anova.sarlm <- function(object, ...) {
         return(res)
     }
 }
-}
+#}
 
 

@@ -26,8 +26,8 @@ void hess_error_set(SEXP env); // deprecated
 void hess_lag_set(SEXP env); // deprecated
 
 SEXP card(SEXP nb);
-/*SEXP listw2dsT(SEXP nbs, SEXP wts, SEXP card, SEXP ncard2);
-SEXP listw2dgR(SEXP nbs, SEXP wts, SEXP card, SEXP ncard);*/
+SEXP listw2dsT(SEXP nbs, SEXP wts, SEXP card, SEXP ncard2); // deprecated
+SEXP listw2dgR(SEXP nbs, SEXP wts, SEXP card, SEXP ncard); // deprecated
 SEXP listw2sn(SEXP nbs, SEXP wts, SEXP card, SEXP ncard);
 SEXP dnearneigh(SEXP din1, SEXP din2, SEXP pnte, SEXP p, SEXP test, SEXP lonlat);
 SEXP gearyw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy, SEXP ftype);
@@ -42,11 +42,11 @@ SEXP spOverlap(SEXP bbbi, SEXP bbbj);
 SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs, SEXP dsnap, SEXP criterion, SEXP scale);
 SEXP symtest(SEXP nb, SEXP card, SEXP verbose);
 SEXP g_components(SEXP nblst, SEXP cmpnm);
-/*SEXP lmin21(SEXP nb, SEXP y, SEXP cy, SEXP card);
-SEXP lmin22(SEXP nb, SEXP y, SEXP cy, SEXP card, SEXP beta);
-SEXP lmin23(SEXP nb, SEXP y, SEXP cy, SEXP card, SEXP beta, SEXP tol);
-SEXP lmin3(SEXP nb, SEXP ev1, SEXP ev1_lag, SEXP n_nei, SEXP beta, SEXP tol);
-SEXP lmin3S(SEXP nb, SEXP ev1, SEXP ev1_lag, SEXP n_nei, SEXP card, SEXP beta, SEXP tol); deprecated */
+SEXP lmin21(SEXP nb, SEXP y, SEXP cy, SEXP card);
+SEXP lmin22(SEXP nb, SEXP y, SEXP cy, SEXP card, SEXP beta); // deprecated
+SEXP lmin23(SEXP nb, SEXP y, SEXP cy, SEXP card, SEXP beta, SEXP tol); // deprecated
+SEXP lmin3(SEXP nb, SEXP ev1, SEXP ev1_lag, SEXP n_nei, SEXP beta, SEXP tol); // deprecated
+SEXP lmin3S(SEXP nb, SEXP ev1, SEXP ev1_lag, SEXP n_nei, SEXP card, SEXP beta, SEXP tol); // deprecated
 
 void dfs(SEXP nblst, SEXP cmpnm, SEXP visited, int curcmp, int nodeid);
 void compute_gabriel(int *no_nodes, int *g1, int *g2, int *nogab, int *ngaballoc,  double *nodes_xd, double *nodes_yd);

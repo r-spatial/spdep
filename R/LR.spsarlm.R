@@ -4,10 +4,13 @@
 LR.sarlm <- function(x, y)
 {
     .Deprecated("spatialreg::LR.sarlm", msg="Method LR.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::LR.sarlm(x=x, y=y))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::LR.sarlm(x=x, y=y))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	if (!inherits(x, "logLik")) LLx <- logLik(x)
 	else LLx <- x
 	if (!inherits(y, "logLik")) LLy <- logLik(y)
@@ -29,14 +32,17 @@ LR.sarlm <- function(x, y)
 	class(res) <- "htest"
 	res
 }
-}
+#}
 
 logLik.sarlm <- function(object, ...) {
     .Deprecated("spatialreg::logLik.sarlm", msg="Method logLik.sarlm moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::logLik.sarlm(object=object, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::logLik.sarlm(object=object, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	LL <- c(object$LL)
 	class(LL) <- "logLik"
 	N <- length(residuals(object))
@@ -45,7 +51,7 @@ logLik.sarlm <- function(object, ...) {
 	attr(LL, "df") <- object$parameters
 	LL
 }
-}
+#}
 
 #residuals.sarlm <- function(object, ...) return(object$residuals)
 

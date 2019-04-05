@@ -2,10 +2,13 @@
 
 l_max <- function(lw, zero.policy=TRUE, control=list()) {
     .Deprecated("spatialreg::l_max", msg="Function l_max moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::l_max(lw=lw, zero.policy=zero.policy, control=control))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+        return(spatialreg::l_max(lw=lw, zero.policy=zero.policy, control=control))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     tol <- control$tol
     if (is.null(tol)) tol <- .Machine$double.eps^(1/2)
     stopifnot(is.numeric(tol))
@@ -65,22 +68,25 @@ l_max <- function(lw, zero.policy=TRUE, control=list()) {
             keepgoing <- FALSE
             break
         }
-        attr(lambda1, "k") <- k
-        attr(lambda1, "msg") <- msg
-        attr(lambda1, "constant") <- constant
-        attr(lambda1, "e1") <- nik
-        lambda1
     }
+    attr(lambda1, "k") <- k
+    attr(lambda1, "msg") <- msg
+    attr(lambda1, "constant") <- constant
+    attr(lambda1, "e1") <- nik
+    lambda1
 }
-}
+#}
 
 
 lextrB <- function(lw, zero.policy=TRUE, control=list()) {
     .Deprecated("spatialreg::lextrB", msg="Function lextrB moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::lextrB(lw=lw, zero.policy=zero.policy, control=control))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::lextrB(lw=lw, zero.policy=zero.policy, control=control))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 # must be binary listw object
   stopifnot(lw$style == "B")
   if (!is.symmetric.glist(lw$neighbours, lw$weights))
@@ -124,9 +130,9 @@ lextrB <- function(lw, zero.policy=TRUE, control=list()) {
     e1=attr(resl1, "e1")/c(resl1))
   res
 }
-}
+#}
 
-if (FALSE) {
+#if (FALSE) {
 lminC_2.3 <- function(lw, y, sse.new, crd, zero.policy=TRUE,
   control=list(
   trace=TRUE,
@@ -205,9 +211,9 @@ lminC_2.3 <- function(lw, y, sse.new, crd, zero.policy=TRUE,
   attr(lambda.n, "en") <- y
   lambda.n
 }
-}
+#}
 
-if (FALSE) {
+#if (FALSE) {
 lminC_2.2 <- function(lw, res_2.1, crd, zero.policy=TRUE,
   control=list(
   trace=TRUE,
@@ -262,9 +268,9 @@ lminC_2.2 <- function(lw, res_2.1, crd, zero.policy=TRUE,
   if (trace) cat("Phase 2.2:", n.switch3, "\n")
   y
 }
-}
+#}
 
-if (FALSE) {
+#if (FALSE) {
 lminC_2.1 <- function(lw, y, crd, zero.policy=TRUE,
   control=list(
   trace=TRUE,
@@ -354,5 +360,5 @@ lminC_2.1 <- function(lw, y, crd, zero.policy=TRUE,
   attr(y, "lm.y") <- lm.y
   y
 }
-}
+#}
 

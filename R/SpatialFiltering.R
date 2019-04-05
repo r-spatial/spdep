@@ -35,13 +35,16 @@ SpatialFiltering <- function (formula, lagformula=NULL, data=list(), na.action=n
 #  Version 0.9.1 - September 11, 2004
 # Adaptation to formula format Roger Bivand December 2005
     .Deprecated("spatialreg::SpatialFiltering", msg="Function SpatialFiltering moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::SpatialFiltering(formula=formula, lagformula=lagformula, data=data, na.action=na.action, nb=nb,
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::SpatialFiltering(formula=formula, lagformula=lagformula, data=data, na.action=na.action, nb=nb,
  glist=glist, style=style, zero.policy=zero.policy, tol=tol, zerovalue = zerovalue,
  ExactEV=ExactEV, symmetric=symmetric, alpha=alpha, alternative=alternative,
  verbose=verbose))
-  if (FALSE) {
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
     
     if (missing(nb)) stop("Neighbour list argument missing")
     if (missing(formula)) stop("Formula argument missing")
@@ -305,24 +308,30 @@ SpatialFiltering <- function (formula, lagformula=NULL, data=list(), na.action=n
     class(SFResult) <- "SFResult"
     return(SFResult)
 }
-}
+#}
 
 print.SFResult <- function(x, ...) {
     .Deprecated("spatialreg::print.SFResult", msg="Method print.SFResult moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::print.SFResult(x=x, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::print.SFResult(x=x, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
 	print(x$selection, ...)
 }
-}
+#}
 
 fitted.SFResult <- function(object, ...) {
     .Deprecated("spatialreg::fitted.SFResult", msg="Method fitted.SFResult moved to the spatialreg package")
-    if (!requireNamespace("spatialreg", quietly=TRUE))
-      stop("install the spatialreg package")
-    return(spatialreg::fitted.SFResult(object=object, ...))
-  if (FALSE) {
+#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#      stop("install the spatialreg package")
+    if (requireNamespace("spatialreg", quietly=TRUE)) {
+      return(spatialreg::fitted.SFResult(object=object, ...))
+    }
+    warning("install the spatialreg package")
+#  if (FALSE) {
         if (is.null(object$na.action)) {
 	    res <- object$dataset
         } else {
@@ -343,9 +352,9 @@ fitted.SFResult <- function(object, ...) {
         }
         res
 }
-}
+#}
 
-if (FALSE) {
+#if (FALSE) {
 GetMoranStat <- function(MSM, degfree) {
     #MSM    : M %*% S %*% M matrix
     #         M : projection matrix
@@ -360,6 +369,6 @@ GetMoranStat <- function(MSM, degfree) {
     V <- 2 * (degfree * t2 - t1 * t1)/(degfree * degfree * (degfree + 2))
     return(list(Mean=E,Var=V))     
 }
-}
+#}
 
 

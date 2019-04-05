@@ -25,8 +25,8 @@ static R_CallMethodDef CallEntries[] = {
     {"R_ml1_sse_env", (DL_FUNC) &R_ml1_sse_env, 3}, // deprecated
     {"R_ml2_sse_env", (DL_FUNC) &R_ml2_sse_env, 3}, // deprecated
     {"card", (DL_FUNC) &card, 1},
-/*    {"listw2dsT", (DL_FUNC) &listw2dsT, 4},
-    {"listw2dgR", (DL_FUNC) &listw2dgR, 4},*/
+    {"listw2dsT", (DL_FUNC) &listw2dsT, 4}, // deprecated
+    {"listw2dgR", (DL_FUNC) &listw2dgR, 4}, // deprecated
     {"listw2sn", (DL_FUNC) &listw2sn, 4},
     {"dnearneigh", (DL_FUNC) &dnearneigh, 6},
     {"gearyw", (DL_FUNC) &gearyw, 6},
@@ -41,12 +41,12 @@ static R_CallMethodDef CallEntries[] = {
     {"poly_loop2", (DL_FUNC) &poly_loop2, 8},
     {"symtest", (DL_FUNC) &symtest, 3},
     {"g_components", (DL_FUNC) &g_components, 2},
-/*    {"mom_calc_int2", (DL_FUNC) &mom_calc_int2, 5},
-    {"lmin21", (DL_FUNC) &lmin21, 4},
-    {"lmin22", (DL_FUNC) &lmin22, 5},
-    {"lmin23", (DL_FUNC) &lmin23, 6},
-    {"lmin3", (DL_FUNC) &lmin3, 6},
-    {"lmin3S", (DL_FUNC) &lmin3S, 7}, deprecated*/
+    {"mom_calc_int2", (DL_FUNC) &mom_calc_int2, 5},// deprecated
+    {"lmin21", (DL_FUNC) &lmin21, 4},// deprecated
+    {"lmin22", (DL_FUNC) &lmin22, 5},// deprecated
+    {"lmin23", (DL_FUNC) &lmin23, 6},// deprecated
+    {"lmin3", (DL_FUNC) &lmin3, 6},// deprecated
+    {"lmin3S", (DL_FUNC) &lmin3S, 7}, // deprecated
     {NULL, NULL, 0}
 };
 
