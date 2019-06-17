@@ -25,7 +25,7 @@ joincount.multi(fx, listw, zero.policy = FALSE,
 \value{
 A matrix with class \code{jcmulti} with row and column names for observed and expected counts, variance, and z-value.
 }
-\references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 20; Upton, G., Fingleton, B. 1985 Spatial data analysis by example: point pattern and quatitative data, Wiley, pp. 158--170.}
+\references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 20; Upton, G., Fingleton, B. 1985 Spatial data analysis by example: point pattern and qualitative data, Wiley, pp. 158--170.}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 \note{The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, \code{listw2U()} can be used to make the matrix symmetric. In non-symmetric weights matrix cases, the variance of the test statistic may be negative.
 }

@@ -1,4 +1,4 @@
-# Copyright 2001-2010 by Roger Bivand 
+# Copyright 2001-2019 by Roger Bivand 
 #
 #
 # Modified by Micah Altman 2010
@@ -20,7 +20,9 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
             }
             if (inherits(pl, "sfc")) {
                 if (length(grep("POLYGON", class(pl))) == 0L)
-                    stop("Polygon geometries required")
+                    pl <- try(st_cast(pl, "MULTIPOLYGON"), silent=TRUE)
+                    if (class(pl) == "try-error") 
+                      stop("Polygon geometries required")
                 if (attr(pl, "n_empty") > 0L) 
                     stop("Empty geometries found")
                 sf <- TRUE
