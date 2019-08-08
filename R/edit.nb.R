@@ -2,8 +2,8 @@
 #
 
 edit.nb <- function(name, coords, polys=NULL, ..., use_region.id=FALSE) {
-  if (Sys.getenv("RSTUDIO") == "1")
-    stop("do not use in Rstudio, use an R console session")
+  if (.Platform$GUI == "RStudio")
+    stop("do not use in RStudio, use an R console session")
   nb <- name
   cnb <- card(nb)
 # class to inherits Jari Oksanen 080603
