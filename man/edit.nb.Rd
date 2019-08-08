@@ -8,6 +8,8 @@ allow unneeded links to be deleted, and missing links to be inserted. It uses \c
 endpoints of the link to be deleted or added, and asks for confirmation before
 committing. If the result is not assigned to a new object, the editing
 will be lost - as in \code{edit}.
+
+This method relies on direct contact with the graphics device. Do not use in RStudio.
 }
 \usage{
 \method{edit}{nb}(name, coords, polys=NULL, ..., use_region.id=FALSE)
