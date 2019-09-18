@@ -141,7 +141,7 @@
 lextrB(lw, zero.policy = TRUE, control = list())
 lextrW(lw, zero.policy=TRUE, control=list())
 lextrS(lw, zero.policy=TRUE, control=list())
-i#l_max(lw, zero.policy=TRUE, control=list())
+#l_max(lw, zero.policy=TRUE, control=list())
 griffith_sone(P, Q, type="rook")
 subgraph_eigenw(nb, glist=NULL, style="W", zero.policy=NULL, quiet=NULL)
 mom_calc(lw, m)
