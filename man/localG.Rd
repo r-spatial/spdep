@@ -51,6 +51,13 @@ International), 261--277; Bivand RS, Wong DWS 2018 Comparing implementations of 
 
 \examples{
 data(getisord, package="spData")
+# spData 0.3.2 changes x, y, xyz object names to go_x, go_y, go_xyz to
+# avoid putting these objects into the global environment via lazy loading
+if (exists("go_xyz") && packageVersion("spData") >= "0.3.2") {
+  xyz <- go_xyz
+  x <- go_x
+  y <- go_y
+}
 xycoords <- cbind(xyz$x, xyz$y)
 nb30 <- dnearneigh(xycoords, 0, 30)
 G30 <- localG(xyz$val, nb2listw(nb30, style="B"))
