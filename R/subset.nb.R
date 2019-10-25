@@ -31,7 +31,11 @@ subset.nb <- function(x, subset, ...) {
     attr(z, "region.id") <- reg.id
     for (i in 1:length(xattrs)) {
 	if (xattrs[i] != "region.id")
+	    if(xattrs[i] == "names") {
+	       attr(z, xattrs[i]) <- subset.default(attr(x, xattrs[i]), subset)
+        } else {
 	    attr(z, xattrs[i]) <- attr(x, xattrs[i])
+        }
     }
     z <- sym.attr.nb(z)
     z
