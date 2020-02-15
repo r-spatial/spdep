@@ -33,7 +33,9 @@ knearneigh <- function(x, k=1, longlat=NULL, RANN=TRUE)
     if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
     if (!is.numeric(x)) stop("knearneigh: data non-numeric")
     if (!is.matrix(x)) stop("knearneigh: data not in matrix form")
-    stopifnot(ncol(x) == 2)
+# https://github.com/r-spatial/spdep/issues/38
+    if (ncol(x) > 2 && longlat == TRUE)
+        stop("ncol(x) > 2 only permitted if longlat is FALSE")
     if (any(is.na(x))) stop("knearneigh: data include NAs")
     if (longlat) {
         bb <- bbox(x)
@@ -43,17 +45,26 @@ knearneigh <- function(x, k=1, longlat=NULL, RANN=TRUE)
     if (!is.double(x)) storage.mode(x) <- "double"
     np <- nrow(x)
     dimension <- ncol(x)
-    if (dimension != 2) stop("knearneigh: only 2D data accepted")
+# https://github.com/r-spatial/spdep/issues/38
+#    if (dimension != 2) stop("knearneigh: only 2D data accepted")
     if (k >= np) stop("knearneigh: fewer data points than k")
     if (k > (np/3)) warning("k greater than one-third of the number of data points")
 # modified 140117 to handle zerodist points
 # (previous fix only worked for pairs and k>1)
-    zd <- zerodist(SpatialPoints(x))
-    if (!(nrow(zd) == 0)) warning("knearneigh: identical points found")
+# https://github.com/r-spatial/spdep/issues/38
+    zd <- any(duplicated(x)) #zerodist(SpatialPoints(x))
+    if (zd) {
+        if (dimension == 2) 
+            warning("knearneigh: identical points found")
+        else
+            stop("knearneigh: identical points found")
+    }
     useRANN <- RANN
     if (longlat) useRANN <- FALSE
-    if (nrow(zd) > 0) useRANN <- FALSE
+    if (zd) useRANN <- FALSE
     if (useRANN && !requireNamespace("RANN", quietly = TRUE)) useRANN <- FALSE
+# https://github.com/r-spatial/spdep/issues/38
+    if (dimension > 2 && !useRANN) stop("RANN required for ncol(x) > 2")
     if (useRANN) {
 #        xx <- cbind(x, out=rep(0, nrow(x)))
 #        out <- as.matrix(nn(xx, p=k)$nn.idx)

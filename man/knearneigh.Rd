@@ -12,8 +12,8 @@ knearneigh(x, k=1, longlat = NULL, RANN=TRUE)
 \arguments{
   \item{x}{matrix of point coordinates or a SpatialPoints object}
   \item{k}{number of nearest neighbours to be returned}
-  \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself}
-  \item{RANN}{logical value, if the RANN package is available, use for finding k nearest neighbours when longlat is FALSE, and when there are no identical points}
+  \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself; longlat will override RANN}
+  \item{RANN}{logical value, if the RANN package is available, use for finding k nearest neighbours when longlat is FALSE, and when there are no identical points; from \url{https://github.com/r-spatial/spdep/issues/38}, the input data may have more than two columns if RANN is used}
 }
 \details{
 The underlying C code is based on the \code{knn} function in the \pkg{class} package.
@@ -59,5 +59,11 @@ xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
   proj4string=CRS("+proj=longlat +ellps=GRS80"))
 gck4a.nb <- knn2nb(knearneigh(xy1, k=4))
 summary(gck4a.nb, xy1)
+# https://github.com/r-spatial/spdep/issues/38
+set.seed(1)
+x <- cbind(runif(50), runif(50), runif(50))
+out <- knearneigh(x, k=5)
+knn2nb(out)
+try(out <- knearneigh(rbind(x, x[1:10,]), k=5))
 }
 \keyword{spatial}
