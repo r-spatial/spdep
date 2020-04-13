@@ -11,7 +11,7 @@ poly2nb(pl, row.names = NULL, snap=sqrt(.Machine$double.eps),
 
 \arguments{
   \item{pl}{list of polygons of class extending \code{SpatialPolygons}, or an \code{sf} or \code{sfc} object containing non-empty (multi-)polygon objects}
-  \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}; if \code{polys} has a \code{region.id} attribute, it is copied to the neighbours list.}
+  \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}; if \code{pl} has \code{row.names}, they are used instead of the default sequence.}
   \item{snap}{boundary points less than \code{snap} distance apart are considered to indicate contiguity}
   \item{queen}{if TRUE, a single shared boundary point meets the contiguity condition, if FALSE, more than one shared point is required; note that more than one shared boundary point does not necessarily mean a shared boundary line}
   \item{useC}{default TRUE, doing the work loop in C, may be set to false to revert to R code calling two C functions in an \code{n*k} work loop, where \code{k} is the average number of candidate neighbours}
