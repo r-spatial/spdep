@@ -8,21 +8,29 @@
 
 <title>Find the minimal spanning tree — mstree • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,14 +38,14 @@
 
 
 
-<meta property="og:title" content="Find the minimal spanning tree — mstree" />
 
+<meta property="og:title" content="Find the minimal spanning tree — mstree" />
 <meta property="og:description" content="The minimal spanning tree is a connected graph with n nodes and n-1
   edges. This is a smaller class of possible partitions of a graph by
   pruning edges with high dissimilarity. If one edge is removed, the
   graph is partioned in two unconnected subgraphs. This function
   implements the algorithm due to Prim (1987)." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -51,9 +59,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -75,7 +84,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,11 +113,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -119,6 +127,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -130,17 +139,15 @@
     </div>
 
     <div class="ref-description">
-    
     <p>The minimal spanning tree is a connected graph with n nodes and n-1
   edges. This is a smaller class of possible partitions of a graph by
   pruning edges with high dissimilarity. If one edge is removed, the
   graph is partioned in two unconnected subgraphs. This function
   implements the algorithm due to Prim (1987).</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>mstree</span>(<span class='no'>nbw</span>, <span class='kw'>ini</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -154,7 +161,7 @@
       <td><p>The initial node in the minimal spanning tree.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The minimum spanning tree algorithm.</p>
@@ -165,25 +172,22 @@
   node in the set and a node out of the set and add this node in the
   set.</p>
 <p>The set of edges is a minimum spanning tree.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A matrix with n-1 rows and tree columns. Each row is two nodes and the
   cost, i. e. the edge and it cost.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>R. C. Prim (1957) Shortest connection networks and some
   generalisations. In: Bell System Technical Journal, 36, pp. 1389-1401</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>### loading data</span>
-<span class='no'>bh</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/shapes/bhicv.shp"</span>,
+<span class='no'>bh</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"etc/shapes/bhicv.shp"</span>,
       <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='fu'>st_crs</span>(<span class='no'>bh</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
 <span class='co'>### data padronized</span>
-<span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/scale'>scale</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>bh</span>)[,<span class='fl'>5</span>:<span class='fl'>8</span>]))
+<span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>bh</span>)[,<span class='fl'>5</span>:<span class='fl'>8</span>]))
 
 <span class='co'>### neighboorhod list </span>
 <span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>bh</span>)
@@ -195,42 +199,31 @@
 <span class='no'>nb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>lcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
 
 <span class='co'>### find a minimum spanning tree</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'>mstree</span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.002   0.000   0.003 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/dim'>dim</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt; [1] 97  3</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;      [,1] [,2]      [,3]
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'>mstree</span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>))</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.002   0.000   0.002 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt; [1] 97  3</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;      [,1] [,2]      [,3]
 #&gt; [1,]    5   12 1.2951120
 #&gt; [2,]   12   13 0.6141101
 #&gt; [3,]   13   11 0.7913745
 #&gt; [4,]   13    6 0.9775650
 #&gt; [5,]   11   31 0.9965625
-#&gt; [6,]   31   39 0.6915158</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>tail</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;       [,1] [,2]      [,3]
+#&gt; [6,]   31   39 0.6915158</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;       [,1] [,2]      [,3]
 #&gt; [92,]   89   90 2.5743702
 #&gt; [93,]   26   56 2.6235317
 #&gt; [94,]   86   87 2.6471303
 #&gt; [95,]   87   72 0.7874461
 #&gt; [96,]   49   36 2.8743677
 #&gt; [97,]   24   25 3.4675168</div><div class='input'><span class='co'>### the mstree plot</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/par'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>bh</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/grDevices/topics/gray'>gray</a></span>(<span class='fl'>.5</span>))</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>mst.bh</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>,
-     <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.6</span>, <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>fg</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='img'><img src='mstree-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>bh</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span>(<span class='fl'>.5</span>))</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mst.bh</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>,
+     <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.6</span>, <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>fg</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='mstree-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Renato M. Assuncao and Elias T. Krainski</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -238,13 +231,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

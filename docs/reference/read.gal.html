@@ -8,21 +8,29 @@
 
 <title>Read a GAL lattice file into a neighbours list — read.gal • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Read a GAL lattice file into a neighbours list — read.gal" />
 
+<meta property="og:title" content="Read a GAL lattice file into a neighbours list — read.gal" />
 <meta property="og:description" content="The function read.gal() reads a GAL lattice file into a neighbours list for spatial analysis. It will read old and new style (GeoDa) GAL files. The function read.geoda is a helper file for reading comma separated value data files, calling read.csv()." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,14 +135,12 @@
     </div>
 
     <div class="ref-description">
-    
-    <p>The function <code>read.gal()</code> reads a GAL lattice file into a neighbours list for spatial analysis. It will read old and new style (GeoDa) GAL files. The function <code>read.geoda</code> is a helper file for reading comma separated value data files, calling <code><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.csv()</a></code>.</p>
-    
+    <p>The function <code>read.gal()</code> reads a GAL lattice file into a neighbours list for spatial analysis. It will read old and new style (GeoDa) GAL files. The function <code>read.geoda</code> is a helper file for reading comma separated value data files, calling <code><a href='https://rdrr.io/r/utils/read.table.html'>read.csv()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>read.gal</span>(<span class='no'>file</span>, <span class='kw'>region.id</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>override.id</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='fu'>read.geoda</span>(<span class='no'>file</span>, <span class='kw'>row.names</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>skip</span><span class='kw'>=</span><span class='fl'>0</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -151,67 +158,50 @@
     </tr>
     <tr>
       <th>row.names</th>
-      <td><p>as in row.names in <code><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.csv()</a></code>, typically a character string naming the column of the file to be used</p></td>
+      <td><p>as in row.names in <code><a href='https://rdrr.io/r/utils/read.table.html'>read.csv()</a></code>, typically a character string naming the column of the file to be used</p></td>
     </tr>
     <tr>
       <th>skip</th>
-      <td><p>skip number of lines, as in <code><a href='https://www.rdocumentation.org/packages/utils/topics/read.table'>read.csv()</a></code></p></td>
+      <td><p>skip number of lines, as in <code><a href='https://rdrr.io/r/utils/read.table.html'>read.csv()</a></code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Luc Anselin (2003): Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, <a href='http://www.csiss.org/gispopsci/workshops/2011/PSU/readings/W15_Anselin2007.pdf'>http://www.csiss.org/gispopsci/workshops/2011/PSU/readings/W15_Anselin2007.pdf</a>; Luc Anselin (2003) <em>GeoDa 0.9 User's Guide</em>, pp. 80--81, Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, <a href='https://s3.amazonaws.com/geoda/software/docs/geoda093.pdf'>https://s3.amazonaws.com/geoda/software/docs/geoda093.pdf</a>; GAL - Geographical Algorithms Library, University of Newcastle</p>
-    
+    <p>Luc Anselin (2003): Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, now dead link: http://www.csiss.org/gispopsci/workshops/2011/PSU/readings/W15_Anselin2007.pdf; Luc Anselin (2003) <em>GeoDa 0.9 User's Guide</em>, pp. 80--81, Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, <a href='https://s3.amazonaws.com/geoda/software/docs/geoda093.pdf'>https://s3.amazonaws.com/geoda/software/docs/geoda093.pdf</a>; GAL - Geographical Algorithms Library, University of Newcastle</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function <code>read.gal()</code> returns an object of class <code>nb</code> with a list of integer vectors containing neighbour region number ids. The function <code>read.geoda</code> returns a data frame, and issues a warning if the returned object has only one column.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Example data originally downloaded from now dead link: http://sal.agecon.uiuc.edu/weights/zips/us48.zip</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='summary.nb.html'>summary.nb</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>us48.fipsno</span> <span class='kw'>&lt;-</span> <span class='fu'>read.geoda</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/weights/us48.txt"</span>,
+    <pre class="examples"><div class='input'><span class='no'>us48.fipsno</span> <span class='kw'>&lt;-</span> <span class='fu'>read.geoda</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"etc/weights/us48.txt"</span>,
  <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>])
-<span class='no'>us48.q</span> <span class='kw'>&lt;-</span> <span class='fu'>read.gal</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/weights/us48_q.GAL"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>],
+<span class='no'>us48.q</span> <span class='kw'>&lt;-</span> <span class='fu'>read.gal</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"etc/weights/us48_q.GAL"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>],
  <span class='no'>us48.fipsno</span>$<span class='no'>Fipsno</span>)
-<span class='no'>us48.r</span> <span class='kw'>&lt;-</span> <span class='fu'>read.gal</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/weights/us48_rk.GAL"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>],
+<span class='no'>us48.r</span> <span class='kw'>&lt;-</span> <span class='fu'>read.gal</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"etc/weights/us48_rk.GAL"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>],
  <span class='no'>us48.fipsno</span>$<span class='no'>Fipsno</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>state</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='no'>version</span>$<span class='no'>major</span>, <span class='no'>version</span>$<span class='no'>minor</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>)) <span class='kw'>&lt;</span> <span class='fl'>19</span>) {
- <span class='no'>m50.48</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/match'>match</a></span>(<span class='no'>us48.fipsno</span>$<span class='st'>"State.name"</span>, <span class='no'>state.name</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>state</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>version</span>$<span class='no'>major</span>, <span class='no'>version</span>$<span class='no'>minor</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>)) <span class='kw'>&lt;</span> <span class='fl'>19</span>) {
+ <span class='no'>m50.48</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span>(<span class='no'>us48.fipsno</span>$<span class='st'>"State.name"</span>, <span class='no'>state.name</span>)
 } <span class='kw'>else</span> {
- <span class='no'>m50.48</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/match'>match</a></span>(<span class='no'>us48.fipsno</span>$<span class='st'>"State_name"</span>, <span class='no'>state.name</span>)
+ <span class='no'>m50.48</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span>(<span class='no'>us48.fipsno</span>$<span class='st'>"State_name"</span>, <span class='no'>state.name</span>)
 }
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>us48.q</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>state.center</span>))[<span class='no'>m50.48</span>,])</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='no'>us48.r</span>, <span class='no'>us48.q</span>),
- <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>state.center</span>))[<span class='no'>m50.48</span>,], <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Differences between rook and queen criteria imported neighbours lists"</span>)</div><div class='img'><img src='read.gal-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>us48.q</span>, <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>state.center</span>))[<span class='no'>m50.48</span>,])</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='no'>us48.r</span>, <span class='no'>us48.q</span>),
+ <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>state.center</span>))[<span class='no'>m50.48</span>,], <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Differences between rook and queen criteria imported neighbours lists"</span>)</div><div class='img'><img src='read.gal-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#note">Note</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -219,13 +209,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

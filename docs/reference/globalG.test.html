@@ -8,21 +8,29 @@
 
 <title>Global G test for spatial autocorrelation — globalG.test • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Global G test for spatial autocorrelation — globalG.test" />
 
+<meta property="og:title" content="Global G test for spatial autocorrelation — globalG.test" />
 <meta property="og:description" content="The global G statistic for spatial autocorrelation, complementing the local Gi LISA measures: localG." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,14 +135,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>The global G statistic for spatial autocorrelation, complementing the local Gi LISA measures: <code><a href='localG.html'>localG</a></code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>globalG.test</span>(<span class='no'>x</span>, <span class='no'>listw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>,
  <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>adjust.n</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>B1correct</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>adjust.x</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>Arc_all_x</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -143,7 +150,7 @@
     </tr>
     <tr>
       <th>listw</th>
-      <td><p>a <code>listw</code> object created for example by <code>nb2listw</code>; if a sequence of distance bands is to be used, it is recommended that the weights style be binary (one of <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c("B", "C", "U")</a></code>).</p></td>
+      <td><p>a <code>listw</code> object created for example by <code>nb2listw</code>; if a sequence of distance bands is to be used, it is recommended that the weights style be binary (one of <code><a href='https://rdrr.io/r/base/c.html'>c("B", "C", "U")</a></code>).</p></td>
     </tr>
     <tr>
       <th>zero.policy</th>
@@ -174,7 +181,7 @@
       <td><p>default FALSE, if Arc_all_x=TRUE and adjust.x=TRUE, use the full x vector in part of the denominator term for G</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with class <code>htest</code> containing the following components:</p>
@@ -184,33 +191,30 @@
   <dt>alternative</dt><dd><p>a character string describing the alternative hypothesis.</p></dd>
   <dt>data.name</dt><dd><p>a character string giving the name(s) of the data.</p></dd>
 
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Getis. A, Ord, J. K. 1992 The analysis of spatial association by 
 use of distance statistics, <em>Geographical Analysis</em>, 24, p. 195; see
 also Getis. A, Ord, J. K. 1993 Erratum, <em>Geographical Analysis</em>, 25, 
 p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href='https://doi.org/10.1007/s11749-018-0599-x'>https://doi.org/10.1007/s11749-018-0599-x</a></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='localG.html'>localG</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>sidsrate79</span> <span class='kw'>&lt;-</span> (<span class='fl'>1000</span>*<span class='no'>nc.sids</span>$<span class='no'>SID79</span>)/<span class='no'>nc.sids</span>$<span class='no'>BIR79</span>
-<span class='no'>dists</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>33</span>, <span class='fl'>40</span>, <span class='fl'>50</span>, <span class='fl'>60</span>, <span class='fl'>70</span>, <span class='fl'>80</span>, <span class='fl'>90</span>, <span class='fl'>100</span>)
-<span class='no'>ndists</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>dists</span>)
-<span class='no'>ZG</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector</a></span>(<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>length</span><span class='kw'>=</span><span class='no'>ndists</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>ZG</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>dists</span>)
-<span class='no'>milesxy</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='no'>nc.sids</span>$<span class='no'>east</span>, <span class='no'>nc.sids</span>$<span class='no'>north</span>)
+<span class='no'>dists</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>33</span>, <span class='fl'>40</span>, <span class='fl'>50</span>, <span class='fl'>60</span>, <span class='fl'>70</span>, <span class='fl'>80</span>, <span class='fl'>90</span>, <span class='fl'>100</span>)
+<span class='no'>ndists</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>dists</span>)
+<span class='no'>ZG</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span>(<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>length</span><span class='kw'>=</span><span class='no'>ndists</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>ZG</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>dists</span>)
+<span class='no'>milesxy</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>nc.sids</span>$<span class='no'>east</span>, <span class='no'>nc.sids</span>$<span class='no'>north</span>)
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='no'>ndists</span>) {
   <span class='no'>thisnb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span>(<span class='no'>milesxy</span>, <span class='fl'>0</span>, <span class='no'>dists</span>[<span class='no'>i</span>])
   <span class='no'>thislw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>thisnb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
   <span class='no'>ZG</span><span class='kw'>[[</span><span class='no'>i</span>]] <span class='kw'>&lt;-</span> <span class='fu'>globalG.test</span>(<span class='no'>sidsrate79</span>, <span class='no'>thislw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 }
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>ZG</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>x</span>$<span class='no'>estimate</span>[<span class='fl'>1</span>], <span class='no'>x</span>$<span class='no'>statistic</span>, <span class='kw'>p.value</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unname'>unname</a></span>(<span class='no'>x</span>$<span class='no'>p.value</span>))))</div><div class='output co'>#&gt;     Global G statistic standard deviate   p.value
+<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>ZG</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>$<span class='no'>estimate</span>[<span class='fl'>1</span>], <span class='no'>x</span>$<span class='no'>statistic</span>, <span class='kw'>p.value</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/unname.html'>unname</a></span>(<span class='no'>x</span>$<span class='no'>p.value</span>))))</div><div class='output co'>#&gt;     Global G statistic standard deviate   p.value
 #&gt; 10          0.33548581       0.04859237 0.4806221
 #&gt; 20          0.02024945      -0.73262399 0.7681061
 #&gt; 30          0.04032434      -0.75011405 0.7734070
@@ -226,7 +230,7 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
   <span class='no'>thislw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>thisnb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
   <span class='no'>ZG</span><span class='kw'>[[</span><span class='no'>i</span>]] <span class='kw'>&lt;-</span> <span class='fu'>globalG.test</span>(<span class='no'>sidsrate79</span>, <span class='no'>thislw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"two.sided"</span>)
 }
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>ZG</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='no'>x</span>$<span class='no'>estimate</span>[<span class='fl'>1</span>], <span class='no'>x</span>$<span class='no'>statistic</span>, <span class='kw'>p.value</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unname'>unname</a></span>(<span class='no'>x</span>$<span class='no'>p.value</span>))))</div><div class='output co'>#&gt;     Global G statistic standard deviate   p.value
+<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>ZG</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='no'>x</span>$<span class='no'>estimate</span>[<span class='fl'>1</span>], <span class='no'>x</span>$<span class='no'>statistic</span>, <span class='kw'>p.value</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/unname.html'>unname</a></span>(<span class='no'>x</span>$<span class='no'>p.value</span>))))</div><div class='output co'>#&gt;     Global G statistic standard deviate   p.value
 #&gt; 10          0.33548581       0.04859237 0.9612441
 #&gt; 20          0.02024945      -0.73262399 0.4637878
 #&gt; 30          0.04032434      -0.75011405 0.4531860
@@ -239,25 +243,13 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 #&gt; 90          0.30073463       0.11457610 0.9087811
 #&gt; 100         0.34879996       0.31591356 0.7520681</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Hisaji ONO <a href='mailto:hi-ono@mn.xdsl.ne.jp'>hi-ono@mn.xdsl.ne.jp</a> and Roger Bivand 
-<a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -265,13 +257,16 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

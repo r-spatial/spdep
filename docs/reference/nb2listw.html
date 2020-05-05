@@ -8,21 +8,29 @@
 
 <title>Spatial weights for neighbours lists — nb2listw • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Spatial weights for neighbours lists — nb2listw" />
 
+<meta property="og:title" content="Spatial weights for neighbours lists — nb2listw" />
 <meta property="og:description" content="The nb2listw function supplements a neighbours list with spatial weights for the chosen coding scheme. The can.be.simmed helper function checks whether a spatial weights object is similar to symmetric and can be so transformed to yield real eigenvalues or for Cholesky decomposition." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,13 +135,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>The <code>nb2listw</code> function supplements a neighbours list with spatial weights for the chosen coding scheme. The <code>can.be.simmed</code> helper function checks whether a spatial weights object is similar to symmetric and can be so transformed to yield real eigenvalues or for Cholesky decomposition.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>nb2listw</span>(<span class='no'>neighbours</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -153,14 +160,13 @@
       <td><p>default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Starting from a binary neighbours list, in which regions are either listed as neighbours or are absent (thus not in the set of neighbours for some definition), the function adds a weights list with values given by the coding scheme style chosen. B is the basic binary coding, W is row standardised (sums over all links to n), C is globally standardised (sums over all links to n), U is equal to C divided by the number of neighbours (sums over all links to unity), while S is the variance-stabilizing coding scheme proposed by Tiefelsdorf et al. 1999, p. 167-168 (sums over all links to n).</p>
-<p>If zero policy is set to TRUE, weights vectors of zero length are inserted for regions without neighbour in the neighbours list. These will in turn generate lag values of zero, equivalent to the sum of products of the zero row <code>t(rep(0, length=length(neighbours))) %*% x</code>, for arbitraty numerical vector <code>x</code> of length <code><a href='https://www.rdocumentation.org/packages/base/topics/length'>length(neighbours)</a></code>. The spatially lagged value of x for the zero-neighbour region will then be zero, which may (or may not) be a sensible choice.</p>
+<p>If zero policy is set to TRUE, weights vectors of zero length are inserted for regions without neighbour in the neighbours list. These will in turn generate lag values of zero, equivalent to the sum of products of the zero row <code>t(rep(0, length=length(neighbours))) %*% x</code>, for arbitraty numerical vector <code>x</code> of length <code><a href='https://rdrr.io/r/base/length.html'>length(neighbours)</a></code>. The spatially lagged value of x for the zero-neighbour region will then be zero, which may (or may not) be a sensible choice.</p>
 <p>If the sum of the glist vector for one or more observations is zero, a warning message is issued. The consequence for later operations will be the same as if no-neighbour observations were present and the zero.policy argument set to true.</p>
 <p>The &#8220;minmax&#8221; style is based on Kelejian and Prucha (2010), and divides the weights by the minimum of the maximum row sums and maximum column sums of the input weights. It is similar to the C and U styles; it is also available in Stata.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>listw</code> object with the following members:</p>
@@ -168,30 +174,27 @@
   <dt>neighbours</dt><dd><p>the input neighbours list</p></dd>
   <dt>weights</dt><dd><p>the weights for the neighbours and chosen style, with attributes set to report the type of relationships (binary or general, if general the form of the glist argument), and style as above</p></dd>
 
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Tiefelsdorf, M., Griffith, D. A., Boots, B. 1999 A variance-stabilizing coding scheme for spatial link matrices, Environment and Planning A, 31, pp. 165--180; Kelejian, H. H., and I. R. Prucha. 2010. Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances. Journal of Econometrics, 157: pp. 53--67.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='summary.nb.html'>summary.nb</a></code>, <code><a href='read.gal.html'>read.gal</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
+    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
 <span class='no'>cards</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='card.html'>card</a></span>(<span class='no'>col.gal.nb</span>)
 <span class='no'>col.w</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>col.w</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)),<span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>10</span>),
-<span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>10</span>), <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"number of links"</span>, <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>"row sums of weights"</span>)</div><div class='input'><span class='no'>col.b</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>col.b</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)</div><div class='input'><span class='no'>col.c</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"C"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>col.c</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"green"</span>)</div><div class='input'><span class='no'>col.u</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"U"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>col.u</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"orange"</span>)</div><div class='input'><span class='no'>col.s</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"S"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/points'>points</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>col.s</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/legend'>legend</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>y</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>9</span>), <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"W"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"U"</span>, <span class='st'>"S"</span>), <span class='kw'>bty</span><span class='kw'>=</span><span class='st'>"n"</span>,
-<span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"red"</span>, <span class='st'>"green"</span>, <span class='st'>"orange"</span>, <span class='st'>"blue"</span>), <span class='kw'>pch</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fl'>1</span>,<span class='fl'>5</span>), <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.8</span>,
-<span class='kw'>y.intersp</span><span class='kw'>=</span><span class='fl'>2.5</span>)</div><div class='img'><img src='nb2listw-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"minmax"</span>))</div><div class='output co'>#&gt; Characteristics of weights list object:
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>col.w</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)),<span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>10</span>),
+<span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>10</span>), <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"number of links"</span>, <span class='kw'>ylab</span><span class='kw'>=</span><span class='st'>"row sums of weights"</span>)</div><div class='input'><span class='no'>col.b</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>col.b</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>)</div><div class='input'><span class='no'>col.c</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"C"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>col.c</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"green"</span>)</div><div class='input'><span class='no'>col.u</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"U"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>col.u</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"orange"</span>)</div><div class='input'><span class='no'>col.s</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"S"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span>(<span class='no'>cards</span>, <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>col.s</span>$<span class='no'>weights</span>, <span class='no'>sum</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"blue"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>), <span class='kw'>y</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>9</span>), <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"W"</span>, <span class='st'>"B"</span>, <span class='st'>"C"</span>, <span class='st'>"U"</span>, <span class='st'>"S"</span>), <span class='kw'>bty</span><span class='kw'>=</span><span class='st'>"n"</span>,
+<span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"red"</span>, <span class='st'>"green"</span>, <span class='st'>"orange"</span>, <span class='st'>"blue"</span>), <span class='kw'>pch</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fl'>5</span>), <span class='kw'>cex</span><span class='kw'>=</span><span class='fl'>0.8</span>,
+<span class='kw'>y.intersp</span><span class='kw'>=</span><span class='fl'>2.5</span>)</div><div class='img'><img src='nb2listw-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"minmax"</span>))</div><div class='output co'>#&gt; Characteristics of weights list object:
 #&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 230 
@@ -210,42 +213,29 @@
 #&gt; Weights constants summary:
 #&gt;         n   nn S0  S1    S2
 #&gt; minmax 49 2401 23 4.6 50.48</div><div class='input'><span class='no'>dlist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbdists.html'>nbdists</a></span>(<span class='no'>col.gal.nb</span>, <span class='no'>coords</span>)
-<span class='no'>dlist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>lapply</a></span>(<span class='no'>dlist</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>1</span>/<span class='no'>x</span>)
+<span class='no'>dlist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>dlist</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fl'>1</span>/<span class='no'>x</span>)
 <span class='no'>col.w.d</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='no'>dlist</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='no'>col.w</span>$<span class='no'>weights</span>))</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.1000  0.1429  0.1667  0.2130  0.2500  0.5000 </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlist'>unlist</a></span>(<span class='no'>col.w.d</span>$<span class='no'>weights</span>))</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>col.w</span>$<span class='no'>weights</span>))</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;  0.1000  0.1429  0.1667  0.2130  0.2500  0.5000 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>col.w.d</span>$<span class='no'>weights</span>))</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #&gt; 0.06977 0.13114 0.17710 0.21304 0.27124 0.67178 </div><div class='input'><span class='co'># introducing other conditions into weights - only earlier sales count</span>
 <span class='co'># see http://sal.uiuc.edu/pipermail/openspace/2005-October/000610.html</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>baltimore</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>211</span>)
-<span class='no'>dates</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>500</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/nrow'>nrow</a></span>(<span class='no'>baltimore</span>), <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>nb_15nn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='no'>baltimore</span>$<span class='no'>X</span>, <span class='no'>baltimore</span>$<span class='no'>Y</span>), <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>15</span>))
-<span class='no'>glist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/vector'>vector</a></span>(<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>length</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>nb_15nn</span>))
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(<span class='kw'>along</span><span class='kw'>=</span><span class='no'>nb_15nn</span>))
-  <span class='no'>glist</span><span class='kw'>[[</span><span class='no'>i</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ifelse'>ifelse</a></span>(<span class='no'>dates</span>[<span class='no'>i</span>] <span class='kw'>&gt;</span> <span class='no'>dates</span>[<span class='no'>nb_15nn</span><span class='kw'>[[</span><span class='no'>i</span>]]], <span class='fl'>1</span>, <span class='fl'>0</span>)
-<span class='no'>listw_15nn_dates</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>nb_15nn</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='no'>glist</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lag'>lag</a></span>(<span class='no'>listw_15nn_dates</span>, <span class='no'>baltimore</span>$<span class='no'>PRICE</span>) <span class='kw'>==</span> <span class='fl'>0.0</span>)</div><div class='output co'>#&gt;  [1]  39  40  48  92 112 117 118 143 160 176 177 185 191 198</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>glist</span>, <span class='no'>sum</span>) <span class='kw'>==</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt;  [1]  39  40  48  92 112 117 118 143 160 176 177 185 191 198</div><div class='input'><span class='no'>ex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/which'>which</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/lapply'>sapply</a></span>(<span class='no'>glist</span>, <span class='no'>sum</span>) <span class='kw'>==</span> <span class='fl'>0</span>)[<span class='fl'>1</span>]
-<span class='no'>dates</span>[<span class='no'>ex</span>]</div><div class='output co'>#&gt; [1] 13</div><div class='input'><span class='no'>dates</span>[<span class='no'>nb_15nn</span><span class='kw'>[[</span><span class='no'>ex</span>]]]</div><div class='output co'>#&gt;  [1] 266  44 168 434 222  38 432 399 172 213 430  29 312 237  55</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>baltimore</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>211</span>)
+<span class='no'>dates</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fl'>500</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>baltimore</span>), <span class='kw'>replace</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>nb_15nn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>baltimore</span>$<span class='no'>X</span>, <span class='no'>baltimore</span>$<span class='no'>Y</span>), <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>15</span>))
+<span class='no'>glist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>vector</a></span>(<span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"list"</span>, <span class='kw'>length</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>nb_15nn</span>))
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>along</span><span class='kw'>=</span><span class='no'>nb_15nn</span>))
+  <span class='no'>glist</span><span class='kw'>[[</span><span class='no'>i</span>]] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='no'>dates</span>[<span class='no'>i</span>] <span class='kw'>&gt;</span> <span class='no'>dates</span>[<span class='no'>nb_15nn</span><span class='kw'>[[</span><span class='no'>i</span>]]], <span class='fl'>1</span>, <span class='fl'>0</span>)
+<span class='no'>listw_15nn_dates</span> <span class='kw'>&lt;-</span> <span class='fu'>nb2listw</span>(<span class='no'>nb_15nn</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='no'>glist</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/lag.html'>lag</a></span>(<span class='no'>listw_15nn_dates</span>, <span class='no'>baltimore</span>$<span class='no'>PRICE</span>) <span class='kw'>==</span> <span class='fl'>0.0</span>)</div><div class='output co'>#&gt;  [1]   1  22  29  35  66  74  80  99 117 147 155 169 195 197 200</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>glist</span>, <span class='no'>sum</span>) <span class='kw'>==</span> <span class='fl'>0</span>)</div><div class='output co'>#&gt;  [1]   1  22  29  35  66  74  80  99 117 147 155 169 195 197 200</div><div class='input'><span class='no'>ex</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span>(<span class='no'>glist</span>, <span class='no'>sum</span>) <span class='kw'>==</span> <span class='fl'>0</span>)[<span class='fl'>1</span>]
+<span class='no'>dates</span>[<span class='no'>ex</span>]</div><div class='output co'>#&gt; [1] 28</div><div class='input'><span class='no'>dates</span>[<span class='no'>nb_15nn</span><span class='kw'>[[</span><span class='no'>ex</span>]]]</div><div class='output co'>#&gt;  [1] 395 247 275 179 142 484 111 239 369 199 294 251 448 390 229</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -253,13 +243,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

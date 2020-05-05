@@ -8,21 +8,29 @@
 
 <title>Convert a square spatial weights matrix to a weights list object — mat2listw • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,13 +38,13 @@
 
 
 
-<meta property="og:title" content="Convert a square spatial weights matrix to a weights list object — mat2listw" />
 
+<meta property="og:title" content="Convert a square spatial weights matrix to a weights list object — mat2listw" />
 <meta property="og:description" content="The function converts a square spatial weights matrix, 
 optionally a sparse matrix to a weights list 
 object, optionally adding region IDs from the row names of the matrix, as a 
 sequence of numbers 1:nrow(x), or as given as an argument. The style can be imposed by rebuilting the weights list object internally." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -50,9 +58,10 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -66,7 +75,7 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -74,7 +83,7 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -103,11 +112,10 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -118,6 +126,7 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -129,16 +138,14 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
     </div>
 
     <div class="ref-description">
-    
     <p>The function converts a square spatial weights matrix, 
 optionally a sparse matrix to a weights list 
 object, optionally adding region IDs from the row names of the matrix, as a 
 sequence of numbers 1:nrow(x), or as given as an argument. The style can be imposed by rebuilting the weights list object internally.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>mat2listw</span>(<span class='no'>x</span>, <span class='kw'>row.names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"M"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -156,7 +163,7 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
       <td><p>default "M", unknown style; if not "M", passed to <code><a href='nb2listw.html'>nb2listw</a></code> to re-build the object</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <code>listw</code> object with the following members:</p>
@@ -164,17 +171,15 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
   <dt>neighbours</dt><dd><p>the derived neighbours list</p></dd>
   <dt>weights</dt><dd><p>the weights for the neighbours derived from the matrix</p></dd>
 
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='nb2listw.html'>nb2listw</a></code>, <code><a href='nb2mat.html'>nb2mat</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col005</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span>(<span class='fu'>st_coordinates</span>(<span class='fu'>st_centroid</span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>),
- <span class='kw'>of_largest_polygon</span><span class='kw'>=</span><span class='fl'>TRUE</span>)), <span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>columbus</span>$<span class='no'>NEIGNO</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col005</span>)</div><div class='output co'>#&gt; Neighbour list object:
+ <span class='kw'>of_largest_polygon</span><span class='kw'>=</span><span class='fl'>TRUE</span>)), <span class='fl'>0</span>, <span class='fl'>0.5</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>columbus</span>$<span class='no'>NEIGNO</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>col005</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 170 
 #&gt; Percentage nonzero weights: 7.080383 
@@ -190,7 +195,7 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
 #&gt; 2 most connected regions:
 #&gt; 1038 1036 with 9 links</div><div class='input'><span class='no'>col005.w.mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2mat.html'>nb2mat</a></span>(<span class='no'>col005</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col005.w.b</span> <span class='kw'>&lt;-</span> <span class='fu'>mat2listw</span>(<span class='no'>col005.w.mat</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col005.w.b</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>col005.w.b</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 170 
 #&gt; Percentage nonzero weights: 7.080383 
@@ -210,8 +215,8 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
 #&gt; Percentage nonzero weights: 0 
 #&gt; Average number of links: 0 
 #&gt; 49 regions with no links:
-#&gt; 1005 1001 1006 1002 1007 1008 1004 1003 1018 1010 1038 1037 1039 1040 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049 1029 1025 1028 1048 1015 1027 1026</div><div class='input'><span class='no'>col005.w.mat.3T</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/kronecker'>kronecker</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='fl'>3</span>), <span class='no'>col005.w.mat</span>)
-<span class='no'>col005.w.b.3T</span> <span class='kw'>&lt;-</span> <span class='fu'>mat2listw</span>(<span class='no'>col005.w.mat.3T</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col005.w.b.3T</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; 1005 1001 1006 1002 1007 1008 1004 1003 1018 1010 1038 1037 1039 1040 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049 1029 1025 1028 1048 1015 1027 1026</div><div class='input'><span class='no'>col005.w.mat.3T</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/kronecker.html'>kronecker</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span>(<span class='fl'>3</span>), <span class='no'>col005.w.mat</span>)
+<span class='no'>col005.w.b.3T</span> <span class='kw'>&lt;-</span> <span class='fu'>mat2listw</span>(<span class='no'>col005.w.mat.3T</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>col005.w.b.3T</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 147 
 #&gt; Number of nonzero links: 510 
 #&gt; Percentage nonzero weights: 2.360128 
@@ -226,7 +231,7 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
 #&gt; 2 5 9 10 31 34 36 39 42 46 47 51 54 58 59 80 83 85 88 91 95 96 100 103 107 108 129 132 134 137 140 144 145 with 1 link
 #&gt; 6 most connected regions:
 #&gt; 11 16 60 65 109 114 with 9 links</div><div class='input'><span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col005</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>), <span class='st'>"CsparseMatrix"</span>)
-<span class='no'>col005.spM</span> <span class='kw'>&lt;-</span> <span class='fu'>mat2listw</span>(<span class='no'>W</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 1005, 1006, 1008, 1043 are not origins</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col005.spM</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
+<span class='no'>col005.spM</span> <span class='kw'>&lt;-</span> <span class='fu'>mat2listw</span>(<span class='no'>W</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 1005, 1006, 1008, 1043 are not origins</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>col005.spM</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 170 
 #&gt; Percentage nonzero weights: 7.080383 
@@ -246,8 +251,8 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
 #&gt; Percentage nonzero weights: 0 
 #&gt; Average number of links: 0 
 #&gt; 49 regions with no links:
-#&gt; 1005 1001 1006 1002 1007 1008 1004 1003 1018 1010 1038 1037 1039 1040 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049 1029 1025 1028 1048 1015 1027 1026</div><div class='input'><span class='no'>IW</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/kronecker'>kronecker</a></span>(<span class='kw pkg'>Matrix</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/Matrix/topics/Diagonal'>Diagonal</a></span>(<span class='fl'>3</span>), <span class='no'>W</span>)
-<span class='no'>col005.spM.3T</span> <span class='kw'>&lt;-</span> <span class='fu'>mat2listw</span>(<span class='no'>IW</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 1, 3, 6, 21, 50, 52, 55, 70, 99, 101, 104, 119 are not origins</span></div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>col005.spM.3T</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; 1005 1001 1006 1002 1007 1008 1004 1003 1018 1010 1038 1037 1039 1040 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049 1029 1025 1028 1048 1015 1027 1026</div><div class='input'><span class='no'>IW</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/kronecker.html'>kronecker</a></span>(<span class='kw pkg'>Matrix</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/Matrix/man/Diagonal.html'>Diagonal</a></span>(<span class='fl'>3</span>), <span class='no'>W</span>)
+<span class='no'>col005.spM.3T</span> <span class='kw'>&lt;-</span> <span class='fu'>mat2listw</span>(<span class='no'>IW</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: 1, 3, 6, 21, 50, 52, 55, 70, 99, 101, 104, 119 are not origins</span></div><div class='output co'>#&gt; <span class='warning'>Warning: zero sum general weights</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>col005.spM.3T</span>$<span class='no'>neighbours</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 147 
 #&gt; Number of nonzero links: 510 
 #&gt; Percentage nonzero weights: 2.360128 
@@ -263,22 +268,13 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
 #&gt; 6 most connected regions:
 #&gt; 11 16 60 65 109 114 with 9 links</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -286,13 +282,16 @@ weights; may be a matrix of class &#8220;sparseMatrix&#8221;</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

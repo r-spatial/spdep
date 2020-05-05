@@ -8,21 +8,29 @@
 
 <title>Exact global Moran's I test — lm.morantest.exact • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Exact global Moran's I test — lm.morantest.exact" />
 
+<meta property="og:title" content="Exact global Moran's I test — lm.morantest.exact" />
 <meta property="og:description" content="The function implements Tiefelsdorf's exact global Moran's I test." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,17 +135,15 @@
     </div>
 
     <div class="ref-description">
-    
     <p>The function implements Tiefelsdorf's exact global Moran's I test.</p>
-    
     </div>
 
-    <pre class="usage">lm.morantest.exact(model, listw, zero.policy = NULL, alternative = "greater",
- spChk = NULL, resfun = weighted.residuals, zero.tol = 1e-07, Omega=NULL,
- save.M=NULL, save.U=NULL, useTP=FALSE, truncErr=1e-6, zeroTreat=0.1)
-# S3 method for moranex
-print(x, &#8230;)</pre>
-    
+    <pre class="usage"><span class='fu'>lm.morantest.exact</span>(<span class='no'>model</span>, <span class='no'>listw</span>, <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"greater"</span>,
+ <span class='kw'>spChk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>resfun</span> <span class='kw'>=</span> <span class='no'>weighted.residuals</span>, <span class='kw'>zero.tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='kw'>NULL</span>,
+ <span class='kw'>save.M</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>save.U</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>truncErr</span><span class='kw'>=</span><span class='fl'>1e-6</span>, <span class='kw'>zeroTreat</span><span class='kw'>=</span><span class='fl'>0.1</span>)
+<span class='co'># S3 method for moranex</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -173,7 +180,7 @@ must be one of greater (default), less or two.sided.</p></td>
     </tr>
     <tr>
       <th>Omega</th>
-      <td><p>A SAR process matrix may be passed in to test an alternative hypothesis, for example <code>Omega &lt;- invIrW(listw, rho=0.1); Omega &lt;- tcrossprod(Omega)</code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/chol'>chol()</a></code> is taken internally</p></td>
+      <td><p>A SAR process matrix may be passed in to test an alternative hypothesis, for example <code>Omega &lt;- invIrW(listw, rho=0.1); Omega &lt;- tcrossprod(Omega)</code>, <code><a href='https://rdrr.io/r/base/chol.html'>chol()</a></code> is taken internally</p></td>
     </tr>
     <tr>
       <th>save.M</th>
@@ -200,11 +207,11 @@ must be one of greater (default), less or two.sided.</p></td>
       <td><p>a moranex object</p></td>
     </tr>
     <tr>
-      <th>&#8230;</th>
+      <th>...</th>
       <td><p>arguments to be passed through</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list of class <code>moranex</code> with the following components:</p>
@@ -219,27 +226,23 @@ must be one of greater (default), less or two.sided.</p></td>
   <dt>data.name</dt><dd><p>a character string giving the name(s) of the data.</p></dd>
   <dt>df</dt><dd><p>degrees of freedom</p></dd>
 
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Roger Bivand, Werner G. Müller and Markus Reder (2009) "Power calculations for global and local Moran's I." <em>Computational Statistics \&amp; Data Analysis</em> 53, 2859-2872.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='lm.morantest.sad.html'>lm.morantest.sad</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>eire</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/eire.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
+    <pre class="examples"><div class='input'><span class='no'>eire</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/eire.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 26 features and 10 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25
-#&gt; epsg (SRID):    NA
-#&gt; proj4string:    NA</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/row.names'>row.names</a></span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='no'>eire</span>$<span class='no'>names</span>)
+#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>eire</span>$<span class='no'>names</span>)
 <span class='fu'>st_crs</span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
 <span class='no'>eire.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>eire</span>)
-<span class='no'>e.lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>)
+<span class='no'>e.lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>)
 <span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Global Moran I for regression residuals
 #&gt; 
@@ -289,24 +292,13 @@ must be one of greater (default), less or two.sided.</p></td>
 #&gt; [1] 0.3366057
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Markus Reder and Roger Bivand</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -314,13 +306,16 @@ must be one of greater (default), less or two.sided.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

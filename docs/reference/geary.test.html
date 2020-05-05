@@ -8,21 +8,29 @@
 
 <title>Geary's C test for spatial autocorrelation — geary.test • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Geary's C test for spatial autocorrelation — geary.test" />
 
+<meta property="og:title" content="Geary's C test for spatial autocorrelation — geary.test" />
 <meta property="og:description" content="Geary's test for spatial autocorrelation using a spatial weights matrix in weights list form. The assumptions underlying the test are sensitive to the form of the graph of neighbour relationships and other factors, and results may be checked against those of geary.mc permutations." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,14 +135,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Geary's test for spatial autocorrelation using a spatial weights matrix in weights list form. The assumptions underlying the test are sensitive to the form of the graph of neighbour relationships and other factors, and results may be checked against those of <code>geary.mc</code> permutations.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>geary.test</span>(<span class='no'>x</span>, <span class='no'>listw</span>, <span class='kw'>randomisation</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>,
     <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>, <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>adjust.n</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -166,7 +173,7 @@
       <td><p>default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with class <code>htest</code> containing the following components:</p>
@@ -179,22 +186,18 @@
  the standard deviate.</p></dd>
   <dt>data.name</dt><dd><p>a character string giving the name(s) of the data.</p></dd>
 
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 21, Cliff, A. D., Ord, J. K. 1973 Spatial Autocorrelation, Pion, pp. 15-16, 21; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href='https://doi.org/10.1007/s11749-018-0599-x'>https://doi.org/10.1007/s11749-018-0599-x</a></p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href='lm.morantest.html'>listw2U()</a></code> can be used to make the matrix symmetric. In non-symmetric weights matrix cases, the variance of the test statistic may be negative (thanks to Franz Munoz I for a well documented bug report). Geary's C is affected by non-symmetric weights under normality much more than Moran's I. From 0.4-35, the sign of the standard deviate of C is changed to match Cliff and Ord (1973, p. 21).</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='geary.html'>geary</a></code>, <code><a href='geary.mc.html'>geary.mc</a></code>, <code><a href='lm.morantest.html'>listw2U</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>oldcol</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>oldcol</span>)
 <span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under randomisation
 #&gt; 
@@ -243,9 +246,9 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;       1.130277918       1.000000000       0.006914551 
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>coords.OLD</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>X</span>, <span class='no'>COL.OLD</span>$<span class='no'>Y</span>)
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>coords.OLD</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>X</span>, <span class='no'>COL.OLD</span>$<span class='no'>Y</span>)
 <span class='no'>COL.k4.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>coords.OLD</span>, <span class='fl'>4</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.k4.nb</span>))</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.k4.nb</span>))</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under randomisation
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -268,7 +271,7 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;       0.399254423       1.000000000       0.009129529 
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='st'>"Note non-symmetric weights matrix - use listw2U()\n"</span>)</div><div class='output co'>#&gt; Note non-symmetric weights matrix - use listw2U()</div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>,
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>"Note non-symmetric weights matrix - use listw2U()\n"</span>)</div><div class='output co'>#&gt; Note non-symmetric weights matrix - use listw2U()</div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>,
  <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)))</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under randomisation
 #&gt; 
@@ -294,26 +297,13 @@
 #&gt;       0.399254423       1.000000000       0.009129529 
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#note">Note</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -321,13 +311,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

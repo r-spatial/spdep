@@ -8,21 +8,29 @@
 
 <title>K nearest neighbours for spatial weights — knearneigh • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="K nearest neighbours for spatial weights — knearneigh" />
 
+<meta property="og:title" content="K nearest neighbours for spatial weights — knearneigh" />
 <meta property="og:description" content="The function returns a matrix with the indices of points belonging to the set of the k nearest neighbours of each other. If longlat = TRUE, Great Circle distances are used. A warning will be given if identical points are found." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,13 +135,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>The function returns a matrix with the indices of points belonging to the set of the k nearest neighbours of each other. If longlat = TRUE, Great Circle distances are used. A warning will be given if identical points are found.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>knearneigh</span>(<span class='no'>x</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>longlat</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>RANN</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -146,18 +153,17 @@
     </tr>
     <tr>
       <th>longlat</th>
-      <td><p>TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself</p></td>
+      <td><p>TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself; longlat will override RANN</p></td>
     </tr>
     <tr>
       <th>RANN</th>
-      <td><p>logical value, if the RANN package is available, use for finding k nearest neighbours when longlat is FALSE, and when there are no identical points</p></td>
+      <td><p>logical value, if the RANN package is available, use for finding k nearest neighbours when longlat is FALSE, and when there are no identical points; from <a href='https://github.com/r-spatial/spdep/issues/38'>https://github.com/r-spatial/spdep/issues/38</a>, the input data may have more than two columns if RANN is used</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The underlying C code is based on the <code>knn</code> function in the <span class="pkg">class</span> package.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list of class <code>knn</code></p>
@@ -167,29 +173,27 @@
   <dt>dimension</dt><dd><p>number of columns of x</p></dd>
   <dt>x</dt><dd><p>input coordinates</p></dd>
 
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/class/topics/knn'>knn</a></code>, <code><a href='dnearneigh.html'>dnearneigh</a></code>,
-<code><a href='knn2nb.html'>knn2nb</a></code>, <code><a href='https://www.rdocumentation.org/packages/RANN/topics/nn2'>nn2</a></code></p></div>
-    
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/class/man/knn.html'>knn</a></code>, <code><a href='dnearneigh.html'>dnearneigh</a></code>,
+<code><a href='knn2nb.html'>knn2nb</a></code>, <code><a href='https://rdrr.io/pkg/RANN/man/nn2.html'>nn2</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>st_centroid</span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>of_largest_polygon</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>col.knn</span> <span class='kw'>&lt;-</span> <span class='fu'>knearneigh</span>(<span class='no'>coords</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='no'>col.knn</span>), <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"K nearest neighbours, k = 4"</span>)</div><div class='img'><img src='knearneigh-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>state</span>)
-<span class='no'>us48.fipsno</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.geoda</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"etc/weights/us48.txt"</span>,
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='no'>col.knn</span>), <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"K nearest neighbours, k = 4"</span>)</div><div class='img'><img src='knearneigh-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>state</span>)
+<span class='no'>us48.fipsno</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.geoda</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"etc/weights/us48.txt"</span>,
  <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>])
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/numeric'>as.numeric</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='no'>version</span>$<span class='no'>major</span>, <span class='no'>version</span>$<span class='no'>minor</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>)) <span class='kw'>&lt;</span> <span class='fl'>19</span>) {
- <span class='no'>m50.48</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/match'>match</a></span>(<span class='no'>us48.fipsno</span>$<span class='st'>"State.name"</span>, <span class='no'>state.name</span>)
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>version</span>$<span class='no'>major</span>, <span class='no'>version</span>$<span class='no'>minor</span>, <span class='kw'>sep</span><span class='kw'>=</span><span class='st'>""</span>)) <span class='kw'>&lt;</span> <span class='fl'>19</span>) {
+ <span class='no'>m50.48</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span>(<span class='no'>us48.fipsno</span>$<span class='st'>"State.name"</span>, <span class='no'>state.name</span>)
 } <span class='kw'>else</span> {
- <span class='no'>m50.48</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/match'>match</a></span>(<span class='no'>us48.fipsno</span>$<span class='st'>"State_name"</span>, <span class='no'>state.name</span>)
+ <span class='no'>m50.48</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span>(<span class='no'>us48.fipsno</span>$<span class='st'>"State_name"</span>, <span class='no'>state.name</span>)
 }
-<span class='no'>xy</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>as.matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>state.center</span>))[<span class='no'>m50.48</span>,]
+<span class='no'>xy</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>state.center</span>))[<span class='no'>m50.48</span>,]
 <span class='no'>llk4.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'>knearneigh</span>(<span class='no'>xy</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>longlat</span><span class='kw'>=</span><span class='fl'>FALSE</span>))
 <span class='no'>gck4.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'>knearneigh</span>(<span class='no'>xy</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>, <span class='kw'>longlat</span><span class='kw'>=</span><span class='fl'>TRUE</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>llk4.nb</span>, <span class='no'>xy</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='no'>llk4.nb</span>, <span class='no'>gck4.nb</span>), <span class='no'>xy</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/title'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Differences between Euclidean and Great Circle k=4 neighbours"</span>)</div><div class='img'><img src='knearneigh-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>llk4.nb</span>, <span class='no'>xy</span>, <span class='kw'>longlat</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Neighbour list object:
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>llk4.nb</span>, <span class='no'>xy</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='no'>llk4.nb</span>, <span class='no'>gck4.nb</span>), <span class='no'>xy</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Differences between Euclidean and Great Circle k=4 neighbours"</span>)</div><div class='img'><img src='knearneigh-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>llk4.nb</span>, <span class='no'>xy</span>, <span class='kw'>longlat</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 48 
 #&gt; Number of nonzero links: 192 
 #&gt; Percentage nonzero weights: 8.333333 
@@ -228,7 +232,7 @@
 #&gt;   8 | 79
 #&gt;   9 | 
 #&gt;   9 | 56
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gck4.nb</span>, <span class='no'>xy</span>, <span class='kw'>longlat</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>gck4.nb</span>, <span class='no'>xy</span>, <span class='kw'>longlat</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 48 
 #&gt; Number of nonzero links: 192 
 #&gt; Percentage nonzero weights: 8.333333 
@@ -268,10 +272,9 @@
 #&gt;   9 | 
 #&gt;   9 | 5
 #&gt; </div><div class='input'>
-<span class='no'>xy1</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPoints</span>((<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>state.center</span>))[<span class='no'>m50.48</span>,],
-  <span class='kw'>proj4string</span><span class='kw'>=</span><span class='fu'>CRS</span>(<span class='st'>"+proj=longlat +ellps=GRS80"</span>))
-<span class='no'>gck4a.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'>knearneigh</span>(<span class='no'>xy1</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>gck4a.nb</span>, <span class='no'>xy1</span>)</div><div class='output co'>#&gt; Neighbour list object:
+<span class='no'>xy1</span> <span class='kw'>&lt;-</span> <span class='fu'>SpatialPoints</span>((<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>state.center</span>))[<span class='no'>m50.48</span>,],
+  <span class='kw'>proj4string</span><span class='kw'>=</span><span class='fu'>CRS</span>(<span class='st'>"+proj=longlat +ellps=GRS80"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on GRS80 ellipsoid in CRS definition</span></div><div class='input'><span class='no'>gck4a.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'>knearneigh</span>(<span class='no'>xy1</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>4</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>gck4a.nb</span>, <span class='no'>xy1</span>)</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 48 
 #&gt; Number of nonzero links: 192 
 #&gt; Percentage nonzero weights: 8.333333 
@@ -310,26 +313,25 @@
 #&gt;   8 | 9
 #&gt;   9 | 
 #&gt;   9 | 5
-#&gt; </div></pre>
+#&gt; </div><div class='input'><span class='co'># https://github.com/r-spatial/spdep/issues/38</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>50</span>), <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>50</span>), <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>50</span>))
+<span class='no'>out</span> <span class='kw'>&lt;-</span> <span class='fu'>knearneigh</span>(<span class='no'>x</span>, <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>5</span>)
+<span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='no'>out</span>)</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; Number of regions: 50 
+#&gt; Number of nonzero links: 250 
+#&gt; Percentage nonzero weights: 10 
+#&gt; Average number of links: 5 
+#&gt; Non-symmetric neighbours list</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='no'>out</span> <span class='kw'>&lt;-</span> <span class='fu'>knearneigh</span>(<span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span>(<span class='no'>x</span>, <span class='no'>x</span>[<span class='fl'>1</span>:<span class='fl'>10</span>,]), <span class='kw'>k</span><span class='kw'>=</span><span class='fl'>5</span>))</div><div class='output co'>#&gt; Error in knearneigh(rbind(x, x[1:10, ]), k = 5) : 
+#&gt;   knearneigh: identical points found</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -337,13 +339,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

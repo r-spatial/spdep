@@ -8,21 +8,29 @@
 
 <title>Mantel-Hubert spatial general cross product statistic — sp.mantel.mc • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Mantel-Hubert spatial general cross product statistic — sp.mantel.mc" />
 
+<meta property="og:title" content="Mantel-Hubert spatial general cross product statistic — sp.mantel.mc" />
 <meta property="og:description" content="A permutation test for the spatial general cross product statistic with
 Moran (\(C_{ij} = z_i z_j\)), Geary 
 (\(C_{ij} = (z_i - z_j)^2\)), and Sokal 
@@ -39,7 +47,7 @@ Moran (\(C_{ij} = z_i z_j\)), Geary
 \(z_i = (x_i - \bar{x}) / \sigma_{x}\).
 plot.mc.sim is a helper function to plot the outcomes of the
 permutation test." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -53,9 +61,10 @@ permutation test." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,7 +78,7 @@ permutation test." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -77,7 +86,7 @@ permutation test." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -106,11 +115,10 @@ permutation test." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -121,6 +129,7 @@ permutation test." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -132,7 +141,6 @@ permutation test." />
     </div>
 
     <div class="ref-description">
-    
     <p>A permutation test for the spatial general cross product statistic with
 Moran (\(C_{ij} = z_i z_j\)), Geary 
 (\(C_{ij} = (z_i - z_j)^2\)), and Sokal 
@@ -140,14 +148,13 @@ Moran (\(C_{ij} = z_i z_j\)), Geary
 \(z_i = (x_i - \bar{x}) / \sigma_{x}\).
 <code>plot.mc.sim</code> is a helper function to plot the outcomes of the
 permutation test.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>sp.mantel.mc</span>(<span class='no'>var</span>, <span class='no'>listw</span>, <span class='no'>nsim</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"moran"</span>, <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
  <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"greater"</span>, <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>return_boot</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='co'># S3 method for mc.sim</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>x</span>, <span class='no'>xlim</span>, <span class='no'>xlab</span>, <span class='no'>main</span>, <span class='no'>sub</span>, <span class='no'>...</span>, <span class='kw'>ptype</span><span class='kw'>=</span><span class='st'>"density"</span>)</pre>
-    
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>xlim</span>, <span class='no'>xlab</span>, <span class='no'>main</span>, <span class='no'>sub</span>, <span class='no'>...</span>, <span class='kw'>ptype</span><span class='kw'>=</span><span class='st'>"density"</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -214,7 +221,7 @@ permutation test.</p>
       <td><p>further arguments passed through</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with class <code>htest</code> and <code>mc.sim</code> containing the following components:</p>
@@ -229,7 +236,6 @@ permutation test.</p>
   statistic</p></dd>
   <dt>estimate</dt><dd><p>the mean and variance of the simulated distribution.</p></dd>
 
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 22-24,
@@ -238,15 +244,13 @@ and environmental sciences</em>, Cambridge: Cambridge University Press, p. 230--
 The function has been checked against general matrix code posted to the 
 r-help list by Ben Bolker on 1 May 2001; another <code>mantel()</code> function
 is in the vegan package.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='moran.mc.html'>moran.mc</a></code>, <code><a href='joincount.mc.html'>joincount.mc</a></code>, 
 <code><a href='geary.mc.html'>geary.mc</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>oldcol</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>oldcol</span>)
 <span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.mantel.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>),
  <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"geary"</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"less"</span>)
 <span class='no'>sim1</span></div><div class='output co'>#&gt; 
@@ -260,8 +264,8 @@ is in the vegan package.</p>
 #&gt; alternative hypothesis: less
 #&gt; sample estimates:
 #&gt; mean of permutations   sd of permutations 
-#&gt;            97.035482             8.847891 
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>sim1</span>)</div><div class='img'><img src='sp.mantel.mc-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>sp.mantel.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>), <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>,
+#&gt;            98.852997             8.934135 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>sim1</span>)</div><div class='img'><img src='sp.mantel.mc-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'>sp.mantel.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>), <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>,
  <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"sokal"</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"less"</span>)</div><div class='output co'>#&gt; 
 #&gt; 	Mantel permutation test for sokal measure
 #&gt; 
@@ -273,7 +277,7 @@ is in the vegan package.</p>
 #&gt; alternative hypothesis: less
 #&gt; sample estimates:
 #&gt; mean of permutations   sd of permutations 
-#&gt;            56.175315             3.407142 
+#&gt;            56.418584             3.227064 
 #&gt; </div><div class='input'><span class='fu'>sp.mantel.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>), <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>,
  <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"moran"</span>)</div><div class='output co'>#&gt; 
 #&gt; 	Mantel permutation test for moran measure
@@ -286,27 +290,16 @@ is in the vegan package.</p>
 #&gt; alternative hypothesis: greater
 #&gt; sample estimates:
 #&gt; mean of permutations   sd of permutations 
-#&gt;           -0.5577371            4.6915442 
+#&gt;           -0.3401381            4.5579226 
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -314,13 +307,16 @@ is in the vegan package.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

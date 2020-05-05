@@ -8,21 +8,29 @@
 
 <title>Local Moran's I statistic — localmoran • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,14 +38,14 @@
 
 
 
-<meta property="og:title" content="Local Moran's I statistic — localmoran" />
 
+<meta property="og:title" content="Local Moran's I statistic — localmoran" />
 <meta property="og:description" content="The local spatial statistic Moran's I is calculated for each zone based on the
 spatial weights object used. The values returned include a Z-value, and may be
 used as a diagnostic tool. The statistic is:
 $$I_i = \frac{(x_i-\bar{x})}{{\sum_{k=1}^{n}(x_k-\bar{x})^2}/(n-1)}{\sum_{j=1}^{n}w_{ij}(x_j-\bar{x})}$$,
 and its expectation and variance are given in Anselin (1995)." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -51,9 +59,10 @@ and its expectation and variance are given in Anselin (1995)." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +76,7 @@ and its expectation and variance are given in Anselin (1995)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -75,7 +84,7 @@ and its expectation and variance are given in Anselin (1995)." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,11 +113,10 @@ and its expectation and variance are given in Anselin (1995)." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -119,6 +127,7 @@ and its expectation and variance are given in Anselin (1995)." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -130,19 +139,17 @@ and its expectation and variance are given in Anselin (1995)." />
     </div>
 
     <div class="ref-description">
-    
     <p>The local spatial statistic Moran's I is calculated for each zone based on the
 spatial weights object used. The values returned include a Z-value, and may be
 used as a diagnostic tool. The statistic is:
 $$I_i = \frac{(x_i-\bar{x})}{{\sum_{k=1}^{n}(x_k-\bar{x})^2}/(n-1)}{\sum_{j=1}^{n}w_{ij}(x_j-\bar{x})}$$,
 and its expectation and variance are given in Anselin (1995).</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>localmoran</span>(<span class='no'>x</span>, <span class='no'>listw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.fail</span>,
         <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"greater"</span>, <span class='kw'>p.adjust.method</span><span class='kw'>=</span><span class='st'>"none"</span>, <span class='kw'>mlvar</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
         <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>adjust.x</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -183,11 +190,10 @@ and its expectation and variance are given in Anselin (1995).</p>
       <td><p>default FALSE, if TRUE, x values of observations with no neighbours are omitted in the mean of x</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The values of local Moran's I are divided by the variance (or sample variance) of the variable of interest to accord with Table 1, p. 103, and formula (12), p. 99, in Anselin (1995), rathar than his formula (7), p. 98. The variance of the local Moran statistic is taken from Sokal et al. (1998), equation 5 p. 334 and A4*, p. 351. By default, the implementation divides by n, not (n-1) in calculating the variance and higher moments.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     
@@ -199,7 +205,6 @@ and its expectation and variance are given in Anselin (1995).</p>
   <dt>Z.Ii</dt><dd><p>standard deviate of local moran statistic</p></dd>
   <dt>Pr()</dt><dd><p>p-value of local moran statistic</p></dd>
 
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Anselin, L. 1995. Local indicators of spatial association,
@@ -208,17 +213,15 @@ Getis, A. and Ord, J. K. 1996 Local spatial
 statistics: an overview. In P. Longley and M. Batty (eds) <em>Spatial
 analysis: modelling in a GIS environment</em> (Cambridge: Geoinformation
 International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Local Spatial Autocorrelation in a Biological Model. Geographical Analysis, 30. 331--354; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href='https://doi.org/10.1007/s11749-018-0599-x'>https://doi.org/10.1007/s11749-018-0599-x</a></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='localG.html'>localG</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>afcon</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='no'>oid</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/order'>order</a></span>(<span class='no'>afcon</span>$<span class='no'>id</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>afcon</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
+<span class='no'>oid</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>afcon</span>$<span class='no'>id</span>)
 <span class='no'>resI</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/printCoefmat'>printCoefmat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>resI</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]),
+<span class='fu'><a href='https://rdrr.io/r/stats/printCoefmat.html'>printCoefmat</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>resI</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]),
  <span class='kw'>check.names</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                                  Ii       E.Ii     Var.Ii       Z.Ii Pr.z...0.
 #&gt; THE GAMBIA                0.3752254 -0.0243902  0.8707799  0.4282410    0.3342
 #&gt; MALI                      0.4636340 -0.0243902  0.1084938  1.4816272    0.0692
@@ -261,7 +264,7 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 #&gt; TUNISIA                   0.0053873 -0.0243902  0.4261130  0.0456170    0.4818
 #&gt; LIBYA                     0.8038237 -0.0243902  0.1296684  2.2999872    0.0107
 #&gt; SUDAN                     2.9877738 -0.0243902  0.0926129  9.8978982    0.0000
-#&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist</a></span>(<span class='no'>resI</span>[,<span class='fl'>5</span>])</div><div class='img'><img src='localmoran-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>resI</span>[,<span class='fl'>1</span>])</div><div class='output co'>#&gt; [1] 0.4167956</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>resI</span>[,<span class='fl'>1</span>])/<span class='fu'><a href='spweights.constants.html'>Szero</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>))</div><div class='output co'>#&gt; [1] 0.4167956</div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>))</div><div class='output co'>#&gt; 
+#&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>resI</span>[,<span class='fl'>5</span>])</div><div class='img'><img src='localmoran-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>resI</span>[,<span class='fl'>1</span>])</div><div class='output co'>#&gt; [1] 0.4167956</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>resI</span>[,<span class='fl'>1</span>])/<span class='fu'><a href='spweights.constants.html'>Szero</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>))</div><div class='output co'>#&gt; [1] 0.4167956</div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Moran I test under randomisation
 #&gt; 
 #&gt; data:  afcon$totcon  
@@ -276,7 +279,7 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 <span class='co'># the number of observations (thanks to Juergen Symanzik)</span>
 <span class='no'>resI</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>),
  <span class='kw'>p.adjust.method</span><span class='kw'>=</span><span class='st'>"bonferroni"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/printCoefmat'>printCoefmat</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>resI</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]),
+<span class='fu'><a href='https://rdrr.io/r/stats/printCoefmat.html'>printCoefmat</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>resI</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]),
  <span class='kw'>check.names</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                                  Ii       E.Ii     Var.Ii       Z.Ii Pr.z...0.
 #&gt; THE GAMBIA                0.3752254 -0.0243902  0.8707799  0.4282410    0.6685
 #&gt; MALI                      0.4636340 -0.0243902  0.1084938  1.4816272    0.5538
@@ -319,58 +322,58 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 #&gt; TUNISIA                   0.0053873 -0.0243902  0.4261130  0.0456170    1.0000
 #&gt; LIBYA                     0.8038237 -0.0243902  0.1296684  2.2999872    0.0751
 #&gt; SUDAN                     2.9877738 -0.0243902  0.0926129  9.8978982    0.0000
-#&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/hist'>hist</a></span>(<span class='no'>resI</span>[,<span class='fl'>5</span>])</div><div class='img'><img src='localmoran-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>totcon</span> <span class='kw'>&lt;-</span><span class='no'>afcon</span>$<span class='no'>totcon</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>totcon</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>totcon</span>), <span class='fl'>5</span>)
-<span class='no'>totcon</span></div><div class='output co'>#&gt;  [1] 1363 1421 1861 2355   NA  811  299  358   NA 4751 1878  933  347   NA  241
-#&gt; [16]  604 1015  998 2122 1090  848  618  758  423  980 3087 2273 3134 1142  824
-#&gt; [31] 2881  487  604 1528 1554  629   NA   NA 1266 1875  147  363</div><div class='input'><span class='no'>resI.na</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>), <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>,
+#&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>resI</span>[,<span class='fl'>5</span>])</div><div class='img'><img src='localmoran-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>totcon</span> <span class='kw'>&lt;-</span><span class='no'>afcon</span>$<span class='no'>totcon</span>
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>totcon</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>totcon</span>), <span class='fl'>5</span>)
+<span class='no'>totcon</span></div><div class='output co'>#&gt;  [1] 1363 1421 1861   NA 5246  811  299  358  895 4751 1878  933  347   NA  241
+#&gt; [16]  604 1015  998 2122 1090  848   NA  758  423  980   NA 2273 3134 1142  824
+#&gt; [31] 2881  487  604 1528 1554  629   NA  795 1266 1875  147  363</div><div class='input'><span class='no'>resI.na</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>), <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>,
  <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/class'>class</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/attr'>attr</a></span>(<span class='no'>resI.na</span>, <span class='st'>"na.action"</span>)) <span class='kw'>==</span> <span class='st'>"exclude"</span>) {
- <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>resI.na</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]), <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)
-} <span class='kw'>else</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>resI.na</span>, <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                               Ii   E.Ii Var.Ii   Z.Ii Pr.z...0.
-#&gt; THE GAMBIA                0.3936 -0.028  0.880  0.449   3.3e-01
-#&gt; MALI                      0.5027 -0.028  0.107  1.621   5.2e-02
-#&gt; SENEGAL                   0.2625 -0.028  0.204  0.643   2.6e-01
-#&gt; BENIN                     0.2379 -0.028  0.279  0.503   3.1e-01
-#&gt; MAURITANIA                0.0827 -0.028  0.204  0.245   4.0e-01
-#&gt; NIGER                     0.2034 -0.028  0.159  0.581   2.8e-01
-#&gt; IVORY COAST               0.3040 -0.028  0.159  0.833   2.0e-01
-#&gt; GUINEA                    0.1777 -0.028  0.159  0.516   3.0e-01
-#&gt; BURKINA FASO              0.5579 -0.028  0.129  1.634   5.1e-02
-#&gt; LIBERIA                   0.1827 -0.028  0.279  0.399   3.5e-01
-#&gt; SIERRA LEONE              0.2673 -0.028  0.429  0.451   3.3e-01
-#&gt; GHANA                     0.1357 -0.028  0.279  0.310   3.8e-01
-#&gt; TOGO                      0.2227 -0.028  0.279  0.474   3.2e-01
-#&gt; CAMEROON                  0.3091 -0.028  0.279  0.638   2.6e-01
-#&gt; NIGERIA                       NA     NA     NA     NA        NA
-#&gt; GABON                     0.2048 -0.028  0.429  0.355   3.6e-01
-#&gt; CENTRAL AFRICAN REPUBLIC -0.7720 -0.028  0.204 -1.649   9.5e-01
-#&gt; CHAD                          NA     NA     NA     NA        NA
-#&gt; CONGO                     0.0016 -0.028  0.204  0.065   4.7e-01
-#&gt; ZAIRE                     1.0440 -0.028  0.078  3.827   6.5e-05
-#&gt; ANGOLA                    0.2133 -0.028  0.279  0.456   3.2e-01
-#&gt; UGANDA                    2.6742 -0.028  0.159  6.785   5.8e-12
-#&gt; KENYA                     1.6843 -0.028  0.159  4.299   8.6e-06
-#&gt; TANZANIA                  0.6373 -0.028  0.107  2.033   2.1e-02
-#&gt; BURUNDI                  -0.6133 -0.028  0.279 -1.109   8.7e-01
-#&gt; RWANDA                   -0.9472 -0.028  0.204 -2.037   9.8e-01
-#&gt; SOMALIA                   0.6711 -0.028  0.429  1.067   1.4e-01
-#&gt; ETHIOPIA                  1.0627 -0.028  0.279  2.065   1.9e-02
-#&gt; ZAMBIA                    0.1575 -0.028  0.129  0.517   3.0e-01
-#&gt; ZIMBABWE                      NA     NA     NA     NA        NA
-#&gt; MALAWI                   -0.6364 -0.028  0.429 -0.929   8.2e-01
-#&gt; MOZAMBIQUE                    NA     NA     NA     NA        NA
-#&gt; SOUTH AFRICA             -0.1941 -0.028  0.159 -0.418   6.6e-01
-#&gt; LESOTHO                  -0.5607 -0.028  0.880 -0.568   7.2e-01
-#&gt; BOTSWANA                 -0.0121 -0.028  0.429  0.024   4.9e-01
-#&gt; SWAZILAND                -0.6909 -0.028  0.880 -0.707   7.6e-01
-#&gt; MOROCCO                  -0.1045 -0.028  0.429 -0.117   5.5e-01
-#&gt; ALGERIA                  -0.0157 -0.028  0.129  0.034   4.9e-01
-#&gt; TUNISIA                   0.0427 -0.028  0.429  0.108   4.6e-01
-#&gt; LIBYA                     0.7474 -0.028  0.204  1.718   4.3e-02
-#&gt; SUDAN                     3.3340 -0.028  0.129  9.377   3.4e-21
-#&gt; EGYPT                         NA     NA     NA     NA        NA</div><div class='input'><span class='no'>resG</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='localG.html'>localG</a></span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='fu'><a href='include.self.html'>include.self</a></span>(<span class='no'>paper.nb</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='no'>resG</span>[<span class='no'>oid</span>], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]), <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                          resG.oid.
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>resI.na</span>, <span class='st'>"na.action"</span>)) <span class='kw'>==</span> <span class='st'>"exclude"</span>) {
+ <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>resI.na</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]), <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)
+} <span class='kw'>else</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>resI.na</span>, <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                               Ii   E.Ii Var.Ii    Z.Ii Pr.z...0.
+#&gt; THE GAMBIA                0.3264 -0.028   0.84  0.3869   3.5e-01
+#&gt; MALI                      0.4107 -0.028   0.10  1.3654   8.6e-02
+#&gt; SENEGAL                   0.2201 -0.028   0.19  0.5614   2.9e-01
+#&gt; BENIN                     0.2015 -0.028   0.27  0.4442   3.3e-01
+#&gt; MAURITANIA                0.0755 -0.028   0.19  0.2338   4.1e-01
+#&gt; NIGER                     0.3976 -0.028   0.15  1.0907   1.4e-01
+#&gt; IVORY COAST               0.2520 -0.028   0.15  0.7174   2.4e-01
+#&gt; GUINEA                    0.1524 -0.028   0.15  0.4619   3.2e-01
+#&gt; BURKINA FASO              0.4533 -0.028   0.12  1.3688   8.6e-02
+#&gt; LIBERIA                   0.1558 -0.028   0.27  0.3557   3.6e-01
+#&gt; SIERRA LEONE              0.2257 -0.028   0.41  0.3962   3.5e-01
+#&gt; GHANA                     0.1195 -0.028   0.27  0.2854   3.9e-01
+#&gt; TOGO                      0.1873 -0.028   0.27  0.4166   3.4e-01
+#&gt; CAMEROON                  0.2047 -0.028   0.27  0.4504   3.3e-01
+#&gt; NIGERIA                       NA     NA     NA      NA        NA
+#&gt; GABON                     0.1730 -0.028   0.41  0.3138   3.8e-01
+#&gt; CENTRAL AFRICAN REPUBLIC      NA     NA     NA      NA        NA
+#&gt; CHAD                     -0.1956 -0.028   0.27 -0.3251   6.3e-01
+#&gt; CONGO                     0.0835 -0.028   0.41  0.1739   4.3e-01
+#&gt; ZAIRE                         NA     NA     NA      NA        NA
+#&gt; ANGOLA                    0.0660 -0.028   0.41  0.1465   4.4e-01
+#&gt; UGANDA                    1.8350 -0.028   0.19  4.2185   1.2e-05
+#&gt; KENYA                     1.2330 -0.028   0.15  3.2325   6.1e-04
+#&gt; TANZANIA                  0.1596 -0.028   0.12  0.5332   3.0e-01
+#&gt; BURUNDI                  -0.2063 -0.028   0.41 -0.2790   6.1e-01
+#&gt; RWANDA                   -0.5823 -0.028   0.27 -1.0742   8.6e-01
+#&gt; SOMALIA                   0.4811 -0.028   0.41  0.7955   2.1e-01
+#&gt; ETHIOPIA                  0.7655 -0.028   0.27  1.5370   6.2e-02
+#&gt; ZAMBIA                    0.0333 -0.028   0.12  0.1737   4.3e-01
+#&gt; ZIMBABWE                 -0.1020 -0.028   0.27 -0.1438   5.6e-01
+#&gt; MALAWI                   -0.4888 -0.028   0.41 -0.7205   7.6e-01
+#&gt; MOZAMBIQUE                    NA     NA     NA      NA        NA
+#&gt; SOUTH AFRICA             -0.1650 -0.028   0.12 -0.3905   6.5e-01
+#&gt; LESOTHO                  -0.4198 -0.028   0.84 -0.4282   6.7e-01
+#&gt; BOTSWANA                 -0.0037 -0.028   0.27  0.0467   4.8e-01
+#&gt; SWAZILAND                -0.5148 -0.028   0.84 -0.5320   7.0e-01
+#&gt; MOROCCO                  -0.0864 -0.028   0.41 -0.0916   5.4e-01
+#&gt; ALGERIA                  -0.0310 -0.028   0.15 -0.0082   5.0e-01
+#&gt; TUNISIA                   0.0037 -0.028   0.84  0.0344   4.9e-01
+#&gt; LIBYA                         NA     NA     NA      NA        NA
+#&gt; SUDAN                     3.7045 -0.028   0.15  9.5693   5.4e-22
+#&gt; EGYPT                    10.6401 -0.028   0.84 11.6539   1.1e-31</div><div class='input'><span class='no'>resG</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='localG.html'>localG</a></span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='fu'><a href='include.self.html'>include.self</a></span>(<span class='no'>paper.nb</span>)))
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>resG</span>[<span class='no'>oid</span>], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]), <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                          resG.oid.
 #&gt; THE GAMBIA                  -0.984
 #&gt; MALI                        -1.699
 #&gt; SENEGAL                     -1.463
@@ -415,26 +418,13 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 #&gt; EGYPT                        4.421</div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -442,13 +432,16 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

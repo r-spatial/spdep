@@ -8,21 +8,29 @@
 
 <title>Use vector files for import and export of weights — nb2lines • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Use vector files for import and export of weights — nb2lines" />
 
+<meta property="og:title" content="Use vector files for import and export of weights — nb2lines" />
 <meta property="og:description" content="Use vector files for import and export of weights, storing spatial entity coordinates in the arcs, and the entity indices in the data frame." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,15 +135,13 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Use vector files for import and export of weights, storing spatial entity coordinates in the arcs, and the entity indices in the data frame.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>nb2lines</span>(<span class='no'>nb</span>, <span class='no'>wts</span>, <span class='no'>coords</span>, <span class='kw'>proj4string</span><span class='kw'>=</span><span class='fu'>CRS</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fl'>NA</span>)))
-<span class='fu'>listw2lines</span>(<span class='no'>listw</span>, <span class='no'>coords</span>, <span class='kw'>proj4string</span><span class='kw'>=</span><span class='fu'>CRS</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>as.character</a></span>(<span class='fl'>NA</span>)))
+    <pre class="usage"><span class='fu'>nb2lines</span>(<span class='no'>nb</span>, <span class='no'>wts</span>, <span class='no'>coords</span>, <span class='kw'>proj4string</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>as_sf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='fu'>listw2lines</span>(<span class='no'>listw</span>, <span class='no'>coords</span>, <span class='kw'>proj4string</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>as_sf</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
 <span class='fu'>df2sn</span>(<span class='no'>df</span>, <span class='kw'>i</span><span class='kw'>=</span><span class='st'>"i"</span>, <span class='kw'>i_ID</span><span class='kw'>=</span><span class='st'>"i_ID"</span>, <span class='kw'>j</span><span class='kw'>=</span><span class='st'>"j"</span>, <span class='kw'>wt</span><span class='kw'>=</span><span class='st'>"wt"</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -148,11 +155,15 @@
     </tr>
     <tr>
       <th>coords</th>
-      <td><p>matrix of region point coordinates</p></td>
+      <td><p>matrix of region point coordinates, a <code>Spatial</code> object (points or polygons), or an <code>sfc</code> object (points or polygons)</p></td>
     </tr>
     <tr>
       <th>proj4string</th>
-      <td><p>Object of class CRS; holding a valid proj4 string</p></td>
+      <td><p>default NULL; if <code>coords</code> is a Spatial or sf object, this value will be used, otherwise the value will be converted appropriately</p></td>
+    </tr>
+    <tr>
+      <th>as_sf</th>
+      <td><p>output object in <code>Spatial</code> or <code>sf</code> format, default FALSE, set to TRUE if coords is an <code>sfc</code> object and FALSE if a <code>Spatial</code> object</p></td>
     </tr>
     <tr>
       <th>listw</th>
@@ -179,30 +190,65 @@
       <td><p>character name of column in df with weights</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The maptools package function <code>writeSpatialShape</code> is used to transport out the list of lines made by <code>nb2lines</code> or <code>listw2lines</code>, which is a simple wrapper function. The neighbour and weights objects may be retrieved by converting the specified columns of the data slot of the SpatialLinesDataFrame object into a spatial.neighbour object, which is then converted into a weights list object.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>nb2lines</code> and <code>listw2lines</code> return a SpatialLinesDataFrame object; its data slot contains a data frame with the from and to indices of the neighbour links and their weights. <code>df2sn</code> converts the data retrieved from reading the data from <code>df</code> back into a <code>spatial.neighbour</code> object.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Original idea due to Gidske Leknes Andersen, Department of Biology, University of Bergen, Norway</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='listw2sn.html'>sn2listw</a></code>, <code><a href='https://www.rdocumentation.org/packages/maptools/topics/readShapeLines'>readShapeLines</a></code></p></div>
-    
+    <div class='dont-index'><p><code><a href='listw2sn.html'>sn2listw</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.file'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>listw2lines</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='no'>coords</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt; Object of class SpatialLinesDataFrame
+    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>listw2lines</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='fu'>st_geometry</span>(<span class='no'>columbus</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>res</span>)</div><div class='output co'>#&gt;        i               j             i_ID               j_ID          
+#&gt;  Min.   : 1.00   Min.   : 1.00   Length:230         Length:230        
+#&gt;  1st Qu.:13.00   1st Qu.:13.00   Class :character   Class :character  
+#&gt;  Median :24.00   Median :24.00   Mode  :character   Mode  :character  
+#&gt;  Mean   :24.19   Mean   :24.19                                        
+#&gt;  3rd Qu.:35.00   3rd Qu.:35.00                                        
+#&gt;  Max.   :49.00   Max.   :49.00                                        
+#&gt;        wt               geometry  
+#&gt;  Min.   :0.1000   LINESTRING:230  
+#&gt;  1st Qu.:0.1429   epsg:NA   :  0  
+#&gt;  Median :0.1667                   
+#&gt;  Mean   :0.2130                   
+#&gt;  3rd Qu.:0.2500                   
+#&gt;  Max.   :0.5000                   </div><div class='input'><span class='no'>tf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(), <span class='st'>".gpkg"</span>)
+<span class='fu'>st_write</span>(<span class='no'>res</span>, <span class='kw'>dsn</span><span class='kw'>=</span><span class='no'>tf</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"GPKG"</span>)</div><div class='output co'>#&gt; Writing layer `file48c5a4f46e65b' to data source `/tmp/RtmpDfjZK8/file48c5a4f46e65b.gpkg' using driver `GPKG'
+#&gt; Writing 230 features with 5 fields and geometry type Line String.</div><div class='input'><span class='no'>inMap</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='no'>tf</span>)</div><div class='output co'>#&gt; Reading layer `file48c5a4f46e65b' from data source `/tmp/RtmpDfjZK8/file48c5a4f46e65b.gpkg' using driver `GPKG'
+#&gt; Simple feature collection with 230 features and 5 fields
+#&gt; geometry type:  LINESTRING
+#&gt; dimension:      XY
+#&gt; bbox:           xmin: 6.165913 ymin: 11.04088 xmax: 10.96206 ymax: 14.43766
+#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>inMap</span>)</div><div class='output co'>#&gt;        i               j             i_ID               j_ID          
+#&gt;  Min.   : 1.00   Min.   : 1.00   Length:230         Length:230        
+#&gt;  1st Qu.:13.00   1st Qu.:13.00   Class :character   Class :character  
+#&gt;  Median :24.00   Median :24.00   Mode  :character   Mode  :character  
+#&gt;  Mean   :24.19   Mean   :24.19                                        
+#&gt;  3rd Qu.:35.00   3rd Qu.:35.00                                        
+#&gt;  Max.   :49.00   Max.   :49.00                                        
+#&gt;        wt                 geom    
+#&gt;  Min.   :0.1000   LINESTRING:230  
+#&gt;  1st Qu.:0.1429   epsg:NA   :  0  
+#&gt;  Median :0.1667                   
+#&gt;  Mean   :0.2130                   
+#&gt;  3rd Qu.:0.2500                   
+#&gt;  Max.   :0.5000                   </div><div class='input'><span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='fu'><a href='listw2sn.html'>sn2listw</a></span>(<span class='fu'>df2sn</span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>inMap</span>)))$<span class='no'>neighbours</span>, <span class='no'>col.gal.nb</span>)</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; Number of regions: 49 
+#&gt; Number of nonzero links: 0 
+#&gt; Percentage nonzero weights: 0 
+#&gt; Average number of links: 0 
+#&gt; 49 regions with no links:
+#&gt; 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49</div><div class='input'><span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>listw2lines</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>res1</span>)</div><div class='output co'>#&gt; Object of class SpatialLinesDataFrame
 #&gt; Coordinates:
 #&gt;         min      max
 #&gt; x  6.221943 10.95359
@@ -223,59 +269,15 @@
 #&gt;  Median :0.1667  
 #&gt;  Mean   :0.2130  
 #&gt;  3rd Qu.:0.2500  
-#&gt;  Max.   :0.5000  </div><div class='input'><span class='no'>tf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>(), <span class='st'>".gpkg"</span>)
-<span class='fu'>st_write</span>(<span class='fu'>st_as_sf</span>(<span class='no'>res</span>), <span class='kw'>dsn</span><span class='kw'>=</span><span class='no'>tf</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"GPKG"</span>)</div><div class='output co'>#&gt; Writing layer `file406a47757049' to data source `/tmp/Rtmp2X1cVo/file406a47757049.gpkg' using driver `GPKG'
-#&gt; features:       230
-#&gt; fields:         5
-#&gt; geometry type:  Line String</div><div class='input'><span class='no'>inMap</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='no'>tf</span>)</div><div class='output co'>#&gt; Reading layer `file406a47757049' from data source `/tmp/Rtmp2X1cVo/file406a47757049.gpkg' using driver `GPKG'
-#&gt; Simple feature collection with 230 features and 5 fields
-#&gt; geometry type:  LINESTRING
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: 6.221943 ymin: 11.01003 xmax: 10.95359 ymax: 14.36908
-#&gt; epsg (SRID):    NA
-#&gt; proj4string:    NA</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>inMap</span>)</div><div class='output co'>#&gt;        i               j              i_ID          j_ID           wt        
-#&gt;  Min.   : 1.00   Min.   : 1.00   20     : 10   20     : 10   Min.   :0.1000  
-#&gt;  1st Qu.:13.00   1st Qu.:13.00   28     :  9   28     :  9   1st Qu.:0.1429  
-#&gt;  Median :24.00   Median :24.00   9      :  8   9      :  8   Median :0.1667  
-#&gt;  Mean   :24.19   Mean   :24.19   16     :  7   16     :  7   Mean   :0.2130  
-#&gt;  3rd Qu.:35.00   3rd Qu.:35.00   24     :  7   24     :  7   3rd Qu.:0.2500  
-#&gt;  Max.   :49.00   Max.   :49.00   25     :  7   25     :  7   Max.   :0.5000  
-#&gt;                                  (Other):182   (Other):182                   
-#&gt;          geom    
-#&gt;  LINESTRING:230  
-#&gt;  epsg:NA   :  0  
-#&gt;                  
-#&gt;                  
-#&gt;                  
-#&gt;                  
-#&gt;                  </div><div class='input'><span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='fu'><a href='listw2sn.html'>sn2listw</a></span>(<span class='fu'>df2sn</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>inMap</span>)))$<span class='no'>neighbours</span>, <span class='no'>col.gal.nb</span>)</div><div class='output co'>#&gt; Neighbour list object:
-#&gt; Number of regions: 49 
-#&gt; Number of nonzero links: 0 
-#&gt; Percentage nonzero weights: 0 
-#&gt; Average number of links: 0 
-#&gt; 49 regions with no links:
-#&gt; 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49</div></pre>
+#&gt;  Max.   :0.5000  </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#note">Note</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -283,13 +285,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

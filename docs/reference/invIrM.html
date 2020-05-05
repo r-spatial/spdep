@@ -8,21 +8,29 @@
 
 <title>Compute SAR generating operator — invIrM • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Compute SAR generating operator — invIrM" />
 
+<meta property="og:title" content="Compute SAR generating operator — invIrM" />
 <meta property="og:description" content="Computes the matrix used for generating simultaneous autoregressive random variables, for a given value of rho, a neighbours list object or a matrix, a chosen coding scheme style, and optionally a list of general weights corresponding to neighbours." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,15 +135,13 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Computes the matrix used for generating simultaneous autoregressive random variables, for a given value of rho, a neighbours list object or a matrix, a chosen coding scheme style, and optionally a list of general weights corresponding to neighbours.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>invIrM</span>(<span class='no'>neighbours</span>, <span class='no'>rho</span>, <span class='kw'>glist</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"solve"</span>,
  <span class='kw'>feasible</span><span class='kw'>=</span><span class='kw'>NULL</span>)
 <span class='fu'>invIrW</span>(<span class='no'>x</span>, <span class='no'>rho</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"solve"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -167,103 +174,83 @@
       <td><p>either a <code>listw</code> object from for example <code>nb2listw</code>, or a square spatial weights matrix, optionally a sparse matrix</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>invIrW</code> function generates the full weights matrix V, checks that rho lies in its feasible range between 1/min(eigen(V)) and 1/max(eigen(V)), and returns the nxn inverted matrix $$(I - \rho V)^{-1}$$. With method=&#8220;chol&#8221; (only for a listw object), Cholesky decomposition is used, thanks to contributed code by Markus Reder and Werner Mueller.</p>
 <p>Note that, in some situations in simulation, it may matter that the random vector from <code>rnorm</code> or similar will not be exactly N(0, 1), and it will also contain random amounts of spatial autocorrelection itself, which will mix with the spatial autocorrelection injected by the process operator $$(I - \rho V)^{-1}$$. In addition, it will not follow the stipulated distribution exactly either, so that several steps may be needed to scale the random vector, to remove artefacts coming from its deviance from distributional parameters, and to remove random spatial autocorrelation - see the examples below. Thanks to Rune Østergaard Pedersen for bring up this question.</p>
 <p>The <code>powerWeights</code> function uses power series summation to cumulate the product $$(I - \rho V)^{-1} \%*\% X$$ from $$(I + \rho V + (\rho V)^2 + \dots) \%*\% X$$, which can be done by storing only sparse V and several matrices of the same dimensions as X. This makes it possible to handle larger spatial weights matrices, but is sensitive to the power weights order and the tolerance arguments when the spatial coefficient is close to its bounds, leading to incorrect estimates of the implied inverse matrix.</p>
-    
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An nxn matrix with a "call" attribute; the <code>powerWeights</code> function returns a matrix of the same dimensions as X which has been multipled by the power series equivalent of the dense matrix $$(I - \rho V)^{-1}$$.</p>
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Before version 0.6-10, <code>powerWeights</code> only worked correctly for positive rho, with differences from true values increasing as rho approached -1, and exploding between -1 and the true negative bound.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Tiefelsdorf, M., Griffith, D. A., Boots, B. 1999 A variance-stabilizing coding scheme for spatial link matrices, Environment and Planning A, 31, pp. 165-180; Tiefelsdorf, M. 2000 Modelling spatial processes, Lecture notes in earth sciences, Springer, p. 76; Haining, R. 1990 Spatial data analysis in the social and environmental sciences, Cambridge University Press, p. 117; Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 152; Reder, M. and Mueller, W. (2007) An Improvement of the invIrM Routine of the Geostatistical R-package spdep by Cholesky Inversion, Statistical Projects, LV No: 238.205, SS 2006, Department of Applied Statistics, Johannes Kepler University, Linz</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='nb2listw.html'>nb2listw</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>nb7rt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cell2nb.html'>cell2nb</a></span>(<span class='fl'>7</span>, <span class='fl'>7</span>, <span class='kw'>torus</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
 <span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nb7rt</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Random'>set.seed</a></span>(<span class='fl'>1</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fl'>500</span>*<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>nb7rt</span>))), <span class='kw'>nrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>nb7rt</span>))
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/ns-load'>requireNamespace</a></span>(<span class='st'>"spatialreg"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span>(<span class='fl'>1</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fl'>500</span>*<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>nb7rt</span>))), <span class='kw'>nrow</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>nb7rt</span>))
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"spatialreg"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) {
 <span class='co'># Only needed in some simulation settings where the input and</span>
 <span class='co'># output distributions must agree in all but autocorrelation</span>
 <span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatialreg/topics/eigenw'>eigenw</a></span>(<span class='no'>lw</span>)
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='no'>scale</span>)
-<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/shapiro.test'>shapiro.test</a></span>(<span class='no'>x</span>)$<span class='no'>p.value</span>)
+<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatialreg/man/eigenw.html'>eigenw</a></span>(<span class='no'>lw</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='no'>scale</span>)
+<span class='no'>st</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/shapiro.test.html'>shapiro.test</a></span>(<span class='no'>x</span>)$<span class='no'>p.value</span>)
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='no'>x</span>[, (<span class='no'>st</span> <span class='kw'>&gt;</span> <span class='fl'>0.2</span> <span class='kw'>&amp;</span> <span class='no'>st</span> <span class='kw'>&lt;</span> <span class='fl'>0.8</span>)]
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>v</span>) <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatialreg/topics/spautolm'>residuals.spautolm</a></span>(
- <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/spatialreg/topics/spautolm'>spautolm</a></span>(<span class='no'>v</span> ~ <span class='fl'>1</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>,
- <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>e</span>, <span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>FALSE</span>))))
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='no'>scale</span>)
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>v</span>) <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatialreg/man/spautolm.html'>residuals.spautolm</a></span>(
+ <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatialreg/man/spautolm.html'>spautolm</a></span>(<span class='no'>v</span> ~ <span class='fl'>1</span>, <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"eigen"</span>,
+ <span class='kw'>control</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>pre_eig</span><span class='kw'>=</span><span class='no'>e</span>, <span class='kw'>fdHess</span><span class='kw'>=</span><span class='fl'>FALSE</span>))))
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='no'>x</span>, <span class='fl'>2</span>, <span class='no'>scale</span>)
 }
-<span class='no'>res0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.0</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
- <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>x</span>))
-<span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.2</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
- <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>x</span>))
-<span class='no'>res4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.4</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
- <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>x</span>))
-<span class='no'>res6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.6</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
- <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>x</span>))
-<span class='no'>res8</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
- <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>x</span>))
-<span class='no'>res9</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/apply'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
- <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/cor'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>x</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></span>(<span class='no'>res9</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>0.01</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></span>(<span class='no'>res9</span>)$<span class='no'>x</span>)),
-  <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/range'>range</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></span>(<span class='no'>res0</span>)$<span class='no'>y</span>),
+<span class='no'>res0</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.0</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
+ <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>))
+<span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.2</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
+ <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>))
+<span class='no'>res4</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.4</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
+ <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>))
+<span class='no'>res6</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.6</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
+ <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>))
+<span class='no'>res8</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
+ <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>))
+<span class='no'>res9</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span>(<span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>,
+ <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>, <span class='fl'>2</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>x</span>)/<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>x</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>res9</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>xlim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>0.01</span>, <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>res9</span>)$<span class='no'>x</span>)),
+  <span class='kw'>ylim</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/range.html'>range</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>res0</span>)$<span class='no'>y</span>),
   <span class='kw'>xlab</span><span class='kw'>=</span><span class='st'>"estimated variance of the mean"</span>,
-  <span class='kw'>main</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/expression'>expression</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste</a></span>(<span class='st'>"Effects of spatial autocorrelation for different "</span>,
+  <span class='kw'>main</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='st'>"Effects of spatial autocorrelation for different "</span>,
     <span class='no'>rho</span>, <span class='st'>" values"</span>)))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/lines'>lines</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></span>(<span class='no'>res0</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"black"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/lines'>lines</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></span>(<span class='no'>res2</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"brown"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/lines'>lines</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></span>(<span class='no'>res4</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"green"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/lines'>lines</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></span>(<span class='no'>res6</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"orange"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/lines'>lines</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/density'>density</a></span>(<span class='no'>res8</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"pink"</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/legend'>legend</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(-<span class='fl'>0.02</span>, <span class='fl'>0.01</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>25</span>),
- <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"0.0"</span>, <span class='st'>"0.2"</span>, <span class='st'>"0.4"</span>, <span class='st'>"0.6"</span>, <span class='st'>"0.8"</span>, <span class='st'>"0.9"</span>),
- <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"brown"</span>, <span class='st'>"green"</span>, <span class='st'>"orange"</span>, <span class='st'>"pink"</span>, <span class='st'>"red"</span>), <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>bty</span><span class='kw'>=</span><span class='st'>"n"</span>)
-}</div><div class='img'><img src='invIrM-1.png' alt='' width='700' height='433' /></div><span class='co'># NOT RUN {</span>
-<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>nb7rt</span>)), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>1</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='kw'>NULL</span>) <span class='kw'>%*%</span> <span class='no'>x</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"solve"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/system.time'>system.time</a></span>(<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"solve"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='kw'>NULL</span>) <span class='kw'>%*%</span> <span class='no'>x</span>)
-<span class='co'># }</span></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>res0</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"black"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>res2</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"brown"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>res4</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"green"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>res6</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"orange"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/lines.html'>lines</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/density.html'>density</a></span>(<span class='no'>res8</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"pink"</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/legend.html'>legend</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>0.02</span>, <span class='fl'>0.01</span>), <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>, <span class='fl'>25</span>),
+ <span class='kw'>legend</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"0.0"</span>, <span class='st'>"0.2"</span>, <span class='st'>"0.4"</span>, <span class='st'>"0.6"</span>, <span class='st'>"0.8"</span>, <span class='st'>"0.9"</span>),
+ <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"black"</span>, <span class='st'>"brown"</span>, <span class='st'>"green"</span>, <span class='st'>"orange"</span>, <span class='st'>"pink"</span>, <span class='st'>"red"</span>), <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>1</span>, <span class='kw'>bty</span><span class='kw'>=</span><span class='st'>"n"</span>)
+}</div><div class='img'><img src='invIrM-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>nb7rt</span>)), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>1</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"chol"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='kw'>NULL</span>) <span class='kw'>%*%</span> <span class='no'>x</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"solve"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='fl'>TRUE</span>) <span class='kw'>%*%</span> <span class='no'>x</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'>invIrM</span>(<span class='no'>nb7rt</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='fl'>0.9</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"solve"</span>, <span class='kw'>feasible</span><span class='kw'>=</span><span class='kw'>NULL</span>) <span class='kw'>%*%</span> <span class='no'>x</span>)
+}</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#note">Note</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -271,13 +258,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

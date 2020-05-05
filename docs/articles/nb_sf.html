@@ -6,18 +6,19 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Creating Neighbours using sf objects • spdep</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Creating Neighbours using sf objects">
-<meta property="og:description" content="">
-<meta name="twitter:card" content="summary">
+<meta property="og:description" content="spdep">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body>
+<body data-spy="scroll" data-target="#toc">
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -30,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -69,8 +70,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -83,10 +84,11 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Creating Neighbours using sf objects</h1>
+      <h1 data-toc-skip>Creating Neighbours using sf objects</h1>
                         <h4 class="author">Roger Bivand</h4>
             
       
@@ -120,19 +122,19 @@
 <div id="data-set" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-set" class="anchor"></a>Data set</h2>
-<p>We’ll use the whole NY 8 county set of boundaries, as they challenge the implementations more than just the Syracuse subset. The description of the input geometries from ADSAR is: New York leukemia: used and documented extensively in Waller and Gotway (2004) and with data made available in Chap. 9 of [<a href="http://web1.sph.emory.edu/users/lwaller/ch9index.htm" class="uri">http://web1.sph.emory.edu/users/lwaller/ch9index.htm</a>] (<a href="http://web1.sph.emory.edu/users/lwaller/ch9index.htm" class="uri">http://web1.sph.emory.edu/users/lwaller/ch9index.htm</a>); the data import process is described in the help file of NY_data in spdep; geometries downloaded from the CIESIN server at <a href="ftp.ciesin.columbia.edu" class="uri">ftp.ciesin.columbia.edu</a>, file /pub/census/usa/tiger/ny/bna_st/t8_36.zip, and extensively edited; a zip archive NY_data.zip of shapefiles and a GAL format neighbours list is on the book website. Further, the zipfile is now at: [a new location requiring login] (<a href="http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip" class="uri">http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip</a>). The object listw_NY is directly imported from nyadjwts.dbf on the Waller &amp; Gotway (2004) chapter 9 website.</p>
+<p>We’ll use the whole NY 8 county set of boundaries, as they challenge the implementations more than just the Syracuse subset. The description of the input geometries from ADSAR is: New York leukemia: used and documented extensively in Waller and Gotway (2004) and with data made available in Chap. 9 of [<a href="http://web1.sph.emory.edu/users/lwaller/ch9index.htm" class="uri">http://web1.sph.emory.edu/users/lwaller/ch9index.htm</a>] (<a href="http://web1.sph.emory.edu/users/lwaller/ch9index.htm" class="uri">http://web1.sph.emory.edu/users/lwaller/ch9index.htm</a>); the data import process is described in the help file of NY_data in spdep; geometries downloaded from the CIESIN server at <a href="https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download">https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download</a>, file /pub/census/usa/tiger/ny/bna_st/t8_36.zip, and extensively edited; a zip archive NY_data.zip of shapefiles and a GAL format neighbours list is on the book website. Further, the zipfile is now at: [a new location requiring login] (<a href="http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip" class="uri">http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip</a>). The object listw_NY is directly imported from nyadjwts.dbf on the Waller &amp; Gotway (2004) chapter 9 website.</p>
 <p>The version of the New York 8 counties geometries used in ASDAR and included as a shapefile in spdep was converted from the original BNA file using an external utility program to convert to MapInfo format and converted on from there using GDAL 1.4.1 (the OGR BNA driver was not then available; it entered OGR at 1.5.0, release at the end of 2007), and contains invalid geometries. What was found in mid-2007 was that included villages were in/excluded by in-out umbilical cords to the boundary of the enclosing tract, when the underlying BNA file was first converted to MapInfo (holes could not exist then).</p>
 <p>Here we will use a GPKG file created as follows (rgdal could also be used with the same output; GDAL here is built with GEOS, so the BNA vector driver will use geometry tests: The BNA driver supports reading of polygons with holes or lakes. It determines what is a hole or a lake only from geometrical analysis (inclusion, non-intersection tests) and ignores completely the notion of polygon winding (whether the polygon edges are described clockwise or counter-clockwise). GDAL must be built with GEOS enabled to make geometry test work.):</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(sf)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2">sf_bna &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="st">"t8_36.bna"</span>, <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_query">st_is_valid</a></span>(sf_bna))</a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">sf_bna<span class="op">$</span>AREAKEY &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/grep">gsub</a></span>(<span class="st">"</span><span class="ch">\\</span><span class="st">."</span>, <span class="st">""</span>, sf_bna<span class="op">$</span>Primary.ID)</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/data">data</a></span>(NY_data, <span class="dt">package=</span><span class="st">"spData"</span>)</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">key &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/character">as.character</a></span>(nydata<span class="op">$</span>AREAKEY)</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">sf_bna1 &lt;-<span class="st"> </span>sf_bna[<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/match">match</a></span>(key, sf_bna<span class="op">$</span>AREAKEY), <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"AREAKEY"</span>)]</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">sf_bna2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/merge">merge</a></span>(sf_bna1, nydata, <span class="dt">by=</span><span class="st">"AREAKEY"</span>)</a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">sf_bna2_utm18 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_transform">st_transform</a></span>(sf_bna2, <span class="st">"+proj=utm +zone=18 +datum=NAD27"</span>)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_write">st_write</a></span>(sf_bna2_utm18, <span class="st">"NY8_bna_utm18.gpkg"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
+<span class="no">sf_bna</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(<span class="st">"t8_36.bna"</span>, <span class="kw">stringsAsFactors</span><span class="kw">=</span><span class="fl">FALSE</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/geos_query.html">st_is_valid</a></span>(<span class="no">sf_bna</span>))
+<span class="no">sf_bna</span>$<span class="no">AREAKEY</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"\\."</span>, <span class="st">""</span>, <span class="no">sf_bna</span>$<span class="no">Primary.ID</span>)
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">NY_data</span>, <span class="kw">package</span><span class="kw">=</span><span class="st">"spData"</span>)
+<span class="no">key</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="no">nydata</span>$<span class="no">AREAKEY</span>)
+<span class="no">sf_bna1</span> <span class="kw">&lt;-</span> <span class="no">sf_bna</span>[<span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span>(<span class="no">key</span>, <span class="no">sf_bna</span>$<span class="no">AREAKEY</span>), <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"AREAKEY"</span>)]
+<span class="no">sf_bna2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span>(<span class="no">sf_bna1</span>, <span class="no">nydata</span>, <span class="kw">by</span><span class="kw">=</span><span class="st">"AREAKEY"</span>)
+<span class="no">sf_bna2_utm18</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_transform.html">st_transform</a></span>(<span class="no">sf_bna2</span>, <span class="st">"+proj=utm +zone=18 +datum=NAD27"</span>)
+<span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_write.html">st_write</a></span>(<span class="no">sf_bna2_utm18</span>, <span class="st">"NY8_bna_utm18.gpkg"</span>)</pre></body></html></div>
 </div>
 <div id="nb-and-listw-objects-copied-from-the-nb_igraph-vignette" class="section level2">
 <h2 class="hasAnchor">
@@ -145,186 +147,39 @@
 <h2 class="hasAnchor">
 <a href="#comparison-of-sp-and-sf-approaches" class="anchor"></a>Comparison of sp and sf approaches</h2>
 <p>First some housekeeping and setup to permit this vignette to be built when packages are missing or out-of-date:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(sf, <span class="dt">quietly=</span><span class="ot">TRUE</span>))) {</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="st">"install the sf package"</span>)</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3">  dothis &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="cf">if</span> (dothis) <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/sf_extSoftVersion">sf_extSoftVersion</a></span>()</a></code></pre></div>
-<pre><code>##           GEOS           GDAL         proj.4 GDAL_with_GEOS 
-##        "3.7.1"        "2.4.1"        "6.0.0"         "true"</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(rgdal, <span class="dt">quietly=</span><span class="ot">TRUE</span>))) {</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="st">"install the rgdal package"</span>)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">  dothis &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb4-5" data-line-number="5"><span class="cf">if</span> (dothis) {</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">  <span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/exists">exists</a></span>(<span class="st">"rgdal_extSoftVersion"</span>)) <span class="kw"><a href="https://www.rdocumentation.org/packages/rgdal/topics/GDALDriver-class">rgdal_extSoftVersion</a></span>()</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">  <span class="cf">else</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/rgdal/topics/GDALDriver-class">getGDALVersionInfo</a></span>()</a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">}</a></code></pre></div>
-<pre><code>##           GDAL GDAL_with_GEOS         PROJ.4             sp 
-##        "2.4.1"         "TRUE"        "6.0.0"        "1.3-1"</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(rgeos, <span class="dt">quietly=</span><span class="ot">TRUE</span>))) {</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">message</a></span>(<span class="st">"install the rgeos package"</span>)</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  dothis &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="cf">if</span> (dothis) {</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/exists">exists</a></span>(<span class="st">"rgeos_extSoftVersion"</span>)) <span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/utility-functions">rgeos_extSoftVersion</a></span>()</a>
-<a class="sourceLine" id="cb6-7" data-line-number="7">  <span class="cf">else</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/utility-functions">version_GEOS</a></span>()</a>
-<a class="sourceLine" id="cb6-8" data-line-number="8">}</a></code></pre></div>
-<pre><code>##    GEOS      sp 
-## "3.7.1" "1.3-1"</code></pre>
 <p>Let us read the GPKG file with valid geometries in to ‘sf’ and ‘sp’ objects:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">NY8_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shapes/NY8_bna_utm18.gpkg"</span>, <span class="dt">package=</span><span class="st">"spData"</span>), <span class="dt">quiet=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_query">st_is_valid</a></span>(NY8_sf))</a></code></pre></div>
-<pre><code>## 
-## TRUE 
-##  281</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">NY8_sp &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgdal/topics/readOGR">readOGR</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shapes/NY8_bna_utm18.gpkg"</span>, <span class="dt">package=</span><span class="st">"spData"</span>), <span class="dt">verbose=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/pred-unary-gIsValid">gIsValid</a></span>(NY8_sp, <span class="dt">byid=</span><span class="ot">TRUE</span>))</a></code></pre></div>
-<pre><code>## 
-## TRUE 
-##  281</code></pre>
 <div id="contiguity-neighbours-for-polygon-support" class="section level3">
 <h3 class="hasAnchor">
 <a href="#contiguity-neighbours-for-polygon-support" class="anchor"></a>Contiguity neighbours for polygon support</h3>
 <p>Here we first generate a queen contiguity nb object using the legacy spdep approach. This first either uses a pre-computed list of vectors of probable neighbours or finds intersecting bounding boxes internally. Then the points on the boundaries of each set of polygons making up an observation are checked for a distance less than snap to any of the points of the set of polygons making up an observation included in the set of candidate neighbours. Because contiguity is symmetric, only i to j contiguities are tested. A queen contiguity is found as soon as one point matches, a rook contiguity as soon as two points match:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(spdep))</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">reps &lt;-<span class="st"> </span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb12-3" data-line-number="3">eps &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">sqrt</a></span>(.Machine<span class="op">$</span>double.eps)</a>
-<a class="sourceLine" id="cb12-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sp_<span class="dv">1</span>_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/poly2nb.html">poly2nb</a></span>(NY8_sp, <span class="dt">queen=</span><span class="ot">TRUE</span>, <span class="dt">snap=</span>eps))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0642  0.0009  0.0671</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">NY8_sp_<span class="dv">1</span>_nb</a></code></pre></div>
-<pre><code>## Neighbour list object:
-## Number of regions: 281 
-## Number of nonzero links: 1632 
-## Percentage nonzero weights: 2.066843 
-## Average number of links: 5.807829</code></pre>
-<p>Using rgeos STR trees to check the intersection of envelopes (bounding boxes) is much faster than the internal method in poly2nb for large n. Because contiguity is symmetric by definition, the queries only return intersections for higher indices.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">STRQ &lt;-<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) a2 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/experimental-functions">gUnarySTRtreeQuery</a></span>(NY8_sp))<span class="op">/</span>reps</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sp_<span class="dv">1</span>_fB_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/poly2nb.html">poly2nb</a></span>(NY8_sp, <span class="dt">queen=</span><span class="ot">TRUE</span>, <span class="dt">snap=</span>eps, <span class="dt">foundInBox=</span>a2))<span class="op">/</span>reps <span class="op">+</span><span class="st"> </span>STRQ</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0287  0.0000  0.0295</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sp_<span class="dv">1</span>_fB_nb, NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<p>Using rgeos STR trees to check the intersection of envelopes (bounding boxes) is much faster than the internal method in poly2nb for large n. Because contiguity is symmetric by definition, the queries only return intersections for higher indices.</p>
 <p>Using sf::st_relate, we can define an un-snapped relational pattern for queen contiguities:</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">st_queen &lt;-<span class="st"> </span><span class="cf">function</span>(a, <span class="dt">b =</span> a) <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_relate">st_relate</a></span>(a, b, <span class="dt">pattern =</span> <span class="st">"F***T****"</span>)</a></code></pre></div>
 <p>The output from st_queen is a list with attributes:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sf_<span class="dv">1</span>_sgbp &lt;-<span class="st"> </span><span class="kw">st_queen</span>(NY8_sf))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.6362  0.0009  0.7004</code></pre>
 <p>As we can see, the sf-based contiguity test is an order of magnitude slower than spdep::poly2nb; fortunately, it also scales linearly in the number of observations. spdep::poly2nb uses two heuristics, first to find candidate neighbours from intersecting bounding boxes, and second to use the symmetry of the relationship to halve the number of remaining tests. This means that performance is linear in n, but with overhead for identifying candidates, and back-filling symmetric neighbours. Further, spdep::poly2nb stops searching for queen contiguity as soon as the first neighbour point is found within snap distance (if not identical, which is tested first); second neighbour point for rook contiguities. spdep::poly2nb was heavily optimised when written, as processor speed was a major constraint at that time.</p>
 <p>The addition of STR tree queries to identify candidates permits the construction of contiguous neighbour objects for quite large objects, for example the ZCTA 2016 shapefile with 33144 features. sf::st_read imports the data in about 3 s., rgdal::readOGR in under 8 s; in both cases the polygon geometries are valid. Finding the candidate neighbours with rgeos::gUnarySTRtreeQuery takes 4.5 s, and spdep::poly2nb a further 4.4 s. So for the sp variant, the total time is about 17 s., and using sf::st_read 3 s. and coercion to sp 7.5 s., then rgeos::gUnarySTRtreeQuery 4.5 s, and spdep::poly2nb 4.4 s., in total about 20 s. Running st_queen defined above using sf::st_relate takes about 136 s. for a total of 139 s. to generate a queen neighbour object. The contiguity neighbour objects using st_queen and spdep::poly2nb are identical.</p>
 <p>Using sf::st_is_within_distance to emulate the snap= argument in spdep::poly2nb is very time-consuming; it takes more than 70 s. to run:</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sf_dist_nb &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_is_within_distance</a></span>(NY8_sf, NY8_sf, <span class="dt">dist=</span>eps))<span class="op">/</span>reps</a></code></pre></div>
 <p>After removal of self-contiguities yields the same sets of neighbours.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" data-line-number="1">NY8_sf_dist_nb1 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(NY8_sf_dist_nb), <span class="cf">function</span>(i) NY8_sf_dist_nb[[i]][<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/match">match</a></span>(i, NY8_sf_dist_nb[[i]])])</a>
-<a class="sourceLine" id="cb24-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sf_dist_nb1, NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <p>We can convert an object of class sgbp (sparse geometry binary predicate) to nb in this way, taking care to represent observations with no neighbours with integer 0:</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1">as.nb.sgbp &lt;-<span class="st"> </span><span class="cf">function</span>(x, ...) {</a>
-<a class="sourceLine" id="cb25-2" data-line-number="2">  attrs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attributes">attributes</a></span>(x)</a>
-<a class="sourceLine" id="cb25-3" data-line-number="3">  x &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(x, <span class="cf">function</span>(i) { <span class="cf">if</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(i) <span class="op">==</span><span class="st"> </span>0L) 0L <span class="cf">else</span> i } )</a>
-<a class="sourceLine" id="cb25-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/attributes">attributes</a></span>(x) &lt;-<span class="st"> </span>attrs</a>
-<a class="sourceLine" id="cb25-5" data-line-number="5">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(x) &lt;-<span class="st"> "nb"</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6">  x</a>
-<a class="sourceLine" id="cb25-7" data-line-number="7">}</a></code></pre></div>
 <p>The neighbour objects produced by st_queen and spdep::poly2nb contain the same sets of neighbours:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">NY8_sf_<span class="dv">1</span>_nb &lt;-<span class="st"> </span><span class="kw">as.nb.sgbp</span>(NY8_sf_<span class="dv">1</span>_sgbp)</a>
-<a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sf_<span class="dv">1</span>_nb, NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>To get around the time penalty of using GEOS functions in sf to find contiguous neighbours, we may coerce to the sp representation first:</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(NY8_sf, <span class="st">"Spatial"</span>))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0762  0.0002  0.1097</code></pre>
 <p>It is the use of GEOS functionality that costs time, as we can see by using rgeos::gTouches:</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) sp_touches &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/pred-binary-gTouches">gTouches</a></span>(NY8_sp, <span class="dt">byid=</span><span class="ot">TRUE</span>, <span class="dt">returnDense=</span><span class="ot">FALSE</span>))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.6978  0.0009  0.8793</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(sp_touches, NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>or equivalently sf::st_touches with very similar timings, like those of sf::st_relate in st_queen:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY8_sf_<span class="dv">1</span>_touch &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_touches</a></span>(NY8_sf, NY8_sf))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.6902  0.0014  0.9430</code></pre>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(NY8_sf_<span class="dv">1</span>_touch) &lt;-<span class="st"> "sgbp"</span></a>
-<a class="sourceLine" id="cb36-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw">as.nb.sgbp</span>(NY8_sf_<span class="dv">1</span>_touch), NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>The output objects are the same, once again. What we now have as queen contiguity neighbours are:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(NY8_sp, <span class="dt">border=</span><span class="st">"grey"</span>, <span class="dt">lwd=</span><span class="fl">0.5</span>)</a>
-<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(NY8_sp_<span class="dv">1</span>_nb, <span class="kw">coordinates</span>(NY8_sp), <span class="dt">points=</span><span class="ot">FALSE</span>, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">lwd=</span><span class="fl">0.7</span>)</a></code></pre></div>
-<p><img src="nb_sf_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 </div>
 <div id="contiguity-neighbours-from-invalid-polygons" class="section level3">
 <h3 class="hasAnchor">
 <a href="#contiguity-neighbours-from-invalid-polygons" class="anchor"></a>Contiguity neighbours from invalid polygons</h3>
 <p>Next, we explore a further possible source of differences in neighbour object reproduction, using the original version of the tract boundaries used in ASDAR, but with some invalid geometries as mentioned earlier:</p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb39-1" data-line-number="1">NY8_sp_old &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgdal/topics/readOGR">readOGR</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shapes/NY8_utm18.shp"</span>, <span class="dt">package=</span><span class="st">"spData"</span>), <span class="dt">verbose=</span><span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(rgeos, <span class="dt">quietly=</span><span class="ot">TRUE</span>))) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/warning">suppressWarnings</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/pred-unary-gIsValid">gIsValid</a></span>(NY8_sp_old, <span class="dt">byid=</span><span class="ot">TRUE</span>)))</a></code></pre></div>
-<pre><code>## 
-## FALSE  TRUE 
-##     5   276</code></pre>
 <p>We can see that there are a number of differences between the neighbour sets derived from the fully valid geometries and the older partly invalid set:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/try">try</a></span>(NY8_sp_old_<span class="dv">1</span>_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/poly2nb.html">poly2nb</a></span>(NY8_sp_old), <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sp_old_<span class="dv">1</span>_nb, NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] "Component 57: Numeric: lengths (4, 5) differ" 
-## [2] "Component 58: Numeric: lengths (5, 6) differ" 
-## [3] "Component 66: Numeric: lengths (7, 11) differ"
-## [4] "Component 73: Numeric: lengths (4, 5) differ" 
-## [5] "Component 260: Numeric: lengths (8, 9) differ"</code></pre>
 <p>spdep::poly2nb does not object to using invalid geometries, as it only uses the boundary points defining the polygons (as do the rgeos STR tree construction and query functions, because points are sufficient to construct bounding boxes).</p>
 <p>Using the standard “trick”, we can buffer by 0 to try to make the geometries valid:</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1">NY8_sp_old_buf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/misc-gBuffer">gBuffer</a></span>(NY8_sp_old, <span class="dt">width=</span><span class="dv">0</span>, <span class="dt">byid=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/pred-unary-gIsValid">gIsValid</a></span>(NY8_sp_old_buf, <span class="dt">byid=</span><span class="ot">TRUE</span>))</a></code></pre></div>
-<pre><code>## 
-## TRUE 
-##  281</code></pre>
 <p>Hoverver, in doing this, we change the geometries, so the new sets of neighbours still differ from those made with the valid geometries in the same ways as before imposing validity:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/try">try</a></span>(NY8_sp_old_<span class="dv">1</span>_nb_buf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/poly2nb.html">poly2nb</a></span>(NY8_sp_old_buf), <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sp_old_<span class="dv">1</span>_nb_buf, NY8_sp_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] "Component 57: Numeric: lengths (4, 5) differ" 
-## [2] "Component 58: Numeric: lengths (5, 6) differ" 
-## [3] "Component 66: Numeric: lengths (7, 11) differ"
-## [4] "Component 73: Numeric: lengths (4, 5) differ" 
-## [5] "Component 260: Numeric: lengths (8, 9) differ"</code></pre>
 <p>Tne neighbour sets are the same for the old boundaries with or without imposing validity:</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sp_old_<span class="dv">1</span>_nb_buf, NY8_sp_old_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>Using the sf route, we also see invalid geometries:</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">NY8_sf_old &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_read">st_read</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.file">system.file</a></span>(<span class="st">"shapes/NY8_utm18.shp"</span>, <span class="dt">package=</span><span class="st">"spData"</span>), <span class="dt">quiet=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/warning">suppressWarnings</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_query">st_is_valid</a></span>(NY8_sf_old)))</a></code></pre></div>
-<pre><code>## 
-## FALSE  TRUE 
-##     5   276</code></pre>
 <p>On trying to find contiguities, sf::st_relate fails:</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1">NY8_sf_old_<span class="dv">1</span>_sgbp &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/try">try</a></span>(<span class="kw">st_queen</span>(NY8_sf_old), <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(NY8_sf_old_<span class="dv">1</span>_sgbp) <span class="op">==</span><span class="st"> "try-error"</span>) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cat">cat</a></span>(NY8_sf_old_<span class="dv">1</span>_sgbp)</a></code></pre></div>
-<pre><code>## Error in CPL_geos_binop(st_geometry(x), st_geometry(y), op, par, pattern,  : 
-##   Evaluation error: TopologyException: side location conflict at 411447.38362785219 4768469.9111850867.</code></pre>
 <p>Using the buffer by 0 approach, we can impose validity:</p>
-<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1">NY8_sf_old_buf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_unary">st_buffer</a></span>(NY8_sf_old, <span class="dt">dist=</span><span class="dv">0</span>)</a>
-<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/table">table</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_query">st_is_valid</a></span>(NY8_sf_old_buf))</a></code></pre></div>
-<pre><code>## 
-## TRUE 
-##  281</code></pre>
 <p>We can now find the neighbours, but with differences from the sets found from the valid polygons:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/try">try</a></span>(NY8_sf_old_<span class="dv">1</span>_nb_buf &lt;-<span class="st"> </span><span class="kw">st_queen</span>(NY8_sf_old_buf), <span class="dt">silent =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sf_old_<span class="dv">1</span>_nb_buf, NY8_sf_<span class="dv">1</span>_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>##  [1] "Component 57: Numeric: lengths (4, 5) differ" 
-##  [2] "Component 58: Numeric: lengths (5, 6) differ" 
-##  [3] "Component 66: Numeric: lengths (7, 11) differ"
-##  [4] "Component 73: Numeric: lengths (4, 5) differ" 
-##  [5] "Component 136: Numeric: lengths (4, 5) differ"
-##  [6] "Component 208: Numeric: lengths (6, 7) differ"
-##  [7] "Component 210: Numeric: lengths (5, 7) differ"
-##  [8] "Component 221: Numeric: lengths (4, 5) differ"
-##  [9] "Component 224: Numeric: lengths (8, 9) differ"
-## [10] "Component 260: Numeric: lengths (8, 9) differ"</code></pre>
 <p>There are also differences between the sets found when imposing validity on the sf and sp routes.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY8_sf_old_<span class="dv">1</span>_nb_buf, NY8_sp_old_<span class="dv">1</span>_nb_buf, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] "Component 136: Numeric: lengths (4, 5) differ"
-## [2] "Component 208: Numeric: lengths (6, 7) differ"
-## [3] "Component 210: Numeric: lengths (5, 7) differ"
-## [4] "Component 221: Numeric: lengths (4, 5) differ"
-## [5] "Component 224: Numeric: lengths (8, 9) differ"</code></pre>
 </div>
 </div>
 <div id="point-based-neighbours" class="section level2">
@@ -334,245 +189,60 @@
 <h3 class="hasAnchor">
 <a href="#finding-points-for-polygon-objects" class="anchor"></a>Finding points for polygon objects</h3>
 <p>Getting a 2D matrix of centroid coordinates (centroids of largest exterior ring) from SpatialPolygons* is just ‘coordinates’, which takes trivial time because the values are computed (as label points) when the objects are constructed:</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) coords &lt;-<span class="st">  </span><span class="kw">coordinates</span>(NY8_sp))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   8e-04   0e+00   9e-04</code></pre>
 <p>‘row.names’ gives the IDs (from feature FIDs if read with ‘rgdal::readOGR’):</p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">IDs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/row.names">row.names</a></span>(NY8_sp)</a>
-<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="kw">is.projected</span>(NY8_sp)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>We can use ‘st_centroid’ to get the centroids; if the sf object is sfc_MULTIPOLYGON, the ‘of_largest_polygon’ attribute should be set to replicate sp ‘coordinates’ behaviour. Curiously, st_centroid is quite time-consuming:</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) <span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_geometry</a></span>(NY8_sf))[<span class="dv">1</span>] <span class="op">==</span><span class="st"> "sfc_MULTIPOLYGON"</span>) {</a>
-<a class="sourceLine" id="cb63-2" data-line-number="2">  NY8_pt_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_unary">st_centroid</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_geometry</a></span>(NY8_sf), <span class="dt">of_largest_polygon=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb63-3" data-line-number="3">} <span class="cf">else</span> {</a>
-<a class="sourceLine" id="cb63-4" data-line-number="4">  NY8_pt_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_unary">st_centroid</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_geometry</a></span>(NY8_sf))</a>
-<a class="sourceLine" id="cb63-5" data-line-number="5">})<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   0.022   0.000   0.030</code></pre>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(NY8_pt_sf), <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(NY8_sf)))) <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(NY8_pt_sf) &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_crs">st_crs</a></span>(NY8_sf)</a>
-<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_geometry</a></span>(NY8_pt_sf))[<span class="dv">1</span>]</a></code></pre></div>
-<pre><code>## [1] "sfc_POINT"</code></pre>
 <p>Before getting the coordinate matrix, we need to drop any Z or M coordinates:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">zm &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/class">class</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_geometry">st_geometry</a></span>(NY8_pt_sf)[[<span class="dv">1</span>]])[<span class="dv">1</span>]</a>
-<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="cf">if</span> (zm <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"XYM"</span>, <span class="st">"XYZM"</span>))</a>
-<a class="sourceLine" id="cb67-3" data-line-number="3">  NY8_pt_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_zm">st_zm</a></span>(NY8_pt_sf, <span class="dt">drop=</span><span class="ot">TRUE</span>, <span class="dt">what=</span><span class="st">"ZM"</span>)</a>
-<a class="sourceLine" id="cb67-4" data-line-number="4"><span class="cf">if</span> (zm <span class="op">%in%</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"XYZ"</span>))</a>
-<a class="sourceLine" id="cb67-5" data-line-number="5">  NY8_pt_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_zm">st_zm</a></span>(NY8_pt_sf, <span class="dt">drop=</span><span class="ot">TRUE</span>, <span class="dt">what=</span><span class="st">"ZM"</span>)</a></code></pre></div>
 <p>We need to check whether coordinates are planar or not:</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_is_longlat">st_is_longlat</a></span>(NY8_pt_sf)</a></code></pre></div>
-<pre><code>## [1] FALSE</code></pre>
 <p>Then ‘st_coordinates’ can be used to get the coordinate matrix (here simply copying-out 2D point coordinates):</p>
-<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) coords_sf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/st_coordinates">st_coordinates</a></span>(NY8_pt_sf))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##   3e-04   0e+00   3e-04</code></pre>
 <p>Unfortunately, the coordinate matrices differ:</p>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb72-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(coords, coords_sf, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>, <span class="dt">scale=</span><span class="dv">1</span>)</a></code></pre></div>
-<pre><code>## [1] "Mean absolute difference: 3.822958"</code></pre>
 <p>The sp route derives the point coordinate values from the centroid of the largest member polygon of the observation, treated as its exterior ring. In sf, and qualifying to request the centroid of the largest POLYGON in a MULTIPOLYGON object, the centroid takes account of possible interior rings. Both are centroids, but the sp coordinates method for Polygons objects returns that of the largest (not metric, treating coordinates as planar) exterior ring, while the sf centroid function takes account of interior rings:</p>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb74-1" data-line-number="1">diffs2d &lt;-<span class="st"> </span>coords <span class="op">-</span><span class="st"> </span>coords_sf</a>
-<a class="sourceLine" id="cb74-2" data-line-number="2">diffs1d &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/apply">apply</a></span>(diffs2d, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(x)))</a>
-<a class="sourceLine" id="cb74-3" data-line-number="3">diffs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unname">unname</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(diffs1d <span class="op">&gt;</span><span class="st"> </span><span class="fl">1e-3</span>))</a>
-<a class="sourceLine" id="cb74-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(coords, coords_sf)[diffs, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>)]</a></code></pre></div>
-<pre><code>##                     X               Y
-## 97  438280.6 438265.9 4773250 4773560
-## 100 430081.7 430173.7 4766513 4766545
-## 103 429478.8 429447.8 4751195 4751135
-## 244 391844.1 391866.2 4756330 4756266
-## 247 384693.9 384734.3 4753900 4753844</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb76-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(coords[<span class="op">-</span>diffs,], coords_sf[<span class="op">-</span>diffs,], <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(NY8_sp[diffs,])</a>
-<a class="sourceLine" id="cb78-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/points">points</a></span>(coords[diffs,], <span class="dt">pch=</span><span class="dv">3</span>, <span class="dt">col=</span><span class="st">"red"</span>)</a>
-<a class="sourceLine" id="cb78-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/points">points</a></span>(coords_sf[diffs,], <span class="dt">pch=</span><span class="dv">4</span>, <span class="dt">col=</span><span class="st">"blue"</span>)</a></code></pre></div>
-<p><img src="nb_sf_files/figure-html/unnamed-chunk-44-1.png" width="700"></p>
 <p>The reason for the discrepancy is that the label point (a.k.a. centroid) returned by sp::coordinates for Polygons objects takes the centroid gross of holes. This is not done by sf::st_centroid, nor by rgeos::gCentroid (which is much quicker than st_centroid even when using the same underlying GEOS code and converting to GEOS SF representation internally):</p>
-<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) gcoords &lt;-<span class="st"> </span><span class="kw">coordinates</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/rgeos/topics/topo-unary-gCentroid">gCentroid</a></span>(NY8_sp, <span class="dt">byid=</span><span class="ot">TRUE</span>)))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0058  0.0000  0.0059</code></pre>
 <p>The output coordinates are still off, but much less:</p>
-<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(coords_sf, gcoords, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>, <span class="dt">scale=</span><span class="dv">1</span>)</a></code></pre></div>
-<pre><code>## [1] "Mean absolute difference: 0.130541"</code></pre>
 <p>The affected objects are not those with holes, and probably discrepancies between the sp and sf object implementations of the GEOS function may be disregarded.</p>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1">gdiffs2d &lt;-<span class="st"> </span>gcoords <span class="op">-</span><span class="st"> </span>coords_sf</a>
-<a class="sourceLine" id="cb83-2" data-line-number="2">gdiffs1d &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/apply">apply</a></span>(gdiffs2d, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/MathFun">abs</a></span>(x)))</a>
-<a class="sourceLine" id="cb83-3" data-line-number="3">gdiffs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unname">unname</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(gdiffs1d <span class="op">&gt;</span><span class="st"> </span><span class="fl">1e-3</span>))</a>
-<a class="sourceLine" id="cb83-4" data-line-number="4"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">cbind</a></span>(gcoords, coords_sf)[gdiffs, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">4</span>)]</a></code></pre></div>
-<pre><code>##            x        X       y       Y
-## 66  363587.8 363587.8 4745110 4745110
-## 90  411481.7 411481.7 4706273 4706273
-## 210 402052.9 402032.5 4765623 4765596
-## 224 413639.7 413652.9 4766751 4766742</code></pre>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(NY8_sp[gdiffs,])</a>
-<a class="sourceLine" id="cb85-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/points">points</a></span>(coords[gdiffs,], <span class="dt">pch=</span><span class="dv">3</span>, <span class="dt">col=</span><span class="st">"red"</span>)</a>
-<a class="sourceLine" id="cb85-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/points">points</a></span>(coords_sf[gdiffs,], <span class="dt">pch=</span><span class="dv">4</span>, <span class="dt">col=</span><span class="st">"blue"</span>)</a></code></pre></div>
-<p><img src="nb_sf_files/figure-html/unnamed-chunk-48-1.png" width="700"></p>
 </div>
 <div id="graph-based-neighbours" class="section level3">
 <h3 class="hasAnchor">
 <a href="#graph-based-neighbours" class="anchor"></a>Graph-based neighbours</h3>
 <p>From this, we can check the graph-based neighbours (planar coordinates only):</p>
-<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/message">suppressPackageStartupMessages</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(deldir))</a>
-<a class="sourceLine" id="cb86-2" data-line-number="2">NY84_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tri2nb.html">tri2nb</a></span>(coords, <span class="dt">row.names=</span>IDs)</a></code></pre></div>
-<pre><code>## 
-##      PLEASE NOTE:  The components "delsgs" and "summary" of the
-##  object returned by deldir() are now DATA FRAMES rather than
-##  matrices (as they were prior to release 0.0-18).
-##  See help("deldir").
-##  
-##      PLEASE NOTE: The process that deldir() uses for determining
-##  duplicated points has changed from that used in version
-##  0.0-9 of this package (and previously). See help("deldir").</code></pre>
-<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb88-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(rgeos, <span class="dt">quietly=</span><span class="ot">TRUE</span>) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(RANN, <span class="dt">quietly=</span><span class="ot">TRUE</span>)) {</a>
-<a class="sourceLine" id="cb88-2" data-line-number="2">  NY85_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/graphneigh.html">graph2nb</a></span>(<span class="kw"><a href="../reference/graphneigh.html">soi.graph</a></span>(NY84_nb, coords), <span class="dt">row.names=</span>IDs)</a>
-<a class="sourceLine" id="cb88-3" data-line-number="3">} <span class="cf">else</span> NY85_nb &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb88-4" data-line-number="4">NY86_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/graphneigh.html">graph2nb</a></span>(<span class="kw"><a href="../reference/graphneigh.html">gabrielneigh</a></span>(coords), <span class="dt">row.names=</span>IDs)</a>
-<a class="sourceLine" id="cb88-5" data-line-number="5">NY87_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/graphneigh.html">graph2nb</a></span>(<span class="kw"><a href="../reference/graphneigh.html">relativeneigh</a></span>(coords), <span class="dt">row.names=</span>IDs)</a></code></pre></div>
 <p>Using ‘st_triangulate’ is unsatisfactory, as is ‘rgeos::gDelaunayTriangulation’ because they do not maintain node order, see the example in ‘?rgeos::gDelaunayTriangulation’ for details:</p>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1">NY84_nb_sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tri2nb.html">tri2nb</a></span>(coords_sf)</a>
-<a class="sourceLine" id="cb89-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY84_nb_sf, NY84_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>The ‘soi.graph’ function may be re-written to use sf functionality internally, but for now just the triangulation and coordinates:</p>
-<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(rgeos, <span class="dt">quietly=</span><span class="ot">TRUE</span>) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(RANN, <span class="dt">quietly=</span><span class="ot">TRUE</span>)) {</a>
-<a class="sourceLine" id="cb91-2" data-line-number="2">  NY85_nb_sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/graphneigh.html">graph2nb</a></span>(<span class="kw"><a href="../reference/graphneigh.html">soi.graph</a></span>(NY84_nb_sf, coords_sf))</a>
-<a class="sourceLine" id="cb91-3" data-line-number="3">} <span class="cf">else</span> NY85_nb_sf &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb91-4" data-line-number="4"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb_sf) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb)) {</a>
-<a class="sourceLine" id="cb91-5" data-line-number="5">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY85_nb_sf, NY85_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb91-6" data-line-number="6">}</a></code></pre></div>
-<pre><code>## [1] FALSE</code></pre>
 <p>The discrepancy is for one of the polygons with a hole:</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb_sf) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb)) {</a>
-<a class="sourceLine" id="cb93-2" data-line-number="2">  diffs &lt;-<span class="st"> </span><span class="kw"><a href="../reference/diffnb.html">diffnb</a></span>(NY85_nb_sf, NY85_nb)</a>
-<a class="sourceLine" id="cb93-3" data-line-number="3">  wdiffs &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/which">which</a></span>(<span class="kw"><a href="../reference/card.html">card</a></span>(NY85_nb_sf) <span class="op">!=</span><span class="st"> </span><span class="kw"><a href="../reference/card.html">card</a></span>(NY85_nb))</a>
-<a class="sourceLine" id="cb93-4" data-line-number="4">  wdiffs</a>
-<a class="sourceLine" id="cb93-5" data-line-number="5">}</a></code></pre></div>
-<pre><code>## [1] 97 99</code></pre>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb_sf) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb)) {</a>
-<a class="sourceLine" id="cb95-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/dist">dist</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(coords[<span class="dv">97</span>,], coords_sf[<span class="dv">97</span>,])))</a>
-<a class="sourceLine" id="cb95-3" data-line-number="3">}</a></code></pre></div>
-<pre><code>## [1] 310.0521</code></pre>
 <p>Here the difference between the points is enough to remove the triangulation link between 97 and 99 under the sphere of influence criterion.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb97-1" data-line-number="1"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb_sf) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb)) {</a>
-<a class="sourceLine" id="cb97-2" data-line-number="2">  <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(NY8_sp[wdiffs,], <span class="dt">border=</span><span class="st">"grey30"</span>, <span class="dt">lwd=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb97-3" data-line-number="3">  <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(NY8_sp, <span class="dt">border=</span><span class="st">"grey80"</span>, <span class="dt">add=</span><span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb97-4" data-line-number="4">  <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(diffs, <span class="kw">coordinates</span>(NY8_sp), <span class="dt">points=</span><span class="ot">FALSE</span>, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">lwd=</span><span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb97-5" data-line-number="5">  <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/plot">plot</a></span>(NY85_nb, <span class="kw">coordinates</span>(NY8_sp), <span class="dt">points=</span><span class="ot">FALSE</span>, <span class="dt">add=</span><span class="ot">TRUE</span>, <span class="dt">col=</span><span class="st">"red"</span>)</a>
-<a class="sourceLine" id="cb97-6" data-line-number="6">  <span class="kw"><a href="https://www.rdocumentation.org/packages/graphics/topics/text">text</a></span>(<span class="kw">coordinates</span>(NY8_sp), IDs, <span class="dt">pos=</span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb97-7" data-line-number="7">}</a></code></pre></div>
-<p><img src="nb_sf_files/figure-html/unnamed-chunk-54-1.png" width="700"></p>
 <p>If we use the GEOS-based coordinates, the distance is reduced to zero:</p>
-<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/dist">dist</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cbind">rbind</a></span>(gcoords[<span class="dv">97</span>,], coords_sf[<span class="dv">97</span>,])))</a></code></pre></div>
-<pre><code>## [1] 8.149073e-10</code></pre>
 <p>and the neighbour objects are the same. Using rgeos::gCentroid centroids rather than sp label points would be the choice to make for new work:</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">NY84g_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tri2nb.html">tri2nb</a></span>(gcoords, <span class="dt">row.names=</span>IDs)</a>
-<a class="sourceLine" id="cb100-2" data-line-number="2"><span class="cf">if</span> (<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(rgeos, <span class="dt">quietly=</span><span class="ot">TRUE</span>) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(RANN, <span class="dt">quietly=</span><span class="ot">TRUE</span>)) {</a>
-<a class="sourceLine" id="cb100-3" data-line-number="3">  NY85g_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/graphneigh.html">graph2nb</a></span>(<span class="kw"><a href="../reference/graphneigh.html">soi.graph</a></span>(NY84g_nb, gcoords), <span class="dt">row.names=</span>IDs)</a>
-<a class="sourceLine" id="cb100-4" data-line-number="4">} <span class="cf">else</span> NY85g_nb &lt;-<span class="st"> </span><span class="ot">NULL</span></a>
-<a class="sourceLine" id="cb100-5" data-line-number="5"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb_sf) <span class="op">&amp;&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/NULL">is.null</a></span>(NY85_nb)) {</a>
-<a class="sourceLine" id="cb100-6" data-line-number="6">  <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY85_nb_sf, NY85g_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a>
-<a class="sourceLine" id="cb100-7" data-line-number="7">}</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>If we coerce from sf to sp representation before extracting point coordinates, we get:</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb102-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) coords_sf_sp &lt;-<span class="st"> </span><span class="kw">coordinates</span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(NY8_sf, <span class="st">"Spatial"</span>)))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0753  0.0001  0.0974</code></pre>
 <p>It turns out that the geometries are identical after coercion (as we would expect from obtaining the same contiguity neighbours above):</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(NY8_sp, <span class="st">"SpatialPolygons"</span>), <span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/coerce-methods">as</a></span>(NY8_sf, <span class="st">"Spatial"</span>),<span class="st">"SpatialPolygons"</span>))</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>so we can reproduce the sp-based label points by coercing first; if we need to reproduce existing work, this is the best choice:</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(coords_sf_sp, coords)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>The remaining two graph-based methods appear to be less sensitive to the differences between the coordinates:</p>
-<div class="sourceCode" id="cb108"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb108-1" data-line-number="1">NY86_nb_sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/graphneigh.html">graph2nb</a></span>(<span class="kw"><a href="../reference/graphneigh.html">gabrielneigh</a></span>(coords_sf))</a>
-<a class="sourceLine" id="cb108-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY86_nb_sf, NY86_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb110"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb110-1" data-line-number="1">NY87_nb_sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/graphneigh.html">graph2nb</a></span>(<span class="kw"><a href="../reference/graphneigh.html">relativeneigh</a></span>(coords_sf))</a>
-<a class="sourceLine" id="cb110-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY87_nb_sf, NY87_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="k-nearest-neighbours" class="section level3">
 <h3 class="hasAnchor">
 <a href="#k-nearest-neighbours" class="anchor"></a>K-nearest neighbours</h3>
 <p>K-nearest neighbours use the coordinate matrices, and can handle Great Circle distances, but this is not demonstrated here, as the data set used is planar:</p>
-<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1">NY88_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/knn2nb.html">knn2nb</a></span>(<span class="kw"><a href="../reference/knearneigh.html">knearneigh</a></span>(coords, <span class="dt">k=</span><span class="dv">1</span>), <span class="dt">row.names=</span>IDs)</a>
-<a class="sourceLine" id="cb112-2" data-line-number="2">NY88_nb_sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/knn2nb.html">knn2nb</a></span>(<span class="kw"><a href="../reference/knearneigh.html">knearneigh</a></span>(coords_sf, <span class="dt">k=</span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb112-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY88_nb_sf, NY88_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>While the first nearest neighbours are found correctly for this data set, the same sensitivity is present with regard to coordinate position at larger k:</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1">NY89_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/knn2nb.html">knn2nb</a></span>(<span class="kw"><a href="../reference/knearneigh.html">knearneigh</a></span>(coords, <span class="dt">k=</span><span class="dv">4</span>), <span class="dt">row.names=</span>IDs)</a>
-<a class="sourceLine" id="cb114-2" data-line-number="2">NY89_nb_sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/knn2nb.html">knn2nb</a></span>(<span class="kw"><a href="../reference/knearneigh.html">knearneigh</a></span>(coords_sf, <span class="dt">k=</span><span class="dv">4</span>))</a>
-<a class="sourceLine" id="cb114-3" data-line-number="3"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY89_nb_sf, NY89_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="distance-neighbours" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distance-neighbours" class="anchor"></a>Distance neighbours</h3>
 <p>Distance neighbours need a threshold - <code>nbdists</code> shows the maximum distance to first nearest neighbour:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1">dsts &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/unlist">unlist</a></span>(<span class="kw"><a href="../reference/nbdists.html">nbdists</a></span>(NY88_nb_sf, coords_sf))</a>
-<a class="sourceLine" id="cb116-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/summary">summary</a></span>(dsts)</a></code></pre></div>
-<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
-##    82.85   912.85  1801.11  3441.04  4461.26 17033.11</code></pre>
-<div class="sourceCode" id="cb118"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb118-1" data-line-number="1">max_1nn &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max</a></span>(dsts)</a></code></pre></div>
 <p><code>dnearneigh</code> can also handle Great Circle distances, but this is not demonstrated here, as the data set used is planar:</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY811_nb &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnearneigh.html">dnearneigh</a></span>(coords, <span class="dt">d1=</span><span class="dv">0</span>, <span class="dt">d2=</span><span class="fl">0.75</span><span class="op">*</span>max_1nn, <span class="dt">row.names=</span>IDs))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0144  0.0000  0.0148</code></pre>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) NY811_nb_sf &lt;-<span class="st"> </span><span class="kw"><a href="../reference/dnearneigh.html">dnearneigh</a></span>(coords_sf, <span class="dt">d1=</span><span class="dv">0</span>, <span class="dt">d2=</span><span class="fl">0.75</span><span class="op">*</span>max_1nn))<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0142  0.0000  0.0144</code></pre>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Logic">isTRUE</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(NY811_nb_sf, NY811_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>))</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>We could use more sf functionality, but it is an order of magnitude slower, through buffering all points by the threshold while distance is symmetric, so i to j and j to i are equal. Buffering also presupposes planar coordinates. In addition, the point itself intersects, so has to be removed:</p>
-<div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) {NY811_buf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_unary">st_buffer</a></span>(NY8_pt_sf, <span class="dt">dist=</span><span class="fl">0.75</span><span class="op">*</span>max_1nn, <span class="dt">nQuadSegs=</span><span class="dv">30</span>)</a>
-<a class="sourceLine" id="cb125-2" data-line-number="2">NY811_nb_sf_buff0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_intersects</a></span>(NY811_buf, NY8_pt_sf)</a>
-<a class="sourceLine" id="cb125-3" data-line-number="3">NY811_nb_sf_buff &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(NY811_nb_sf_buff0), <span class="cf">function</span>(i) NY811_nb_sf_buff0[[i]][<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/match">match</a></span>(i, NY811_nb_sf_buff0[[i]])])})<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0422  0.0000  0.0448</code></pre>
 <p>And it does not match:</p>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw">as.nb.sgbp</span>(NY811_nb_sf_buff), NY811_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] "Component 123: Numeric: lengths (106, 107) differ"
-## [2] "Component 142: Numeric: lengths (106, 107) differ"
-## [3] "Component 184: Numeric: lengths (77, 78) differ"  
-## [4] "Component 201: Numeric: lengths (57, 58) differ"</code></pre>
 <p>This time the problem is in the number of line segments in each buffer circle quadrant, so if we smooth the circle, things get better:</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) {NY811_buf &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_unary">st_buffer</a></span>(NY8_pt_sf, <span class="dt">dist=</span><span class="fl">0.75</span><span class="op">*</span>max_1nn, <span class="dt">nQuadSegs=</span><span class="dv">90</span>)</a>
-<a class="sourceLine" id="cb129-2" data-line-number="2">NY811_nb_sf_buff0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_intersects</a></span>(NY811_buf, NY8_pt_sf)</a>
-<a class="sourceLine" id="cb129-3" data-line-number="3">NY811_nb_sf_buff &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(NY811_nb_sf_buff0), <span class="cf">function</span>(i) NY811_nb_sf_buff0[[i]][<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/match">match</a></span>(i, NY811_nb_sf_buff0[[i]])])})<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0914  0.0000  0.0942</code></pre>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw">as.nb.sgbp</span>(NY811_nb_sf_buff), NY811_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 <p>We can do the same with sf::st_is_within_distance too:</p>
-<div class="sourceCode" id="cb133"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb133-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/system.time">system.time</a></span>(<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span>reps) {NY811_nb_sf_dist0 &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/sf/topics/geos_binary_pred">st_is_within_distance</a></span>(NY8_pt_sf, NY8_pt_sf, <span class="dt">dist=</span><span class="fl">0.75</span><span class="op">*</span>max_1nn)</a>
-<a class="sourceLine" id="cb133-2" data-line-number="2">NY811_nb_sf_dist &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/lapply">lapply</a></span>(<span class="dv">1</span><span class="op">:</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/length">length</a></span>(NY811_nb_sf_dist0), <span class="cf">function</span>(i) NY811_nb_sf_dist0[[i]][<span class="op">-</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/match">match</a></span>(i, NY811_nb_sf_dist0[[i]])])})<span class="op">/</span>reps</a></code></pre></div>
-<pre><code>##    user  system elapsed 
-##  0.0641  0.0000  0.0652</code></pre>
-<div class="sourceCode" id="cb135"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb135-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/all.equal">all.equal</a></span>(<span class="kw">as.nb.sgbp</span>(NY811_nb_sf_dist), NY811_nb, <span class="dt">check.attributes=</span><span class="ot">FALSE</span>)</a></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
 </div>
 </div>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-        <div id="tocnav">
-      <h2 class="hasAnchor">
-<a href="#tocnav" class="anchor"></a>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-<li>
-<a href="#creating-neighbours-using-sf-objects">Creating Neighbours using sf objects</a><ul class="nav nav-pills nav-stacked">
-<li><a href="#introduction">Introduction</a></li>
-      <li><a href="#summary">Summary</a></li>
-      <li><a href="#data-set">Data set</a></li>
-      <li><a href="#nb-and-listw-objects-copied-from-the-nb_igraph-vignette">nb and listw objects (copied from the nb_igraph vignette)</a></li>
-      <li><a href="#comparison-of-sp-and-sf-approaches">Comparison of sp and sf approaches</a></li>
-      <li><a href="#point-based-neighbours">Point-based neighbours</a></li>
-      </ul>
-</li>
-      </ul>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
 </div>
-      </div>
 
 </div>
+
 
 
       <footer><div class="copyright">
@@ -580,12 +250,14 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

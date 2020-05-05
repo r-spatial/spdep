@@ -8,21 +8,29 @@
 
 <title>Moran's I test for spatial autocorrelation — moran.test • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Moran's I test for spatial autocorrelation — moran.test" />
 
+<meta property="og:title" content="Moran's I test for spatial autocorrelation — moran.test" />
 <meta property="og:description" content="Moran's test for spatial autocorrelation using a spatial weights matrix in weights list form. The assumptions underlying the test are sensitive to the form of the graph of neighbour relationships and other factors, and results may be checked against those of moran.mc permutations." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,15 +135,13 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Moran's test for spatial autocorrelation using a spatial weights matrix in weights list form. The assumptions underlying the test are sensitive to the form of the graph of neighbour relationships and other factors, and results may be checked against those of <code>moran.mc</code> permutations.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>moran.test</span>(<span class='no'>x</span>, <span class='no'>listw</span>, <span class='kw'>randomisation</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>,
  <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>, <span class='kw'>rank</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.fail</span>, <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>,
  <span class='kw'>adjust.n</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>drop.EI2</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -179,7 +186,7 @@
       <td><p>default FALSE, if TRUE, emulate CrimeStat &lt;= 4.02</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list with class <code>htest</code> containing the following components:</p>
@@ -190,7 +197,6 @@
   <dt>method</dt><dd><p>a character string giving the assumption used for calculating the standard deviate.</p></dd>
   <dt>data.name</dt><dd><p>a character string giving the name(s) of the data.</p></dd>
 
-    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Var(I) is taken from Cliff and Ord (1969, p. 28), and 
@@ -198,19 +204,16 @@ Goodchild's CATMOG 47 (1986),
 see also Upton &amp; Fingleton (1985) p. 171; it agrees with SpaceStat,
 see Tutorial workbook Chapter 22; VI is the second crude moment minus the
 square of the first crude moment. The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href='lm.morantest.html'>listw2U()</a></code> can be used to make the matrix symmetric.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 21; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href='https://doi.org/10.1007/s11749-018-0599-x'>https://doi.org/10.1007/s11749-018-0599-x</a></p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='moran.html'>moran</a></code>, <code><a href='moran.mc.html'>moran.mc</a></code>, <code><a href='lm.morantest.html'>listw2U</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='no'>oldcol</span>)
-<span class='no'>coords.OLD</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cbind'>cbind</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>X</span>, <span class='no'>COL.OLD</span>$<span class='no'>Y</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>oldcol</span>)
+<span class='no'>coords.OLD</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>X</span>, <span class='no'>COL.OLD</span>$<span class='no'>Y</span>)
 <span class='fu'>moran.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Moran I test under randomisation
 #&gt; 
@@ -292,8 +295,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 #&gt; sample estimates:
 #&gt; Moran I statistic       Expectation          Variance 
 #&gt;      -0.138930745      -0.020833333       0.004354683 
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>COL.k4.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>coords.OLD</span>, <span class='fl'>4</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.k4.nb</span>))</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>moran.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>COL.k4.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>coords.OLD</span>, <span class='fl'>4</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.k4.nb</span>))</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>moran.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
 #&gt; 	Moran I test under randomisation
 #&gt; 
 #&gt; data:  COL.OLD$CRIME  
@@ -316,7 +319,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 #&gt; sample estimates:
 #&gt; Moran I statistic       Expectation          Variance 
 #&gt;       0.624933667      -0.020833333       0.007887613 
-#&gt; </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cat'>cat</a></span>(<span class='st'>"Note: non-symmetric weights matrix, use listw2U()"</span>)</div><div class='output co'>#&gt; Note: non-symmetric weights matrix, use listw2U()</div><div class='input'><span class='fu'>moran.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>,
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>"Note: non-symmetric weights matrix, use listw2U()"</span>)</div><div class='output co'>#&gt; Note: non-symmetric weights matrix, use listw2U()</div><div class='input'><span class='fu'>moran.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>,
  <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)))</div><div class='output co'>#&gt; 
 #&gt; 	Moran I test under randomisation
 #&gt; 
@@ -340,8 +343,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 #&gt; sample estimates:
 #&gt; Moran I statistic       Expectation          Variance 
 #&gt;       0.624933667      -0.020833333       0.007887613 
-#&gt; </div><div class='input'><span class='no'>ranks</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rank'>rank</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/names'>names</a></span>(<span class='no'>ranks</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>COL.OLD</span>)
+#&gt; </div><div class='input'><span class='no'>ranks</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/rank.html'>rank</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>ranks</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>COL.OLD</span>)
 <span class='fu'>moran.test</span>(<span class='no'>ranks</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>rank</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
 #&gt; 	Moran I test under randomisation
 #&gt; 
@@ -354,8 +357,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 #&gt; Moran I statistic       Expectation          Variance 
 #&gt;       0.584333495      -0.020833333       0.008992923 
 #&gt; </div><div class='input'><span class='no'>crime</span> <span class='kw'>&lt;-</span> <span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>crime</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sample'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>crime</span>), <span class='fl'>10</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'>moran.test</span>(<span class='no'>crime</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>),
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>crime</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>crime</span>), <span class='fl'>10</span>)
+<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/try.html'>try</a></span>(<span class='fu'>moran.test</span>(<span class='no'>crime</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>),
  <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.fail</span>))</div><div class='output co'>#&gt; Error in na.fail.default(x) : missing values in object</div><div class='input'><span class='no'>res</span></div><div class='output co'>#&gt; [1] "Error in na.fail.default(x) : missing values in object\n"
 #&gt; attr(,"class")
 #&gt; [1] "try-error"
@@ -366,59 +369,46 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 #&gt; 
 #&gt; data:  crime  
 #&gt; weights: nb2listw(COL.nb, style = "W") 
-#&gt; omitted: 7, 8, 15, 21, 23, 28, 30, 33, 37, 39   
+#&gt; omitted: 5, 7, 9, 15, 19, 33, 40, 45, 47, 48   
 #&gt; 
-#&gt; Moran I statistic standard deviate = 4.4821, p-value = 3.696e-06
+#&gt; Moran I statistic standard deviate = 3.8759, p-value = 5.311e-05
 #&gt; alternative hypothesis: greater
 #&gt; sample estimates:
 #&gt; Moran I statistic       Expectation          Variance 
-#&gt;        0.50789412       -0.02631579        0.01420562 
+#&gt;        0.42342213       -0.02631579        0.01346387 
 #&gt; </div><div class='input'><span class='fu'>moran.test</span>(<span class='no'>crime</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
  <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>)</div><div class='output co'>#&gt; 
 #&gt; 	Moran I test under randomisation
 #&gt; 
 #&gt; data:  crime  
 #&gt; weights: nb2listw(COL.nb, style = "W") 
-#&gt; omitted: 7, 8, 15, 21, 23, 28, 30, 33, 37, 39   
+#&gt; omitted: 5, 7, 9, 15, 19, 33, 40, 45, 47, 48   
 #&gt; 
-#&gt; Moran I statistic standard deviate = 4.4821, p-value = 3.696e-06
+#&gt; Moran I statistic standard deviate = 3.8759, p-value = 5.311e-05
 #&gt; alternative hypothesis: greater
 #&gt; sample estimates:
 #&gt; Moran I statistic       Expectation          Variance 
-#&gt;        0.50789412       -0.02631579        0.01420562 
+#&gt;        0.42342213       -0.02631579        0.01346387 
 #&gt; </div><div class='input'><span class='fu'>moran.test</span>(<span class='no'>crime</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.pass</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: NAs in lagged values</span></div><div class='output co'>#&gt; 
 #&gt; 	Moran I test under randomisation
 #&gt; 
 #&gt; data:  crime  
 #&gt; weights: nb2listw(COL.nb, style = "W")    
 #&gt; 
-#&gt; Moran I statistic standard deviate = 2.5294, p-value = 0.005712
+#&gt; Moran I statistic standard deviate = 1.3275, p-value = 0.09216
 #&gt; alternative hypothesis: greater
 #&gt; sample estimates:
 #&gt; Moran I statistic       Expectation          Variance 
-#&gt;       0.216154130      -0.020833333       0.008778063 
+#&gt;       0.103248466      -0.020833333       0.008736122 
 #&gt; </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#note">Note</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -426,13 +416,16 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

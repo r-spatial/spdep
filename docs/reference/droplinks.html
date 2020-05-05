@@ -8,21 +8,29 @@
 
 <title>Drop links in a neighbours list — droplinks • spdep</title>
 
+
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Drop links in a neighbours list — droplinks" />
 
+<meta property="og:title" content="Drop links in a neighbours list — droplinks" />
 <meta property="og:description" content="Drops links to and from or just to a region from a neighbours list. The example corresponds to Fingleton's Table 1, p. 6, for lattices 5 to 19." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
       </span>
     </div>
 
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -100,11 +109,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-spatial/spdep">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/r-spatial/spdep/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,6 +123,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -126,13 +135,11 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Drops links to and from or just to a region from a neighbours list. The example corresponds to Fingleton's Table 1, p. 6, for lattices 5 to 19.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>droplinks</span>(<span class='no'>nb</span>, <span class='no'>drop</span>, <span class='kw'>sym</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -149,42 +156,40 @@
       <td><p>TRUE for removal of both "row" and "column" links, FALSE for only "row" links</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns an object of class <code>nb</code> with a list of integer vectors containing neighbour region number ids.</p>
-    
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>B. Fingleton (1999) Spurious spatial regression: some Monte Carlo results with a spatial unit root and spatial cointegration, Journal of Regional Science 39, pp. 1--19.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='testnb.html'>is.symmetric.nb</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>rho</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.95</span>, <span class='fl'>0.999</span>, <span class='fl'>1.0</span>)
-<span class='no'>ns</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>7</span>, <span class='fl'>9</span>, <span class='fl'>11</span>, <span class='fl'>13</span>, <span class='fl'>15</span>, <span class='fl'>17</span>, <span class='fl'>19</span>)
-<span class='no'>mns</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>ns</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>rho</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>mns</span>) <span class='kw'>&lt;-</span> <span class='no'>ns</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>mns</span>) <span class='kw'>&lt;-</span> <span class='no'>rho</span>
-<span class='no'>mxs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/matrix'>matrix</a></span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>ns</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>rho</span>))
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>rownames</a></span>(<span class='no'>mxs</span>) <span class='kw'>&lt;-</span> <span class='no'>ns</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/colnames'>colnames</a></span>(<span class='no'>mxs</span>) <span class='kw'>&lt;-</span> <span class='no'>rho</span>
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>ns</span>)) {
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='no'>rho</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.95</span>, <span class='fl'>0.999</span>, <span class='fl'>1.0</span>)
+<span class='no'>ns</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>7</span>, <span class='fl'>9</span>, <span class='fl'>11</span>, <span class='fl'>13</span>, <span class='fl'>15</span>, <span class='fl'>17</span>, <span class='fl'>19</span>)
+<span class='no'>mns</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>ns</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>rho</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>mns</span>) <span class='kw'>&lt;-</span> <span class='no'>ns</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>mns</span>) <span class='kw'>&lt;-</span> <span class='no'>rho</span>
+<span class='no'>mxs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>ns</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>rho</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>mxs</span>) <span class='kw'>&lt;-</span> <span class='no'>ns</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>mxs</span>) <span class='kw'>&lt;-</span> <span class='no'>rho</span>
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>ns</span>)) {
   <span class='no'>nblist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cell2nb.html'>cell2nb</a></span>(<span class='no'>ns</span>[<span class='no'>i</span>], <span class='no'>ns</span>[<span class='no'>i</span>])
   <span class='no'>nbdropped</span> <span class='kw'>&lt;-</span> <span class='fu'>droplinks</span>(<span class='no'>nblist</span>, ((<span class='no'>ns</span>[<span class='no'>i</span>]*<span class='no'>ns</span>[<span class='no'>i</span>])+<span class='fl'>1</span>)/<span class='fl'>2</span>, <span class='kw'>sym</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
   <span class='no'>listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbdropped</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
   <span class='no'>wmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2mat.html'>listw2mat</a></span>(<span class='no'>listw</span>)
-  <span class='kw'>for</span> (<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/length'>length</a></span>(<span class='no'>rho</span>)) {
-    <span class='no'>mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='no'>ns</span>[<span class='no'>i</span>]*<span class='no'>ns</span>[<span class='no'>i</span>]) - <span class='no'>rho</span>[<span class='no'>j</span>] * <span class='no'>wmat</span>
-    <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/diag'>diag</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/solve'>solve</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/t'>t</a></span>(<span class='no'>mat</span>) <span class='kw'>%*%</span> <span class='no'>mat</span>))
-    <span class='no'>mns</span>[<span class='no'>i</span>,<span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>res</span>)
-    <span class='no'>mxs</span>[<span class='no'>i</span>,<span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>res</span>)
+  <span class='kw'>for</span> (<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>rho</span>)) {
+    <span class='no'>mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span>(<span class='no'>ns</span>[<span class='no'>i</span>]*<span class='no'>ns</span>[<span class='no'>i</span>]) - <span class='no'>rho</span>[<span class='no'>j</span>] * <span class='no'>wmat</span>
+    <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>mat</span>) <span class='kw'>%*%</span> <span class='no'>mat</span>))
+    <span class='no'>mns</span>[<span class='no'>i</span>,<span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>res</span>)
+    <span class='no'>mxs</span>[<span class='no'>i</span>,<span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>res</span>)
   }
 }
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>mns</span>)</div><div class='output co'>#&gt;         0.2      0.5      0.95     0.999          1
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>mns</span>)</div><div class='output co'>#&gt;         0.2      0.5      0.95     0.999          1
 #&gt; 5  1.038271 1.312627  9.486051  30.81487   32.04915
 #&gt; 7  1.036443 1.295621 10.899580  83.25437   92.09812
 #&gt; 9  1.035356 1.285145 10.798611 160.90951  195.02166
@@ -192,7 +197,7 @@
 #&gt; 13 1.034132 1.273442  9.968389 353.66366  555.88699
 #&gt; 15 1.033753 1.269852  9.619387 447.19245  824.46560
 #&gt; 17 1.033460 1.267082  9.337167 528.49015 1157.77630
-#&gt; 19 1.033227 1.264879  9.109487 594.23907 1559.69614</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/print'>print</a></span>(<span class='no'>mxs</span>)</div><div class='output co'>#&gt;         0.2      0.5     0.95     0.999          1
+#&gt; 19 1.033227 1.264879  9.109487 594.23907 1559.69614</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>mxs</span>)</div><div class='output co'>#&gt;         0.2      0.5     0.95     0.999          1
 #&gt; 5  1.048834 1.401934 12.00215  39.22742   40.79967
 #&gt; 7  1.048834 1.402174 14.66823 106.90031  118.01556
 #&gt; 9  1.048834 1.402176 15.49606 207.28928  249.74893
@@ -201,27 +206,17 @@
 #&gt; 15 1.048834 1.402176 15.86474 583.50722 1044.75562
 #&gt; 17 1.048834 1.402176 15.87225 695.10288 1461.57017
 #&gt; 19 1.048834 1.402176 15.87445 789.50575 1961.84025</div><div class='input'>
-</div><div class='input'>
+# }
+
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -229,13 +224,16 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
