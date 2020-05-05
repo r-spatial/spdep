@@ -1,3 +1,9 @@
+2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+
+	* ChangeLog, DESCRIPTION, R/nb2lines.R, R/plot.nb.R,
+	inst/ChangeLog, man/nb2lines.Rd, man/plot.nb.Rd, oChangelog: fixes
+	#40 sf output from nb2lines
+
 2020-04-13  Roger Bivand <rsbivand@users.noreply.github.com>
 
 	* man/poly2nb.Rd: fixes #39 edit `region.id` description
