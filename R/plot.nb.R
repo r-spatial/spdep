@@ -7,11 +7,17 @@ plot.nb <- function(x, coords, col="black", points=TRUE, add=FALSE,
 	nb <- x
 
         if (inherits(coords, "sfc")) {
-            if (!inherits(coords, "sfc_POINT"))
-                stop("Point geometries required")
+            if (!inherits(coords, "sfc_POINT")) {
+                    if (inherits(coords, "sfc_POLYGON") || 
+                        inherits(coords, "sfc_MULTIPOLYGON")) 
+                        coords <- st_point_on_surface(coords)
+                    else stop("Point-conforming geometries required")
+                }
             if (attr(coords, "n_empty") > 0L) 
                 stop("Empty geometries found")
             coords <- sf::st_coordinates(coords)
+        } else if (inherits(coords, "Spatial")) {
+            coords <- coordinates(coords)
         }
         
         stopifnot(length(nb) == nrow(coords))

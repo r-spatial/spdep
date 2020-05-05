@@ -15,7 +15,7 @@ A function to plot a neighbours list given point coordinates to represent the re
 
 \arguments{
   \item{x}{an object of class \code{nb} or (for \code{plot.listw}) class \code{listw}}
-  \item{coords}{matrix of region point coordinates, or an \code{sfc} points object}
+  \item{coords}{matrix of region point coordinates, a \code{Spatial} object (points or polygons), or an \code{sfc} object (points or polygons)}
   \item{col}{plotting colour}
   \item{points}{(logical) add points to plot}
   \item{add}{(logical) add to existing plot}
@@ -32,9 +32,11 @@ neighbours lists}
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
-plot(col.gal.nb, coords)
+plot(col.gal.nb, st_geometry(columbus))
 title(main="GAL order 1 links with first nearest neighbours in red", cex.main=0.6)
+plot(col.gal.nb, as(columbus, "Spatial"))
+title(main="GAL order 1 links with first nearest neighbours in red", cex.main=0.6)
+coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
 col.knn <- knearneigh(coords, k=1)
 plot(knn2nb(col.knn), coords, add=TRUE, col="red", length=0.08)
 }

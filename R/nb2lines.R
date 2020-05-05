@@ -1,8 +1,24 @@
 # Copyright 2005-7 by Roger Bivand
 #
 
-nb2lines <- function(nb, wts, coords, proj4string=CRS(as.character(NA))) {
+nb2lines <- function(nb, wts, coords, proj4string=NULL, as_sf=FALSE) {
 
+        if (inherits(coords, "sfc")) {
+            if (!inherits(coords, "sfc_POINT")) {
+                if (inherits(coords, "sfc_POLYGON") || 
+                    inherits(coords, "sfc_MULTIPOLYGON")) 
+                    coords <- sf::st_point_on_surface(coords)
+                else stop("Point-conforming geometries required")
+            }
+            if (attr(coords, "n_empty") > 0L) 
+                stop("Empty geometries found")
+            as_sf <- TRUE
+            proj4string <- sf::st_crs(coords)
+            coords <- sf::st_coordinates(coords)
+        } else if (inherits(coords, "Spatial")) {
+            proj4string <- slot(coords, "proj4string")
+            coords <- coordinates(coords)
+        }
 	x <- coords[,1]
 	y <- coords[,2]
 	n <- length(nb)
@@ -25,8 +41,12 @@ nb2lines <- function(nb, wts, coords, proj4string=CRS(as.character(NA))) {
 				yy <- c(y[i], y[jj])
 				xy <- cbind(xx, yy)
 #				ll[[line]] <- cbind(xx, yy)
-				Ll <- list(Line(xy))
-				ll[[line]] <- Lines(Ll, ID=as.character(line))
+                                if (as_sf) {
+                                  ll[[line]] <- sf::st_linestring(xy, dim="XY")
+                                } else {
+				  Ll <- list(Line(xy))
+				  ll[[line]] <- Lines(Ll, ID=as.character(line))
+                                }
 				df[line, "i"] <- i
 				df[line, "i_ID"] <- ID[i]
 				df[line, "j"] <- jj
@@ -40,13 +60,21 @@ nb2lines <- function(nb, wts, coords, proj4string=CRS(as.character(NA))) {
 		}
 	}
 	row.names(df) <- as.character(1:(line-1))
-	SpatialLinesDataFrame(SpatialLines(ll, proj4string=proj4string),
-		data=df)
-#	list(ll=ll, df=df)
+        if (as_sf) {
+            res <- df
+            if (!inherits(proj4string, "crs"))
+                proj4string <- sf::st_crs(proj4string)
+            sf::st_geometry(res) <- sf::st_as_sfc(ll, crs=proj4string)
+        } else {
+            if (!inherits(proj4string, "CRS")) proj4string <- CRS(proj4string)
+	    res <- SpatialLinesDataFrame(SpatialLines(ll,
+                proj4string=proj4string), data=df)
+        }
+        res
 }
 
-listw2lines <- function(listw, coords, proj4string=CRS(as.character(NA))) {
-	nb2lines(listw$neighbours, listw$weights, coords, proj4string)
+listw2lines <- function(listw, coords, proj4string=NULL, as_sf=FALSE) {
+	nb2lines(listw$neighbours, listw$weights, coords, proj4string, as_sf)
 }
 
 df2sn <- function(df, i="i", i_ID="i_ID", j="j", wt="wt") {
