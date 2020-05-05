@@ -30,7 +30,7 @@ df2sn(df, i="i", i_ID="i_ID", j="j", wt="wt")
  The neighbour and weights objects may be retrieved by converting the specified columns of the data slot of the SpatialLinesDataFrame object into a spatial.neighbour object, which is then converted into a weights list object.
 }
 \value{
-  \code{nb2lines} and \code{listw2lines} return a SpatialLinesDataFrame object; its data slot contains a data frame with the from and to indices of the neighbour links and their weights. \code{df2sn} converts the data retrieved from reading the data from \code{df} back into a \code{spatial.neighbour} object.
+  \code{nb2lines} and \code{listw2lines} return a SpatialLinesDataFrame object or an sf object; the data frame contains with the from and to indices of the neighbour links and their weights. \code{df2sn} converts the data retrieved from reading the data from \code{df} back into a \code{spatial.neighbour} object.
 }
 
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
