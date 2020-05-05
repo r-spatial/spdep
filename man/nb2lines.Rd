@@ -27,7 +27,7 @@ df2sn(df, i="i", i_ID="i_ID", j="j", wt="wt")
   \item{wt}{character name of column in df with weights}
 }
 \details{
- The maptools package function \code{writeSpatialShape} is used to transport out the list of lines made by \code{nb2lines} or \code{listw2lines}, which is a simple wrapper function. The neighbour and weights objects may be retrieved by converting the specified columns of the data slot of the SpatialLinesDataFrame object into a spatial.neighbour object, which is then converted into a weights list object.
+ The neighbour and weights objects may be retrieved by converting the specified columns of the data slot of the SpatialLinesDataFrame object into a spatial.neighbour object, which is then converted into a weights list object.
 }
 \value{
   \code{nb2lines} and \code{listw2lines} return a SpatialLinesDataFrame object; its data slot contains a data frame with the from and to indices of the neighbour links and their weights. \code{df2sn} converts the data retrieved from reading the data from \code{df} back into a \code{spatial.neighbour} object.
