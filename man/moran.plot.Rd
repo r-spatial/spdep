@@ -21,7 +21,7 @@ moran.plot(x, listw, zero.policy=NULL, spChk=NULL, labels=NULL,
   \item{ylab}{label for x axis}
   \item{quiet}{default NULL, use !verbose global option value; if TRUE, output of summary of influence object suppressed}
   \item{plot}{default TRUE, if false, plotting is suppressed}
-  \item{return_df}{default TRUE, invisibly return a data.frame object; if false invisibly return an influence measures object}
+  \item{return_df}{default TRUE, invisibly return a data.frame object; if FALSE invisibly return an influence measures object}
   \item{\dots}{further graphical parameters as in \code{par(..)}}
 }
 
