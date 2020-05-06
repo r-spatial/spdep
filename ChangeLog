@@ -1,3 +1,87 @@
+2020-05-06  Roger Bivand <roger.bivand@nhh.no>
+
+	* DESCRIPTION, R/moran.plot.R, man/moran.plot.Rd: add data.frame
+	return from moran.plot
+
+2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+
+	* docs/reference/nb2lines.html: update docs
+
+2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+
+	* man/nb2lines.Rd: update docs
+
+2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+
+	* docs/reference/nb2lines.html: update docs
+
+2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+
+	* man/nb2lines.Rd: update docs
+
+2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+
+	* docs/404.html, docs/articles/CO69.html, docs/articles/index.html,
+	docs/articles/nb_igraph.html, docs/articles/nb_sf.html,
+	docs/articles/sids.html, docs/authors.html, docs/bootstrap-toc.css,
+	docs/bootstrap-toc.js, docs/index.html, docs/pkgdown.css,
+	docs/pkgdown.js, docs/pkgdown.yml, docs/reference/COL.OLD.html,
+	docs/reference/EBImoran.mc.html, docs/reference/EBest.html,
+	docs/reference/EBlocal.html, docs/reference/LOSH.cs.html,
+	docs/reference/LOSH.html, docs/reference/LOSH.mc.html,
+	docs/reference/aggregate.nb.html, docs/reference/airdist.html,
+	docs/reference/aple.html, docs/reference/aple.mc.html,
+	docs/reference/aple.plot.html, docs/reference/autocov_dist.html,
+	docs/reference/bhicv.html, docs/reference/card.html,
+	docs/reference/cell2nb.html, docs/reference/choynowski.html,
+	docs/reference/columbus.html, docs/reference/compon.html,
+	docs/reference/diffnb.html, docs/reference/dnearneigh.html,
+	docs/reference/droplinks.html, docs/reference/edit.nb.html,
+	docs/reference/eire.html, docs/reference/geary.html,
+	docs/reference/geary.mc.html, docs/reference/geary.test.html,
+	docs/reference/globalG.test.html, docs/reference/graphneigh.html,
+	docs/reference/grid2nb.html, docs/reference/include.self.html,
+	docs/reference/index.html, docs/reference/invIrM.html,
+	docs/reference/joincount.mc.html,
+	docs/reference/joincount.multi.html,
+	docs/reference/joincount.test.html, docs/reference/knearneigh.html,
+	docs/reference/knn2nb.html, docs/reference/lag.listw.html,
+	docs/reference/lee.html, docs/reference/lee.mc.html,
+	docs/reference/lee.test.html, docs/reference/listw2sn.html,
+	docs/reference/lm.LMtests.html,
+	docs/reference/lm.morantest.exact.html,
+	docs/reference/lm.morantest.html,
+	docs/reference/lm.morantest.sad.html, docs/reference/localG.html,
+	docs/reference/localmoran.exact.html,
+	docs/reference/localmoran.html, docs/reference/localmoran.sad.html,
+	docs/reference/mat2listw.html, docs/reference/moran.html,
+	docs/reference/moran.mc.html, docs/reference/moran.plot.html,
+	docs/reference/moran.test.html, docs/reference/mstree.html,
+	docs/reference/nb2INLA.html, docs/reference/nb2WB.html,
+	docs/reference/nb2blocknb.html, docs/reference/nb2lines.html,
+	docs/reference/nb2listw.html, docs/reference/nb2mat.html,
+	docs/reference/nbcosts.html, docs/reference/nbdists.html,
+	docs/reference/nblag.html, docs/reference/nboperations.html,
+	docs/reference/p.adjustSP.html, docs/reference/plot.mst.html,
+	docs/reference/plot.nb.html, docs/reference/plot.skater.html,
+	docs/reference/poly2nb.html, docs/reference/probmap.html,
+	docs/reference/prunecost.html, docs/reference/prunemst.html,
+	docs/reference/read.gal.html, docs/reference/read.gwt2nb.html,
+	docs/reference/rotation.html, docs/reference/set.mcOption.html,
+	docs/reference/set.spChkOption.html, docs/reference/skater.html,
+	docs/reference/sp.correlogram.html,
+	docs/reference/sp.mantel.mc.html,
+	docs/reference/spdep-deprecated.html, docs/reference/spdep.html,
+	docs/reference/spweights.constants.html, docs/reference/ssw.html,
+	docs/reference/subset.listw.html, docs/reference/subset.nb.html,
+	docs/reference/summary.nb.html, docs/reference/testnb.html,
+	docs/reference/tolerance.nb.html, docs/reference/tri2nb.html,
+	docs/reference/write.nb.gal.html: update docs
+
+2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2020-05-05  Roger Bivand <roger.bivand@nhh.no>
 
 	* ChangeLog, DESCRIPTION, R/nb2lines.R, R/plot.nb.R,
