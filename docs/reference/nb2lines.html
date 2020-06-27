@@ -222,8 +222,8 @@
 #&gt;  Mean   :0.2130                   
 #&gt;  3rd Qu.:0.2500                   
 #&gt;  Max.   :0.5000                   </div><div class='input'><span class='no'>tf</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(), <span class='st'>".gpkg"</span>)
-<span class='fu'>st_write</span>(<span class='no'>res</span>, <span class='kw'>dsn</span><span class='kw'>=</span><span class='no'>tf</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"GPKG"</span>)</div><div class='output co'>#&gt; Writing layer `file490536a215a69' to data source `/tmp/Rtmp3uAJf2/file490536a215a69.gpkg' using driver `GPKG'
-#&gt; Writing 230 features with 5 fields and geometry type Line String.</div><div class='input'><span class='no'>inMap</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='no'>tf</span>)</div><div class='output co'>#&gt; Reading layer `file490536a215a69' from data source `/tmp/Rtmp3uAJf2/file490536a215a69.gpkg' using driver `GPKG'
+<span class='fu'>st_write</span>(<span class='no'>res</span>, <span class='kw'>dsn</span><span class='kw'>=</span><span class='no'>tf</span>, <span class='kw'>driver</span><span class='kw'>=</span><span class='st'>"GPKG"</span>)</div><div class='output co'>#&gt; Writing layer `file424477df2ef65' to data source `/tmp/RtmpAyvpsz/file424477df2ef65.gpkg' using driver `GPKG'
+#&gt; Writing 230 features with 5 fields and geometry type Line String.</div><div class='input'><span class='no'>inMap</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='no'>tf</span>)</div><div class='output co'>#&gt; Reading layer `file424477df2ef65' from data source `/tmp/RtmpAyvpsz/file424477df2ef65.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 230 features and 5 fields
 #&gt; geometry type:  LINESTRING
 #&gt; dimension:      XY

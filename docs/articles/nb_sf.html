@@ -85,7 +85,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="nb_sf_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Creating Neighbours using sf objects</h1>
@@ -127,7 +127,7 @@
 <p>Here we will use a GPKG file created as follows (rgdal could also be used with the same output; GDAL here is built with GEOS, so the BNA vector driver will use geometry tests: The BNA driver supports reading of polygons with holes or lakes. It determines what is a hole or a lake only from geometrical analysis (inclusion, non-intersection tests) and ignores completely the notion of polygon winding (whether the polygon edges are described clockwise or counter-clockwise). GDAL must be built with GEOS enabled to make geometry test work.):</p>
 <div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">sf</span>)
 <span class="no">sf_bna</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sf/man/st_read.html">st_read</a></span>(<span class="st">"t8_36.bna"</span>, <span class="kw">stringsAsFactors</span><span class="kw">=</span><span class="fl">FALSE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/geos_query.html">st_is_valid</a></span>(<span class="no">sf_bna</span>))
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/sf/man/valid.html">st_is_valid</a></span>(<span class="no">sf_bna</span>))
 <span class="no">sf_bna</span>$<span class="no">AREAKEY</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span>(<span class="st">"\\."</span>, <span class="st">""</span>, <span class="no">sf_bna</span>$<span class="no">Primary.ID</span>)
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="no">NY_data</span>, <span class="kw">package</span><span class="kw">=</span><span class="st">"spData"</span>)
 <span class="no">key</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="no">nydata</span>$<span class="no">AREAKEY</span>)

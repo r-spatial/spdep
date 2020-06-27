@@ -188,7 +188,7 @@ are also marked if they occur.</p>
     </tr>
     <tr>
       <th>return_df</th>
-      <td><p>default TRUE, invisibly return a data.frame object; if false invisibly return an influence measures object</p></td>
+      <td><p>default TRUE, invisibly return a data.frame object; if FALSE invisibly return an influence measures object</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -224,8 +224,7 @@ Geographical Analysis, 27, 93--115</p>
     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>(<span class='kw'>data</span><span class='kw'>=</span><span class='no'>mp</span>[<span class='no'>mp</span>$<span class='no'>is_inf</span>,], <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>x</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>wx</span>), <span class='kw'>shape</span><span class='kw'>=</span><span class='fl'>9</span>) +
     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span>(<span class='kw'>data</span><span class='kw'>=</span><span class='no'>mp</span>[<span class='no'>mp</span>$<span class='no'>is_inf</span>,], <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span><span class='kw'>=</span><span class='no'>x</span>, <span class='kw'>y</span><span class='kw'>=</span><span class='no'>wx</span>, <span class='kw'>label</span><span class='kw'>=</span><span class='no'>labels</span>, <span class='kw'>vjust</span><span class='kw'>=</span><span class='fl'>1.5</span>)) +
     <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>xlab</a></span>(<span class='no'>xname</span>) + <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ylab</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"Spatially lagged "</span>, <span class='no'>xname</span>))
-}</div><div class='output co'>#&gt; <span class='message'>Want to understand how all the pieces fit together? Read R for Data</span>
-#&gt; <span class='message'>Science: https://r4ds.had.co.nz/</span></div><div class='img'><img src='moran.plot-3.png' alt='' width='700' height='433' /></div></pre>
+}</div><div class='img'><img src='moran.plot-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

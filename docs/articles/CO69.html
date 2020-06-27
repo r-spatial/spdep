@@ -85,7 +85,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="CO69_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>“The Problem of Spatial Autocorrelation:” forty years on</h1>
@@ -425,7 +425,7 @@ County boundaries and contiguities
 <span class="no">Prop_stdR</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">vars</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="../reference/moran.test.html">moran.test</a></span>(<span class="no">eire_ge1</span><span class="kw">[[</span><span class="no">x</span>]], <span class="kw">listw</span><span class="kw">=</span><span class="no">lw_std</span>, <span class="kw">randomisation</span><span class="kw">=</span><span class="fl">TRUE</span>))
 })</pre></body></html></div>
 <pre><code>##    user  system elapsed 
-##   0.139   0.000   0.140</code></pre>
+##   0.135   0.000   0.139</code></pre>
 <div class="sourceCode" id="cb47"><html><body><pre class="r"><span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"MoranN"</span>, <span class="st">"MoranR"</span>, <span class="st">"GearyN"</span>, <span class="st">"GearyR"</span>, <span class="st">"Prop_unstdN"</span>, <span class="st">"Prop_unstdR"</span>, <span class="st">"Prop_stdN"</span>, <span class="st">"Prop_stdR"</span>), <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span>(<span class="no">x</span>), <span class="st">"[["</span>, <span class="st">"statistic"</span>))
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">res</span>) <span class="kw">&lt;-</span> <span class="no">vars</span>
 <span class="no">ores</span> <span class="kw">&lt;-</span> <span class="no">res</span>[,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">2</span>,<span class="fl">5</span>:<span class="fl">8</span>)]</pre></body></html></div>
@@ -509,7 +509,7 @@ County boundaries and contiguities
 <div id="simulating-measures-of-spatial-autocorrelation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#simulating-measures-of-spatial-autocorrelation" class="anchor"></a>Simulating measures of spatial autocorrelation</h2>
-<p><span class="citation">Cliff and Ord (1969)</span> do not conduct simulation experiments, although their sequels do, notably <span class="citation">Cliff and Ord (1973)</span>, among many others. Simulation studies are necessarily more demanding computationally, especially if spatially autocorrelated variables are to be created, as in <span class="citation">Cliff and Ord (1973, 146–153)</span>. In the same book, they also report the use of permutation tests, also known as Monte Carlo or Hope hypothesis testing procedures <span class="citation">(Cliff and Ord 1973, 50–52)</span>. These procedures provided a way to examine the distribution of the statistic of interest by exchanging at random the observed values between observations, and then comparing the simulated distribution under the null hypothesis of no spatial patterning with the observed value of the statistic in question.</p>
+<p><span class="citation">Cliff and Ord (1969)</span> do not conduct simulation experiments, although their sequels do, notably <span class="citation">Cliff and Ord (1973)</span>, among many others. Simulation studies are necessarily more demanding computationally, especially if spatially autocorrelated variables are to be created, as in <span class="citation">Cliff and Ord (1973, 146–53)</span>. In the same book, they also report the use of permutation tests, also known as Monte Carlo or Hope hypothesis testing procedures <span class="citation">(Cliff and Ord 1973, 50–52)</span>. These procedures provided a way to examine the distribution of the statistic of interest by exchanging at random the observed values between observations, and then comparing the simulated distribution under the null hypothesis of no spatial patterning with the observed value of the statistic in question.</p>
 <div class="sourceCode" id="cb56"><html><body><pre class="r"><span class="no">MoranI.boot</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">var</span>, <span class="no">i</span>, <span class="no">...</span>) {
   <span class="no">var</span> <span class="kw">&lt;-</span> <span class="no">var</span>[<span class="no">i</span>]
   <span class="fu"><a href="https://rdrr.io/r/base/function.html">return</a></span>(<span class="fu"><a href="../reference/moran.html">moran</a></span>(<span class="kw">x</span><span class="kw">=</span><span class="no">var</span>, <span class="no">...</span>)$<span class="no">I</span>)
@@ -565,7 +565,7 @@ County boundaries and contiguities
 <span class="no">Prop_stdSad</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">lm_objs</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="../reference/lm.morantest.sad.html">lm.morantest.sad</a></span>(<span class="no">x</span>, <span class="kw">listw</span><span class="kw">=</span><span class="no">lw_std</span>))
 })</pre></body></html></div>
 <pre><code>##    user  system elapsed 
-##   0.081   0.000   0.081</code></pre>
+##   0.082   0.000   0.082</code></pre>
 <div class="sourceCode" id="cb67"><html><body><pre class="r"><span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"MoranSad"</span>, <span class="st">"Prop_unstdSad"</span>, <span class="st">"Prop_stdSad"</span>), <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span>(<span class="no">x</span>), <span class="st">"[["</span>, <span class="st">"statistic"</span>))
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">res</span>) <span class="kw">&lt;-</span> <span class="no">vars</span></pre></body></html></div>
 <p>Although the analytical standard deviates (under Normality) are larger than those reached using the Saddlepoint approximation when measured by median absolute deviation, the differences do not lead to different inferences at this chosen cut-off. This reflects the fact that the shape of the distribution is very sensitive to small <span class="math inline">\(n\)</span>, but for moderate <span class="math inline">\(n\)</span> and global Moran’s <span class="math inline">\(I\)</span>, the effects are seen only further out in the tails. The consequences for local Moran’s <span class="math inline">\(I_i\)</span> are much stronger, because the clique of neighbours of each observation is typically very small. It is perhaps of interest that the differences are much smaller for the case of general weights than for unstandardised binary weights.</p>
@@ -600,7 +600,7 @@ County boundaries and contiguities
 <span class="no">Prop_stdEx</span>  <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">lm_objs</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="../reference/lm.morantest.exact.html">lm.morantest.exact</a></span>(<span class="no">x</span>, <span class="kw">listw</span><span class="kw">=</span><span class="no">lw_std</span>))
 })</pre></body></html></div>
 <pre><code>##    user  system elapsed 
-##   0.111   0.000   0.113</code></pre>
+##   0.111   0.001   0.113</code></pre>
 <div class="sourceCode" id="cb76"><html><body><pre class="r"><span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"MoranEx"</span>, <span class="st">"Prop_unstdEx"</span>, <span class="st">"Prop_stdEx"</span>), <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/get.html">get</a></span>(<span class="no">x</span>), <span class="st">"[["</span>, <span class="st">"statistic"</span>))
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">res</span>) <span class="kw">&lt;-</span> <span class="no">vars</span></pre></body></html></div>
 <p>The output is comparable with that of the Saddlepoint approximation, and the inferences drawn here are the same for the chosen cut-off as for the analytical standard deviates calculated under Normality.</p>
@@ -713,7 +713,7 @@ Three contrasted spatial weights definitions
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>cropped scans of tables are available from <a href="http://spatial.nhh.no/R/etc/CO69-PNGs.zip" class="uri">http://spatial.nhh.no/R/etc/CO69-PNGs.zip</a>.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>cropped scans of tables are available from <a href="http://spatial.nhh.no/R/etc/CO69-PNGs.zip" class="uri">http://spatial.nhh.no/R/etc/CO69-PNGs.zip</a>.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
