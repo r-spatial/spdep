@@ -4,9 +4,13 @@ author: "Roger Bivand"
 output:
   html_document:
     toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Spatial weights objects as sparse matrices and graphs}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 

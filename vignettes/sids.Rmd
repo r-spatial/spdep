@@ -4,10 +4,14 @@ author: "Roger Bivand"
 output:
   html_document:
     toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
 bibliography: refs.bib
 vignette: >
   %\VignetteIndexEntry{Introduction to the North Carolina SIDS data set (re-revised)}
-  %\VignetteEngine{knitr::knitr}
+  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
