@@ -19,7 +19,7 @@ read.geoda(file, row.names=NULL, skip=0)
   \item{skip}{skip number of lines, as in \code{read.csv()}}
 }
 \details{
-Luc Anselin (2003): Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, now dead link: http://www.csiss.org/gispopsci/workshops/2011/PSU/readings/W15_Anselin2007.pdf; Luc Anselin (2003) \emph{GeoDa 0.9 User's Guide}, pp. 80--81, Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, \url{https://s3.amazonaws.com/geoda/software/docs/geoda093.pdf}; GAL - Geographical Algorithms Library, University of Newcastle}
+Luc Anselin (2003): Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, now dead link: http://www.csiss.org/gispopsci/workshops/2011/PSU/readings/W15_Anselin2007.pdf; Luc Anselin (2003) \emph{GeoDa 0.9 User's Guide}, pp. 80--81, Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, \url{http://geodacenter.github.io/docs/geoda093.pdf}; GAL - Geographical Algorithms Library, University of Newcastle}
 
 \value{
 The function \code{read.gal()} returns an object of class \code{nb} with a list of integer vectors containing neighbour region number ids. The function \code{read.geoda} returns a data frame, and issues a warning if the returned object has only one column.
