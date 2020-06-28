@@ -1,3 +1,40 @@
+2020-06-28  Roger Bivand <roger.bivand@nhh.no>
+
+	* : commit ac9bc6d31a76d4dd772ba599d0a41ac165f2aaf6 Author: Roger
+	Bivand <roger.bivand@nhh.no> Date:   Sun Jun 28 18:49:01 2020 +0200
+
+2020-06-27  Roger Bivand <rsbivand@users.noreply.github.com>
+
+	* .travis.yml: Update .travis.yml
+
+2020-06-27  Roger Bivand <roger.bivand@nhh.no>
+
+	* docs/articles/CO69.html,
+	docs/articles/CO69_files/accessible-code-block-0.0.1/empty-anchor.j
+	s, docs/articles/nb_igraph.html,
+	docs/articles/nb_igraph_files/accessible-code-block-0.0.1/empty-anc
+	hor.js, docs/articles/nb_sf.html,
+	docs/articles/nb_sf_files/accessible-code-block-0.0.1/empty-anchor.
+	js, docs/articles/sids.html,
+	docs/articles/sids_files/accessible-code-block-0.0.1/empty-anchor.j
+	s, docs/pkgdown.yml, docs/reference/bhicv.html,
+	docs/reference/moran.plot.html, docs/reference/mstree.html,
+	docs/reference/nb2lines.html, docs/reference/poly2nb.html,
+	vignettes/sids.Rmd: update pkgdown
+
+2020-06-27  Roger Bivand <roger.bivand@nhh.no>
+
+	* DESCRIPTION, vignettes/CO69.Rmd, vignettes/nb_igraph.Rmd,
+	vignettes/nb_sf.Rmd, vignettes/sids.Rmd: change to rmarkdown
+
+2020-05-06  Roger Bivand <roger.bivand@nhh.no>
+
+	* docs/reference/moran.plot.html, man/moran.plot.Rd: add docs
+
+2020-05-06  Roger Bivand <roger.bivand@nhh.no>
+
+	* ChangeLog, inst/ChangeLog: tidy
+
 2020-05-06  Roger Bivand <roger.bivand@nhh.no>
 
 	* DESCRIPTION, R/moran.plot.R, man/moran.plot.Rd: add data.frame
