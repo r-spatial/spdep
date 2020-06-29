@@ -31,7 +31,7 @@ To use this function for a set of coordinates with more than 1500 entries is mem
 
 \author{ F. Guillaume Blanchet }
 
-\seealso{  \code{\link[spdep]{dnearneigh}}, \code{\link[spdep]{cell2nb}}, \code{\link[spdep]{graph2nb}}, \code{\link[spdep]{tri2nb}}, \code{\link[spdep]{knn2nb}} }
+\seealso{  \code{\link[spdep]{dnearneigh}}, \code{\link[spdep]{cell2nb}}, \code{\link[spdep]{graphneigh}}, \code{\link[spdep]{tri2nb}}, \code{\link[spdep]{knn2nb}} }
 \examples{
 set.seed(1)
 ex.data<-cbind(runif(50),rexp(50))

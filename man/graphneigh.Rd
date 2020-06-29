@@ -29,7 +29,7 @@ graph2nb(gob, row.names=NULL,sym=FALSE)
   \item{coords}{matrix of region point coordinates or SpatialPoints object or \code{sfc} points object}
   \item{nnmult}{scaling factor for memory allocation, default 3; if higher values are required, the function will exit with an error; example below thanks to Dan Putler}
   \item{tri.nb}{a neighbor list created from tri2nb}
-  \item{quadsegs}{number of line segments making a quarter circle buffer, see the \code{nQuadSegs} argument in \code{\link[sf]{st_buffer}}}
+  \item{quadsegs}{number of line segments making a quarter circle buffer, see the \code{nQuadSegs} argument in \code{\link[sf]{geos_unary}}}
 %  \item{beta}{the parameter for a beta skeleton}
   \item{gob}{a graph object created from any of the graph funtions}
   \item{row.names}{character vector of region ids to be added to the
