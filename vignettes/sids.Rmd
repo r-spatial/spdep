@@ -106,10 +106,13 @@ Next, let's download the GeoDa files and repeat the comparisons:
 
 ```{r echo=TRUE,eval=TRUE}
 td <- tempdir()
-download.file("https://geodacenter.github.io/data-and-lab//data/sids.zip", file.path(td, "sids.zip"), quiet=TRUE)
+#download.file("https://geodacenter.github.io/data-and-lab//data/sids.zip", file.path(td, "sids.zip"), quiet=TRUE) 
+# local copy (2020-10-22) as repository sometimes offline
+file.copy(system.file("etc/misc/sids.zip", package="spdep"), td)
 unzip(file.path(td, "sids.zip"), c("sids/sids.dbf", "sids/sids.prj", "sids/sids.shp", "sids/sids.shx"), exdir=td)
 sids_sf <- st_read(file.path(td, "sids/sids.shp"), quiet=TRUE)
-download.file("https://geodacenter.github.io/data-and-lab//data/sids2.zip", file.path(td, "sids2.zip"), quiet=TRUE)
+#download.file("https://geodacenter.github.io/data-and-lab//data/sids2.zip", file.path(td, "sids2.zip"), quiet=TRUE)
+file.copy(system.file("etc/misc/sids2.zip", package="spdep"), td)
 unzip(file.path(td, "sids2.zip"), c("sids2/sids2.dbf", "sids2/sids2.prj", "sids2/sids2.shp", "sids2/sids2.shx"), exdir=td)
 sids2_sf <- st_read(file.path(td, "sids2/sids2.shp"), quiet=TRUE)
 ```
