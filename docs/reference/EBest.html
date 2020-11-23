@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,7 +141,7 @@
     <p>The function computes global empirical Bayes estimates for rates "shrunk" to the overall mean.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>EBest</span>(<span class='no'>n</span>, <span class='no'>x</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"poisson"</span>)</pre>
+    <pre class="usage"><span class='fu'>EBest</span><span class='op'>(</span><span class='va'>n</span>, <span class='va'>x</span>, family<span class='op'>=</span><span class='st'>"poisson"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,23 +177,29 @@ and a parameters attribute list with components:
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Marshall R M (1991) Mapping disease and mortality rates using Empirical Bayes Estimators, Applied Statistics, 40, 283--294; Bailey T, Gatrell A (1995) Interactive Spatial Data Analysis, Harlow: Longman, pp. 303--306, Martuzzi M, Elliott P (1996) Empirical Bayes estimation of small area prevalence of non-rare conditions, Statistics in Medicine 15, 1867--1873.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a> and Olaf Berke, Population Medicine, OVC, University of Guelph, CANADA</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='EBlocal.html'>EBlocal</a></code>, <code><a href='probmap.html'>probmap</a></code>, <code><a href='EBImoran.mc.html'>EBImoran.mc</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>auckland</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/auckland.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>EBest</span>(<span class='no'>auckland</span>$<span class='no'>M77_85</span>, <span class='fl'>9</span>*<span class='no'>auckland</span>$<span class='no'>Und5_81</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>res</span>, <span class='st'>"parameters"</span>)</div><div class='output co'>#&gt; $a
+    <pre class="examples"><div class='input'><span class='va'>auckland</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/auckland.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>EBest</span><span class='op'>(</span><span class='va'>auckland</span><span class='op'>$</span><span class='va'>M77_85</span>, <span class='fl'>9</span><span class='op'>*</span><span class='va'>auckland</span><span class='op'>$</span><span class='va'>Und5_81</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>res</span>, <span class='st'>"parameters"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $a
 #&gt; [1] 7.284173e-07
 #&gt; 
 #&gt; $b
 #&gt; [1] 0.002633436
-#&gt; </div><div class='input'><span class='no'>auckland</span>$<span class='no'>estmm000</span> <span class='kw'>&lt;-</span> <span class='no'>res</span>$<span class='no'>estmm</span>*<span class='fl'>1000</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>auckland</span>[,<span class='st'>"estmm000"</span>], <span class='kw'>breaks</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>2</span>,<span class='fl'>2.5</span>,<span class='fl'>3</span>,<span class='fl'>3.5</span>,<span class='fl'>5</span>),
- <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Infant mortality per 1000 per year"</span>)</div><div class='img'><img src='EBest-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>huddersfield</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>EBest</span>(<span class='no'>huddersfield</span>$<span class='no'>cases</span>, <span class='no'>huddersfield</span>$<span class='no'>total</span>, <span class='kw'>family</span><span class='kw'>=</span><span class='st'>"binomial"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span>(<span class='no'>res</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>],<span class='fl'>4</span>)*<span class='fl'>100</span></div><div class='output co'>#&gt;      raw estmm
+#&gt; </div><div class='input'><span class='va'>auckland</span><span class='op'>$</span><span class='va'>estmm000</span> <span class='op'>&lt;-</span> <span class='va'>res</span><span class='op'>$</span><span class='va'>estmm</span><span class='op'>*</span><span class='fl'>1000</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>auckland</span><span class='op'>[</span>,<span class='st'>"estmm000"</span><span class='op'>]</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>2</span>,<span class='fl'>2.5</span>,<span class='fl'>3</span>,<span class='fl'>3.5</span>,<span class='fl'>5</span><span class='op'>)</span>,
+ main<span class='op'>=</span><span class='st'>"Infant mortality per 1000 per year"</span><span class='op'>)</span>
+</div><div class='img'><img src='EBest-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>huddersfield</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>EBest</span><span class='op'>(</span><span class='va'>huddersfield</span><span class='op'>$</span><span class='va'>cases</span>, <span class='va'>huddersfield</span><span class='op'>$</span><span class='va'>total</span>, family<span class='op'>=</span><span class='st'>"binomial"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>round</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>,<span class='fl'>4</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>100</span>
+</div><div class='output co'>#&gt;      raw estmm
 #&gt; 1  42.86 34.44
 #&gt; 2  28.95 29.56
 #&gt; 3  28.31 28.94
@@ -277,7 +286,7 @@ and a parameters attribute list with components:
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

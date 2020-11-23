@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,8 +141,8 @@
     <p>Lee's L test for spatial autocorrelation using a spatial weights matrix in weights list form. The assumptions underlying the test are sensitive to the form of the graph of neighbour relationships and other factors, and results may be checked against those of <code>lee.mc</code> permutations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lee.test</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>listw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>,
- <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>, <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.fail</span>, <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>lee.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>listw</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>,
+ alternative<span class='op'>=</span><span class='st'>"greater"</span>, na.action<span class='op'>=</span><span class='va'>na.fail</span>, spChk<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -196,16 +199,20 @@ asymptotic expectation and variance requires the use of dense matrices.</p>
     <p>Lee (2004). A generalized significance testing method for global
 measures of spatial association: an extension of the Mantel test.  Environment
 and Planning A 2004, volume 36, pages 1687 - 1703</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand and Virgilio GÃ³mez-Rubio <a href='mailto:Virgilio.Gomez@uclm.es'>Virgilio.Gomez@uclm.es</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='lee.html'>lee</a></code>, <code><a href='lee.mc.html'>lee.mc</a></code>, <code><a href='lm.morantest.html'>listw2U</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>oldcol</span>)
-<span class='no'>col.W</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)
-<span class='no'>crime</span> <span class='kw'>&lt;-</span> <span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>oldcol</span><span class='op'>)</span>
+<span class='va'>col.W</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>
+<span class='va'>crime</span> <span class='op'>&lt;-</span> <span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>
 
-<span class='fu'>lee.test</span>(<span class='no'>crime</span>, <span class='no'>crime</span>, <span class='no'>col.W</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>lee.test</span><span class='op'>(</span><span class='va'>crime</span>, <span class='va'>crime</span>, <span class='va'>col.W</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Lee's L statistic randomisation
 #&gt; 
 #&gt; data:  crime ,  crime 
@@ -218,12 +225,13 @@ and Planning A 2004, volume 36, pages 1687 - 1703</p>
 #&gt;       0.547064219       0.239417989       0.003454459 
 #&gt; </div><div class='input'>
 <span class='co'>#Test with missing values</span>
-<span class='no'>x</span><span class='kw'>&lt;-</span><span class='no'>crime</span>
-<span class='no'>y</span><span class='kw'>&lt;-</span><span class='no'>crime</span>
-<span class='no'>x</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]<span class='kw'>&lt;-</span><span class='fl'>NA</span>
-<span class='no'>y</span>[<span class='fl'>3</span>:<span class='fl'>7</span>]<span class='kw'>&lt;-</span><span class='fl'>NA</span>
+<span class='va'>x</span><span class='op'>&lt;-</span><span class='va'>crime</span>
+<span class='va'>y</span><span class='op'>&lt;-</span><span class='va'>crime</span>
+<span class='va'>x</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='cn'>NA</span>
+<span class='va'>y</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='cn'>NA</span>
 
-<span class='fu'>lee.test</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>col.W</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.omit</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>lee.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>col.W</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span>, na.action<span class='op'>=</span><span class='va'>na.omit</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Lee's L statistic randomisation
 #&gt; 
 #&gt; data:  x ,  y 
@@ -239,13 +247,14 @@ and Planning A 2004, volume 36, pages 1687 - 1703</p>
 
 
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='no'>lw</span><span class='kw'>&lt;-</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>boston.soi</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>boston</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
+<span class='va'>lw</span><span class='op'>&lt;-</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>boston.soi</span><span class='op'>)</span>
 
-<span class='no'>x</span><span class='kw'>&lt;-</span><span class='no'>boston.c</span>$<span class='no'>CMEDV</span>
-<span class='no'>y</span><span class='kw'>&lt;-</span><span class='no'>boston.c</span>$<span class='no'>CRIM</span>
+<span class='va'>x</span><span class='op'>&lt;-</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CMEDV</span>
+<span class='va'>y</span><span class='op'>&lt;-</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CRIM</span>
 
-<span class='fu'>lee.test</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>lw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"less"</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>lee.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>lw</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span>, alternative<span class='op'>=</span><span class='st'>"less"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Lee's L statistic randomisation
 #&gt; 
 #&gt; data:  x ,  y 
@@ -258,10 +267,11 @@ and Planning A 2004, volume 36, pages 1687 - 1703</p>
 #&gt;      -0.326297206      -0.105040316       0.000367637 
 #&gt; </div><div class='input'>
 <span class='co'>#Test with missing values</span>
-<span class='no'>x</span>[<span class='fl'>1</span>:<span class='fl'>5</span>]<span class='kw'>&lt;-</span><span class='fl'>NA</span>
-<span class='no'>y</span>[<span class='fl'>3</span>:<span class='fl'>7</span>]<span class='kw'>&lt;-</span><span class='fl'>NA</span>
+<span class='va'>x</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='cn'>NA</span>
+<span class='va'>y</span><span class='op'>[</span><span class='fl'>3</span><span class='op'>:</span><span class='fl'>7</span><span class='op'>]</span><span class='op'>&lt;-</span><span class='cn'>NA</span>
 
-<span class='fu'>lee.test</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='no'>lw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"less"</span>, <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.omit</span>)</div><div class='output co'>#&gt; 
+<span class='fu'>lee.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, <span class='va'>lw</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span>, alternative<span class='op'>=</span><span class='st'>"less"</span>, na.action<span class='op'>=</span><span class='va'>na.omit</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Lee's L statistic randomisation
 #&gt; 
 #&gt; data:  x ,  y 
@@ -303,7 +313,7 @@ and Planning A 2004, volume 36, pages 1687 - 1703</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

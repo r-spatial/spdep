@@ -73,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -97,6 +97,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -140,7 +143,7 @@
   subset is a Minimun Spanning Treee.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>prunemst</span>(<span class='no'>edges</span>, <span class='kw'>only.nodes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>prunemst</span><span class='op'>(</span><span class='va'>edges</span>, only.nodes <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,22 +165,28 @@
     <p>A list of length two. If <code>only.nodes=TRUE</code> each element is a
   vector of nodes. If <code>only.nodes=FALSE</code> each element is a list with
   nodes and edges.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Elias T. Krainski and Renato M. Assuncao</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>See Also as <code><a href='mstree.html'>mstree</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>e</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>3</span>, <span class='fl'>1</span>,<span class='fl'>2</span>, <span class='fl'>3</span>,<span class='fl'>4</span>, <span class='fl'>4</span>,<span class='fl'>5</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>byrow</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>e</span></div><div class='output co'>#&gt;      [,1] [,2]
+    <pre class="examples"><div class='input'><span class='va'>e</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>3</span>, <span class='fl'>1</span>,<span class='fl'>2</span>, <span class='fl'>3</span>,<span class='fl'>4</span>, <span class='fl'>4</span>,<span class='fl'>5</span><span class='op'>)</span>, ncol<span class='op'>=</span><span class='fl'>2</span>, byrow<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>e</span>
+</div><div class='output co'>#&gt;      [,1] [,2]
 #&gt; [1,]    2    3
 #&gt; [2,]    1    2
 #&gt; [3,]    3    4
-#&gt; [4,]    4    5</div><div class='input'><span class='fu'>prunemst</span>(<span class='no'>e</span>)</div><div class='output co'>#&gt; $node1
+#&gt; [4,]    4    5</div><div class='input'><span class='fu'>prunemst</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $node1
 #&gt; [1] 2 1
 #&gt; 
 #&gt; $node2
 #&gt; [1] 3 4 5
-#&gt; </div><div class='input'><span class='fu'>prunemst</span>(<span class='no'>e</span>, <span class='kw'>only.nodes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='fu'>prunemst</span><span class='op'>(</span><span class='va'>e</span>, only.nodes<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; [[1]]$node
 #&gt; [1] 2 1
 #&gt; 
@@ -211,7 +220,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

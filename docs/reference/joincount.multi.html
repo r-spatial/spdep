@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,10 +141,10 @@
     <p>A function for tallying join counts between same-colour and different colour spatial objects, where neighbour relations are defined by a weights list. Given the global counts in each colour, expected counts and variances are calculated under non-free sampling, and a z-value reported. Since multiple tests are reported, no p-values are given, allowing the user to adjust the significance level applied. Jtot is the count of all different-colour joins.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>joincount.multi</span>(<span class='no'>fx</span>, <span class='no'>listw</span>, <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>spChk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>adjust.n</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>joincount.multi</span><span class='op'>(</span><span class='va'>fx</span>, <span class='va'>listw</span>, zero.policy <span class='op'>=</span> <span class='cn'>FALSE</span>,
+ spChk <span class='op'>=</span> <span class='cn'>NULL</span>, adjust.n<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># S3 method for jcmulti</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,6 +185,9 @@
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 20; Upton, G., Fingleton, B. 1985 Spatial data analysis by example: point pattern and qualitative data, Wiley, pp. 158--170.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href='lm.morantest.html'>listw2U()</a></code> can be used to make the matrix symmetric. In non-symmetric weights matrix cases, the variance of the test statistic may be negative.</p>
@@ -190,33 +196,35 @@
     <div class='dont-index'><p><code><a href='joincount.test.html'>joincount.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>oldcol</span>)
-<span class='no'>HICRIME</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='kw'>breaks</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>35</span>,<span class='fl'>80</span>), <span class='kw'>labels</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"low"</span>,<span class='st'>"high"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>HICRIME</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>COL.OLD</span>)
-<span class='fu'>joincount.multi</span>(<span class='no'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>))</div><div class='output co'>#&gt;           Joincount Expected Variance z-value
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>oldcol</span><span class='op'>)</span>
+<span class='va'>HICRIME</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>35</span>,<span class='fl'>80</span><span class='op'>)</span>, labels<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"low"</span>,<span class='st'>"high"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>HICRIME</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>)</span>
+<span class='fu'>joincount.multi</span><span class='op'>(</span><span class='va'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;           Joincount Expected Variance z-value
 #&gt; low:low      34.000   29.592   18.895  1.0141
 #&gt; high:high    54.000   27.224   17.888  6.3307
 #&gt; high:low     28.000   59.184   26.233 -6.0884
-#&gt; Jtot         28.000   59.184   26.233 -6.0884</div><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>hopkins</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span>(<span class='fl'>1</span>:<span class='fl'>32</span>, <span class='fl'>1</span>:<span class='fl'>32</span>, <span class='no'>hopkins</span>[<span class='fl'>5</span>:<span class='fl'>36</span>,<span class='fl'>36</span>:<span class='fl'>5</span>], <span class='kw'>breaks</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(-<span class='fl'>0.5</span>, <span class='fl'>3.5</span>, <span class='fl'>20</span>),
- <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"white"</span>, <span class='st'>"black"</span>))
-<span class='fu'><a href='https://rdrr.io/r/graphics/box.html'>box</a></span>()
-<span class='no'>hopkins.rook.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cell2nb.html'>cell2nb</a></span>(<span class='fl'>32</span>, <span class='fl'>32</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"rook"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='fu'><a href='spweights.constants.html'>spweights.constants</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>hopkins.rook.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)))
-<span class='no'>hopkins.queen.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cell2nb.html'>cell2nb</a></span>(<span class='fl'>32</span>, <span class='fl'>32</span>, <span class='kw'>type</span><span class='kw'>=</span><span class='st'>"queen"</span>)
-<span class='no'>hopkins.bishop.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='diffnb.html'>diffnb</a></span>(<span class='no'>hopkins.rook.nb</span>, <span class='no'>hopkins.queen.nb</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='no'>hopkins4</span> <span class='kw'>&lt;-</span> <span class='no'>hopkins</span>[<span class='fl'>5</span>:<span class='fl'>36</span>,<span class='fl'>36</span>:<span class='fl'>5</span>]
-<span class='no'>hopkins4</span>[<span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='no'>hopkins4</span> <span class='kw'>&gt;</span> <span class='fl'>3</span>, <span class='kw'>arr.ind</span><span class='kw'>=</span><span class='fl'>TRUE</span>)] <span class='kw'>&lt;-</span> <span class='fl'>4</span>
-<span class='no'>hopkins4.f</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>hopkins4</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>hopkins4.f</span>)
-<span class='fu'>joincount.multi</span>(<span class='no'>hopkins4.f</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>hopkins.rook.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>"replicates Upton &amp; Fingleton table 3.4 (p. 166)\n"</span>)
-<span class='fu'>joincount.multi</span>(<span class='no'>hopkins4.f</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>hopkins.bishop.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>"replicates Upton &amp; Fingleton table 3.6 (p. 168)\n"</span>)
-<span class='fu'>joincount.multi</span>(<span class='no'>hopkins4.f</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>hopkins.queen.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>"replicates Upton &amp; Fingleton table 3.7 (p. 169)\n"</span>)
-}</div></pre>
+#&gt; Jtot         28.000   59.184   26.233 -6.0884</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>hopkins</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/image.html'>image</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>32</span>, <span class='fl'>1</span><span class='op'>:</span><span class='fl'>32</span>, <span class='va'>hopkins</span><span class='op'>[</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>36</span>,<span class='fl'>36</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>0.5</span>, <span class='fl'>3.5</span>, <span class='fl'>20</span><span class='op'>)</span>,
+ col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"white"</span>, <span class='st'>"black"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/box.html'>box</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>hopkins.rook.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cell2nb.html'>cell2nb</a></span><span class='op'>(</span><span class='fl'>32</span>, <span class='fl'>32</span>, type<span class='op'>=</span><span class='st'>"rook"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='spweights.constants.html'>spweights.constants</a></span><span class='op'>(</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>hopkins.rook.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>hopkins.queen.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cell2nb.html'>cell2nb</a></span><span class='op'>(</span><span class='fl'>32</span>, <span class='fl'>32</span>, type<span class='op'>=</span><span class='st'>"queen"</span><span class='op'>)</span>
+<span class='va'>hopkins.bishop.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='diffnb.html'>diffnb</a></span><span class='op'>(</span><span class='va'>hopkins.rook.nb</span>, <span class='va'>hopkins.queen.nb</span>, verbose<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='va'>hopkins4</span> <span class='op'>&lt;-</span> <span class='va'>hopkins</span><span class='op'>[</span><span class='fl'>5</span><span class='op'>:</span><span class='fl'>36</span>,<span class='fl'>36</span><span class='op'>:</span><span class='fl'>5</span><span class='op'>]</span>
+<span class='va'>hopkins4</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>hopkins4</span> <span class='op'>&gt;</span> <span class='fl'>3</span>, arr.ind<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>4</span>
+<span class='va'>hopkins4.f</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='va'>hopkins4</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>hopkins4.f</span><span class='op'>)</span>
+<span class='fu'>joincount.multi</span><span class='op'>(</span><span class='va'>hopkins4.f</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>hopkins.rook.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"replicates Upton &amp; Fingleton table 3.4 (p. 166)\n"</span><span class='op'>)</span>
+<span class='fu'>joincount.multi</span><span class='op'>(</span><span class='va'>hopkins4.f</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>hopkins.bishop.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"replicates Upton &amp; Fingleton table 3.6 (p. 168)\n"</span><span class='op'>)</span>
+<span class='fu'>joincount.multi</span><span class='op'>(</span><span class='va'>hopkins4.f</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>hopkins.queen.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"replicates Upton &amp; Fingleton table 3.7 (p. 169)\n"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -232,7 +240,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

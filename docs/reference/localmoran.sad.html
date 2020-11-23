@@ -80,7 +80,7 @@ approximation - is based on the randomisation assumption." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -104,6 +104,9 @@ approximation - is based on the randomisation assumption." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -304,24 +307,29 @@ and memory constraints may be reached for large lattices.</p>
     <p>Tiefelsdorf, M. 2002 The Saddlepoint approximation of Moran's I 
 and local Moran's Ii reference distributions and their numerical evaluation. 
 Geographical Analysis, 34, pp. 187--206.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='localmoran.html'>localmoran</a></code>, <code><a href='lm.morantest.html'>lm.morantest</a></code>,
  <code><a href='lm.morantest.sad.html'>lm.morantest.sad</a></code>, <code><a href='spdep-deprecated.html'>errorsarlm</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>eire</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/eire.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
+    <pre class="examples"><div class='input'><span class='va'>eire</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/eire.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 26 features and 10 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25
-#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>eire</span>$<span class='no'>names</span>)
-<span class='fu'>st_crs</span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
-<span class='no'>eire.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>eire</span>)
-<span class='no'>lw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>)
-<span class='no'>e.lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>)
-<span class='no'>e.locmor</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'>localmoran.sad</span>(<span class='no'>e.lm</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>))
-<span class='no'>e.locmor</span></div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint
+#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>$</span><span class='va'>names</span><span class='op'>)</span>
+<span class='fu'>st_crs</span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
+<span class='va'>eire.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span>
+<span class='va'>lw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span>
+<span class='va'>e.lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>OWNCONS</span> <span class='op'>~</span> <span class='va'>ROADACC</span>, data<span class='op'>=</span><span class='va'>eire</span><span class='op'>)</span>
+<span class='va'>e.locmor</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'>localmoran.sad</span><span class='op'>(</span><span class='va'>e.lm</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>e.locmor</span>
+</div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint
 #&gt; 1 Carlow         0.21699668      0.74177148 2.291129e-01  0.95074844
 #&gt; 2 Cavan         -0.37257361     -0.81297374 7.918834e-01 -1.00603119
 #&gt; 3 Clare          0.23197510      0.49502499 3.102912e-01  0.67166518
@@ -401,7 +409,10 @@ Geographical Analysis, 34, pp. 187--206.</p>
 #&gt; 23 Waterford 5.049095  0.093409563  1.61022194  2.62552879
 #&gt; 24 Westmeath 4.596009  0.080097979  1.05978192  1.45704611
 #&gt; 25 Wexford   4.921174  0.085478829  1.32647942  1.98902088
-#&gt; 26 Wicklow   4.513581  0.020437514  0.21417067  0.21406975</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>e.locmor</span>[,<span class='fl'>1</span>])</div><div class='output co'>#&gt; [1] 0.3366057</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>e.locmor</span>[,<span class='fl'>1</span>])/<span class='fu'><a href='spweights.constants.html'>Szero</a></span>(<span class='no'>lw</span>)</div><div class='output co'>#&gt; [1] 0.3366057</div><div class='input'><span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span>(<span class='no'>e.lm</span>, <span class='no'>lw</span>)</div><div class='output co'>#&gt; 
+#&gt; 26 Wicklow   4.513581  0.020437514  0.21417067  0.21406975</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>e.locmor</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.3366057</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>e.locmor</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='spweights.constants.html'>Szero</a></span><span class='op'>(</span><span class='va'>lw</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.3366057</div><div class='input'><span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span><span class='op'>(</span><span class='va'>e.lm</span>, <span class='va'>lw</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Global Moran I for regression residuals
 #&gt; 
 #&gt; data:  
@@ -415,9 +426,11 @@ Geographical Analysis, 34, pp. 187--206.</p>
 #&gt;       0.33660565      -0.05877741       0.01473183 
 #&gt; </div><div class='input'><span class='co'># note equality for mean() only when the sum of weights equals</span>
 <span class='co'># the number of observations (thanks to Juergen Symanzik)</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>e.locmor</span>[,<span class='st'>"Pr. (Sad)"</span>])</div><div class='img'><img src='localmoran.sad-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>e.wlm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>RETSALE</span>)
-<span class='no'>e.locmorw1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'>localmoran.sad</span>(<span class='no'>e.wlm</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>resfun</span><span class='kw'>=</span><span class='no'>weighted.residuals</span>))
-<span class='no'>e.locmorw1</span></div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint
+<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>e.locmor</span><span class='op'>[</span>,<span class='st'>"Pr. (Sad)"</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='img'><img src='localmoran.sad-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>e.wlm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>OWNCONS</span> <span class='op'>~</span> <span class='va'>ROADACC</span>, data<span class='op'>=</span><span class='va'>eire</span>, weights<span class='op'>=</span><span class='va'>RETSALE</span><span class='op'>)</span>
+<span class='va'>e.locmorw1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'>localmoran.sad</span><span class='op'>(</span><span class='va'>e.wlm</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span>, resfun<span class='op'>=</span><span class='va'>weighted.residuals</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>e.locmorw1</span>
+</div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint
 #&gt; 1 Carlow        0.160490657      0.41009538 3.408680e-01  0.57729730
 #&gt; 2 Cavan        -0.144663771     -0.27825575 6.095920e-01 -0.45305168
 #&gt; 3 Clare         0.301676582      0.59021701 2.775226e-01  0.78987327
@@ -497,8 +510,9 @@ Geographical Analysis, 34, pp. 187--206.</p>
 #&gt; 23 Waterford 5.297500  0.101874758  1.99944904  3.59542986
 #&gt; 24 Westmeath 5.351214  0.044919886  0.56403221  0.65024353
 #&gt; 25 Wexford   5.781330  0.066083430  1.11524637  1.57637406
-#&gt; 26 Wicklow   4.537075  0.012609906  0.12748740  0.12720134</div><div class='input'><span class='no'>e.locmorw2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'>localmoran.sad</span>(<span class='no'>e.wlm</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>resfun</span><span class='kw'>=</span><span class='no'>rstudent</span>))
-<span class='no'>e.locmorw2</span></div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint
+#&gt; 26 Wicklow   4.537075  0.012609906  0.12748740  0.12720134</div><div class='input'><span class='va'>e.locmorw2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'>localmoran.sad</span><span class='op'>(</span><span class='va'>e.wlm</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span>, resfun<span class='op'>=</span><span class='va'>rstudent</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>e.locmorw2</span>
+</div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint
 #&gt; 1 Carlow        0.121997164      0.32185426 3.737816e-01  0.45871930
 #&gt; 2 Cavan        -0.110588620     -0.20105599 5.796726e-01 -0.34808741
 #&gt; 3 Clare         0.308759283      0.60290381 2.732863e-01  0.80379674
@@ -578,13 +592,14 @@ Geographical Analysis, 34, pp. 187--206.</p>
 #&gt; 23 Waterford 5.297500  0.0941811771  1.762051071  2.998984773
 #&gt; 24 Westmeath 5.351214  0.0379323563  0.457473561  0.506014991
 #&gt; 25 Wexford   5.781330  0.0582538352  0.911459483  1.197527949
-#&gt; 26 Wicklow   4.537075  0.0083101099  0.084281843  0.083952776</div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"spatialreg"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>e.errorsar</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatialreg/man/ML_models.html'>errorsarlm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>,
-  <span class='kw'>listw</span><span class='kw'>=</span><span class='no'>lw</span>)
-<span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatialreg/man/ML_models.html'>print.sarlm</a></span>(<span class='no'>e.errorsar</span>)
-}</div><div class='output co'>#&gt; 
+#&gt; 26 Wicklow   4.537075  0.0083101099  0.084281843  0.083952776</div><div class='input'><span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"spatialreg"</span>, quietly<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>e.errorsar</span> <span class='op'>&lt;-</span> <span class='fu'>spatialreg</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/spatialreg/reference/ML_models.html'>errorsarlm</a></span><span class='op'>(</span><span class='va'>OWNCONS</span> <span class='op'>~</span> <span class='va'>ROADACC</span>, data<span class='op'>=</span><span class='va'>eire</span>,
+  listw<span class='op'>=</span><span class='va'>lw</span><span class='op'>)</span>
+<span class='fu'>spatialreg</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/spatialreg/reference/ML_models.html'>print.sarlm</a></span><span class='op'>(</span><span class='va'>e.errorsar</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; 
 #&gt; Call:
 #&gt; spatialreg::errorsarlm(formula = OWNCONS ~ ROADACC, data = eire, 
 #&gt;     listw = lw)
@@ -594,12 +609,13 @@ Geographical Analysis, 34, pp. 187--206.</p>
 #&gt;      lambda (Intercept)     ROADACC 
 #&gt; 0.783970989 2.892719571 0.002800913 
 #&gt; 
-#&gt; Log likelihood: -64.12465 </div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>lm.target</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>e.errorsar</span>$<span class='no'>tary</span> ~ <span class='no'>e.errorsar</span>$<span class='no'>tarX</span> - <span class='fl'>1</span>)
-<span class='no'>Omega</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/crossprod.html'>tcrossprod</a></span>(<span class='fu'><a href='invIrM.html'>invIrW</a></span>(<span class='no'>lw</span>, <span class='kw'>rho</span><span class='kw'>=</span><span class='no'>e.errorsar</span>$<span class='no'>lambda</span>))
-<span class='no'>e.clocmor</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'>localmoran.sad</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='no'>Omega</span>))
-<span class='no'>e.clocmor</span>
-}</div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)   Pr. (N) Saddlepoint Pr. (Sad)
+#&gt; Log likelihood: -64.12465 </div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>lm.target</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>e.errorsar</span><span class='op'>$</span><span class='va'>tary</span> <span class='op'>~</span> <span class='va'>e.errorsar</span><span class='op'>$</span><span class='va'>tarX</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>Omega</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/crossprod.html'>tcrossprod</a></span><span class='op'>(</span><span class='fu'><a href='invIrM.html'>invIrW</a></span><span class='op'>(</span><span class='va'>lw</span>, rho<span class='op'>=</span><span class='va'>e.errorsar</span><span class='op'>$</span><span class='va'>lambda</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>e.clocmor</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'>localmoran.sad</span><span class='op'>(</span><span class='va'>lm.target</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span>, Omega<span class='op'>=</span><span class='va'>Omega</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>e.clocmor</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;              Local Morans I Stand. dev. (N)   Pr. (N) Saddlepoint Pr. (Sad)
 #&gt; 1 Carlow         0.17958462      -0.5947094 0.7239811 -0.01890335 0.5075409
 #&gt; 2 Cavan         -0.24752628      -0.9775195 0.8358440 -1.30903979 0.9047396
 #&gt; 3 Clare         -0.27901334      -0.9987481 0.8410416 -1.41535136 0.9215172
@@ -679,9 +695,10 @@ Geographical Analysis, 34, pp. 187--206.</p>
 #&gt; 23 Waterford  0.001151041  0.03534520  0.03581913
 #&gt; 24 Westmeath -0.058470593 -0.88397327 -0.83127666
 #&gt; 25 Wexford   -0.009550496 -0.26689930 -0.24045996
-#&gt; 26 Wicklow   -0.050401553 -0.84395069 -0.73641410</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>e.clocmor</span>[,<span class='st'>"Pr. (Sad)"</span>])
-}</div><div class='img'><img src='localmoran.sad-2.png' alt='' width='700' height='433' /></div></pre>
+#&gt; 26 Wicklow   -0.050401553 -0.84395069 -0.73641410</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>e.clocmor</span><span class='op'>[</span>,<span class='st'>"Pr. (Sad)"</span><span class='op'>]</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='img'><img src='localmoran.sad-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -697,7 +714,7 @@ Geographical Analysis, 34, pp. 187--206.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

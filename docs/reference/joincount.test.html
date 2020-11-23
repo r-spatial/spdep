@@ -78,7 +78,7 @@ permutations." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -102,6 +102,9 @@ permutations." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -150,10 +153,10 @@ factors, and results may be checked against those of <code>joincount.mc</code>
 permutations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>joincount.test</span>(<span class='no'>fx</span>, <span class='no'>listw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>,
- <span class='kw'>sampling</span><span class='kw'>=</span><span class='st'>"nonfree"</span>, <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>adjust.n</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
+    <pre class="usage"><span class='fu'>joincount.test</span><span class='op'>(</span><span class='va'>fx</span>, <span class='va'>listw</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, alternative<span class='op'>=</span><span class='st'>"greater"</span>,
+ sampling<span class='op'>=</span><span class='st'>"nonfree"</span>, spChk<span class='op'>=</span><span class='cn'>NULL</span>, adjust.n<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='co'># S3 method for jclist</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -209,6 +212,9 @@ permutations.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, pp. 19-20.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href='lm.morantest.html'>listw2U()</a></code> can be used to make the matrix symmetric. In non-symmetric weights matrix cases, the variance of the test statistic may be negative.</p>
@@ -217,10 +223,11 @@ permutations.</p>
     <div class='dont-index'><p><code><a href='joincount.mc.html'>joincount.mc</a></code>, <code><a href='joincount.multi.html'>joincount.multi</a></code>, <code><a href='lm.morantest.html'>listw2U</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>oldcol</span>)
-<span class='no'>HICRIME</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='kw'>breaks</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>35</span>,<span class='fl'>80</span>), <span class='kw'>labels</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"low"</span>,<span class='st'>"high"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='no'>HICRIME</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>COL.OLD</span>)
-<span class='fu'>joincount.test</span>(<span class='no'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>))</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>oldcol</span><span class='op'>)</span>
+<span class='va'>HICRIME</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>35</span>,<span class='fl'>80</span><span class='op'>)</span>, labels<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"low"</span>,<span class='st'>"high"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>HICRIME</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>)</span>
+<span class='fu'>joincount.test</span><span class='op'>(</span><span class='va'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Join count test under nonfree sampling
 #&gt; 
 #&gt; data:  HICRIME 
@@ -243,7 +250,8 @@ permutations.</p>
 #&gt; sample estimates:
 #&gt; Same colour statistic           Expectation              Variance 
 #&gt;              54.00000              27.22449              17.88838 
-#&gt; </div><div class='input'><span class='fu'>joincount.test</span>(<span class='no'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>), <span class='kw'>sampling</span><span class='kw'>=</span><span class='st'>"free"</span>)</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>joincount.test</span><span class='op'>(</span><span class='va'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span>, sampling<span class='op'>=</span><span class='st'>"free"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Join count test under free sampling
 #&gt; 
 #&gt; data:  HICRIME 
@@ -266,7 +274,8 @@ permutations.</p>
 #&gt; sample estimates:
 #&gt; Same colour statistic           Expectation              Variance 
 #&gt;               54.0000               27.8284               84.2198 
-#&gt; </div><div class='input'><span class='fu'>joincount.test</span>(<span class='no'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"C"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>joincount.test</span><span class='op'>(</span><span class='va'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"C"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Join count test under nonfree sampling
 #&gt; 
 #&gt; data:  HICRIME 
@@ -289,7 +298,8 @@ permutations.</p>
 #&gt; sample estimates:
 #&gt; Same colour statistic           Expectation              Variance 
 #&gt;            11.4051724             5.7500000             0.7979712 
-#&gt; </div><div class='input'><span class='fu'>joincount.test</span>(<span class='no'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"S"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>joincount.test</span><span class='op'>(</span><span class='va'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"S"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Join count test under nonfree sampling
 #&gt; 
 #&gt; data:  HICRIME 
@@ -312,7 +322,8 @@ permutations.</p>
 #&gt; sample estimates:
 #&gt; Same colour statistic           Expectation              Variance 
 #&gt;            10.4249914             5.7500000             0.5734265 
-#&gt; </div><div class='input'><span class='fu'>joincount.test</span>(<span class='no'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>joincount.test</span><span class='op'>(</span><span class='va'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Join count test under nonfree sampling
 #&gt; 
 #&gt; data:  HICRIME 
@@ -335,15 +346,19 @@ permutations.</p>
 #&gt; sample estimates:
 #&gt; Same colour statistic           Expectation              Variance 
 #&gt;             9.2920635             5.7500000             0.4784979 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/by.html'>by</a></span>(<span class='fu'><a href='card.html'>card</a></span>(<span class='no'>COL.nb</span>), <span class='no'>HICRIME</span>, <span class='no'>summary</span>)</div><div class='output co'>#&gt; HICRIME: low
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/by.html'>by</a></span><span class='op'>(</span><span class='fu'><a href='card.html'>card</a></span><span class='op'>(</span><span class='va'>COL.nb</span><span class='op'>)</span>, <span class='va'>HICRIME</span>, <span class='va'>summary</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; HICRIME: low
 #&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #&gt;    2.00    2.00    4.00    3.84    4.00   10.00 
 #&gt; ------------------------------------------------------------ 
 #&gt; HICRIME: high
 #&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;   3.000   4.750   6.000   5.667   7.000   9.000 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>coords.OLD</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>X</span>, <span class='no'>COL.OLD</span>$<span class='no'>Y</span>)
-<span class='no'>COL.k4.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>coords.OLD</span>, <span class='fl'>4</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.k4.nb</span>))</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>joincount.test</span>(<span class='no'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>))</div><div class='output co'>#&gt; 
+#&gt;   3.000   4.750   6.000   5.667   7.000   9.000 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>COL.nb</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>coords.OLD</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>X</span>, <span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>Y</span><span class='op'>)</span>
+<span class='va'>COL.k4.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>coords.OLD</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>COL.k4.nb</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>joincount.test</span><span class='op'>(</span><span class='va'>HICRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.k4.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Join count test under nonfree sampling
 #&gt; 
 #&gt; data:  HICRIME 
@@ -366,7 +381,9 @@ permutations.</p>
 #&gt; sample estimates:
 #&gt; Same colour statistic           Expectation              Variance 
 #&gt;             40.500000             23.000000              6.762918 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>"Note non-symmetric weights matrix - use listw2U()\n"</span>)</div><div class='output co'>#&gt; Note non-symmetric weights matrix - use listw2U()</div><div class='input'><span class='fu'>joincount.test</span>(<span class='no'>HICRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"Note non-symmetric weights matrix - use listw2U()\n"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Note non-symmetric weights matrix - use listw2U()</div><div class='input'><span class='fu'>joincount.test</span><span class='op'>(</span><span class='va'>HICRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span><span class='op'>(</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.k4.nb</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Join count test under nonfree sampling
 #&gt; 
 #&gt; data:  HICRIME 
@@ -405,7 +422,7 @@ permutations.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

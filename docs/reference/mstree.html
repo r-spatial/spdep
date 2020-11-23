@@ -76,7 +76,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -146,7 +149,7 @@
   implements the algorithm due to Prim (1987).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mstree</span>(<span class='no'>nbw</span>, <span class='kw'>ini</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mstree</span><span class='op'>(</span><span class='va'>nbw</span>, ini <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,42 +183,51 @@
 
     <p>R. C. Prim (1957) Shortest connection networks and some
   generalisations. In: Bell System Technical Journal, 36, pp. 1389-1401</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Renato M. Assuncao and Elias T. Krainski</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>### loading data</span>
-<span class='no'>bh</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"etc/shapes/bhicv.shp"</span>,
-      <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>st_crs</span>(<span class='no'>bh</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
+<span class='va'>bh</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"etc/shapes/bhicv.shp"</span>,
+      package<span class='op'>=</span><span class='st'>"spdep"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>st_crs</span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
 <span class='co'>### data padronized</span>
-<span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>bh</span>)[,<span class='fl'>5</span>:<span class='fl'>8</span>]))
+<span class='va'>dpad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>[</span>,<span class='fl'>5</span><span class='op'>:</span><span class='fl'>8</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>### neighboorhod list </span>
-<span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>bh</span>)
+<span class='va'>bh.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span>
 
 <span class='co'>### calculing costs</span>
-<span class='no'>lcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>)
+<span class='va'>lcosts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span><span class='op'>(</span><span class='va'>bh.nb</span>, <span class='va'>dpad</span><span class='op'>)</span>
 
 <span class='co'>### making listw</span>
-<span class='no'>nb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>lcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
+<span class='va'>nb.w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>bh.nb</span>, <span class='va'>lcosts</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span>
 
 <span class='co'>### find a minimum spanning tree</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'>mstree</span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>))</div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.002   0.000   0.001 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt; [1] 97  3</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;      [,1] [,2]      [,3]
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>mst.bh</span> <span class='op'>&lt;-</span> <span class='fu'>mstree</span><span class='op'>(</span><span class='va'>nb.w</span>,<span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.002   0.000   0.002 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/dim.html'>dim</a></span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 97  3</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;      [,1] [,2]      [,3]
 #&gt; [1,]    5   12 1.2951120
 #&gt; [2,]   12   13 0.6141101
 #&gt; [3,]   13   11 0.7913745
 #&gt; [4,]   13    6 0.9775650
 #&gt; [5,]   11   31 0.9965625
-#&gt; [6,]   31   39 0.6915158</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span>(<span class='no'>mst.bh</span>)</div><div class='output co'>#&gt;       [,1] [,2]      [,3]
+#&gt; [6,]   31   39 0.6915158</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>tail</a></span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;       [,1] [,2]      [,3]
 #&gt; [92,]   89   90 2.5743702
 #&gt; [93,]   26   56 2.6235317
 #&gt; [94,]   86   87 2.6471303
 #&gt; [95,]   87   72 0.7874461
 #&gt; [96,]   49   36 2.8743677
 #&gt; [97,]   24   25 3.4675168</div><div class='input'><span class='co'>### the mstree plot</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>bh</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span>(<span class='fl'>.5</span>))</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mst.bh</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>,
-     <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.6</span>, <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>fg</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='mstree-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span>, border<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.5</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mst.bh</span>, <span class='fu'>coordinates</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>bh</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fl'>2</span>, 
+     cex.lab<span class='op'>=</span><span class='fl'>.6</span>, cex.circles<span class='op'>=</span><span class='fl'>0.035</span>, fg<span class='op'>=</span><span class='st'>"blue"</span>, add<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='mstree-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,7 +243,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

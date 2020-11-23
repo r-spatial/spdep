@@ -73,7 +73,7 @@ print and plot helper functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -97,6 +97,9 @@ print and plot helper functions." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -140,12 +143,12 @@ print and plot helper functions." />
 print and plot helper functions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sp.correlogram</span>(<span class='no'>neighbours</span>, <span class='no'>var</span>, <span class='kw'>order</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"corr"</span>,
- <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"W"</span>, <span class='kw'>randomisation</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>sp.correlogram</span><span class='op'>(</span><span class='va'>neighbours</span>, <span class='va'>var</span>, order <span class='op'>=</span> <span class='fl'>1</span>, method <span class='op'>=</span> <span class='st'>"corr"</span>,
+ style <span class='op'>=</span> <span class='st'>"W"</span>, randomisation <span class='op'>=</span> <span class='cn'>TRUE</span>, zero.policy <span class='op'>=</span> <span class='cn'>NULL</span>, spChk<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
 <span class='co'># S3 method for spcor</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>x</span>, <span class='no'>main</span>, <span class='no'>ylab</span>, <span class='no'>ylim</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>main</span>, <span class='va'>ylab</span>, <span class='va'>ylim</span>, <span class='va'>...</span><span class='op'>)</span>
 <span class='co'># S3 method for spcor</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='kw'>p.adj.method</span><span class='kw'>=</span><span class='st'>"none"</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, p.adj.method<span class='op'>=</span><span class='st'>"none"</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -226,28 +229,34 @@ if TRUE permit the weights list to be formed with zero-length weights vectors</p
 118--122, Martin, R. L., Oeppen, J. E. 1975 The identification of regional
 forecasting models using space-time correlation functions, <em>Transactions
 of the Institute of British Geographers</em>, 66, 95--118.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand, <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='nblag.html'>nblag</a></code>, <code><a href='moran.html'>moran</a></code>, <code><a href='https://rdrr.io/r/stats/p.adjust.html'>p.adjust</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>nc.sids</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/sids.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>nc.sids</span>$<span class='no'>FIPS</span>)
-<span class='no'>ncCC89_nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"weights/ncCC89.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>],
- <span class='kw'>region.id</span><span class='kw'>=</span><span class='no'>rn</span>)
-<span class='no'>ft.SID74</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='fl'>1000</span>)*(<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>nc.sids</span>$<span class='no'>SID74</span>/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>) +
-  <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>((<span class='no'>nc.sids</span>$<span class='no'>SID74</span>+<span class='fl'>1</span>)/<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>))
-<span class='no'>tr.SIDS74</span> <span class='kw'>&lt;-</span> <span class='no'>ft.SID74</span>*<span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span>(<span class='no'>nc.sids</span>$<span class='no'>BIR74</span>)
-<span class='no'>cspc</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.correlogram</span>(<span class='no'>ncCC89_nb</span>, <span class='no'>tr.SIDS74</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"corr"</span>,
- <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>cspc</span>)</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
+    <pre class="examples"><div class='input'><span class='va'>nc.sids</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/sids.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>rn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>nc.sids</span><span class='op'>$</span><span class='va'>FIPS</span><span class='op'>)</span>
+<span class='va'>ncCC89_nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"weights/ncCC89.gal"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
+ region.id<span class='op'>=</span><span class='va'>rn</span><span class='op'>)</span>
+<span class='va'>ft.SID74</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='fl'>1000</span><span class='op'>)</span><span class='op'>*</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>nc.sids</span><span class='op'>$</span><span class='va'>SID74</span><span class='op'>/</span><span class='va'>nc.sids</span><span class='op'>$</span><span class='va'>BIR74</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>nc.sids</span><span class='op'>$</span><span class='va'>SID74</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>/</span><span class='va'>nc.sids</span><span class='op'>$</span><span class='va'>BIR74</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>tr.SIDS74</span> <span class='op'>&lt;-</span> <span class='va'>ft.SID74</span><span class='op'>*</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>nc.sids</span><span class='op'>$</span><span class='va'>BIR74</span><span class='op'>)</span>
+<span class='va'>cspc</span> <span class='op'>&lt;-</span> <span class='fu'>sp.correlogram</span><span class='op'>(</span><span class='va'>ncCC89_nb</span>, <span class='va'>tr.SIDS74</span>, order<span class='op'>=</span><span class='fl'>8</span>, method<span class='op'>=</span><span class='st'>"corr"</span>,
+ zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>cspc</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Spatial autocorrelation
 #&gt;           1           2           3           4           5           6 
 #&gt;  0.38193491  0.47679881  0.11740653  0.09935901  0.27819159  0.30153012 
 #&gt;           7           8 
-#&gt; -0.05150923  0.05283813 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>cspc</span>)</div><div class='img'><img src='sp.correlogram-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>Ispc</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.correlogram</span>(<span class='no'>ncCC89_nb</span>, <span class='no'>tr.SIDS74</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"I"</span>,
- <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>Ispc</span>)</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
+#&gt; -0.05150923  0.05283813 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>cspc</span><span class='op'>)</span>
+</div><div class='img'><img src='sp.correlogram-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>Ispc</span> <span class='op'>&lt;-</span> <span class='fu'>sp.correlogram</span><span class='op'>(</span><span class='va'>ncCC89_nb</span>, <span class='va'>tr.SIDS74</span>, order<span class='op'>=</span><span class='fl'>8</span>, method<span class='op'>=</span><span class='st'>"I"</span>,
+ zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>Ispc</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Moran's I
 #&gt;          estimate expectation   variance standard deviate Pr(I) two sided    
 #&gt; 1 (98)  0.2311685  -0.0103093  0.0055378           3.2450       0.0011747 ** 
@@ -259,7 +268,8 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 #&gt; 7 (98) -0.0752243  -0.0103093  0.0022282          -1.3752       0.1690654    
 #&gt; 8 (98) -0.0261063  -0.0103093  0.0025211          -0.3146       0.7530514    
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>Ispc</span>, <span class='st'>"bonferroni"</span>)</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>Ispc</span>, <span class='st'>"bonferroni"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Moran's I
 #&gt;          estimate expectation   variance standard deviate Pr(I) two sided   
 #&gt; 1 (98)  0.2311685  -0.0103093  0.0055378           3.2450        0.009397 **
@@ -271,9 +281,11 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 #&gt; 7 (98) -0.0752243  -0.0103093  0.0022282          -1.3752        1.000000   
 #&gt; 8 (98) -0.0261063  -0.0103093  0.0025211          -0.3146        1.000000   
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>Ispc</span>)</div><div class='img'><img src='sp.correlogram-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>Cspc</span> <span class='kw'>&lt;-</span> <span class='fu'>sp.correlogram</span>(<span class='no'>ncCC89_nb</span>, <span class='no'>tr.SIDS74</span>, <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"C"</span>,
- <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>Cspc</span>)</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Ispc</span><span class='op'>)</span>
+</div><div class='img'><img src='sp.correlogram-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>Cspc</span> <span class='op'>&lt;-</span> <span class='fu'>sp.correlogram</span><span class='op'>(</span><span class='va'>ncCC89_nb</span>, <span class='va'>tr.SIDS74</span>, order<span class='op'>=</span><span class='fl'>8</span>, method<span class='op'>=</span><span class='st'>"C"</span>,
+ zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>Cspc</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Geary's C
 #&gt;         estimate expectation  variance standard deviate Pr(I) two sided    
 #&gt; 1 (98) 0.7172624   1.0000000 0.0059986          -3.6506       0.0002617 ***
@@ -285,7 +297,8 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 #&gt; 7 (98) 1.0527148   1.0000000 0.0037227           0.8640       0.3875979    
 #&gt; 8 (98) 1.0067939   1.0000000 0.0036482           0.1125       0.9104415    
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>Cspc</span>, <span class='st'>"bonferroni"</span>)</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>Cspc</span>, <span class='st'>"bonferroni"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Spatial correlogram for tr.SIDS74 
 #&gt; method: Geary's C
 #&gt;         estimate expectation  variance standard deviate Pr(I) two sided    
 #&gt; 1 (98) 0.7172624   1.0000000 0.0059986          -3.6506        0.002093 ** 
@@ -297,10 +310,12 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 #&gt; 7 (98) 1.0527148   1.0000000 0.0037227           0.8640        1.000000    
 #&gt; 8 (98) 1.0067939   1.0000000 0.0036482           0.1125        1.000000    
 #&gt; ---
-#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>Cspc</span>)</div><div class='img'><img src='sp.correlogram-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>drop.no.neighs</span> <span class='kw'>&lt;-</span> !(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>ncCC89_nb</span>) <span class='kw'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span>(<span class='fu'><a href='card.html'>card</a></span>(<span class='no'>ncCC89_nb</span>) <span class='kw'>==</span> <span class='fl'>0</span>))
-<span class='no'>sub.ncCC89.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='no'>ncCC89_nb</span>, <span class='no'>drop.no.neighs</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>sp.correlogram</span>(<span class='no'>sub.ncCC89.nb</span>, <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span>(<span class='no'>tr.SIDS74</span>,  <span class='no'>drop.no.neighs</span>),
- <span class='kw'>order</span><span class='kw'>=</span><span class='fl'>8</span>, <span class='kw'>method</span><span class='kw'>=</span><span class='st'>"corr"</span>))</div><div class='img'><img src='sp.correlogram-4.png' alt='' width='700' height='433' /></div></pre>
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>Cspc</span><span class='op'>)</span>
+</div><div class='img'><img src='sp.correlogram-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>drop.no.neighs</span> <span class='op'>&lt;-</span> <span class='op'>!</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ncCC89_nb</span><span class='op'>)</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='card.html'>card</a></span><span class='op'>(</span><span class='va'>ncCC89_nb</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>sub.ncCC89.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>ncCC89_nb</span>, <span class='va'>drop.no.neighs</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>sp.correlogram</span><span class='op'>(</span><span class='va'>sub.ncCC89.nb</span>, <span class='fu'><a href='https://rdrr.io/r/base/subset.html'>subset</a></span><span class='op'>(</span><span class='va'>tr.SIDS74</span>,  <span class='va'>drop.no.neighs</span><span class='op'>)</span>,
+ order<span class='op'>=</span><span class='fl'>8</span>, method<span class='op'>=</span><span class='st'>"corr"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='sp.correlogram-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -316,7 +331,7 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

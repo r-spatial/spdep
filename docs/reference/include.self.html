@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,7 +141,7 @@
     <p>The function includes the region itself in its own list of neighbours, and sets attribute "self.included" to TRUE.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>include.self</span>(<span class='no'>nb</span>)</pre>
+    <pre class="usage"><span class='fu'>include.self</span><span class='op'>(</span><span class='va'>nb</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,15 +155,19 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns an object of class <code>nb</code> with a list of integer vectors containing neighbour region number ids; attribute "self.included" is set to TRUE.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='summary.nb.html'>summary.nb</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>col.gal.nb</span>, <span class='no'>coords</span>)</div><div class='output co'>#&gt; Neighbour list object:
+    <pre class="examples"><div class='input'><span class='va'>columbus</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/columbus.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>col.gal.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"weights/columbus.gal"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'>coordinates</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>columbus</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>col.gal.nb</span>, <span class='va'>coords</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 230 
 #&gt; Percentage nonzero weights: 9.579342 
@@ -195,7 +202,8 @@
 #&gt;   7 | 557777
 #&gt;   8 | 1144
 #&gt;   8 | 55999999
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'>include.self</span>(<span class='no'>col.gal.nb</span>), <span class='no'>coords</span>)</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'>include.self</span><span class='op'>(</span><span class='va'>col.gal.nb</span><span class='op'>)</span>, <span class='va'>coords</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 279 
 #&gt; Percentage nonzero weights: 11.62016 
@@ -248,7 +256,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

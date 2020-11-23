@@ -73,7 +73,7 @@ approximation to global Moran's I's reference distribution." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -97,6 +97,9 @@ approximation to global Moran's I's reference distribution." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -140,16 +143,16 @@ approximation to global Moran's I's reference distribution." />
 approximation to global Moran's I's reference distribution.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>lm.morantest.sad</span>(<span class='no'>model</span>, <span class='no'>listw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>,
-  <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>resfun</span><span class='kw'>=</span><span class='no'>weighted.residuals</span>, <span class='kw'>tol</span><span class='kw'>=</span><span class='no'>.Machine</span>$<span class='no'>double.eps</span>^<span class='fl'>0.5</span>,
-  <span class='kw'>maxiter</span><span class='kw'>=</span><span class='fl'>1000</span>, <span class='kw'>tol.bounds</span><span class='kw'>=</span><span class='fl'>0.0001</span>, <span class='kw'>zero.tol</span> <span class='kw'>=</span> <span class='fl'>1e-07</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='kw'>NULL</span>,
-  <span class='kw'>save.M</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>save.U</span><span class='kw'>=</span><span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>lm.morantest.sad</span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>listw</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, alternative<span class='op'>=</span><span class='st'>"greater"</span>, 
+  spChk<span class='op'>=</span><span class='cn'>NULL</span>, resfun<span class='op'>=</span><span class='va'>weighted.residuals</span>, tol<span class='op'>=</span><span class='va'>.Machine</span><span class='op'>$</span><span class='va'>double.eps</span><span class='op'>^</span><span class='fl'>0.5</span>,
+  maxiter<span class='op'>=</span><span class='fl'>1000</span>, tol.bounds<span class='op'>=</span><span class='fl'>0.0001</span>, zero.tol <span class='op'>=</span> <span class='fl'>1e-07</span>, Omega<span class='op'>=</span><span class='cn'>NULL</span>,
+  save.M<span class='op'>=</span><span class='cn'>NULL</span>, save.U<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span>
 <span class='co'># S3 method for moransad</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 <span class='co'># S3 method for moransad</span>
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span>
 <span class='co'># S3 method for summary.moransad</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -248,21 +251,26 @@ therefore only be used with care when n is large.</p>
     <p>Tiefelsdorf, M. 2002 The Saddlepoint approximation of Moran's I 
 and local Moran's Ii reference distributions and their numerical evaluation. 
 Geographical Analysis, 34, pp. 187--206; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href='https://doi.org/10.1007/s11749-018-0599-x'>https://doi.org/10.1007/s11749-018-0599-x</a></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='lm.morantest.html'>lm.morantest</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>eire</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/eire.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
+    <pre class="examples"><div class='input'><span class='va'>eire</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/eire.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 26 features and 10 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25
-#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>eire</span>$<span class='no'>names</span>)
-<span class='fu'>st_crs</span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
-<span class='no'>eire.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>eire</span>)
-<span class='no'>e.lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>)
-<span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))</div><div class='output co'>#&gt; 
+#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>$</span><span class='va'>names</span><span class='op'>)</span>
+<span class='fu'>st_crs</span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
+<span class='va'>eire.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span>
+<span class='va'>e.lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>OWNCONS</span> <span class='op'>~</span> <span class='va'>ROADACC</span>, data<span class='op'>=</span><span class='va'>eire</span><span class='op'>)</span>
+<span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span><span class='op'>(</span><span class='va'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Global Moran I for regression residuals
 #&gt; 
 #&gt; data:  
@@ -274,7 +282,8 @@ Geographical Analysis, 34, pp. 187--206; Bivand RS, Wong DWS 2018 Comparing impl
 #&gt; sample estimates:
 #&gt; Observed Moran I      Expectation         Variance 
 #&gt;       0.33660565      -0.05877741       0.01473183 
-#&gt; </div><div class='input'><span class='fu'>lm.morantest.sad</span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>lm.morantest.sad</span><span class='op'>(</span><span class='va'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Saddlepoint approximation for global Moran's I (Barndorff-Nielsen
 #&gt; 	formula)
 #&gt; 
@@ -287,7 +296,8 @@ Geographical Analysis, 34, pp. 187--206; Bivand RS, Wong DWS 2018 Comparing impl
 #&gt; sample estimates:
 #&gt; Observed Moran I 
 #&gt;        0.3366057 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='fu'>lm.morantest.sad</span>(<span class='no'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>)))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'>lm.morantest.sad</span><span class='op'>(</span><span class='va'>e.lm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Saddlepoint approximation for global Moran's I (Barndorff-Nielsen
 #&gt; 	formula)
 #&gt; 
@@ -306,8 +316,9 @@ Geographical Analysis, 34, pp. 187--206; Bivand RS, Wong DWS 2018 Comparing impl
 #&gt;      Maximum        omega        sad.r        sad.u 
 #&gt;   0.89091555   0.76549075   2.77616585   4.36854629 
 #&gt;       f.root         iter   estim.prec 
-#&gt; 6.945659e-14 1.100000e+01           NA </div><div class='input'><span class='no'>e.wlm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>, <span class='kw'>weights</span><span class='kw'>=</span><span class='no'>RETSALE</span>)
-<span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span>(<span class='no'>e.wlm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>), <span class='kw'>resfun</span><span class='kw'>=</span><span class='no'>rstudent</span>)</div><div class='output co'>#&gt; 
+#&gt; 6.945659e-14 1.100000e+01           NA </div><div class='input'><span class='va'>e.wlm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>OWNCONS</span> <span class='op'>~</span> <span class='va'>ROADACC</span>, data<span class='op'>=</span><span class='va'>eire</span>, weights<span class='op'>=</span><span class='va'>RETSALE</span><span class='op'>)</span>
+<span class='fu'><a href='lm.morantest.html'>lm.morantest</a></span><span class='op'>(</span><span class='va'>e.wlm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span>, resfun<span class='op'>=</span><span class='va'>rstudent</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Global Moran I for regression residuals
 #&gt; 
 #&gt; data:  
@@ -319,7 +330,8 @@ Geographical Analysis, 34, pp. 187--206; Bivand RS, Wong DWS 2018 Comparing impl
 #&gt; sample estimates:
 #&gt; Observed Moran I      Expectation         Variance 
 #&gt;       0.34500329      -0.04049313       0.01508687 
-#&gt; </div><div class='input'><span class='fu'>lm.morantest.sad</span>(<span class='no'>e.wlm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>), <span class='kw'>resfun</span><span class='kw'>=</span><span class='no'>rstudent</span>)</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>lm.morantest.sad</span><span class='op'>(</span><span class='va'>e.wlm</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span>, resfun<span class='op'>=</span><span class='va'>rstudent</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Saddlepoint approximation for global Moran's I (Barndorff-Nielsen
 #&gt; 	formula)
 #&gt; 
@@ -348,7 +360,7 @@ Geographical Analysis, 34, pp. 187--206; Bivand RS, Wong DWS 2018 Comparing impl
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

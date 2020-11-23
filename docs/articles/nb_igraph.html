@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -55,6 +55,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -85,7 +88,8 @@
 
       
 
-      </header><script src="nb_igraph_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="nb_igraph_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="nb_igraph_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="nb_igraph_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Spatial weights objects as sparse matrices and graphs</h1>
@@ -111,59 +115,69 @@
 <a href="#spdep-depends-on-matrix" class="anchor"></a><strong>spdep</strong> depends on <strong>Matrix</strong>
 </h3>
 <p>Since <strong>Matrix</strong> is a recommended package, its functionality has increasingly been used over time, and it has become one of two packages on which <strong>spdep</strong> depends. This is reported on loading:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">spdep</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/">spdep</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
 <pre><code>## Loading required package: spData</code></pre>
 <pre><code>## Loading required package: sf</code></pre>
-<pre><code>## Linking to GEOS 3.8.1, GDAL 3.1.1, PROJ 7.1.0</code></pre>
+<pre><code>## Linking to GEOS 3.9.0dev, GDAL 3.2.0, PROJ 7.2.0</code></pre>
 </div>
 <div id="getting-some-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#getting-some-data" class="anchor"></a>Getting some data</h3>
 <p>The legacy Columbus OH data set has 49 spatial entities, polygons, defined as the boundaries of policing districts in the city. <strong>spdep</strong> suggests <strong>maptools</strong> for portability, but in regular applications, <strong>rgdal</strong> should be used, because it handles coordinate reference systems more gracefully. We see that the shapefile-based entity IDs are zero-based:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">dothis</span> <span class="kw">&lt;-</span> <span class="fl">TRUE</span>
-<span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="no">rgdal</span>, <span class="kw">quietly</span><span class="kw">=</span><span class="fl">TRUE</span>))) {
-  <span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span>(<span class="st">"install the rgdal package"</span>)
-  <span class="no">dothis</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span>
-}
-<span class="kw">if</span> (<span class="no">dothis</span>) {
-  <span class="kw">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/exists.html">exists</a></span>(<span class="st">"rgdal_extSoftVersion"</span>)) <span class="fu"><a href="https://rdrr.io/pkg/rgdal/man/GDALDriver-class.html">rgdal_extSoftVersion</a></span>()
-  <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/pkg/rgdal/man/GDALDriver-class.html">getGDALVersionInfo</a></span>()
-}</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dothis</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>
+<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="http://rgdal.r-forge.r-project.org">rgdal</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span><span class="op">(</span><span class="st">"install the rgdal package"</span><span class="op">)</span>
+  <span class="va">dothis</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span>
+<span class="op">}</span>
+<span class="kw">if</span> <span class="op">(</span><span class="va">dothis</span><span class="op">)</span> <span class="op">{</span>
+  <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html">exists</a></span><span class="op">(</span><span class="st">"rgdal_extSoftVersion"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="http://rgdal.r-forge.r-project.org/reference/GDALDriver-class.html">rgdal_extSoftVersion</a></span><span class="op">(</span><span class="op">)</span>
+  <span class="kw">else</span> <span class="fu"><a href="http://rgdal.r-forge.r-project.org/reference/GDALDriver-class.html">getGDALVersionInfo</a></span><span class="op">(</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
 <pre><code>##           GDAL GDAL_with_GEOS           PROJ             sp 
-##        "3.1.1"         "TRUE"        "7.1.0"        "1.4-2"</code></pre>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rgdal</span>)
-<span class="no">columbus</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rgdal/man/readOGR.html">readOGR</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"shapes/columbus.shp"</span>, <span class="kw">package</span><span class="kw">=</span><span class="st">"spData"</span>)[<span class="fl">1</span>])</pre></body></html></div>
+##        "3.2.0"         "TRUE"        "7.2.0"        "1.4-4"</code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rgdal.r-forge.r-project.org">rgdal</a></span><span class="op">)</span>
+<span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://rgdal.r-forge.r-project.org/reference/readOGR.html">readOGR</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## OGR data source with driver: ESRI Shapefile 
 ## Source: "/home/rsb/lib/r_libs/spData/shapes/columbus.shp", layer: "columbus"
 ## with 49 features
 ## It has 20 fields
 ## Integer64 fields read as strings:  COLUMBUS_ COLUMBUS_I POLYID</code></pre>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span>(<span class="no">columbus</span>)[<span class="fl">1</span>:<span class="fl">10</span>]</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></code></pre></div>
 <pre><code>##  [1] "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"</code></pre>
 </div>
 <div id="finding-contiguous-neighbours-and-droppping-links" class="section level3">
 <h3 class="hasAnchor">
 <a href="#finding-contiguous-neighbours-and-droppping-links" class="anchor"></a>Finding contiguous neighbours and droppping links</h3>
 <p>Contiguous neighbours are often used for polygonal spatial entities, here with the <strong>poly2nb</strong> function defaulting to the <em>queen</em> criterion - entities are neighbours if they share a boundary point. We see that the entity IDs are copied across to the <code>nb</code> object:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">nb_q</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span>(<span class="no">columbus</span>)
-<span class="no">nb_q</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nb_q</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>
+<span class="va">nb_q</span></code></pre></div>
 <pre><code>## Neighbour list object:
 ## Number of regions: 49 
 ## Number of nonzero links: 236 
 ## Percentage nonzero weights: 9.829238 
 ## Average number of links: 4.816327</code></pre>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">nb_q</span>, <span class="st">"region.id"</span>)[<span class="fl">1</span>:<span class="fl">10</span>]</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">nb_q</span>, <span class="st">"region.id"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></code></pre></div>
 <pre><code>##  [1] "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"</code></pre>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/testnb.html">is.symmetric.nb</a></span>(<span class="no">nb_q</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/is.symmetric.nb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">nb_q</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>In order to make the object more complicated, let us drop the neighbour links for the 21st entity (noting that the print method reports the ID of the entity with no neighbours, not its number in <code>1:n</code>), and plot the resulting map of neighbours:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">col2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/droplinks.html">droplinks</a></span>(<span class="no">nb_q</span>, <span class="fl">21</span>)
-<span class="no">nb_q</span><span class="kw">[[</span><span class="fl">21</span>]]</pre></body></html></div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">col2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/droplinks.html">droplinks</a></span><span class="op">(</span><span class="va">nb_q</span>, <span class="fl">21</span><span class="op">)</span>
+<span class="va">nb_q</span><span class="op">[[</span><span class="fl">21</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <pre><code>## [1] 24 30 34</code></pre>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">col2</span><span class="kw">[[</span><span class="fl">21</span>]]</pre></body></html></div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">col2</span><span class="op">[[</span><span class="fl">21</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 <pre><code>## [1] 0</code></pre>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">col2</span></pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">col2</span></code></pre></div>
 <pre><code>## Neighbour list object:
 ## Number of regions: 49 
 ## Number of nonzero links: 230 
@@ -171,11 +185,13 @@
 ## Average number of links: 4.693878 
 ## 1 region with no links:
 ## 20</code></pre>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/testnb.html">is.symmetric.nb</a></span>(<span class="no">col2</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/is.symmetric.nb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">col2</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">coords</span> <span class="kw">&lt;-</span> <span class="fu">coordinates</span>(<span class="no">columbus</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">nb_q</span>, <span class="no">coords</span>, <span class="kw">col</span><span class="kw">=</span><span class="st">"grey"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">col2</span>, <span class="no">coords</span>, <span class="kw">add</span><span class="kw">=</span><span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu">coordinates</span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">nb_q</span>, <span class="va">coords</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">col2</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="nb_igraph_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
 </div>
 </div>
@@ -183,15 +199,17 @@
 <h2 class="hasAnchor">
 <a href="#using-sparse-matrices-to-represent-spatial-weights" class="anchor"></a>Using sparse matrices to represent spatial weights</h2>
 <p>At present only <code>listw</code> objects can be coerced to objects of classes defined in <strong>Matrix</strong>. Because the <code>style</code> is lost on coercion, it may not be possible to reconstruct spatial weights as the sparse matrix representation does not preserve it. We will start with symmetric binary weights, first creating a spatial weights object, and signalling that one entity has no neighbours with the <code>zero.policy</code> argument (default false). The matrix and graph representations of no-neighbour entities are not obvious.</p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="no">nb_B</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span>(<span class="no">col2</span>, <span class="kw">style</span><span class="kw">=</span><span class="st">"B"</span>, <span class="kw">zero.policy</span><span class="kw">=</span><span class="fl">TRUE</span>)
-<span class="no">nb_B</span>$<span class="no">style</span></pre></body></html></div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nb_B</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col2</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">nb_B</span><span class="op">$</span><span class="va">style</span></code></pre></div>
 <pre><code>## [1] "B"</code></pre>
 <div id="symmetric-sparse-matrices" class="section level3">
 <h3 class="hasAnchor">
 <a href="#symmetric-sparse-matrices" class="anchor"></a>Symmetric sparse matrices</h3>
 <p><strong>spdep</strong> provides coercion methods from <code>listw</code> to the <code>"symmetricMatrix"</code>, <code>"RsparseMatrix"</code> and <code>"CsparseMatrix"</code> classes defined in <strong>Matrix</strong>. The <code>"RsparseMatrix"</code> is the representation that is most similar to <code>listw</code>, as it is row-based, but it is used less frequently in operations on sparse matrices. The entity IDs are passed using sparse matrix row and column names at present. Here we believe that our <code>listw</code> object can be represented as a symmetric matrix, storing only a triangle rather than both <code>i</code>-<code>j</code> and <code>j</code>-<code>i</code> weights. The coercion method does check whether symmetry is present before proceeding:</p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">Matrix</span>)
-<span class="no">B</span> <span class="kw">&lt;-</span> <span class="fu">as</span>(<span class="no">nb_B</span>, <span class="st">"CsparseMatrix"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/">Matrix</a></span><span class="op">)</span>
+<span class="va">B</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="va">nb_B</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span></code></pre></div>
 <pre><code>## Registered S3 methods overwritten by 'spatialreg':
 ##   method                   from 
 ##   residuals.stsls          spdep
@@ -249,9 +267,11 @@
 ##   summary.WXImpact         spdep
 ##   print.summary.WXImpact   spdep
 ##   predict.SLX              spdep</code></pre>
-<div class="sourceCode" id="cb31"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span>(<span class="no">B</span> <span class="kw">==</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="no">B</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">B</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb33"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">B</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span></code></pre></div>
 <pre><code>## Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
 ##   ..@ i       : int [1:230] 1 2 0 2 3 0 1 3 4 1 ...
 ##   ..@ p       : int [1:50] 0 2 5 9 13 21 23 27 33 41 ...
@@ -261,48 +281,58 @@
 ##   .. ..$ : chr [1:49] "0" "1" "2" "3" ...
 ##   ..@ x       : num [1:230] 1 1 1 1 1 1 1 1 1 1 ...
 ##   ..@ factors : list()</code></pre>
-<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">B</span>)[<span class="fl">1</span>:<span class="fl">10</span>]</pre></body></html></div>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span></code></pre></div>
 <pre><code>##  [1] "0" "1" "2" "3" "4" "5" "6" "7" "8" "9"</code></pre>
 <p>Let us now try to retreive the list of neighbours from the symmetric sparse matrix. At present, we have to coerce from one <strong>Matrix</strong> internal representation to another in order to get to the <code>"dgCMatrix"</code> format used inside <code>mat2listw</code>, so we coerce to <code>"dgTMatrix"</code> from <code>"dsTMatrix"</code>. The style is not retreived automatically, but is set to <code>"M"</code> to indicate conversion from a matrix. The neighbour links are retreived correctly, as are the IDs:</p>
-<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="no">nb_B1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mat2listw.html">mat2listw</a></span>(<span class="fu">as</span>(<span class="no">B</span>, <span class="st">"dgTMatrix"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nb_B1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mat2listw.html">mat2listw</a></span><span class="op">(</span><span class="fu">as</span><span class="op">(</span><span class="va">B</span>, <span class="st">"dgTMatrix"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in sn2listw(df): 20 is not an origin</code></pre>
-<div class="sourceCode" id="cb39"><html><body><pre class="r"><span class="no">nb_B1</span>$<span class="no">style</span></pre></body></html></div>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nb_B1</span><span class="op">$</span><span class="va">style</span></code></pre></div>
 <pre><code>## [1] "M"</code></pre>
-<div class="sourceCode" id="cb41"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">nb_B1</span>$<span class="no">neighbours</span>, <span class="no">col2</span>, <span class="kw">check.attributes</span><span class="kw">=</span><span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">nb_B1</span><span class="op">$</span><span class="va">neighbours</span>, <span class="va">col2</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb43"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">nb_B1</span>$<span class="no">neighbours</span>, <span class="st">"region.id"</span>), <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">nb_B</span>$<span class="no">neighbours</span>, <span class="st">"region.id"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">nb_B1</span><span class="op">$</span><span class="va">neighbours</span>, <span class="st">"region.id"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">nb_B</span><span class="op">$</span><span class="va">neighbours</span>, <span class="st">"region.id"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="log-determinants-symmetric-weights-used-in-spatial-regression" class="section level3">
 <h3 class="hasAnchor">
 <a href="#log-determinants-symmetric-weights-used-in-spatial-regression" class="anchor"></a>Log determinants (symmetric weights) used in spatial regression</h3>
 <p>An initial reason for implementing support for sparse weights matrices in <strong>spdep</strong> was to permit the calculation of the log determinant term in spatial regressions for larger data sets. Using the eigenvalue approach with for example <code>eigenw</code> is limited by the need to operate on dense matrices in memory to solve the eigenproblem:</p>
-<div class="sourceCode" id="cb45"><html><body><pre class="r"><span class="no">rho</span> <span class="kw">&lt;-</span> <span class="fl">0.1</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="fl">1</span> - <span class="no">rho</span> * <span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span>(<span class="no">nb_B</span>)))</pre></body></html></div>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rho</span> <span class="op">&lt;-</span> <span class="fl">0.1</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">rho</span> <span class="op">*</span> <span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span><span class="op">(</span><span class="va">nb_B</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Function eigenw moved to the spatialreg package</code></pre>
 <pre><code>## [1] -1.44787</code></pre>
 <p>When <code>n</code> is large, this may become impractical and/or time-consuming, but does permit the rapid calculation of values of the log determinant for differing values of the spatial coefficient <span class="math inline">\(\rho\)</span>. The <strong>Matrix</strong> package provides many <code>determinant</code> methods, here for a <code>"dsCMatrix"</code> resulting from subtracting a <code>"dsCMatrix"</code>, the product of a scalar and a <code>"dsTMatrix"</code>, from a <code>"ddiMatrix"</code>. The value of the log determinant follows, calling a sparse Cholesky decomposition internally for suitable input matrices.</p>
-<div class="sourceCode" id="cb48"><html><body><pre class="r"><span class="no">n</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">B</span>)
-<span class="no">I</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html">Diagonal</a></span>(<span class="no">n</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">I</span> - <span class="no">rho</span> * <span class="no">B</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">n</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span>
+<span class="va">I</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html">Diagonal</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">I</span> <span class="op">-</span> <span class="va">rho</span> <span class="op">*</span> <span class="va">B</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "dgCMatrix"
 ## attr(,"package")
 ## [1] "Matrix"</code></pre>
-<div class="sourceCode" id="cb50"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/det.html">determinant</a></span>(<span class="no">I</span> - <span class="no">rho</span> * <span class="no">B</span>, <span class="kw">logarithm</span><span class="kw">=</span><span class="fl">TRUE</span>)$<span class="no">modulus</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/det.html">determinant</a></span><span class="op">(</span><span class="va">I</span> <span class="op">-</span> <span class="va">rho</span> <span class="op">*</span> <span class="va">B</span>, logarithm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">modulus</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -1.44787</code></pre>
 <p>The computation of a sparse Cholesky decomposition for each value of the spatial coefficient <span class="math inline">\(\rho\)</span> may be avoided by updating a pre-computed object; this approach provides fast and accurate log determinants for larger (but not very large) data sets:</p>
-<div class="sourceCode" id="cb52"><html><body><pre class="r"><span class="no">nW</span> <span class="kw">&lt;-</span> -<span class="no">B</span>
-<span class="no">nChol</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Cholesky.html">Cholesky</a></span>(<span class="no">nW</span>, <span class="kw">Imult</span><span class="kw">=</span><span class="fl">8</span>)
-<span class="no">n</span> * <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="no">rho</span>) + (<span class="fl">2</span> * <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/det.html">determinant</a></span>(<span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span>(<span class="no">nChol</span>, <span class="no">nW</span>, <span class="fl">1</span>/<span class="no">rho</span>))$<span class="no">modulus</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nW</span> <span class="op">&lt;-</span> <span class="op">-</span><span class="va">B</span>
+<span class="va">nChol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Cholesky.html">Cholesky</a></span><span class="op">(</span><span class="va">nW</span>, Imult<span class="op">=</span><span class="fl">8</span><span class="op">)</span>
+<span class="va">n</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">rho</span><span class="op">)</span> <span class="op">+</span> <span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/det.html">determinant</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/update.html">update</a></span><span class="op">(</span><span class="va">nChol</span>, <span class="va">nW</span>, <span class="fl">1</span><span class="op">/</span><span class="va">rho</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">modulus</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 15.40218</code></pre>
 </div>
 <div id="asymmetric-sparse-matrices" class="section level3">
 <h3 class="hasAnchor">
 <a href="#asymmetric-sparse-matrices" class="anchor"></a>Asymmetric sparse matrices</h3>
 <p>The use of row-standardisation leads to asymmetry even if the underlying neighbours are symmetric, unless all entities have matching numbers of neighbours (for example a regular grid on a torus):</p>
-<div class="sourceCode" id="cb54"><html><body><pre class="r"><span class="no">nb_W</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span>(<span class="no">col2</span>, <span class="kw">style</span><span class="kw">=</span><span class="st">"W"</span>, <span class="kw">zero.policy</span><span class="kw">=</span><span class="fl">TRUE</span>)
-<span class="no">W</span> <span class="kw">&lt;-</span> <span class="fu">as</span>(<span class="no">nb_W</span>, <span class="st">"CsparseMatrix"</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">W</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nb_W</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col2</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">W</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="va">nb_W</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">W</span><span class="op">)</span></code></pre></div>
 <pre><code>## Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
 ##   ..@ i       : int [1:230] 1 2 0 2 3 0 1 3 4 1 ...
 ##   ..@ p       : int [1:50] 0 2 5 9 13 21 23 27 33 41 ...
@@ -312,62 +342,76 @@
 ##   .. ..$ : chr [1:49] "0" "1" "2" "3" ...
 ##   ..@ x       : num [1:230] 0.333 0.25 0.5 0.25 0.25 ...
 ##   ..@ factors : list()</code></pre>
-<div class="sourceCode" id="cb56"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span>(<span class="no">W</span> <span class="kw">==</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="no">W</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">W</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">W</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
 <p>The <code>lag</code> method for <code>listw</code> objects is often used to create spatially lagged values, and returns the same values as the vector given by the product of the sparse general matrix and an input numeric vector. Note that by setting <code>zero.policy</code> to <code>TRUE</code>, the spatial lag of entity 21, which has no neighbours, is zero by construction:</p>
-<div class="sourceCode" id="cb58"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span>(<span class="fl">1</span>)
-<span class="no">x</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="no">n</span>)
-<span class="no">r1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">W</span> <span class="kw">%*%</span> <span class="no">x</span>)
-<span class="no">r2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span>(<span class="no">nb_W</span>, <span class="no">x</span>, <span class="kw">zero.policy</span><span class="kw">=</span><span class="fl">TRUE</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">r1</span>, <span class="no">r2</span>, <span class="kw">check.attributes</span><span class="kw">=</span><span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>
+<span class="va">r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">W</span> <span class="op">%*%</span> <span class="va">x</span><span class="op">)</span>
+<span class="va">r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">nb_W</span>, <span class="va">x</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">r1</span>, <span class="va">r2</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb60"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span>(<span class="no">x</span>, <span class="no">r1</span>, <span class="kw">ylim</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">1</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">r1</span>, ylim<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="nb_igraph_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<div class="sourceCode" id="cb61"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">x</span>[<span class="fl">21</span>], <span class="no">r1</span>[<span class="fl">21</span>])</pre></body></html></div>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">x</span><span class="op">[</span><span class="fl">21</span><span class="op">]</span>, <span class="va">r1</span><span class="op">[</span><span class="fl">21</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 0.9347052 0.0000000</code></pre>
 </div>
 <div id="log-determinants-asymmetric-weights-used-in-spatial-regression" class="section level3">
 <h3 class="hasAnchor">
 <a href="#log-determinants-asymmetric-weights-used-in-spatial-regression" class="anchor"></a>Log determinants (asymmetric weights) used in spatial regression</h3>
 <p>Calculating the log determinant for asymmetric weights (here with symmetric neighbours and symmetry induced by non-constant numbers of neighbours) may be carried out using eigenvalues as before, but the result may be a complex vector (here it is not, as discussed below). The appropriate <code>determinant</code> method for <code>"dgCMatrix"</code> objects uses an LU decomposition internally:</p>
-<div class="sourceCode" id="cb63"><html><body><pre class="r"><span class="no">rho</span> <span class="kw">&lt;-</span> <span class="fl">0.5</span>
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="fl">1</span> - <span class="no">rho</span> * <span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span>(<span class="no">nb_W</span>)))</pre></body></html></div>
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">rho</span> <span class="op">&lt;-</span> <span class="fl">0.5</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">rho</span> <span class="op">*</span> <span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span><span class="op">(</span><span class="va">nb_W</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Function eigenw moved to the spatialreg package</code></pre>
 <pre><code>## [1] -1.594376</code></pre>
-<div class="sourceCode" id="cb66"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">I</span> - <span class="no">rho</span> * <span class="no">W</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">I</span> <span class="op">-</span> <span class="va">rho</span> <span class="op">*</span> <span class="va">W</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "dgCMatrix"
 ## attr(,"package")
 ## [1] "Matrix"</code></pre>
-<div class="sourceCode" id="cb68"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/det.html">determinant</a></span>(<span class="no">I</span> - <span class="no">rho</span> * <span class="no">W</span>, <span class="kw">logarithm</span><span class="kw">=</span><span class="fl">TRUE</span>)$<span class="no">modulus</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/det.html">determinant</a></span><span class="op">(</span><span class="va">I</span> <span class="op">-</span> <span class="va">rho</span> <span class="op">*</span> <span class="va">W</span>, logarithm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">modulus</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -1.594376</code></pre>
 <p>We can show the internal workings of the method as:</p>
-<div class="sourceCode" id="cb70"><html><body><pre class="r"><span class="no">LU</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/lu.html">lu</a></span>(<span class="no">I</span> - <span class="no">rho</span> * <span class="no">W</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span>(<span class="fu">slot</span>(<span class="no">LU</span>, <span class="st">"U"</span>)))))</pre></body></html></div>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">LU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/lu.html">lu</a></span><span class="op">(</span><span class="va">I</span> <span class="op">-</span> <span class="va">rho</span> <span class="op">*</span> <span class="va">W</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/diag.html">diag</a></span><span class="op">(</span><span class="fu">slot</span><span class="op">(</span><span class="va">LU</span>, <span class="st">"U"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -1.594376</code></pre>
 </div>
 <div id="log-determinants-symmetric-by-similarity" class="section level3">
 <h3 class="hasAnchor">
 <a href="#log-determinants-symmetric-by-similarity" class="anchor"></a>Log determinants: symmetric by similarity</h3>
 <p>The <code>nb2listw</code> function stores components that can be employed to transform the asymmetric weights matrix to symmetry by similarity, permitting the same log determinant to be computed using less costly numerical methods. The <code>"W"</code> style used the cardinalities of neighbour sets (row sums) to introduce row standardisation, and they are stored as an attribute:</p>
-<div class="sourceCode" id="cb72"><html><body><pre class="r"><span class="no">d</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">nb_W</span>$<span class="no">weights</span>, <span class="st">"comp"</span>)$<span class="no">d</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">d</span>, <span class="fu"><a href="../reference/card.html">card</a></span>(<span class="no">col2</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">nb_W</span><span class="op">$</span><span class="va">weights</span>, <span class="st">"comp"</span><span class="op">)</span><span class="op">$</span><span class="va">d</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">col2</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>If we first restore the row-standarised matrix to its binary form (which must be symmetric), we can pre- and post-multiply by the square roots of the inverted neighbour counts, yielding a symmetric matrix with the appropriate properties:</p>
-<div class="sourceCode" id="cb74"><html><body><pre class="r"><span class="no">dW</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html">Diagonal</a></span>(<span class="no">n</span>, <span class="no">d</span>) <span class="kw">%*%</span> <span class="no">W</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span>(<span class="no">dW</span> <span class="kw">==</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span>(<span class="no">dW</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html">Diagonal</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">d</span><span class="op">)</span> <span class="op">%*%</span> <span class="va">W</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="va">dW</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">dW</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb76"><html><body><pre class="r"><span class="no">isd</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html">Diagonal</a></span>(<span class="no">n</span>, <span class="fl">1</span>/<span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span>(<span class="no">d</span>))
-<span class="no">isd</span>[<span class="fl">21</span>,<span class="fl">21</span>]</pre></body></html></div>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">isd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html">Diagonal</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span><span class="op">)</span>
+<span class="va">isd</span><span class="op">[</span><span class="fl">21</span>,<span class="fl">21</span><span class="op">]</span></code></pre></div>
 <pre><code>## [1] Inf</code></pre>
-<div class="sourceCode" id="cb78"><html><body><pre class="r"><span class="no">Ws</span> <span class="kw">&lt;-</span> <span class="fu">as</span>(<span class="no">isd</span> <span class="kw">%*%</span> <span class="no">dW</span> <span class="kw">%*%</span> <span class="no">isd</span>, <span class="st">"symmetricMatrix"</span>)
-<span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span>(<span class="no">Ws</span>)[<span class="fl">21</span>]</pre></body></html></div>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">Ws</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="va">isd</span> <span class="op">%*%</span> <span class="va">dW</span> <span class="op">%*%</span> <span class="va">isd</span>, <span class="st">"symmetricMatrix"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">Ws</span><span class="op">)</span><span class="op">[</span><span class="fl">21</span><span class="op">]</span></code></pre></div>
 <pre><code>## 20 
 ##  0</code></pre>
-<div class="sourceCode" id="cb80"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">Ws</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">Ws</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "dsCMatrix"
 ## attr(,"package")
 ## [1] "Matrix"</code></pre>
-<div class="sourceCode" id="cb82"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/det.html">determinant</a></span>(<span class="no">I</span> - <span class="no">rho</span> * <span class="no">Ws</span>, <span class="kw">logarithm</span><span class="kw">=</span><span class="fl">TRUE</span>)$<span class="no">modulus</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/det.html">determinant</a></span><span class="op">(</span><span class="va">I</span> <span class="op">-</span> <span class="va">rho</span> <span class="op">*</span> <span class="va">Ws</span>, logarithm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">modulus</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -1.594376</code></pre>
 <p>As can be seen, the division by the square root of zero for entity 21 is not a problem as the row of <code>dW</code> is zero. The transformation by similarity permits the use of numerical methods for sparse symmetric matrices (and equivalently for eigenvalues and dense matrices). Note that this transformation is not available for intrinsically asymmetric neighbours, or for intrinsically asymmetric general weights.</p>
 </div>
@@ -375,17 +419,21 @@
 <h3 class="hasAnchor">
 <a href="#using-eigs-in-rspectra-for-finding-some-eigenvalues" class="anchor"></a>Using <code>eigs</code> in <strong>RSpectra</strong> for finding some eigenvalues</h3>
 <p>In spatial regression, the domain of the spatial coefficient is given by the inverse of the maximum and minimum eigenvalues. When <code>n</code> is moderate, we have the eigenvalues anyway, so the interval for line search is available without extra effort. When <code>n</code> is somewhat larger, use may be made of the <code>eigs</code> function in <strong>RSpectra</strong>:</p>
-<div class="sourceCode" id="cb84"><html><body><pre class="r"><span class="fl">1</span>/<span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span>(<span class="no">nb_B</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span><span class="op">(</span><span class="va">nb_B</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Function eigenw moved to the spatialreg package</code></pre>
 <pre><code>## [1] -0.3212551  0.1638329</code></pre>
-<div class="sourceCode" id="cb87"><html><body><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"RSpectra"</span>, <span class="kw">quietly</span><span class="kw">=</span><span class="fl">TRUE</span>)) <span class="no">dothis</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span>
-<span class="fl">1</span>/<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/RSpectra/man/eigs.html">eigs</a></span>(<span class="no">B</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">which</span><span class="kw">=</span><span class="st">"SR"</span>)$<span class="no">values</span>, <span class="fu"><a href="https://rdrr.io/pkg/RSpectra/man/eigs.html">eigs</a></span>(<span class="no">B</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">which</span><span class="kw">=</span><span class="st">"LR"</span>)$<span class="no">values</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/yixuan/RSpectra">"RSpectra"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">dothis</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span>
+<span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/RSpectra/man/eigs.html">eigs</a></span><span class="op">(</span><span class="va">B</span>, k<span class="op">=</span><span class="fl">1</span>, which<span class="op">=</span><span class="st">"SR"</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>, <span class="fu"><a href="https://rdrr.io/pkg/RSpectra/man/eigs.html">eigs</a></span><span class="op">(</span><span class="va">B</span>, k<span class="op">=</span><span class="fl">1</span>, which<span class="op">=</span><span class="st">"LR"</span><span class="op">)</span><span class="op">$</span><span class="va">values</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -0.3212551  0.1638329</code></pre>
 <p>In this case, the results are trivial with small <code>k</code>.</p>
-<div class="sourceCode" id="cb89"><html><body><pre class="r"><span class="fl">1</span>/<span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span>(<span class="no">nb_W</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span><span class="op">(</span><span class="va">nb_W</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Function eigenw moved to the spatialreg package</code></pre>
 <pre><code>## [1] -1.544645  1.000000</code></pre>
-<div class="sourceCode" id="cb92"><html><body><pre class="r"><span class="fl">1</span>/<span class="fu"><a href="https://rdrr.io/r/base/complex.html">Re</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/pkg/RSpectra/man/eigs.html">eigs</a></span>(<span class="no">W</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">which</span><span class="kw">=</span><span class="st">"SR"</span>)$<span class="no">values</span>, <span class="fu"><a href="https://rdrr.io/pkg/RSpectra/man/eigs.html">eigs</a></span>(<span class="no">W</span>, <span class="kw">k</span><span class="kw">=</span><span class="fl">1</span>, <span class="kw">which</span><span class="kw">=</span><span class="st">"LR"</span>)$<span class="no">values</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/complex.html">Re</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/RSpectra/man/eigs.html">eigs</a></span><span class="op">(</span><span class="va">W</span>, k<span class="op">=</span><span class="fl">1</span>, which<span class="op">=</span><span class="st">"SR"</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>, <span class="fu"><a href="https://rdrr.io/pkg/RSpectra/man/eigs.html">eigs</a></span><span class="op">(</span><span class="va">W</span>, k<span class="op">=</span><span class="fl">1</span>, which<span class="op">=</span><span class="st">"LR"</span><span class="op">)</span><span class="op">$</span><span class="va">values</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] -1.544645  1.000000</code></pre>
 <p>Using row-standardisation has the nice feature of setting the upper bound to unity, and there are graph methods for finding out whether the lower bound is <code>-1</code>.</p>
 </div>
@@ -397,13 +445,16 @@
 <h3 class="hasAnchor">
 <a href="#converting-from-symmetric-adjacency-matrix-to-graph" class="anchor"></a>Converting from symmetric adjacency matrix to graph</h3>
 <p>First we’ll see how to get from sparse matrices to graphs. The mode of a symmetric matrix is <code>"undirected"</code> by definition:</p>
-<div class="sourceCode" id="cb94"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">B</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "dgCMatrix"
 ## attr(,"package")
 ## [1] "Matrix"</code></pre>
-<div class="sourceCode" id="cb96"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(<span class="no">B</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span></code></pre></div>
 <pre><code>## 10824 bytes</code></pre>
-<div class="sourceCode" id="cb98"><html><body><pre class="r"><span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/library.html">require</a></span>(<span class="st">"igraph"</span>, <span class="kw">quietly</span><span class="kw">=</span><span class="fl">FALSE</span>)) <span class="no">dothis</span> <span class="kw">&lt;-</span> <span class="fl">FALSE</span></pre></body></html></div>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="st"><a href="https://igraph.org">"igraph"</a></span>, quietly<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> <span class="va">dothis</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></code></pre></div>
 <pre><code>## Loading required package: igraph</code></pre>
 <pre><code>## 
 ## Attaching package: 'igraph'</code></pre>
@@ -413,24 +464,29 @@
 <pre><code>## The following object is masked from 'package:base':
 ## 
 ##     union</code></pre>
-<div class="sourceCode" id="cb103"><html><body><pre class="r"><span class="no">g1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html">graph.adjacency</a></span>(<span class="no">B</span>, <span class="kw">mode</span><span class="kw">=</span><span class="st">"undirected"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">g1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html">graph.adjacency</a></span><span class="op">(</span><span class="va">B</span>, mode<span class="op">=</span><span class="st">"undirected"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "igraph"</code></pre>
-<div class="sourceCode" id="cb105"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(<span class="no">g1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span></code></pre></div>
 <pre><code>## 9216 bytes</code></pre>
 </div>
 <div id="converting-from-graph-to-symmetric-adjacency-matrix" class="section level3">
 <h3 class="hasAnchor">
 <a href="#converting-from-graph-to-symmetric-adjacency-matrix" class="anchor"></a>Converting from graph to symmetric adjacency matrix</h3>
 <p>We can also convert this graph pack to the same matrix, but note that <code>get.adjacency</code> chooses a particular class of sparse matrix to be returned, so that the conversion process typically leads many matrices to fewer graph types, and back to fewer matrix types:</p>
-<div class="sourceCode" id="cb107"><html><body><pre class="r"><span class="no">B1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/as_adjacency_matrix.html">get.adjacency</a></span>(<span class="no">g1</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span>(<span class="no">B1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">B1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/as_adjacency_matrix.html">get.adjacency</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">B1</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "dgCMatrix"
 ## attr(,"package")
 ## [1] "Matrix"</code></pre>
-<div class="sourceCode" id="cb109"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span>(<span class="no">B1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/object.size.html">object.size</a></span><span class="op">(</span><span class="va">B1</span><span class="op">)</span></code></pre></div>
 <pre><code>## 10824 bytes</code></pre>
-<div class="sourceCode" id="cb111"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">B</span>, <span class="fu">as</span>(<span class="fu">as</span>(<span class="no">B1</span>, <span class="st">"dgTMatrix"</span>), <span class="st">"symmetricMatrix"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">B</span>, <span class="fu">as</span><span class="op">(</span><span class="fu">as</span><span class="op">(</span><span class="va">B1</span>, <span class="st">"dgTMatrix"</span><span class="op">)</span>, <span class="st">"symmetricMatrix"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "Length mismatch: comparison on first 2 components"
 ## [2] "class(target) is dgCMatrix, current is dsTMatrix"</code></pre>
 </div>
@@ -439,8 +495,9 @@
 <a href="#graph-components-in-spdep" class="anchor"></a>Graph components in <strong>spdep</strong>
 </h3>
 <p>A simple example of using <strong>igraph</strong> to do the same as an existing <strong>spdep</strong> function is Nicholas Lewin-Koh’s <code>n.comp.nb</code> from the early days of the package. It is useful to know whether an <code>nb</code> object is divided up into separate subgraphs, and which entities are members of which such subgraph.</p>
-<div class="sourceCode" id="cb113"><html><body><pre class="r"><span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/compon.html">n.comp.nb</a></span>(<span class="no">col2</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">res</span>$<span class="no">comp.id</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb113"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/Graph%20Components.html">n.comp.nb</a></span><span class="op">(</span><span class="va">col2</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">comp.id</span><span class="op">)</span></code></pre></div>
 <pre><code>## 
 ##  1  2  3 
 ## 42  1  6</code></pre>
@@ -450,18 +507,22 @@
 <a href="#graph-components-in-igraph" class="anchor"></a>Graph components in <strong>igraph</strong>
 </h3>
 <p>The same result can be obtained using the <code>clusters</code> function in <strong>igraph</strong>:</p>
-<div class="sourceCode" id="cb115"><html><body><pre class="r"><span class="no">c1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/components.html">clusters</a></span>(<span class="no">g1</span>)
-<span class="no">c1</span>$<span class="no">no</span> <span class="kw">==</span> <span class="no">res</span>$<span class="no">nc</span></pre></body></html></div>
+<div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">c1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/components.html">clusters</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span>
+<span class="va">c1</span><span class="op">$</span><span class="va">no</span> <span class="op">==</span> <span class="va">res</span><span class="op">$</span><span class="va">nc</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb117"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">c1</span>$<span class="no">membership</span>, <span class="no">res</span>$<span class="no">comp.id</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">c1</span><span class="op">$</span><span class="va">membership</span>, <span class="va">res</span><span class="op">$</span><span class="va">comp.id</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "names for target but not for current"</code></pre>
-<div class="sourceCode" id="cb119"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">c1</span>$<span class="no">csize</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span>(<span class="no">res</span>$<span class="no">comp.id</span>)), <span class="kw">check.attributes</span><span class="kw">=</span><span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb119"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">c1</span><span class="op">$</span><span class="va">csize</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">comp.id</span><span class="op">)</span><span class="op">)</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>The same holds for the row-standardised variant:</p>
-<div class="sourceCode" id="cb121"><html><body><pre class="r"><span class="no">W</span> <span class="kw">&lt;-</span> <span class="fu">as</span>(<span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span>(<span class="no">col2</span>, <span class="kw">style</span><span class="kw">=</span><span class="st">"W"</span>, <span class="kw">zero.policy</span><span class="kw">=</span><span class="fl">TRUE</span>), <span class="st">"CsparseMatrix"</span>)
-<span class="no">g1W</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html">graph.adjacency</a></span>(<span class="no">W</span>, <span class="kw">mode</span><span class="kw">=</span><span class="st">"directed"</span>, <span class="kw">weighted</span><span class="kw">=</span><span class="st">"W"</span>)
-<span class="no">c1W</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/components.html">clusters</a></span>(<span class="no">g1W</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">c1W</span>$<span class="no">membership</span>, <span class="no">res</span>$<span class="no">comp.id</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">W</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col2</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span>
+<span class="va">g1W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html">graph.adjacency</a></span><span class="op">(</span><span class="va">W</span>, mode<span class="op">=</span><span class="st">"directed"</span>, weighted<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>
+<span class="va">c1W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/components.html">clusters</a></span><span class="op">(</span><span class="va">g1W</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">c1W</span><span class="op">$</span><span class="va">membership</span>, <span class="va">res</span><span class="op">$</span><span class="va">comp.id</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "names for target but not for current"</code></pre>
 </div>
 <div id="shortest-paths-in-weights-matrices-igraph" class="section level3">
@@ -469,13 +530,16 @@
 <a href="#shortest-paths-in-weights-matrices-igraph" class="anchor"></a>Shortest paths in weights matrices: <strong>igraph</strong>
 </h3>
 <p>Finding shortest paths between spatial entities across a given graph is a way to express closeness. If the graph is connected, that is that it is possible to traverse the graph edges from any node to any other, the longest shortest path is then a useful measure. In <strong>igraph</strong>, the <code>is.connected</code> function tells us tells us that our graph is not connected, as we know from the figure above. The diameter measure is then the diameter of the largest component subgraph. Note that this generates an <code>n</code> x <code>n</code> matrix:</p>
-<div class="sourceCode" id="cb123"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/components.html">is.connected</a></span>(<span class="no">g1</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/igraph/man/components.html">is.connected</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] FALSE</code></pre>
-<div class="sourceCode" id="cb125"><html><body><pre class="r"><span class="no">dg1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/diameter.html">diameter</a></span>(<span class="no">g1</span>)
-<span class="no">dg1</span></pre></body></html></div>
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dg1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/diameter.html">diameter</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span>
+<span class="va">dg1</span></code></pre></div>
 <pre><code>## [1] 7</code></pre>
-<div class="sourceCode" id="cb127"><html><body><pre class="r"><span class="no">sp_mat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/distances.html">shortest.paths</a></span>(<span class="no">g1</span>)
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">sp_mat</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sp_mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/igraph/man/distances.html">shortest.paths</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">sp_mat</span><span class="op">)</span></code></pre></div>
 <pre><code>##  num [1:49, 1:49] 0 1 1 2 2 3 4 3 3 4 ...
 ##  - attr(*, "dimnames")=List of 2
 ##   ..$ : chr [1:49] "0" "1" "2" "3" ...
@@ -486,18 +550,20 @@
 <a href="#shortest-paths-in-weights-matrices-spdep" class="anchor"></a>Shortest paths in weights matrices: <strong>spdep</strong>
 </h3>
 <p>If we do the same in <strong>spdep</strong>, using <code>nblag</code> to a maximum number of lag orders - the diameter, but which is unknown in advance (the largest lag order for which the number of links is greater than zero), we run into the problem of how to represent missing neighbour information.</p>
-<div class="sourceCode" id="cb129"><html><body><pre class="r"><span class="no">nbl10</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/nblag.html">nblag</a></span>(<span class="no">col2</span>, <span class="kw">maxlag</span><span class="kw">=</span><span class="fl">10</span>)
-<span class="no">vals</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">nbl10</span>, <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(<span class="fu"><a href="../reference/card.html">card</a></span>(<span class="no">x</span>)))
-<span class="no">zero</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span>(<span class="no">vals</span> <span class="kw">==</span> <span class="fl">0</span>)
-<span class="no">zero</span>[<span class="fl">1</span>]-<span class="fl">1</span></pre></body></html></div>
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nbl10</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nblag.html">nblag</a></span><span class="op">(</span><span class="va">col2</span>, maxlag<span class="op">=</span><span class="fl">10</span><span class="op">)</span>
+<span class="va">vals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span><span class="op">(</span><span class="va">nbl10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="va">zero</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="va">vals</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span>
+<span class="va">zero</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">-</span><span class="fl">1</span></code></pre></div>
 <pre><code>## [1] 7</code></pre>
 <p>If we insert zero into the weights matrix where there is no connection using <code>zero.policy=TRUE</code>, we generate a zero shortest path. If we are to create a matrix that matches the one produced by <code>shortest.paths</code>, we need to set all these non-structural zeros to infinity (the length of the path between unconnected nodes), and re-instate structural zeros on the diagonal:</p>
-<div class="sourceCode" id="cb131"><html><body><pre class="r"><span class="no">lmat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="no">nbl10</span>[<span class="fl">1</span>:(<span class="no">zero</span>[<span class="fl">1</span>]-<span class="fl">1</span>)], <span class="no">nb2mat</span>, <span class="kw">style</span><span class="kw">=</span><span class="st">"B"</span>, <span class="kw">zero.policy</span><span class="kw">=</span><span class="fl">TRUE</span>)
-<span class="no">mat</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span>(<span class="fl">0</span>, <span class="no">n</span>, <span class="no">n</span>)
-<span class="kw">for</span> (<span class="no">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="kw">along</span><span class="kw">=</span><span class="no">lmat</span>)) <span class="no">mat</span> <span class="kw">=</span> <span class="no">mat</span> + <span class="no">i</span>*<span class="no">lmat</span><span class="kw">[[</span><span class="no">i</span>]]
-<span class="no">mat</span>[<span class="no">mat</span><span class="kw">==</span><span class="fl">0</span>] <span class="kw">&lt;-</span> <span class="fl">Inf</span>
-<span class="fu"><a href="https://rdrr.io/r/base/diag.html">diag</a></span>(<span class="no">mat</span>) <span class="kw">&lt;-</span> <span class="fl">0</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span>(<span class="no">mat</span>, <span class="no">sp_mat</span>, <span class="kw">check.attributes</span><span class="kw">=</span><span class="fl">FALSE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">lmat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">nbl10</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">zero</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">]</span>, <span class="va">nb2mat</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">n</span>, <span class="va">n</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span>along<span class="op">=</span><span class="va">lmat</span><span class="op">)</span><span class="op">)</span> <span class="va">mat</span> <span class="op">=</span> <span class="va">mat</span> <span class="op">+</span> <span class="va">i</span><span class="op">*</span><span class="va">lmat</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>
+<span class="va">mat</span><span class="op">[</span><span class="va">mat</span><span class="op">==</span><span class="fl">0</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="cn">Inf</span>
+<span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/diag.html">diag</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">0</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">mat</span>, <span class="va">sp_mat</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 </div>
 <div id="smirnovanselin-2009-cyclical-matrices" class="section level3">
@@ -505,19 +571,23 @@
 <a href="#smirnovanselin-2009-cyclical-matrices" class="anchor"></a>Smirnov/Anselin (2009) cyclical matrices</h3>
 <p>Another area in which a graph representation might prove useful is in trying to establish the domain of the spatial coefficient when spatial weights are row-standardised. In that case by construction we know that the maximum eigenvalue is 1. If there are multiple blocks, that is graph components, where the numbers of nodes per block are greater than 1, then each will have a maximum eigenvalue of 1. The remaining problems are the numbers of zero eigenvalues (at least the singleton graph components), and whether any non-singleton component fulfills the condition termed by Smirnov and Anselin (2009) a cyclical matrix, for which the minimum eigenvalue is -1. The term cyclical appears to be used in many different ways, and it is not clear that its use here after Smirnov and Anselin (2009, pp. 2984-2985) indicates which meaning should be used to find the relevant graph function. The definition used here is that a block matrix (subgraph) is cyclical if: “for every location, every pair of its neighbours are not connected.” That is, if w[i,j] and w[i,k] are greater than zero, w[j,k] must be zero to meet the condition.</p>
 <p>The internal function find_q1_q2 returns the number of non-singleton components, and the number of these that meet this condition. It does this for each block/subgraph by testing the condition until it meets w[j,k] &gt; 0, at which point it breaks. Smirnov and Anselin (2009) state that rook neighbours on a regular grid meet the condition:</p>
-<div class="sourceCode" id="cb133"><html><body><pre class="r"><span class="no">nb_r</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/cell2nb.html">cell2nb</a></span>(<span class="fl">7</span>, <span class="fl">7</span>, <span class="kw">type</span><span class="kw">=</span><span class="st">"rook"</span>)
-<span class="no">nb_rW</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span>(<span class="no">nb_r</span>, <span class="kw">style</span><span class="kw">=</span><span class="st">"W"</span>)
-<span class="kw pkg">spdep</span><span class="kw ns">:::</span><span class="fu">find_q1_q2</span>(<span class="no">nb_rW</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">nb_r</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7</span>, type<span class="op">=</span><span class="st">"rook"</span><span class="op">)</span>
+<span class="va">nb_rW</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb_r</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>
+<span class="fu">spdep</span><span class="fu">:::</span><span class="fu">find_q1_q2</span><span class="op">(</span><span class="va">nb_rW</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 1 1</code></pre>
 <p>One block/graph component is found, and this one meets the cyclical matrix condition, as also shown by the domain:</p>
-<div class="sourceCode" id="cb135"><html><body><pre class="r"><span class="fl">1</span>/<span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/complex.html">Re</a></span>(<span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span>(<span class="fu"><a href="../reference/spdep-deprecated.html">similar.listw</a></span>(<span class="no">nb_rW</span>))))</pre></body></html></div>
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/complex.html">Re</a></span><span class="op">(</span><span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span><span class="op">(</span><span class="fu"><a href="../reference/spdep-deprecated.html">similar.listw</a></span><span class="op">(</span><span class="va">nb_rW</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Function eigenw moved to the spatialreg package</code></pre>
 <pre><code>## Warning: Function similar.listw moved to the spatialreg package</code></pre>
 <pre><code>## [1] -1  1</code></pre>
 <p>This does not apply to the spatial weights we have been using above, with two non-singleton components, neither meeting the cyclical matrix condition:</p>
-<div class="sourceCode" id="cb139"><html><body><pre class="r"><span class="kw pkg">spdep</span><span class="kw ns">:::</span><span class="fu">find_q1_q2</span>(<span class="no">nb_W</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb139"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">spdep</span><span class="fu">:::</span><span class="fu">find_q1_q2</span><span class="op">(</span><span class="va">nb_W</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] 2 0</code></pre>
-<div class="sourceCode" id="cb141"><html><body><pre class="r"><span class="fl">1</span>/<span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/complex.html">Re</a></span>(<span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span>(<span class="fu"><a href="../reference/spdep-deprecated.html">similar.listw</a></span>(<span class="no">nb_W</span>))))</pre></body></html></div>
+<div class="sourceCode" id="cb141"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fl">1</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/complex.html">Re</a></span><span class="op">(</span><span class="fu"><a href="../reference/spdep-deprecated.html">eigenw</a></span><span class="op">(</span><span class="fu"><a href="../reference/spdep-deprecated.html">similar.listw</a></span><span class="op">(</span><span class="va">nb_W</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning: Function eigenw moved to the spatialreg package</code></pre>
 <pre><code>## Warning: Function similar.listw moved to the spatialreg package</code></pre>
 <pre><code>## [1] -1.544645  1.000000</code></pre>
@@ -541,7 +611,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

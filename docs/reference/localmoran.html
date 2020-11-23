@@ -76,7 +76,7 @@ and its expectation and variance are given in Anselin (1995)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -100,6 +100,9 @@ and its expectation and variance are given in Anselin (1995)." />
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -146,9 +149,9 @@ $$I_i = \frac{(x_i-\bar{x})}{{\sum_{k=1}^{n}(x_k-\bar{x})^2}/(n-1)}{\sum_{j=1}^{
 and its expectation and variance are given in Anselin (1995).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>localmoran</span>(<span class='no'>x</span>, <span class='no'>listw</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.fail</span>,
-        <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"greater"</span>, <span class='kw'>p.adjust.method</span><span class='kw'>=</span><span class='st'>"none"</span>, <span class='kw'>mlvar</span><span class='kw'>=</span><span class='fl'>TRUE</span>,
-        <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>adjust.x</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>localmoran</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, na.action<span class='op'>=</span><span class='va'>na.fail</span>, 
+  alternative <span class='op'>=</span> <span class='st'>"greater"</span>, p.adjust.method<span class='op'>=</span><span class='st'>"none"</span>, mlvar<span class='op'>=</span><span class='cn'>TRUE</span>,
+        spChk<span class='op'>=</span><span class='cn'>NULL</span>, adjust.x<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -213,16 +216,20 @@ Getis, A. and Ord, J. K. 1996 Local spatial
 statistics: an overview. In P. Longley and M. Batty (eds) <em>Spatial
 analysis: modelling in a GIS environment</em> (Cambridge: Geoinformation
 International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Local Spatial Autocorrelation in a Biological Model. Geographical Analysis, 30. 331--354; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href='https://doi.org/10.1007/s11749-018-0599-x'>https://doi.org/10.1007/s11749-018-0599-x</a></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='localG.html'>localG</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>afcon</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='no'>oid</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span>(<span class='no'>afcon</span>$<span class='no'>id</span>)
-<span class='no'>resI</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>))
-<span class='fu'><a href='https://rdrr.io/r/stats/printCoefmat.html'>printCoefmat</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>resI</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]),
- <span class='kw'>check.names</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                                  Ii       E.Ii     Var.Ii       Z.Ii Pr.z...0.
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>afcon</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
+<span class='va'>oid</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/order.html'>order</a></span><span class='op'>(</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>id</span><span class='op'>)</span>
+<span class='va'>resI</span> <span class='op'>&lt;-</span> <span class='fu'>localmoran</span><span class='op'>(</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>paper.nb</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/printCoefmat.html'>printCoefmat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>resI</span><span class='op'>[</span><span class='va'>oid</span>,<span class='op'>]</span>, row.names<span class='op'>=</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>name</span><span class='op'>[</span><span class='va'>oid</span><span class='op'>]</span><span class='op'>)</span>,
+ check.names<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                  Ii       E.Ii     Var.Ii       Z.Ii Pr.z...0.
 #&gt; THE GAMBIA                0.3752254 -0.0243902  0.8707799  0.4282410    0.3342
 #&gt; MALI                      0.4636340 -0.0243902  0.1084938  1.4816272    0.0692
 #&gt; SENEGAL                   0.2567014 -0.0243902  0.2037796  0.6226838    0.2667
@@ -264,7 +271,11 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 #&gt; TUNISIA                   0.0053873 -0.0243902  0.4261130  0.0456170    0.4818
 #&gt; LIBYA                     0.8038237 -0.0243902  0.1296684  2.2999872    0.0107
 #&gt; SUDAN                     2.9877738 -0.0243902  0.0926129  9.8978982    0.0000
-#&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>resI</span>[,<span class='fl'>5</span>])</div><div class='img'><img src='localmoran-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>resI</span>[,<span class='fl'>1</span>])</div><div class='output co'>#&gt; [1] 0.4167956</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>resI</span>[,<span class='fl'>1</span>])/<span class='fu'><a href='spweights.constants.html'>Szero</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>))</div><div class='output co'>#&gt; [1] 0.4167956</div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>))</div><div class='output co'>#&gt; 
+#&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>resI</span><span class='op'>[</span>,<span class='fl'>5</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='img'><img src='localmoran-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>resI</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.4167956</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>resI</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span><span class='op'>/</span><span class='fu'><a href='spweights.constants.html'>Szero</a></span><span class='op'>(</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>paper.nb</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.4167956</div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>paper.nb</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Moran I test under randomisation
 #&gt; 
 #&gt; data:  afcon$totcon  
@@ -277,10 +288,11 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 #&gt;        0.41679563       -0.02439024        0.01029358 
 #&gt; </div><div class='input'><span class='co'># note equality for mean() only when the sum of weights equals</span>
 <span class='co'># the number of observations (thanks to Juergen Symanzik)</span>
-<span class='no'>resI</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>),
- <span class='kw'>p.adjust.method</span><span class='kw'>=</span><span class='st'>"bonferroni"</span>)
-<span class='fu'><a href='https://rdrr.io/r/stats/printCoefmat.html'>printCoefmat</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>resI</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]),
- <span class='kw'>check.names</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt;                                  Ii       E.Ii     Var.Ii       Z.Ii Pr.z...0.
+<span class='va'>resI</span> <span class='op'>&lt;-</span> <span class='fu'>localmoran</span><span class='op'>(</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>paper.nb</span><span class='op'>)</span>,
+ p.adjust.method<span class='op'>=</span><span class='st'>"bonferroni"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/printCoefmat.html'>printCoefmat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>resI</span><span class='op'>[</span><span class='va'>oid</span>,<span class='op'>]</span>, row.names<span class='op'>=</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>name</span><span class='op'>[</span><span class='va'>oid</span><span class='op'>]</span><span class='op'>)</span>,
+ check.names<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                                  Ii       E.Ii     Var.Ii       Z.Ii Pr.z...0.
 #&gt; THE GAMBIA                0.3752254 -0.0243902  0.8707799  0.4282410    0.6685
 #&gt; MALI                      0.4636340 -0.0243902  0.1084938  1.4816272    0.5538
 #&gt; SENEGAL                   0.2567014 -0.0243902  0.2037796  0.6226838    1.0000
@@ -322,15 +334,18 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 #&gt; TUNISIA                   0.0053873 -0.0243902  0.4261130  0.0456170    1.0000
 #&gt; LIBYA                     0.8038237 -0.0243902  0.1296684  2.2999872    0.0751
 #&gt; SUDAN                     2.9877738 -0.0243902  0.0926129  9.8978982    0.0000
-#&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span>(<span class='no'>resI</span>[,<span class='fl'>5</span>])</div><div class='img'><img src='localmoran-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>totcon</span> <span class='kw'>&lt;-</span><span class='no'>afcon</span>$<span class='no'>totcon</span>
-<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>totcon</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>totcon</span>), <span class='fl'>5</span>)
-<span class='no'>totcon</span></div><div class='output co'>#&gt;  [1] 1363 1421 1861   NA 5246  811  299  358  895 4751 1878  933  347   NA  241
+#&gt; EGYPT                     6.9467291 -0.0243902  0.4261130 10.6792343    0.0000</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/hist.html'>hist</a></span><span class='op'>(</span><span class='va'>resI</span><span class='op'>[</span>,<span class='fl'>5</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='img'><img src='localmoran-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>totcon</span> <span class='op'>&lt;-</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>totcon</span>
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>totcon</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>totcon</span><span class='op'>)</span>, <span class='fl'>5</span><span class='op'>)</span>
+<span class='va'>totcon</span>
+</div><div class='output co'>#&gt;  [1] 1363 1421 1861   NA 5246  811  299  358  895 4751 1878  933  347   NA  241
 #&gt; [16]  604 1015  998 2122 1090  848   NA  758  423  980   NA 2273 3134 1142  824
-#&gt; [31] 2881  487  604 1528 1554  629   NA  795 1266 1875  147  363</div><div class='input'><span class='no'>resI.na</span> <span class='kw'>&lt;-</span> <span class='fu'>localmoran</span>(<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>paper.nb</span>), <span class='kw'>na.action</span><span class='kw'>=</span><span class='no'>na.exclude</span>,
- <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>resI.na</span>, <span class='st'>"na.action"</span>)) <span class='kw'>==</span> <span class='st'>"exclude"</span>) {
- <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>resI.na</span>[<span class='no'>oid</span>,], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]), <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)
-} <span class='kw'>else</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>resI.na</span>, <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                               Ii   E.Ii Var.Ii    Z.Ii Pr.z...0.
+#&gt; [31] 2881  487  604 1528 1554  629   NA  795 1266 1875  147  363</div><div class='input'><span class='va'>resI.na</span> <span class='op'>&lt;-</span> <span class='fu'>localmoran</span><span class='op'>(</span><span class='va'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>paper.nb</span><span class='op'>)</span>, na.action<span class='op'>=</span><span class='va'>na.exclude</span>,
+ zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span><span class='op'>(</span><span class='va'>resI.na</span>, <span class='st'>"na.action"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"exclude"</span><span class='op'>)</span> <span class='op'>{</span>
+ <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>resI.na</span><span class='op'>[</span><span class='va'>oid</span>,<span class='op'>]</span>, row.names<span class='op'>=</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>name</span><span class='op'>[</span><span class='va'>oid</span><span class='op'>]</span><span class='op'>)</span>, digits<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span> <span class='kw'>else</span> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>resI.na</span>, digits<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                               Ii   E.Ii Var.Ii    Z.Ii Pr.z...0.
 #&gt; THE GAMBIA                0.3264 -0.028   0.84  0.3869   3.5e-01
 #&gt; MALI                      0.4107 -0.028   0.10  1.3654   8.6e-02
 #&gt; SENEGAL                   0.2201 -0.028   0.19  0.5614   2.9e-01
@@ -372,8 +387,9 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 #&gt; TUNISIA                   0.0037 -0.028   0.84  0.0344   4.9e-01
 #&gt; LIBYA                         NA     NA     NA      NA        NA
 #&gt; SUDAN                     3.7045 -0.028   0.15  9.5693   5.4e-22
-#&gt; EGYPT                    10.6401 -0.028   0.84 11.6539   1.1e-31</div><div class='input'><span class='no'>resG</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='localG.html'>localG</a></span>(<span class='no'>afcon</span>$<span class='no'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='fu'><a href='include.self.html'>include.self</a></span>(<span class='no'>paper.nb</span>)))
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='no'>resG</span>[<span class='no'>oid</span>], <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>afcon</span>$<span class='no'>name</span>[<span class='no'>oid</span>]), <span class='kw'>digits</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='output co'>#&gt;                          resG.oid.
+#&gt; EGYPT                    10.6401 -0.028   0.84 11.6539   1.1e-31</div><div class='input'><span class='va'>resG</span> <span class='op'>&lt;-</span> <span class='fu'><a href='localG.html'>localG</a></span><span class='op'>(</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>totcon</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='fu'><a href='include.self.html'>include.self</a></span><span class='op'>(</span><span class='va'>paper.nb</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='va'>resG</span><span class='op'>[</span><span class='va'>oid</span><span class='op'>]</span>, row.names<span class='op'>=</span><span class='va'>afcon</span><span class='op'>$</span><span class='va'>name</span><span class='op'>[</span><span class='va'>oid</span><span class='op'>]</span><span class='op'>)</span>, digits<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                          resG.oid.
 #&gt; THE GAMBIA                  -0.984
 #&gt; MALI                        -1.699
 #&gt; SENEGAL                     -1.463
@@ -432,7 +448,7 @@ International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Loca
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

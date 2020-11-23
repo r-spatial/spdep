@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,7 +141,7 @@
     <p>The function computes local empirical Bayes estimates for rates "shrunk" to a neighbourhood mean for neighbourhoods given by the <code>nb</code> neighbourhood list.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>EBlocal</span>(<span class='no'>ri</span>, <span class='no'>ni</span>, <span class='no'>nb</span>, <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>spChk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>geoda</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>EBlocal</span><span class='op'>(</span><span class='va'>ri</span>, <span class='va'>ni</span>, <span class='va'>nb</span>, zero.policy <span class='op'>=</span> <span class='cn'>NULL</span>, spChk <span class='op'>=</span> <span class='cn'>NULL</span>, geoda<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,17 +189,21 @@ and a parameters attribute list with components:
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Marshall R M (1991) Mapping disease and mortality rates using Empirical Bayes Estimators, Applied Statistics, 40, 283--294; Bailey T, Gatrell A (1995) Interactive Spatial Data Analysis, Harlow: Longman, pp. 303--306.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a>, based on contributions by Marilia Carvalho</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='EBest.html'>EBest</a></code>, <code><a href='probmap.html'>probmap</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>auckland</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/auckland.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>auckland.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>auckland</span>)
-<span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'>EBlocal</span>(<span class='no'>auckland</span>$<span class='no'>M77_85</span>,  <span class='fl'>9</span>*<span class='no'>auckland</span>$<span class='no'>Und5_81</span>, <span class='no'>auckland.nb</span>)
-<span class='no'>auckland</span>$<span class='no'>est000</span> <span class='kw'>&lt;-</span> <span class='no'>res</span>$<span class='no'>est</span>*<span class='fl'>1000</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>auckland</span>[,<span class='st'>"est000"</span>], <span class='kw'>breaks</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>2</span>,<span class='fl'>2.5</span>,<span class='fl'>3</span>,<span class='fl'>3.5</span>,<span class='fl'>8</span>),
- <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Infant mortality per 1000 per year"</span>)</div><div class='img'><img src='EBlocal-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'><span class='va'>auckland</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/auckland.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>auckland.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span><span class='op'>(</span><span class='va'>auckland</span><span class='op'>)</span>
+<span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'>EBlocal</span><span class='op'>(</span><span class='va'>auckland</span><span class='op'>$</span><span class='va'>M77_85</span>,  <span class='fl'>9</span><span class='op'>*</span><span class='va'>auckland</span><span class='op'>$</span><span class='va'>Und5_81</span>, <span class='va'>auckland.nb</span><span class='op'>)</span>
+<span class='va'>auckland</span><span class='op'>$</span><span class='va'>est000</span> <span class='op'>&lt;-</span> <span class='va'>res</span><span class='op'>$</span><span class='va'>est</span><span class='op'>*</span><span class='fl'>1000</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>auckland</span><span class='op'>[</span>,<span class='st'>"est000"</span><span class='op'>]</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>2</span>,<span class='fl'>2.5</span>,<span class='fl'>3</span>,<span class='fl'>3.5</span>,<span class='fl'>8</span><span class='op'>)</span>,
+ main<span class='op'>=</span><span class='st'>"Infant mortality per 1000 per year"</span><span class='op'>)</span>
+</div><div class='img'><img src='EBlocal-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -212,7 +219,7 @@ and a parameters attribute list with components:
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

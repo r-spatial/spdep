@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,8 +141,8 @@
     <p>A permutation test for Geary's C statistic calculated by using nsim random permutations of x for the given spatial weighting scheme, to establish the rank of the observed statistic in relation to the nsim simulated values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>geary.mc</span>(<span class='no'>x</span>, <span class='no'>listw</span>, <span class='no'>nsim</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>,
- <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>adjust.n</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>return_boot</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>geary.mc</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, <span class='va'>nsim</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, alternative<span class='op'>=</span><span class='st'>"greater"</span>,
+ spChk<span class='op'>=</span><span class='cn'>NULL</span>, adjust.n<span class='op'>=</span><span class='cn'>TRUE</span>, return_boot<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,15 +195,19 @@
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 63-5.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='geary.html'>geary</a></code>, <code><a href='geary.test.html'>geary.test</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>oldcol</span>)
-<span class='no'>sim1</span> <span class='kw'>&lt;-</span> <span class='fu'>geary.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>),
- <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>, <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"less"</span>)
-<span class='no'>sim1</span></div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>oldcol</span><span class='op'>)</span>
+<span class='va'>sim1</span> <span class='op'>&lt;-</span> <span class='fu'>geary.mc</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>,
+ nsim<span class='op'>=</span><span class='fl'>99</span>, alternative<span class='op'>=</span><span class='st'>"less"</span><span class='op'>)</span>
+<span class='va'>sim1</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Monte-Carlo simulation of Geary C
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -209,11 +216,15 @@
 #&gt; 
 #&gt; statistic = 0.52987, observed rank = 1, p-value = 0.99
 #&gt; alternative hypothesis: less
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt; [1] 0.9864373</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt; [1] 0.0123126</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>sim1</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.5299  0.9100  0.9977  0.9864  1.0659  1.2420 </div><div class='input'><span class='no'>colold.lags</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span>(<span class='no'>COL.nb</span>, <span class='fl'>3</span>)
-<span class='no'>sim2</span> <span class='kw'>&lt;-</span> <span class='fu'>geary.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>colold.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]],
- <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>)
-<span class='no'>sim2</span></div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>sim1</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.9864373</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span><span class='op'>(</span><span class='va'>sim1</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.0123126</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sim1</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;  0.5299  0.9100  0.9977  0.9864  1.0659  1.2420 </div><div class='input'><span class='va'>colold.lags</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, <span class='fl'>3</span><span class='op'>)</span>
+<span class='va'>sim2</span> <span class='op'>&lt;-</span> <span class='fu'>geary.mc</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>colold.lags</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>,
+ style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>, nsim<span class='op'>=</span><span class='fl'>99</span><span class='op'>)</span>
+<span class='va'>sim2</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Monte-Carlo simulation of Geary C
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -222,10 +233,12 @@
 #&gt; 
 #&gt; statistic = 0.81129, observed rank = 4, p-value = 0.04
 #&gt; alternative hypothesis: greater
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>sim2</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.7597  0.9654  1.0081  1.0060  1.0540  1.1709 </div><div class='input'><span class='no'>sim3</span> <span class='kw'>&lt;-</span> <span class='fu'>geary.mc</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>colold.lags</span><span class='kw'>[[</span><span class='fl'>3</span>]],
- <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>nsim</span><span class='kw'>=</span><span class='fl'>99</span>)
-<span class='no'>sim3</span></div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sim2</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;  0.7597  0.9654  1.0081  1.0060  1.0540  1.1709 </div><div class='input'><span class='va'>sim3</span> <span class='op'>&lt;-</span> <span class='fu'>geary.mc</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>colold.lags</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span>,
+ style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>, nsim<span class='op'>=</span><span class='fl'>99</span><span class='op'>)</span>
+<span class='va'>sim3</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Monte-Carlo simulation of Geary C
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -234,7 +247,8 @@
 #&gt; 
 #&gt; statistic = 1.1303, observed rank = 89, p-value = 0.89
 #&gt; alternative hypothesis: greater
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>sim3</span>$<span class='no'>res</span>)</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sim3</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #&gt;  0.7931  0.9486  0.9955  1.0086  1.0690  1.2875 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -251,7 +265,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

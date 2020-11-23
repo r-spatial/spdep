@@ -77,7 +77,7 @@ This method relies on direct contact with the graphics device. Do not use in RSt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -101,6 +101,9 @@ This method relies on direct contact with the graphics device. Do not use in RSt
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -149,7 +152,7 @@ will be lost - as in <code>edit</code>.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for nb</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/edit.html'>edit</a></span>(<span class='no'>name</span>, <span class='no'>coords</span>, <span class='kw'>polys</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='no'>...</span>, <span class='kw'>use_region.id</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/edit.html'>edit</a></span><span class='op'>(</span><span class='va'>name</span>, <span class='va'>coords</span>, polys<span class='op'>=</span><span class='cn'>NULL</span>, <span class='va'>...</span>, use_region.id<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,16 +182,20 @@ will be lost - as in <code>edit</code>.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The function returns an object of class <code>nb</code> with the edited list of integer vectors containing neighbour region number ids, with added attributes tallying the added and deleted links.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='summary.nb.html'>summary.nb</a></code>, <code><a href='plot.nb.html'>plot.nb</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>columbus</span>)
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) <span class='no'>nnb1</span> <span class='kw'>&lt;-</span> <span class='fu'>edit.nb</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>polys</span><span class='kw'>=</span><span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>columbus</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/columbus.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span><span class='op'>(</span><span class='va'>columbus</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='va'>nnb1</span> <span class='op'>&lt;-</span> <span class='fu'>edit.nb</span><span class='op'>(</span><span class='va'>col.gal.nb</span>, polys<span class='op'>=</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>columbus</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -204,7 +211,7 @@ will be lost - as in <code>edit</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

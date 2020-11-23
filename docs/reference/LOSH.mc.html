@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,8 +141,8 @@
     <p>The function draws inferences about local spatial heteroscedasticity (LOSH) by means of the randomisation-based Monte-Carlo bootstrap proposed by Xu et al. (2014).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>LOSH.mc</span>(<span class='no'>x</span>, <span class='no'>listw</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='kw'>nsim</span> <span class='kw'>=</span> <span class='fl'>99</span>, <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='no'>na.fail</span>,
-                    <span class='kw'>spChk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>adjust.n</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>p.adjust.method</span> <span class='kw'>=</span> <span class='st'>"none"</span>)</pre>
+    <pre class="usage"><span class='fu'>LOSH.mc</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, a <span class='op'>=</span> <span class='fl'>2</span>, nsim <span class='op'>=</span> <span class='fl'>99</span>, zero.policy <span class='op'>=</span> <span class='cn'>NULL</span>, na.action <span class='op'>=</span> <span class='va'>na.fail</span>, 
+                    spChk <span class='op'>=</span> <span class='cn'>NULL</span>, adjust.n <span class='op'>=</span> <span class='cn'>TRUE</span>, p.adjust.method <span class='op'>=</span> <span class='st'>"none"</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,15 +202,19 @@
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Ord, J. K., &amp; Getis, A. 2012. Local spatial heteroscedasticity (LOSH), The Annals of Regional Science, 48 (2), 529--539; Xu, M., Mei, C. L., &amp; Yan, N. 2014. A note on the null distribution of the local spatial heteroscedasticity (LOSH) statistic. The Annals of Regional Science, 52 (3), 697--710.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Rene Westerholt <a href='mailto:westerholt@uni-heidelberg.de'>westerholt@uni-heidelberg.de</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='LOSH.html'>LOSH</a></code>, <code>LOSH.mc</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>    <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>columbus</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-    <span class='no'>resLOSH_mc</span> <span class='kw'>&lt;-</span> <span class='fu'>LOSH.mc</span>(<span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='fl'>2</span>, <span class='fl'>100</span>)
-    <span class='no'>resLOSH_cs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='LOSH.cs.html'>LOSH.cs</a></span>(<span class='no'>columbus</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>))
-    <span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>resLOSH_mc</span>[,<span class='st'>"Pr()"</span>], <span class='no'>resLOSH_cs</span>[,<span class='st'>"Pr()"</span>])</div><div class='img'><img src='LOSH.mc-1.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><div class='input'>    <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>columbus</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
+    <span class='va'>resLOSH_mc</span> <span class='op'>&lt;-</span> <span class='fu'>LOSH.mc</span><span class='op'>(</span><span class='va'>columbus</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>col.gal.nb</span><span class='op'>)</span>, <span class='fl'>2</span>, <span class='fl'>100</span><span class='op'>)</span>
+    <span class='va'>resLOSH_cs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='LOSH.cs.html'>LOSH.cs</a></span><span class='op'>(</span><span class='va'>columbus</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>col.gal.nb</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>resLOSH_mc</span><span class='op'>[</span>,<span class='st'>"Pr()"</span><span class='op'>]</span>, <span class='va'>resLOSH_cs</span><span class='op'>[</span>,<span class='st'>"Pr()"</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='img'><img src='LOSH.mc-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -223,7 +230,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

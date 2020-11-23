@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,8 +141,8 @@
     <p>The function creates higher order neighbour lists, where higher order neighbours are only <code>lags</code> links from each other on the graph described by the input neighbours list. It will refuse to lag neighbours lists with the attribute self.included set to TRUE. <code>nblag_cumul</code> cumulates neighbour lists to a single neighbour list (&#8220;nb&#8221; object).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>nblag</span>(<span class='no'>neighbours</span>, <span class='no'>maxlag</span>)
-<span class='fu'>nblag_cumul</span>(<span class='no'>nblags</span>)</pre>
+    <pre class="usage"><span class='fu'>nblag</span><span class='op'>(</span><span class='va'>neighbours</span>, <span class='va'>maxlag</span><span class='op'>)</span>
+<span class='fu'>nblag_cumul</span><span class='op'>(</span><span class='va'>nblags</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,15 +164,19 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>returns a list of lagged neighbours lists each with class <code>nb</code></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a> and Giovanni Millo</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='summary.nb.html'>summary.nb</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>col.gal.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"weights/columbus.gal"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>columbus</span>, <span class='st'>"Spatial"</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>col.gal.nb</span>, <span class='no'>coords</span>)</div><div class='output co'>#&gt; Neighbour list object:
+    <pre class="examples"><div class='input'><span class='va'>columbus</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/columbus.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>col.gal.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read.gal.html'>read.gal</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"weights/columbus.gal"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+<span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'>coordinates</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>columbus</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>col.gal.nb</span>, <span class='va'>coords</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 230 
 #&gt; Percentage nonzero weights: 9.579342 
@@ -204,8 +211,9 @@
 #&gt;   7 | 557777
 #&gt;   8 | 1144
 #&gt;   8 | 55999999
-#&gt; </div><div class='input'><span class='no'>col.lags</span> <span class='kw'>&lt;-</span> <span class='fu'>nblag</span>(<span class='no'>col.gal.nb</span>, <span class='fl'>2</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>col.lags</span>)</div><div class='output co'>#&gt; [[1]]
+#&gt; </div><div class='input'><span class='va'>col.lags</span> <span class='op'>&lt;-</span> <span class='fu'>nblag</span><span class='op'>(</span><span class='va'>col.gal.nb</span>, <span class='fl'>2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>col.lags</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
 #&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 230 
@@ -220,7 +228,8 @@
 #&gt; Average number of links: 8.285714 
 #&gt; 
 #&gt; attr(,"call")
-#&gt; nblag(neighbours = col.gal.nb, maxlag = 2)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>col.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='no'>coords</span>)</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; nblag(neighbours = col.gal.nb, maxlag = 2)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>col.lags</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>coords</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 406 
 #&gt; Percentage nonzero weights: 16.90962 
@@ -253,25 +262,31 @@
 #&gt;   14 | 002244558888
 #&gt;   15 | 00667788
 #&gt;   16 | 77
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>col.gal.nb</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span>(<span class='kw'>main</span><span class='kw'>=</span><span class='st'>"GAL order 1 (black) and 2 (red) links"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>col.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='img'><img src='nblag-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>cuml</span> <span class='kw'>&lt;-</span> <span class='fu'>nblag_cumul</span>(<span class='no'>col.lags</span>)
-<span class='no'>cuml</span></div><div class='output co'>#&gt; Neighbour list object:
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>columbus</span><span class='op'>)</span>, border<span class='op'>=</span><span class='st'>"grey"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>col.gal.nb</span>, <span class='va'>coords</span>, add<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/title.html'>title</a></span><span class='op'>(</span>main<span class='op'>=</span><span class='st'>"GAL order 1 (black) and 2 (red) links"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>col.lags</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>, <span class='va'>coords</span>, add<span class='op'>=</span><span class='cn'>TRUE</span>, col<span class='op'>=</span><span class='st'>"red"</span>, lty<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='img'><img src='nblag-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>cuml</span> <span class='op'>&lt;-</span> <span class='fu'>nblag_cumul</span><span class='op'>(</span><span class='va'>col.lags</span><span class='op'>)</span>
+<span class='va'>cuml</span>
+</div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 636 
 #&gt; Percentage nonzero weights: 26.48896 
-#&gt; Average number of links: 12.97959 </div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>igraph</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>W</span> <span class='kw'>&lt;-</span> <span class='fu'>as</span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>col.gal.nb</span>), <span class='st'>"CsparseMatrix"</span>)
-<span class='no'>G</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html'>graph.adjacency</a></span>(<span class='no'>W</span>, <span class='kw'>mode</span><span class='kw'>=</span><span class='st'>"directed"</span>, <span class='kw'>weight</span><span class='kw'>=</span><span class='st'>"W"</span>)
-<span class='no'>D</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/diameter.html'>diameter</a></span>(<span class='no'>G</span>)
-<span class='no'>nbs</span> <span class='kw'>&lt;-</span> <span class='fu'>nblag</span>(<span class='no'>col.gal.nb</span>, <span class='kw'>maxlag</span><span class='kw'>=</span><span class='no'>D</span>)
-<span class='no'>n</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>col.gal.nb</span>)
-<span class='no'>lmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span>(<span class='no'>nbs</span>, <span class='no'>nb2mat</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>0</span>, <span class='no'>n</span>, <span class='no'>n</span>)
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='kw'>along</span><span class='kw'>=</span><span class='no'>lmat</span>)) <span class='no'>mat</span> <span class='kw'>=</span> <span class='no'>mat</span> + <span class='no'>i</span>*<span class='no'>lmat</span><span class='kw'>[[</span><span class='no'>i</span>]]
-<span class='no'>G2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/distances.html'>shortest.paths</a></span>(<span class='no'>G</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span>(<span class='no'>G2</span>, <span class='no'>mat</span>, <span class='kw'>check.attributes</span><span class='kw'>=</span><span class='fl'>FALSE</span>))
-}</div><div class='output co'>#&gt; [1] TRUE</div></pre>
+#&gt; Average number of links: 12.97959 </div><div class='input'><span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span>, quietly<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>W</span> <span class='op'>&lt;-</span> <span class='fu'>as</span><span class='op'>(</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>col.gal.nb</span><span class='op'>)</span>, <span class='st'>"CsparseMatrix"</span><span class='op'>)</span>
+<span class='va'>G</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/graph_from_adjacency_matrix.html'>graph.adjacency</a></span><span class='op'>(</span><span class='va'>W</span>, mode<span class='op'>=</span><span class='st'>"directed"</span>, weight<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>
+<span class='va'>D</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/diameter.html'>diameter</a></span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span>
+<span class='va'>nbs</span> <span class='op'>&lt;-</span> <span class='fu'>nblag</span><span class='op'>(</span><span class='va'>col.gal.nb</span>, maxlag<span class='op'>=</span><span class='va'>D</span><span class='op'>)</span>
+<span class='va'>n</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>col.gal.nb</span><span class='op'>)</span>
+<span class='va'>lmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>nbs</span>, <span class='va'>nb2mat</span>, style<span class='op'>=</span><span class='st'>"B"</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='va'>n</span>, <span class='va'>n</span><span class='op'>)</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span>along<span class='op'>=</span><span class='va'>lmat</span><span class='op'>)</span><span class='op'>)</span> <span class='va'>mat</span> <span class='op'>=</span> <span class='va'>mat</span> <span class='op'>+</span> <span class='va'>i</span><span class='op'>*</span><span class='va'>lmat</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span>
+<span class='va'>G2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/distances.html'>shortest.paths</a></span><span class='op'>(</span><span class='va'>G</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='va'>G2</span>, <span class='va'>mat</span>, check.attributes<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -287,7 +302,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

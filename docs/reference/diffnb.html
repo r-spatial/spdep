@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,7 +141,7 @@
     <p>The function finds differences between lists of neighbours, returning a <code>nb</code> neighbour list of those found</p>
     </div>
 
-    <pre class="usage"><span class='fu'>diffnb</span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>verbose</span><span class='kw'>=</span><span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>diffnb</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, verbose<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -160,19 +163,26 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A neighbours list with class <code>nb</code></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>columbus</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/columbus.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>coords</span> <span class='kw'>&lt;-</span> <span class='fu'>st_centroid</span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>of_largest_polygon</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='no'>rn</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span>(<span class='no'>columbus</span>)
-<span class='no'>knn1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>coords</span>, <span class='fl'>1</span>)
-<span class='no'>knn2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>coords</span>, <span class='fl'>2</span>)
-<span class='no'>nb1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='no'>knn1</span>, <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>rn</span>)
-<span class='no'>nb2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='no'>knn2</span>, <span class='kw'>row.names</span><span class='kw'>=</span><span class='no'>rn</span>)
-<span class='no'>diffs</span> <span class='kw'>&lt;-</span> <span class='fu'>diffnb</span>(<span class='no'>nb2</span>, <span class='no'>nb1</span>)
-<span class='no'>opar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>no.readonly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>columbus</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='st'>"grey"</span>, <span class='kw'>reset</span><span class='kw'>=</span><span class='fl'>FALSE</span>,
- <span class='kw'>main</span><span class='kw'>=</span><span class='st'>"Plot of first (black) and second (red)\nnearest neighbours"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>nb1</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>diffs</span>, <span class='no'>coords</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>col</span><span class='kw'>=</span><span class='st'>"red"</span>, <span class='kw'>lty</span><span class='kw'>=</span><span class='fl'>2</span>)</div><div class='img'><img src='diffnb-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='no'>opar</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='va'>columbus</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/columbus.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>coords</span> <span class='op'>&lt;-</span> <span class='fu'>st_centroid</span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>columbus</span><span class='op'>)</span>, of_largest_polygon<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>rn</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span><span class='op'>(</span><span class='va'>columbus</span><span class='op'>)</span>
+<span class='va'>knn1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>coords</span>, <span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>knn2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>coords</span>, <span class='fl'>2</span><span class='op'>)</span>
+<span class='va'>nb1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='va'>knn1</span>, row.names<span class='op'>=</span><span class='va'>rn</span><span class='op'>)</span>
+<span class='va'>nb2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='va'>knn2</span>, row.names<span class='op'>=</span><span class='va'>rn</span><span class='op'>)</span>
+<span class='va'>diffs</span> <span class='op'>&lt;-</span> <span class='fu'>diffnb</span><span class='op'>(</span><span class='va'>nb2</span>, <span class='va'>nb1</span><span class='op'>)</span>
+<span class='va'>opar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>no.readonly<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>columbus</span><span class='op'>)</span>, border<span class='op'>=</span><span class='st'>"grey"</span>, reset<span class='op'>=</span><span class='cn'>FALSE</span>,
+ main<span class='op'>=</span><span class='st'>"Plot of first (black) and second (red)\nnearest neighbours"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>nb1</span>, <span class='va'>coords</span>, add<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>diffs</span>, <span class='va'>coords</span>, add<span class='op'>=</span><span class='cn'>TRUE</span>, col<span class='op'>=</span><span class='st'>"red"</span>, lty<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+</div><div class='img'><img src='diffnb-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>opar</span><span class='op'>)</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -188,7 +198,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

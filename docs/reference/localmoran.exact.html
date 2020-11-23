@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -135,21 +138,21 @@
     </div>
 
     <div class="ref-description">
-    <p><code>localmoran.exact</code> provides exact local Moran's Ii tests under the null hypothesis, while <code>localmoran.exact.alt</code> provides exact local Moran's Ii tests under the alternative hypothesis. In this case, the model may be a fitted model derived from a model fitted by <code><a href='https://rdrr.io/pkg/spatialreg/man/ML_models.html'>spatialreg::errorsarlm</a></code>, with the covariance matrix can be passed through the <code>Omega=</code> argument.</p>
+    <p><code>localmoran.exact</code> provides exact local Moran's Ii tests under the null hypothesis, while <code>localmoran.exact.alt</code> provides exact local Moran's Ii tests under the alternative hypothesis. In this case, the model may be a fitted model derived from a model fitted by <code><a href='https://r-spatial.github.io/spatialreg/reference/ML_models.html'>spatialreg::errorsarlm</a></code>, with the covariance matrix can be passed through the <code>Omega=</code> argument.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>localmoran.exact</span>(<span class='no'>model</span>, <span class='no'>select</span>, <span class='no'>nb</span>, <span class='kw'>glist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"W"</span>,
- <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"greater"</span>, <span class='kw'>spChk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
- <span class='kw'>resfun</span> <span class='kw'>=</span> <span class='no'>weighted.residuals</span>, <span class='kw'>save.Vi</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>truncErr</span><span class='kw'>=</span><span class='fl'>1e-6</span>,
- <span class='kw'>zeroTreat</span><span class='kw'>=</span><span class='fl'>0.1</span>)
-<span class='fu'>localmoran.exact.alt</span>(<span class='no'>model</span>, <span class='no'>select</span>, <span class='no'>nb</span>, <span class='kw'>glist</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>"W"</span>,
- <span class='kw'>zero.policy</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>alternative</span> <span class='kw'>=</span> <span class='st'>"greater"</span>, <span class='kw'>spChk</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
- <span class='kw'>resfun</span> <span class='kw'>=</span> <span class='no'>weighted.residuals</span>, <span class='kw'>Omega</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>save.Vi</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
- <span class='kw'>save.M</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='kw'>truncErr</span><span class='kw'>=</span><span class='fl'>1e-6</span>, <span class='kw'>zeroTreat</span><span class='kw'>=</span><span class='fl'>0.1</span>)
+    <pre class="usage"><span class='fu'>localmoran.exact</span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>select</span>, <span class='va'>nb</span>, glist <span class='op'>=</span> <span class='cn'>NULL</span>, style <span class='op'>=</span> <span class='st'>"W"</span>, 
+ zero.policy <span class='op'>=</span> <span class='cn'>NULL</span>, alternative <span class='op'>=</span> <span class='st'>"greater"</span>, spChk <span class='op'>=</span> <span class='cn'>NULL</span>, 
+ resfun <span class='op'>=</span> <span class='va'>weighted.residuals</span>, save.Vi <span class='op'>=</span> <span class='cn'>FALSE</span>, useTP<span class='op'>=</span><span class='cn'>FALSE</span>, truncErr<span class='op'>=</span><span class='fl'>1e-6</span>, 
+ zeroTreat<span class='op'>=</span><span class='fl'>0.1</span><span class='op'>)</span>
+<span class='fu'>localmoran.exact.alt</span><span class='op'>(</span><span class='va'>model</span>, <span class='va'>select</span>, <span class='va'>nb</span>, glist <span class='op'>=</span> <span class='cn'>NULL</span>, style <span class='op'>=</span> <span class='st'>"W"</span>,
+ zero.policy <span class='op'>=</span> <span class='cn'>NULL</span>, alternative <span class='op'>=</span> <span class='st'>"greater"</span>, spChk <span class='op'>=</span> <span class='cn'>NULL</span>,
+ resfun <span class='op'>=</span> <span class='va'>weighted.residuals</span>, Omega <span class='op'>=</span> <span class='cn'>NULL</span>, save.Vi <span class='op'>=</span> <span class='cn'>FALSE</span>,
+ save.M <span class='op'>=</span> <span class='cn'>FALSE</span>, useTP<span class='op'>=</span><span class='cn'>FALSE</span>, truncErr<span class='op'>=</span><span class='fl'>1e-6</span>, zeroTreat<span class='op'>=</span><span class='fl'>0.1</span><span class='op'>)</span>
 <span class='co'># S3 method for localmoranex</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x</span>, <span class='no'>...</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 <span class='co'># S3 method for localmoranex</span>
-<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>x</span>, <span class='kw'>row.names</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>optional</span><span class='kw'>=</span><span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>x</span>, row.names<span class='op'>=</span><span class='cn'>NULL</span>, optional<span class='op'>=</span><span class='cn'>FALSE</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -258,21 +261,26 @@ When the alternative is being tested, a list of left and right M products in att
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Bivand RS, Müller W, Reder M (2009) Power calculations for global and local Moran’s I. Comput Stat Data Anal 53:2859–2872; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href='https://doi.org/10.1007/s11749-018-0599-x'>https://doi.org/10.1007/s11749-018-0599-x</a></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Markus Reder and Roger Bivand</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='lm.morantest.exact.html'>lm.morantest.exact</a></code>, <code><a href='localmoran.sad.html'>localmoran.sad</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>eire</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"shapes/eire.shp"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)[<span class='fl'>1</span>])</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
+    <pre class="examples"><div class='input'><span class='va'>eire</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/eire.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 26 features and 10 fields
 #&gt; geometry type:  MULTIPOLYGON
 #&gt; dimension:      XY
 #&gt; bbox:           xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25
-#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span>(<span class='no'>eire</span>$<span class='no'>names</span>)
-<span class='fu'>st_crs</span>(<span class='no'>eire</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
-<span class='no'>eire.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>eire</span>)
-<span class='no'>e.lm</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>)
-<span class='fu'><a href='localmoran.sad.html'>localmoran.sad</a></span>(<span class='no'>e.lm</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>)</div><div class='output co'>#&gt;              Local Morans I Saddlepoint    Pr. (Sad)
+#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>$</span><span class='va'>names</span><span class='op'>)</span>
+<span class='fu'>st_crs</span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
+<span class='va'>eire.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span>
+<span class='va'>e.lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>OWNCONS</span> <span class='op'>~</span> <span class='va'>ROADACC</span>, data<span class='op'>=</span><span class='va'>eire</span><span class='op'>)</span>
+<span class='fu'><a href='localmoran.sad.html'>localmoran.sad</a></span><span class='op'>(</span><span class='va'>e.lm</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;              Local Morans I Saddlepoint    Pr. (Sad)
 #&gt; 1 Carlow         0.21699668  0.95074844 1.708660e-01
 #&gt; 2 Cavan         -0.37257361 -1.00603119 8.427997e-01
 #&gt; 3 Clare          0.23197510  0.67166518 2.508984e-01
@@ -298,7 +306,8 @@ When the alternative is being tested, a list of left and right M products in att
 #&gt; 23 Waterford     0.85723423  1.91385108 2.781959e-02
 #&gt; 24 Westmeath     0.45138572  1.36017204 8.688774e-02
 #&gt; 25 Wexford       0.64371834  1.63188492 5.135187e-02
-#&gt; 26 Wicklow       0.02441950  0.21197000 4.160652e-01</div><div class='input'><span class='fu'>localmoran.exact</span>(<span class='no'>e.lm</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>)</div><div class='output co'>#&gt;              Local Morans I    Exact SD  Pr. (exact)
+#&gt; 26 Wicklow       0.02441950  0.21197000 4.160652e-01</div><div class='input'><span class='fu'>localmoran.exact</span><span class='op'>(</span><span class='va'>e.lm</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;              Local Morans I    Exact SD  Pr. (exact)
 #&gt; 1 Carlow         0.21699668  1.02706083 1.521959e-01
 #&gt; 2 Cavan         -0.37257361 -1.04864802 8.528299e-01
 #&gt; 3 Clare          0.23197510  0.76362894 2.225442e-01
@@ -324,7 +333,8 @@ When the alternative is being tested, a list of left and right M products in att
 #&gt; 23 Waterford     0.85723423  1.94188723 2.607538e-02
 #&gt; 24 Westmeath     0.45138572  1.40091422 8.061986e-02
 #&gt; 25 Wexford       0.64371834  1.66488051 4.796830e-02
-#&gt; 26 Wicklow       0.02441950  0.29717701 3.831657e-01</div><div class='input'><span class='fu'>localmoran.exact</span>(<span class='no'>e.lm</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;              Local Morans I    Exact SD  Pr. (exact)
+#&gt; 26 Wicklow       0.02441950  0.29717701 3.831657e-01</div><div class='input'><span class='fu'>localmoran.exact</span><span class='op'>(</span><span class='va'>e.lm</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span>, useTP<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;              Local Morans I    Exact SD  Pr. (exact)
 #&gt; 1 Carlow         0.21699668  1.02706127 1.521958e-01
 #&gt; 2 Cavan         -0.37257361 -1.04864834 8.528300e-01
 #&gt; 3 Clare          0.23197510  0.76362936 2.225441e-01
@@ -350,14 +360,15 @@ When the alternative is being tested, a list of left and right M products in att
 #&gt; 23 Waterford     0.85723423  1.94188711 2.607538e-02
 #&gt; 24 Westmeath     0.45138572  1.40091457 8.061981e-02
 #&gt; 25 Wexford       0.64371834  1.66488069 4.796828e-02
-#&gt; 26 Wicklow       0.02441950  0.29790569 3.828876e-01</div><div class='input'><span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>FALSE</span>
-<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span>(<span class='st'>"spatialreg"</span>, <span class='kw'>quietly</span><span class='kw'>=</span><span class='fl'>TRUE</span>)) <span class='no'>run</span> <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
-<span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>e.errorsar</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>spatialreg</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/spatialreg/man/ML_models.html'>errorsarlm</a></span>(<span class='no'>OWNCONS</span> ~ <span class='no'>ROADACC</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>eire</span>,
- <span class='kw'>listw</span><span class='kw'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>))
-<span class='no'>lm.target</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>e.errorsar</span>$<span class='no'>tary</span> ~ <span class='no'>e.errorsar</span>$<span class='no'>tarX</span> - <span class='fl'>1</span>)
-<span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>)
-}</div><div class='output co'>#&gt;              Local Morans I    Exact SD Pr. (exact)
+#&gt; 26 Wicklow       0.02441950  0.29790569 3.828876e-01</div><div class='input'><span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>FALSE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/ns-load.html'>requireNamespace</a></span><span class='op'>(</span><span class='st'>"spatialreg"</span>, quietly<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='va'>run</span> <span class='op'>&lt;-</span> <span class='cn'>TRUE</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>e.errorsar</span> <span class='op'>&lt;-</span> <span class='fu'>spatialreg</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/spatialreg/reference/ML_models.html'>errorsarlm</a></span><span class='op'>(</span><span class='va'>OWNCONS</span> <span class='op'>~</span> <span class='va'>ROADACC</span>, data<span class='op'>=</span><span class='va'>eire</span>,
+ listw<span class='op'>=</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>lm.target</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>e.errorsar</span><span class='op'>$</span><span class='va'>tary</span> <span class='op'>~</span> <span class='va'>e.errorsar</span><span class='op'>$</span><span class='va'>tarX</span> <span class='op'>-</span> <span class='fl'>1</span><span class='op'>)</span>
+<span class='fu'>localmoran.exact.alt</span><span class='op'>(</span><span class='va'>lm.target</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;              Local Morans I    Exact SD Pr. (exact)
 #&gt; 1 Carlow         0.17958462  0.83313548 0.202384163
 #&gt; 2 Cavan         -0.24752628 -0.82861508 0.796338874
 #&gt; 3 Clare         -0.27901334 -0.72313220 0.765200665
@@ -383,11 +394,12 @@ When the alternative is being tested, a list of left and right M products in att
 #&gt; 23 Waterford     0.44099279  1.28152280 0.100005048
 #&gt; 24 Westmeath    -0.06329661 -0.26575204 0.604784909
 #&gt; 25 Wexford       0.30764883  1.02115599 0.153590270
-#&gt; 26 Wicklow      -0.01696406 -0.04109885 0.516391453</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='no'>Omega</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='invIrM.html'>invIrW</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>eire.nb</span>), <span class='kw'>rho</span><span class='kw'>=</span><span class='no'>e.errorsar</span>$<span class='no'>lambda</span>)
-<span class='no'>Omega1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/crossprod.html'>tcrossprod</a></span>(<span class='no'>Omega</span>)
-<span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='no'>Omega1</span>)
-}</div><div class='output co'>#&gt;              Local Morans I     Exact SD Pr. (exact)
+#&gt; 26 Wicklow      -0.01696406 -0.04109885 0.516391453</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>Omega</span> <span class='op'>&lt;-</span> <span class='fu'><a href='invIrM.html'>invIrW</a></span><span class='op'>(</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span>, rho<span class='op'>=</span><span class='va'>e.errorsar</span><span class='op'>$</span><span class='va'>lambda</span><span class='op'>)</span>
+<span class='va'>Omega1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/crossprod.html'>tcrossprod</a></span><span class='op'>(</span><span class='va'>Omega</span><span class='op'>)</span>
+<span class='fu'>localmoran.exact.alt</span><span class='op'>(</span><span class='va'>lm.target</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span>, Omega<span class='op'>=</span><span class='va'>Omega1</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;              Local Morans I     Exact SD Pr. (exact)
 #&gt; 1 Carlow         0.17958462  0.009413917  0.49624445
 #&gt; 2 Cavan         -0.24752628 -1.416786314  0.92172729
 #&gt; 3 Clare         -0.27901334 -1.512813056  0.93483642
@@ -413,9 +425,10 @@ When the alternative is being tested, a list of left and right M products in att
 #&gt; 23 Waterford     0.44099279  0.433358039  0.33237734
 #&gt; 24 Westmeath    -0.06329661 -0.956519228  0.83059501
 #&gt; 25 Wexford       0.30764883  0.141381248  0.44378438
-#&gt; 26 Wicklow      -0.01696406 -0.783977878  0.78347345</div><div class='input'><span class='kw'>if</span> (<span class='no'>run</span>) {
-<span class='fu'>localmoran.exact.alt</span>(<span class='no'>lm.target</span>, <span class='kw'>nb</span><span class='kw'>=</span><span class='no'>eire.nb</span>, <span class='kw'>Omega</span><span class='kw'>=</span><span class='no'>Omega1</span>, <span class='kw'>useTP</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-}</div><div class='output co'>#&gt;              Local Morans I     Exact SD Pr. (exact)
+#&gt; 26 Wicklow      -0.01696406 -0.783977878  0.78347345</div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>localmoran.exact.alt</span><span class='op'>(</span><span class='va'>lm.target</span>, nb<span class='op'>=</span><span class='va'>eire.nb</span>, Omega<span class='op'>=</span><span class='va'>Omega1</span>, useTP<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div><div class='output co'>#&gt;              Local Morans I     Exact SD Pr. (exact)
 #&gt; 1 Carlow         0.17958462  0.009414171  0.49624434
 #&gt; 2 Cavan         -0.24752628 -1.416786809  0.92172737
 #&gt; 3 Clare         -0.27901334 -1.512813520  0.93483648
@@ -457,7 +470,7 @@ When the alternative is being tested, a list of left and right M products in att
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

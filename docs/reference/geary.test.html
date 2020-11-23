@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,8 +141,8 @@
     <p>Geary's test for spatial autocorrelation using a spatial weights matrix in weights list form. The assumptions underlying the test are sensitive to the form of the graph of neighbour relationships and other factors, and results may be checked against those of <code>geary.mc</code> permutations.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>geary.test</span>(<span class='no'>x</span>, <span class='no'>listw</span>, <span class='kw'>randomisation</span><span class='kw'>=</span><span class='fl'>TRUE</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='kw'>NULL</span>,
-    <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>, <span class='kw'>spChk</span><span class='kw'>=</span><span class='kw'>NULL</span>, <span class='kw'>adjust.n</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, randomisation<span class='op'>=</span><span class='cn'>TRUE</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>,
+    alternative<span class='op'>=</span><span class='st'>"greater"</span>, spChk<span class='op'>=</span><span class='cn'>NULL</span>, adjust.n<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -189,6 +192,9 @@
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 21, Cliff, A. D., Ord, J. K. 1973 Spatial Autocorrelation, Pion, pp. 15-16, 21; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href='https://doi.org/10.1007/s11749-018-0599-x'>https://doi.org/10.1007/s11749-018-0599-x</a></p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href='lm.morantest.html'>listw2U()</a></code> can be used to make the matrix symmetric. In non-symmetric weights matrix cases, the variance of the test statistic may be negative (thanks to Franz Munoz I for a well documented bug report). Geary's C is affected by non-symmetric weights under normality much more than Moran's I. From 0.4-35, the sign of the standard deviate of C is changed to match Cliff and Ord (1973, p. 21).</p>
@@ -197,8 +203,9 @@
     <div class='dont-index'><p><code><a href='geary.html'>geary</a></code>, <code><a href='geary.mc.html'>geary.mc</a></code>, <code><a href='lm.morantest.html'>listw2U</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>oldcol</span>)
-<span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>oldcol</span><span class='op'>)</span>
+<span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under randomisation
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -209,8 +216,9 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;        0.52986993        1.00000000        0.00975278 
-#&gt; </div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>),
- <span class='kw'>randomisation</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>,
+ randomisation<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under normality
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -221,9 +229,10 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;        0.52986993        1.00000000        0.01027137 
-#&gt; </div><div class='input'><span class='no'>colold.lags</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span>(<span class='no'>COL.nb</span>, <span class='fl'>3</span>)
-<span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>colold.lags</span><span class='kw'>[[</span><span class='fl'>2</span>]],
- <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='va'>colold.lags</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, <span class='fl'>3</span><span class='op'>)</span>
+<span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>colold.lags</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>,
+ style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under randomisation
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -234,8 +243,9 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;       0.811285136       1.000000000       0.006793327 
-#&gt; </div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>colold.lags</span><span class='kw'>[[</span><span class='fl'>3</span>]],
- <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>), <span class='kw'>alternative</span><span class='kw'>=</span><span class='st'>"greater"</span>)</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>colold.lags</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span>,
+ style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>, alternative<span class='op'>=</span><span class='st'>"greater"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under randomisation
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -246,9 +256,12 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;       1.130277918       1.000000000       0.006914551 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.nb</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='no'>coords.OLD</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span>(<span class='no'>COL.OLD</span>$<span class='no'>X</span>, <span class='no'>COL.OLD</span>$<span class='no'>Y</span>)
-<span class='no'>COL.k4.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span>(<span class='fu'><a href='knearneigh.html'>knearneigh</a></span>(<span class='no'>coords.OLD</span>, <span class='fl'>4</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='fu'><a href='testnb.html'>is.symmetric.nb</a></span>(<span class='no'>COL.k4.nb</span>))</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>COL.nb</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='va'>coords.OLD</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>cbind</a></span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>X</span>, <span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>Y</span><span class='op'>)</span>
+<span class='va'>COL.k4.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>coords.OLD</span>, <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>COL.k4.nb</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'><span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.k4.nb</span>, style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under randomisation
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -259,8 +272,9 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;       0.399254423       1.000000000       0.008697812 
-#&gt; </div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>),
- <span class='kw'>randomisation</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.k4.nb</span>, style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>,
+ randomisation<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under normality
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -271,8 +285,10 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;       0.399254423       1.000000000       0.009129529 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span>(<span class='st'>"Note non-symmetric weights matrix - use listw2U()\n"</span>)</div><div class='output co'>#&gt; Note non-symmetric weights matrix - use listw2U()</div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>,
- <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)))</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"Note non-symmetric weights matrix - use listw2U()\n"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Note non-symmetric weights matrix - use listw2U()</div><div class='input'><span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span><span class='op'>(</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.k4.nb</span>,
+ style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under randomisation
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -283,8 +299,9 @@
 #&gt; sample estimates:
 #&gt; Geary C statistic       Expectation          Variance 
 #&gt;       0.399254423       1.000000000       0.008697812 
-#&gt; </div><div class='input'><span class='fu'>geary.test</span>(<span class='no'>COL.OLD</span>$<span class='no'>CRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span>(<span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>COL.k4.nb</span>,
- <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>)), <span class='kw'>randomisation</span><span class='kw'>=</span><span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; 
+#&gt; </div><div class='input'><span class='fu'>geary.test</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='lm.morantest.html'>listw2U</a></span><span class='op'>(</span><span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>COL.k4.nb</span>,
+ style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span><span class='op'>)</span>, randomisation<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt; 	Geary C test under normality
 #&gt; 
 #&gt; data:  COL.OLD$CRIME 
@@ -311,7 +328,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

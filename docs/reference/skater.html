@@ -75,7 +75,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -144,9 +147,9 @@
   valid for input again.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>skater</span>(<span class='no'>edges</span>, <span class='no'>data</span>, <span class='no'>ncuts</span>, <span class='no'>crit</span>, <span class='no'>vec.crit</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"euclidean"</span>,
-    <span class='st'>"maximum"</span>, <span class='st'>"manhattan"</span>, <span class='st'>"canberra"</span>, <span class='st'>"binary"</span>, <span class='st'>"minkowski"</span>,
-    <span class='st'>"mahalanobis"</span>), <span class='kw'>p</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>cov</span>, <span class='kw'>inverted</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>skater</span><span class='op'>(</span><span class='va'>edges</span>, <span class='va'>data</span>, <span class='va'>ncuts</span>, <span class='va'>crit</span>, <span class='va'>vec.crit</span>, method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"euclidean"</span>, 
+    <span class='st'>"maximum"</span>, <span class='st'>"manhattan"</span>, <span class='st'>"canberra"</span>, <span class='st'>"binary"</span>, <span class='st'>"minkowski"</span>, 
+    <span class='st'>"mahalanobis"</span><span class='op'>)</span>, p <span class='op'>=</span> <span class='fl'>2</span>, <span class='va'>cov</span>, inverted <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -230,143 +233,163 @@
   geographical units using minimum spanning trees. International Journal
   of Geographical Information Science Vol. 20, No. 7, August 2006,
   797-811</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Renato M. Assuncao and Elias T. Krainski</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>See Also as <code><a href='mstree.html'>mstree</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>### loading data</span>
-<span class='no'>bh</span> <span class='kw'>&lt;-</span> <span class='fu'>st_read</span>(<span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"etc/shapes/bhicv.shp"</span>,
-      <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spdep"</span>)[<span class='fl'>1</span>], <span class='kw'>quiet</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-<span class='fu'>st_crs</span>(<span class='no'>bh</span>) <span class='kw'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
+<span class='va'>bh</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"etc/shapes/bhicv.shp"</span>,
+      package<span class='op'>=</span><span class='st'>"spdep"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'>st_crs</span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"+proj=longlat +ellps=WGS84"</span>
 <span class='co'>### data standardized </span>
-<span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='no'>bh</span>)[,<span class='fl'>5</span>:<span class='fl'>8</span>]))
+<span class='va'>dpad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>[</span>,<span class='fl'>5</span><span class='op'>:</span><span class='fl'>8</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'>### neighboorhod list</span>
-<span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span>(<span class='no'>bh</span>)
+<span class='va'>bh.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span>
 
 <span class='co'>### calculating costs</span>
-<span class='no'>lcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>)
+<span class='va'>lcosts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span><span class='op'>(</span><span class='va'>bh.nb</span>, <span class='va'>dpad</span><span class='op'>)</span>
 
 <span class='co'>### making listw</span>
-<span class='no'>nb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>lcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
+<span class='va'>nb.w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>bh.nb</span>, <span class='va'>lcosts</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span>
 
 <span class='co'>### find a minimum spanning tree</span>
-<span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>)
+<span class='va'>mst.bh</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span><span class='op'>(</span><span class='va'>nb.w</span>,<span class='fl'>5</span><span class='op'>)</span>
 
 <span class='co'>### the mstree plot</span>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>bh</span>), <span class='kw'>border</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span>(<span class='fl'>.5</span>))</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>mst.bh</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>col</span><span class='kw'>=</span><span class='fl'>2</span>,
-     <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.6</span>, <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>fg</span><span class='kw'>=</span><span class='st'>"blue"</span>, <span class='kw'>add</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='skater-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>### three groups with no restriction</span>
-<span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span>, border<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/gray.html'>gray</a></span><span class='op'>(</span><span class='fl'>.5</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mst.bh</span>, <span class='fu'>coordinates</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>bh</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fl'>2</span>, 
+     cex.lab<span class='op'>=</span><span class='fl'>.6</span>, cex.circles<span class='op'>=</span><span class='fl'>0.035</span>, fg<span class='op'>=</span><span class='st'>"blue"</span>, add<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='skater-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'>### three groups with no restriction</span>
+<span class='va'>res1</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, <span class='va'>dpad</span>, <span class='fl'>2</span><span class='op'>)</span>
 
 <span class='co'>### groups size</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res1</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res1</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
 #&gt; 18 23 57 </div><div class='input'>
 <span class='co'>### the skater plot</span>
-<span class='no'>opar</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='kw'>mar</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>res1</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.7</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='skater-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>opar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span>mar<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res1</span>, <span class='fu'>coordinates</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>bh</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span>, cex.circles<span class='op'>=</span><span class='fl'>0.035</span>, cex.lab<span class='op'>=</span><span class='fl'>.7</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='skater-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### the skater plot, using other colors</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='no'>res1</span>, <span class='fu'>coordinates</span>(<span class='fu'>as</span>(<span class='no'>bh</span>, <span class='st'>"Spatial"</span>)), <span class='kw'>cex.circles</span><span class='kw'>=</span><span class='fl'>0.035</span>, <span class='kw'>cex.lab</span><span class='kw'>=</span><span class='fl'>.7</span>,
-     <span class='kw'>groups.colors</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>heat.colors</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>res1</span>$<span class='no'>ed</span>)))</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='skater-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>res1</span>, <span class='fu'>coordinates</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>bh</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span>, cex.circles<span class='op'>=</span><span class='fl'>0.035</span>, cex.lab<span class='op'>=</span><span class='fl'>.7</span>,
+     groups.colors<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>heat.colors</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>res1</span><span class='op'>$</span><span class='va'>ed</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on WGS84 ellipsoid in CRS definition</span></div><div class='img'><img src='skater-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>### the Spatial Polygons plot</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='fu'>st_geometry</span>(<span class='no'>bh</span>), <span class='kw'>col</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>heat.colors</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>res1</span>$<span class='no'>edg</span>))[<span class='no'>res1</span>$<span class='no'>groups</span>])</div><div class='img'><img src='skater-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span>(<span class='no'>opar</span>)
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span>, col<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>heat.colors</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>res1</span><span class='op'>$</span><span class='va'>edg</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='va'>res1</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='img'><img src='skater-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>opar</span><span class='op'>)</span>
 <span class='co'>### EXPERT OPTIONS</span>
 
 <span class='co'>### more one partition</span>
-<span class='no'>res1b</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>res1</span>, <span class='no'>dpad</span>, <span class='fl'>1</span>)
+<span class='va'>res1b</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>res1</span>, <span class='va'>dpad</span>, <span class='fl'>1</span><span class='op'>)</span>
 
 <span class='co'>### length groups frequency</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res1</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res1</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
 #&gt; 18 23 57 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res1b</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res1b</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3  4 
 #&gt; 18 23 55  2 </div><div class='input'>
 <span class='co'>### thee groups with minimum population </span>
-<span class='no'>res2</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>, <span class='fl'>200000</span>, <span class='no'>bh</span>$<span class='no'>Pop</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res2</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='va'>res2</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, <span class='va'>dpad</span>, <span class='fl'>2</span>, <span class='fl'>200000</span>, <span class='va'>bh</span><span class='op'>$</span><span class='va'>Pop</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res2</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
 #&gt; 22 37 39 </div><div class='input'>
 <span class='co'>### thee groups with minimun number of areas</span>
-<span class='no'>res3</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res3</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='va'>res3</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, <span class='va'>dpad</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res3</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
 #&gt; 18 23 57 </div><div class='input'>
 <span class='co'>### thee groups with minimun and maximun number of areas</span>
-<span class='no'>res4</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>20</span>,<span class='fl'>50</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res4</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='va'>res4</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, <span class='va'>dpad</span>, <span class='fl'>2</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>50</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res4</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
 #&gt; 50 24 24 </div><div class='input'>
 <span class='co'>### if I want to get groups with 20 to 40 elements</span>
-<span class='no'>res5</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>,
-   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>20</span>,<span class='fl'>40</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bh</span>))) <span class='co'>## DON'T MAKE DIVISIONS </span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res5</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='va'>res5</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, <span class='va'>dpad</span>, <span class='fl'>2</span>,
+   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>40</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='co'>## DON'T MAKE DIVISIONS </span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res5</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1 
 #&gt; 98 </div><div class='input'>
 <span class='co'>### In this MST don't have groups with this restrictions</span>
 <span class='co'>### In this case, first I do one division</span>
 <span class='co'>### with the minimun criteria</span>
-<span class='no'>res5a</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>1</span>, <span class='fl'>20</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res5a</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='va'>res5a</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, <span class='va'>dpad</span>, <span class='fl'>1</span>, <span class='fl'>20</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> 
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res5a</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2 
 #&gt; 75 23 </div><div class='input'>
 <span class='co'>### and do more one division with the full criteria</span>
-<span class='no'>res5b</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>res5a</span>, <span class='no'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res5b</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='va'>res5b</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>res5a</span>, <span class='va'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>40</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res5b</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3 
 #&gt; 22 23 53 </div><div class='input'>
 <span class='co'>### and do more one division with the full criteria</span>
-<span class='no'>res5c</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>res5b</span>, <span class='no'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res5c</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='va'>res5c</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>res5b</span>, <span class='va'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>40</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res5c</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3  4 
 #&gt; 22 23 33 20 </div><div class='input'>
 <span class='co'>### It don't have another divison with this criteria</span>
-<span class='no'>res5d</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>res5c</span>, <span class='no'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>20</span>, <span class='fl'>40</span>), <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span>(<span class='no'>bh</span>)))
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>res5d</span>$<span class='no'>groups</span>)</div><div class='output co'>#&gt; 
+<span class='va'>res5d</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>res5c</span>, <span class='va'>dpad</span>, <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>40</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>bh</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>res5d</span><span class='op'>$</span><span class='va'>groups</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  1  2  3  4 
 #&gt; 22 23 33 20 </div><div class='input'>
-<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>boston</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"spData"</span>)
-<span class='no'>bh.nb</span> <span class='kw'>&lt;-</span> <span class='no'>boston.soi</span>
-<span class='no'>dpad</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span>(<span class='no'>boston.c</span>[,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>7</span>:<span class='fl'>10</span>)]))
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>boston</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
+<span class='va'>bh.nb</span> <span class='op'>&lt;-</span> <span class='va'>boston.soi</span>
+<span class='va'>dpad</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>[</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>7</span><span class='op'>:</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>### calculating costs</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>lcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>))
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>lcosts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span><span class='op'>(</span><span class='va'>bh.nb</span>, <span class='va'>dpad</span><span class='op'>)</span><span class='op'>)</span>
 <span class='co'>### making listw</span>
-<span class='no'>nb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>lcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
+<span class='va'>nb.w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>bh.nb</span>, <span class='va'>lcosts</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span>
 <span class='co'>### find a minimum spanning tree</span>
-<span class='no'>mst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span>(<span class='no'>nb.w</span>,<span class='fl'>5</span>)
+<span class='va'>mst.bh</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span><span class='op'>(</span><span class='va'>nb.w</span>,<span class='fl'>5</span><span class='op'>)</span>
 <span class='co'>### three groups with no restriction</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>res1</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>mst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>parallel</span>)
-<span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span>(<span class='kw'>logical</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>res1</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>mst.bh</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, <span class='va'>dpad</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>parallel</span><span class='op'>)</span>
+<span class='va'>nc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/parallel/detectCores.html'>detectCores</a></span><span class='op'>(</span>logical<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='co'># set nc to 1L here</span>
-<span class='kw'>if</span> (<span class='no'>nc</span> <span class='kw'>&gt;</span> <span class='fl'>1L</span>) <span class='no'>nc</span> <span class='kw'>&lt;-</span> <span class='fl'>1L</span>
-<span class='no'>coresOpt</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='set.mcOption.html'>get.coresOption</a></span>()
-<span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='set.mcOption.html'>set.coresOption</a></span>(<span class='no'>nc</span>))
-<span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='va'>nc</span> <span class='op'>&gt;</span> <span class='fl'>1L</span><span class='op'>)</span> <span class='va'>nc</span> <span class='op'>&lt;-</span> <span class='fl'>1L</span>
+<span class='va'>coresOpt</span> <span class='op'>&lt;-</span> <span class='fu'><a href='set.mcOption.html'>get.coresOption</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='set.mcOption.html'>set.coresOption</a></span><span class='op'>(</span><span class='va'>nc</span><span class='op'>)</span><span class='op'>)</span>
+<span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># no-op, "snow" parallel calculation not available</span>
-  <span class='no'>cl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/parallel/makeCluster.html'>makeCluster</a></span>(<span class='fu'><a href='set.mcOption.html'>get.coresOption</a></span>())
-  <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span>(<span class='no'>cl</span>)
-}
+  <span class='va'>cl</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/parallel/makeCluster.html'>makeCluster</a></span><span class='op'>(</span><span class='fu'><a href='set.mcOption.html'>get.coresOption</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+  <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span>
+<span class='op'>}</span>
 <span class='co'>### calculating costs</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>plcosts</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span>(<span class='no'>bh.nb</span>, <span class='no'>dpad</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span>(<span class='no'>lcosts</span>, <span class='no'>plcosts</span>, <span class='kw'>check.attributes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>plcosts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nbcosts.html'>nbcosts</a></span><span class='op'>(</span><span class='va'>bh.nb</span>, <span class='va'>dpad</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='va'>lcosts</span>, <span class='va'>plcosts</span>, check.attributes<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='co'>### making listw</span>
-<span class='no'>pnb.w</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>bh.nb</span>, <span class='no'>plcosts</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"B"</span>)
+<span class='va'>pnb.w</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>bh.nb</span>, <span class='va'>plcosts</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span>
 <span class='co'>### find a minimum spanning tree</span>
-<span class='no'>pmst.bh</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span>(<span class='no'>pnb.w</span>,<span class='fl'>5</span>)
+<span class='va'>pmst.bh</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mstree.html'>mstree</a></span><span class='op'>(</span><span class='va'>pnb.w</span>,<span class='fl'>5</span><span class='op'>)</span>
 <span class='co'>### three groups with no restriction</span>
-<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span>(<span class='no'>pres1</span> <span class='kw'>&lt;-</span> <span class='fu'>skater</span>(<span class='no'>pmst.bh</span>[,<span class='fl'>1</span>:<span class='fl'>2</span>], <span class='no'>dpad</span>, <span class='fl'>2</span>))
-<span class='kw'>if</span>(!<span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span>()) {
-  <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span>(<span class='kw'>NULL</span>)
-  <span class='fu'><a href='https://rdrr.io/r/parallel/makeCluster.html'>stopCluster</a></span>(<span class='no'>cl</span>)
-}
-<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span>(<span class='no'>res1</span>, <span class='no'>pres1</span>, <span class='kw'>check.attributes</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span>(<span class='fu'><a href='set.mcOption.html'>set.coresOption</a></span>(<span class='no'>coresOpt</span>))
-}</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>pres1</span> <span class='op'>&lt;-</span> <span class='fu'>skater</span><span class='op'>(</span><span class='va'>pmst.bh</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>]</span>, <span class='va'>dpad</span>, <span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span>
+<span class='kw'>if</span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='set.mcOption.html'>get.mcOption</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='set.mcOption.html'>set.ClusterOption</a></span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span>
+  <span class='fu'><a href='https://rdrr.io/r/parallel/makeCluster.html'>stopCluster</a></span><span class='op'>(</span><span class='va'>cl</span><span class='op'>)</span>
+<span class='op'>}</span>
+<span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='va'>res1</span>, <span class='va'>pres1</span>, check.attributes<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/invisible.html'>invisible</a></span><span class='op'>(</span><span class='fu'><a href='set.mcOption.html'>set.coresOption</a></span><span class='op'>(</span><span class='va'>coresOpt</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -382,7 +405,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

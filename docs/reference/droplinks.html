@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
       </span>
     </div>
 
@@ -96,6 +96,9 @@
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
+    </li>
+    <li>
+      <a href="../articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
@@ -138,7 +141,7 @@
     <p>Drops links to and from or just to a region from a neighbours list. The example corresponds to Fingleton's Table 1, p. 6, for lattices 5 to 19.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>droplinks</span>(<span class='no'>nb</span>, <span class='no'>drop</span>, <span class='kw'>sym</span><span class='kw'>=</span><span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>droplinks</span><span class='op'>(</span><span class='va'>nb</span>, <span class='va'>drop</span>, sym<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,33 +166,37 @@
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>B. Fingleton (1999) Spurious spatial regression: some Monte Carlo results with a spatial unit root and spatial cointegration, Journal of Regional Science 39, pp. 1--19.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='testnb.html'>is.symmetric.nb</a></code></p></div>
+    <div class='dont-index'><p><code><a href='is.symmetric.nb.html'>is.symmetric.nb</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
-<span class='no'>rho</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.95</span>, <span class='fl'>0.999</span>, <span class='fl'>1.0</span>)
-<span class='no'>ns</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>7</span>, <span class='fl'>9</span>, <span class='fl'>11</span>, <span class='fl'>13</span>, <span class='fl'>15</span>, <span class='fl'>17</span>, <span class='fl'>19</span>)
-<span class='no'>mns</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>ns</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>rho</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>mns</span>) <span class='kw'>&lt;-</span> <span class='no'>ns</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>mns</span>) <span class='kw'>&lt;-</span> <span class='no'>rho</span>
-<span class='no'>mxs</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span>(<span class='fl'>0</span>, <span class='kw'>nrow</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>ns</span>), <span class='kw'>ncol</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>rho</span>))
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span>(<span class='no'>mxs</span>) <span class='kw'>&lt;-</span> <span class='no'>ns</span>
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span>(<span class='no'>mxs</span>) <span class='kw'>&lt;-</span> <span class='no'>rho</span>
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>ns</span>)) {
-  <span class='no'>nblist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='cell2nb.html'>cell2nb</a></span>(<span class='no'>ns</span>[<span class='no'>i</span>], <span class='no'>ns</span>[<span class='no'>i</span>])
-  <span class='no'>nbdropped</span> <span class='kw'>&lt;-</span> <span class='fu'>droplinks</span>(<span class='no'>nblist</span>, ((<span class='no'>ns</span>[<span class='no'>i</span>]*<span class='no'>ns</span>[<span class='no'>i</span>])+<span class='fl'>1</span>)/<span class='fl'>2</span>, <span class='kw'>sym</span><span class='kw'>=</span><span class='fl'>FALSE</span>)
-  <span class='no'>listw</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span>(<span class='no'>nbdropped</span>, <span class='kw'>style</span><span class='kw'>=</span><span class='st'>"W"</span>, <span class='kw'>zero.policy</span><span class='kw'>=</span><span class='fl'>TRUE</span>)
-  <span class='no'>wmat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='nb2mat.html'>listw2mat</a></span>(<span class='no'>listw</span>)
-  <span class='kw'>for</span> (<span class='no'>j</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>rho</span>)) {
-    <span class='no'>mat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span>(<span class='no'>ns</span>[<span class='no'>i</span>]*<span class='no'>ns</span>[<span class='no'>i</span>]) - <span class='no'>rho</span>[<span class='no'>j</span>] * <span class='no'>wmat</span>
-    <span class='no'>res</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span>(<span class='no'>mat</span>) <span class='kw'>%*%</span> <span class='no'>mat</span>))
-    <span class='no'>mns</span>[<span class='no'>i</span>,<span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>res</span>)
-    <span class='no'>mxs</span>[<span class='no'>i</span>,<span class='no'>j</span>] <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>res</span>)
-  }
-}
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>mns</span>)</div><div class='output co'>#&gt;         0.2      0.5      0.95     0.999          1
+<span class='va'>rho</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.2</span>, <span class='fl'>0.5</span>, <span class='fl'>0.95</span>, <span class='fl'>0.999</span>, <span class='fl'>1.0</span><span class='op'>)</span>
+<span class='va'>ns</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>7</span>, <span class='fl'>9</span>, <span class='fl'>11</span>, <span class='fl'>13</span>, <span class='fl'>15</span>, <span class='fl'>17</span>, <span class='fl'>19</span><span class='op'>)</span>
+<span class='va'>mns</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, nrow<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ns</span><span class='op'>)</span>, ncol<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>rho</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>mns</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>ns</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mns</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>rho</span>
+<span class='va'>mxs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fl'>0</span>, nrow<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ns</span><span class='op'>)</span>, ncol<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>rho</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>mxs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>ns</span>
+<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>mxs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>rho</span>
+<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ns</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>nblist</span> <span class='op'>&lt;-</span> <span class='fu'><a href='cell2nb.html'>cell2nb</a></span><span class='op'>(</span><span class='va'>ns</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span>, <span class='va'>ns</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>)</span>
+  <span class='va'>nbdropped</span> <span class='op'>&lt;-</span> <span class='fu'>droplinks</span><span class='op'>(</span><span class='va'>nblist</span>, <span class='op'>(</span><span class='op'>(</span><span class='va'>ns</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>*</span><span class='va'>ns</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>)</span><span class='op'>+</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>/</span><span class='fl'>2</span>, sym<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+  <span class='va'>listw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>nbdropped</span>, style<span class='op'>=</span><span class='st'>"W"</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='va'>wmat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2mat.html'>listw2mat</a></span><span class='op'>(</span><span class='va'>listw</span><span class='op'>)</span>
+  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>j</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>rho</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
+    <span class='va'>mat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='va'>ns</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>*</span><span class='va'>ns</span><span class='op'>[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>rho</span><span class='op'>[</span><span class='va'>j</span><span class='op'>]</span> <span class='op'>*</span> <span class='va'>wmat</span>
+    <span class='va'>res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/diag.html'>diag</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/solve.html'>solve</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='va'>mat</span><span class='op'>)</span> <span class='op'>%*%</span> <span class='va'>mat</span><span class='op'>)</span><span class='op'>)</span>
+    <span class='va'>mns</span><span class='op'>[</span><span class='va'>i</span>,<span class='va'>j</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
+    <span class='va'>mxs</span><span class='op'>[</span><span class='va'>i</span>,<span class='va'>j</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>res</span><span class='op'>)</span>
+  <span class='op'>}</span>
+<span class='op'>}</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>mns</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         0.2      0.5      0.95     0.999          1
 #&gt; 5  1.038271 1.312627  9.486051  30.81487   32.04915
 #&gt; 7  1.036443 1.295621 10.899580  83.25437   92.09812
 #&gt; 9  1.035356 1.285145 10.798611 160.90951  195.02166
@@ -197,7 +204,8 @@
 #&gt; 13 1.034132 1.273442  9.968389 353.66366  555.88699
 #&gt; 15 1.033753 1.269852  9.619387 447.19245  824.46560
 #&gt; 17 1.033460 1.267082  9.337167 528.49015 1157.77630
-#&gt; 19 1.033227 1.264879  9.109487 594.23907 1559.69614</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>mxs</span>)</div><div class='output co'>#&gt;         0.2      0.5     0.95     0.999          1
+#&gt; 19 1.033227 1.264879  9.109487 594.23907 1559.69614</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>mxs</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;         0.2      0.5     0.95     0.999          1
 #&gt; 5  1.048834 1.401934 12.00215  39.22742   40.79967
 #&gt; 7  1.048834 1.402174 14.66823 106.90031  118.01556
 #&gt; 9  1.048834 1.402176 15.49606 207.28928  249.74893
@@ -206,7 +214,7 @@
 #&gt; 15 1.048834 1.402176 15.86474 583.50722 1044.75562
 #&gt; 17 1.048834 1.402176 15.87225 695.10288 1461.57017
 #&gt; 19 1.048834 1.402176 15.87445 789.50575 1961.84025</div><div class='input'>
-# }
+<span class='co'># }</span>
 
 </div></pre>
   </div>
@@ -224,7 +232,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
