@@ -1,6 +1,5 @@
 # spdep
 
-[![Build Status](https://travis-ci.org/r-spatial/spdep.png?branch=master)](https://travis-ci.org/r-spatial/spdep)
 [![CRAN](http://www.r-pkg.org/badges/version/spdep)](https://cran.r-project.org/package=spdep)
 
 ### Spatial Dependence: Weighting Schemes and Statistics

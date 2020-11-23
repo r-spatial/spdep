@@ -4,3 +4,4 @@ spdep-Ex.R
 README.md
 ^\.travis\.yml$
 ^docs$
+.github
