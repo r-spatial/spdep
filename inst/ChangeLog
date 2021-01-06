@@ -1,13 +1,116 @@
-2020-06-28  Roger Bivand <roger.bivand@nhh.no>
+2020-11-23  Roger Bivand 
+
+	* README.md: try to add badge
+
+2020-11-23  Roger Bivand 
+
+	* docs/404.html, docs/articles/CO69.html,
+	docs/articles/CO69_files/anchor-sections-1.0/anchor-sections.css,
+	docs/articles/CO69_files/anchor-sections-1.0/anchor-sections.js,
+	docs/articles/index.html, docs/articles/nb.html,
+	docs/articles/nb_files/accessible-code-block-0.0.1/empty-anchor.js,
+	docs/articles/nb_files/anchor-sections-1.0/anchor-sections.css,
+	docs/articles/nb_files/anchor-sections-1.0/anchor-sections.js,
+	docs/articles/nb_igraph.html,
+	docs/articles/nb_igraph_files/anchor-sections-1.0/anchor-sections.c
+	ss,
+	docs/articles/nb_igraph_files/anchor-sections-1.0/anchor-sections.j
+	s, docs/articles/nb_sf.html,
+	docs/articles/nb_sf_files/anchor-sections-1.0/anchor-sections.css,
+	docs/articles/nb_sf_files/anchor-sections-1.0/anchor-sections.js,
+	docs/articles/sids.html,
+	docs/articles/sids_files/anchor-sections-1.0/anchor-sections.css,
+	docs/articles/sids_files/anchor-sections-1.0/anchor-sections.js,
+	docs/authors.html, docs/index.html, docs/pkgdown.css,
+	docs/pkgdown.yml, docs/reference/COL.OLD.html,
+	docs/reference/EBImoran.mc.html, docs/reference/EBest.html,
+	docs/reference/EBlocal.html, docs/reference/LOSH.cs.html,
+	docs/reference/LOSH.html, docs/reference/LOSH.mc.html,
+	docs/reference/aggregate.nb.html, docs/reference/airdist.html,
+	docs/reference/aple.html, docs/reference/aple.mc.html,
+	docs/reference/aple.plot.html, docs/reference/autocov_dist.html,
+	docs/reference/bhicv.html, docs/reference/card.html,
+	docs/reference/cell2nb.html, docs/reference/choynowski.html,
+	docs/reference/columbus.html, docs/reference/compon.html,
+	docs/reference/diffnb.html, docs/reference/dnearneigh.html,
+	docs/reference/droplinks.html, docs/reference/edit.nb.html,
+	docs/reference/eire.html, docs/reference/geary.html,
+	docs/reference/geary.mc.html, docs/reference/geary.test.html,
+	docs/reference/globalG.test.html, docs/reference/graphneigh.html,
+	docs/reference/grid2nb.html, docs/reference/include.self.html,
+	docs/reference/index.html, docs/reference/invIrM.html,
+	docs/reference/joincount.mc.html,
+	docs/reference/joincount.multi.html,
+	docs/reference/joincount.test.html, docs/reference/knearneigh.html,
+	docs/reference/knn2nb.html, docs/reference/lag.listw.html,
+	docs/reference/lee.html, docs/reference/lee.mc.html,
+	docs/reference/lee.test.html, docs/reference/listw2sn.html,
+	docs/reference/lm.LMtests.html,
+	docs/reference/lm.morantest.exact.html,
+	docs/reference/lm.morantest.html,
+	docs/reference/lm.morantest.sad.html, docs/reference/localG.html,
+	docs/reference/localmoran.exact.html,
+	docs/reference/localmoran.html, docs/reference/localmoran.sad.html,
+	docs/reference/mat2listw.html, docs/reference/moran.html,
+	docs/reference/moran.mc.html, docs/reference/moran.plot.html,
+	docs/reference/moran.test.html, docs/reference/mstree.html,
+	docs/reference/nb2INLA.html, docs/reference/nb2WB.html,
+	docs/reference/nb2blocknb.html, docs/reference/nb2lines.html,
+	docs/reference/nb2listw.html, docs/reference/nb2mat.html,
+	docs/reference/nbcosts.html, docs/reference/nbdists.html,
+	docs/reference/nblag.html, docs/reference/nboperations.html,
+	docs/reference/p.adjustSP.html, docs/reference/plot.mst.html,
+	docs/reference/plot.nb.html, docs/reference/plot.skater.html,
+	docs/reference/poly2nb.html, docs/reference/probmap.html,
+	docs/reference/prunecost.html, docs/reference/prunemst.html,
+	docs/reference/read.gal.html, docs/reference/read.gwt2nb.html,
+	docs/reference/rotation.html, docs/reference/set.mcOption.html,
+	docs/reference/set.spChkOption.html, docs/reference/skater.html,
+	docs/reference/sp.correlogram.html,
+	docs/reference/sp.mantel.mc.html,
+	docs/reference/spdep-deprecated.html, docs/reference/spdep.html,
+	docs/reference/spweights.constants.html, docs/reference/ssw.html,
+	docs/reference/subset.listw.html, docs/reference/subset.nb.html,
+	docs/reference/summary.nb.html, docs/reference/testnb.html,
+	docs/reference/tolerance.nb.html, docs/reference/tri2nb.html,
+	docs/reference/write.nb.gal.html: update docs
+
+2020-11-23  Roger Bivand 
+
+	* vignettes/{nb.Rnw => nb.Rmd}: convert nb.Rnw to Rmd
+
+2020-11-23  Roger Bivand 
+
+	* .Rbuildignore, .github/workflows/check-standard.yaml,
+	.travis.yml, README.md: move to GA
+
+2020-10-22  Roger Bivand 
+
+	* DESCRIPTION, vignettes/sids.Rmd: local copies of GeoDa sids
+
+2020-07-01  Roger Bivand 
+
+	* src/dnn.c: re: https://github.com/edzer/sp/issues/85
+
+2020-06-29  Roger Bivand 
+
+	* man/graphneigh.Rd, man/spdep-deprecated.Rd, man/tolerance.nb.Rd: 
+	prepare for release
+
+2020-06-28  Roger Bivand 
+
+	* ChangeLog, inst/ChangeLog: tidy
+
+2020-06-28  Roger Bivand 
 
 	* : commit ac9bc6d31a76d4dd772ba599d0a41ac165f2aaf6 Author: Roger
-	Bivand <roger.bivand@nhh.no> Date:   Sun Jun 28 18:49:01 2020 +0200
+	Bivand  Date:   Sun Jun 28 18:49:01 2020 +0200
 
-2020-06-27  Roger Bivand <rsbivand@users.noreply.github.com>
+2020-06-27  Roger Bivand 
 
 	* .travis.yml: Update .travis.yml
 
-2020-06-27  Roger Bivand <roger.bivand@nhh.no>
+2020-06-27  Roger Bivand 
 
 	* docs/articles/CO69.html,
 	docs/articles/CO69_files/accessible-code-block-0.0.1/empty-anchor.j
@@ -22,41 +125,41 @@
 	docs/reference/nb2lines.html, docs/reference/poly2nb.html,
 	vignettes/sids.Rmd: update pkgdown
 
-2020-06-27  Roger Bivand <roger.bivand@nhh.no>
+2020-06-27  Roger Bivand 
 
 	* DESCRIPTION, vignettes/CO69.Rmd, vignettes/nb_igraph.Rmd,
 	vignettes/nb_sf.Rmd, vignettes/sids.Rmd: change to rmarkdown
 
-2020-05-06  Roger Bivand <roger.bivand@nhh.no>
+2020-05-06  Roger Bivand 
 
 	* docs/reference/moran.plot.html, man/moran.plot.Rd: add docs
 
-2020-05-06  Roger Bivand <roger.bivand@nhh.no>
+2020-05-06  Roger Bivand 
 
 	* ChangeLog, inst/ChangeLog: tidy
 
-2020-05-06  Roger Bivand <roger.bivand@nhh.no>
+2020-05-06  Roger Bivand 
 
 	* DESCRIPTION, R/moran.plot.R, man/moran.plot.Rd: add data.frame
 	return from moran.plot
 
-2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+2020-05-05  Roger Bivand 
 
 	* docs/reference/nb2lines.html: update docs
 
-2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+2020-05-05  Roger Bivand 
 
 	* man/nb2lines.Rd: update docs
 
-2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+2020-05-05  Roger Bivand 
 
 	* docs/reference/nb2lines.html: update docs
 
-2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+2020-05-05  Roger Bivand 
 
 	* man/nb2lines.Rd: update docs
 
-2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+2020-05-05  Roger Bivand 
 
 	* docs/404.html, docs/articles/CO69.html, docs/articles/index.html,
 	docs/articles/nb_igraph.html, docs/articles/nb_sf.html,
@@ -115,76 +218,76 @@
 	docs/reference/tolerance.nb.html, docs/reference/tri2nb.html,
 	docs/reference/write.nb.gal.html: update docs
 
-2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+2020-05-05  Roger Bivand 
 
 	* ChangeLog, inst/ChangeLog: tidy
 
-2020-05-05  Roger Bivand <roger.bivand@nhh.no>
+2020-05-05  Roger Bivand 
 
 	* ChangeLog, DESCRIPTION, R/nb2lines.R, R/plot.nb.R,
 	inst/ChangeLog, man/nb2lines.Rd, man/plot.nb.Rd, oChangelog: fixes
 	#40 sf output from nb2lines
 
-2020-04-13  Roger Bivand <rsbivand@users.noreply.github.com>
+2020-04-13  Roger Bivand 
 
 	* man/poly2nb.Rd: fixes #39 edit `region.id` description
 
-2020-02-15  Roger Bivand <roger.bivand@nhh.no>
+2020-02-15  Roger Bivand 
 
 	* DESCRIPTION, R/knearneigh.R, man/knearneigh.Rd: fixes
 	https://github.com/r-spatial/spdep/issues/38
 
-2020-02-15  Roger Bivand <Roger.Bivand@nhh.no>
+2020-02-15  Roger Bivand 
 
 	* vignettes/nb_sf.Rmd: updated urls
 
-2019-09-18  Roger Bivand <Roger.Bivand@nhh.no>
+2019-09-18  Roger Bivand 
 
 	* man/spdep-deprecated.Rd, vignettes/sids.Rmd: adapting to spData
 	xyz -> go_xyz lazy load mess
 
-2019-09-18  Roger Bivand <Roger.Bivand@nhh.no>
+2019-09-18  Roger Bivand 
 
 	* DESCRIPTION, man/localG.Rd: adapting to spData xyz -> go_xyz lazy
 	load mess
 
-2019-08-08  Roger Bivand <roger.bivand@nhh.no>
+2019-08-08  Roger Bivand 
 
 	* R/edit.nb.R: block edit.nb() from RStudio
 
-2019-08-08  Roger Bivand <roger.bivand@nhh.no>
+2019-08-08  Roger Bivand 
 
 	* R/edit.nb.R, man/edit.nb.Rd: block edit.nb() from RStudio
 
-2019-06-19  Roger Bivand <Roger.Bivand@nhh.no>
+2019-06-19  Roger Bivand 
 
 	* man/read.gal.Rd: tidy
 
-2019-06-19  Roger Bivand <Roger.Bivand@nhh.no>
+2019-06-19  Roger Bivand 
 
 	* DESCRIPTION: tidy
 
-2019-06-17  Roger Bivand <Roger.Bivand@nhh.no>
+2019-06-17  Roger Bivand 
 
 	* R/poly2nb.R: use st_cast to unify polygons
 
-2019-06-17  Roger Bivand <Roger.Bivand@nhh.no>
+2019-06-17  Roger Bivand 
 
 	* R/poly2nb.R: use st_cast to unify polygons
 
-2019-06-17  Roger Bivand <Roger.Bivand@nhh.no>
+2019-06-17  Roger Bivand 
 
 	* R/poly2nb.R, man/joincount.multi.Rd: use st_cast to unify polygons
 
-2019-06-07  Roger Bivand <roger.bivand@nhh.no>
+2019-06-07  Roger Bivand 
 
 	* DESCRIPTION: tidy
 
-2019-04-05  Roger Bivand <roger.bivand@nhh.no>
+2019-04-05  Roger Bivand 
 
 	* README.md, docs/index.html: update docs
 
-2019-04-05  Roger Bivand <roger.bivand@nhh.no>
+2019-04-05  Roger Bivand 
 
 	* docs/articles/CO69.html, docs/articles/index.html,
 	docs/articles/nb_igraph.html, docs/articles/nb_sf.html,
@@ -241,7 +344,7 @@
 	docs/reference/tolerance.nb.html, docs/reference/tri2nb.html,
 	docs/reference/write.nb.gal.html: update docs
 
-2019-04-05  Roger Bivand <roger.bivand@nhh.no>
+2019-04-05  Roger Bivand 
 
 	* DESCRIPTION, NAMESPACE, R/LR.spsarlm.R, R/ME.R,
 	R/SpatialFiltering.R, R/anova.sarlm.R, R/aple.R, R/bptest.sarlm.R,
@@ -254,15 +357,15 @@
 	src/listw2Matrix.c, src/mom_calc.c, src/spdep.h: reverse deprecate
 	logic - use spdep code if spatialreg not installed
 
-2019-04-04  Roger Bivand <roger.bivand@nhh.no>
+2019-04-04  Roger Bivand 
 
 	* R/lextrB.R, man/spdep-deprecated.Rd: tidy
 
-2019-04-04  Roger Bivand <roger.bivand@nhh.no>
+2019-04-04  Roger Bivand 
 
 	* DESCRIPTION: tidy
 
-2019-04-02  Roger Bivand <roger.bivand@nhh.no>
+2019-04-02  Roger Bivand 
 
 	* docs/articles/CO69.html, docs/articles/SpatialFiltering.html,
 	docs/articles/index.html, docs/articles/nb_igraph.html,
@@ -333,20 +436,20 @@
 	docs/reference/tri2nb.html, docs/reference/write.nb.gal.html: update
 	docs
 
-2019-04-02  Roger Bivand <rsbivand@users.noreply.github.com>
+2019-04-02  Roger Bivand 
 
 	* : Merge pull request #32 from r-spatial/split_spreg Split spatialreg branch ready; spatialreg on CRAN
 
-2019-04-02  Roger Bivand <Roger.Bivand@nhh.no>
+2019-04-02  Roger Bivand 
 
 	* DESCRIPTION, README.md, man/spdep-deprecated.Rd, man/trW.Rd: 
 	improve DESCRIPTION
 
-2019-03-25  Roger Bivand <Roger.Bivand@nhh.no>
+2019-03-25  Roger Bivand 
 
 	* man/spdep-deprecated.Rd: check require spam in deprecaded examples
 
-2019-03-24  Roger Bivand <roger.bivand@nhh.no>
+2019-03-24  Roger Bivand 
 
 	* DESCRIPTION, NAMESPACE, R/AAA.R, R/jacobian.R,
 	R/jacobian_setup.R, R/listw2sn.R, R/spBreg.R, man/mat2listw.Rd,
@@ -354,7 +457,7 @@
 	src/listw2Matrix.c, src/mom_calc.c, vignettes/nb_igraph.Rmd: ready
 	for post-split release
 
-2019-03-23  Roger Bivand <roger.bivand@nhh.no>
+2019-03-23  Roger Bivand 
 
 	* DESCRIPTION, R/AAA.R, R/LR.spsarlm.R, R/ME.R,
 	R/SpatialFiltering.R, R/anova.sarlm.R, R/bptest.sarlm.R,
@@ -365,7 +468,7 @@
 	R/spBreg.R, R/spautolm.R, R/summary.spsarlm.R,
 	man/spdep-deprecated.Rd: change split-out package name to spatialreg
 
-2019-03-22  Roger Bivand <roger.bivand@nhh.no>
+2019-03-22  Roger Bivand 
 
 	* NAMESPACE, R/anova.sarlm.R, R/bptest.sarlm.R, R/error.hessian.R,
 	R/error.spsarlm.R, R/lag.hessian.R, R/lag.spsarlm.R, R/sacsarlm.R,
@@ -375,25 +478,25 @@
 	man/sacsarlm.Rd, man/spdep-deprecated.Rd, man/summary.sarlm.Rd: 
 	starting deprecating
 
-2019-03-21  Roger Bivand <roger.bivand@nhh.no>
+2019-03-21  Roger Bivand 
 
 	* NAMESPACE, R/error.spsarlm.R, R/impacts.R, man/errorsarlm.Rd,
 	man/impacts.sarlm.Rd, man/predict.sarlm.Rd, man/spdep-deprecated.Rd: 
 	starting deprecating
 
-2019-03-21  Roger Bivand <roger.bivand@nhh.no>
+2019-03-21  Roger Bivand 
 
 	* NAMESPACE, R/spBreg.R, man/errorsarlm.Rd, man/impacts.sarlm.Rd,
 	man/lagsarlm.Rd, man/sacsarlm.Rd, man/spdep-deprecated.Rd: starting
 	deprecating
 
-2019-03-20  Roger Bivand <roger.bivand@nhh.no>
+2019-03-20  Roger Bivand 
 
 	* R/spautolm.R, man/spautolm.Rd, man/spdep-deprecated.Rd,
 	vignettes/SpatialFiltering.Rmd, vignettes/sids.Rmd: starting
 	deprecating
 
-2019-03-20  Roger Bivand <roger.bivand@nhh.no>
+2019-03-20  Roger Bivand 
 
 	* NAMESPACE, R/AAA.R, R/eigenw.R, R/jacobian.R, R/jacobian_setup.R,
 	R/mcmcsamp.R, R/nb2listw.R, man/MCMCsamp.Rd, man/do_ldet.Rd,
@@ -401,68 +504,68 @@
 	man/spdep-deprecated.Rd, src/init.c, src/spdep.h: starting
 	deprecating
 
-2019-03-19  Roger Bivand <roger.bivand@nhh.no>
+2019-03-19  Roger Bivand 
 
 	* NAMESPACE, R/impacts.R, R/listw2Matrix.R, R/listw2sn.R,
 	R/nb2mat.R, man/as_dgRMatrix_listw.Rd, man/impacts.sarlm.Rd,
 	man/invIrM.Rd, man/listw2sn.Rd, man/spdep-deprecated.Rd,
 	src/init.c, src/listw2Matrix.c, src/spdep.h: starting deprecating
 
-2019-03-18  Roger Bivand <roger.bivand@nhh.no>
+2019-03-18  Roger Bivand 
 
 	* NAMESPACE, R/LR.spsarlm.R, R/error.spsarlm.R, R/sacsarlm.R,
 	R/summary.spsarlm.R, man/LR.sarlm.Rd, man/spdep-deprecated.Rd: 
 	starting deprecating
 
-2019-03-18  Roger Bivand <roger.bivand@nhh.no>
+2019-03-18  Roger Bivand 
 
 	* NAMESPACE, R/ME.R, R/SpatialFiltering.R, man/ME.Rd,
 	man/SpatialFiltering.Rd, man/spdep-deprecated.Rd: starting
 	deprecating
 
-2019-03-15  Roger Bivand <roger.bivand@nhh.no>
+2019-03-15  Roger Bivand 
 
 	* NAMESPACE, R/mess.R, man/impacts.sarlm.Rd, man/lagmess.Rd,
 	man/spdep-deprecated.Rd: starting deprecating
 
-2019-03-15  Roger Bivand <roger.bivand@nhh.no>
+2019-03-15  Roger Bivand 
 
 	* NAMESPACE, R/impacts.R, R/kpgm_new.R, R/s2sls.R, R/sarlm.R,
 	man/GMerrorsar.Rd, man/LR.sarlm.Rd, man/gstsls.Rd,
 	man/impacts.sarlm.Rd, man/spdep-deprecated.Rd, man/stsls.Rd,
 	man/trW.Rd, src/init.c, src/mom_calc.c: starting deprecating
 
-2019-03-14  Roger Bivand <roger.bivand@nhh.no>
+2019-03-14  Roger Bivand 
 
 	* DESCRIPTION, NAMESPACE, R/eigenw.R, R/lextrB.R, R/lextrW.R,
 	man/eigenw.Rd, man/lextrB.Rd, man/spdep-deprecated.Rd,
 	src/eminmaxC.c, src/init.c, src/spdep.h: starting deprecating
 
-2019-02-13  Roger Bivand <Roger.Bivand@nhh.no>
+2019-02-13  Roger Bivand 
 
 	* R/sarlm.R: logic checks
 
-2019-02-13  Roger Bivand <roger.bivand@nhh.no>
+2019-02-13  Roger Bivand 
 
 	* R/localmoran.exact.R, R/moran.exact.alt.R: logic checks
 
-2019-02-12  Roger Bivand <Roger.Bivand@nhh.no>
+2019-02-12  Roger Bivand 
 
 	* R/utils.R: fix length > 1 logical ||
 
-2019-02-12  Roger Bivand <Roger.Bivand@nhh.no>
+2019-02-12  Roger Bivand 
 
 	* R/mtlocalmoran.R: || length localmoran.sad
 
-2019-02-12  Roger Bivand <Roger.Bivand@nhh.no>
+2019-02-12  Roger Bivand 
 
 	* R/cellneighbours.R: fix length > 1 logical ||
 
-2019-02-11  Roger Bivand <Roger.Bivand@nhh.no>
+2019-02-11  Roger Bivand 
 
 	* DESCRIPTION: tidy
 
-2019-01-29  Roger Bivand <roger.bivand@nhh.no>
+2019-01-29  Roger Bivand 
 
 	* DESCRIPTION, docs/articles/CO69.html,
 	docs/articles/SpatialFiltering.html, docs/articles/index.html,
@@ -533,20 +636,20 @@
 	docs/reference/write.nb.gal.html, vignettes/sids.Rmd: convert sids
 	vignette to sf/tmap
 
-2019-01-24  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-24  Roger Bivand 
 
 	* docs/articles/sids.html, vignettes/sids.Rmd: comparing SIDS files
 
-2019-01-23  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-23  Roger Bivand 
 
 	* docs/articles/sids.html, vignettes/sids.Rmd: conceal broken link
 
-2019-01-22  Roger Bivand <roger.bivand@nhh.no>
+2019-01-22  Roger Bivand 
 
 	* R/gabrielneigh.R, R/relneigh.R, docs/reference/graphneigh.html,
 	docs/reference/tri2nb.html, man/graphneigh.Rd: promote sf to Depends
 
-2019-01-22  Roger Bivand <roger.bivand@nhh.no>
+2019-01-22  Roger Bivand 
 
 	* R/soi.R, R/tri2nb.R, docs/articles/CO69.html,
 	docs/articles/nb_sf.html, docs/reference/MCMCsamp.html,
@@ -562,7 +665,7 @@
 	docs/reference/tri2nb.html, man/graphneigh.Rd, man/tri2nb.Rd: 
 	promote sf to Depends
 
-2019-01-22  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-22  Roger Bivand 
 
 	* R/dnearneigh.R, R/knearneigh.R, R/nbdists.R, R/plot.nb.R,
 	R/summary.nb.R, docs/reference/diffnb.html,
@@ -573,7 +676,7 @@
 	man/plot.nb.Rd, man/summary.nb.Rd: add sf as dependency (knearneigh,
 	nbdists, etc)
 
-2019-01-22  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-22  Roger Bivand 
 
 	* R/autocov.R, docs/reference/MCMCsamp.html,
 	docs/reference/autocov_dist.html, docs/reference/bhicv.html,
@@ -587,12 +690,12 @@
 	man/autocov_dist.Rd, man/mat2listw.Rd, man/nb2mat.Rd,
 	man/predict.sarlm.Rd: add sf as dependency (dnearneigh)
 
-2019-01-21  Roger Bivand <roger.bivand@nhh.no>
+2019-01-21  Roger Bivand 
 
 	* R/dnearneigh.R, docs/reference/dnearneigh.html, man/dnearneigh.Rd: 
 	promote sf to Depends
 
-2019-01-21  Roger Bivand <roger.bivand@nhh.no>
+2019-01-21  Roger Bivand 
 
 	* DESCRIPTION, docs/reference/EBImoran.mc.html,
 	docs/reference/EBest.html, docs/reference/GMerrorsar.html,
@@ -628,7 +731,7 @@
 	man/summary.nb.Rd, man/testnb.Rd, man/trW.Rd, man/tri2nb.Rd: promote
 	sf to Depends
 
-2019-01-21  Roger Bivand <roger.bivand@nhh.no>
+2019-01-21  Roger Bivand 
 
 	* R/poly2nb.R, docs/articles/CO69.html,
 	docs/articles/SpatialFiltering.html, docs/articles/index.html,
@@ -695,7 +798,7 @@
 	man/localmoran.exact.Rd, man/localmoran.sad.Rd, man/mstree.Rd,
 	man/poly2nb.Rd, man/skater.Rd: promote sf to Depends
 
-2019-01-21  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-21  Roger Bivand 
 
 	* DESCRIPTION, NAMESPACE, R/poly2nb.R, docs/reference/eigenw.html,
 	docs/reference/include.self.html, docs/reference/index.html,
@@ -710,7 +813,7 @@
 	docs/reference/poly2nb.html, docs/reference/set.spChkOption.html,
 	man/poly2nb.Rd: add sf as dependency (first for poly2nb)
 
-2019-01-21  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-21  Roger Bivand 
 
 	* docs/reference/globalG.test.html, docs/reference/nblag.html,
 	docs/reference/nboperations.html,
@@ -723,7 +826,7 @@
 	man/testnb.Rd, man/trW.Rd, man/tri2nb.Rd, man/write.nb.gal.Rd: 
 	update docs
 
-2019-01-21  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-21  Roger Bivand 
 
 	* docs/reference/EBImoran.mc.html, docs/reference/EBest.html,
 	docs/reference/EBlocal.html, docs/reference/GMerrorsar.html,
@@ -746,11 +849,11 @@
 	docs/reference/sacsarlm.html, docs/reference/skater.html,
 	docs/reference/spautolm.html, man/sacsarlm.Rd: update docs
 
-2019-01-20  Roger Bivand <roger.bivand@nhh.no>
+2019-01-20  Roger Bivand 
 
 	* docs/reference/sacsarlm.html, man/sacsarlm.Rd: docs update
 
-2019-01-20  Roger Bivand <roger.bivand@nhh.no>
+2019-01-20  Roger Bivand 
 
 	* docs/reference/nb2WB.html, docs/reference/nbdists.html,
 	docs/reference/nblag.html, docs/reference/nboperations.html,
@@ -761,18 +864,18 @@
 	man/p.adjustSP.Rd, man/plot.nb.Rd, man/poly2nb.Rd, man/sacsarlm.Rd,
 	man/set.spChkOption.Rd, man/skater.Rd: docs update
 
-2019-01-20  Roger Bivand <roger.bivand@nhh.no>
+2019-01-20  Roger Bivand 
 
 	* docs/reference/index.html, docs/reference/nb2INLA.html,
 	docs/reference/nb2lines.html, docs/reference/nb2listw.html,
 	docs/reference/nb2mat.html, man/nb2INLA.Rd, man/nb2lines.Rd,
 	man/nb2listw.Rd, man/nb2mat.Rd: docs update
 
-2019-01-20  Roger Bivand <roger.bivand@nhh.no>
+2019-01-20  Roger Bivand 
 
 	* docs/reference/mat2listw.html, man/mat2listw.Rd: docs update
 
-2019-01-20  Roger Bivand <roger.bivand@nhh.no>
+2019-01-20  Roger Bivand 
 
 	* R/plot.mst.R, docs/reference/LR.sarlm.html,
 	docs/reference/MCMCsamp.html, docs/reference/mat2listw.html,
@@ -780,13 +883,13 @@
 	man/LR.sarlm.Rd, man/MCMCsamp.Rd, man/mat2listw.Rd, man/mstree.Rd,
 	man/plot.mst.Rd: docs update
 
-2019-01-19  Roger Bivand <roger.bivand@nhh.no>
+2019-01-19  Roger Bivand 
 
 	* docs/reference/localmoran.exact.html,
 	docs/reference/localmoran.sad.html, man/localmoran.exact.Rd,
 	man/localmoran.sad.Rd: docs update
 
-2019-01-19  Roger Bivand <roger.bivand@nhh.no>
+2019-01-19  Roger Bivand 
 
 	* docs/reference/knearneigh.html, docs/reference/knn2nb.html,
 	docs/reference/lextrB.html, docs/reference/listw2sn.html,
@@ -795,7 +898,7 @@
 	man/knn2nb.Rd, man/lextrB.Rd, man/listw2sn.Rd,
 	man/lm.morantest.exact.Rd, man/lm.morantest.sad.Rd: docs update
 
-2019-01-19  Roger Bivand <roger.bivand@nhh.no>
+2019-01-19  Roger Bivand 
 
 	* docs/reference/errorsarlm.html, docs/reference/graphneigh.html,
 	docs/reference/impacts.sarlm.html,
@@ -803,51 +906,51 @@
 	man/graphneigh.Rd, man/impacts.sarlm.Rd, man/include.self.Rd: docs
 	update
 
-2019-01-19  Roger Bivand <roger.bivand@nhh.no>
+2019-01-19  Roger Bivand 
 
 	* docs/reference/GMerrorsar.html, docs/reference/globalG.test.html,
 	man/GMerrorsar.Rd, man/globalG.test.Rd: docs update
 
-2019-01-19  Roger Bivand <roger.bivand@nhh.no>
+2019-01-19  Roger Bivand 
 
 	* docs/reference/errorsarlm.html, man/errorsarlm.Rd: docs update
 
-2019-01-19  Roger Bivand <roger.bivand@nhh.no>
+2019-01-19  Roger Bivand 
 
 	* docs/articles/CO69.html, docs/articles/index.html,
 	docs/articles/nb_igraph.html, docs/reference/eigenw.html,
 	docs/reference/index.html, man/eigenw.Rd, vignettes/nb_igraph.Rmd: 
 	docs update
 
-2019-01-19  Roger Bivand <roger.bivand@nhh.no>
+2019-01-19  Roger Bivand 
 
 	* DESCRIPTION, man/eigenw.Rd, vignettes/nb_igraph.Rmd: docs update
 
-2019-01-16  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-16  Roger Bivand 
 
 	* docs/articles/CO69.html, vignettes/CO69.Rmd, vignettes/refs.bib: 
 	refs error in vignette
 
-2019-01-16  Roger Bivand <roger.bivand@nhh.no>
+2019-01-16  Roger Bivand 
 
 	* docs/reference/EBImoran.mc.html, docs/reference/edit.nb.html,
 	man/EBImoran.mc.Rd, man/edit.nb.Rd: docs update
 
-2019-01-16  Roger Bivand <roger.bivand@nhh.no>
+2019-01-16  Roger Bivand 
 
 	* docs/reference/diffnb.html, docs/reference/dnearneigh.html,
 	man/diffnb.Rd, man/dnearneigh.Rd: docs update
 
-2019-01-15  Roger Bivand <roger.bivand@nhh.no>
+2019-01-15  Roger Bivand 
 
 	* docs/reference/nb2lines.html, man/nb2lines.Rd: docs update
 
-2019-01-15  Roger Bivand <roger.bivand@nhh.no>
+2019-01-15  Roger Bivand 
 
 	* docs/reference/columbus.html, docs/reference/compon.html,
 	man/columbus.Rd, man/compon.Rd: docs update
 
-2019-01-15  Roger Bivand <roger.bivand@nhh.no>
+2019-01-15  Roger Bivand 
 
 	* docs/reference/EBest.html, docs/reference/EBlocal.html,
 	docs/reference/as_dgRMatrix_listw.html,
@@ -858,7 +961,7 @@
 	man/autocov_dist.Rd, man/bhicv.Rd, man/bptest.sarlm.Rd,
 	man/card.Rd, man/choynowski.Rd, man/probmap.Rd: docs update
 
-2019-01-15  Roger Bivand <roger.bivand@nhh.no>
+2019-01-15  Roger Bivand 
 
 	* docs/articles/CO69.html, docs/articles/nb_sf.html,
 	docs/reference/anova.sarlm.html, docs/reference/aple.html,
@@ -876,12 +979,12 @@
 	docs/reference/trW.html, man/aple.mc.Rd, man/aple.plot.Rd: docs
 	update
 
-2019-01-15  Roger Bivand <roger.bivand@nhh.no>
+2019-01-15  Roger Bivand 
 
 	* R/apleplot.R, man/anova.sarlm.Rd, man/aple.Rd, man/aple.mc.Rd,
 	man/aple.plot.Rd: aple examples
 
-2019-01-14  Roger Bivand <roger.bivand@nhh.no>
+2019-01-14  Roger Bivand 
 
 	* docs/articles/CO69.html, docs/articles/nb_sf.html,
 	docs/reference/ME.html, docs/reference/SpatialFiltering.html,
@@ -892,7 +995,7 @@
 	docs/reference/trW.html, man/ME.Rd, man/SpatialFiltering.Rd,
 	man/spautolm.Rd: spautolm examples
 
-2019-01-11  Roger Bivand <roger.bivand@nhh.no>
+2019-01-11  Roger Bivand 
 
 	* docs/articles/CO69.html, docs/articles/nb_sf.html,
 	docs/articles/sids.html, docs/reference/EBImoran.mc.html,
@@ -905,13 +1008,13 @@
 	docs/reference/trW.html, man/ME.Rd, man/SpatialFiltering.Rd: update
 	docs
 
-2019-01-11  Roger Bivand <roger.bivand@nhh.no>
+2019-01-11  Roger Bivand 
 
 	* R/ME.R, R/SpatialFiltering.R, man/ME.Rd, man/SpatialFiltering.Rd,
 	man/errorsarlm.Rd, vignettes/refs.bib: add na.action to ME and
 	SpatialFiltering #28
 
-2019-01-09  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-09  Roger Bivand 
 
 	* docs/articles/CO69.html, docs/articles/SpatialFiltering.html,
 	docs/articles/index.html, docs/articles/nb_igraph.html,
@@ -981,44 +1084,44 @@
 	docs/reference/trW.html, docs/reference/tri2nb.html,
 	docs/reference/write.nb.gal.html: re-building pkgdown site
 
-2019-01-09  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-09  Roger Bivand 
 
 	* DESCRIPTION, vignettes/{onb.Rnw => nb.Rnw}, vignettes/oCO69.Rnw,
 	vignettes/oSpatialFiltering.Rnw, vignettes/osids.Rnw: tidying
 	vignettes
 
-2019-01-09  Roger Bivand <rsbivand@users.noreply.github.com>
+2019-01-09  Roger Bivand 
 
 	* : Merge pull request #29 from angela-li/master Add vignette Rmds (created from Rnws)
 
-2019-01-09  Roger Bivand <Roger.Bivand@nhh.no>
+2019-01-09  Roger Bivand 
 
 	* vignettes/{CO69.Rnw => oCO69.Rnw},
 	vignettes/{SpatialFiltering.Rnw => oSpatialFiltering.Rnw},
 	vignettes/{nb.Rnw => onb.Rnw}, vignettes/{sids.Rnw => osids.Rnw}: 
 	tidying vignettes
 
-2019-01-08  Angela Li <angelali921@gmail.com>
+2019-01-08  Angela Li 
 
 	* vignettes/CO69.Rmd, vignettes/SpatialFiltering.Rmd,
 	vignettes/refs.bib, vignettes/sids.Rmd: Add references to vignettes
 
-2019-01-07  Angela Li <angelali921@gmail.com>
+2019-01-07  Angela Li 
 
 	* vignettes/CO69.Rmd, vignettes/SpatialFiltering.Rmd,
 	vignettes/sids.Rmd: Add rough version of SpatialFiltering.Rmd, fix
 	vignette titles
 
-2019-01-07  Angela Li <angelali921@gmail.com>
+2019-01-07  Angela Li 
 
 	* vignettes/CO69.Rmd: Add a rough version of CO69.Rmd
 
-2019-01-07  Angela Li <angelali921@gmail.com>
+2019-01-07  Angela Li 
 
 	* vignettes/sids.Rmd: Initial attempt at creating Rmd from sids.Rnw,
 	still need to fix references
 
-2018-12-11  Roger Bivand <roger.bivand@nhh.no>
+2018-12-11  Roger Bivand 
 
 	* docs/articles/nb_sf.html, docs/index.html,
 	docs/reference/bhicv.html, docs/reference/errorsarlm.html,
@@ -1028,15 +1131,15 @@
 	docs/reference/skater.html, docs/reference/trW.html: tidying mess a
 	bit
 
-2018-12-11  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-12-11  Roger Bivand 
 
 	* README.md: Update README.md
 
-2018-12-11  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-12-11  Roger Bivand 
 
 	* README.md: Update README.md
 
-2018-12-11  Roger Bivand <Roger.Bivand@nhh.no>
+2018-12-11  Roger Bivand 
 
 	* docs/articles/index.html, docs/articles/nb_igraph.html,
 	docs/articles/nb_sf.html, docs/authors.html, docs/index.html,
@@ -1105,7 +1208,7 @@
 	docs/reference/write.nb.gal.html, vignettes/nb_igraph.Rmd: more
 	pkgdown mess
 
-2018-12-11  Roger Bivand <Roger.Bivand@nhh.no>
+2018-12-11  Roger Bivand 
 
 	* docs/_config.yml, docs/articles/nb_igraph.html,
 	docs/articles/nb_sf.html, docs/jquery.sticky-kit.min.js,
@@ -1115,7 +1218,7 @@
 	docs/reference/skater.html, docs/reference/trW.html: attempted
 	out-of-tree build (still left src/*.o
 
-2018-12-11  Roger Bivand <Roger.Bivand@nhh.no>
+2018-12-11  Roger Bivand 
 
 	* docs/articles/index.html, docs/articles/nb_igraph.html,
 	docs/articles/nb_sf.html, docs/docsearch.js,
@@ -1143,7 +1246,7 @@
 	docs/reference/write.nb.gal.html, man/rotation.Rd: resolve plot
 	margins in rotation.Rd
 
-2018-12-11  Roger Bivand <Roger.Bivand@nhh.no>
+2018-12-11  Roger Bivand 
 
 	* .Rbuildignore, DESCRIPTION, docs/authors.html,
 	docs/docsearch.css, docs/index.html, docs/pkgdown.css,
@@ -1201,23 +1304,23 @@
 	docs/reference/residuals.sarlm.html, vignettes/CO69.Rnw,
 	vignettes/SpatialFiltering.Rnw: pkgdown mess^4
 
-2018-12-11  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-12-11  Roger Bivand 
 
 	* DESCRIPTION: Update DESCRIPTION add single quotes to DESCRIPTION new acronyms
 
-2018-12-11  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-12-11  Roger Bivand 
 
 	* DESCRIPTION: Update DESCRIPTION add Angela Li, update list of models fitted by ML and MCMC
 
-2018-12-11  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-12-11  Roger Bivand 
 
 	* docs/_config.yml: Set theme jekyll-theme-minimal
 
-2018-12-10  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-12-10  Roger Bivand 
 
 	* : Merge pull request #24 from angela-li/master Add package documentation website
 
-2018-12-08  Angela Li <angelali921@gmail.com>
+2018-12-08  Angela Li 
 
 	* docs/articles/index.html, docs/articles/nb_igraph.html,
 	docs/articles/nb_sf.html, docs/authors.html, docs/docsearch.css,
@@ -1287,469 +1390,469 @@
 	docs/reference/trW.html, docs/reference/tri2nb.html,
 	docs/reference/write.nb.gal.html: Add package documentation website
 
-2018-11-24  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-11-24  Roger Bivand 
 
 	* DESCRIPTION: Update DESCRIPTION
 
-2018-11-24  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-11-24  Roger Bivand 
 
 	* man/grid2nb.Rd: Update grid2nb.Rd remove two unmatched curly brackets
 
-2018-11-24  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-11-24  Roger Bivand 
 
 	* NAMESPACE: Update NAMESPACE add grid2nb
 
-2018-11-24  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-11-24  Roger Bivand 
 
 	* : Merge pull request #22 from eliaskrainski/master add grid2nb function
 
-2018-11-21  Roger Bivand <Roger.Bivand@nhh.no>
+2018-11-21  Roger Bivand 
 
 	* DESCRIPTION: tidy
 
-2018-11-21  Roger Bivand <Roger.Bivand@nhh.no>
+2018-11-21  Roger Bivand 
 
 	* R/spBreg.R: tidy
 
-2018-11-20  Roger Bivand <roger.bivand@nhh.no>
+2018-11-20  Roger Bivand 
 
 	* man/errorsarlm.Rd: Bayes sac impacts
 
-2018-11-20  Roger Bivand <roger.bivand@nhh.no>
+2018-11-20  Roger Bivand 
 
 	* NAMESPACE, R/spBreg.R, man/impacts.sarlm.Rd, man/sacsarlm.Rd: 
 	Bayes sac impacts
 
-2018-11-20  Roger Bivand <Roger.Bivand@nhh.no>
+2018-11-20  Roger Bivand 
 
 	* NAMESPACE, R/spBreg.R, man/errorsarlm.Rd, man/sacsarlm.Rd: Bayes
 	sac progress
 
-2018-11-19  Roger Bivand <roger.bivand@nhh.no>
+2018-11-19  Roger Bivand 
 
 	* R/sacsarlm.R, R/spBreg.R: Bayes s(d)ac start
 
-2018-11-16  Roger Bivand <Roger.Bivand@nhh.no>
+2018-11-16  Roger Bivand 
 
 	* R/spBreg.R: add slm MH rho
 
-2018-11-02  Roger Bivand <roger.bivand@nhh.no>
+2018-11-02  Roger Bivand 
 
 	* R/cellneighbours.R, man/cell2nb.Rd: fixing issue 20
 
-2018-11-02  Roger Bivand <Roger.Bivand@nhh.no>
+2018-11-02  Roger Bivand 
 
 	* man/errorsarlm.Rd: default spBreg_err to sample with griddy Gibs
 
-2018-10-31  Roger Bivand <Roger.Bivand@nhh.no>
+2018-10-31  Roger Bivand 
 
 	* R/impacts.R, R/spBreg.R: harmonize impacts summary output
 
-2018-10-30  Roger Bivand <roger.bivand@nhh.no>
+2018-10-30  Roger Bivand 
 
 	* R/spBreg.R, man/errorsarlm.Rd: toggle sige in gG sem
 
-2018-10-26  Roger Bivand <Roger.Bivand@nhh.no>
+2018-10-26  Roger Bivand 
 
 	* NAMESPACE, R/spBreg.R, man/errorsarlm.Rd, man/lagsarlm.Rd: add
 	S(D)EM griddy Gibbs
 
-2018-10-25  Roger Bivand <Roger.Bivand@nhh.no>
+2018-10-25  Roger Bivand 
 
 	* man/errorsarlm.Rd: SDEM formula impacts
 
-2018-10-25  Roger Bivand <Roger.Bivand@nhh.no>
+2018-10-25  Roger Bivand 
 
 	* man/errorsarlm.Rd: SDEM formula impacts
 
-2018-10-25  Roger Bivand <Roger.Bivand@nhh.no>
+2018-10-25  Roger Bivand 
 
 	* R/spBreg.R, man/errorsarlm.Rd: SDEM formula impacts
 
-2018-10-24  Roger Bivand <Roger.Bivand@nhh.no>
+2018-10-24  Roger Bivand 
 
 	* NAMESPACE, R/spBreg.R, man/impacts.sarlm.Rd: impacts for Bayes
 	SDEM
 
-2018-10-22  Roger Bivand <roger.bivand@nhh.no>
+2018-10-22  Roger Bivand 
 
 	* NAMESPACE, R/spBreg.R, man/errorsarlm.Rd: continuing Bayes
 	SEM/SDEM
 
-2018-10-22  Roger Bivand <Roger.Bivand@nhh.no>
+2018-10-22  Roger Bivand 
 
 	* DESCRIPTION, R/spBreg.R: starting Bayes SEM
 
-2018-10-12  Roger Bivand <Roger.Bivand@nhh.no>
+2018-10-12  Roger Bivand 
 
 	* DESCRIPTION, R/utils.R: protect lag.listw from tapply output, #19
 
-2018-09-28  Roger Bivand <roger.bivand@nhh.no>
+2018-09-28  Roger Bivand 
 
 	* DESCRIPTION, R/AAA.R: add setOldClass for listw
 
-2018-09-28  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-28  Roger Bivand 
 
 	* man/EBImoran.mc.Rd, man/geary.test.Rd, man/globalG.test.Rd,
 	man/lm.morantest.sad.Rd, man/localG.Rd, man/localmoran.Rd,
 	man/localmoran.exact.Rd, man/moran.test.Rd: update man pages with
 	2018 article
 
-2018-09-28  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-28  Roger Bivand 
 
 	* inst/CITATION: update citations for TEST article
 
-2018-09-28  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-28  Roger Bivand 
 
 	* inst/CITATION: update citations for TEST article
 
-2018-09-27  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-27  Roger Bivand 
 
 	* man/errorsarlm.Rd, man/lagsarlm.Rd: tidy
 
-2018-09-23  Roger Bivand <roger.bivand@nhh.no>
+2018-09-23  Roger Bivand 
 
 	* R/error.spsarlm.R, R/impacts.R, R/spBreg.R, man/errorsarlm.Rd,
 	man/impacts.sarlm.Rd: fix formula impacts
 
-2018-09-23  Roger Bivand <roger.bivand@nhh.no>
+2018-09-23  Roger Bivand 
 
 	* R/error.spsarlm.R, R/impacts.R, man/impacts.sarlm.Rd: fix SDEM
 	formula impacts
 
-2018-09-22  Roger Bivand <roger.bivand@nhh.no>
+2018-09-22  Roger Bivand 
 
 	* R/error.spsarlm.R, R/impacts.R, R/lag.spsarlm.R, R/sacsarlm.R,
 	R/spBreg.R: tidy wrong ordering
 
-2018-09-21  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-21  Roger Bivand 
 
 	* R/error.spsarlm.R: starting SLX/error Durbin formulae
 
-2018-09-21  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-21  Roger Bivand 
 
 	* R/error.spsarlm.R: starting SLX/error Durbin formulae
 
-2018-09-21  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-21  Roger Bivand 
 
 	* R/error.spsarlm.R, man/errorsarlm.Rd: starting SLX/error Durbin
 	formulae
 
-2018-09-21  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-21  Roger Bivand 
 
 	* R/spBreg.R, man/lagsarlm.Rd: adding lag Bayes Durbin formulae
 
-2018-09-21  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-21  Roger Bivand 
 
 	* R/sacsarlm.R, man/lagsarlm.Rd, man/sacsarlm.Rd: adding SARAR
 	Durbin formulae
 
-2018-09-20  Roger Bivand <roger.bivand@nhh.no>
+2018-09-20  Roger Bivand 
 
 	* R/impacts.R, R/lag.spsarlm.R, man/impacts.sarlm.Rd,
 	man/lagsarlm.Rd: Durbin formula lag impacts
 
-2018-09-20  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-20  Roger Bivand 
 
 	* R/lag.spsarlm.R, R/spBreg.R: Durbin formula zero insert start
 
-2018-09-19  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-19  Roger Bivand 
 
 	* man/lagsarlm.Rd: typo in Durbin example
 
-2018-09-18  Roger Bivand <roger.bivand@nhh.no>
+2018-09-18  Roger Bivand 
 
 	* man/lagsarlm.Rd: Durbin argument lagsarlm
 
-2018-09-18  Roger Bivand <roger.bivand@nhh.no>
+2018-09-18  Roger Bivand 
 
 	* R/lag.spsarlm.R, man/lagsarlm.Rd: Durbin argument lagsarlm
 
-2018-09-18  Roger Bivand <Roger.Bivand@nhh.no>
+2018-09-18  Roger Bivand 
 
 	* R/lag.spsarlm.R, R/summary.spsarlm.R, man/lagsarlm.Rd,
 	man/summary.sarlm.Rd: starting formula Durbin argument
 
-2018-09-17  Roger Bivand <roger.bivand@nhh.no>
+2018-09-17  Roger Bivand 
 
 	* vignettes/nb_sf.Rmd: typo in vignette
 
-2018-09-01  Roger Bivand <roger.bivand@nhh.no>
+2018-09-01  Roger Bivand 
 
 	* man/lagsarlm.Rd: add numerical Hessian output for SE of rho
 
-2018-08-31  Roger Bivand <Roger.Bivand@nhh.no>
+2018-08-31  Roger Bivand 
 
 	* DESCRIPTION, R/lag.spsarlm.R, man/lagsarlm.Rd: add sign reversal
 	control variable to asymptotic var/covar, spatial lag model
 
-2018-08-08  Roger Bivand <roger.bivand@nhh.no>
+2018-08-08  Roger Bivand 
 
 	* DESCRIPTION, R/knearneigh.R, src/knn.c: seg.fault in knearneigh
 	was == test, now >= test
 
-2018-06-26  Roger Bivand <roger.bivand@nhh.no>
+2018-06-26  Roger Bivand 
 
 	* DESCRIPTION: R to 3.3.0 wrt. spData
 
-2018-06-20  Roger Bivand <Roger.Bivand@nhh.no>
+2018-06-20  Roger Bivand 
 
 	* R/weights-utils.R, man/aggregate.nb.Rd: fixing no-neighbours in
 	aggregate.nb
 
-2018-06-12  Roger Bivand <roger.bivand@nhh.no>
+2018-06-12  Roger Bivand 
 
 	* R/spBreg.R, man/impacts.sarlm.Rd, man/lagsarlm.Rd: starting
 	implementing evalues for impacts
 
-2018-06-12  Roger Bivand <roger.bivand@nhh.no>
+2018-06-12  Roger Bivand 
 
 	* DESCRIPTION, R/impacts.R, R/mess.R, R/spBreg.R,
 	man/impacts.sarlm.Rd: starting implementing evalues for impacts
 
-2018-05-25  Roger Bivand <Roger.Bivand@nhh.no>
+2018-05-25  Roger Bivand 
 
 	* DESCRIPTION, R/listw2sn.R: update spam version, deprecated
 	validity check
 
-2018-04-03  Roger Bivand <Roger.Bivand@nhh.no>
+2018-04-03  Roger Bivand 
 
 	* DESCRIPTION, R/globalG.R, R/localG.R, R/localmoran.R, R/moran.R: 
 	tidy
 
-2018-03-18  Roger Bivand <roger.bivand@nhh.no>
+2018-03-18  Roger Bivand 
 
 	* R/moran.R: correct drop.EI2
 
-2018-03-15  Roger Bivand <Roger.Bivand@nhh.no>
+2018-03-15  Roger Bivand 
 
 	* DESCRIPTION, R/moran.R, man/moran.test.Rd: add switch in
 	moran.test to replicate CrimeStat
 
-2018-03-08  Roger Bivand <Roger.Bivand@nhh.no>
+2018-03-08  Roger Bivand 
 
 	* R/localmoran.R: finish localmoran adjust.x
 
-2018-03-08  Roger Bivand <Roger.Bivand@nhh.no>
+2018-03-08  Roger Bivand 
 
 	* R/localmoran.R: finish localmoran adjust.x
 
-2018-03-08  Roger Bivand <Roger.Bivand@nhh.no>
+2018-03-08  Roger Bivand 
 
 	* man/joincount.test.Rd: finish localmoran adjust.x; add joincount
 	free sampling
 
-2018-03-08  Roger Bivand <Roger.Bivand@nhh.no>
+2018-03-08  Roger Bivand 
 
 	* R/jc.R, R/localmoran.R, man/joincount.test.Rd: finish localmoran
 	adjust.x; add joincount free sampling
 
-2018-03-08  Roger Bivand <roger.bivand@nhh.no>
+2018-03-08  Roger Bivand 
 
 	* : commit 477cd77b5f36fea794dd93de7f81ced3c2af941a Author: Roger
-	Bivand <roger.bivand@nhh.no> Date:   Wed Mar 7 12:59:32 2018 +0100
+	Bivand  Date:   Wed Mar 7 12:59:32 2018 +0100
 
-2018-02-25  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-02-25  Roger Bivand 
 
 	* README.md: Update README.md
 
-2018-02-25  Roger Bivand <rsb@localhost.localdomain>
+2018-02-25  Roger Bivand 
 
 	* DESCRIPTION, R/LOSH.R, R/LOSH.mc.R, man/LOSH.mc.Rd: tidy LOSH
 
-2018-02-25  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-02-25  Roger Bivand 
 
 	* DESCRIPTION: Update DESCRIPTION Add LOSH and contributor.
 
-2018-02-25  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-02-25  Roger Bivand 
 
 	* : Merge pull request #4 from rwesterh/patch-4 Create LOSH.Rd
 
-2018-02-25  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-02-25  Roger Bivand 
 
 	* : Merge pull request #6 from rwesterh/patch-6 Create LOSH.mc.Rd
 
-2018-02-25  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-02-25  Roger Bivand 
 
 	* : Merge pull request #10 from rwesterh/patch-9 Create LOSH.mc.R
 
-2018-02-25  Roger Bivand <rsbivand@users.noreply.github.com>
+2018-02-25  Roger Bivand 
 
 	* : Merge pull request #8 from rwesterh/patch-7 Create LOSH.R
 
-2018-02-25  rwesterh <rene.westerholt@web.de>
+2018-02-25  rwesterh 
 
 	* R/LOSH.cs.R: Create LOSH.cs.R Parametric test for LOSH, based on the Chi-squared approximation
 	proposed by Ord & Getis (2012).
 
-2018-02-25  rwesterh <rene.westerholt@web.de>
+2018-02-25  rwesterh 
 
 	* R/LOSH.R: Create LOSH.R The basic functionality to compute LOSH as proposed by Ord & Getis
 	(2012). This function is utilized by LOSH.cs and LOSH.mc.
 
-2018-01-28  Roger Bivand <Roger.Bivand@R-Project.org>
+2018-01-28  Roger Bivand 
 
 	* R/error.spsarlm.R: fix bug in summary.lm reporting for SLX models
 
-2018-01-28  Roger Bivand <Roger.Bivand@R-Project.org>
+2018-01-28  Roger Bivand 
 
 	* R/error.spsarlm.R: fix bug in summary.lm reporting for SLX models
 
-2018-01-28  Roger Bivand <Roger.Bivand@R-Project.org>
+2018-01-28  Roger Bivand 
 
 	* R/error.spsarlm.R: fix bug in summary.lm reporting for SLX models
 
-2018-01-26  Roger Bivand <Roger.Bivand@R-Project.org>
+2018-01-26  Roger Bivand 
 
 	* DESCRIPTION, R/read.gwt2nb.R, man/read.gwt2nb.Rd, src/lagw.c: 
 	guard against out-of-range indices imported from GWT files
 
-2018-01-14  rwesterh <rene.westerholt@web.de>
+2018-01-14  rwesterh 
 
 	* man/LOSH.mc.Rd: Create LOSH.mc.Rd Man page for the function LOSH.mc.
 
-2018-01-14  rwesterh <rene.westerholt@web.de>
+2018-01-14  rwesterh 
 
 	* man/LOSH.cs.Rd: Create LOSH.cs.Rd Man page for the function LOSH.cs.
 
-2018-01-14  rwesterh <rene.westerholt@web.de>
+2018-01-14  rwesterh 
 
 	* man/LOSH.Rd: Create LOSH.Rd Man page for the function LOSH.
 
-2017-12-21  Roger Bivand <Roger.Bivand@nhh.no>
+2017-12-21  Roger Bivand 
 
 	* man/invIrM.Rd: irWinv examples
 
-2017-12-21  Roger Bivand <Roger.Bivand@nhh.no>
+2017-12-21  Roger Bivand 
 
 	* DESCRIPTION, man/invIrM.Rd: irWinv examples
 
-2017-11-20  Roger Bivand <Roger.Bivand@nhh.no>
+2017-11-20  Roger Bivand 
 
 	* DESCRIPTION: tidy
 
-2017-11-18  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-18  Roger Bivand 
 
 	* R/localG.R, man/localG.Rd: emulate GeoDa local G values
 
-2017-11-16  Roger Bivand <Roger.Bivand@nhh.no>
+2017-11-16  Roger Bivand 
 
 	* DESCRIPTION: tidy
 
-2017-11-16  Roger Bivand <Roger.Bivand@nhh.no>
+2017-11-16  Roger Bivand 
 
 	* R/globalG.R: globalG remove outer
 
-2017-11-15  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-15  Roger Bivand 
 
 	* R/globalG.R, man/globalG.test.Rd: adjust N in global G
 
-2017-11-15  Roger Bivand <Roger.Bivand@nhh.no>
+2017-11-15  Roger Bivand 
 
 	* R/globalG.R, man/globalG.test.Rd: global G adjust n
 
-2017-11-15  Roger Bivand <Roger.Bivand@nhh.no>
+2017-11-15  Roger Bivand 
 
 	* R/globalG.R: global G adjust n
 
-2017-11-15  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-15  Roger Bivand 
 
 	* R/globalG.R: adjust N in global G
 
-2017-11-15  Roger Bivand <Roger.Bivand@nhh.no>
+2017-11-15  Roger Bivand 
 
 	* man/columbus.Rd, man/eire.Rd: retro-fit non-spData revdeps
 
-2017-11-14  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-14  Roger Bivand 
 
 	* man/eire.Rd: adding back shapes and data for downstream;
 	deprecated
 
-2017-11-14  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-14  Roger Bivand 
 
 	* man/columbus.Rd: adding back shapes and data for downstream;
 	deprecated
 
-2017-11-14  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-14  Roger Bivand 
 
 	* inst/etc/weights/NY_nb.gal, inst/etc/weights/baltk4.GWT,
 	inst/etc/weights/ncCC89.gal, inst/etc/weights/ncCR85.gal,
 	man/columbus.Rd, man/read.gwt2nb.Rd: adding back shapes and data for
 	downstream; deprecated
 
-2017-11-13  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-13  Roger Bivand 
 
 	* DESCRIPTION, R/localmoran.R, man/localmoran.Rd: move to only Sokal
 	et al. 1998, add ml to b2 in localmoran
 
-2017-11-07  Roger Bivand <Roger.Bivand@nhh.no>
+2017-11-07  Roger Bivand 
 
 	* man/lagmess.Rd, man/lextrB.Rd, man/spautolm.Rd: correct dontrun
 	and donttest
 
-2017-11-04  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-04  Roger Bivand 
 
 	* R/nb2lines.R, man/nb2lines.Rd: hardening for absence/presence of
 	rgdal/maptools
 
-2017-11-04  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-04  Roger Bivand 
 
 	* man/bptest.sarlm.Rd, man/listw2sn.Rd, man/nb2lines.Rd,
 	vignettes/CO69.Rnw, vignettes/nb.Rnw, vignettes/sids.Rnw: guarding
 	require(rgdal) in vignettes and examples
 
-2017-11-04  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-04  Roger Bivand 
 
 	* vignettes/SpatialFiltering.Rnw: guarding require(rgdal) in
 	SpatialFiltering vignette
 
-2017-11-04  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-04  Roger Bivand 
 
 	* DESCRIPTION, vignettes/nb_igraph.Rmd: guarding require(rgdal) in
 	nb_igraph vignette
 
-2017-11-03  Roger Bivand <rsbivand@users.noreply.github.com>
+2017-11-03  Roger Bivand 
 
 	* .travis.yml: Update .travis.yml
 
-2017-11-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+2017-11-01  Edzer Pebesma 
 
 	* README.md: add cran badge
 
-2017-11-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+2017-11-01  Edzer Pebesma 
 
 	* .Rbuildignore: add .travis.yml
 
-2017-11-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+2017-11-01  Edzer Pebesma 
 
 	* .travis.yml: use ubuntu-gis ppa
 
-2017-11-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+2017-11-01  Edzer Pebesma 
 
 	* .travis.yml, README.md: travis, badge
 
-2017-11-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+2017-11-01  Edzer Pebesma 
 
 	* .travis.yml: touch
 
-2017-11-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+2017-11-01  Edzer Pebesma 
 
 	* .travis.yml: add travis
 
-2017-11-01  Roger Bivand <Roger.Bivand@R-Project.org>
+2017-11-01  Roger Bivand 
 
 	* DESCRIPTION, man/SpatialFiltering.Rd, man/impacts.sarlm.Rd,
 	man/spautolm.Rd: add dontrun to long-running examples
 
-2017-11-01  Roger Bivand <rsbivand@users.noreply.github.com>
+2017-11-01  Roger Bivand 
 
 	* .Rbuildignore: Update .Rbuildignore
 
-2017-11-01  Roger Bivand <rsbivand@users.noreply.github.com>
+2017-11-01  Roger Bivand 
 
 	* README.md: Create README.md
 
-2017-11-01  Roger Bivand <Roger.Bivand@nhh.no>
+2017-11-01  Roger Bivand 
 
 	* initial commit
 
