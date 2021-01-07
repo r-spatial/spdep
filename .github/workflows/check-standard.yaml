@@ -65,8 +65,14 @@ jobs:
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
 
       - name: Install dependencies
+        if: runner.os == 'Linux'
         run: |
           remotes::install_deps(dependencies = TRUE)
+        else: 
+          remotes::install_deps(dependencies = TRUE, type="binary")
+
+      - name: Install rcmdcheck          
+        run: |
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
 
