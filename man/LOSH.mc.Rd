@@ -35,7 +35,7 @@ The test calculates LOSH (see \code{\link{LOSH}}) and estimates pseudo p-values 
 Ord, J. K., & Getis, A. 2012. Local spatial heteroscedasticity (LOSH), The Annals of Regional Science, 48 (2), 529--539; Xu, M., Mei, C. L., & Yan, N. 2014. A note on the null distribution of the local spatial heteroscedasticity (LOSH) statistic. The Annals of Regional Science, 52 (3), 697--710.
 }
 
-\author{Rene Westerholt \email{westerholt@uni-heidelberg.de}}
+\author{René Westerholt \email{rene.westerholt@tu-dortmund.de}}
 
 \seealso{\code{\link{LOSH}}, \code{\link{LOSH.mc}}}
   
