@@ -34,7 +34,7 @@ Local spatial heteroscedasticity is calculated for each location based on the sp
   
   \references{Ord, J. K., & Getis, A. 2012. Local spatial heteroscedasticity (LOSH),
     The Annals of Regional Science, 48 (2), 529--539.}
-  \author{Rene Westerholt \email{westerholt@uni-heidelberg.de}}
+  \author{René Westerholt \email{rene.westerholt@tu-dortmund.de}}
   
   \seealso{\code{\link{LOSH.cs}}, \code{\link{LOSH.mc}}}
   
