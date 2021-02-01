@@ -32,7 +32,7 @@ The test uses \emph{a = 2} (see \code{\link{LOSH}}) because chi-square based inf
 Ord, J. K., & Getis, A. 2012. Local spatial heteroscedasticity (LOSH), The Annals of Regional Science, 48 (2), 529--539.
 }
 
-\author{Rene Westerholt \email{westerholt@uni-heidelberg.de}}
+\author{René Westerholt \email{rene.westerholt@tu-dortmund.de}}
 
 \seealso{\code{\link{LOSH}}, \code{\link{LOSH.mc}}}
   
