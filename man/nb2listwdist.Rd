@@ -61,7 +61,7 @@ world_weights <- nb2listwdist(nb_world, st_transform(world, 3857), type = "dpd",
   dmax = 1000000, alpha = 2, zero.policy = T)
 moran.test(world$lifeExp, world_weights, zero.policy = T, na.action = na.pass)
 # Boston examples
-data(boston package="spData")
+data(boston, package="spData")
 boston_coords <- data.frame(x = boston.utm[,1], y = boston.utm[,2])
 boston.geoms <- st_as_sf(boston_coords, coords = c("x", "y"), remove = F)
 nb_boston <- dnearneigh(boston.geoms, 0, 3)
