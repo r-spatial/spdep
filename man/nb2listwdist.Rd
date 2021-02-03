@@ -44,6 +44,7 @@ A \code{listw} object with the following members:
 \seealso{\code{\link{nb2listw}}, \code{\link{summary.nb}}}
 
 \examples{
+\dontrun{
 # World examples
 data(world)
 # neighbours on distance interval [0, 1000] kilometres
@@ -73,6 +74,7 @@ moran.test(boston.c$CRIM, boston_weights, zero.policy = T, na.action = na.pass)
 boston_weights <- nb2listwdist(nb_boston, boston.geoms, type = "idw", alpha = 2,
   style="W", zero.policy = T)
 moran.test(boston.c$CRIM, boston_weights, zero.policy = T, na.action = na.pass)
+}
 }
 
 \keyword{spatial}
