@@ -22,6 +22,8 @@ A neighbours list with class \code{nb}. See \code{\link{card}} for details of \d
 }
 \note{
 From 0.5-8, the function includes faster bounding box indexing and other improvements contributed by Micah Altman. If a cluster is provided using \code{set.ClusterOption}, it will be used for finding candidate bounding box overlaps for exact testing for contiguity.
+
+Until 1.1-8, \code{sf} polygons included both start and end points, so could erroneously report rook neighbourhood where only queen was present, see \url{https://github.com/r-spatial/spdep/issues/50}.
 }
 \author{Roger Bivand \email{Roger.Bivand@nhh.no} with contributions from Micah Altman}
 
@@ -63,5 +65,14 @@ system.time(xxnb <- poly2nb(nc.sids))
 system.time(xxnb <- poly2nb(as(nc.sids, "Spatial")))
 plot(st_geometry(nc.sids))
 plot(xxnb, coordinates(as(nc.sids, "Spatial")), add=TRUE, col="blue")
+sq <- st_polygon(list(rbind(c(0,0), c(1,0), c(1,1), c(0,1), c(0,0))))
+sq2 <- sq + c(0,1)
+sq3 <- sq + c(1,0)
+sq4 <- sq + c(1,1)
+gm <- st_sfc(list(sq, sq2, sq3, sq4))
+df <- st_as_sf(gm, id=1:4)
+plot(st_geometry(df))
+text(st_coordinates(st_centroid(gm)), as.character(df$id))
+unclass(poly2nb(df, queen = FALSE))
 }
 \keyword{spatial}
