@@ -44,9 +44,8 @@ A \code{listw} object with the following members:
 \seealso{\code{\link{nb2listw}}, \code{\link{summary.nb}}}
 
 \examples{
-\dontrun{
 # World examples
-data(world)
+data(world, package="spData")
 # neighbours on distance interval [0, 1000] kilometres
 nb_world <- dnearneigh(st_centroid(st_transform(world, 3857)), 0, 1000000)
 # Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme
@@ -62,7 +61,7 @@ world_weights <- nb2listwdist(nb_world, st_transform(world, 3857), type = "dpd",
   dmax = 1000000, alpha = 2, zero.policy = T)
 moran.test(world$lifeExp, world_weights, zero.policy = T, na.action = na.pass)
 # Boston examples
-data(boston)
+data(boston package="spData")
 boston_coords <- data.frame(x = boston.utm[,1], y = boston.utm[,2])
 boston.geoms <- st_as_sf(boston_coords, coords = c("x", "y"), remove = F)
 nb_boston <- dnearneigh(boston.geoms, 0, 3)
@@ -74,7 +73,6 @@ moran.test(boston.c$CRIM, boston_weights, zero.policy = T, na.action = na.pass)
 boston_weights <- nb2listwdist(nb_boston, boston.geoms, type = "idw", alpha = 2,
   style="W", zero.policy = T)
 moran.test(boston.c$CRIM, boston_weights, zero.policy = T, na.action = na.pass)
-}
 }
 
 \keyword{spatial}
