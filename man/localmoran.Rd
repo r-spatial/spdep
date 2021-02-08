@@ -28,7 +28,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
   \item{mlvar}{default TRUE: values of local Moran's I are reported using the variance of the variable of interest (sum of squared deviances over n), but can be reported as the sample variance, dividing by (n-1) instead; both are used in other implementations.}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{adjust.x}{default FALSE, if TRUE, x values of observations with no neighbours are omitted in the mean of x}
-  \item{nsims}{default 499, number of conditonal permutation simulations}
+  \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{sample_Ei}{default TRUE; if conditional permutation, use the sample $E_i$ values, or the analytical values, leaving only variances calculated by simulation.}
 }
 
@@ -82,6 +82,7 @@ if (class(attr(resI.na, "na.action")) == "exclude") {
 } else print(resI.na, digits=2)
 resG <- localG(afcon$totcon, nb2listw(include.self(paper.nb)))
 print(data.frame(resG[oid], row.names=afcon$name[oid]), digits=2)
+set.seed(1)
 resI_p <- localmoran_perm(afcon$totcon, nb2listw(paper.nb))
 printCoefmat(data.frame(resI_p[oid,], row.names=afcon$name[oid]),
  check.names=FALSE)

@@ -50,29 +50,29 @@ data(world, package="spData")
 nb_world <- dnearneigh(st_centroid(st_transform(world, 3857)), 0, 1000000)
 # Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme
 world_weights <- nb2listwdist(nb_world, st_transform(world, 3857), type = "idw",
-  alpha = 2, zero.policy = T)
-moran.test(world$lifeExp, world_weights, zero.policy = T, na.action = na.pass)
+  alpha = 2, zero.policy = TRUE)
+moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass)
 # Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme
 world_weights <- nb2listwdist(nb_world, st_transform(world, 3857), type = "idw",
-  alpha = 2, zero.policy = T)
-moran.test(world$lifeExp, world_weights, zero.policy = T, na.action = na.pass)
+  alpha = 2, zero.policy = TRUE)
+moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass)
 # Moran's I (life expectancy), DPD, alpha = 2, dmax = 1000 km, no coding scheme
 world_weights <- nb2listwdist(nb_world, st_transform(world, 3857), type = "dpd",
-  dmax = 1000000, alpha = 2, zero.policy = T)
-moran.test(world$lifeExp, world_weights, zero.policy = T, na.action = na.pass)
+  dmax = 1000000, alpha = 2, zero.policy = TRUE)
+moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass)
 # Boston examples
 data(boston, package="spData")
 boston_coords <- data.frame(x = boston.utm[,1], y = boston.utm[,2])
-boston.geoms <- st_as_sf(boston_coords, coords = c("x", "y"), remove = F)
+boston.geoms <- st_as_sf(boston_coords, coords = c("x", "y"), remove = FALSE)
 nb_boston <- dnearneigh(boston.geoms, 0, 3)
 # Moran's I (crime) with exp weights with alpha = 2, no coding scheme
 boston_weights <- nb2listwdist(nb_boston, boston.geoms, type = "exp", alpha = 2,
-  style="raw", zero.policy = T)
-moran.test(boston.c$CRIM, boston_weights, zero.policy = T, na.action = na.pass)
+  style="raw", zero.policy = TRUE)
+moran.test(boston.c$CRIM, boston_weights, zero.policy = TRUE, na.action = na.pass)
 # Moran's I (crime) with idw weights with alpha = 2, coding scheme = W
 boston_weights <- nb2listwdist(nb_boston, boston.geoms, type = "idw", alpha = 2,
-  style="W", zero.policy = T)
-moran.test(boston.c$CRIM, boston_weights, zero.policy = T, na.action = na.pass)
+  style="W", zero.policy = TRUE)
+moran.test(boston.c$CRIM, boston_weights, zero.policy = TRUE, na.action = na.pass)
 }
 
 \keyword{spatial}

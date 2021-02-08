@@ -47,9 +47,9 @@ nb2listwdist <- function(neighbours, x, type="idw", style="raw", alpha = 1, dmax
     for (i in 1:n)
       if(cardnb[i] > 0) {
         if(longlat)
-          glist[[i]] <- as.numeric(spDists(geometry(x)[i], geometry(x)[neighbours[[i]]], longlat = T)) * 1000
+          glist[[i]] <- as.numeric(spDists(geometry(x)[i], geometry(x)[neighbours[[i]]], longlat = TRUE)) * 1000
         else
-          glist[[i]] <- as.numeric(spDists(geometry(x)[i], geometry(x)[neighbours[[i]]], longlat = F))
+          glist[[i]] <- as.numeric(spDists(geometry(x)[i], geometry(x)[neighbours[[i]]], longlat = FALSE))
         mode(glist[[i]]) <- "numeric"
       }
   } else {
