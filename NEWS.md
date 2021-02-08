@@ -1,8 +1,12 @@
 # Version 1.1-7 (development)
 
-* Changes to continuous integration and vignettes
+* Changes to continuous integration and vignettes.
 
 * Error in `poly2nb(, queen=FALSE)` in **sf** grids (double counting of closed polygon start/end points), https://github.com/r-spatial/spdep/issues/50, thanks to Christopher Kenny.
+
+* Adding local Moran and local G conditional permutation: `localmoran_perm()` and `localG_perm()`.
+
+* Adding `nb2listwdist()` contributed by René Westerholt.
 
 # Version 1.1-5 (2020-06-29)
 

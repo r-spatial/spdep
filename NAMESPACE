@@ -56,7 +56,7 @@ export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb,
 	knearneigh, knn2nb)
 
 export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests, 
-	lm.morantest, localG, localmoran, moran,
+	lm.morantest, localG, localG_perm, localmoran, localmoran_perm, moran,
 	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
 	nb2listw, nb2mat, listw2mat, mat2listw, invIrM, invIrW, nbdists, nblag,
 	nblag_cumul, poly2nb, read.gal, write.nb.gal, read.geoda, relativeneigh,

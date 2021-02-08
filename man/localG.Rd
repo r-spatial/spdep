@@ -1,6 +1,7 @@
 % Copyright 2001 by Roger S. Bivand
 \name{localG}
 \alias{localG}
+\alias{localG_perm}
 \title{G and Gstar local spatial statistics}
 \description{
 The local spatial statistic G is calculated for each zone based on the
@@ -13,6 +14,7 @@ critical values may be found (see also details below).
 }
 \usage{
 localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE, GeoDa=FALSE)
+localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -21,6 +23,7 @@ localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE, GeoDa=FAL
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{return_internals}{default FALSE, if TRUE, return internal values of G, EI and VG as as attribute matrix}
   \item{GeoDa}{default FALSE, if TRUE, drop x values for no-neighbour and self-neighbour only observations from all summations}
+  \item{nsims}{default 499, number of conditonal permutation simulations}
 }
 \details{
 If the neighbours member of listw has a "self.included" attribute set
@@ -39,6 +42,7 @@ n=100: 3.289, n=1000: 3.886.
  A vector of G or Gstar values, with attributes "gstari" set to TRUE or
 FALSE, "call" set to the function call, and class "localG".
 }
+\note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.}
 \references{Ord, J. K. and Getis, A. 1995 Local spatial autocorrelation
 statistics: distributional issues and an application. \emph{Geographical
 Analysis}, 27, 286--306; Getis, A. and Ord, J. K. 1996 Local spatial
@@ -62,6 +66,8 @@ xycoords <- cbind(xyz$x, xyz$y)
 nb30 <- dnearneigh(xycoords, 0, 30)
 G30 <- localG(xyz$val, nb2listw(nb30, style="B"))
 G30[length(xyz$val)-136]
+G30_sim <- localG_perm(xyz$val, nb2listw(nb30, style="B"))
+G30_sim[length(xyz$val)-136]
 nb60 <- dnearneigh(xycoords, 0, 60)
 G60 <- localG(xyz$val, nb2listw(nb60, style="B"))
 G60[length(xyz$val)-136]
