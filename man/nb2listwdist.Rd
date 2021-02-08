@@ -47,19 +47,22 @@ A \code{listw} object with the following members:
 # World examples
 data(world, package="spData")
 # neighbours on distance interval [0, 1000] kilometres
-nb_world <- dnearneigh(st_centroid(st_transform(world, 3857)), 0, 1000000)
+pts <- st_centroid(st_transform(world, 3857))
+nb_world <- dnearneigh(pts, 0, 1000000)
 # Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme
-world_weights <- nb2listwdist(nb_world, st_transform(world, 3857), type = "idw",
+world_weights <- nb2listwdist(nb_world, pts, type = "idw",
   alpha = 2, zero.policy = TRUE)
 moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass)
+\dontrun{
 # Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme
-world_weights <- nb2listwdist(nb_world, st_transform(world, 3857), type = "idw",
+world_weights <- nb2listwdist(nb_world, pts, type = "idw",
   alpha = 2, zero.policy = TRUE)
 moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass)
 # Moran's I (life expectancy), DPD, alpha = 2, dmax = 1000 km, no coding scheme
-world_weights <- nb2listwdist(nb_world, st_transform(world, 3857), type = "dpd",
+world_weights <- nb2listwdist(nb_world, pts, type = "dpd",
   dmax = 1000000, alpha = 2, zero.policy = TRUE)
 moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass)
+}
 # Boston examples
 data(boston, package="spData")
 boston_coords <- data.frame(x = boston.utm[,1], y = boston.utm[,2])
