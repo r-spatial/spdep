@@ -89,7 +89,18 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
 
     if (parallel == "snow") {
       if (requireNamespace("parallel", quietly = TRUE)) {
-        stop("snow cluster not yet implemented")
+        sI <- parallel::splitIndices(n, length(cl))
+        env <- new.env()
+        assign("z", z, envir=env)
+        assign("crd", crd, envir=env)
+        assign("lww", lww, envir=env)
+        assign("nsim", nsim, envir=env)
+        parallel::clusterExport(cl, varlist=c("z", "crd", "lww", "nsim"),
+            envir=env)
+        oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
+ 	    permI_int(i, z[i], z[-i], crd[i], lww[[i]], nsim)})
+        out <- do.call("rbind", do.call("c", oo))
+        rm(env)
       } else {
         stop("parallel not available")
       }
