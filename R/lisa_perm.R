@@ -1,6 +1,6 @@
 localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     na.action=na.fail, alternative = "greater", p.adjust.method="none",
-    mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE) {
+    mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=1) {
     stopifnot(is.vector(x))
     if (!inherits(listw, "listw"))
 	stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -55,26 +55,65 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     }
     res[,1] <- (z/s2) * lz
 
+    cores <- get.coresOption()
+    if (is.null(cores)) {
+        parallel <- "no"
+    } else {
+        parallel <- ifelse (get.mcOption(), "multicore", "snow")
+    }
+    ncpus <- ifelse(is.null(cores), 1L, cores)
+    cl <- NULL
+    if (parallel == "snow") {
+        cl <- get.ClusterOption()
+        if (is.null(cl)) {
+            parallel <- "no"
+            warning("no cluster in ClusterOption, parallel set to no")
+        }
+    }
+
     crd <- card(listw$neighbours)
-    res_p <- numeric(nsim)
-    for (i in seq(along=x)) {
-        wtsi <- listw$weights[[i]]
-        zi <- z[i]
-        z_i <- z[-i]
-        crdi <- crd[i]
+    permI_int <- function(i, zi, z_i, crdi, wtsi, nsim) {
         if (crdi > 0) {
             sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim)
             lz_i <- sz_i %*% wtsi
             res_p <- (zi/s2)*lz_i
-            res[i,2] <- mean(res_p)
-            res[i,3] <- var(res_p)
+            res <- c(mean(res_p), var(res_p))
         } else {
-            res[i,2] <- as.numeric(NA)
-            res[i,3] <- as.numeric(NA)
+            res <- c(as.numeric(NA), as.numeric(NA))
         }
+        res
     }
-    if (!sample_Ei) res[,2] <- -sapply(listw$weights, sum) / (n-1)
+
+    lww <- listw$weights
+
+    if (parallel == "snow") {
+      if (requireNamespace("parallel", quietly = TRUE)) {
+        stop("snow cluster not yet implemented")
+      } else {
+        stop("parallel not available")
+      }
+    } else if (parallel == "multicore") {
+      if (requireNamespace("parallel", quietly = TRUE)) {
+        sI <- parallel::splitIndices(n, ncpus)
+        oo <- parallel::mclapply(sI, FUN=lapply, function(i) {permI_int(i,
+            z[i], z[-i], crd[i], lww[[i]], nsim)}, mc.cores=ncpus)
+        out <- do.call("rbind", do.call("c", oo))
+      } else {
+        stop("parallel not available")
+      }
+    } else {
+        oo <- lapply(1:n, function(i) permI_int(i, z[i], z[-i], 
+            crd[i], lww[[i]], nsim))
+        out <- do.call("rbind", oo)
+    }
+
+    if (!sample_Ei) {
+        res[,2] <- -sapply(listw$weights, sum) / (n-1)
+    } else {
+        res[,2] <- out[,1]
+    }
+    res[,3] <- out[,2]
 
     res[,4] <- (res[,1] - res[,2]) / sqrt(res[,3])
     if (alternative == "two.sided") pv <- 2 * pnorm(abs(res[,4]), 
