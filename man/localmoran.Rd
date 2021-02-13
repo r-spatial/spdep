@@ -16,7 +16,7 @@ localmoran(x, listw, zero.policy=NULL, na.action=na.fail,
         spChk=NULL, adjust.x=FALSE)
 localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail, 
 	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
-        spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE)
+        spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -30,6 +30,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
   \item{adjust.x}{default FALSE, if TRUE, x values of observations with no neighbours are omitted in the mean of x}
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{sample_Ei}{default TRUE; if conditional permutation, use the sample $E_i$ values, or the analytical values, leaving only variances calculated by simulation.}
+  \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
 }
 
 \details{

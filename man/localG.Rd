@@ -14,7 +14,7 @@ critical values may be found (see also details below).
 }
 \usage{
 localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE, GeoDa=FALSE)
-localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=FALSE)
+localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=FALSE, iseed=NULL)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -24,6 +24,7 @@ localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=F
   \item{return_internals}{default FALSE, if TRUE, return internal values of G, EI and VG as as attribute matrix}
   \item{GeoDa}{default FALSE, if TRUE, drop x values for no-neighbour and self-neighbour only observations from all summations}
   \item{nsim}{default 499, number of conditonal permutation simulations}
+  \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
 }
 \details{
 If the neighbours member of listw has a "self.included" attribute set
