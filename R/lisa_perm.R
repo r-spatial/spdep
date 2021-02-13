@@ -200,27 +200,6 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
         stopifnot(length(iseed) == 1L)
     }
 
-#    res_p <- numeric(nsim)
-#    EG <- numeric(n)
-#    VG <- numeric(n)
-#    for (i in seq(along=x)) {
-#        wtsi <- listw$weights[[i]]
-#        xi <- x[i]
-#        x_i <- x[-i]
-#        crdi <- crd[i]
-#        if (crdi > 0) {
-#            sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
-#                ncol=crdi, nrow=nsim)
-#            lx_i <- sx_i %*% wtsi
-#            res_p <- lx_i/(x_star-xi)
-#            EG[i] <- mean(res_p)
-#            VG[i] <- var(res_p)
-#        } else {
-#            EG[i] <- NA
-#            VG[i] <- NA
-#        }
-#    }
-
     permG_int <- function(i, xi, x_i, crdi, wtsi, nsim) {
         if (crdi > 0) {
             sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
