@@ -123,6 +123,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         stop("parallel not available")
       }
     } else {
+        if (!is.null(iseed)) set.seed(iseed)
         oo <- lapply(1:n, function(i) permI_int(i, z[i], z[-i], 
             crd[i], lww[[i]], nsim))
         out <- do.call("rbind", oo)
@@ -248,6 +249,7 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
         stop("parallel not available")
       }
     } else {
+        if (!is.null(iseed)) set.seed(iseed)
         oo <- lapply(1:n, function(i) permG_int(i, x[i], x[-i], 
             crd[i], lww[[i]], nsim))
         out <- do.call("rbind", oo)
