@@ -8,6 +8,8 @@
 
 * Adding `nb2listwdist()` contributed by René Westerholt.
 
+* Adding use of **sf** through GEOS to find polygon contiguity candidates in `poly2nb()` if geometry count >= 500 - uses intersections in polygon envelopes.
+
 # Version 1.1-5 (2020-06-29)
 
 * Replacing broken geoda URLs, moving knitr to rmarkdown, work-around missing weights files in spData.

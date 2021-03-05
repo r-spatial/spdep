@@ -30,6 +30,8 @@ SEXP listw2dsT(SEXP nbs, SEXP wts, SEXP card, SEXP ncard2); // deprecated
 SEXP listw2dgR(SEXP nbs, SEXP wts, SEXP card, SEXP ncard); // deprecated
 SEXP listw2sn(SEXP nbs, SEXP wts, SEXP card, SEXP ncard);
 SEXP dnearneigh(SEXP din1, SEXP din2, SEXP pnte, SEXP p, SEXP test, SEXP lonlat);
+SEXP dnearneigh1(SEXP din1, SEXP din2, SEXP pnte, SEXP test, SEXP cands);
+
 SEXP gearyw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy, SEXP ftype);
 SEXP gsymtest(SEXP nb, SEXP glist, SEXP card);
 SEXP spInsiders(SEXP bbbi, SEXP bbbj);

@@ -14,7 +14,8 @@ critical values may be found (see also details below).
 }
 \usage{
 localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE, GeoDa=FALSE)
-localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=FALSE, iseed=NULL)
+localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=FALSE,
+ iseed=NULL)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}

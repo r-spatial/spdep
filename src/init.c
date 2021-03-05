@@ -29,6 +29,7 @@ static R_CallMethodDef CallEntries[] = {
     {"listw2dgR", (DL_FUNC) &listw2dgR, 4}, // deprecated
     {"listw2sn", (DL_FUNC) &listw2sn, 4},
     {"dnearneigh", (DL_FUNC) &dnearneigh, 6},
+    {"dnearneigh1", (DL_FUNC) &dnearneigh1, 5},
     {"gearyw", (DL_FUNC) &gearyw, 6},
     {"gsymtest", (DL_FUNC) &gsymtest, 3},
     {"spInsiders", (DL_FUNC) &spInsiders, 2},

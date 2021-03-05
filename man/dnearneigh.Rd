@@ -1,12 +1,14 @@
-% Copyright 2001-2019 by Roger S. Bivand
+% Copyright 2001-2021 by Roger S. Bivand
 \name{dnearneigh}
 \alias{dnearneigh}
 \title{Neighbourhood contiguity by distance}
 \description{
-The function identifies neighbours of region points by Euclidean distance between lower (greater than) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers.
+The function identifies neighbours of region points by Euclidean distance between lower (greater than or equal to (changed from version 1.1-7)) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers.
 }
 \usage{
-dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GT", "LE"))
+dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GE", "LE"),
+ prefer_heuristic=TRUE, heuristic_n=1000, heuristic_fuzz=0.02, rtree=FALSE,
+ exact_heuristic=FALSE, symtest=FALSE)
 }
 \arguments{
   \item{x}{matrix of point coordinates or a SpatialPoints object or an \code{sf} or \code{sfc} points object}
@@ -14,7 +16,13 @@ dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GT", "LE"))
   \item{d2}{upper distance bound}
   \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}}
   \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself, and overrides this argument if not NULL}
-  \item{bounds}{character vector of length 2, default \code{c("GT", "LE")}, the first element may also be \code{"GE"}, the second \code{"LT"}}
+  \item{bounds}{character vector of length 2, default \code{c("GE", "LE")}, the first element may also be \code{"GE"}, the second \code{"LT"}; the first bound default was changed from \code{"GT"} to \code{"GE"} in release 1.1-7}
+  \item{prefer_heuristic}{default TRUE, if TRUE, use \pkg{sf} \code{st_buffer()} and \code{st_intersects()} to find neighbours, or if \code{rtree=} is TRUE, uses \pkg{rtree} once submitted to CRAN.}
+  \item{heuristic_n}{default 1000, do not use heuristics even if requested below this value.}
+  \item{heuristic_fuzz}{default 0.02, for \code{st_buffer()} band taken as \code{d1} (if not 0) and \code{d2} times 1 +/- \code{heuristic_fuzz} because buffer imprecision increases with buffer radius for fixed \code{nQuadSegs} here always default 30, if \pkg{rtree} an absolute value in the metric of the points because that is how the R-tree is constructed; not used if \code{exact_heuristic} is FALSE.}
+  \item{rtree}{default FALSE, may be used if \pkg{rtree} (\url{https://github.com/akoyabio/rtree}, \code{@BH_1.75} branch is installed). Code in CRAN package commented out, available on Github in branch \code{@rtree}.}
+  \item{exact_heuristic}{default TRUE, if FALSE, use the raw buffer or rtree searcch without correcting for approximation.}
+  \item{symtest}{Default FALSE; before release 1.1-7, TRUE - run symmetry check on output object, costly with large numbers of points.}
 }
 \value{
 The function returns a list of integer vectors giving the region id numbers
