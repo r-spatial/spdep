@@ -4,8 +4,8 @@
 
 dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), prefer_heuristic=TRUE, heuristic_n=1000, heuristic_fuzz=0.02, rtree=FALSE, exact_heuristic=FALSE, symtest=FALSE) {
     heur_OK <- FALSE
-# rtree code NO-OP
-    if (rtree) rtree <- FALSE        
+# rtree code OP in rtree branch
+#    if (rtree) rtree <- FALSE        
     if (inherits(x, "SpatialPoints")) {
 # correct wrong logic
         if (!is.null(longlat))
@@ -81,9 +81,9 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
     if (np > heuristic_n && prefer_heuristic && heur_OK) {
       if (exact_heuristic) {
         if (rtree) {
-#            xtree <- rtree::RTree(x)
-#            outer_d2_buf_ints <- rtree::withinDistance.RTree(xtree, x,
-#                d2+heuristic_fuzz)
+            xtree <- rtree::RTree(x)
+            outer_d2_buf_ints <- rtree::withinDistance.RTree(xtree, x,
+                d2+heuristic_fuzz)
         } else {
             outer_d2_buf <- sf::st_buffer(xc, d2*(1+heuristic_fuzz))
             outer_d2_buf_ints <- sf::st_intersects(outer_d2_buf, xc)
@@ -91,8 +91,8 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
         outer_d2_buf_ints1 <- lapply(seq_along(outer_d2_buf_ints),
             function(i) {outer_d2_buf_ints[[i]][outer_d2_buf_ints[[i]] != i]})
         if (rtree) {
-#            inner_d2_buf_ints <- rtree::withinDistance.RTree(xtree, x, 
-#                d2-heuristic_fuzz)
+            inner_d2_buf_ints <- rtree::withinDistance.RTree(xtree, x, 
+                d2-heuristic_fuzz)
         } else {
             inner_d2_buf <- sf::st_buffer(xc, d2*(1-heuristic_fuzz))
             inner_d2_buf_ints <- sf::st_intersects(inner_d2_buf, xc)
@@ -108,8 +108,8 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
             function(i) sort(union(inner_d2_buf_ints1[[i]], z2[[i]])))
         if (d1 > 0.0) {
             if (rtree) {
-#                outer_d1_buf_ints <- rtree::withinDistance.RTree(xtree, x, 
-#                    d1+heuristic_fuzz)
+                outer_d1_buf_ints <- rtree::withinDistance.RTree(xtree, x, 
+                    d1+heuristic_fuzz)
             } else {
                 outer_d1_buf <- sf::st_buffer(xc, d1*(1+heuristic_fuzz))
                 outer_d1_buf_ints <- sf::st_intersects(outer_d1_buf, xc)
@@ -119,8 +119,8 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
             d2_outer_d1 <- lapply(seq_along(z), 
                 function(i) setdiff(z[[i]], outer_d1_buf_ints1[[i]]))
             if (rtree) {
-#                inner_d1_buf_ints <- rtree::withinDistance.RTree(xtree, x, 
-#                    d1-heuristic_fuzz)
+                inner_d1_buf_ints <- rtree::withinDistance.RTree(xtree, x, 
+                    d1-heuristic_fuzz)
             } else {
                 inner_d1_buf <- sf::st_buffer(xc, d1*(1-heuristic_fuzz))
                 inner_d1_buf_ints <- sf::st_intersects(inner_d1_buf, xc)
@@ -137,14 +137,14 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
         }
       } else {
         if (rtree) {
-#            xtree <- rtree::RTree(x)
-#            z <- rtree::withinDistance.RTree(xtree, x, d2)
-#            z <- lapply(seq_along(z), function(i) {z[[i]][z[[i]] != i]})
-#            if (d1 > 0) {
-#                z1 <- rtree::withinDistance.RTree(xtree, x, d1)
-#                z1 <- lapply(seq_along(z1), function(i) {z1[[i]][z1[[i]] != i]})
-#                z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
-#            }
+            xtree <- rtree::RTree(x)
+            z <- rtree::withinDistance.RTree(xtree, x, d2)
+            z <- lapply(seq_along(z), function(i) {z[[i]][z[[i]] != i]})
+            if (d1 > 0) {
+                z1 <- rtree::withinDistance.RTree(xtree, x, d1)
+                z1 <- lapply(seq_along(z1), function(i) {z1[[i]][z1[[i]] != i]})
+                z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
+            }
         } else {
             z_buf <- sf::st_buffer(xc, d2)
             z <- sf::st_intersects(z_buf, xc)
