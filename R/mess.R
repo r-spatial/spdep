@@ -3,14 +3,14 @@
 lagmess <- function(formula, data = list(), listw, zero.policy=NULL,
     na.action=na.fail, q=10, start=-2.5, control=list(), method="BFGS",
     verbose=NULL, use_expm=FALSE) {
-    .Deprecated("spatialreg::lagmess", msg="Function lagmess moved to the spatialreg package")
+#    .Deprecated("spatialreg::lagmess", msg="Function lagmess moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::lagmess(formula=formula, data = data, listw=listw, zero.policy=zero.policy,
-    na.action=na.action, q=q, start=start, control=control, method=method,
-    verbose=verbose, use_expm=use_expm))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::lagmess(formula=formula, data = data, listw=listw, zero.policy=zero.policy,
+#    na.action=na.action, q=q, start=start, control=control, method=method,
+#    verbose=verbose, use_expm=use_expm))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     stopifnot(inherits(listw, "listw"))
@@ -149,12 +149,12 @@ mymess1 <- function(alpha, env, verbose=FALSE) {
 #}
 
 print.lagmess <- function(x, ...) {
-    .Deprecated("spatialreg::print.lagmess", msg="Method print.lagmess moved to the spatialreg package")
+#    warning("Method print moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.lagmess(x=x, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(print(x=x, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     print(x$lmobj, ...)
@@ -165,13 +165,13 @@ print.lagmess <- function(x, ...) {
 
 print.summary.lagmess <- function(x, digits = max(5, .Options$digits - 3),
     signif.stars = FALSE, ...) {
-    .Deprecated("spatialreg::print.summary.lagmess", msg="Method print.summary.lagmess moved to the spatialreg package")
+#    warning("Method print.summary moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.summary.lagmess(x=x, digits = digits,
-    signif.stars = signif.stars, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(print(x=x, digits = digits,
+#    signif.stars = signif.stars, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     cat("Matrix exponential spatial lag model:\n")
@@ -192,12 +192,12 @@ print.summary.lagmess <- function(x, digits = max(5, .Options$digits - 3),
 #}
 
 summary.lagmess <- function(object, ...) {
-    .Deprecated("spatialreg::summary.lagmess", msg="Method summary.lagmess moved to the spatialreg package")
+#    warning("Method summary moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::summary.lagmess(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(summary(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     object$lmsum <- summary(object$lmobj, ...)
@@ -208,12 +208,12 @@ summary.lagmess <- function(object, ...) {
 #}
 
 LR1.lagmess <- function(object) {
-    .Deprecated("spatialreg::LR1.lagmess", msg="Method LR1.lagmess moved to the spatialreg package")
+#    warning("Method LR1.lagmess moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::LR1.lagmess(object=object))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::LR1.Lagmess(object=object))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     LLx <- logLik(object)
@@ -237,12 +237,12 @@ LR1.lagmess <- function(object) {
 #}
 
 residuals.lagmess <- function(object, ...) {
-    .Deprecated("spatialreg::residuals.lagmess", msg="Function residuals.lagmess moved to the spatialreg package")
+#    warning("Method residuals moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-       return(spatialreg::residuals.lagmess(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#       return(residuals(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     object$lmobj$residuals
@@ -250,12 +250,12 @@ residuals.lagmess <- function(object, ...) {
 #}
 
 deviance.lagmess <- function(object, ...) {
-    .Deprecated("spatialreg::deviance.lagmess", msg="Method deviance.lagmess moved to the spatialreg package")
+#    warning("Method deviance moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::deviance.lagmess(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(deviance(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     deviance(object$lmobj)
@@ -263,12 +263,12 @@ deviance.lagmess <- function(object, ...) {
 #}
 
 coef.lagmess <- function(object, ...) {
-    .Deprecated("spatialreg::coef.lagmess", msg="Method coef.lagmess moved to the spatialreg package")
+#    warning("Method coef moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::coef.lagmess(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(coef(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     ret <- NULL
@@ -281,12 +281,12 @@ coef.lagmess <- function(object, ...) {
 #}
 
 fitted.lagmess <- function(object, ...) {
-    .Deprecated("spatialreg::fitted.lagmess", msg="Method fitted.lagmess moved to the spatialreg package")
+#    warning("Method fitted moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::fitted.lagmess(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(fitted(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     object$lmobj$fitted.values
@@ -295,12 +295,12 @@ fitted.lagmess <- function(object, ...) {
 
 logLik.lagmess <- function (object, ...) 
 {
-    .Deprecated("spatialreg::logLik.lagmess", msg="Method logLik.lagmess moved to the spatialreg package")
+#    warning("Method logLik moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::logLik.lagmess(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(logLik(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     LL <- c(logLik(object$lmobj))
@@ -318,13 +318,13 @@ logLik.lagmess <- function (object, ...)
 
 impacts.lagmess <- function(obj, ..., R=NULL, listw=NULL, tol=1e-6,
     empirical=FALSE) {
-    .Deprecated("spatialreg::impacts.lagmess", msg="Function impacts.lagmess moved to the spatialreg package")
+#    warning("Function impacts moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::impacts.lagmess(obj=obj, ..., R=R, listw=listw, tol=tol,
-    empirical=empirical))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(impacts(obj=obj, ..., R=R, listw=listw, tol=tol,
+#    empirical=empirical))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     if (!is.null(R)) stopifnot(!is.null(obj$mess_hess))

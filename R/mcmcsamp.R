@@ -2,13 +2,13 @@ MCMCsamp <- function(object, mcmc = 1L, verbose = NULL, ...) UseMethod("MCMCsamp
 # from lme4/R/AllGeneric.R
 MCMCsamp.spautolm <- function(object, mcmc = 1L, verbose = NULL, ...,
     burnin=0L, scale=1, listw, control=list()) {
-    .Deprecated("spatialreg::MCMCsamp.spautolm", msg="Method MCMCsamp.spautolm moved to the spatialreg package")
+#    warning("Method MCMCsamp moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::MCMCsamp.spautolm(object=object, mcmc = mcmc, verbose = verbose, ...,
-    burnin=burnin, scale=scale, listw=listw, control=control))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(MCMCsamp(object=object, mcmc = mcmc, verbose = verbose, ...,
+#    burnin=burnin, scale=scale, listw=listw, control=control))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     con <- list(Imult=2, cheb_q=5, MC_p=16, MC_m=30, super=NULL,
@@ -92,13 +92,13 @@ MCMCsamp.spautolm <- function(object, mcmc = 1L, verbose = NULL, ...,
 
 MCMCsamp.sarlm <- function(object, mcmc = 1L, verbose = NULL, ...,
     burnin=0L, scale=1, listw, listw2=NULL, control=list()) {
-    .Deprecated("spatialreg::MCMCsamp.sarlm", msg="Method MCMCsamp.sarlm moved to the spatialreg package")
+#    warning("Method MCMCsamp.sarlm moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::MCMCsamp.sarlm(object=object, mcmc = mcmc, verbose = verbose, ...,
-    burnin=burnin, scale=scale, listw=listw, listw2=listw2, control=control))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(MCMCsamp(object=object, mcmc = mcmc, verbose = verbose, ...,
+#    burnin=burnin, scale=scale, listw=listw, listw2=listw2, control=control))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     timings <- list()

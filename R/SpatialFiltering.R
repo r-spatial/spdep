@@ -34,15 +34,15 @@ SpatialFiltering <- function (formula, lagformula=NULL, data=list(), na.action=n
 #
 #  Version 0.9.1 - September 11, 2004
 # Adaptation to formula format Roger Bivand December 2005
-    .Deprecated("spatialreg::SpatialFiltering", msg="Function SpatialFiltering moved to the spatialreg package")
+#    .Deprecated("spatialreg::SpatialFiltering", msg="Function SpatialFiltering moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::SpatialFiltering(formula=formula, lagformula=lagformula, data=data, na.action=na.action, nb=nb,
- glist=glist, style=style, zero.policy=zero.policy, tol=tol, zerovalue = zerovalue,
- ExactEV=ExactEV, symmetric=symmetric, alpha=alpha, alternative=alternative,
- verbose=verbose))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::SpatialFiltering(formula=formula, lagformula=lagformula, data=data, na.action=na.action, nb=nb,
+# glist=glist, style=style, zero.policy=zero.policy, tol=tol, zerovalue = zerovalue,
+# ExactEV=ExactEV, symmetric=symmetric, alpha=alpha, alternative=alternative,
+# verbose=verbose))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     
@@ -311,12 +311,12 @@ SpatialFiltering <- function (formula, lagformula=NULL, data=list(), na.action=n
 #}
 
 print.SFResult <- function(x, ...) {
-    .Deprecated("spatialreg::print.SFResult", msg="Method print.SFResult moved to the spatialreg package")
-#    if (!requireNamespace("spatialreg", quietly=TRUE))
+#    warning("Method print moved to the spatialreg package")
+##    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.SFResult(x=x, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(print(x=x, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	print(x$selection, ...)
@@ -324,12 +324,12 @@ print.SFResult <- function(x, ...) {
 #}
 
 fitted.SFResult <- function(object, ...) {
-    .Deprecated("spatialreg::fitted.SFResult", msg="Method fitted.SFResult moved to the spatialreg package")
+#    warning("Method fitted moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::fitted.SFResult(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(fitted(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
         if (is.null(object$na.action)) {

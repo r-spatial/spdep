@@ -4,12 +4,12 @@
 
 spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
     zero.policy=NULL, control=list()) {
-    .Deprecated("spatialreg::spBreg_lag", msg="Function spBreg_lag moved to the spatialreg package")
+#    .Deprecated("spatialreg::spBreg_lag", msg="Function spBreg_lag moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::spBreg_lag(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::spBreg_lag(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     timings <- list()
@@ -387,12 +387,12 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
 
 impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
-    .Deprecated("spatialreg::impacts.MCMC_sar_g", msg="Method impacts.MCMC_sar_g moved to the spatialreg package")
+#    .Deprecated("spatialreg::impacts.MCMC_sar_g", msg="Method impacts.MCMC_sar_g moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::impacts.MCMC_sar_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues, Q=Q))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::impacts.MCMC_sar_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues, Q=Q))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     if (is.null(listw) && !is.null(attr(obj, "listw_style")) && 
@@ -492,12 +492,12 @@ impacts.MCMC_sar_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 
 spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
     zero.policy=NULL, control=list()) {
-    .Deprecated("spatialreg::spBreg_err", msg="Function spBreg_err moved to the spatialreg package")
+#    .Deprecated("spatialreg::spBreg_err", msg="Function spBreg_err moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::spBreg_err(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, etype=etype, zero.policy=zero.policy, control=control))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::spBreg_err(formula=formula, data=data, listw=listw, na.action=na.action, Durbin=Durbin, etype=etype, zero.policy=zero.policy, control=control))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     timings <- list()
@@ -951,13 +951,13 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
 
 impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
-    .Deprecated("spatialreg::impacts.MCMC_sem_g", msg="Method impacts.MCMC_sem_g moved to the spatialreg package")
+#    .Deprecated("spatialreg::impacts.MCMC_sem_g", msg="Method impacts.MCMC_sem_g moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::impacts.MCMC_sem_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
-    Q=Q))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::impacts.MCMC_sem_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
+#    Q=Q))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     emixedImps <- attr(obj, "emixedImps")
@@ -977,12 +977,12 @@ impacts.MCMC_sem_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
 
 spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action, 
     Durbin, type, zero.policy=NULL, control=list()) {
-    .Deprecated("spatialreg::spBreg_sac", msg="Function spBreg_sac moved to the spatialreg package")
+#    .Deprecated("spatialreg::spBreg_sac", msg="Function spBreg_sac moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::spBreg_sac(formula=formula, data=data, listw=listw, listw2=listw2, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::spBreg_sac(formula=formula, data=data, listw=listw, listw2=listw2, na.action=na.action, Durbin=Durbin, type=type, zero.policy=zero.policy, control=control))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     timings <- list()
@@ -1381,13 +1381,13 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
 
 impacts.MCMC_sac_g <- function(obj, ..., tr=NULL, listw=NULL, evalues=NULL,
     Q=NULL) {
-    .Deprecated("spatialreg::impacts.MCMC_sac_g", msg="Method impacts.MCMC_sac_g moved to the spatialreg package")
+#    .Deprecated("spatialreg::impacts.MCMC_sac_g", msg="Method impacts.MCMC_sac_g moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::impacts.MCMC_sac_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
-    Q=Q))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::impacts.MCMC_sac_g(obj=obj, ..., tr=tr, listw=listw, evalues=evalues,
+#    Q=Q))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     obj_lag <- obj[, -(which(colnames(obj) == "lambda"))]

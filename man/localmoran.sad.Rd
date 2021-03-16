@@ -129,7 +129,10 @@ if (requireNamespace("spatialreg", quietly=TRUE)) run <- TRUE
 if (run) {
 e.errorsar <- spatialreg::errorsarlm(OWNCONS ~ ROADACC, data=eire,
   listw=lw)
-spatialreg::print.sarlm(e.errorsar)
+if (packageVersion("spatialreg") < "1.1.7")
+  spatialreg::print.sarlm(e.errorsar)
+else
+  print(e.errorsar)
 }
 if (run) {
 lm.target <- lm(e.errorsar$tary ~ e.errorsar$tarX - 1)

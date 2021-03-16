@@ -3,13 +3,13 @@ spautolm <- function(formula, data = list(), listw, weights,
     na.action, family="SAR", method="eigen", verbose=NULL, trs=NULL,
     interval=NULL, zero.policy=NULL, tol.solve=.Machine$double.eps, llprof=NULL,
     control=list()) {
-    .Deprecated("spatialreg::spautolm", msg="Function spautolm moved to the spatialreg package")
+#    .Deprecated("spatialreg::spautolm", msg="Function spautolm moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      if (!missing(weights)) stop("run spatialreg::spautolm directly")
-      return(spatialreg::spautolm(formula=formula, data=data, listw=listw, na.action=na.action, family = family, method=method, verbose=verbose, trs=trs, interval=interval, zero.policy=zero.policy, tol.solve=tol.solve, llprof=llprof, control=control))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      if (!missing(weights)) stop("run spatialreg::spautolm directly")
+#      return(spatialreg::spautolm(formula=formula, data=data, listw=listw, na.action=na.action, family = family, method=method, verbose=verbose, trs=trs, interval=interval, zero.policy=zero.policy, tol.solve=tol.solve, llprof=llprof, control=control))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     timings <- list()
@@ -258,12 +258,12 @@ SMA <- function(IlW, weights) {
 #}
 
 print.spautolm <- function(x, ...) {
-    .Deprecated("spatialreg::print.spautolm", msg="Method print.spautolm moved to the spatialreg package")
+#    warning("Method print moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.spautolm(x=x, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(print(x=x, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
         if (isTRUE(all.equal(x$lambda, x$interval[1])) ||
@@ -280,12 +280,12 @@ print.spautolm <- function(x, ...) {
 #}
 
 residuals.spautolm <- function(object, ...) {
-    .Deprecated("spatialreg::residuals.spautolm", msg="Method residuals.spautolm moved to the spatialreg package")
+#    warning("Method residuals moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::residuals.spautolm(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(residuals(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	if (is.null(object$na.action))
@@ -295,12 +295,12 @@ residuals.spautolm <- function(object, ...) {
 #}
 
 fitted.spautolm <- function(object, ...) {
-    .Deprecated("spatialreg::fitted.spautolm", msg="Method fitted.spautolm moved to the spatialreg package")
+#    warning("Method fitted moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::fitted.spautolm(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(fitted(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	if (is.null(object$na.action))
@@ -310,12 +310,12 @@ fitted.spautolm <- function(object, ...) {
 #}
 
 deviance.spautolm <- function(object, ...) {
-    .Deprecated("spatialreg::deviance.spautolm", msg="Method deviance.spautolm moved to the spatialreg package")
+#    warning("Method deviance moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::deviance.spautolm(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(deviance(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	object$SSE
@@ -323,12 +323,12 @@ deviance.spautolm <- function(object, ...) {
 #}
 
 coef.spautolm <- function(object, ...) {
-    .Deprecated("spatialreg::coef.spautolm", msg="Method coef.spautolm moved to the spatialreg package")
+#    warning("Method coef moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::coef.spautolm(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(coef(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	c(object$fit$coefficients, object$lambda)
@@ -337,12 +337,12 @@ coef.spautolm <- function(object, ...) {
 
 
 logLik.spautolm <- function(object, ...) {
-    .Deprecated("spatialreg::logLik.spautolm", msg="Method logLik.spautolm moved to the spatialreg package")
+#    warning("Method logLik moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::logLik.spautolm(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(logLik(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	LL <- c(object$LL)
@@ -356,12 +356,12 @@ logLik.spautolm <- function(object, ...) {
 #}
 
 LR1.spautolm <- function(object) {
-    .Deprecated("spatialreg::LR1.spautolm", msg="Method LR1.spautolm moved to the spatialreg package")
+#    .Deprecated("spatialreg::LR1.Spautolm", msg="Method LR1.spautolm moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::LR1.spautolm(object=object))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::LR1.Spautolm(object=object))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	if (!inherits(object, "spautolm")) stop("Not a spautolm object")
@@ -385,13 +385,13 @@ LR1.spautolm <- function(object) {
 
 summary.spautolm <- function(object, correlation = FALSE, adj.se=FALSE,
  Nagelkerke=FALSE, ...) {
-    .Deprecated("spatialreg::summary.spautolm", msg="Method summary.spautolm moved to the spatialreg package")
+#    warning("Method summary moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::summary.spautolm(object=object, correlation = correlation, adj.se=adj.se,
- Nagelkerke=Nagelkerke, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(summary(object=object, correlation = correlation, adj.se=adj.se,
+# Nagelkerke=Nagelkerke, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	N <- object$fit$N
@@ -427,13 +427,13 @@ summary.spautolm <- function(object, correlation = FALSE, adj.se=FALSE,
 print.summary.spautolm <- function(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...)
 {
-    .Deprecated("spatialreg::print.summary.spautolm", msg="Method print.summary.spautolm moved to the spatialreg package")
+#    warning("Method print moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.summary.spautolm(x=x, digits = digits,
-	signif.stars = signif.stars, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(print(x=x, digits = digits,
+#	signif.stars = signif.stars, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	cat("\nCall: ", deparse(x$call),	sep = "", fill=TRUE)

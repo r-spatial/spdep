@@ -22,6 +22,7 @@ importFrom(graphics, par, locator, lines, text, plot.new, plot.window, segments,
 importFrom(utils, write.table, object.size, read.table, read.csv, packageDescription)
 importFrom(grDevices, rainbow)
 if (.Platform$OS.type == "windows") importFrom(grDevices, bringToTop)
+importFrom(utils, packageVersion)
 
 importFrom(MASS, mvrnorm) # deprecated
 importFrom(coda, as.mcmc, HPDinterval) # deprecated

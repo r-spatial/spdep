@@ -10,6 +10,12 @@
 
 * Adding use of **sf** through GEOS to find polygon contiguity candidates in `poly2nb()` if geometry count >= 500 - uses intersections in polygon envelopes.
 
+* Adding use of **sf** via `st_buffer()` to handle planar distance-based neighbours in `dnearneigh()` for observation counts >= 1000, either exact (2 or 4 passes) or approximate (1 or 2 passes).
+
+* #54 avoid partial matching in `glist=` handling.
+
+* Disambiguating **spdep** and **spatialreg** model output object class names prior to making **spdep** model fitting functions defunct.
+
 # Version 1.1-5 (2020-06-29)
 
 * Replacing broken geoda URLs, moving knitr to rmarkdown, work-around missing weights files in spData.

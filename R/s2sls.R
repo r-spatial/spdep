@@ -4,12 +4,12 @@
 stsls <- function(formula, data = list(), listw, zero.policy=NULL,
 	na.action=na.fail, robust=FALSE, HC=NULL, legacy=FALSE, W2X=TRUE) {
 
-    .Deprecated("spatialreg::stsls", msg="Function stsls moved to the spatialreg package")
+#    .Deprecated("spatialreg::stsls", msg="Function stsls moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::stsls(formula=formula, data = data, listw=listw, zero.policy=zero.policy, na.action=na.action, robust=robust, HC=HC, legacy=legacy, W2X=W2X))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::stsls(formula=formula, data = data, listw=listw, zero.policy=zero.policy, na.action=na.action, robust=robust, HC=HC, legacy=legacy, W2X=W2X))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 
@@ -93,12 +93,12 @@ stsls <- function(formula, data = list(), listw, zero.policy=NULL,
 #	          residuals=e)
 
 print.stsls <- function(x, ...) {
-    .Deprecated("spatialreg::print.stsls", msg="Method print.stsls moved to the spatialreg package")
+#    .Deprecated("spatialreg::print.stsls", msg="Method print.stsls moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.stsls(x=x, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::print.stsls(x=x, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	cat("\nCall:\n")
@@ -111,12 +111,12 @@ print.stsls <- function(x, ...) {
 #}
 
 summary.stsls <- function(object, correlation = FALSE, ...) {
-    .Deprecated("spatialreg::summary.stsls", msg="Method summary.stsls moved to the spatialreg package")
+#    .Deprecated("spatialreg::summary.stsls", msg="Method summary.stsls moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::summary.stsls(object=object, correlation = correlation, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::summary.stsls(object=object, correlation = correlation, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	rest.se <- sqrt(diag(object$var))
@@ -141,12 +141,12 @@ summary.stsls <- function(object, correlation = FALSE, ...) {
 
 print.summary.stsls <- function(x, digits = max(5, .Options$digits - 3),
 	signif.stars = FALSE, ...) {
-    .Deprecated("spatialreg::print.summary.stsls", msg="Method print.summary.stsls moved to the spatialreg package")
+#    .Deprecated("spatialreg::print.summary.stsls", msg="Method print.summary.stsls moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.summary.stsls(x=x, digits = digits, signif.stars=signif.stars, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::print.summary.stsls(x=x, digits = digits, signif.stars=signif.stars, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	cat("\nCall:", deparse(x$call),	sep = "", fill=TRUE)
@@ -193,12 +193,12 @@ print.summary.stsls <- function(x, digits = max(5, .Options$digits - 3),
 #}
 
 residuals.stsls <- function(object, ...) {
-    .Deprecated("spatialreg::residuals.stsls", msg="Method residuals.stsls moved to the spatialreg package")
+#    .Deprecated("spatialreg::residuals.stsls", msg="Method residuals.stsls moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::residuals.stsls(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::residuals.stsls(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	if (is.null(object$na.action))
@@ -208,12 +208,12 @@ residuals.stsls <- function(object, ...) {
 #}
 
 coef.stsls <- function(object, ...) {
-    .Deprecated("spatialreg::coef.stsls", msg="Method coef.stsls moved to the spatialreg package")
+#    .Deprecated("spatialreg::coef.stsls", msg="Method coef.stsls moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::coef.stsls(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::coef.stsls(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 	object$coefficients
@@ -221,12 +221,12 @@ coef.stsls <- function(object, ...) {
 #}
 
 deviance.stsls <- function(object, ...) {
-    .Deprecated("spatialreg::deviance.stsls", msg="Method deviance.stsls moved to the spatialreg package")
+#    .Deprecated("spatialreg::deviance.stsls", msg="Method deviance.stsls moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::deviance.stsls(object=object, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::deviance.stsls(object=object, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
 
@@ -237,12 +237,12 @@ deviance.stsls <- function(object, ...) {
 
 impacts.stsls <- function(obj, ..., tr=NULL, R=NULL, listw=NULL, evalues=NULL,
   tol=1e-6, empirical=FALSE, Q=NULL) {
-    .Deprecated("spatialreg::impacts.stsls", msg="Method impacts.stsls moved to the spatialreg package")
+#    .Deprecated("spatialreg::impacts.stsls", msg="Method impacts.stsls moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::impacts.stsls(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues,  tol=tol, empirical=empirical, Q=Q))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::impacts.stsls(obj=obj, ..., tr=tr, R=R, listw=listw, evalues=evalues,  tol=tol, empirical=empirical, Q=Q))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     if (is.null(listw) && !is.null(obj$listw_style) && 

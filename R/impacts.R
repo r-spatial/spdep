@@ -2,12 +2,12 @@
 
 trW <- function(W=NULL, m=30, p=16, type="mult", listw=NULL, momentsSymmetry=TRUE) {
 # returns traces
-    .Deprecated("spatialreg::trW", msg="Function trW moved to the spatialreg package")
+#    .Deprecated("spatialreg::trW", msg="Function trW moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::trW(W=W, m=m, p=p, type=type, listw=listw, momentsSymmetry=momentsSymmetry))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::trW(W=W, m=m, p=p, type=type, listw=listw, momentsSymmetry=momentsSymmetry))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     timings <- list()
@@ -78,12 +78,12 @@ mom_calc_int <- function(is, m, W, eta0) {
 }
 
 mom_calc_int2 <- function(is, m, nb, weights, Card) {
-    .Deprecated("spatialreg::mom_calc_int2", msg="Function mom_calc_int2 moved to the spatialreg package")
+#    .Deprecated("spatialreg::mom_calc_int2", msg="Function mom_calc_int2 moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::mom_calc_int2(is=is, m=m, nb=nb, weights=weights, Card=Card))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::mom_calc_int2(is=is, m=m, nb=nb, weights=weights, Card=Card))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     Omega <- .Call("mom_calc_int2", is, as.integer(m), nb, weights, Card, PACKAGE="spdep")
@@ -92,12 +92,12 @@ mom_calc_int2 <- function(is, m, nb, weights, Card) {
 #}
 
 mom_calc <- function(lw, m) {
-    .Deprecated("spatialreg::mom_calc", msg="Function mom_calc moved to the spatialreg package")
+#    .Deprecated("spatialreg::mom_calc", msg="Function mom_calc moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::mom_calc(lw=lw, m=m))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::mom_calc(lw=lw, m=m))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     stopifnot((m %% 2) == 0)
@@ -152,12 +152,12 @@ impacts <- function(obj, ...)
     UseMethod("impacts", obj)
 
 impacts.SLX <- function(obj, ...) {
-    .Deprecated("spatialreg::impacts.SLX", msg="Method impacts.SLX moved to the spatialreg package")
+#    warning("Method impacts moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::impacts.SLX(obj=obj, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(impacts(obj=obj, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     stopifnot(!is.null(attr(obj, "mixedImps")))
@@ -405,14 +405,14 @@ processXSample <- function(x, drop2beta, type, iicept, icept, n, listw,
 intImpacts <- function(rho, beta, P, n, mu, Sigma, irho, drop2beta, bnames,
     interval, type, tr, R, listw, evalues, tol, empirical, Q, icept, iicept, p,
     mess=FALSE, samples=NULL, zero_fill=NULL, dvars=NULL) {
-    .Deprecated("spatialreg::intImpacts", msg="Function intImpacts moved to the spatialreg package")
+#    .Deprecated("spatialreg::intImpacts", msg="Function intImpacts moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma, irho=irho, drop2beta=drop2beta, bnames=bnames,
-    interval=interval, type=type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
-    mess=mess, samples=samples, zero_fill=zero_fill, dvars=dvars))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(spatialreg::intImpacts(rho=rho, beta=beta, P=P, n=n, mu=mu, Sigma=Sigma, irho=irho, drop2beta=drop2beta, bnames=bnames,
+#    interval=interval, type=type, tr=tr, R=R, listw=listw, evalues=evalues, tol=tol, empirical=empirical, Q=Q, icept=icept, iicept=iicept, p=p,
+#    mess=mess, samples=samples, zero_fill=zero_fill, dvars=dvars))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     if (is.null(evalues)) {
@@ -618,12 +618,12 @@ lagImpactMat <- function(x, reportQ=NULL) {
 
 
 print.lagImpact <- function(x, ..., reportQ=NULL) {
-    .Deprecated("spatialreg::print.lagImpact", msg="Method print.lagImpact moved to the spatialreg package")
+#    warning("Method print moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.lagImpact(x=x, ..., reportQ=reportQ))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(print(x=x, ..., reportQ=reportQ))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     mat <- lagImpactMat(x, reportQ=reportQ)
@@ -643,12 +643,12 @@ print.lagImpact <- function(x, ..., reportQ=NULL) {
 #}
 
 summary.lagImpact <- function(object, ..., zstats=FALSE, short=FALSE, reportQ=NULL) {
-    .Deprecated("spatialreg::summary.lagImpact", msg="Method summary.lagImpact moved to the spatialreg package")
+#    warning("Method summary moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::summary.lagImpact(object=object, ..., zstats=zstats, short=short, reportQ=reportQ))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(summary(object=object, ..., zstats=zstats, short=short, reportQ=reportQ))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     if (is.null(object$sres)) stop("summary method unavailable")
@@ -760,12 +760,12 @@ summary.lagImpact <- function(object, ..., zstats=FALSE, short=FALSE, reportQ=NU
 #}
 
 print.summary.lagImpact <- function(x, ...) {
-    .Deprecated("spatialreg::print.summary.lagImpact", msg="Method print.summary.lagImpact moved to the spatialreg package")
+#    warning("Method print moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::print.summary.lagImpact(x=x, ...))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(print(x=x, ...))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     reportQ <- attr(x, "reportQ")
@@ -849,13 +849,13 @@ print.summary.lagImpact <- function(x, ...) {
 
 plot.lagImpact <- function(x, ..., choice="direct", trace=FALSE,
     density=TRUE) {
-    .Deprecated("spatialreg::plot.lagImpact", msg="Method plot.lagImpact moved to the spatialreg package")
+#    warning("Method plot.lagImpact moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::plot.lagImpact(x=x, ..., choice=choice, trace=trace,
-    density=density))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(plot(x=x, ..., choice=choice, trace=trace,
+#    density=density))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     if (is.null(x$sres)) stop("plot method unavailable")
@@ -865,12 +865,12 @@ plot.lagImpact <- function(x, ..., choice="direct", trace=FALSE,
 #}
 
 HPDinterval.lagImpact <- function(obj, prob = 0.95, ..., choice="direct") {
-    .Deprecated("spatialreg::HPDinterval.lagImpact", msg="Method HPDinterval.lagImpact moved to the spatialreg package")
+#    warning("Method HPDinterval moved to the spatialreg package")
 #    if (!requireNamespace("spatialreg", quietly=TRUE))
 #      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::HPDinterval.lagImpact(obj=obj, prob = prob, ..., choice=choice))
-    }
+#    if (requireNamespace("spatialreg", quietly=TRUE)) {
+#      return(HPDinterval(obj=obj, prob = prob, ..., choice=choice))
+#    }
     warning("install the spatialreg package")
 #  if (FALSE) {
     if (is.null(obj$sres)) stop("HPDinterval method unavailable")
