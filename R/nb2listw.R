@@ -19,7 +19,7 @@ nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 		glist <- vector(mode="list", length=n)
 		for (i in 1:n)
 			if(cardnb[i] > 0) {
-				glist[[i]] <- rep(1, length=cardnb[i])
+				glist[[i]] <- rep(1, cardnb[i])
 				mode(glist[[i]]) <- "numeric"
 			}
 		attr(vlist, "mode") <- "binary"
