@@ -6,17 +6,17 @@
 The function returns a matrix with the indices of points belonging to the set of the k nearest neighbours of each other. If longlat = TRUE, Great Circle distances are used. A warning will be given if identical points are found.
 }
 \usage{
-knearneigh(x, k=1, longlat = NULL, RANN=TRUE)
+knearneigh(x, k=1, longlat = NULL, kd_tree=TRUE)
 }
 
 \arguments{
   \item{x}{matrix of point coordinates or a SpatialPoints object}
   \item{k}{number of nearest neighbours to be returned}
-  \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself; longlat will override RANN}
-  \item{RANN}{logical value, if the RANN package is available, use for finding k nearest neighbours when longlat is FALSE, and when there are no identical points; from \url{https://github.com/r-spatial/spdep/issues/38}, the input data may have more than two columns if RANN is used}
+  \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself; longlat will override \code{kd_tree}}
+  \item{kd_tree}{logical value, if the \pkg{dbscan} package is available, use for finding k nearest neighbours when longlat is FALSE, and when there are no identical points; from \url{https://github.com/r-spatial/spdep/issues/38}, the input data may have more than two columns if \pkg{dbscan} is used}
 }
 \details{
-The underlying C code is based on the \code{knn} function in the \pkg{class} package.
+The underlying C code is based on the \code{knn} function in the \pkg{class} package. For planar coordinates
 }
 \value{
 A list of class \code{knn}
@@ -29,7 +29,7 @@ A list of class \code{knn}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 \seealso{\code{\link[class]{knn}}, \code{\link{dnearneigh}},
-\code{\link{knn2nb}}, \code{\link[RANN]{nn2}}}
+\code{\link{knn2nb}}, \code{\link[dbscan]{kNN}}}
 
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)

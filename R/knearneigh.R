@@ -1,9 +1,10 @@
-# Copyright 2001-2014 by Roger S. Bivand. 
+# Copyright 2001-2021 by Roger S. Bivand. 
 # Upgrade to sp classes February 2007
 # Added RANN April 2010
 # nn() retired 130722
+# shift to dbscan 210317 #53
 
-knearneigh <- function(x, k=1, longlat=NULL, RANN=TRUE)
+knearneigh <- function(x, k=1, longlat=NULL, kd_tree=TRUE)
 {
     if (inherits(x, "SpatialPoints")) {
         if ((is.null(longlat) || !is.logical(longlat)) 
@@ -53,31 +54,16 @@ knearneigh <- function(x, k=1, longlat=NULL, RANN=TRUE)
 # (previous fix only worked for pairs and k>1)
 # https://github.com/r-spatial/spdep/issues/38
     zd <- any(duplicated(x)) #zerodist(SpatialPoints(x))
-    if (zd) {
-        if (dimension == 2) 
-            warning("knearneigh: identical points found")
-        else
-            stop("knearneigh: identical points found")
-    }
-    useRANN <- RANN
-    if (longlat) useRANN <- FALSE
-    if (zd) useRANN <- FALSE
-    if (useRANN && !requireNamespace("RANN", quietly = TRUE)) useRANN <- FALSE
+# kNN() handles duplicate points
+    if (zd)  warning("knearneigh: identical points found")
+    use_kd_tree <- kd_tree
+    if (longlat) use_kd_tree <- FALSE
+    if (zd) use_kd_tree <- FALSE
+    if (use_kd_tree && !requireNamespace("dbscan", quietly = TRUE)) use_kd_tree <- FALSE
 # https://github.com/r-spatial/spdep/issues/38
-    if (dimension > 2 && !useRANN) stop("RANN required for ncol(x) > 2")
-    if (useRANN) {
-#        xx <- cbind(x, out=rep(0, nrow(x)))
-#        out <- as.matrix(nn(xx, p=k)$nn.idx)
-# nn() retired 130722
-# modified 130913 to handle zerodist points
-#        zd <- zerodist(SpatialPoints(x))
-#        if (nrow(zd) == 0) {
-        out <- RANN::nn2(x, x, k=k+1)$nn.idx[,-1,drop=FALSE]
-#        } else {
-#            out0 <- nn2(x, x, k=k+1)
-#            out <- t(sapply(1:np, function(i) out0$nn.idx[i,
-#                -which(out0$nn.idx[i,] == i), drop=FALSE]))
-#        }
+    if (dimension > 2 && !use_kd_tree) stop("dbscan required for ncol(x) > 2")
+    if (use_kd_tree) {
+        out <- dbscan::kNN(x, k=k)$id
         dimnames(out) <- NULL
         res <- list(nn=out, np=np, k=k, dimension=dimension, x=x)
     } else {

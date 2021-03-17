@@ -47,10 +47,10 @@ soi.graph <- function(tri.nb, coords, quadsegs=10){
   if (!is.matrix(coords)) stop("Data not in matrix form")
   if (any(is.na(coords))) stop("Data cannot include NAs")
   stopifnot(length(tri.nb) == nrow(coords))
-  if (requireNamespace("RANN", quietly = TRUE)) {
-    dists_1 <- RANN::nn2(coords, k=2)$nn.dists[,2]
+  if (requireNamespace("dbscan", quietly = TRUE)) {
+    dists_1 <- dbscan::kNN(coords, k=1)$dist[,1]
   } else {
-    stop("RANN required")
+    stop("dbscan required")
   }
 
   if (is.null(obj)) obj <- st_geometry(st_as_sf(as.data.frame(coords),

@@ -405,7 +405,7 @@ From this, we can check the graph-based neighbours (planar coordinates only):
 ```{r, echo=dothis, eval=dothis}
 suppressPackageStartupMessages(require(deldir))
 NY84_nb <- tri2nb(coords, row.names=IDs)
-if (require(rgeos, quietly=TRUE) && require(RANN, quietly=TRUE)) {
+if (require(rgeos, quietly=TRUE) && require(dbscan, quietly=TRUE)) {
   NY85_nb <- graph2nb(soi.graph(NY84_nb, coords), row.names=IDs)
 } else NY85_nb <- NULL
 NY86_nb <- graph2nb(gabrielneigh(coords), row.names=IDs)
@@ -422,7 +422,7 @@ isTRUE(all.equal(NY84_nb_sf, NY84_nb, check.attributes=FALSE))
 The 'soi.graph' function may be re-written to use sf functionality internally, but for now just the triangulation and coordinates:
 
 ```{r, echo=dothis, eval=dothis}
-if (require(rgeos, quietly=TRUE) && require(RANN, quietly=TRUE)) {
+if (require(rgeos, quietly=TRUE) && require(dbscan, quietly=TRUE)) {
   NY85_nb_sf <- graph2nb(soi.graph(NY84_nb_sf, coords_sf))
 } else NY85_nb_sf <- NULL
 if (!is.null(NY85_nb_sf) && !is.null(NY85_nb)) {
@@ -468,7 +468,7 @@ and the neighbour objects are the same. Using rgeos::gCentroid centroids rather 
 
 ```{r, echo=dothis, eval=dothis}
 NY84g_nb <- tri2nb(gcoords, row.names=IDs)
-if (require(rgeos, quietly=TRUE) && require(RANN, quietly=TRUE)) {
+if (require(rgeos, quietly=TRUE) && require(dbscan, quietly=TRUE)) {
   NY85g_nb <- graph2nb(soi.graph(NY84g_nb, gcoords), row.names=IDs)
 } else NY85g_nb <- NULL
 if (!is.null(NY85_nb_sf) && !is.null(NY85_nb)) {
