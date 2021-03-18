@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -70,11 +70,14 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/r-spatial/spdep/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -88,8 +91,7 @@
 
       
 
-      </header><script src="nb_sf_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="nb_sf_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="nb_sf_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="nb_sf_files/header-attrs-2.7/header-attrs.js"></script><script src="nb_sf_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Creating Neighbours using sf objects</h1>
@@ -126,7 +128,7 @@
 <div id="data-set" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-set" class="anchor"></a>Data set</h2>
-<p>We’ll use the whole NY 8 county set of boundaries, as they challenge the implementations more than just the Syracuse subset. The description of the input geometries from ADSAR is: New York leukemia: used and documented extensively in Waller and Gotway (2004) and with data made available in Chap. 9 of [<a href="http://web1.sph.emory.edu/users/lwaller/ch9index.htm" class="uri">http://web1.sph.emory.edu/users/lwaller/ch9index.htm</a>] (<a href="http://web1.sph.emory.edu/users/lwaller/ch9index.htm" class="uri">http://web1.sph.emory.edu/users/lwaller/ch9index.htm</a>); the data import process is described in the help file of NY_data in spdep; geometries downloaded from the CIESIN server at <a href="https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download">https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download</a>, file /pub/census/usa/tiger/ny/bna_st/t8_36.zip, and extensively edited; a zip archive NY_data.zip of shapefiles and a GAL format neighbours list is on the book website. Further, the zipfile is now at: [a new location requiring login] (<a href="http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip" class="uri">http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip</a>). The object listw_NY is directly imported from nyadjwts.dbf on the Waller &amp; Gotway (2004) chapter 9 website.</p>
+<p>We’ll use the whole NY 8 county set of boundaries, as they challenge the implementations more than just the Syracuse subset. The description of the input geometries from ADSAR is: New York leukemia: used and documented extensively in Waller and Gotway (2004) and with data formerly made available in Chap. 9 of <code>http://web1.sph.emory.edu/users/lwaller/ch9index.htm</code>; the data import process is described in the help file of NY_data in spdep; geometries downloaded from the CIESIN server at <a href="https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download">https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download</a>, file /pub/census/usa/tiger/ny/bna_st/t8_36.zip, and extensively edited; a zip archive NY_data.zip of shapefiles and a GAL format neighbours list is on the book website. Further, the zipfile is now at: [a new location requiring login] (<a href="http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip" class="uri">http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip</a>). The object listw_NY is directly imported from nyadjwts.dbf on the Waller &amp; Gotway (2004) chapter 9 website.</p>
 <p>The version of the New York 8 counties geometries used in ASDAR and included as a shapefile in spdep was converted from the original BNA file using an external utility program to convert to MapInfo format and converted on from there using GDAL 1.4.1 (the OGR BNA driver was not then available; it entered OGR at 1.5.0, release at the end of 2007), and contains invalid geometries. What was found in mid-2007 was that included villages were in/excluded by in-out umbilical cords to the boundary of the enclosing tract, when the underlying BNA file was first converted to MapInfo (holes could not exist then).</p>
 <p>Here we will use a GPKG file created as follows (rgdal could also be used with the same output; GDAL here is built with GEOS, so the BNA vector driver will use geometry tests: The BNA driver supports reading of polygons with holes or lakes. It determines what is a hole or a lake only from geometrical analysis (inclusion, non-intersection tests) and ignores completely the notion of polygon winding (whether the polygon edges are described clockwise or counter-clockwise). GDAL must be built with GEOS enabled to make geometry test work.):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">

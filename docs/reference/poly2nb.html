@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -111,11 +111,14 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-spatial/spdep/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -142,7 +145,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>poly2nb</span><span class='op'>(</span><span class='va'>pl</span>, row.names <span class='op'>=</span> <span class='cn'>NULL</span>, snap<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/MathFun.html'>sqrt</a></span><span class='op'>(</span><span class='va'>.Machine</span><span class='op'>$</span><span class='va'>double.eps</span><span class='op'>)</span>,
- queen<span class='op'>=</span><span class='cn'>TRUE</span>, useC<span class='op'>=</span><span class='cn'>TRUE</span>, foundInBox<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span></pre>
+ queen<span class='op'>=</span><span class='cn'>TRUE</span>, useC<span class='op'>=</span><span class='cn'>TRUE</span>, foundInBox<span class='op'>=</span><span class='cn'>NULL</span>, small_n<span class='op'>=</span><span class='fl'>500</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,6 +174,10 @@
       <th>foundInBox</th>
       <td><p>default NULL using R code, possibly parallelised if a <span class="pkg">snow</span> cluster is available, otherwise a list of length <code>(n-1)</code> with integer vectors of candidate neighbours <code>(j &gt; i)</code>, or NULL if all candidates were <code>(j &lt; i)</code> (as created by the <code>poly_findInBoxGEOS</code> function in <span class="pkg">rgeos</span> for clean polygons)</p></td>
     </tr>
+    <tr>
+      <th>small_n</th>
+      <td><p>default 500; if <code>foundInBox=</code> is not given, generate internally using <span class="pkg">sf</span> code if the number of geometries <code>&gt;= small_n</code>. If the geometries are not clean, set to a value larger than the geometry count.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -179,6 +186,7 @@
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>From 0.5-8, the function includes faster bounding box indexing and other improvements contributed by Micah Altman. If a cluster is provided using <code>set.ClusterOption</code>, it will be used for finding candidate bounding box overlaps for exact testing for contiguity.</p>
+<p>Until 1.1-7, <code>sf</code> polygons included both start and end points, so could erroneously report rook neighbourhood where only queen was present, see <a href='https://github.com/r-spatial/spdep/issues/50'>https://github.com/r-spatial/spdep/issues/50</a>.</p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a> with contributions from Micah Altman</p>
@@ -232,11 +240,39 @@
 </div><div class='img'><img src='poly2nb-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>nc.sids</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/sids.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, quiet<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>xxnb</span> <span class='op'>&lt;-</span> <span class='fu'>poly2nb</span><span class='op'>(</span><span class='va'>nc.sids</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;   0.023   0.000   0.023 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>xxnb</span> <span class='op'>&lt;-</span> <span class='fu'>poly2nb</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>nc.sids</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+#&gt;   0.025   0.000   0.025 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>xxnb</span> <span class='op'>&lt;-</span> <span class='fu'>poly2nb</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>nc.sids</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    user  system elapsed 
 #&gt;    0.03    0.00    0.03 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>nc.sids</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>xxnb</span>, <span class='fu'>coordinates</span><span class='op'>(</span><span class='fu'>as</span><span class='op'>(</span><span class='va'>nc.sids</span>, <span class='st'>"Spatial"</span><span class='op'>)</span><span class='op'>)</span>, add<span class='op'>=</span><span class='cn'>TRUE</span>, col<span class='op'>=</span><span class='st'>"blue"</span><span class='op'>)</span>
-</div><div class='img'><img src='poly2nb-4.png' alt='' width='700' height='433' /></div></pre>
+</div><div class='img'><img src='poly2nb-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>sq</span> <span class='op'>&lt;-</span> <span class='fu'>st_polygon</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/cbind.html'>rbind</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>sq2</span> <span class='op'>&lt;-</span> <span class='va'>sq</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>sq3</span> <span class='op'>&lt;-</span> <span class='va'>sq</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span><span class='op'>)</span>
+<span class='va'>sq4</span> <span class='op'>&lt;-</span> <span class='va'>sq</span> <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>gm</span> <span class='op'>&lt;-</span> <span class='fu'>st_sfc</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='va'>sq</span>, <span class='va'>sq2</span>, <span class='va'>sq3</span>, <span class='va'>sq4</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>df</span> <span class='op'>&lt;-</span> <span class='fu'>st_as_sf</span><span class='op'>(</span><span class='va'>gm</span>, id<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>4</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>df</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/text.html'>text</a></span><span class='op'>(</span><span class='fu'>st_coordinates</span><span class='op'>(</span><span class='fu'>st_centroid</span><span class='op'>(</span><span class='va'>gm</span><span class='op'>)</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>df</span><span class='op'>$</span><span class='va'>id</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='poly2nb-5.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/class.html'>unclass</a></span><span class='op'>(</span><span class='fu'>poly2nb</span><span class='op'>(</span><span class='va'>df</span>, queen <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [[1]]
+#&gt; [1] 2 3
+#&gt; 
+#&gt; [[2]]
+#&gt; [1] 1 4
+#&gt; 
+#&gt; [[3]]
+#&gt; [1] 1 4
+#&gt; 
+#&gt; [[4]]
+#&gt; [1] 2 3
+#&gt; 
+#&gt; attr(,"region.id")
+#&gt; [1] "1" "2" "3" "4"
+#&gt; attr(,"call")
+#&gt; poly2nb(pl = df, queen = FALSE)
+#&gt; attr(,"type")
+#&gt; [1] "rook"
+#&gt; attr(,"sym")
+#&gt; [1] TRUE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

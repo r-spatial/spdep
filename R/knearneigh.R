@@ -4,7 +4,7 @@
 # nn() retired 130722
 # shift to dbscan 210317 #53
 
-knearneigh <- function(x, k=1, longlat=NULL, kd_tree=TRUE)
+knearneigh <- function(x, k=1, longlat=NULL, use_kd_tree=TRUE)
 {
     if (inherits(x, "SpatialPoints")) {
         if ((is.null(longlat) || !is.logical(longlat)) 
@@ -56,7 +56,6 @@ knearneigh <- function(x, k=1, longlat=NULL, kd_tree=TRUE)
     zd <- any(duplicated(x)) #zerodist(SpatialPoints(x))
 # kNN() handles duplicate points
     if (zd)  warning("knearneigh: identical points found")
-    use_kd_tree <- kd_tree
     if (longlat) use_kd_tree <- FALSE
     if (zd) use_kd_tree <- FALSE
     if (use_kd_tree && !requireNamespace("dbscan", quietly = TRUE)) use_kd_tree <- FALSE

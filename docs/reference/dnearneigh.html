@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Neighbourhood contiguity by distance — dnearneigh" />
-<meta property="og:description" content="The function identifies neighbours of region points by Euclidean distance between lower (greater than) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers." />
+<meta property="og:description" content="The function identifies neighbours of region points by Euclidean distance between lower (greater than or equal to (changed from version 1.1-7)) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers." />
 
 
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -111,11 +111,14 @@
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-spatial/spdep/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -138,10 +141,11 @@
     </div>
 
     <div class="ref-description">
-    <p>The function identifies neighbours of region points by Euclidean distance between lower (greater than) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers.</p>
+    <p>The function identifies neighbours of region points by Euclidean distance between lower (greater than or equal to (changed from version 1.1-7)) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>d1</span>, <span class='va'>d2</span>, row.names <span class='op'>=</span> <span class='cn'>NULL</span>, longlat <span class='op'>=</span> <span class='cn'>NULL</span>, bounds<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GT"</span>, <span class='st'>"LE"</span><span class='op'>)</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>d1</span>, <span class='va'>d2</span>, row.names <span class='op'>=</span> <span class='cn'>NULL</span>, longlat <span class='op'>=</span> <span class='cn'>NULL</span>, bounds<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GE"</span>, <span class='st'>"LE"</span><span class='op'>)</span>,
+ use_kd_tree<span class='op'>=</span><span class='cn'>TRUE</span>, symtest<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,7 +172,15 @@
     </tr>
     <tr>
       <th>bounds</th>
-      <td><p>character vector of length 2, default <code><a href='https://rdrr.io/r/base/c.html'>c("GT", "LE")</a></code>, the first element may also be <code>"GE"</code>, the second <code>"LT"</code></p></td>
+      <td><p>character vector of length 2, default <code><a href='https://rdrr.io/r/base/c.html'>c("GE", "LE")</a></code>, the first element may also be <code>"GE"</code>, the second <code>"LT"</code>; the first bound default was changed from <code>"GT"</code> to <code>"GE"</code> in release 1.1-7</p></td>
+    </tr>
+    <tr>
+      <th>use_kd_tree</th>
+      <td><p>default TRUE, if TRUE, use <span class="pkg">dbscan</span> <code><a href='https://rdrr.io/pkg/dbscan/man/frNN.html'>frNN</a></code> if available (permitting 3D distances).</p></td>
+    </tr>
+    <tr>
+      <th>symtest</th>
+      <td><p>Default FALSE; before release 1.1-7, TRUE - run symmetry check on output object, costly with large numbers of points.</p></td>
     </tr>
     </table>
 
@@ -242,10 +254,10 @@ for neighbours satisfying the distance criteria. See <code><a href='card.html'>c
 </div><div class='img'><img src='dnearneigh-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/par.html'>par</a></span><span class='op'>(</span><span class='va'>opar</span><span class='op'>)</span>
 <span class='op'>(</span><span class='va'>sfc_obj</span> <span class='op'>&lt;-</span> <span class='fu'>st_centroid</span><span class='op'>(</span><span class='fu'>st_geometry</span><span class='op'>(</span><span class='va'>columbus</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Geometry set for 49 features 
-#&gt; geometry type:  POINT
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: 6.221943 ymin: 11.01003 xmax: 10.95359 ymax: 14.36908
-#&gt; CRS:            NA
+#&gt; Geometry type: POINT
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: 6.221943 ymin: 11.01003 xmax: 10.95359 ymax: 14.36908
+#&gt; CRS:           NA
 #&gt; First 5 geometries:</div><div class='output co'>#&gt; <span class='message'>POINT (8.827218 14.36908)</span></div><div class='output co'>#&gt; <span class='message'>POINT (8.332658 14.03162)</span></div><div class='output co'>#&gt; <span class='message'>POINT (9.012265 13.81972)</span></div><div class='output co'>#&gt; <span class='message'>POINT (8.460801 13.71696)</span></div><div class='output co'>#&gt; <span class='message'>POINT (9.007982 13.29637)</span></div><div class='input'><span class='va'>col.nb.0.all_sf</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>sfc_obj</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span>, row.names<span class='op'>=</span><span class='va'>rn</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/all.equal.html'>all.equal</a></span><span class='op'>(</span><span class='va'>col.nb.0.all</span>, <span class='va'>col.nb.0.all_sf</span>, check.attributes<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>state</span><span class='op'>)</span>
@@ -329,7 +341,7 @@ for neighbours satisfying the distance criteria. See <code><a href='card.html'>c
 </div><div class='img'><img src='dnearneigh-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='va'>xy1</span> <span class='op'>&lt;-</span> <span class='fu'>SpatialPoints</span><span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>state.center</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='va'>m50.48</span>,<span class='op'>]</span>,
   proj4string<span class='op'>=</span><span class='fu'>CRS</span><span class='op'>(</span><span class='st'>"+proj=longlat +ellps=GRS80"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on GRS80 ellipsoid in CRS definition</span></div><div class='input'><span class='va'>gck1a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>xy1</span>, k<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on GRS80 ellipsoid in Proj4 definition</span></div><div class='input'><span class='va'>gck1a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>xy1</span>, k<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>gck1a</span>, <span class='va'>xy1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>gc.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy1</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>gc.nb</span>, <span class='va'>xy1</span>, scale<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span>

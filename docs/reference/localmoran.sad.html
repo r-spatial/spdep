@@ -88,7 +88,7 @@ approximation - is based on the randomisation assumption." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -119,11 +119,14 @@ approximation - is based on the randomisation assumption." />
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-spatial/spdep/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -319,10 +322,10 @@ Geographical Analysis, 34, pp. 187--206.</p>
     <pre class="examples"><div class='input'><span class='va'>eire</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"shapes/eire.shp"</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Reading layer `eire' from data source `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'
 #&gt; Simple feature collection with 26 features and 10 fields
-#&gt; geometry type:  MULTIPOLYGON
-#&gt; dimension:      XY
-#&gt; bbox:           xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25
-#&gt; CRS:            NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>$</span><span class='va'>names</span><span class='op'>)</span>
+#&gt; Geometry type: MULTIPOLYGON
+#&gt; Dimension:     XY
+#&gt; Bounding box:  xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25
+#&gt; CRS:           NA</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/row.names.html'>row.names</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>$</span><span class='va'>names</span><span class='op'>)</span>
 <span class='fu'>st_crs</span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"+proj=utm +zone=30 +ellps=airy +units=km"</span>
 <span class='va'>eire.nb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='poly2nb.html'>poly2nb</a></span><span class='op'>(</span><span class='va'>eire</span><span class='op'>)</span>
 <span class='va'>lw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>eire.nb</span><span class='op'>)</span>
@@ -597,7 +600,10 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class='kw'>if</span> <span class='op'>(</span><span class='va'>run</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='va'>e.errorsar</span> <span class='op'>&lt;-</span> <span class='fu'>spatialreg</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/spatialreg/reference/ML_models.html'>errorsarlm</a></span><span class='op'>(</span><span class='va'>OWNCONS</span> <span class='op'>~</span> <span class='va'>ROADACC</span>, data<span class='op'>=</span><span class='va'>eire</span>,
   listw<span class='op'>=</span><span class='va'>lw</span><span class='op'>)</span>
-<span class='fu'>spatialreg</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/spatialreg/reference/ML_models.html'>print.sarlm</a></span><span class='op'>(</span><span class='va'>e.errorsar</span><span class='op'>)</span>
+<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/packageDescription.html'>packageVersion</a></span><span class='op'>(</span><span class='st'>"spatialreg"</span><span class='op'>)</span> <span class='op'>&lt;</span> <span class='st'>"1.1.7"</span><span class='op'>)</span>
+  <span class='fu'>spatialreg</span><span class='fu'>::</span><span class='fu'>print.sarlm</span><span class='op'>(</span><span class='va'>e.errorsar</span><span class='op'>)</span>
+<span class='kw'>else</span>
+  <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>e.errorsar</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div><div class='output co'>#&gt; 
 #&gt; Call:

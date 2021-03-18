@@ -86,7 +86,7 @@ critical values may be found (see also details below)." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -117,11 +117,14 @@ critical values may be found (see also details below)." />
     </li>
   </ul>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/r-spatial/spdep/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -153,7 +156,9 @@ a Bonferroni-type test is suggested in the references, where tables of
 critical values may be found (see also details below).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>localG</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, spChk<span class='op'>=</span><span class='cn'>NULL</span>, return_internals<span class='op'>=</span><span class='cn'>FALSE</span>, GeoDa<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>localG</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, spChk<span class='op'>=</span><span class='cn'>NULL</span>, return_internals<span class='op'>=</span><span class='cn'>FALSE</span>, GeoDa<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='fu'>localG_perm</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, nsim<span class='op'>=</span><span class='fl'>499</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, spChk<span class='op'>=</span><span class='cn'>NULL</span>, return_internals<span class='op'>=</span><span class='cn'>FALSE</span>,
+ iseed<span class='op'>=</span><span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,6 +187,14 @@ critical values may be found (see also details below).</p>
       <th>GeoDa</th>
       <td><p>default FALSE, if TRUE, drop x values for no-neighbour and self-neighbour only observations from all summations</p></td>
     </tr>
+    <tr>
+      <th>nsim</th>
+      <td><p>default 499, number of conditonal permutation simulations</p></td>
+    </tr>
+    <tr>
+      <th>iseed</th>
+      <td><p>default NULL, used to set the seed for possible parallel RNGs</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -200,6 +213,9 @@ n=100: 3.289, n=1000: 3.886.</p>
 
     <p>A vector of G or Gstar values, with attributes "gstari" set to TRUE or
 FALSE, "call" set to the function call, and class "localG".</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Ord, J. K. and Getis, A. 1995 Local spatial autocorrelation
@@ -225,7 +241,10 @@ International), 261--277; Bivand RS, Wong DWS 2018 Comparing implementations of 
 <span class='va'>nb30</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span><span class='op'>(</span><span class='va'>xycoords</span>, <span class='fl'>0</span>, <span class='fl'>30</span><span class='op'>)</span>
 <span class='va'>G30</span> <span class='op'>&lt;-</span> <span class='fu'>localG</span><span class='op'>(</span><span class='va'>xyz</span><span class='op'>$</span><span class='va'>val</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>nb30</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>G30</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>xyz</span><span class='op'>$</span><span class='va'>val</span><span class='op'>)</span><span class='op'>-</span><span class='fl'>136</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; [1] 1.221979</div><div class='input'><span class='va'>nb60</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span><span class='op'>(</span><span class='va'>xycoords</span>, <span class='fl'>0</span>, <span class='fl'>60</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1.221979</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>)</span>
+<span class='va'>G30_sim</span> <span class='op'>&lt;-</span> <span class='fu'>localG_perm</span><span class='op'>(</span><span class='va'>xyz</span><span class='op'>$</span><span class='va'>val</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>nb30</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>G30_sim</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>xyz</span><span class='op'>$</span><span class='va'>val</span><span class='op'>)</span><span class='op'>-</span><span class='fl'>136</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; [1] 1.13091</div><div class='input'><span class='va'>nb60</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span><span class='op'>(</span><span class='va'>xycoords</span>, <span class='fl'>0</span>, <span class='fl'>60</span><span class='op'>)</span>
 <span class='va'>G60</span> <span class='op'>&lt;-</span> <span class='fu'>localG</span><span class='op'>(</span><span class='va'>xyz</span><span class='op'>$</span><span class='va'>val</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>nb60</span>, style<span class='op'>=</span><span class='st'>"B"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>G60</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>xyz</span><span class='op'>$</span><span class='va'>val</span><span class='op'>)</span><span class='op'>-</span><span class='fl'>136</span><span class='op'>]</span>
 </div><div class='output co'>#&gt; [1] 1.748098</div><div class='input'><span class='va'>nb90</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span><span class='op'>(</span><span class='va'>xycoords</span>, <span class='fl'>0</span>, <span class='fl'>90</span><span class='op'>)</span>
