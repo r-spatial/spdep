@@ -60,10 +60,12 @@ xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
 gck4a.nb <- knn2nb(knearneigh(xy1, k=4))
 summary(gck4a.nb, xy1)
 # https://github.com/r-spatial/spdep/issues/38
-set.seed(1)
-x <- cbind(runif(50), runif(50), runif(50))
-out <- knearneigh(x, k=5)
-knn2nb(out)
-try(out <- knearneigh(rbind(x, x[1:10,]), k=5))
+if (require("dbscan", quietly=TRUE)) {
+  set.seed(1)
+  x <- cbind(runif(50), runif(50), runif(50))
+  out <- knearneigh(x, k=5)
+  knn2nb(out)
+  try(out <- knearneigh(rbind(x, x[1:10,]), k=5))
+}
 }
 \keyword{spatial}

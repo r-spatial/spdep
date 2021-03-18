@@ -18,7 +18,7 @@ citEntry(entry="book",
   title        = "Applied spatial data analysis with {R}, Second edition",
   year         = "2013",
   publisher    = "Springer, NY",
-  url          = "http://www.asdar-book.org/",
+  url          = "https://asdar-book.org/",
   textVersion = 
   paste("Roger S. Bivand, Edzer Pebesma, Virgilio Gomez-Rubio, 2013.",
 	"Applied spatial data analysis with R, Second edition. Springer, NY.",

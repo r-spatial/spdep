@@ -66,7 +66,7 @@ A list with class \code{localmoranex} containing "select" lists, each with
 When the alternative is being tested, a list of left and right M products in attribute M.
 }
 
-\references{Bivand RS, Müller W, Reder M (2009) Power calculations for global and local Moran’s I. Comput Stat Data Anal 53:2859–2872; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 \url{https://doi.org/10.1007/s11749-018-0599-x}}
+\references{Bivand RS, Müller W, Reder M (2009) Power calculations for global and local Moran’s I. Comput Stat Data Anal 53:2859–2872; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 \doi{10.1007/s11749-018-0599-x}}
 
 \author{Markus Reder and Roger Bivand}
 
