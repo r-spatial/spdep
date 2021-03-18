@@ -10,7 +10,7 @@
 
 * Adding use of **sf** through GEOS to find polygon contiguity candidates in `poly2nb()` if geometry count >= 500 - uses intersections in polygon envelopes.
 
-* Adding use of **sf** via `st_buffer()` to handle planar distance-based neighbours in `dnearneigh()` for observation counts >= 1000, either exact (2 or 4 passes) or approximate (1 or 2 passes).
+* #38, #53 removing **RANN**, adding **dbscan** suggestions for fast `dnearneigh()` and `knearneigh()` via `use_kd_tree=` argument for fast planar neighbour set finding in 2D and 3D. Affects `soi.graph()` too, which had used **RANN**.
 
 * #54 avoid partial matching in `glist=` handling.
 
