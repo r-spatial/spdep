@@ -22,5 +22,5 @@ citEntry(entry="book",
   textVersion = 
   paste("Roger S. Bivand, Edzer Pebesma, Virgilio Gomez-Rubio, 2013.",
 	"Applied spatial data analysis with R, Second edition. Springer, NY.",
-	"http://www.asdar-book.org/")
+	"https://asdar-book.org/")
 )
