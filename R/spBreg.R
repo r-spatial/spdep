@@ -95,7 +95,7 @@ spBreg_lag <- function(formula, data = list(), listw, na.action, Durbin, type,
             dmf <- lm(Durbin, data, na.action=na.action, 
 	        method="model.frame")
             fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
-            if (class(fx) == "try-error") 
+            if (inherits(fx, "try-error")) 
                 stop("Durbin variable mis-match")
             WX <- create_WX(fx, listw, zero.policy=zero.policy,
                 prefix=prefix)
@@ -579,7 +579,7 @@ spBreg_err <- function(formula, data = list(), listw, na.action, Durbin, etype,
             dmf <- lm(Durbin, data, na.action=na.action, 
 	        method="model.frame")
             fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
-            if (class(fx) == "try-error") 
+            if (inherits(fx, "try-error")) 
                 stop("Durbin variable mis-match")
             WX <- create_WX(fx, listw, zero.policy=zero.policy,
                 prefix=prefix)
@@ -1073,7 +1073,7 @@ spBreg_sac <- function(formula, data = list(), listw, listw2=NULL, na.action,
             dmf <- lm(Durbin, data, na.action=na.action, 
 	        method="model.frame")
             fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
-            if (class(fx) == "try-error") 
+            if (inherits(fx, "try-error")) 
                 stop("Durbin variable mis-match")
             WX <- create_WX(fx, listw, zero.policy=zero.policy,
                 prefix=prefix)

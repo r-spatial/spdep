@@ -305,7 +305,7 @@ spam_ldet <- function(coef, env, which=1) {
     pivot <- get("pivot", envir=env)
     J1 <- try(spam::determinant.spam.chol.NgPeyton(spam::chol.spam((I - coef * csrw), pivot=pivot),
         logarithm=TRUE)$modulus, silent=TRUE)
-    if (class(J1) == "try-error") {
+    if (inherits(J1, "try-error")) {
         Jacobian <- NA
     } else {
         Jacobian <- 2*J1
@@ -377,7 +377,7 @@ spam_update_ldet <- function(coef, env, which=1) {
     } else {
         J1 <- try(spam::determinant.spam.chol.NgPeyton(spam::update.spam.chol.NgPeyton(cchol, (I - coef * csrw)),
             logarithm=TRUE)$modulus, silent=TRUE)
-        if (class(J1) == "try-error") {
+        if (inherits(J1, "try-error")) {
             Jacobian <- NA
         } else {
             Jacobian <- 2*J1

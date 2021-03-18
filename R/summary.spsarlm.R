@@ -91,7 +91,7 @@ summary.sarlm <- function(object, correlation = FALSE, Nagelkerke=FALSE,
                         oresvar <- object$resvar
                         ctext <- "Correlation of coefficients"
                         if (is.null(oresvar) || is.logical(oresvar) || 
-                            class(oresvar) == "try-error") {
+                            inherits(oresvar, "try-error")) {
                             oresvar <- object$fdHess
                             ctext <- ifelse(object$insert,
                                 "Approximate correlation of coefficients",
@@ -109,7 +109,7 @@ summary.sarlm <- function(object, correlation = FALSE, Nagelkerke=FALSE,
                         oresvar <- object$resvar
                         ctext <- "Correlation of coefficients"
                         if (is.null(oresvar) || is.logical(oresvar) || 
-                            class(oresvar) == "try-error") {
+                            inherits(oresvar, "try-error")) {
                             oresvar <- object$fdHess
                             ctext <- "Approximate correlation of coefficients"
                         }
@@ -235,7 +235,7 @@ Hausman.test.sarlm <- function(object, ..., tol=NULL) {
     d <- object$coef_lm.model - object$coefficients
     if (!is.null(tol)) VV <- try(solve((Vo - Vs), tol=tol))
     else VV <- try(solve(Vo - Vs))
-    if (class(VV) == "try.error") {
+    if (inherits(VV, "try-error")) {
         warning("(Vo - Vs) inversion failure")
         return(NULL)
     }
@@ -273,7 +273,7 @@ Hausman.test.gmsar <- function(object, ..., tol=NULL) {
     d <- coef(object$lm.model) - coef(object$lm.target)
     if (!is.null(tol)) VV <- try(solve((Vo - Vs), tol=tol))
     else VV <- try(solve(Vo - Vs))
-    if (class(VV) == "try.error") {
+    if (inherits(VV, "try-error")) {
         warning("(Vo - Vs) inversion failure")
         return(NULL)
     }

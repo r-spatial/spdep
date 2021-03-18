@@ -99,7 +99,7 @@ lagsarlm <- function(formula, data = list(), listw,
 	            dmf <- lm(Durbin, data, na.action=na.action, 
 		        method="model.frame")
                     fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
-                    if (class(fx) == "try-error") 
+                    if (inherits(fx, "try-error"))
                         stop("Durbin variable mis-match")
                     WX <- create_WX(fx, listw, zero.policy=zero.policy,
                         prefix=prefix)
@@ -247,7 +247,7 @@ lagsarlm <- function(formula, data = list(), listw,
 		inf3 <- rbind(zero, t(xtawxb), xtx)
 		inf <- cbind(inf1, inf2, inf3)
 		varb <- try(solve(inf, tol=tol.solve), silent=TRUE)
-                if (class(varb) == "try-error") {
+                if (inherits(varb, "try-error")) {
                     timings[["eigen_se"]] <- proc.time() - .ptime_start
                     .ptime_start <- proc.time()
                     con$fdHess <- TRUE

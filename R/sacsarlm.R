@@ -90,7 +90,7 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
 	            dmf <- lm(Durbin, data, na.action=na.action, 
 		        method="model.frame")
                     fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
-                    if (class(fx) == "try-error") 
+                    if (inherits(fx, "try-error")) 
                         stop("Durbin variable mis-match")
                     WX <- create_WX(fx, listw, zero.policy=zero.policy,
                         prefix=prefix)
@@ -342,7 +342,7 @@ sacsarlm <- function(formula, data = list(), listw, listw2=NULL, na.action,
             asyvar[3, 2] <- term1 + term2
             asyvar[2, 3] <- asyvar[3, 2]
             asyvar1 <- try(solve(asyvar, tol.solve=tol.solve), silent=TRUE)
-            if (class(asyvar1) == "try-error") {
+            if (inherits(asyvar1, "try-error")) {
                 timings[["eigen_se"]] <- proc.time() - .ptime_start
                 .ptime_start <- proc.time()
                 con$fdHess <- TRUE

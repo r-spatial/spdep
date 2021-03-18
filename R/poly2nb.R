@@ -21,7 +21,7 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
             if (inherits(pl, "sfc")) {
                 if (length(grep("POLYGON", class(pl)[1])) == 0L)
                     pl <- try(st_cast(pl, "MULTIPOLYGON"), silent=TRUE)
-                    if (class(pl)[1] == "try-error") 
+                    if (inherits(pl, "try-error")) 
                       stop("Polygon geometries required")
                 if (attr(pl, "n_empty") > 0L) 
                     stop("Empty geometries found")

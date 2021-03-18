@@ -109,7 +109,7 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
 	            dmf <- lm(Durbin, data, na.action=na.action, 
 		        method="model.frame")
                     fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
-                    if (class(fx) == "try-error") 
+                    if (inherits(fx, "try-error")) 
                         stop("Durbin variable mis-match")
                     WX <- create_WX(fx, listw, zero.policy=zero.policy,
                         prefix=prefix)
@@ -385,7 +385,7 @@ errorsarlm <- function(formula, data = list(), listw, na.action, weights=NULL,
 #		asyvar[3:(p+2),3:(p+2)] <- crossprod(xl)
 		asyvar[3:(p+2),3:(p+2)] <- crossprod(xl)/s2
 		asyvar1 <- try(solve(asyvar, tol=tol.solve), silent=TRUE)
-                if (class(asyvar1) == "try-error") {
+                if (inherits(asyvar1, "try-error")) {
                     timings[["eigen_se"]] <- proc.time() - .ptime_start
                     .ptime_start <- proc.time()
                     con$fdHess <- TRUE
@@ -585,7 +585,7 @@ lmSLX <- function(formula, data = list(), listw, na.action, weights=NULL, Durbin
 	    dmf <- lm(Durbin, data, na.action=na.action, 
 	         method="model.frame")
             fx <- try(model.matrix(Durbin, dmf), silent=TRUE)
-            if (class(fx) == "try-error") 
+            if (inherits(fx, "try-error"))
                  stop("Durbin variable mis-match")
             WX <- create_WX(fx, listw, zero.policy=zero.policy,
                 prefix=prefix)
