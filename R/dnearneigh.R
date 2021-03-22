@@ -79,7 +79,7 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
         z <- lapply(z, sort)
         if (d1 > 0) {
             z1 <- dbscan::frNN(x, eps=d1)$id
-            z1 <- lapply(z, sort)
+            z1 <- lapply(z1, sort)
             z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
         }
         z <- lapply(seq_along(z), function(i)
