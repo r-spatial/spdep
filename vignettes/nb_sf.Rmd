@@ -18,21 +18,15 @@ vignette: >
 
 ## Introduction
 
-This vignette tracks the legacy nb vignette, which was based on part of the first (2008) edition of ASDAR. It adds hints to the code in the nb vignette to use the sf vector representation instead of the sp vector representation to create neighbour objects. 
+This vignette tracks the legacy nb vignette, which was based on part of the first (2008) edition of ASDAR. It adds hints to the code in the nb vignette to use the sf vector representation instead of the sp vector representation to create neighbour objects. . 
 
 ## Summary
 
 This is a summary of the results below:
 
-- In general, if you need to reproduce results from using sp objects in spdep, coerce sf objects to sp objects before constructing neighbour objects (particularly if polygon centroids are used for point representation).
+- In general, if you need to reproduce results from using `"Spatial"` objects in **spdep**, coerce sf objects to sp objects before constructing neighbour objects (particularly if polygon centroids are used for point representation).
 
-- Further, for new work, you can either coerce from sf to sp objects and just use spdep to create nb objects, or use sf functions to create sparse geometry binary predicate objects and coerce these to neighbour objects.
-
-- Polygon validity matters: sf geometries need to be valid; sp geometries (and their use in spdep) pre-date OGC SF validity.
-
-- sf functions (st_relate, st_is_within_distance, st_centroid, etc.) appear to be an order of magnitude slower than equivalent sp/spdep/rgeos functions (poly2nb, dnearneigh, gCentroid, etc.)
-
-- sf functions appear to scale linearly in n, like sp/spdep functions
+- Further, for new work, you can use either , 
 
 ## Data set
 
