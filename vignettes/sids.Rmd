@@ -256,7 +256,7 @@ tm_shape(nc) + tm_fill(c("low", "high"), palette="Set1", title="p-values") +
 ```
 
 For more complicated thematic maps, it may be helpful to use ColorBrewer
-(<http://colorbrewer2.org>) colour palettes. Here we use 
+(<https://colorbrewer2.org>) colour palettes. Here we use 
 palettes accessed through **tmap**, available in R in the **RColorBrewer** package.
 
 While the [`choynowski()`]{} function only provides the probability map
