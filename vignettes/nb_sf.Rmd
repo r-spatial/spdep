@@ -172,7 +172,8 @@ NY8_pos_sf <- st_point_on_surface(st_geometry(NY8_sf))
 or indeed taking the centre of the largest inscribed circle (the function returns a radius line segment, so we choose the central point, not the point on the circle):
 
 ```{r, echo=dothis, eval=dothis}
-NY8_cic_sf <- st_cast(st_inscribed_circle(st_geometry(NY8_sf), nQuadSegs=0), "POINT")[(1:(2*nrow(NY8_sf)) %% 2) != 0]
+if (unname(sf_extSoftVersion()["GEOS"] >= "3.9.0")) 
+    NY8_cic_sf <- st_cast(st_inscribed_circle(st_geometry(NY8_sf), nQuadSegs=0), "POINT")[(1:(2*nrow(NY8_sf)) %% 2) != 0]
 ```
 
 We need to check whether coordinates are planar or not:
