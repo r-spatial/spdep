@@ -111,24 +111,22 @@
 <div id="introduction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h2>
-<p>This vignette tracks the legacy nb vignette, which was based on part of the first (2008) edition of ASDAR. It adds hints to the code in the nb vignette to use the sf vector representation instead of the sp vector representation to create neighbour objects.</p>
+<p>This vignette tracks the legacy nb vignette, which was based on part of the first (2008) edition of ASDAR. It adds hints to the code in the nb vignette to use the sf vector representation instead of the sp vector representation to create neighbour objects. .</p>
 </div>
 <div id="summary" class="section level2">
 <h2 class="hasAnchor">
 <a href="#summary" class="anchor"></a>Summary</h2>
 <p>This is a summary of the results below:</p>
 <ul>
-<li><p>In general, if you need to reproduce results from using sp objects in spdep, coerce sf objects to sp objects before constructing neighbour objects (particularly if polygon centroids are used for point representation).</p></li>
-<li><p>Further, for new work, you can either coerce from sf to sp objects and just use spdep to create nb objects, or use sf functions to create sparse geometry binary predicate objects and coerce these to neighbour objects.</p></li>
-<li><p>Polygon validity matters: sf geometries need to be valid; sp geometries (and their use in spdep) pre-date OGC SF validity.</p></li>
-<li><p>sf functions (st_relate, st_is_within_distance, st_centroid, etc.) appear to be an order of magnitude slower than equivalent sp/spdep/rgeos functions (poly2nb, dnearneigh, gCentroid, etc.)</p></li>
-<li><p>sf functions appear to scale linearly in n, like sp/spdep functions</p></li>
+<li><p>In general, if you need to reproduce results from using <code>"Spatial"</code> objects in <strong>spdep</strong>, coerce sf objects to sp objects before constructing neighbour objects (particularly if polygon centroids are used for point representation).</p></li>
+<li><p>However, for new work, you should use <code>"sf"</code> objects read in using <strong>sf</strong>.</p></li>
+<li><p>From <strong>spdep</strong> 1.1-7, a number of steps have been taken to choose more efficient approaches especially for larger data sets, using functions in <strong>sf</strong> and the approximate nearest neighbour (ANN) implementation in <strong>dbscan</strong> rather than <strong>RANN</strong>.</p></li>
 </ul>
 </div>
 <div id="data-set" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-set" class="anchor"></a>Data set</h2>
-<p>We’ll use the whole NY 8 county set of boundaries, as they challenge the implementations more than just the Syracuse subset. The description of the input geometries from ADSAR is: New York leukemia: used and documented extensively in Waller and Gotway (2004) and with data formerly made available in Chap. 9 of <code>http://web1.sph.emory.edu/users/lwaller/ch9index.htm</code>; the data import process is described in the help file of NY_data in spdep; geometries downloaded from the CIESIN server at <a href="https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download">https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download</a>, file /pub/census/usa/tiger/ny/bna_st/t8_36.zip, and extensively edited; a zip archive NY_data.zip of shapefiles and a GAL format neighbours list is on the book website. Further, the zipfile is now at: [a new location requiring login] (<a href="http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip" class="uri">http://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip</a>). The object listw_NY is directly imported from nyadjwts.dbf on the Waller &amp; Gotway (2004) chapter 9 website.</p>
+<p>We’ll use the whole NY 8 county set of boundaries, as they challenge the implementations more than just the Syracuse subset. The description of the input geometries from ADSAR is: New York leukemia: used and documented extensively in Waller and Gotway (2004) and with data formerly made available in Chap. 9 of <code>http://web1.sph.emory.edu/users/lwaller/ch9index.htm</code>; the data import process is described in the help file of NY_data in spdep; geometries downloaded from the CIESIN server at <a href="https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download">https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download</a>, file /pub/census/usa/tiger/ny/bna_st/t8_36.zip, and extensively edited; a zip archive NY_data.zip of shapefiles and a GAL format neighbours list is on the book website. Further, the zipfile is now at: [a new location requiring login] (<a href="https://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip" class="uri">https://sedac.ciesin.columbia.edu/ftpsite/pub/census/usa/tiger/ny/bna_st/t8_36.zip</a>). The object listw_NY is directly imported from nyadjwts.dbf on the Waller &amp; Gotway (2004) chapter 9 website.</p>
 <p>The version of the New York 8 counties geometries used in ASDAR and included as a shapefile in spdep was converted from the original BNA file using an external utility program to convert to MapInfo format and converted on from there using GDAL 1.4.1 (the OGR BNA driver was not then available; it entered OGR at 1.5.0, release at the end of 2007), and contains invalid geometries. What was found in mid-2007 was that included villages were in/excluded by in-out umbilical cords to the boundary of the enclosing tract, when the underlying BNA file was first converted to MapInfo (holes could not exist then).</p>
 <p>Here we will use a GPKG file created as follows (rgdal could also be used with the same output; GDAL here is built with GEOS, so the BNA vector driver will use geometry tests: The BNA driver supports reading of polygons with holes or lakes. It determines what is a hole or a lake only from geometrical analysis (inclusion, non-intersection tests) and ignores completely the notion of polygon winding (whether the polygon edges are described clockwise or counter-clockwise). GDAL must be built with GEOS enabled to make geometry test work.):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -154,39 +152,91 @@
 <h2 class="hasAnchor">
 <a href="#comparison-of-sp-and-sf-approaches" class="anchor"></a>Comparison of sp and sf approaches</h2>
 <p>First some housekeeping and setup to permit this vignette to be built when packages are missing or out-of-date:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span><span class="op">(</span><span class="st">"install the sf package"</span><span class="op">)</span>
+  <span class="va">dothis</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span>
+<span class="op">}</span>
+<span class="kw">if</span> <span class="op">(</span><span class="va">dothis</span><span class="op">)</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf_extSoftVersion.html">sf_extSoftVersion</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<pre><code>##           GEOS           GDAL         proj.4 GDAL_with_GEOS     USE_PROJ_H 
+##        "3.9.1"        "3.2.2"        "8.0.0"         "true"         "true"</code></pre>
 <p>Let us read the GPKG file with valid geometries in to ‘sf’ and ‘sp’ objects:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">NY8_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/NY8_bna_utm18.gpkg"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html">st_is_valid</a></span><span class="op">(</span><span class="va">NY8_sf</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## 
+## TRUE 
+##  281</code></pre>
 <div id="contiguity-neighbours-for-polygon-support" class="section level3">
 <h3 class="hasAnchor">
 <a href="#contiguity-neighbours-for-polygon-support" class="anchor"></a>Contiguity neighbours for polygon support</h3>
 <p>Here we first generate a queen contiguity nb object using the legacy spdep approach. This first either uses a pre-computed list of vectors of probable neighbours or finds intersecting bounding boxes internally. Then the points on the boundaries of each set of polygons making up an observation are checked for a distance less than snap to any of the points of the set of polygons making up an observation included in the set of candidate neighbours. Because contiguity is symmetric, only i to j contiguities are tested. A queen contiguity is found as soon as one point matches, a rook contiguity as soon as two points match:</p>
-<p>Using rgeos STR trees to check the intersection of envelopes (bounding boxes) is much faster than the internal method in poly2nb for large n. Because contiguity is symmetric by definition, the queries only return intersections for higher indices.</p>
-<p>Using sf::st_relate, we can define an un-snapped relational pattern for queen contiguities:</p>
-<p>The output from st_queen is a list with attributes:</p>
-<p>As we can see, the sf-based contiguity test is an order of magnitude slower than spdep::poly2nb; fortunately, it also scales linearly in the number of observations. spdep::poly2nb uses two heuristics, first to find candidate neighbours from intersecting bounding boxes, and second to use the symmetry of the relationship to halve the number of remaining tests. This means that performance is linear in n, but with overhead for identifying candidates, and back-filling symmetric neighbours. Further, spdep::poly2nb stops searching for queen contiguity as soon as the first neighbour point is found within snap distance (if not identical, which is tested first); second neighbour point for rook contiguities. spdep::poly2nb was heavily optimised when written, as processor speed was a major constraint at that time.</p>
-<p>The addition of STR tree queries to identify candidates permits the construction of contiguous neighbour objects for quite large objects, for example the ZCTA 2016 shapefile with 33144 features. sf::st_read imports the data in about 3 s., rgdal::readOGR in under 8 s; in both cases the polygon geometries are valid. Finding the candidate neighbours with rgeos::gUnarySTRtreeQuery takes 4.5 s, and spdep::poly2nb a further 4.4 s. So for the sp variant, the total time is about 17 s., and using sf::st_read 3 s. and coercion to sp 7.5 s., then rgeos::gUnarySTRtreeQuery 4.5 s, and spdep::poly2nb 4.4 s., in total about 20 s. Running st_queen defined above using sf::st_relate takes about 136 s. for a total of 139 s. to generate a queen neighbour object. The contiguity neighbour objects using st_queen and spdep::poly2nb are identical.</p>
-<p>Using sf::st_is_within_distance to emulate the snap= argument in spdep::poly2nb is very time-consuming; it takes more than 70 s. to run:</p>
-<p>After removal of self-contiguities yields the same sets of neighbours.</p>
-<p>We can convert an object of class sgbp (sparse geometry binary predicate) to nb in this way, taking care to represent observations with no neighbours with integer 0:</p>
-<p>The neighbour objects produced by st_queen and spdep::poly2nb contain the same sets of neighbours:</p>
-<p>To get around the time penalty of using GEOS functions in sf to find contiguous neighbours, we may coerce to the sp representation first:</p>
-<p>It is the use of GEOS functionality that costs time, as we can see by using rgeos::gTouches:</p>
-<p>or equivalently sf::st_touches with very similar timings, like those of sf::st_relate in st_queen:</p>
-<p>The output objects are the same, once again. What we now have as queen contiguity neighbours are:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/">spdep</a></span><span class="op">)</span><span class="op">)</span>
+<span class="va">reps</span> <span class="op">&lt;-</span> <span class="fl">10</span>
+<span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY8_sf_1_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">NY8_sf</span>, queen<span class="op">=</span><span class="cn">TRUE</span>, snap<span class="op">=</span><span class="va">eps</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##  0.0772  0.0000  0.0774</code></pre>
+<p>Using STR trees to check the intersection of envelopes (bounding boxes) is much faster than the internal method in poly2nb for large n (the default threshold is <code>small_n=500</code>). From <strong>spdep</strong> 1.1-7, use is made of GEOS through <strong>sf</strong> to find candidate neighbours. Because contiguity is symmetric by definition, <code>foundInBox=</code> only requires intersections for higher indices, leading to a slight overhead to remove duplicates, as <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html">st_intersects()</a></code> reports both <code>i j</code> ans <code>j i</code> relationships.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY8_sf_1_nb_STR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">NY8_sf</span>, queen<span class="op">=</span><span class="cn">TRUE</span>, snap<span class="op">=</span><span class="va">eps</span>, small_n<span class="op">=</span><span class="fl">250</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##  0.0930  0.0007  0.0940</code></pre>
+<p>In this case, n is small, so the extra work in GEOS has a higher overhead than the simple, legacy approach.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">NY8_sf_1_nb</span></code></pre></div>
+<pre><code>## Neighbour list object:
+## Number of regions: 281 
+## Number of nonzero links: 1632 
+## Percentage nonzero weights: 2.066843 
+## Average number of links: 5.807829</code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">NY8_sf_1_nb</span>, <span class="va">NY8_sf_1_nb_STR</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>spdep::poly2nb uses two heuristics, first to find candidate neighbours from intersecting bounding boxes, and second to use the symmetry of the relationship to halve the number of remaining tests. This means that performance is linear in n, but with overhead for identifying candidates, and back-filling symmetric neighbours. Further, spdep::poly2nb stops searching for queen contiguity as soon as the first neighbour point is found within snap distance (if not identical, which is tested first); second neighbour point for rook contiguities. spdep::poly2nb was heavily optimised when written, as processor speed was a major constraint at that time.</p>
+<p>The addition of STR tree queries to identify candidates permits the construction of contiguous neighbour objects for quite large objects, for example the ZCTA shapefile with 33144 features. sf::st_read imports the data in less than a second and the polygon geometries are valid. Finding the candidate neighbours with <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html">st_intersects( st_as_sfc( lapply( pl, function(x) {st_as_sfc(st_bbox(x))[[1]]} ) ) )</a></code> where <code>pl</code> is an <code>"sfc"</code> object takes about 5.6 s, <code>lapply</code> to remove duplicate <code>i j / j i</code> relationships, and a total run time of about 17 s. Setting the <code>small_n=</code> threshold above 33144 gives the legacy approach, about 110 s. The legacy <code>snap=</code> argument works in the same way with <strong>sf</strong> or <strong>sp</strong> objects.</p>
 </div>
 <div id="contiguity-neighbours-from-invalid-polygons" class="section level3">
 <h3 class="hasAnchor">
 <a href="#contiguity-neighbours-from-invalid-polygons" class="anchor"></a>Contiguity neighbours from invalid polygons</h3>
 <p>Next, we explore a further possible source of differences in neighbour object reproduction, using the original version of the tract boundaries used in ASDAR, but with some invalid geometries as mentioned earlier:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">NY8_sf_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/NY8_utm18.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html">st_is_valid</a></span><span class="op">(</span><span class="va">NY8_sf_old</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##     5   276</code></pre>
 <p>We can see that there are a number of differences between the neighbour sets derived from the fully valid geometries and the older partly invalid set:</p>
-<p>spdep::poly2nb does not object to using invalid geometries, as it only uses the boundary points defining the polygons (as do the rgeos STR tree construction and query functions, because points are sufficient to construct bounding boxes).</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="va">NY8_sf_old_1_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">NY8_sf_old</span><span class="op">)</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">NY8_sf_old_1_nb</span>, <span class="va">NY8_sf_1_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "Component 57: Numeric: lengths (4, 5) differ" 
+## [2] "Component 58: Numeric: lengths (5, 6) differ" 
+## [3] "Component 66: Numeric: lengths (7, 11) differ"
+## [4] "Component 73: Numeric: lengths (4, 5) differ" 
+## [5] "Component 260: Numeric: lengths (8, 9) differ"</code></pre>
+<p>spdep::poly2nb does not object to using invalid geometries, as it only uses the boundary points defining the polygons (as do STR tree construction and query functions, because valid bounding boxes can be constructed from invalid polygons).</p>
 <p>Using the standard “trick”, we can buffer by 0 to try to make the geometries valid:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">NY8_sf_old_buf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_buffer</a></span><span class="op">(</span><span class="va">NY8_sf_old</span>, dist<span class="op">=</span><span class="fl">0</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html">st_is_valid</a></span><span class="op">(</span><span class="va">NY8_sf_old_buf</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code>## 
+## TRUE 
+##  281</code></pre>
 <p>Hoverver, in doing this, we change the geometries, so the new sets of neighbours still differ from those made with the valid geometries in the same ways as before imposing validity:</p>
-<p>Tne neighbour sets are the same for the old boundaries with or without imposing validity:</p>
-<p>Using the sf route, we also see invalid geometries:</p>
-<p>On trying to find contiguities, sf::st_relate fails:</p>
-<p>Using the buffer by 0 approach, we can impose validity:</p>
-<p>We can now find the neighbours, but with differences from the sets found from the valid polygons:</p>
-<p>There are also differences between the sets found when imposing validity on the sf and sp routes.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/try.html">try</a></span><span class="op">(</span><span class="va">NY8_sf_old_1_nb_buf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">NY8_sf_old_buf</span><span class="op">)</span>, silent <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">NY8_sf_old_1_nb_buf</span>, <span class="va">NY8_sf_1_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] "Component 57: Numeric: lengths (4, 5) differ" 
+## [2] "Component 58: Numeric: lengths (5, 6) differ" 
+## [3] "Component 66: Numeric: lengths (7, 11) differ"
+## [4] "Component 73: Numeric: lengths (4, 5) differ" 
+## [5] "Component 260: Numeric: lengths (8, 9) differ"</code></pre>
+<p>The neighbour sets are the same for the old boundaries with or without imposing validity:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="va">NY8_sf_old_1_nb_buf</span>, <span class="va">NY8_sf_old_1_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
 </div>
 </div>
 <div id="point-based-neighbours" class="section level2">
@@ -195,48 +245,68 @@
 <div id="finding-points-for-polygon-objects" class="section level3">
 <h3 class="hasAnchor">
 <a href="#finding-points-for-polygon-objects" class="anchor"></a>Finding points for polygon objects</h3>
-<p>Getting a 2D matrix of centroid coordinates (centroids of largest exterior ring) from SpatialPolygons* is just ‘coordinates’, which takes trivial time because the values are computed (as label points) when the objects are constructed:</p>
-<p>‘row.names’ gives the IDs (from feature FIDs if read with ‘rgdal::readOGR’):</p>
-<p>We can use ‘st_centroid’ to get the centroids; if the sf object is sfc_MULTIPOLYGON, the ‘of_largest_polygon’ attribute should be set to replicate sp ‘coordinates’ behaviour. Curiously, st_centroid is quite time-consuming:</p>
-<p>Before getting the coordinate matrix, we need to drop any Z or M coordinates:</p>
+<p><code><a href="../reference/knearneigh.html">knearneigh()</a></code> and <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> require point support, so decisions must be taken about how to place the point in the areal object. We can use <code><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid()</a></code> to get the centroids, using the <code>of_largest_polygon=TRUE</code> argument to make sure that the centroid is that of the largest polygon id the observation is made up of more than one external ring:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">NY8_ct_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">NY8_sf</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p>or <code><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_point_on_surface()</a></code> which guarantees that the point will fall on the surface of a member polygon:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">NY8_pos_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_point_on_surface</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">NY8_sf</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>or indeed taking the centre of the largest inscribed circle (the function returns a radius line segment, so we choose the central point, not the point on the circle):</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">NY8_cic_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_cast.html">st_cast</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_inscribed_circle</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">NY8_sf</span><span class="op">)</span>, nQuadSegs<span class="op">=</span><span class="fl">0</span><span class="op">)</span>, <span class="st">"POINT"</span><span class="op">)</span><span class="op">[</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">NY8_sf</span><span class="op">)</span><span class="op">)</span> <span class="op">%%</span> <span class="fl">2</span><span class="op">)</span> <span class="op">!=</span> <span class="fl">0</span><span class="op">]</span></code></pre></div>
 <p>We need to check whether coordinates are planar or not:</p>
-<p>Then ‘st_coordinates’ can be used to get the coordinate matrix (here simply copying-out 2D point coordinates):</p>
-<p>Unfortunately, the coordinate matrices differ:</p>
-<p>The sp route derives the point coordinate values from the centroid of the largest member polygon of the observation, treated as its exterior ring. In sf, and qualifying to request the centroid of the largest POLYGON in a MULTIPOLYGON object, the centroid takes account of possible interior rings. Both are centroids, but the sp coordinates method for Polygons objects returns that of the largest (not metric, treating coordinates as planar) exterior ring, while the sf centroid function takes account of interior rings:</p>
-<p>The reason for the discrepancy is that the label point (a.k.a. centroid) returned by sp::coordinates for Polygons objects takes the centroid gross of holes. This is not done by sf::st_centroid, nor by rgeos::gCentroid (which is much quicker than st_centroid even when using the same underlying GEOS code and converting to GEOS SF representation internally):</p>
-<p>The output coordinates are still off, but much less:</p>
-<p>The affected objects are not those with holes, and probably discrepancies between the sp and sf object implementations of the GEOS function may be disregarded.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_is_longlat.html">st_is_longlat</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span><span class="op">)</span></code></pre></div>
+<pre><code>## [1] FALSE</code></pre>
 </div>
 <div id="graph-based-neighbours" class="section level3">
 <h3 class="hasAnchor">
 <a href="#graph-based-neighbours" class="anchor"></a>Graph-based neighbours</h3>
 <p>From this, we can check the graph-based neighbours (planar coordinates only):</p>
-<p>Using ‘st_triangulate’ is unsatisfactory, as is ‘rgeos::gDelaunayTriangulation’ because they do not maintain node order, see the example in ‘?rgeos::gDelaunayTriangulation’ for details:</p>
-<p>The ‘soi.graph’ function may be re-written to use sf functionality internally, but for now just the triangulation and coordinates:</p>
-<p>The discrepancy is for one of the polygons with a hole:</p>
-<p>Here the difference between the points is enough to remove the triangulation link between 97 and 99 under the sphere of influence criterion.</p>
-<p>If we use the GEOS-based coordinates, the distance is reduced to zero:</p>
-<p>and the neighbour objects are the same. Using rgeos::gCentroid centroids rather than sp label points would be the choice to make for new work:</p>
-<p>If we coerce from sf to sp representation before extracting point coordinates, we get:</p>
-<p>It turns out that the geometries are identical after coercion (as we would expect from obtaining the same contiguity neighbours above):</p>
-<p>so we can reproduce the sp-based label points by coercing first; if we need to reproduce existing work, this is the best choice:</p>
-<p>The remaining two graph-based methods appear to be less sensitive to the differences between the coordinates:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va">deldir</span><span class="op">)</span><span class="op">)</span>
+<span class="va">NY84_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tri2nb.html">tri2nb</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span><span class="op">)</span>
+<span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mhahsler/dbscan">dbscan</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
+  <span class="va">NY85_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">soi.graph</a></span><span class="op">(</span><span class="va">NY84_nb</span>, <span class="va">NY8_ct_sf</span><span class="op">)</span><span class="op">)</span>
+<span class="op">}</span> <span class="kw">else</span> <span class="va">NY85_nb</span> <span class="op">&lt;-</span> <span class="cn">NULL</span>
+<span class="va">NY86_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">gabrielneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span><span class="op">)</span><span class="op">)</span>
+<span class="va">NY87_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">relativeneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="k-nearest-neighbours" class="section level3">
 <h3 class="hasAnchor">
 <a href="#k-nearest-neighbours" class="anchor"></a>K-nearest neighbours</h3>
-<p>K-nearest neighbours use the coordinate matrices, and can handle Great Circle distances, but this is not demonstrated here, as the data set used is planar:</p>
-<p>While the first nearest neighbours are found correctly for this data set, the same sensitivity is present with regard to coordinate position at larger k:</p>
+<p>K-nearest neighbours use the coordinate matrices, and can handle Great Circle distances, but this is not demonstrated here, as the data set used is planar, in which case <code><a href="https://rdrr.io/pkg/dbscan/man/kNN.html">dbscan::kNN()</a></code> in 2D or 3D building a kd-tree is used:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY88_nb_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##  0.0275  0.0003  0.0280</code></pre>
+<p>Legacy code may be used omitting the kd-tree:</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY89_nb_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, k<span class="op">=</span><span class="fl">1</span>, use_kd_tree<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##  0.0281  0.0002  0.0285</code></pre>
 </div>
 <div id="distance-neighbours" class="section level3">
 <h3 class="hasAnchor">
 <a href="#distance-neighbours" class="anchor"></a>Distance neighbours</h3>
 <p>Distance neighbours need a threshold - <code>nbdists</code> shows the maximum distance to first nearest neighbour:</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dsts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">NY88_nb_sf</span>, <span class="va">NY8_ct_sf</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">dsts</span><span class="op">)</span></code></pre></div>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+##    82.85   912.85  1801.11  3441.04  4461.26 17033.11</code></pre>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">max_1nn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span><span class="op">(</span><span class="va">dsts</span><span class="op">)</span></code></pre></div>
 <p><code>dnearneigh</code> can also handle Great Circle distances, but this is not demonstrated here, as the data set used is planar:</p>
-<p>We could use more sf functionality, but it is an order of magnitude slower, through buffering all points by the threshold while distance is symmetric, so i to j and j to i are equal. Buffering also presupposes planar coordinates. In addition, the point itself intersects, so has to be removed:</p>
-<p>And it does not match:</p>
-<p>This time the problem is in the number of line segments in each buffer circle quadrant, so if we smooth the circle, things get better:</p>
-<p>We can do the same with sf::st_is_within_distance too:</p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY810_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##  0.0412  0.0002  0.0416</code></pre>
+<p>By default, the function uses <code><a href="https://rdrr.io/pkg/dbscan/man/frNN.html">dbscan::frNN()</a></code> to build a kd-tree in 2D or 3D which is then used to find distance neighbours. For small n, the argument <code>use_kd_tree=FALSE</code> may speed up computation a little by reverting to legacy code not building a kd-tree first, but in general the differences are so small that the user will not notice:</p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY811_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, use_kd_tree<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<pre><code>##    user  system elapsed 
+##  0.0273  0.0003  0.0277</code></pre>
 </div>
 </div>
 </div>

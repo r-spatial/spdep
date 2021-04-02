@@ -26,7 +26,7 @@ This is a summary of the results below:
 
 - In general, if you need to reproduce results from using `"Spatial"` objects in **spdep**, coerce sf objects to sp objects before constructing neighbour objects (particularly if polygon centroids are used for point representation).
 
-- However, for new work, you should use `either ,`"sf"` objects read in using **sf**.
+- However, for new work, you should use `"sf"` objects read in using **sf**.
 
 - From **spdep** 1.1-7, a number of steps have been taken to choose more efficient approaches especially for larger data sets, using functions in **sf** and the approximate nearest neighbour (ANN) implementation in **dbscan** rather than **RANN**.
 
