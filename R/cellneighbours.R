@@ -72,7 +72,19 @@ vi2mrc <- function(i, nrow, ncol) {
 	res
 }
 
-cell2nb <- function(nrow, ncol, type="rook", torus=FALSE, legacy=FALSE) {
+cell2nb <- function(nrow, ncol, type="rook", torus=FALSE, legacy=FALSE, x=NULL) {
+        if (!missing(nrow) && !is.numeric(nrow)) x <- nrow
+        if (is.null(x)) {
+            if (missing(nrow) || missing(ncol))
+                stop("Both nrow and ncol required")
+        } else {
+            if (inherits(x, "SpatialGrid")) x <- slot(x, "grid")
+            if (inherits(x, "GridTopology")) {
+                xdim <- slot(x, "cells.dim")
+                ncol <- xdim[1]
+                nrow <- xdim[2]
+            }
+        }
 	nrow <- as.integer(nrow)
 	if (nrow < 1) stop("nrow nonpositive")
 	ncol <- as.integer(ncol)

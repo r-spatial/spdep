@@ -49,8 +49,7 @@ exportMethods(coerce)
 
 export(EBImoran.mc, probmap, choynowski, EBest, EBlocal)
 
-export(airdist, card, rookcell, queencell, mrc2vi, vi2mrc, cell2nb,
-	n.comp.nb, diffnb, dnearneigh, droplinks)
+export(airdist, card, cell2nb, n.comp.nb, diffnb, dnearneigh, droplinks)
 
 export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb, 
 	joincount.test, joincount.mc, joincount.multi, print.jcmulti,
