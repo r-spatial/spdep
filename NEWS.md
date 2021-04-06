@@ -1,4 +1,10 @@
-# Version 1.1-7 (development)
+# Version 1.1-8 (development)
+
+* #55 related to #20 and cycling order in setting up grids provoked re-design of interface to `cell2nb()`, with passing of `"GridTopology"` or `"SpatialGrid"` objects as unnamed first or `x=` argument. Coerce `"RasterLayer"` or similar **raster**, **terra** or **stars** objects to **sp** class objects first if need be.
+
+* In working with renewing the arguments to `cell2nb()`, it was useful to add **tinytest** support, which is now present for this function and may be extended to other functions for creating `"nb"` objects.
+
+# Version 1.1-7 (2021-04-03)
 
 * Changes to continuous integration and vignettes.
 
