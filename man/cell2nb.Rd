@@ -1,6 +1,7 @@
 % Copyright 2001-2021 by Roger S. Bivand
 \name{cell2nb}
 \alias{cell2nb}
+\alias{vi2mrc}
 \title{Generate neighbours list for grid cells}
 \description{
  The function generates a list of neighbours for a grid of cells. Helper
@@ -11,14 +12,16 @@ grid is mapped onto a torus, removing edge effects.
 }
 \usage{
 cell2nb(nrow, ncol, type="rook", torus=FALSE, legacy=FALSE, x=NULL)
+vi2mrc(i, nrow, ncol)
 }
 \arguments{
-  \item{nrow}{number of rows in the grid, may also be an object inheriting from class \code{"SpatialGrid"} or \code{"GridTopology"}}
+  \item{nrow}{number of rows in the grid, may also be an object inheriting from class \code{"SpatialGrid"} or \code{"GridTopology"} only in \code{cell2nb}}
   \item{ncol}{number of columns in the grid; if \code{nrow} or \code{x} is an object inheriting from class \code{"SpatialGrid"} or \code{"GridTopology"}, it may be omitted}
   \item{type}{default rook, may also be queen}
   \item{torus}{default FALSE, if TRUE map grid onto torus}
   \item{legacy}{default FALSE, nrow/ncol reversed, if TRUE wrong col/row directions (see \url{https://github.com/r-spatial/spdep/issues/20})}
   \item{x}{if given, an object inheriting from class \code{"SpatialGrid"} or \code{"GridTopology"}, and replaces \code{nrow} and \code{ncol}}
+  \item{i}{vector of vector indices corresponding to rowcol, a matrix with two columns of row, column indices}
 }
 
 \value{
