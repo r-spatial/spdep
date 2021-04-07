@@ -105,8 +105,9 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
                 foundInBox <- lapply(1:(n-1), function(i) findInBox(i, BBindex))
             } else {
                 if (!sf) pl <- st_as_sfc(pl)
-                fB1 <- st_intersects(st_as_sfc(lapply(pl, function(x) {
-                    st_as_sfc(st_bbox(x))[[1]]})))
+                envs <- lapply(pl, function(x) {st_as_sfc(st_bbox(x))[[1]]})
+                envs_sfc <- st_as_sfc(envs)
+                fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE)
                 fB1a <- lapply(seq_along(fB1), function(i) {
                     fB1[[i]][fB1[[i]] > i]})
                 foundInBox <- fB1a[-length(fB1a)]
