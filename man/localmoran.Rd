@@ -11,7 +11,7 @@ used as a diagnostic tool. The statistic is:
 and its expectation and variance are given in Anselin (1995).
 }
 \usage{
-localmoran(x, listw, zero.policy=NULL, na.action=na.fail, 
+localmoran(x, listw, zero.policy=NULL, na.action=na.fail, conditional=TRUE,
 	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
         spChk=NULL, adjust.x=FALSE)
 localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail, 
@@ -23,6 +23,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. If \code{na.pass} is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)}
+  \item{conditional}{default TRUE: expectation and variance are calculated using the conditional randomization null (Sokal 1998 Eqs. A7 & A8). If FALSE: expectation and variance are calculated using the total randomization null (Sokal 1998 Eqs. A3 & A4).}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of greater (default), less or two.sided.}
   \item{p.adjust.method}{a character string specifying the probability value adjustment for multiple tests, default "none"; see \code{\link{p.adjustSP}}. Note that the number of multiple tests for each region is only taken as the number of neighbours + 1 for each region, rather than the total number of regions.}
   \item{mlvar}{default TRUE: values of local Moran's I are reported using the variance of the variable of interest (sum of squared deviances over n), but can be reported as the sample variance, dividing by (n-1) instead; both are used in other implementations.}
@@ -34,7 +35,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
 }
 
 \details{
-The values of local Moran's I are divided by the variance (or sample variance) of the variable of interest to accord with Table 1, p. 103, and formula (12), p. 99, in Anselin (1995), rathar than his formula (7), p. 98. The variance of the local Moran statistic is taken from Sokal et al. (1998), equation 5 p. 334 and A4*, p. 351. By default, the implementation divides by n, not (n-1) in calculating the variance and higher moments.
+The values of local Moran's I are divided by the variance (or sample variance) of the variable of interest to accord with Table 1, p. 103, and formula (12), p. 99, in Anselin (1995), rathar than his formula (7), p. 98. The variance of the local Moran statistic is taken from Sokal et al. (1998) p. 334, equations 4 & 5 or equations 7 & 8 located depending on user specification. By default, the implementation divides by n, not (n-1) in calculating the variance and higher moments.
 }
 
 \value{
