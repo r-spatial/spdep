@@ -1,7 +1,7 @@
 # Copyright 2001-18 by Roger Bivand
 #
 
-localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail, 
+localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail, conditional=FALSE, 
 	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
 	spChk=NULL, adjust.x=FALSE) {
         stopifnot(is.vector(x))
@@ -58,8 +58,12 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
         }
 	res[,1] <- (z/s2) * lz
 	Wi <- sapply(listw$weights, sum) 
-	res[,2] <- -Wi / (n-1) 
-
+	if (conditional){	
+	  m2 <- sum(z * z) / n
+	  res[, 2] <- -(z ** 2 * Wi) / ((n - 1) * m2)
+	} else {
+	  res[, 2] <- -Wi / (n-1) 
+	}  
 	if (mlvar)  {
           if (adjust.x) {
             b2 <- (sum(z[nc]^4, na.rm=NAOK)/sum(nc))/(s2^2)
@@ -77,7 +81,14 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 	Wi2 <- sapply(listw$weights, function(x) sum(x^2)) 
 	A <- (n-b2) / (n-1)
 	B <- (2*b2 - n) / ((n-1)*(n-2))
-        res[,3] <- A*Wi2 + B*(Wi^2 - Wi2) - res[,2]^2
+	if (conditional){
+	  res[, 3] <- ((z / m2) ** 2 *
+	                 (n / (n - 2)) *
+	                 (Wi2 - (Wi ** 2 / (n - 1))) *
+	                 (m2 - (z ** 2 / (n - 1))))
+	} else {
+	  res[,3] <- A*Wi2 + B*(Wi^2 - Wi2) - res[,2]^2
+	}
 # Changed to Sokal (1998) VIi
 #	 C <- Wi^2 / ((n-1)^2) # == res[,2]^2
 #	 Wikh2 <- sapply(listw$weights, function(x) {
@@ -85,11 +96,13 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 #	 })
 #        res[,3] <- A*Wi2 + B*Wikh2 - C
 	res[,4] <- (res[,1] - res[,2]) / sqrt(res[,3])
-        if (alternative == "two.sided") pv <- 2 * pnorm(abs(res[,4]), 
-	    lower.tail=FALSE)
-        else if (alternative == "greater")
-            pv <- pnorm(res[,4], lower.tail=FALSE)
-        else pv <- pnorm(res[,4])
+	if (alternative == "two.sided") {
+	  pv <- 2 * pnorm(abs(res[,4]), lower.tail=FALSE)
+	} else if (alternative == "greater") {
+	  pv <- pnorm(res[,4], lower.tail=FALSE)
+	} else {
+	  pv <- pnorm(res[,4])
+	}
 	res[,5] <- p.adjustSP(pv, listw$neighbours, method=p.adjust.method)
 	if (!is.null(na.act) && excl) {
 		res <- naresid(na.act, res)
