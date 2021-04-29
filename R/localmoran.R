@@ -1,7 +1,7 @@
 # Copyright 2001-18 by Roger Bivand
 #
 
-localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail, conditional=TRUE, 
+localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail, conditional=FALSE, 
 	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
 	spChk=NULL, adjust.x=FALSE) {
         stopifnot(is.vector(x))
