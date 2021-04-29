@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-8</span>
       </span>
     </div>
 
@@ -121,12 +121,12 @@
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="http://maptools.r-forge.r-project.org/">maptools</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
   <span class="va">NY8</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://maptools.r-forge.r-project.org/reference/readShapeSpatial.html">readShapeSpatial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/NY8_utm18.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
-<pre><code>## rgdal: version: 1.5-24, (SVN revision 1131)
+<pre><code>## rgdal: version: 1.5-24, (SVN revision 1131M)
 ## Geospatial Data Abstraction Library extensions to R successfully loaded
-## Loaded GDAL runtime: GDAL 3.2.2, released 2021/03/05
+## Loaded GDAL runtime: GDAL 3.3.0, released 2021/04/26
 ## Path to GDAL shared files: /usr/local/share/gdal
 ## GDAL binary built with GEOS: TRUE 
-## Loaded PROJ runtime: Rel. 8.0.0, March 1st, 2021, [PJ_VERSION: 800]
+## Loaded PROJ runtime: Rel. 8.0.1, March 5th, 2021, [PJ_VERSION: 801]
 ## Path to PROJ shared files: /home/rsb/.local/share/proj:/usr/local/share/proj:/usr/local/share/proj
 ## PROJ CDN enabled: FALSE
 ## Linking to sp version:1.4-6
@@ -143,7 +143,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/">spdep</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## Loading required package: spData</code></pre>
 <pre><code>## Loading required package: sf</code></pre>
-<pre><code>## Linking to GEOS 3.9.1, GDAL 3.2.2, PROJ 8.0.0</code></pre>
+<pre><code>## Linking to GEOS 3.10.0dev, GDAL 3.3.0, PROJ 8.0.1</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"weights/NY_nb.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, region.id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">NY8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>For the sake of simplicity in showing how to create neighbour objects, we work on a subset of the map consisting of the census tracts within Syracuse, although the same principles apply to the full data set. We retrieve the part of the neighbour list in Syracuse using the <code>subset</code> method.</p>
@@ -221,8 +221,9 @@
 <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/rgeos/">rgeos</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mhahsler/dbscan">dbscan</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">soi.graph</a></span><span class="op">(</span><span class="va">Sy4_nb</span>, <span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></code></pre></div>
-<pre><code>## rgeos version: 0.5-6, (SVN revision (unknown))
-##  GEOS runtime version: 3.9.1-CAPI-1.14.2 
+<pre><code>## rgeos version: 0.5-7, (SVN revision 670M)
+##  GEOS runtime version: 3.10.0dev-CAPI-1.15.0 
+##  GEOS using OverlayNG
 ##  Linking to sp version: 1.4-6 
 ##  Polygon checking: TRUE</code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">

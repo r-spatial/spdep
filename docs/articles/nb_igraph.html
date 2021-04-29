@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-8</span>
       </span>
     </div>
 
@@ -122,7 +122,7 @@
 <pre><code>## Loading required package: sp</code></pre>
 <pre><code>## Loading required package: spData</code></pre>
 <pre><code>## Loading required package: sf</code></pre>
-<pre><code>## Linking to GEOS 3.9.1, GDAL 3.2.2, PROJ 8.0.0</code></pre>
+<pre><code>## Linking to GEOS 3.10.0dev, GDAL 3.3.0, PROJ 8.0.1</code></pre>
 </div>
 <div id="getting-some-data" class="section level3">
 <h3 class="hasAnchor">
@@ -139,7 +139,7 @@
   <span class="kw">else</span> <span class="fu"><a href="http://rgdal.r-forge.r-project.org/reference/GDALDriver-class.html">getGDALVersionInfo</a></span><span class="op">(</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
 <pre><code>##           GDAL GDAL_with_GEOS           PROJ             sp           EPSG 
-##        "3.2.2"         "TRUE"        "8.0.0"        "1.4-6"      "v10.015"</code></pre>
+##        "3.3.0"         "TRUE"        "8.0.1"        "1.4-6"      "v10.018"</code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rgdal.r-forge.r-project.org">rgdal</a></span><span class="op">)</span>
 <span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://rgdal.r-forge.r-project.org/reference/readOGR.html">readOGR</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>

@@ -76,7 +76,7 @@ and its expectation and variance are given in Anselin (1995)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-8</span>
       </span>
     </div>
 
@@ -152,7 +152,7 @@ $$I_i = \frac{(x_i-\bar{x})}{{\sum_{k=1}^{n}(x_k-\bar{x})^2}/(n-1)}{\sum_{j=1}^{
 and its expectation and variance are given in Anselin (1995).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>localmoran</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, na.action<span class='op'>=</span><span class='va'>na.fail</span>, 
+    <pre class="usage"><span class='fu'>localmoran</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, na.action<span class='op'>=</span><span class='va'>na.fail</span>, conditional<span class='op'>=</span><span class='cn'>FALSE</span>,
   alternative <span class='op'>=</span> <span class='st'>"greater"</span>, p.adjust.method<span class='op'>=</span><span class='st'>"none"</span>, mlvar<span class='op'>=</span><span class='cn'>TRUE</span>,
         spChk<span class='op'>=</span><span class='cn'>NULL</span>, adjust.x<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'>localmoran_perm</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>listw</span>, nsim<span class='op'>=</span><span class='fl'>499</span>, zero.policy<span class='op'>=</span><span class='cn'>NULL</span>, na.action<span class='op'>=</span><span class='va'>na.fail</span>, 
@@ -177,6 +177,10 @@ and its expectation and variance are given in Anselin (1995).</p>
     <tr>
       <th>na.action</th>
       <td><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. If <code>na.pass</code> is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)</p></td>
+    </tr>
+    <tr>
+      <th>conditional</th>
+      <td><p>default FALSE: expectation and variance are calculated using the total randomization null (Sokal 1998 Eqs. A3 &amp; A4). If TRUE: expectation and variance are calculated using the conditional randomization null (Sokal 1998 Eqs. A7 &amp; A8). Elaboration of these changes available in Sauer 2021.</p></td>
     </tr>
     <tr>
       <th>alternative</th>
@@ -214,7 +218,7 @@ and its expectation and variance are given in Anselin (1995).</p>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The values of local Moran's I are divided by the variance (or sample variance) of the variable of interest to accord with Table 1, p. 103, and formula (12), p. 99, in Anselin (1995), rathar than his formula (7), p. 98. The variance of the local Moran statistic is taken from Sokal et al. (1998), equation 5 p. 334 and A4*, p. 351. By default, the implementation divides by n, not (n-1) in calculating the variance and higher moments.</p>
+    <p>The values of local Moran's I are divided by the variance (or sample variance) of the variable of interest to accord with Table 1, p. 103, and formula (12), p. 99, in Anselin (1995), rather than his formula (7), p. 98. The variance of the local Moran statistic is taken from Sokal et al. (1998) p. 334, equations 4 &amp; 5 or equations 7 &amp; 8 located depending on user specification. By default, the implementation divides by n, not (n-1) in calculating the variance and higher moments. Conditional code contributed by Jeff Sauer and Levi Wolf.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     
@@ -236,7 +240,10 @@ Geographical Analysis, 27, 93--115;
 Getis, A. and Ord, J. K. 1996 Local spatial
 statistics: an overview. In P. Longley and M. Batty (eds) <em>Spatial
 analysis: modelling in a GIS environment</em> (Cambridge: Geoinformation
-International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Local Spatial Autocorrelation in a Biological Model. Geographical Analysis, 30. 331--354; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 doi: <a href='https://doi.org/10.1007/s11749-018-0599-x'>10.1007/s11749-018-0599-x</a></p>
+International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Local Spatial Autocorrelation in a Biological Model. Geographical Analysis, 30. 331--354; 
+Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 doi: <a href='https://doi.org/10.1007/s11749-018-0599-x'>10.1007/s11749-018-0599-x</a>
+; 
+Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. On Null Hypotheses and Heteroskedasticity. OSF Preprints. doi: <a href='https://doi.org/10.31219/osf.io/ugkhp'>10.31219/osf.io/ugkhp</a></p>
     <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
 
     <p>Roger Bivand <a href='mailto:Roger.Bivand@nhh.no'>Roger.Bivand@nhh.no</a></p>

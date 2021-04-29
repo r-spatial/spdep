@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-8</span>
       </span>
     </div>
 
@@ -220,10 +220,10 @@
 #&gt; statistic = 0.52987, observed rank = 1, p-value = 0.99
 #&gt; alternative hypothesis: less
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>sim1</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.9864373</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span><span class='op'>(</span><span class='va'>sim1</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] 0.0123126</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sim1</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 1.006685</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/cor.html'>var</a></span><span class='op'>(</span><span class='va'>sim1</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 0.01419593</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sim1</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.5299  0.9100  0.9977  0.9864  1.0659  1.2420 </div><div class='input'><span class='va'>colold.lags</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, <span class='fl'>3</span><span class='op'>)</span>
+#&gt;  0.5299  0.9419  1.0095  1.0067  1.0703  1.2737 </div><div class='input'><span class='va'>colold.lags</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nblag.html'>nblag</a></span><span class='op'>(</span><span class='va'>COL.nb</span>, <span class='fl'>3</span><span class='op'>)</span>
 <span class='va'>sim2</span> <span class='op'>&lt;-</span> <span class='fu'>geary.mc</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>colold.lags</span><span class='op'>[[</span><span class='fl'>2</span><span class='op'>]</span><span class='op'>]</span>,
  style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>, nsim<span class='op'>=</span><span class='fl'>99</span><span class='op'>)</span>
 <span class='va'>sim2</span>
@@ -238,7 +238,7 @@
 #&gt; alternative hypothesis: greater
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sim2</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.7597  0.9654  1.0081  1.0060  1.0540  1.1709 </div><div class='input'><span class='va'>sim3</span> <span class='op'>&lt;-</span> <span class='fu'>geary.mc</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>colold.lags</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span>,
+#&gt;  0.7697  0.9232  0.9937  0.9832  1.0453  1.1855 </div><div class='input'><span class='va'>sim3</span> <span class='op'>&lt;-</span> <span class='fu'>geary.mc</span><span class='op'>(</span><span class='va'>COL.OLD</span><span class='op'>$</span><span class='va'>CRIME</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>colold.lags</span><span class='op'>[[</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>]</span>,
  style<span class='op'>=</span><span class='st'>"W"</span><span class='op'>)</span>, nsim<span class='op'>=</span><span class='fl'>99</span><span class='op'>)</span>
 <span class='va'>sim3</span>
 </div><div class='output co'>#&gt; 
@@ -248,11 +248,11 @@
 #&gt; weights: nb2listw(colold.lags[[3]], style = "W") 
 #&gt; number of simulations + 1: 100 
 #&gt; 
-#&gt; statistic = 1.1303, observed rank = 89, p-value = 0.89
+#&gt; statistic = 1.1303, observed rank = 97, p-value = 0.97
 #&gt; alternative hypothesis: greater
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>sim3</span><span class='op'>$</span><span class='va'>res</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;  0.7931  0.9486  0.9955  1.0086  1.0690  1.2875 </div></pre>
+#&gt;  0.7852  0.9260  0.9805  0.9829  1.0422  1.2367 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

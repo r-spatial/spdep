@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-8</span>
       </span>
     </div>
 
@@ -159,7 +159,9 @@
 <span class="op">}</span>
 <span class="kw">if</span> <span class="op">(</span><span class="va">dothis</span><span class="op">)</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf_extSoftVersion.html">sf_extSoftVersion</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code>##           GEOS           GDAL         proj.4 GDAL_with_GEOS     USE_PROJ_H 
-##        "3.9.1"        "3.2.2"        "8.0.0"         "true"         "true"</code></pre>
+##    "3.10.0dev"        "3.3.0"        "8.0.1"         "true"         "true" 
+##           PROJ 
+##        "8.0.1"</code></pre>
 <p>Let us read the GPKG file with valid geometries in to ‘sf’ and ‘sp’ objects:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY8_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/NY8_bna_utm18.gpkg"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
@@ -177,12 +179,12 @@
 <span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY8_sf_1_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">NY8_sf</span>, queen<span class="op">=</span><span class="cn">TRUE</span>, snap<span class="op">=</span><span class="va">eps</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0788  0.0000  0.0791</code></pre>
+##  0.0786  0.0001  0.0790</code></pre>
 <p>Using STR trees to check the intersection of envelopes (bounding boxes) is much faster than the internal method in poly2nb for large n (the default threshold is <code>small_n=500</code>). From <strong>spdep</strong> 1.1-7, use is made of GEOS through <strong>sf</strong> to find candidate neighbours. Because contiguity is symmetric by definition, <code>foundInBox=</code> only requires intersections for higher indices, leading to a slight overhead to remove duplicates, as <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html">st_intersects()</a></code> reports both <code>i j</code> ans <code>j i</code> relationships.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY8_sf_1_nb_STR</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">NY8_sf</span>, queen<span class="op">=</span><span class="cn">TRUE</span>, snap<span class="op">=</span><span class="va">eps</span>, small_n<span class="op">=</span><span class="fl">250</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0941  0.0010  0.0954</code></pre>
+##  0.0980  0.0014  0.1005</code></pre>
 <p>In this case, n is small, so the extra work in GEOS has a higher overhead than the simple, legacy approach.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY8_sf_1_nb</span></code></pre></div>
@@ -280,12 +282,12 @@
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY88_nb_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0278  0.0003  0.0281</code></pre>
+##  0.0284  0.0003  0.0289</code></pre>
 <p>Legacy code may be used omitting the kd-tree:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY89_nb_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, k<span class="op">=</span><span class="fl">1</span>, use_kd_tree<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0286  0.0000  0.0287</code></pre>
+##  0.0285  0.0004  0.0290</code></pre>
 </div>
 <div id="distance-neighbours" class="section level3">
 <h3 class="hasAnchor">
@@ -302,12 +304,12 @@
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY810_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0412  0.0004  0.0417</code></pre>
+##  0.0422  0.0000  0.0425</code></pre>
 <p>By default, the function uses <code><a href="https://rdrr.io/pkg/dbscan/man/frNN.html">dbscan::frNN()</a></code> to build a kd-tree in 2D or 3D which is then used to find distance neighbours. For small n, the argument <code>use_kd_tree=FALSE</code> may speed up computation a little by reverting to legacy code not building a kd-tree first, but in general the differences are so small that the user will not notice:</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY811_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, use_kd_tree<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code>##    user  system elapsed 
-##  0.0276  0.0002  0.0279</code></pre>
+##  0.0279  0.0002  0.0282</code></pre>
 </div>
 </div>
 </div>
