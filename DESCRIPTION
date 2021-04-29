@@ -1,6 +1,6 @@
 Package: spdep
 Version: 1.1-8
-Date: 2021-04-05
+Date: 2021-04-29
 Title: Spatial Dependence: Weighting Schemes, Statistics
 Encoding: UTF-8
 Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),	person("Micah", "Altman", role = "ctb"),
@@ -31,8 +31,10 @@ Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bi
 	person("Pedro", "Peres-Neto", role = "ctb"),
 	person("Gianfranco", "Piras", role = "ctb"),
 	person("Markus", "Reder", role = "ctb"),
+	person("Jeff", "Sauer", role = "ctb"),
 	person("Michael", "Tiefelsdorf", role = "ctb"),
 	person("René", "Westerholt", role="ctb"),
+	person("Levi", "Wolf", role = "ctb"),
 	person("Danlin", "Yu", role = "ctb"))
 Depends: R (>= 3.3.0), methods, sp (>= 1.0), spData (>= 0.2.6.0), sf 
 Imports: deldir, boot (>= 1.3-1), graphics, grDevices, utils, stats, Matrix, LearnBayes, MASS, coda, expm, gmodels, nlme

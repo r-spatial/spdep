@@ -4,6 +4,8 @@
 
 * In working with renewing the arguments to `cell2nb()`, it was useful to add **tinytest** support, which is now present for this function and may be extended to other functions for creating `"nb"` objects.
 
+* #58 contributed by Jeff Sauer and Levi Wolf (from https://doi.org/10.31219/osf.io/ugkhp) providing conditional standard deviates for local Moran's I
+
 # Version 1.1-7 (2021-04-03)
 
 * Changes to continuous integration and vignettes.

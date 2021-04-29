@@ -1,9 +1,9 @@
-# Copyright 2001-18 by Roger Bivand
+# Copyright 2001-18 by Roger Bivand, 2021 Jeff Sauer and Levi Wolf (conditional code)
 #
 
-localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail, conditional=FALSE, 
-	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
-	spChk=NULL, adjust.x=FALSE) {
+localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
+        conditional=FALSE, alternative = "greater", p.adjust.method="none",
+        mlvar=TRUE, spChk=NULL, adjust.x=FALSE) {
         stopifnot(is.vector(x))
 	if (!inherits(listw, "listw"))
 		stop(paste(deparse(substitute(listw)), "is not a listw object"))

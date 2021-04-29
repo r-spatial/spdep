@@ -11,7 +11,7 @@ used as a diagnostic tool. The statistic is:
 and its expectation and variance are given in Anselin (1995).
 }
 \usage{
-localmoran(x, listw, zero.policy=NULL, na.action=na.fail, conditional=TRUE,
+localmoran(x, listw, zero.policy=NULL, na.action=na.fail, conditional=FALSE,
 	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
         spChk=NULL, adjust.x=FALSE)
 localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail, 
@@ -35,7 +35,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
 }
 
 \details{
-The values of local Moran's I are divided by the variance (or sample variance) of the variable of interest to accord with Table 1, p. 103, and formula (12), p. 99, in Anselin (1995), rathar than his formula (7), p. 98. The variance of the local Moran statistic is taken from Sokal et al. (1998) p. 334, equations 4 & 5 or equations 7 & 8 located depending on user specification. By default, the implementation divides by n, not (n-1) in calculating the variance and higher moments.
+The values of local Moran's I are divided by the variance (or sample variance) of the variable of interest to accord with Table 1, p. 103, and formula (12), p. 99, in Anselin (1995), rather than his formula (7), p. 98. The variance of the local Moran statistic is taken from Sokal et al. (1998) p. 334, equations 4 & 5 or equations 7 & 8 located depending on user specification. By default, the implementation divides by n, not (n-1) in calculating the variance and higher moments. Conditional code contributed by Jeff Sauer and Levi Wolf.
 }
 
 \value{
