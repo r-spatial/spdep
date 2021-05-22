@@ -6,6 +6,8 @@
 
 * #58 contributed by Jeff Sauer and Levi Wolf (from https://doi.org/10.31219/osf.io/ugkhp) providing conditional standard deviates for local Moran's I
 
+* Error in assignment to matrix detected by CRAN check in SIDS vignette, section on median polish
+
 # Version 1.1-7 (2021-04-03)
 
 * Changes to continuous integration and vignettes.

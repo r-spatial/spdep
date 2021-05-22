@@ -421,7 +421,11 @@ effect, row and column effects, and residuals:
 
 ```{r echo=TRUE,eval=TRUE}
 mFT <- sqrt(1000)*(sqrt(mSID74/mBIR74) + sqrt((mSID74+1)/mBIR74))
-mFT1 <- t(matrix(mFT, 4, 4, byrow=TRUE))
+# mFT1 <- t(matrix(mFT, 4, 4, byrow=TRUE))
+# wrong assignment of 12 elements to a 4x4 matrix detected by CRAN test 2021-05-22
+rc <- do.call("rbind", lapply(strsplit(names(mFT), ":"), as.integer))
+mFT1 <- matrix(as.numeric(NA), 4, 4)
+for (i in 1:nrow(rc)) mFT1[rc[i,1], rc[i,2]] <- mFT[i]
 med <- medpolish(mFT1, na.rm=TRUE, trace.iter=FALSE)
 med
 ```
