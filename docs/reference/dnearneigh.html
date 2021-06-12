@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-9</span>
       </span>
     </div>
 
@@ -270,8 +270,8 @@ for neighbours satisfying the distance criteria. See <code><a href='card.html'>c
 <span class='op'>}</span>
 <span class='va'>xy</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>state.center</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='va'>m50.48</span>,<span class='op'>]</span>
 <span class='va'>llk1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>xy</span>, k<span class='op'>=</span><span class='fl'>1</span>, longlat<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>llk1</span>, <span class='va'>xy</span>, longlat<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>ll.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span>, longlat<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='op'>(</span><span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>llk1</span>, <span class='va'>xy</span>, longlat<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 5.161223</div><div class='input'><span class='va'>ll.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span>, longlat<span class='op'>=</span><span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>ll.nb</span>, <span class='va'>xy</span>, longlat<span class='op'>=</span><span class='cn'>TRUE</span>, scale<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 48 
@@ -303,8 +303,8 @@ for neighbours satisfying the distance criteria. See <code><a href='card.html'>c
 #&gt;   4 | 5555555555556666667777888888888899
 #&gt;   5 | 00000011111122334444
 #&gt; </div><div class='input'><span class='va'>gck1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>xy</span>, k<span class='op'>=</span><span class='fl'>1</span>, longlat<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>gck1</span>, <span class='va'>xy</span>, longlat<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>gc.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span>, longlat<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>(</span><span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>gck1</span>, <span class='va'>xy</span>, longlat<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 523.5819</div><div class='input'><span class='va'>gc.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span>, longlat<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>gc.nb</span>, <span class='va'>xy</span>, longlat<span class='op'>=</span><span class='cn'>TRUE</span>, scale<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 48 
@@ -342,8 +342,8 @@ for neighbours satisfying the distance criteria. See <code><a href='card.html'>c
 <span class='va'>xy1</span> <span class='op'>&lt;-</span> <span class='fu'>SpatialPoints</span><span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>state.center</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='va'>m50.48</span>,<span class='op'>]</span>,
   proj4string<span class='op'>=</span><span class='fu'>CRS</span><span class='op'>(</span><span class='st'>"+proj=longlat +ellps=GRS80"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: Discarded datum Unknown based on GRS80 ellipsoid in Proj4 definition</span></div><div class='input'><span class='va'>gck1a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>xy1</span>, k<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>gck1a</span>, <span class='va'>xy1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>gc.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy1</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span><span class='op'>)</span>
+<span class='op'>(</span><span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>gck1a</span>, <span class='va'>xy1</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 523.5819</div><div class='input'><span class='va'>gc.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy1</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>gc.nb</span>, <span class='va'>xy1</span>, scale<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 48 
@@ -374,7 +374,87 @@ for neighbours satisfying the distance criteria. See <code><a href='card.html'>c
 #&gt;   4 | 00000011112233334444
 #&gt;   4 | 555555555555666666666677778888888888889999
 #&gt;   5 | 00000000000000111111111122222222222222
-#&gt; </div></pre>
+#&gt; </div><div class='input'>
+<span class='va'>xy1</span> <span class='op'>&lt;-</span> <span class='fu'>st_as_sf</span><span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>state.center</span><span class='op'>)</span><span class='op'>)</span><span class='op'>[</span><span class='va'>m50.48</span>,<span class='op'>]</span>, coords<span class='op'>=</span><span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span>,
+  crs<span class='op'>=</span><span class='fu'>st_crs</span><span class='op'>(</span><span class='st'>"+proj=longlat +ellps=GRS80"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>old_use_s2</span> <span class='op'>&lt;-</span> <span class='fu'>sf_use_s2</span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>sf_use_s2</span><span class='op'>(</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='va'>gck1a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>xy1</span>, k<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>gck1a</span>, <span class='va'>xy1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.055   0.000   0.055 </div><div class='input'><span class='op'>(</span><span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 522.4464</div><div class='input'><span class='co'># s2 distance a little short</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>gc.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy1</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span><span class='op'>+</span><span class='op'>(</span><span class='va'>.Machine</span><span class='op'>$</span><span class='va'>double.eps</span><span class='op'>^</span><span class='op'>(</span><span class='fl'>1</span><span class='op'>/</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.011   0.000   0.010 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>gc.nb</span>, <span class='va'>xy1</span>, scale<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; Number of regions: 48 
+#&gt; Number of nonzero links: 220 
+#&gt; Percentage nonzero weights: 9.548611 
+#&gt; Average number of links: 4.583333 
+#&gt; Link number distribution:
+#&gt; 
+#&gt;  1  2  3  4  5  6  7  8  9 10 
+#&gt;  5  9  6  8  5  2  3  3  5  2 
+#&gt; 5 least connected regions:
+#&gt; 2 4 8 41 45 with 1 link
+#&gt; 2 most connected regions:
+#&gt; 7 28 with 10 links
+#&gt; Summary of link distances:
+#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   93.71  303.44  380.87  371.83  468.73  522.45 
+#&gt; 
+#&gt;   The decimal point is 2 digit(s) to the right of the |
+#&gt; 
+#&gt;   0 | 99
+#&gt;   1 | 00112233
+#&gt;   1 | 666699
+#&gt;   2 | 00222222334444444444
+#&gt;   2 | 667788999999
+#&gt;   3 | 000000001111111122222222222233333333334444
+#&gt;   3 | 555566666677777788888899999999
+#&gt;   4 | 0000001111223333444444
+#&gt;   4 | 55555555556666666666777788888888889999999999
+#&gt;   5 | 0000000000111111111111222222222222
+#&gt; </div><div class='input'><span class='fu'>sf_use_s2</span><span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Spherical geometry (s2) switched off</div><div class='input'><span class='va'>gck1a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='knn2nb.html'>knn2nb</a></span><span class='op'>(</span><span class='fu'><a href='knearneigh.html'>knearneigh</a></span><span class='op'>(</span><span class='va'>xy1</span>, k<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>o</span> <span class='op'>&lt;-</span> <span class='fu'><a href='nbdists.html'>nbdists</a></span><span class='op'>(</span><span class='va'>gck1a</span>, <span class='va'>xy1</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.003   0.000   0.003 </div><div class='input'><span class='op'>(</span><span class='va'>all.linked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span><span class='va'>o</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 523.5819</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/system.time.html'>system.time</a></span><span class='op'>(</span><span class='va'>gc.nb</span> <span class='op'>&lt;-</span> <span class='fu'>dnearneigh</span><span class='op'>(</span><span class='va'>xy1</span>, <span class='fl'>0</span>, <span class='va'>all.linked</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;   0.004   0.000   0.003 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>gc.nb</span>, <span class='va'>xy1</span>, scale<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Neighbour list object:
+#&gt; Number of regions: 48 
+#&gt; Number of nonzero links: 220 
+#&gt; Percentage nonzero weights: 9.548611 
+#&gt; Average number of links: 4.583333 
+#&gt; Link number distribution:
+#&gt; 
+#&gt;  1  2  3  4  5  6  7  8  9 10 
+#&gt;  5  9  6  8  5  2  3  3  5  2 
+#&gt; 5 least connected regions:
+#&gt; 2 4 8 41 45 with 1 link
+#&gt; 2 most connected regions:
+#&gt; 7 28 with 10 links
+#&gt; Summary of link distances:
+#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+#&gt;   93.66  304.16  381.26  371.99  467.80  523.58 
+#&gt; 
+#&gt;   The decimal point is 2 digit(s) to the right of the |
+#&gt; 
+#&gt;   0 | 99
+#&gt;   1 | 00112233
+#&gt;   1 | 666699
+#&gt;   2 | 00222222334444444444
+#&gt;   2 | 667788999999
+#&gt;   3 | 000000001111111122222222222233333333334444
+#&gt;   3 | 555566666677777788888899999999
+#&gt;   4 | 00000011112233334444
+#&gt;   4 | 555555555555666666666677778888888888889999
+#&gt;   5 | 00000000000000111111111122222222222222
+#&gt; </div><div class='input'><span class='fu'>sf_use_s2</span><span class='op'>(</span><span class='va'>old_use_s2</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Spherical geometry (s2) switched on</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

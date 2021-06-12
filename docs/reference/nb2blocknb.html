@@ -75,7 +75,7 @@ locations as the key." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-9</span>
       </span>
     </div>
 
@@ -196,80 +196,31 @@ the post code locations are known).</p>
     <div class='dont-index'><p><code><a href='knn2nb.html'>knn2nb</a></code>, <code><a href='dnearneigh.html'>dnearneigh</a></code>, <code><a href='cell2nb.html'>cell2nb</a></code>, <code><a href='tri2nb.html'>tri2nb</a></code>, <code><a href='poly2nb.html'>poly2nb</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># \dontrun{</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>boston</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>TOWN</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-#&gt;     1.0     2.0     4.0     5.5     7.0    30.0 </div><div class='input'><span class='va'>townaggr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span><span class='op'>(</span><span class='va'>boston.utm</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>town<span class='op'>=</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>TOWN</span><span class='op'>)</span>, <span class='va'>mean</span><span class='op'>)</span>
+<span class='va'>townaggr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/aggregate.html'>aggregate</a></span><span class='op'>(</span><span class='va'>boston.utm</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>town<span class='op'>=</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>TOWN</span><span class='op'>)</span>, <span class='va'>mean</span><span class='op'>)</span>
 <span class='va'>block.rel</span> <span class='op'>&lt;-</span> <span class='fu'><a href='graphneigh.html'>graph2nb</a></span><span class='op'>(</span><span class='fu'><a href='graphneigh.html'>relativeneigh</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>townaggr</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>,
  <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>townaggr</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span><span class='op'>)</span>, sym<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>block.rel</span>
-</div><div class='output co'>#&gt; Neighbour list object:
-#&gt; Number of regions: 92 
-#&gt; Number of nonzero links: 240 
-#&gt; Percentage nonzero weights: 2.835539 
-#&gt; Average number of links: 2.608696 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>block.rel</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>block.rel</span>, <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>townaggr</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>boston.utm</span>, pch<span class='op'>=</span><span class='fl'>18</span>, col<span class='op'>=</span><span class='st'>"lightgreen"</span><span class='op'>)</span>
-</div><div class='img'><img src='nb2blocknb-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='va'>block.nb</span> <span class='op'>&lt;-</span> <span class='fu'>nb2blocknb</span><span class='op'>(</span><span class='va'>block.rel</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>TOWN</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>block.rel</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>block.rel</span>, <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>as.matrix</a></span><span class='op'>(</span><span class='va'>townaggr</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>:</span><span class='fl'>3</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>boston.utm</span>, pch<span class='op'>=</span><span class='fl'>18</span>, col<span class='op'>=</span><span class='st'>"lightgreen"</span><span class='op'>)</span>
+<span class='va'>block.nb</span> <span class='op'>&lt;-</span> <span class='fu'>nb2blocknb</span><span class='op'>(</span><span class='va'>block.rel</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>TOWN</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>block.nb</span>
-</div><div class='output co'>#&gt; Neighbour list object:
-#&gt; Number of regions: 506 
-#&gt; Number of nonzero links: 15234 
-#&gt; Percentage nonzero weights: 5.949945 
-#&gt; Average number of links: 30.10672 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>block.nb</span>, <span class='va'>boston.utm</span><span class='op'>)</span>
-</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>boston.utm</span>, pch<span class='op'>=</span><span class='fl'>18</span>, col<span class='op'>=</span><span class='st'>"lightgreen"</span><span class='op'>)</span>
-</div><div class='img'><img src='nb2blocknb-2.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='Graph Components.html'>n.comp.nb</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nc</span>
-</div><div class='output co'>#&gt; [1] 1</div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>boston.soi</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; 	Moran I test under randomisation
-#&gt; 
-#&gt; data:  boston.c$CMEDV  
-#&gt; weights: nb2listw(boston.soi)    
-#&gt; 
-#&gt; Moran I statistic standard deviate = 21.786, p-value &lt; 2.2e-16
-#&gt; alternative hypothesis: greater
-#&gt; sample estimates:
-#&gt; Moran I statistic       Expectation          Variance 
-#&gt;       0.690285059      -0.001980198       0.001009685 
-#&gt; </div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; 	Moran I test under randomisation
-#&gt; 
-#&gt; data:  boston.c$CMEDV  
-#&gt; weights: nb2listw(block.nb)    
-#&gt; 
-#&gt; Moran I statistic standard deviate = 22.455, p-value &lt; 2.2e-16
-#&gt; alternative hypothesis: greater
-#&gt; sample estimates:
-#&gt; Moran I statistic       Expectation          Variance 
-#&gt;      0.3122905961     -0.0019801980      0.0001958827 
-#&gt; </div><div class='input'><span class='va'>block.nb</span> <span class='op'>&lt;-</span> <span class='fu'>nb2blocknb</span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>TOWN</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>block.nb</span>, <span class='va'>boston.utm</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/points.html'>points</a></span><span class='op'>(</span><span class='va'>boston.utm</span>, pch<span class='op'>=</span><span class='fl'>18</span>, col<span class='op'>=</span><span class='st'>"lightgreen"</span><span class='op'>)</span>
+<span class='fu'><a href='Graph Components.html'>n.comp.nb</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nc</span>
+<span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>boston.soi</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>block.nb</span> <span class='op'>&lt;-</span> <span class='fu'>nb2blocknb</span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>TOWN</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>block.nb</span>
-</div><div class='output co'>#&gt; Neighbour list object:
-#&gt; Number of regions: 506 
-#&gt; Number of nonzero links: 4868 
-#&gt; Percentage nonzero weights: 1.901295 
-#&gt; Average number of links: 9.620553 
-#&gt; 17 regions with no links:
-#&gt; 1 55 56 57 58 65 196 257 284 285 286 287 342 343 348 349 354</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>block.nb</span>, <span class='va'>boston.utm</span><span class='op'>)</span>
-</div><div class='img'><img src='nb2blocknb-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='Graph Components.html'>n.comp.nb</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nc</span>
-</div><div class='output co'>#&gt; [1] 92</div><div class='input'><span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>block.nb</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; 	Moran I test under randomisation
-#&gt; 
-#&gt; data:  boston.c$CMEDV  
-#&gt; weights: nb2listw(block.nb, zero.policy = TRUE)  n reduced by no-neighbour observations
-#&gt;   
-#&gt; 
-#&gt; Moran I statistic standard deviate = 21.145, p-value &lt; 2.2e-16
-#&gt; alternative hypothesis: greater
-#&gt; sample estimates:
-#&gt; Moran I statistic       Expectation          Variance 
-#&gt;      0.6188830566     -0.0020491803      0.0008623116 
-#&gt; </div><div class='input'><span class='co'># }</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='fu'><a href='is.symmetric.nb.html'>is.symmetric.nb</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>block.nb</span>, <span class='va'>boston.utm</span><span class='op'>)</span>
+<span class='fu'><a href='Graph Components.html'>n.comp.nb</a></span><span class='op'>(</span><span class='va'>block.nb</span><span class='op'>)</span><span class='op'>$</span><span class='va'>nc</span>
+<span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CMEDV</span>, <span class='fu'><a href='nb2listw.html'>nb2listw</a></span><span class='op'>(</span><span class='va'>block.nb</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>, zero.policy<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

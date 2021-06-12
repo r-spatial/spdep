@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-9</span>
       </span>
     </div>
 
@@ -138,14 +138,24 @@
       <small>Source: <a href='https://github.com/r-spatial/spdep/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="version-11-8-development" class="section level1">
+    <div id="version-11-9-development" class="section level1">
+<h1 class="page-header" data-toc-text="1.1-9">
+<a href="#version-11-9-development" class="anchor"></a>Version 1.1-9 (development)<small> Unreleased </small>
+</h1>
+<ul>
+<li>
+<code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> and <code><a href="../reference/nbdists.html">nbdists()</a></code>; added prototype adaptation to <strong>s2</strong> for unprojected coordinates, used if <code><a href="https://r-spatial.github.io/sf/reference/s2.html">sf_use_s2()</a></code> is <code>TRUE</code> which became the default for <strong>sf</strong> 1.0.0.</li>
+</ul>
+</div>
+    <div id="version-11-8-2021-05-23" class="section level1">
 <h1 class="page-header" data-toc-text="1.1-8">
-<a href="#version-11-8-development" class="anchor"></a>Version 1.1-8 (development)<small> Unreleased </small>
+<a href="#version-11-8-2021-05-23" class="anchor"></a>Version 1.1-8 (2021-05-23)<small> 2021-05-23 </small>
 </h1>
 <ul>
 <li><p><a href='https://github.com/r-spatial/spdep/issues/55'>#55</a> related to <a href='https://github.com/r-spatial/spdep/issues/20'>#20</a> and cycling order in setting up grids provoked re-design of interface to <code><a href="../reference/cell2nb.html">cell2nb()</a></code>, with passing of <code>"GridTopology"</code> or <code>"SpatialGrid"</code> objects as unnamed first or <code>x=</code> argument. Coerce <code>"RasterLayer"</code> or similar <strong>raster</strong>, <strong>terra</strong> or <strong>stars</strong> objects to <strong>sp</strong> class objects first if need be.</p></li>
 <li><p>In working with renewing the arguments to <code><a href="../reference/cell2nb.html">cell2nb()</a></code>, it was useful to add <strong>tinytest</strong> support, which is now present for this function and may be extended to other functions for creating <code>"nb"</code> objects.</p></li>
 <li><p><a href='https://github.com/r-spatial/spdep/issues/58'>#58</a> contributed by Jeff Sauer and Levi Wolf (from <a href="https://doi.org/10.31219/osf.io/ugkhp" class="uri">https://doi.org/10.31219/osf.io/ugkhp</a>) providing conditional standard deviates for local Moran’s I</p></li>
+<li><p>Error in assignment to matrix detected by CRAN check in SIDS vignette, section on median polish</p></li>
 </ul>
 </div>
     <div id="version-11-7-2021-04-03" class="section level1">
