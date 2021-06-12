@@ -714,4 +714,4 @@ data sets of this size and shape.
 ## References
 
 [^1]: cropped scans of tables are available from
-    <http://spatial.nhh.no/R/etc/CO69-PNGs.zip>.
+    <https://github.com/rsbivand/CO69>.

@@ -23,6 +23,8 @@ importFrom(utils, write.table, object.size, read.table, read.csv, packageDescrip
 importFrom(grDevices, rainbow)
 if (.Platform$OS.type == "windows") importFrom(grDevices, bringToTop)
 importFrom(utils, packageVersion)
+importFrom(units, set_units)
+importFrom(s2, s2_distance)
 
 importFrom(MASS, mvrnorm) # deprecated
 importFrom(coda, as.mcmc, HPDinterval) # deprecated

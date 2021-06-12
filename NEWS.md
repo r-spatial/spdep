@@ -1,4 +1,8 @@
-# Version 1.1-8 (development)
+# Version 1.1-9 (development)
+
+* `dnearneigh()` and `nbdists()`; added prototype adaptation to **s2** for unprojected coordinates, used if `sf_use_s2()` is `TRUE` which became the default for **sf** 1.0.0.
+
+# Version 1.1-8 (2021-05-23)
 
 * #55 related to #20 and cycling order in setting up grids provoked re-design of interface to `cell2nb()`, with passing of `"GridTopology"` or `"SpatialGrid"` objects as unnamed first or `x=` argument. Coerce `"RasterLayer"` or similar **raster**, **terra** or **stars** objects to **sp** class objects first if need be.
 

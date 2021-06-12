@@ -53,11 +53,11 @@ if (as.numeric(paste(version$major, version$minor, sep="")) < 19) {
 }
 xy <- as.matrix(as.data.frame(state.center))[m50.48,]
 llk1 <- knn2nb(knearneigh(xy, k=1, longlat=FALSE))
-all.linked <- max(unlist(nbdists(llk1, xy, longlat=FALSE)))
+(all.linked <- max(unlist(nbdists(llk1, xy, longlat=FALSE))))
 ll.nb <- dnearneigh(xy, 0, all.linked, longlat=FALSE)
 summary(ll.nb, xy, longlat=TRUE, scale=0.5)
 gck1 <- knn2nb(knearneigh(xy, k=1, longlat=TRUE))
-all.linked <- max(unlist(nbdists(gck1, xy, longlat=TRUE)))
+(all.linked <- max(unlist(nbdists(gck1, xy, longlat=TRUE))))
 gc.nb <- dnearneigh(xy, 0, all.linked, longlat=TRUE)
 summary(gc.nb, xy, longlat=TRUE, scale=0.5)
 plot(ll.nb, xy)
@@ -67,8 +67,26 @@ title(main="Differences Euclidean/Great Circle")
 xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
   proj4string=CRS("+proj=longlat +ellps=GRS80"))
 gck1a <- knn2nb(knearneigh(xy1, k=1))
-all.linked <- max(unlist(nbdists(gck1a, xy1)))
+(all.linked <- max(unlist(nbdists(gck1a, xy1))))
 gc.nb <- dnearneigh(xy1, 0, all.linked)
 summary(gc.nb, xy1, scale=0.5)
+
+xy1 <- st_as_sf((as.data.frame(state.center))[m50.48,], coords=1:2,
+  crs=st_crs("+proj=longlat +ellps=GRS80"))
+old_use_s2 <- sf_use_s2()
+sf_use_s2(TRUE)
+gck1a <- knn2nb(knearneigh(xy1, k=1))
+system.time(o <- nbdists(gck1a, xy1))
+(all.linked <- max(unlist(o)))
+# s2 distance a little short
+system.time(gc.nb <- dnearneigh(xy1, 0, all.linked+(.Machine$double.eps^(1/2))))
+summary(gc.nb, xy1, scale=0.5)
+sf_use_s2(FALSE)
+gck1a <- knn2nb(knearneigh(xy1, k=1))
+system.time(o <- nbdists(gck1a, xy1))
+(all.linked <- max(unlist(o)))
+system.time(gc.nb <- dnearneigh(xy1, 0, all.linked))
+summary(gc.nb, xy1, scale=0.5)
+sf_use_s2(old_use_s2)
 }
 \keyword{spatial}

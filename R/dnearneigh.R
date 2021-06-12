@@ -1,9 +1,12 @@
 # Copyright 2000-2021 by Roger S. Bivand. 
 # Upgrade to sp classes February 2007
 # use of dbscan 210317 #53
+# s2 prototype 210612
 #
 
 dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE) {
+    stopifnot(is.logical(use_kd_tree))
+    use_s2_ll <- FALSE
     if (inherits(x, "SpatialPoints")) {
 # correct wrong logic
         if (!is.null(longlat))
@@ -29,13 +32,17 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
 	       && !is.na(sf::st_is_longlat(x)) && sf::st_is_longlat(x)) {
                longlat <- TRUE
            } else longlat <- FALSE
+           if (longlat && sf::sf_use_s2()) {
+               sfx <- x
+               use_s2_ll <- TRUE
+           }
            x <- sf::st_coordinates(x)
         }
     }
     if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
-    stopifnot(is.logical(use_kd_tree))
     if (longlat && use_kd_tree) use_kd_tree <- FALSE
-    if (use_kd_tree && !requireNamespace("dbscan", quietly = TRUE)) use_kd_tree <- FALSE
+    if (use_kd_tree && !requireNamespace("dbscan", quietly = TRUE)) 
+        use_kd_tree <- FALSE
     if (!is.numeric(x)) stop("Data non-numeric")
     if (!is.matrix(x)) stop("Data not in matrix form")
     stopifnot(ncol(x) == 2L || ncol(x) == 3L)
@@ -82,6 +89,17 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
             z1 <- lapply(z1, sort)
             z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
         }
+        z <- lapply(seq_along(z), function(i)
+            {if (length(z[[i]]) == 0L) 0L else z[[i]]})
+    } else if (use_s2_ll) {
+        z <- sf::st_is_within_distance(sfx, dist=units::set_units(d2, "km"))
+        z <- lapply(z, sort)
+        if (d1 > 0) {
+            z1 <- sf::st_is_within_distance(sfx, dist=units::set_units(d1, "km"))
+            z1 <- lapply(z1, sort)
+            z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
+        }
+        z <- lapply(seq_along(z), function(i) setdiff(z[[i]], i))
         z <- lapply(seq_along(z), function(i)
             {if (length(z[[i]]) == 0L) 0L else z[[i]]})
     } else {
