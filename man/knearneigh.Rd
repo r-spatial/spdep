@@ -52,13 +52,25 @@ gck4.nb <- knn2nb(knearneigh(xy, k=4, longlat=TRUE))
 plot(llk4.nb, xy)
 plot(diffnb(llk4.nb, gck4.nb), xy, add=TRUE, col="red", lty=2)
 title(main="Differences between Euclidean and Great Circle k=4 neighbours")
-summary(llk4.nb, xy, longlat=TRUE)
-summary(gck4.nb, xy, longlat=TRUE)
+summary(llk4.nb, xy, longlat=TRUE, scale=0.5)
+summary(gck4.nb, xy, longlat=TRUE, scale=0.5)
 
 xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
   proj4string=CRS("+proj=longlat +ellps=GRS80"))
 gck4a.nb <- knn2nb(knearneigh(xy1, k=4))
-summary(gck4a.nb, xy1)
+summary(gck4a.nb, xy1, scale=0.5)
+
+xy1 <- st_as_sf((as.data.frame(state.center))[m50.48,], coords=1:2,
+  crs=st_crs("+proj=longlat +ellps=GRS80"))
+old_use_s2 <- sf_use_s2()
+sf_use_s2(TRUE)
+system.time(gck4a.nb <- knn2nb(knearneigh(xy1, k=4)))
+summary(gck4a.nb, xy1, scale=0.5)
+sf_use_s2(FALSE)
+system.time(gck4a.nb <- knn2nb(knearneigh(xy1, k=4)))
+summary(gck4a.nb, xy1, scale=0.5)
+sf_use_s2(old_use_s2)
+
 # https://github.com/r-spatial/spdep/issues/38
 if (require("dbscan", quietly=TRUE)) {
   set.seed(1)
