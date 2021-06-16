@@ -33,7 +33,7 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
                longlat <- TRUE
            } else longlat <- FALSE
            if (longlat && sf::sf_use_s2()) {
-               sfx <- x
+               s2x <- sf::st_as_s2(x)
                use_s2_ll <- TRUE
            }
            x <- sf::st_coordinates(x)
@@ -92,10 +92,10 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
         z <- lapply(seq_along(z), function(i)
             {if (length(z[[i]]) == 0L) 0L else z[[i]]})
     } else if (use_s2_ll) {
-        z <- sf::st_is_within_distance(sfx, dist=units::set_units(d2, "km"))
+        z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
         z <- lapply(z, sort)
         if (d1 > 0) {
-            z1 <- sf::st_is_within_distance(sfx, dist=units::set_units(d1, "km"))
+            z1 <- s2::s2_dwithin_matrix(s2x, s2x, dist=d1*1000)
             z1 <- lapply(z1, sort)
             z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
         }

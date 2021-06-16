@@ -60,9 +60,17 @@ nbdists <- function(nb, coords, longlat=NULL) {
         dimension <- ncol(coords)
         if (use_s2_ll) {
             dlist <- vector(mode="list", length=1L)
-            dlist[[1]] <- lapply(seq_along(nb), function(i) {
-                d_i <- s2::s2_distance(s2x[i], s2x[nb[[i]]])
-                units::set_units(units::set_units(d_i, "m"), "km")})
+            nb_card <- card(nb)
+            has_nb <- nb_card > 0L
+            nb <- unclass(nb)
+            nb_has_nb <- nb[has_nb]
+            card_has_nb <- nb_card[has_nb]
+            card_reps <- rep(1:length(card_has_nb), card_has_nb)
+            s2d <- s2::s2_distance(s2x[card_reps], s2x[unlist(nb_has_nb)])/1000
+#            s2d <- units::set_units(units::set_units(s2d, "m"), "km")
+            res <- vector(mode="list", length=length(nb))
+            res[has_nb] <- aggregate(s2d, by=list(card_reps), c)$x
+            dlist[[1]] <- res
         } else {
             dlist <- .Call("nbdists", nb, as.matrix(coords), as.integer(np), 
                 as.integer(dimension), as.integer(longlat), PACKAGE="spdep")
