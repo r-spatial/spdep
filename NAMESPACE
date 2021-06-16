@@ -24,7 +24,7 @@ importFrom(grDevices, rainbow)
 if (.Platform$OS.type == "windows") importFrom(grDevices, bringToTop)
 importFrom(utils, packageVersion)
 importFrom(units, set_units)
-importFrom(s2, s2_distance, s2_closest_edges)
+importFrom(s2, s2_distance, s2_closest_edges, s2_buffer_cells, s2_intersects_matrix, s2_dwithin_matrix)
 
 importFrom(MASS, mvrnorm) # deprecated
 importFrom(coda, as.mcmc, HPDinterval) # deprecated

@@ -1,7 +1,7 @@
 # Copyright 2000-2021 by Roger S. Bivand. 
 # Upgrade to sp classes February 2007
 # use of dbscan 210317 #53
-# s2 prototype 210612
+# s2 prototype 210612-16 not using indexing
 #
 
 dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE) {
@@ -92,10 +92,16 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
         z <- lapply(seq_along(z), function(i)
             {if (length(z[[i]]) == 0L) 0L else z[[i]]})
     } else if (use_s2_ll) {
-        z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
+        s2xb <- s2::s2_buffer_cells(s2x, distance=d2*1000)
+        z <- s2::s2_intersects_matrix(s2xb, s2x)
+        rm(s2xb)
+#        z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
         z <- lapply(z, sort)
         if (d1 > 0) {
-            z1 <- s2::s2_dwithin_matrix(s2x, s2x, dist=d1*1000)
+            s2xb <- s2::s2_buffer_cells(s2x, distance=d1*1000)
+            z1 <- s2::s2_intersects_matrix(s2xb, s2x)
+            rm(s2xb)
+#            z1 <- s2::s2_dwithin_matrix(s2x, s2x, dist=d1*1000)
             z1 <- lapply(z1, sort)
             z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
         }
