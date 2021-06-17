@@ -13,7 +13,7 @@ nbdists(nb, coords, longlat = NULL)
 }
 \arguments{
   \item{nb}{an object of class \code{nb}}
-  \item{coords}{matrix of point coordinates or a SpatialPoints object}
+  \item{coords}{matrix of point coordinates, an object inheriting from SpatialPoints or an \code{"sf"} or \code{"sfc"} object; if the \code{"sf"} or \code{"sfc"} object geometries are in geographical coordinates (\code{sf::st_is_longlat(x) == TRUE} and \code{sf::sf_use_s2() == TRUE}), \pkg{s2} will be used to find distances \url{https://github.com/r-spatial/s2/issues/125}}
   \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if coords is a SpatialPoints object, the value is taken from the object itself}
 }
 \value{

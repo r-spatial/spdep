@@ -4,7 +4,7 @@
 # s2 prototype 210612-16 not using indexing
 #
 
-dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE) {
+dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, avoid_s2=TRUE, max_cells=1000, dwithin=FALSE) {
     stopifnot(is.logical(use_kd_tree))
     use_s2_ll <- FALSE
     if (inherits(x, "SpatialPoints")) {
@@ -32,7 +32,7 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
 	       && !is.na(sf::st_is_longlat(x)) && sf::st_is_longlat(x)) {
                longlat <- TRUE
            } else longlat <- FALSE
-           if (longlat && sf::sf_use_s2()) {
+           if (longlat && sf::sf_use_s2() && !avoid_s2) {
                s2x <- sf::st_as_s2(x)
                use_s2_ll <- TRUE
            }
@@ -92,16 +92,24 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
         z <- lapply(seq_along(z), function(i)
             {if (length(z[[i]]) == 0L) 0L else z[[i]]})
     } else if (use_s2_ll) {
-        s2xb <- s2::s2_buffer_cells(s2x, distance=d2*1000)
-        z <- s2::s2_intersects_matrix(s2xb, s2x)
-        rm(s2xb)
-#        z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
+        if (dwithin) {
+            z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
+        } else {
+            s2xb <- s2::s2_buffer_cells(s2x, distance=d2*1000,
+                max_cells=max_cells)
+            z <- s2::s2_intersects_matrix(s2xb, s2x)
+            rm(s2xb)
+        }
         z <- lapply(z, sort)
         if (d1 > 0) {
-            s2xb <- s2::s2_buffer_cells(s2x, distance=d1*1000)
-            z1 <- s2::s2_intersects_matrix(s2xb, s2x)
-            rm(s2xb)
-#            z1 <- s2::s2_dwithin_matrix(s2x, s2x, dist=d1*1000)
+            if (dwithin) {
+                z1 <- s2::s2_dwithin_matrix(s2x, s2x, dist=d1*1000)
+            } else {
+                s2xb <- s2::s2_buffer_cells(s2x, distance=d1*1000,
+                    max_cells=max_cells)
+                z1 <- s2::s2_intersects_matrix(s2xb, s2x)
+                rm(s2xb)
+            }
             z1 <- lapply(z1, sort)
             z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
         }

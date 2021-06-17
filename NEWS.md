@@ -1,6 +1,8 @@
 # Version 1.1-9 (development)
 
-* `dnearneigh()` and `nbdists()`; added prototype adaptation to **s2** for unprojected coordinates, used if `sf_use_s2()` is `TRUE` which became the default for **sf** 1.0.0.
+* `knearneigh()` and `nbdists()`; added prototype adaptation to **s2** for unprojected coordinates, used if `sf_use_s2()` is `TRUE` which became the default for **sf** 1.0.0 https://github.com/r-spatial/s2/issues/125.
+
+* `dnearneigh()` can choose the prototype **s2** approach if `avoiid_s2=FALSE`; from https://github.com/r-spatial/s2/issues/125 it seems that distance thresholds at present use brute-force rather than spatial indexing.
 
 # Version 1.1-8 (2021-05-23)
 

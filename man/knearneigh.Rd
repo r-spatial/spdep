@@ -10,13 +10,13 @@ knearneigh(x, k=1, longlat = NULL, use_kd_tree=TRUE)
 }
 
 \arguments{
-  \item{x}{matrix of point coordinates or a SpatialPoints object}
+  \item{x}{matrix of point coordinates, an object inheriting from SpatialPoints or an \code{"sf"} or \code{"sfc"} object; if the \code{"sf"} or \code{"sfc"} object geometries are in geographical coordinates (\code{sf::st_is_longlat(x) == TRUE} and \code{sf::sf_use_s2() == TRUE}), \pkg{s2} will be used to find the neighbours because it uses spatial indexing \url{https://github.com/r-spatial/s2/issues/125} as opposed to the legacy method which uses brute-force}
   \item{k}{number of nearest neighbours to be returned}
   \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself; longlat will override \code{kd_tree}}
   \item{use_kd_tree}{logical value, if the \pkg{dbscan} package is available, use for finding k nearest neighbours when longlat is FALSE, and when there are no identical points; from \url{https://github.com/r-spatial/spdep/issues/38}, the input data may have more than two columns if \pkg{dbscan} is used}
 }
 \details{
-The underlying C code is based on the \code{knn} function in the \pkg{class} package. For planar coordinates
+The underlying legacy C code is based on the \code{knn} function in the \pkg{class} package. 
 }
 \value{
 A list of class \code{knn}
