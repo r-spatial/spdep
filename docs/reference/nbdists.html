@@ -161,7 +161,7 @@
     </tr>
     <tr>
       <th>coords</th>
-      <td><p>matrix of point coordinates or a SpatialPoints object</p></td>
+      <td><p>matrix of point coordinates, an object inheriting from SpatialPoints or an <code>"sf"</code> or <code>"sfc"</code> object; if the <code>"sf"</code> or <code>"sfc"</code> object geometries are in geographical coordinates (<code>sf::st_is_longlat(x) == TRUE</code> and <code>sf::sf_use_s2() == TRUE</code>), <span class="pkg">s2</span> will be used to find distances <a href='https://github.com/r-spatial/s2/issues/125'>https://github.com/r-spatial/s2/issues/125</a></p></td>
     </tr>
     <tr>
       <th>longlat</th>

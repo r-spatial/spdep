@@ -143,8 +143,8 @@
 <a href="#version-11-9-development" class="anchor"></a>Version 1.1-9 (development)<small> Unreleased </small>
 </h1>
 <ul>
-<li>
-<code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> and <code><a href="../reference/nbdists.html">nbdists()</a></code>; added prototype adaptation to <strong>s2</strong> for unprojected coordinates, used if <code><a href="https://r-spatial.github.io/sf/reference/s2.html">sf_use_s2()</a></code> is <code>TRUE</code> which became the default for <strong>sf</strong> 1.0.0.</li>
+<li><p><code><a href="../reference/knearneigh.html">knearneigh()</a></code> and <code><a href="../reference/nbdists.html">nbdists()</a></code>; added prototype adaptation to <strong>s2</strong> for unprojected coordinates, used if <code><a href="https://r-spatial.github.io/sf/reference/s2.html">sf_use_s2()</a></code> is <code>TRUE</code> which became the default for <strong>sf</strong> 1.0.0 <a href="https://github.com/r-spatial/s2/issues/125" class="uri">https://github.com/r-spatial/s2/issues/125</a>.</p></li>
+<li><p><code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> can choose the prototype <strong>s2</strong> approach if <code>avoiid_s2=FALSE</code>; from <a href="https://github.com/r-spatial/s2/issues/125" class="uri">https://github.com/r-spatial/s2/issues/125</a> it seems that distance thresholds at present use brute-force rather than spatial indexing.</p></li>
 </ul>
 </div>
     <div id="version-11-8-2021-05-23" class="section level1">
