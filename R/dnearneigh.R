@@ -4,7 +4,7 @@
 # s2 prototype 210612-16 not using indexing
 #
 
-dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, avoid_s2=TRUE, max_cells=1000, dwithin=FALSE) {
+dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, avoid_s2=TRUE, max_cells=200, dwithin=FALSE) {
     stopifnot(is.logical(use_kd_tree))
     use_s2_ll <- FALSE
     if (inherits(x, "SpatialPoints")) {
@@ -92,12 +92,45 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
         z <- lapply(seq_along(z), function(i)
             {if (length(z[[i]]) == 0L) 0L else z[[i]]})
     } else if (use_s2_ll) {
-        if (dwithin) {
-            z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
+        cores <- get.coresOption()
+        if (is.null(cores) || !requireNamespace("parallel", quietly = TRUE)) {
+            parallel <- "no"
         } else {
-            s2xb <- s2::s2_buffer_cells(s2x, distance=d2*1000,
-                max_cells=max_cells)
-            z <- s2::s2_intersects_matrix(s2xb, s2x)
+            parallel <- ifelse (get.mcOption(), "multicore", "no")
+        }
+        ncpus <- ifelse(is.null(cores), 1L, cores)
+        sI <- parallel::splitIndices(length(s2x), ncpus)
+        if (dwithin) {
+            if (parallel == "multicore") {
+                f <- function(i) s2::s2_dwithin_matrix(s2x[i], s2x,
+                    dist=d2*1000)
+                zz <- parallel::mclapply(sI, FUN=f, mc.cores=ncpus)
+                z <- do.call("c", zz)
+                rm(zz)
+            } else {
+                z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
+            }
+        } else {
+            if (parallel == "multicore") {
+                s2xb <- s2::s2_buffer_cells(s2x, distance=d2*1000,
+                    max_cells=max_cells)
+                f <- function(i) s2::s2_intersects_matrix(s2xb[i], s2x)
+                zz <- parallel::mclapply(sI, FUN=f, mc.cores=ncpus)
+                z <- do.call("c", zz)
+                rm(zz)
+                zz <- parallel::mclapply(sI, FUN=lapply, 
+                    function(i) {z[[i]][s2::s2_dwithin(s2x[i], s2x[z[[i]]], 
+                    dist=d2*1000)]}, mc.cores=ncpus)
+                z <- do.call("c", zz)
+                rm(zz)
+            } else {
+                s2xb <- s2::s2_buffer_cells(s2x, distance=d2*1000,
+                    max_cells=max_cells)
+                z <- s2::s2_intersects_matrix(s2xb, s2x)
+                z <- lapply(seq_along(z),
+                    function(i) z[[i]][s2::s2_dwithin(s2x[i], s2x[z[[i]]], 
+                    dist=d2*1000)])
+            }
             rm(s2xb)
         }
         z <- lapply(z, sort)
@@ -109,6 +142,9 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
                     max_cells=max_cells)
                 z1 <- s2::s2_intersects_matrix(s2xb, s2x)
                 rm(s2xb)
+                z1 <- lapply(seq_along(z1),
+                    function(i) z1[[i]][s2::s2_dwithin(s2x[i], s2x[z1[[i]]], 
+                    dist=d1*1000)])
             }
             z1 <- lapply(z1, sort)
             z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
