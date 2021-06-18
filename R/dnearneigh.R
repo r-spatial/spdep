@@ -112,8 +112,11 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
             }
         } else {
             if (parallel == "multicore") {
-                s2xb <- s2::s2_buffer_cells(s2x, distance=d2*1000,
-                    max_cells=max_cells)
+                f <- function(i) sf::st_as_sfc(s2::s2_buffer_cells(s2x[i],
+                    dist=d2*1000, max_cells=max_cells))
+                zz <- parallel::mclapply(sI, FUN=f, mc.cores=ncpus)
+                s2xb <- sf::st_as_s2(do.call("c", zz))
+                rm(zz)
                 f <- function(i) s2::s2_intersects_matrix(s2xb[i], s2x)
                 zz <- parallel::mclapply(sI, FUN=f, mc.cores=ncpus)
                 z <- do.call("c", zz)
