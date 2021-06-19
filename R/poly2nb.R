@@ -6,7 +6,8 @@
 
 
 poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
-	queen=TRUE, useC=TRUE, foundInBox=NULL, small_n=500) {
+	queen=TRUE, useC=TRUE, foundInBox=NULL, small_n=500, use_s2=FALSE,
+        dfMaxLength=0) {
         verbose <- get("verbose", envir = .spdepOptions)
         .ptime_start <- proc.time()
         sf <- NULL
@@ -106,8 +107,23 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
             } else {
                 if (!sf) pl <- st_as_sfc(pl)
                 envs <- lapply(pl, function(x) {st_as_sfc(st_bbox(x))[[1]]})
-                envs_sfc <- st_as_sfc(envs)
-                fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE)
+                if (use_s2) {
+                    envs_sfc <- st_as_sfc(envs, crs=st_crs(pl))
+                } else {
+                    envs_sfc <- st_as_sfc(envs)
+                }
+# https://github.com/r-spatial/s2/issues/125#issuecomment-864186377
+# https://github.com/r-spatial/s2/issues/32
+                if (!is.na(st_is_longlat(envs_sfc)) &&
+                    st_is_longlat(envs_sfc)) {
+                    if (dfMaxLength > 0) envs_sfc <- st_segmentize(envs_sfc,
+                        dfMaxLength=dfMaxLength)
+                    fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE,
+                        s2_model="closed")
+                } else {
+                    fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE)
+                }
+                rm(envs_sfc)
                 fB1a <- lapply(seq_along(fB1), function(i) {
                     fB1[[i]][fB1[[i]] > i]})
                 foundInBox <- fB1a[-length(fB1a)]
