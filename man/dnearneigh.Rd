@@ -7,10 +7,10 @@ The function identifies neighbours of region points by Euclidean distance betwee
 }
 \usage{
 dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GE", "LE"),
- use_kd_tree=TRUE, symtest=FALSE, avoid_s2=TRUE, max_cells=200, dwithin=FALSE)
+ use_kd_tree=TRUE, symtest=FALSE, use_s2=FALSE, max_cells=200, dwithin=FALSE)
 }
 \arguments{
-  \item{x}{matrix of point coordinates, an object inheriting from SpatialPoints or an \code{"sf"} or \code{"sfc"} object; if the \code{"sf"} or \code{"sfc"} object geometries are in geographical coordinates (\code{avoid_s2=FALSE}, \code{sf::st_is_longlat(x) == TRUE} and \code{sf::sf_use_s2() == TRUE}), \pkg{s2} will be used to find the neighbours because it will (we hope) use spatial indexing \url{https://github.com/r-spatial/s2/issues/125} as opposed to the legacy method which uses brute-force (at present \pkg{s2} also uses brute-force)}
+  \item{x}{matrix of point coordinates, an object inheriting from SpatialPoints or an \code{"sf"} or \code{"sfc"} object; if the \code{"sf"} or \code{"sfc"} object geometries are in geographical coordinates (\code{use_s2=FALSE}, \code{sf::st_is_longlat(x) == TRUE} and \code{sf::sf_use_s2() == TRUE}), \pkg{s2} will be used to find the neighbours because it will (we hope) use spatial indexing \url{https://github.com/r-spatial/s2/issues/125} as opposed to the legacy method which uses brute-force (at present \pkg{s2} also uses brute-force)}
   \item{d1}{lower distance bound}
   \item{d2}{upper distance bound}
   \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}}
@@ -18,9 +18,9 @@ dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GE", "LE"),
   \item{bounds}{character vector of length 2, default \code{c("GE", "LE")}, the first element may also be \code{"GE"}, the second \code{"LT"}; the first bound default was changed from \code{"GT"} to \code{"GE"} in release 1.1-7}
   \item{use_kd_tree}{default TRUE, if TRUE, use \pkg{dbscan} \code{\link[dbscan]{frNN}} if available (permitting 3D distances).}
   \item{symtest}{Default FALSE; before release 1.1-7, TRUE - run symmetry check on output object, costly with large numbers of points.}
-  \item{avoid_s2}{default=TRUE, as of \pkg{s2} 1.0-5, distance bound compuations do not use spatial indexing so even if \code{sf::sf_use_s2()} is TRUE, \pkg{s2} will not be used for distances on the sphere for \code{"sf"} or \code{"sfc"} objects; the default will change when/if spatial indexing becomes available. Until then, setting \code{set.coresOption} to a positive integer will experimentaly use that number of cores on \code{.Platform$OS.type== "unix"} systems.}
-  \item{max_cells}{default 200; if \code{avoid_s2=FALSE}, \code{sf::st_is_longlat(x) == TRUE}, \code{sf::sf_use_s2() == TRUE} and \code{dwithin=FALSE}, set \code{max_cells} in \code{s2::s2_buffer_cells()}}
-  \item{dwithin}{default FALSE to use \code{s2::s2_buffer_cells()} and \code{s2::s2_intersects_matrix()}, if TRUE, use \code{s2::s2_dwithin_matrix()}, both if \code{avoid_s2=FALSE}, \code{sf::st_is_longlat(x) == TRUE} and \code{sf::sf_use_s2() == TRUE}; both yield the same lists of neighbours.}
+  \item{use_s2}{default=FALSE, as of \pkg{s2} 1.0-5, distance bound compuations do not use spatial indexing so even if \code{sf::sf_use_s2()} is TRUE, \pkg{s2} will not be used for distances on the sphere for \code{"sf"} or \code{"sfc"} objects; the default will change when/if spatial indexing becomes available. Until then, setting \code{set.coresOption} to a positive integer will experimentaly use that number of cores on \code{.Platform$OS.type== "unix"} systems.}
+  \item{max_cells}{default 200; if \code{use_s2=TRUE}, \code{sf::st_is_longlat(x) == TRUE}, \code{sf::sf_use_s2() == TRUE} and \code{dwithin=FALSE}, set \code{max_cells} in \code{s2::s2_buffer_cells()}}
+  \item{dwithin}{default FALSE to use \code{s2::s2_buffer_cells()} and \code{s2::s2_intersects_matrix()}, if TRUE, use \code{s2::s2_dwithin_matrix()}, both if \code{use_s2=TRUE}, \code{sf::st_is_longlat(x) == TRUE} and \code{sf::sf_use_s2() == TRUE}; both yield the same lists of neighbours.}
 }
 \value{
 The function returns a list of integer vectors giving the region id numbers
@@ -82,13 +82,13 @@ gck1b <- knn2nb(knearneigh(xy1, k=1))
 system.time(o <- nbdists(gck1b, xy1))
 (all.linked <- max(unlist(o)))
 # use s2 brute-force buffer/intersect approach (with two passes if d1 > 0)
-system.time(gc.nb <- dnearneigh(xy1, 0, all.linked, avoid_s2=FALSE))
+system.time(gc.nb <- dnearneigh(xy1, 0, all.linked, use_s2=TRUE))
 summary(gc.nb, xy1, scale=0.5)
 # use s2 brute-force buffer/intersect approach with smaller max_cells
-system.time(gc.nb <- dnearneigh(xy1, 0, all.linked, avoid_s2=FALSE, max_cells=500))
+system.time(gc.nb <- dnearneigh(xy1, 0, all.linked, use_s2=TRUE, max_cells=500))
 summary(gc.nb, xy1, scale=0.5)
 # use s2 brute-force dwithin_matrix approach 
-system.time(gc.nb <- dnearneigh(xy1, 0, all.linked, avoid_s2=FALSE, dwithin=TRUE))
+system.time(gc.nb <- dnearneigh(xy1, 0, all.linked, use_s2=TRUE, dwithin=TRUE))
 summary(gc.nb, xy1, scale=0.5)
 # use legacy symmetric brute-force approach
 system.time(gc.nb <- dnearneigh(xy1, 0, all.linked))

@@ -113,7 +113,7 @@ all.equal(NY8_sf_1_nb, NY8_sf_1_nb_STR, check.attributes=FALSE)
 
 spdep::poly2nb uses two heuristics, first to find candidate neighbours from intersecting bounding boxes, and second to use the symmetry of the relationship to halve the number of remaining tests. This means that performance is linear in n, but with overhead for identifying candidates, and back-filling symmetric neighbours. Further, spdep::poly2nb stops searching for queen contiguity as soon as the first neighbour point is found within snap distance (if not identical, which is tested first); second neighbour point for rook contiguities. spdep::poly2nb was heavily optimised when written, as processor speed was a major constraint at that time. 
 
-The addition of STR tree queries to identify candidates permits the construction of contiguous neighbour objects for quite large objects, for example the ZCTA shapefile with 33144 features. sf::st_read imports the data in less than a second and the polygon geometries are valid. Finding the candidate neighbours with `st_intersects( st_as_sfc( lapply( pl, function(x) {st_as_sfc(st_bbox(x))[[1]]} ) ) )` where `pl` is an `"sfc"` object takes about 5.6 s, `lapply` to remove duplicate `i j / j i` relationships, and a total run time of about 17 s. Setting the `small_n=` threshold above 33144 gives the legacy approach, about 110 s. The legacy `snap=` argument works in the same way with **sf** or **sp** objects.
+The addition of STR tree queries to identify candidates permits the construction of contiguous neighbour objects for quite large objects, for example the ZCTA shapefile with 33144 features. sf::st_read imports the data in less than a second and the polygon geometries are valid. Finding the candidate neighbours with `st_intersects( st_as_sfc( lapply( pl, function(x) {st_as_sfc(st_bbox(x))[[1]]} ) ) )` where `pl` is an `"sfc"` object takes about 5.6 s, `lapply` to remove duplicate `i j / j i` relationships, and a total run time of about 17 s. Setting the `small_n=` threshold above 33144 gives the legacy approach, about 110 s. The legacy `snap=` argument works in the same way with **sf** or **sp** objects. For details of alternatives for spherical geometries, see section \@ref(spher-poly2nb) below.
 
 
 ### Contiguity neighbours from invalid polygons
@@ -140,7 +140,7 @@ Using the standard "trick", we can buffer by 0 to try to make the geometries val
 NY8_sf_old_buf <- st_buffer(NY8_sf_old, dist=0)
 table(st_is_valid(NY8_sf_old_buf))
 ```
-Hoverver, in doing this, we change the geometries, so the new sets of neighbours still differ from those made with the valid geometries in the same ways as before imposing validity:
+However, in doing this, we change the geometries, so the new sets of neighbours still differ from those made with the valid geometries in the same ways as before imposing validity:
 
 ```{r, echo=dothis, eval=dothis}
 try(NY8_sf_old_1_nb_buf <- poly2nb(NY8_sf_old_buf), silent = TRUE)
@@ -280,17 +280,17 @@ Distance nneighbours are more problematic. While `nbdists()` works well with **s
 If we permit **s2** methods to run, without other arguments set, buffers are constructed around the points to `d2`, then these buffers are intersected with the points:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(pts_ll3_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, avoid_s2=FALSE))
+system.time(pts_ll3_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, use_s2=TRUE))
 ```
 Time can be saved by reducing the cell count used to approximate the buffer:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(pts_ll4_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, avoid_s2=FALSE, max_cells=500))
+system.time(pts_ll4_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, use_s2=TRUE, max_cells=500))
 ```
 Alternatively, brute-force spherical distances can be used, not (yet) using spatial indexing; performance also deteriorates with increasing numbers of observations:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:(reps/5)) pts_ll5_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, avoid_s2=FALSE, dwithin=TRUE))/(reps/5)
+system.time(for (i in 1:(reps/5)) pts_ll5_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, use_s2=TRUE, dwithin=TRUE))/(reps/5)
 ```
 For the moment, `avoid_s2=` is `TRUE` by default as more remains to be examined to find out how to benefit from spherical spatial indexing, also because all the **s2** approaches need two runs to handle the `d1`-`d2` interval, and none of them benefit from symmetry:
 
@@ -298,4 +298,35 @@ For the moment, `avoid_s2=` is `TRUE` by default as more remains to be examined 
 system.time(for (i in 1:reps) pts_ll6_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn))/reps
 ```
 
+### Contiguity neighbours for spherical polygon support {#spher-poly2nb}
 
+It also turns out that when **sf** functions are used to find contiguity neighbours when $n$ is greater than `small_n=`, **s2** functionality is accessed in finding candidate neighbours in intersecting geometry bounding boxes. So far no work-around has been found for the case in which straight, touching planar line segments of bounding boxes can be found consistently intersecting when treated as geodetic (curved) line segments, so the default is not to use **s2**:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sf_ll <- st_transform(NY8_sf, "OGC:CRS84")
+st_is_longlat(NY8_sf_ll)
+```
+
+```{r, echo=dothis, eval=dothis}
+NY8_sf_1_nb_STR_ll <- poly2nb(NY8_sf_ll, queen=TRUE, snap=eps, small_n=250)
+all.equal(NY8_sf_1_nb_STR, NY8_sf_1_nb_STR_ll, check.attributes=FALSE)
+```
+
+If we choose not to use **s2** instead of GEOS though **sf** using spatial indexing to find candidate neighbours because the geometry bounding boxes overlap, the outcome is as before, because GEOS is used in both cases. If, however, we test overlapping spherical bounding boxes, differences may arise:
+
+```{r, echo=dothis, eval=dothis}
+NY8_sf_1_nb_STR_ll_s2 <- poly2nb(NY8_sf_ll, queen=TRUE, snap=eps, small_n=250, use_s2=TRUE)
+all.equal(NY8_sf_1_nb_STR, NY8_sf_1_nb_STR_ll_s2, check.attributes=FALSE)
+```
+
+For tract 20, tract 21 is a planar candidate neighbour, but not a spherical candidate neighbour:
+
+```{r, echo=dothis, eval=dothis}
+setdiff(NY8_sf_1_nb_STR_ll[[20]], NY8_sf_1_nb_STR_ll_s2[[20]])
+```
+and similarly:
+
+
+```{r, echo=dothis, eval=dothis}
+setdiff(NY8_sf_1_nb_STR_ll[[21]], NY8_sf_1_nb_STR_ll_s2[[21]])
+```

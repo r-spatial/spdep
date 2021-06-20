@@ -1,8 +1,11 @@
 # Version 1.1-9 (development)
 
-* `knearneigh()` and `nbdists()`; added prototype adaptation to **s2** for unprojected coordinates, used if `sf_use_s2()` is `TRUE` which became the default for **sf** 1.0.0 https://github.com/r-spatial/s2/issues/125.
+* `knearneigh()` and `nbdists()`; added prototype adaptation to **s2** for unprojected coordinates, used if `sf_use_s2()` is `TRUE` which became the default for **sf** 1.0.0 https://github.com/r-spatial/s2/issues/125. These are activated by default.
 
-* `dnearneigh()` can choose the prototype **s2** approach if `avoiid_s2=FALSE`; from https://github.com/r-spatial/s2/issues/125 it seems that distance thresholds at present use brute-force rather than spatial indexing.
+* `dnearneigh()` can choose the prototype **s2** approach if `sf_use_s2()` is `TRUE` and `use_s2=TRUE` for unprojected coordinates; from https://github.com/r-spatial/s2/issues/125 it seems that distance thresholds at present use brute-force rather than spatial indexing. Use is not activated by default.
+
+* `poly2nb()` may be used with the prototype **s2** approach if `sf_use_s2()` is `TRUE` and `use_s2=TRUE` for unprojected coordinates; at present candidate neighbours are dropped because `s2_intersects_matrix()` uses geodetic line segments in bounding boxes that may not touch where straight line segments do touch. Use is not activated by default.
+
 
 # Version 1.1-8 (2021-05-23)
 

@@ -4,7 +4,7 @@
 # s2 prototype 210612-16 not using indexing
 #
 
-dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, avoid_s2=TRUE, max_cells=200, dwithin=FALSE) {
+dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, use_s2=FALSE, max_cells=200, dwithin=FALSE) {
     stopifnot(is.logical(use_kd_tree))
     use_s2_ll <- FALSE
     if (inherits(x, "SpatialPoints")) {
@@ -32,7 +32,7 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
 	       && !is.na(sf::st_is_longlat(x)) && sf::st_is_longlat(x)) {
                longlat <- TRUE
            } else longlat <- FALSE
-           if (longlat && sf::sf_use_s2() && !avoid_s2) {
+           if (longlat && sf::sf_use_s2() && use_s2) {
                s2x <- sf::st_as_s2(x)
                use_s2_ll <- TRUE
            }
