@@ -4,7 +4,7 @@
 
 * `dnearneigh()` can choose the prototype **s2** approach if `sf_use_s2()` is `TRUE` and `use_s2=TRUE` for unprojected coordinates; from https://github.com/r-spatial/s2/issues/125 it seems that distance thresholds at present use brute-force rather than spatial indexing. Use is not activated by default.
 
-* `poly2nb()` may be used with the prototype **s2** approach if `sf_use_s2()` is `TRUE` and `use_s2=TRUE` for unprojected coordinates; at present candidate neighbours are dropped because `s2_intersects_matrix()` uses geodetic line segments in bounding boxes that may not touch where straight line segments do touch. Use is not activated by default.
+* `poly2nb()` now uses `sf::st_intersects()` to find candidate neighbours unless `findInBounds=` is not NULL. With spatial indexing, this is very fast and scales well for large data sets. If `sf_use_s2()` is `TRUE`, `sf::st_intersects()` passes the geometries to `s2::s2_intersects_matrix()`, which also uses spatial indexing and is very fast, scaling well for large data sets.
 
 
 # Version 1.1-8 (2021-05-23)

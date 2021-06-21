@@ -1,4 +1,4 @@
-% Copyright 2001-19 by Roger S. Bivand
+% Copyright 2001-21 by Roger S. Bivand
 \name{poly2nb}
 \alias{poly2nb}
 \title{Construct neighbours list from polygon list}
@@ -6,8 +6,7 @@
 The function builds a neighbours list based on regions with contiguous boundaries, that is sharing one or more boundary point. The current function is in part interpreted and may run slowly for many regions or detailed boundaries, but from 0.2-16 should not fail because of lack of memory when single polygons are built of very many border coordinates.}
 \usage{
 poly2nb(pl, row.names = NULL, snap=sqrt(.Machine$double.eps),
- queen=TRUE, useC=TRUE, foundInBox=NULL, small_n=500, use_s2=FALSE,
- dfMaxLength=0)
+ queen=TRUE, useC=TRUE, foundInBox=NULL)
 }
 
 \arguments{
@@ -17,9 +16,6 @@ poly2nb(pl, row.names = NULL, snap=sqrt(.Machine$double.eps),
   \item{queen}{if TRUE, a single shared boundary point meets the contiguity condition, if FALSE, more than one shared point is required; note that more than one shared boundary point does not necessarily mean a shared boundary line}
   \item{useC}{default TRUE, doing the work loop in C, may be set to false to revert to R code calling two C functions in an \code{n*k} work loop, where \code{k} is the average number of candidate neighbours}
   \item{foundInBox}{default NULL using R code, possibly parallelised if a \pkg{snow} cluster is available, otherwise a list of length \code{(n-1)} with integer vectors of candidate neighbours \code{(j > i)}, or NULL if all candidates were \code{(j < i)} (as created by the \code{poly_findInBoxGEOS} function in \pkg{rgeos} for clean polygons)}
-  \item{small_n}{default 500; if \code{foundInBox=} is not given, generate internally using \pkg{sf} code if the number of geometries \code{>= small_n}. If the geometries are not clean, set to a value larger than the geometry count.}
-  \item{use_s2}{default FALSE, do not re-assign the coordinate reference system to the geometry bounding boxes, thus using planar bounding box intersection; if TRUE, use (currently fallible) spherical bounding box intersection.}
-  \item{dfMaxLength}{default 0 metres, if a positive length in metres and \code{use_s2=TRUE}, use in \code{st_segmentize()} to add points to bounding box edges.}
 }
 \value{
 A neighbours list with class \code{nb}. See \code{\link{card}} for details of \dQuote{nb} objects.
