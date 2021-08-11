@@ -26,11 +26,11 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     }
     n <- length(listw$neighbours)
     if (n != length(x))stop("Different numbers of observations")
-    res <- matrix(nrow=n, ncol=5)
+    res <- matrix(nrow=n, ncol=6)
     if (alternative == "two.sided") Prname <- "Pr(z != 0)"
     else if (alternative == "greater") Prname <- "Pr(z > 0)"
     else Prname <- "Pr(z < 0)"
-    colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname)
+    colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname, "p_sim")
     if (adjust.x) {
         nc <- card(listw$neighbours) > 0L
 	xx <- mean(x[nc], na.rm=NAOK)
@@ -76,20 +76,21 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     }
 
     crd <- card(listw$neighbours)
-    permI_int <- function(i, zi, z_i, crdi, wtsi, nsim) {
+    permI_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ii) {
         if (crdi > 0) {
             sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim)
             lz_i <- sz_i %*% wtsi
             res_p <- (zi/s2)*lz_i
-            res <- c(mean(res_p), var(res_p))
+            res <- c(mean(res_p), var(res_p), as.integer(sum(res_p >= Ii)))
         } else {
-            res <- c(as.numeric(NA), as.numeric(NA))
+            res <- c(as.numeric(NA), as.numeric(NA), as.integer(NA))
         }
         res
     }
 
     lww <- listw$weights
+    Iis <- res[,1]
 
     if (parallel == "snow") {
       if (requireNamespace("parallel", quietly = TRUE)) {
@@ -99,11 +100,12 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         assign("crd", crd, envir=env)
         assign("lww", lww, envir=env)
         assign("nsim", nsim, envir=env)
-        parallel::clusterExport(cl, varlist=c("z", "crd", "lww", "nsim"),
+        assign("Iis", Iis, envir=env)
+        parallel::clusterExport(cl, varlist=c("z", "crd", "lww", "nsim", "Iis"),
             envir=env)
         if (!is.null(iseed)) parallel::clusterSetRNGStream(cl, iseed = iseed)
         oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
- 	    permI_int(i, z[i], z[-i], crd[i], lww[[i]], nsim)})
+ 	    permI_int(i, z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i])})
         out <- do.call("rbind", do.call("c", oo))
         rm(env)
       } else {
@@ -116,7 +118,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         RNGkind("L'Ecuyer-CMRG")
         if (!is.null(iseed)) set.seed(iseed)
         oo <- parallel::mclapply(sI, FUN=lapply, function(i) {permI_int(i,
-            z[i], z[-i], crd[i], lww[[i]], nsim)}, mc.cores=ncpus)
+            z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i])}, mc.cores=ncpus)
         RNGkind(oldRNG[1])
         out <- do.call("rbind", do.call("c", oo))
       } else {
@@ -125,7 +127,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     } else {
         if (!is.null(iseed)) set.seed(iseed)
         oo <- lapply(1:n, function(i) permI_int(i, z[i], z[-i], 
-            crd[i], lww[[i]], nsim))
+            crd[i], lww[[i]], nsim, Iis[i]))
         out <- do.call("rbind", oo)
     }
 
@@ -143,6 +145,9 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         pv <- pnorm(res[,4], lower.tail=FALSE)
     else pv <- pnorm(res[,4])
     res[,5] <- p.adjustSP(pv, listw$neighbours, method=p.adjust.method)
+    low_extreme <- (nsim - out[,3]) < out[,3]
+    out[low_extreme, 3] <- nsim - out[low_extreme, 3]
+    res[,6] <- (out[,3] + 1.0) / (nsim + 1.0)
     if (!is.null(na.act) && excl) {
 	res <- naresid(na.act, res)
     }
