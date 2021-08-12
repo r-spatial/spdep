@@ -45,6 +45,7 @@ The values of local Moran's I are divided by the variance (or sample variance) o
   \item{Var.Ii}{variance of local moran statistic}
   \item{Z.Ii}{standard deviate of local moran statistic}
   \item{Pr()}{p-value of local moran statistic}
+  \item{p_sim}{For \code{localmoran_perm}, the Hope-type folded 0-0.5 range ranked p-value (based on \url{https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213})}
 }
 \note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.}
 \references{Anselin, L. 1995. Local indicators of spatial association,

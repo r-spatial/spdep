@@ -145,6 +145,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         pv <- pnorm(res[,4], lower.tail=FALSE)
     else pv <- pnorm(res[,4])
     res[,5] <- p.adjustSP(pv, listw$neighbours, method=p.adjust.method)
+# 210811 from https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213
     low_extreme <- (nsim - out[,3]) < out[,3]
     out[low_extreme, 3] <- nsim - out[low_extreme, 3]
     res[,6] <- (out[,3] + 1.0) / (nsim + 1.0)
