@@ -16,7 +16,7 @@ localmoran(x, listw, zero.policy=NULL, na.action=na.fail, conditional=FALSE,
         spChk=NULL, adjust.x=FALSE)
 localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail, 
 	alternative = "greater", p.adjust.method="none", mlvar=TRUE,
-        spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL)
+        spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL, rank=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -32,6 +32,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{sample_Ei}{default TRUE; if conditional permutation, use the sample $E_i$ values, or the analytical values, leaving only variances calculated by simulation.}
   \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
+  \item{rank}{default FALSE, if TRUE, use \code{rank()} and \code{punif()} for [0, 1] p-values rather than folded [0, 0.5] p-values.}
 }
 
 \details{
@@ -41,11 +42,11 @@ The values of local Moran's I are divided by the variance (or sample variance) o
 \value{
 
   \item{Ii}{local moran statistic}
-  \item{E.Ii}{expectation of local moran statistic}
-  \item{Var.Ii}{variance of local moran statistic}
-  \item{Z.Ii}{standard deviate of local moran statistic}
-  \item{Pr()}{p-value of local moran statistic}
-  \item{p_sim}{For \code{localmoran_perm}, the Hope-type folded 0-0.5 range ranked p-value (based on \url{https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213})}
+  \item{E.Ii}{expectation of local moran statistic; for \code{localmoran_perm}the permutation sample means}
+  \item{Var.Ii}{variance of local moran statistic; for \code{localmoran_perm}the permutation sample standard deviations}
+  \item{Z.Ii}{standard deviate of local moran statistic; for \code{localmoran_perm} based on permutation sample means and standard deviations}
+  \item{Pr()}{p-value of local moran statistic using \code{pnorm()}; for \code{localmoran_perm} using standard deviatse based on permutation sample means and standard deviations}
+  \item{Pr() Sim}{For \code{localmoran_perm}, the simulation folded [0, 0.5] range ranked p-value (based on \url{https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213}), or if rank=TRUE, \code{rank()} and \code{punif()} of observed statistic rank for [0, 1] p-values}
 }
 \note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.}
 \references{Anselin, L. 1995. Local indicators of spatial association,

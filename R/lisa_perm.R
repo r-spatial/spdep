@@ -1,6 +1,8 @@
 localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     na.action=na.fail, alternative = "greater", p.adjust.method="none",
-    mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL) {
+    mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL,
+    rank=FALSE) {
+    alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
     stopifnot(is.vector(x))
     if (!inherits(listw, "listw"))
 	stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -27,10 +29,26 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     n <- length(listw$neighbours)
     if (n != length(x))stop("Different numbers of observations")
     res <- matrix(nrow=n, ncol=6)
-    if (alternative == "two.sided") Prname <- "Pr(z != 0)"
-    else if (alternative == "greater") Prname <- "Pr(z > 0)"
-    else Prname <- "Pr(z < 0)"
-    colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname, "p_sim")
+    gr <- punif((0:nsim)/(nsim), 0, 1)
+    ls <- rev(gr)
+    ts <- (ifelse(gr > ls, ls, gr))*2
+    if (alternative == "two.sided") {
+        probs <- ts
+        Prname <- "Pr(z != 0)"
+    } else if (alternative == "greater") {
+        Prname <- "Pr(z > 0)"
+        probs <- gr
+    } else {
+        Prname <- "Pr(z < 0)"
+        probs <- ls
+    }
+    if (rank) {
+        Prname_sim <- paste0(Prname, " Sim")
+    } else {
+        Prname_sim <- "Pr(folded) Sim"
+        probs <- NULL
+    }
+    colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname, Prname_sim)
     if (adjust.x) {
         nc <- card(listw$neighbours) > 0L
 	xx <- mean(x[nc], na.rm=NAOK)
@@ -38,6 +56,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         xx <- mean(x, na.rm=NAOK)
     }
     z <- x - xx 
+    EIc <- -(z^2 * sapply(listw$weights, sum)) / ((n - 1) * (sum(z * z) / n))
     lz <- lag.listw(listw, z, zero.policy=zero.policy, NAOK=NAOK)
 
     if (mlvar) {
@@ -76,17 +95,35 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     }
 
     crd <- card(listw$neighbours)
-    permI_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ii) {
+    permI_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ii, alternative, rank,
+        sample_Ei, EIci, probs) {
+        res_i <- rep(as.numeric(NA), 5)       
         if (crdi > 0) {
             sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim)
             lz_i <- sz_i %*% wtsi
             res_p <- (zi/s2)*lz_i
-            res <- c(mean(res_p), var(res_p), as.integer(sum(res_p >= Ii)))
-        } else {
-            res <- c(as.numeric(NA), as.numeric(NA), as.integer(NA))
+            if (sample_Ei) res_i[1] <- mean(res_p)
+            else res_i[1] <- EIci
+            res_i[2] <- var(res_p)
+            res_i[3] <- (Ii - res_i[1])/sqrt(res_i[2])
+            if (alternative == "two.sided") 
+                res_i[4] <- 2 * pnorm(abs(res_i[3]), lower.tail=FALSE)
+            else if (alternative == "greater") 
+                res_i[4] <- pnorm(res_i[3], lower.tail=FALSE)
+            else res_i[4] <- pnorm(res_i[3])
+            if (rank) {
+                xrank <- rank(c(res_p, Ii))[(nsim + 1L)]
+	        res_i[5] <- probs[xrank]
+            } else {
+                rnk0 <- as.integer(sum(res_p >= Ii))
+# 210811 from https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213
+                drnk0 <- nsim - rnk0
+                rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
+                res_i[5] <- (rnk + 1.0) / (nsim + 1.0)
+            }
         }
-        res
+        res_i
     }
 
     lww <- listw$weights
@@ -101,11 +138,17 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         assign("lww", lww, envir=env)
         assign("nsim", nsim, envir=env)
         assign("Iis", Iis, envir=env)
-        parallel::clusterExport(cl, varlist=c("z", "crd", "lww", "nsim", "Iis"),
-            envir=env)
+        assign("alternative", alternative, envir=env)
+        assign("rank", rank, envir=env)
+        assign("EIc", EIc, envir=env)
+        assign("sample_Ei", sample_Ei, envir=env)
+        assign("probs", probs, envir=env)
+        parallel::clusterExport(cl, varlist=c("z", "crd", "lww", "nsim", "Iis",
+            "alternative", "rank", "EIc", "sample_Ei", "probs"), envir=env)
         if (!is.null(iseed)) parallel::clusterSetRNGStream(cl, iseed = iseed)
         oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
- 	    permI_int(i, z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i])})
+ 	    permI_int(i, z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i],
+            alternative, rank, sample_Ei, EIc[i], probs)})
         out <- do.call("rbind", do.call("c", oo))
         rm(env)
       } else {
@@ -118,7 +161,8 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         RNGkind("L'Ecuyer-CMRG")
         if (!is.null(iseed)) set.seed(iseed)
         oo <- parallel::mclapply(sI, FUN=lapply, function(i) {permI_int(i,
-            z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i])}, mc.cores=ncpus)
+            z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i], alternative, rank, 
+            sample_Ei, EIc[i], probs)}, mc.cores=ncpus)
         RNGkind(oldRNG[1])
         out <- do.call("rbind", do.call("c", oo))
       } else {
@@ -127,28 +171,16 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     } else {
         if (!is.null(iseed)) set.seed(iseed)
         oo <- lapply(1:n, function(i) permI_int(i, z[i], z[-i], 
-            crd[i], lww[[i]], nsim, Iis[i]))
+            crd[i], lww[[i]], nsim, Iis[i], alternative, rank, 
+            sample_Ei, EIc[i], probs))
         out <- do.call("rbind", oo)
     }
 
-    if (!sample_Ei) {
-        res[,2] <- -sapply(listw$weights, sum) / (n-1)
-    } else {
-        res[,2] <- out[,1]
-    }
+    res[,2] <- out[,1]
     res[,3] <- out[,2]
-
-    res[,4] <- (res[,1] - res[,2]) / sqrt(res[,3])
-    if (alternative == "two.sided") pv <- 2 * pnorm(abs(res[,4]), 
-        lower.tail=FALSE)
-    else if (alternative == "greater")
-        pv <- pnorm(res[,4], lower.tail=FALSE)
-    else pv <- pnorm(res[,4])
-    res[,5] <- p.adjustSP(pv, listw$neighbours, method=p.adjust.method)
-# 210811 from https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213
-    low_extreme <- (nsim - out[,3]) < out[,3]
-    out[low_extreme, 3] <- nsim - out[low_extreme, 3]
-    res[,6] <- (out[,3] + 1.0) / (nsim + 1.0)
+    res[,4] <- out[,3]
+    res[,5] <- p.adjustSP(out[,4], listw$neighbours, method=p.adjust.method)
+    res[,6] <- p.adjustSP(out[,5], listw$neighbours, method=p.adjust.method)
     if (!is.null(na.act) && excl) {
 	res <- naresid(na.act, res)
     }

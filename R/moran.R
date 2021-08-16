@@ -98,7 +98,7 @@ moran.test <- function(x, listw, randomisation=TRUE, zero.policy=NULL,
 moran.mc <- function(x, listw, nsim, zero.policy=NULL,
 	alternative="greater", na.action=na.fail, spChk=NULL,
         return_boot=FALSE, adjust.n=TRUE) {
-	alternative <- match.arg(alternative, c("greater", "less"))
+	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
 	if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
 		"is not a listw object"))
 	if(!is.numeric(x)) stop(paste(deparse(substitute(x)),
@@ -169,6 +169,8 @@ moran.mc <- function(x, listw, nsim, zero.policy=NULL,
         	pval <- punif((diff + 1)/(nsim + 1), lower.tail=FALSE)
     	else if (alternative == "greater") 
         	pval <- punif((diff + 1)/(nsim + 1))
+        else pval <- punif(abs(xrank - (nsim+1)/2)/(nsim + 1), 0, 0.5,
+                lower.tail=FALSE)
 	if (!is.finite(pval) || pval < 0 || pval > 1) 
 		warning("Out-of-range p-value: reconsider test arguments")
 	statistic <- res[nsim+1]
