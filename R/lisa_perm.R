@@ -34,12 +34,12 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     ts <- (ifelse(gr > ls, ls, gr))*2
     if (alternative == "two.sided") {
         probs <- ts
-        Prname <- "Pr(z != 0)"
+        Prname <- "Pr(z != E(Ii))"
     } else if (alternative == "greater") {
-        Prname <- "Pr(z > 0)"
+        Prname <- "Pr(z > E(Ii))"
         probs <- gr
     } else {
-        Prname <- "Pr(z < 0)"
+        Prname <- "Pr(z < E(Ii))"
         probs <- ls
     }
     if (rank) {

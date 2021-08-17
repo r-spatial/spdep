@@ -30,9 +30,9 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 	n <- length(listw$neighbours)
 	if (n != length(x))stop("Different numbers of observations")
 	res <- matrix(nrow=n, ncol=5)
-        if (alternative == "two.sided") Prname <- "Pr(z != 0)"
-        else if (alternative == "greater") Prname <- "Pr(z > 0)"
-        else Prname <- "Pr(z < 0)"
+        if (alternative == "two.sided") Prname <- "Pr(z != E(Ii))"
+        else if (alternative == "greater") Prname <- "Pr(z > E(Ii))"
+        else Prname <- "Pr(z < E(Ii))"
 	colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname)
 	if (adjust.x) {
           nc <- card(listw$neighbours) > 0L
