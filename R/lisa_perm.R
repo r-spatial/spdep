@@ -29,7 +29,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     n <- length(listw$neighbours)
     if (n != length(x))stop("Different numbers of observations")
     res <- matrix(nrow=n, ncol=6)
-    gr <- punif((0:nsim)/(nsim), 0, 1)
+    gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
     ls <- rev(gr)
     ts <- (ifelse(gr > ls, ls, gr))*2
     if (alternative == "two.sided") {
