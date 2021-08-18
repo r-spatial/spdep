@@ -11,7 +11,7 @@ importFrom(stats, influence.measures, lag, punif, lm, var, integrate,
              aggregate, "coefficients", "fitted", "gaussian",
              "model.frame", "model.matrix", "model.response", "na.fail",
              "na.omit", "naresid", "optimise", "printCoefmat", "resid",
-             "terms", "uniroot", "weighted.residuals", "weights")
+             "terms", "uniroot", "weighted.residuals", "weights", "median")
 
 importFrom(stats, model.matrix, model.response, model.extract, coefficients, residuals, deviance, optimize, optim, nlminb, na.fail, as.formula, terms, coef, gaussian, model.weights, model.offset, glm.fit, logLik, predict, formula, lm.fit, model.frame, AIC, anova, napredict, nlm, optimHess, resid, fitted, weighted.residuals, weights, naresid, optimise, fitted.values, delete.response, printCoefmat, uniroot, na.omit, predict.lm, "dbeta", "rchisq", "runif", "spline") # deprecated
 

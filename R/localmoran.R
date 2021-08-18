@@ -2,7 +2,7 @@
 #
 
 localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
-        conditional=FALSE, alternative = "greater", p.adjust.method="none",
+        conditional=TRUE, alternative = "two.sided", p.adjust.method="none",
         mlvar=TRUE, spChk=NULL, adjust.x=FALSE) {
         stopifnot(is.vector(x))
 	if (!inherits(listw, "listw"))
@@ -42,7 +42,17 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 	}
 	z <- x - xx 
 	lz <- lag.listw(listw, z, zero.policy=zero.policy, NAOK=NAOK)
-
+        lbs <- c("Low", "High")
+        quadr_ps <- interaction(cut(z, c(-Inf, 0, Inf), labels=lbs), 
+            cut(lz, c(-Inf, 0, Inf), labels=lbs), sep="-")
+        lx <- lag.listw(listw, x, zero.policy=zero.policy, NAOK=NAOK)
+        lxx <- mean(lx, na.rm=NAOK)
+        quadr <- interaction(cut(x, c(-Inf, xx, Inf), labels=lbs), 
+            cut(lx, c(-Inf, lxx, Inf), labels=lbs), sep="-")
+        xmed <- median(x, na.rm=NAOK)
+        lxmed <- median(lx, na.rm=NAOK)
+        quadr_med <- interaction(cut(x, c(-Inf, xmed, Inf), labels=lbs),
+            cut(lx, c(-Inf, lxmed, Inf), labels=lbs), sep="-")
 	if (mlvar) {
           if (adjust.x) {
             s2 <- sum(z[nc]^2, na.rm=NAOK)/sum(nc)
@@ -81,12 +91,13 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 	Wi2 <- sapply(listw$weights, function(x) sum(x^2)) 
 	A <- (n-b2) / (n-1)
 	B <- (2*b2 - n) / ((n-1)*(n-2))
-	if (conditional){
+	if (conditional){ # default
+# (Sokal 1998 Eqs. A7 & A8). Elaboration of these changes available in Sauer et al. (2021)
 	  res[, 3] <- ((z / m2) ** 2 *
 	                 (n / (n - 2)) *
 	                 (Wi2 - (Wi ** 2 / (n - 1))) *
 	                 (m2 - (z ** 2 / (n - 1))))
-	} else {
+	} else { # conditional=FALSE
 	  res[,3] <- A*Wi2 + B*(Wi^2 - Wi2) - res[,2]^2
 	}
 # Changed to Sokal (1998) VIi
@@ -111,6 +122,8 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 	attr(res, "call") <- match.call()
 	if (!is.null(na.act)) attr(res, "na.action") <- na.act
 	class(res) <- c("localmoran", class(res))
+        attr(res, "quadr") <- data.frame(mean=quadr, median=quadr_med,
+            pysal=quadr_ps)
 	res
 }
 

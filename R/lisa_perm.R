@@ -1,7 +1,7 @@
 localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
-    na.action=na.fail, alternative = "greater", p.adjust.method="none",
+    na.action=na.fail, alternative = "two.sided", p.adjust.method="none",
     mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL,
-    rank=FALSE) {
+    rank=TRUE) {
     alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
     stopifnot(is.vector(x))
     if (!inherits(listw, "listw"))
@@ -29,6 +29,10 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     n <- length(listw$neighbours)
     if (n != length(x))stop("Different numbers of observations")
     res <- matrix(nrow=n, ncol=6)
+    if (!rank && alternative != "two.sided") {
+        rank <- TRUE
+        warning("rank=FALSE requires alternative=\"two.sided\", setting rank=TRUE")
+    }
     gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
     ls <- rev(gr)
     ts <- (ifelse(gr > ls, ls, gr))*2
@@ -58,6 +62,18 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     z <- x - xx 
     EIc <- -(z^2 * sapply(listw$weights, sum)) / ((n - 1) * (sum(z * z) / n))
     lz <- lag.listw(listw, z, zero.policy=zero.policy, NAOK=NAOK)
+    lbs <- c("Low", "High")
+# https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/moran.py#L1068-L1081
+    quadr_ps <- interaction(cut(z, c(-Inf, 0, Inf), labels=lbs), 
+        cut(lz, c(-Inf, 0, Inf), labels=lbs), sep="-")
+    lx <- lag.listw(listw, x, zero.policy=zero.policy, NAOK=NAOK)
+    lxx <- mean(lx, na.rm=NAOK)
+    quadr <- interaction(cut(x, c(-Inf, xx, Inf), labels=lbs), 
+        cut(lx, c(-Inf, lxx, Inf), labels=lbs), sep="-")
+    xmed <- median(x, na.rm=NAOK)
+    lxmed <- median(lx, na.rm=NAOK)
+    quadr_med <- interaction(cut(x, c(-Inf, xmed, Inf), labels=lbs),
+        cut(lx, c(-Inf, lxmed, Inf), labels=lbs), sep="-")
 
     if (mlvar) {
         if (adjust.x) {
@@ -187,6 +203,8 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     if (!is.null(rn)) rownames(res) <- rn
     attr(res, "call") <- match.call()
     if (!is.null(na.act)) attr(res, "na.action") <- na.act
+    attr(res, "quadr") <- data.frame(mean=quadr, median=quadr_med, 
+        pysal=quadr_ps)
     class(res) <- c("localmoran", class(res))
     res
 }
