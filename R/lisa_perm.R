@@ -28,7 +28,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     }
     n <- length(listw$neighbours)
     if (n != length(x))stop("Different numbers of observations")
-    res <- matrix(nrow=n, ncol=6)
+    res <- matrix(nrow=n, ncol=8)
     if (!rank && alternative != "two.sided") {
         rank <- TRUE
         warning("rank=FALSE requires alternative=\"two.sided\", setting rank=TRUE")
@@ -52,7 +52,8 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         Prname_sim <- "Pr(folded) Sim"
         probs <- NULL
     }
-    colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname, Prname_sim)
+    colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname, Prname_sim,
+        "Skewness", "Kurtosis")
     if (adjust.x) {
         nc <- card(listw$neighbours) > 0L
 	xx <- mean(x[nc], na.rm=NAOK)
@@ -113,7 +114,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     crd <- card(listw$neighbours)
     permI_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ii, alternative, rank,
         sample_Ei, EIci, probs) {
-        res_i <- rep(as.numeric(NA), 5)       
+        res_i <- rep(as.numeric(NA), 7)       
         if (crdi > 0) {
             sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim)
@@ -138,6 +139,8 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
                 rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
                 res_i[5] <- (rnk + 1.0) / (nsim + 1.0)
             }
+            res_i[6] <- e1071::skewness(res_p)
+            res_i[7] <- e1071::kurtosis(res_p)
         }
         res_i
     }
@@ -197,6 +200,8 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     res[,4] <- out[,3]
     res[,5] <- p.adjustSP(out[,4], listw$neighbours, method=p.adjust.method)
     res[,6] <- p.adjustSP(out[,5], listw$neighbours, method=p.adjust.method)
+    res[,7] <- out[,6]
+    res[,8] <- out[,7]
     if (!is.null(na.act) && excl) {
 	res <- naresid(na.act, res)
     }

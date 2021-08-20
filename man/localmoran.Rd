@@ -47,7 +47,9 @@ The values of local Moran's I are divided by the variance (or sample variance) o
   \item{Z.Ii}{standard deviate of local moran statistic; for \code{localmoran_perm} based on permutation sample means and standard deviations}
   \item{Pr()}{p-value of local moran statistic using \code{pnorm()}; for \code{localmoran_perm} using standard deviatse based on permutation sample means and standard deviations}
   \item{Pr() Sim}{For \code{localmoran_perm}, \code{rank()} and \code{punif()} of observed statistic rank for [0, 1] p-values, or if rank=FALSE, the simulation folded [0, 0.5] range ranked p-value (based on \url{https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213})}
-In addition, an attribute data frame \code{"quadr"} with mean and median quadrant columns, and a column splitting on the demeaned variable and lagged variable at zero
+  \item{Skewness}{For \code{localmoran_perm}, the output of \code{e1071::skewness()} for the permutation samples underlying the standard deviates}
+  \item{Kurtosis}{For \code{localmoran_perm}, the output of \code{e1071::kurtosis()} for the permutation samples underlying the standard deviates}
+In addition, an attribute data frame \code{"quadr"} with mean and median quadrant columns, and a column splitting on the demeaned variable and lagged demeaned variable at zero.
 }
 \note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.}
 \references{Anselin, L. 1995. Local indicators of spatial association,
