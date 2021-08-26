@@ -48,7 +48,8 @@ print.nb <- function(x, ...) {
     cat("Average number of links:", mean(c.nb), "\n")
     if(any(c.nb == 0)) cat(length(c.nb[c.nb == 0]), " region", 
         ifelse(length(c.nb[c.nb == 0]) < 2L, "", "s"), " with no links:\n",
-	paste(regids[which(c.nb == 0)], collapse=" "), "\n", sep="")
+	paste(strwrap(paste(regids[which(c.nb == 0)], collapse=" ")),
+        collapse="\n"), "\n", sep="")
     res <- is.symmetric.nb(nb, verbose=FALSE)
     if (!res) cat("Non-symmetric neighbours list\n")
     invisible(x)
