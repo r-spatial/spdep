@@ -6,6 +6,10 @@
 
 * `poly2nb()` now uses `sf::st_intersects()` to find candidate neighbours unless `findInBounds=` is not NULL. With spatial indexing, this is very fast and scales well for large data sets. If `sf_use_s2()` is `TRUE`, `sf::st_intersects()` passes the geometries to `s2::s2_intersects_matrix()`, which also uses spatial indexing and is very fast, scaling well for large data sets.
 
+* `localmoran()` and `localmoran_perm()` return cluster quadrants in an attribute for three splits, zeros, means and medians on the variable of interest and its spatial lag.
+
+* `localmoran_perm()` returns the skewness and kurtosis of the permutation samples.
+
 
 # Version 1.1-8 (2021-05-23)
 

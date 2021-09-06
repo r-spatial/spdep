@@ -121,17 +121,17 @@
   <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="http://maptools.r-forge.r-project.org/">maptools</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
   <span class="va">NY8</span> <span class="op">&lt;-</span> <span class="fu"><a href="http://maptools.r-forge.r-project.org/reference/readShapeSpatial.html">readShapeSpatial</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/NY8_utm18.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
-<pre><code>## rgdal: version: 1.5-25, (SVN revision 1133)
+<pre><code>## rgdal: version: 1.5-25, (SVN revision 1137)
 ## Geospatial Data Abstraction Library extensions to R successfully loaded
-## Loaded GDAL runtime: GDAL 3.3.1, released 2021/06/28
+## Loaded GDAL runtime: GDAL 3.3.2, released 2021/09/01
 ## Path to GDAL shared files: /usr/local/share/gdal
 ## GDAL binary built with GEOS: TRUE 
-## Loaded PROJ runtime: Rel. 8.1.0, July 1st, 2021, [PJ_VERSION: 810]
+## Loaded PROJ runtime: Rel. 8.1.1, September 1st, 2021, [PJ_VERSION: 811]
 ## Path to PROJ shared files: /home/rsb/.local/share/proj:/usr/local/share/proj:/usr/local/share/proj
 ## PROJ CDN enabled: FALSE
 ## Linking to sp version:1.4-6
 ## To mute warnings of possible GDAL/OSR exportToProj4() degradation,
-## use options("rgdal_show_exportToProj4_warnings"="none") before loading rgdal.</code></pre>
+## use options("rgdal_show_exportToProj4_warnings"="none") before loading sp or rgdal.</code></pre>
 <pre><code>## Warning in OGRSpatialRef(dsn, layer, morphFromESRI = morphFromESRI, dumpSRS =
 ## dumpSRS, : Discarded datum D_unknown in Proj4 definition: +proj=utm +zone=18
 ## +ellps=WGS84 +units=m +no_defs</code></pre>
@@ -143,7 +143,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/">spdep</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## Loading required package: spData</code></pre>
 <pre><code>## Loading required package: sf</code></pre>
-<pre><code>## Linking to GEOS 3.10.0dev, GDAL 3.3.1, PROJ 8.1.0</code></pre>
+<pre><code>## Linking to GEOS 3.10.0dev, GDAL 3.3.2, PROJ 8.1.1</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"weights/NY_nb.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, region.id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">NY8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>For the sake of simplicity in showing how to create neighbour objects, we work on a subset of the map consisting of the census tracts within Syracuse, although the same principles apply to the full data set. We retrieve the part of the neighbour list in Syracuse using the <code>subset</code> method.</p>
