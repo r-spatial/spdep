@@ -50,7 +50,7 @@ data(world, package="spData")
 pts <- st_centroid(st_transform(world, 3857))
 nb_world <- dnearneigh(pts, 0, 1000000)
 # Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme
-world_weights <- nb2listwdist(nb_world, pts, type = "idw",
+world_weights <- nb2listwdist(nb_world, as(pts, "Spatial"), type = "idw",
   alpha = 2, zero.policy = TRUE)
 moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass)
 \dontrun{
@@ -62,7 +62,6 @@ moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass
 world_weights <- nb2listwdist(nb_world, pts, type = "dpd",
   dmax = 1000000, alpha = 2, zero.policy = TRUE)
 moran.test(world$lifeExp, world_weights, zero.policy = TRUE, na.action = na.pass)
-}
 # Boston examples
 data(boston, package="spData")
 boston_coords <- data.frame(x = boston.utm[,1], y = boston.utm[,2])
@@ -76,6 +75,7 @@ moran.test(boston.c$CRIM, boston_weights, zero.policy = TRUE, na.action = na.pas
 boston_weights <- nb2listwdist(nb_boston, boston.geoms, type = "idw", alpha = 2,
   style="W", zero.policy = TRUE)
 moran.test(boston.c$CRIM, boston_weights, zero.policy = TRUE, na.action = na.pass)
+}
 }
 
 \keyword{spatial}

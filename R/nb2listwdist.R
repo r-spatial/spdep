@@ -46,8 +46,9 @@ nb2listwdist <- function(neighbours, x, type="idw", style="raw", alpha = 1, dmax
   if (!sf) {
     for (i in 1:n)
       if(cardnb[i] > 0) {
+        gx <- geometry(x)
         if(longlat)
-          glist[[i]] <- as.numeric(spDists(geometry(x)[i], geometry(x)[neighbours[[i]]], longlat = TRUE)) * 1000
+          glist[[i]] <- as.numeric(spDists(gx[i], gx[neighbours[[i]]], longlat = TRUE)) * 1000
         else
           glist[[i]] <- as.numeric(spDists(geometry(x)[i], geometry(x)[neighbours[[i]]], longlat = FALSE))
         mode(glist[[i]]) <- "numeric"
@@ -57,9 +58,10 @@ nb2listwdist <- function(neighbours, x, type="idw", style="raw", alpha = 1, dmax
       coords_type = "Great Circle"
     else
       coords_type = "Euclidean"
+    gx <- st_geometry(x)
     for (i in 1:n)
       if(cardnb[i] > 0) {
-        glist[[i]] <- as.numeric(st_distance(st_geometry(x)[i], st_geometry(x)[neighbours[[i]]], which = coords_type))
+        glist[[i]] <- as.numeric(st_distance(gx[i], gx[neighbours[[i]]], which = coords_type))
         mode(glist[[i]]) <- "numeric"
       }
   }
