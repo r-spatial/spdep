@@ -1,4 +1,8 @@
-# Version 1.1-11 (development)
+# Version 1.1-12 (development)
+
+* In `poly2nb()`, reverted removal of legacy interpreted overlapping envelope code for sp objects that cannot be coerced to sf without **rgeos**.
+
+# Version 1.1-11 (2021-09-07)
 
 * `knearneigh()` and `nbdists()`; added prototype adaptation to **s2** for unprojected coordinates, used if `sf_use_s2()` is `TRUE` which became the default for **sf** 1.0.0 https://github.com/r-spatial/s2/issues/125. These are activated by default.
 

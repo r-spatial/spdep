@@ -85,48 +85,35 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 	dbsnap <- as.double(bsnap)
         dsnap <- as.double(snap)
         if (is.null(foundInBox)) {
-#            if (n < small_n) {
-#                genBBIndex <- function(bb) { 
-#                    n <- nrow(bb)
-#                    bxv <- as.vector(bb[,c(1,3)])
-#                    byv <- as.vector(bb[,c(2,4)])
-#                    obxv <- order(bxv)
-#                    rbxv <- c(1:(n*2))[obxv]
-#                    mbxv <- match(1:(n*2),obxv)
-#                    obyv <- order(byv)
-#                    rbyv <- c(1:(n*2))[obyv]
-#                    mbyv <- match(1:(n*2),obyv)
-#
-#                    return(list(bb=bb, bxv=bxv, byv=byv, obxv=obxv, obyv=obyv, 
-#                        mbxv=mbxv, mbyv=mbyv, rbyv=rbyv, rbxv=rbxv))
-#                }
-#	        BBindex <- genBBIndex(bb)
-#                if (verbose) cat("size of BBindex:", object.size(BBindex), "\n")
-#                foundInBox <- lapply(1:(n-1), function(i) findInBox(i, BBindex))
-#            } else {
-            if (!sf) pl <- st_as_sfc(pl)
-#                envs <- lapply(pl, function(x) {st_as_sfc(st_bbox(x))[[1]]})
-#                if (use_s2) {
-#                    envs_sfc <- st_as_sfc(envs, crs=st_crs(pl))
-#                } else {
-#                    envs_sfc <- st_as_sfc(envs)
-#                }
-# https://github.com/r-spatial/s2/issues/125#issuecomment-864186377
-# https://github.com/r-spatial/s2/issues/32
-#                if (!is.na(st_is_longlat(envs_sfc)) &&
-#                    st_is_longlat(envs_sfc)) {
-#                    if (dfMaxLength > 0) envs_sfc <- st_segmentize(envs_sfc,
-#                        dfMaxLength=dfMaxLength)
-#                    fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE,
-#                        s2_model="closed")
-#                } else {
-#                    fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE)
-#                }
-#                rm(envs_sfc)
+            if (!sf) {
+                pl0 <- try(st_as_sfc(pl), silent=TRUE)
+                if (inherits(pl0, "try-error")) {
+                    genBBIndex <- function(bb) { 
+                        n <- nrow(bb)
+                        bxv <- as.vector(bb[,c(1,3)])
+                        byv <- as.vector(bb[,c(2,4)])
+                        obxv <- order(bxv)
+                        rbxv <- c(1:(n*2))[obxv]
+                        mbxv <- match(1:(n*2),obxv)
+                        obyv <- order(byv)
+                        rbyv <- c(1:(n*2))[obyv]
+                        mbyv <- match(1:(n*2),obyv)
+                        return(list(bb=bb, bxv=bxv, byv=byv, obxv=obxv,
+                            obyv=obyv, mbxv=mbxv, mbyv=mbyv, rbyv=rbyv,
+                            rbxv=rbxv))
+                    }
+	            BBindex <- genBBIndex(bb)
+                    if (verbose) cat("size of BBindex:", object.size(BBindex),
+                        "\n")
+                    foundInBox <- lapply(1:(n-1), function(i)
+                        findInBox(i, BBindex))
+                } else {
+                    pl <- pl0
+                }
+            }
             fB1 <- st_intersects(pl)
             fB1a <- lapply(seq_along(fB1), function(i) {fB1[[i]][fB1[[i]] > i]})
             foundInBox <- fB1a[-length(fB1a)]
-#            }
             if (verbose) cat("findInBox:", (proc.time() - .ptime_start)[3])
         }
         stopifnot(is.list(foundInBox))
@@ -193,46 +180,46 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 
 # faster findInBox
 
-# qintersect<-function(x,y) {
-# 	    # streamlined intersect function for unique vectors
-#     as.integer(y[match(x, y, 0L)])
-# }
+qintersect<-function(x,y) {
+ 	    # streamlined intersect function for unique vectors
+    as.integer(y[match(x, y, 0L)])
+}
 
-# findInBox<-function(i, sp, bigger=TRUE) {
-#     n <- dim(sp$bb)[1]
+findInBox<-function(i, sp, bigger=TRUE) {
+    n <- dim(sp$bb)[1]
 
 # use index structure to identify which other BB's fall in i's BB
 # by getting id's of polygons with BBmin_j < BBmax_i, BBmax_j > BBmin_i for x and y 
 # then taking the intersection of these four lists of id's
 
-#     tmp<-vector(mode="list", length=4)
+    tmp<-vector(mode="list", length=4)
         # ! i1 > j3 --> i1 <= j3
-#     tmp[[1]] <- sp$rbxv[sp$mbxv[i]:(n*2)]
-#     tmp[[1]]<- tmp[[1]][which(tmp[[1]]>n)] - n
+    tmp[[1]] <- sp$rbxv[sp$mbxv[i]:(n*2)]
+    tmp[[1]]<- tmp[[1]][which(tmp[[1]]>n)] - n
         # ! i2 > j4 --> i2 <= bj4
-#     tmp[[2]] <- sp$rbyv[sp$mbyv[i]:(n*2)]
-#     tmp[[2]]<- tmp[[2]][which(tmp[[2]]>n)] - n
+    tmp[[2]] <- sp$rbyv[sp$mbyv[i]:(n*2)]
+    tmp[[2]]<- tmp[[2]][which(tmp[[2]]>n)] - n
         # ! i3 < j1 -> i3 >= j1
-#     tmp[[3]] <- sp$rbxv[1:sp$mbxv[i+n]]
-#     tmp[[3]] <- tmp[[3]][which(tmp[[3]]<=n)]
+    tmp[[3]] <- sp$rbxv[1:sp$mbxv[i+n]]
+    tmp[[3]] <- tmp[[3]][which(tmp[[3]]<=n)]
         # ! i4 < j2 -> i4 >= j2
-#     tmp[[4]] <- sp$rbyv[1:sp$mbyv[i+n]]
-#     tmp[[4]]<- tmp[[4]][which(tmp[[4]]<=n)]
+    tmp[[4]] <- sp$rbyv[1:sp$mbyv[i+n]]
+    tmp[[4]]<- tmp[[4]][which(tmp[[4]]<=n)]
 
 	# for performance, order the comparison of the lists
 
-#     lentmp <- order(sapply(tmp,length))
+    lentmp <- order(sapply(tmp,length))
 
 	# use qintersect, since these are already vectors and unique 
-#     result <- qintersect(tmp[[lentmp[2]]],tmp[[lentmp[1]]])
-#     result <- qintersect(tmp[[lentmp[3]]],result)
-#     result <- qintersect(tmp[[lentmp[4]]],result)
+    result <- qintersect(tmp[[lentmp[2]]],tmp[[lentmp[1]]])
+    result <- qintersect(tmp[[lentmp[3]]],result)
+    result <- qintersect(tmp[[lentmp[4]]],result)
 
-#     if (bigger) {
-#         result<-result[which(result>i)]
-#     }
-#     return(sort(result))
-# }
+    if (bigger) {
+        result<-result[which(result>i)]
+    }
+    return(sort(result))
+}
 
 
   
