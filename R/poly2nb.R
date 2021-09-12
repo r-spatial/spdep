@@ -115,9 +115,11 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
                     pl <- pl0
                 }
             }
-            fB1 <- st_intersects(pl)
-            fB1a <- lapply(seq_along(fB1), function(i) {fB1[[i]][fB1[[i]] > i]})
-            foundInBox <- fB1a[-length(fB1a)]
+            if (is.null(foundInBox)) {
+                fB1 <- st_intersects(pl)
+                fB1a <- lapply(seq_along(fB1), function(i) {fB1[[i]][fB1[[i]] > i]})
+                foundInBox <- fB1a[-length(fB1a)]
+            }
             if (verbose) cat("findInBox:", (proc.time() - .ptime_start)[3])
         }
         stopifnot(is.list(foundInBox))
