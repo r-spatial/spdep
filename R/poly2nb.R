@@ -88,6 +88,10 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
             if (!sf) {
                 pl0 <- try(st_as_sfc(pl), silent=TRUE)
                 if (inherits(pl0, "try-error")) {
+                    warning("poly2nb: spatial indexing abandoned,\n",
+                        deparse(substitute(pl)), 
+                        " could not be coerced to \"sfc\":\n", 
+                        attr(pl0, "condition")$message)
                     genBBIndex <- function(bb) { 
                         n <- nrow(bb)
                         bxv <- as.vector(bb[,c(1,3)])
