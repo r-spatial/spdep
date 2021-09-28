@@ -2,7 +2,9 @@
 
 * In `poly2nb()`, reverted removal of legacy interpreted overlapping envelope code for sp objects that cannot be coerced to sf without **rgeos**.
 
-* Add Fortran character handling USE_FC_LEN_T WRE §6.6.1
+* Add Fortran character handling `USE_FC_LEN_T` WRE §6.6.1.
+
+* Checks OK with forthcoming **deldir** 1.0-0.
 
 # Version 1.1-11 (2021-09-07)
 
