@@ -2,6 +2,8 @@
 
 * In `poly2nb()`, reverted removal of legacy interpreted overlapping envelope code for sp objects that cannot be coerced to sf without **rgeos**.
 
+* Add Fortran character handling USE_FC_LEN_T WRE §6.6.1
+
 # Version 1.1-11 (2021-09-07)
 
 * `knearneigh()` and `nbdists()`; added prototype adaptation to **s2** for unprojected coordinates, used if `sf_use_s2()` is `TRUE` which became the default for **sf** 1.0.0 https://github.com/r-spatial/s2/issues/125. These are activated by default.

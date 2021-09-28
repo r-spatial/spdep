@@ -330,7 +330,7 @@ SEXP R_ml_sse_env(SEXP env, SEXP coef) {
   F77_CALL(dqrqy)(pt->xlq, &n, &k, pt->qraux, pt->qy, &k, pt->qy);
 
   F77_CALL(dgemv)(trans, &n, &k, &one, pt->qy, &n, pt->yl, &c__1, &zero,
-    pt->xlqyl, &c__1);
+    pt->xlqyl, &c__1 FCONE);
 
   cyl = F77_CALL(ddot)(&n, pt->yl, &c__1, pt->yl, &c__1);
 
@@ -378,7 +378,7 @@ SEXP R_ml1_sse_env(SEXP env, SEXP lambda, SEXP beta) {
   F77_CALL(daxpy)(&np, &m_lambda, pt->wx1, &c__1, pt->xl, &c__1);
 
   F77_CALL(dgemv)(trans, &n, &p, &one, pt->xl, &n, pt->beta1, &c__1, &zero,
-    pt->xlb, &c__1);
+    pt->xlb, &c__1 FCONE);
 
   F77_CALL(daxpy)(&n, &m_one, pt->xlb, &c__1, pt->yl, &c__1);
 
@@ -419,7 +419,7 @@ SEXP R_ml2_sse_env(SEXP env, SEXP rho, SEXP beta) {
   F77_CALL(daxpy)(&n, &m_rho1, pt->wy1, &c__1, pt->yl, &c__1);
 
   F77_CALL(dgemv)(trans, &n, &p, &one, pt->x, &n, pt->beta1, &c__1, &zero,
-    pt->xb, &c__1);
+    pt->xb, &c__1 FCONE);
 
   F77_CALL(daxpy)(&n, &m_one, pt->xb, &c__1, pt->yl, &c__1);
 

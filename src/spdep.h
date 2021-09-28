@@ -1,10 +1,14 @@
-/* Copyright 2010 by Roger S. Bivand. */
+/* Copyright 2010-2021 by Roger S. Bivand. */
 
+#define USE_FC_LEN_T
 #include <R.h>
 #include <Rmath.h>
 #include <Rdefines.h>
 #include <Rinternals.h>
 #include <R_ext/BLAS.h>
+#ifndef FCONE
+# define FCONE
+#endif
 #include <R_ext/Applic.h>
 /* #include <R_ext/Linpack.h> */
 #include <R_ext/Utils.h>
