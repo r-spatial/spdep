@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-12</span>
       </span>
     </div>
 
@@ -138,9 +138,20 @@
       <small>Source: <a href='https://github.com/r-spatial/spdep/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="version-11-9-development" class="section level1">
-<h1 class="page-header" data-toc-text="1.1-9">
-<a href="#version-11-9-development" class="anchor"></a>Version 1.1-9 (development)<small> Unreleased </small>
+    <div id="version-11-12-development" class="section level1">
+<h1 class="page-header" data-toc-text="1.1-12">
+<a href="#version-11-12-development" class="anchor"></a>Version 1.1-12 (development)<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>In <code><a href="../reference/poly2nb.html">poly2nb()</a></code>, reverted removal of legacy interpreted overlapping envelope code for sp objects that cannot be coerced to sf without <strong>rgeos</strong>.</p></li>
+<li><p>Add Fortran character handling <code>USE_FC_LEN_T</code> WRE §6.6.1.</p></li>
+<li><p>Checks OK with forthcoming <strong>deldir</strong> 1.0-0.</p></li>
+<li><p>Fixes <a href='https://github.com/r-spatial/spdep/issues/62'>#62</a> clarifying <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> help page</p></li>
+</ul>
+</div>
+    <div id="version-11-11-2021-09-07" class="section level1">
+<h1 class="page-header" data-toc-text="1.1-11">
+<a href="#version-11-11-2021-09-07" class="anchor"></a>Version 1.1-11 (2021-09-07)<small> 2021-09-07 </small>
 </h1>
 <ul>
 <li><p><code><a href="../reference/knearneigh.html">knearneigh()</a></code> and <code><a href="../reference/nbdists.html">nbdists()</a></code>; added prototype adaptation to <strong>s2</strong> for unprojected coordinates, used if <code><a href="https://r-spatial.github.io/sf/reference/s2.html">sf_use_s2()</a></code> is <code>TRUE</code> which became the default for <strong>sf</strong> 1.0.0 <a href="https://github.com/r-spatial/s2/issues/125" class="uri">https://github.com/r-spatial/s2/issues/125</a>. These are activated by default.</p></li>

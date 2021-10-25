@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-12</span>
       </span>
     </div>
 
@@ -233,16 +233,16 @@
 #&gt;  3rd Qu.:0.2500                   
 #&gt;  Max.   :0.5000                   </div><div class='input'><span class='va'>tf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>".gpkg"</span><span class='op'>)</span>
 <span class='fu'>st_write</span><span class='op'>(</span><span class='va'>res</span>, dsn<span class='op'>=</span><span class='va'>tf</span>, driver<span class='op'>=</span><span class='st'>"GPKG"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Writing layer `file80f3503eb203' to data source 
-#&gt;   `/tmp/RtmpB1Yzgu/file80f3503eb203.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; <span class='message'>writing GPKG: substituting LOCAL_CS["Undefined Cartesian SRS"] for missing CRS</span></div><div class='output co'>#&gt; Writing layer `file8a321c468295' to data source 
+#&gt;   `/tmp/Rtmp1Fh6UD/file8a321c468295.gpkg' using driver `GPKG'
 #&gt; Writing 230 features with 5 fields and geometry type Line String.</div><div class='input'><span class='va'>inMap</span> <span class='op'>&lt;-</span> <span class='fu'>st_read</span><span class='op'>(</span><span class='va'>tf</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Reading layer `file80f3503eb203' from data source 
-#&gt;   `/tmp/RtmpB1Yzgu/file80f3503eb203.gpkg' using driver `GPKG'
+</div><div class='output co'>#&gt; Reading layer `file8a321c468295' from data source 
+#&gt;   `/tmp/Rtmp1Fh6UD/file8a321c468295.gpkg' using driver `GPKG'
 #&gt; Simple feature collection with 230 features and 5 fields
 #&gt; Geometry type: LINESTRING
 #&gt; Dimension:     XY
 #&gt; Bounding box:  xmin: 6.165913 ymin: 11.04088 xmax: 10.96206 ymax: 14.43766
-#&gt; Geodetic CRS:  Undefined geographic SRS</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>inMap</span><span class='op'>)</span>
+#&gt; Projected CRS: Undefined cartesian SRS</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span><span class='op'>(</span><span class='va'>inMap</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;        i               j             i_ID               j_ID          
 #&gt;  Min.   : 1.00   Min.   : 1.00   Length:230         Length:230        
 #&gt;  1st Qu.:13.00   1st Qu.:13.00   Class :character   Class :character  
@@ -250,13 +250,13 @@
 #&gt;  Mean   :24.19   Mean   :24.19                                        
 #&gt;  3rd Qu.:35.00   3rd Qu.:35.00                                        
 #&gt;  Max.   :49.00   Max.   :49.00                                        
-#&gt;        wt                    geom    
-#&gt;  Min.   :0.1000   LINESTRING   :230  
-#&gt;  1st Qu.:0.1429   epsg:NA      :  0  
-#&gt;  Median :0.1667   +proj=long...:  0  
-#&gt;  Mean   :0.2130                      
-#&gt;  3rd Qu.:0.2500                      
-#&gt;  Max.   :0.5000                      </div><div class='input'><span class='fu'><a href='diffnb.html'>diffnb</a></span><span class='op'>(</span><span class='fu'><a href='listw2sn.html'>sn2listw</a></span><span class='op'>(</span><span class='fu'>df2sn</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>inMap</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>neighbours</span>, <span class='va'>col.gal.nb</span><span class='op'>)</span>
+#&gt;        wt                 geom    
+#&gt;  Min.   :0.1000   LINESTRING:230  
+#&gt;  1st Qu.:0.1429   epsg:NA   :  0  
+#&gt;  Median :0.1667                   
+#&gt;  Mean   :0.2130                   
+#&gt;  3rd Qu.:0.2500                   
+#&gt;  Max.   :0.5000                   </div><div class='input'><span class='fu'><a href='diffnb.html'>diffnb</a></span><span class='op'>(</span><span class='fu'><a href='listw2sn.html'>sn2listw</a></span><span class='op'>(</span><span class='fu'>df2sn</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>inMap</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>neighbours</span>, <span class='va'>col.gal.nb</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; Neighbour list object:
 #&gt; Number of regions: 49 
 #&gt; Number of nonzero links: 0 

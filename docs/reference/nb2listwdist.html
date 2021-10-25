@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-12</span>
       </span>
     </div>
 
@@ -215,10 +215,11 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
     <pre class="examples"><div class='input'><span class='co'># World examples</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>world</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
 <span class='co'># neighbours on distance interval [0, 1000] kilometres</span>
+<span class='fu'><a href='https://rdrr.io/r/base/warning.html'>suppressWarnings</a></span><span class='op'>(</span><span class='fu'>st_crs</span><span class='op'>(</span><span class='va'>world</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='st'>"+proj=longlat"</span><span class='op'>)</span> <span class='co'># for older PROJ</span>
 <span class='va'>pts</span> <span class='op'>&lt;-</span> <span class='fu'>st_centroid</span><span class='op'>(</span><span class='fu'>st_transform</span><span class='op'>(</span><span class='va'>world</span>, <span class='fl'>3857</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: st_centroid assumes attributes are constant over geometries of x</span></div><div class='input'><span class='va'>nb_world</span> <span class='op'>&lt;-</span> <span class='fu'><a href='dnearneigh.html'>dnearneigh</a></span><span class='op'>(</span><span class='va'>pts</span>, <span class='fl'>0</span>, <span class='fl'>1000000</span><span class='op'>)</span>
 <span class='co'># Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme</span>
-<span class='va'>world_weights</span> <span class='op'>&lt;-</span> <span class='fu'>nb2listwdist</span><span class='op'>(</span><span class='va'>nb_world</span>, <span class='va'>pts</span>, type <span class='op'>=</span> <span class='st'>"idw"</span>,
+<span class='va'>world_weights</span> <span class='op'>&lt;-</span> <span class='fu'>nb2listwdist</span><span class='op'>(</span><span class='va'>nb_world</span>, <span class='fu'>as</span><span class='op'>(</span><span class='va'>pts</span>, <span class='st'>"Spatial"</span><span class='op'>)</span>, type <span class='op'>=</span> <span class='st'>"idw"</span>,
   alpha <span class='op'>=</span> <span class='fl'>2</span>, zero.policy <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>world</span><span class='op'>$</span><span class='va'>lifeExp</span>, <span class='va'>world_weights</span>, zero.policy <span class='op'>=</span> <span class='cn'>TRUE</span>, na.action <span class='op'>=</span> <span class='va'>na.pass</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: NAs in lagged values</span></div><div class='output co'>#&gt; 
@@ -242,7 +243,6 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
 <span class='va'>world_weights</span> <span class='op'>&lt;-</span> <span class='fu'>nb2listwdist</span><span class='op'>(</span><span class='va'>nb_world</span>, <span class='va'>pts</span>, type <span class='op'>=</span> <span class='st'>"dpd"</span>,
   dmax <span class='op'>=</span> <span class='fl'>1000000</span>, alpha <span class='op'>=</span> <span class='fl'>2</span>, zero.policy <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>world</span><span class='op'>$</span><span class='va'>lifeExp</span>, <span class='va'>world_weights</span>, zero.policy <span class='op'>=</span> <span class='cn'>TRUE</span>, na.action <span class='op'>=</span> <span class='va'>na.pass</span><span class='op'>)</span>
-<span class='op'>}</span>
 <span class='co'># Boston examples</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>boston</span>, package<span class='op'>=</span><span class='st'>"spData"</span><span class='op'>)</span>
 <span class='va'>boston_coords</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>boston.utm</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, y <span class='op'>=</span> <span class='va'>boston.utm</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>]</span><span class='op'>)</span>
@@ -252,35 +252,12 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
 <span class='va'>boston_weights</span> <span class='op'>&lt;-</span> <span class='fu'>nb2listwdist</span><span class='op'>(</span><span class='va'>nb_boston</span>, <span class='va'>boston.geoms</span>, type <span class='op'>=</span> <span class='st'>"exp"</span>, alpha <span class='op'>=</span> <span class='fl'>2</span>,
   style<span class='op'>=</span><span class='st'>"raw"</span>, zero.policy <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CRIM</span>, <span class='va'>boston_weights</span>, zero.policy <span class='op'>=</span> <span class='cn'>TRUE</span>, na.action <span class='op'>=</span> <span class='va'>na.pass</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; 	Moran I test under randomisation
-#&gt; 
-#&gt; data:  boston.c$CRIM  
-#&gt; weights: boston_weights  n reduced by no-neighbour observations
-#&gt;   
-#&gt; 
-#&gt; Moran I statistic standard deviate = 51.34, p-value &lt; 2.2e-16
-#&gt; alternative hypothesis: greater
-#&gt; sample estimates:
-#&gt; Moran I statistic       Expectation          Variance 
-#&gt;      0.8845114518     -0.0019960080      0.0002981586 
-#&gt; </div><div class='input'><span class='co'># Moran's I (crime) with idw weights with alpha = 2, coding scheme = W</span>
+<span class='co'># Moran's I (crime) with idw weights with alpha = 2, coding scheme = W</span>
 <span class='va'>boston_weights</span> <span class='op'>&lt;-</span> <span class='fu'>nb2listwdist</span><span class='op'>(</span><span class='va'>nb_boston</span>, <span class='va'>boston.geoms</span>, type <span class='op'>=</span> <span class='st'>"idw"</span>, alpha <span class='op'>=</span> <span class='fl'>2</span>,
   style<span class='op'>=</span><span class='st'>"W"</span>, zero.policy <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='fu'><a href='moran.test.html'>moran.test</a></span><span class='op'>(</span><span class='va'>boston.c</span><span class='op'>$</span><span class='va'>CRIM</span>, <span class='va'>boston_weights</span>, zero.policy <span class='op'>=</span> <span class='cn'>TRUE</span>, na.action <span class='op'>=</span> <span class='va'>na.pass</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt; 	Moran I test under randomisation
-#&gt; 
-#&gt; data:  boston.c$CRIM  
-#&gt; weights: boston_weights  n reduced by no-neighbour observations
-#&gt;   
-#&gt; 
-#&gt; Moran I statistic standard deviate = 18.976, p-value &lt; 2.2e-16
-#&gt; alternative hypothesis: greater
-#&gt; sample estimates:
-#&gt; Moran I statistic       Expectation          Variance 
-#&gt;      0.4392852330     -0.0019960080      0.0005408065 
-#&gt; </div></pre>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
