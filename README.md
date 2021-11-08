@@ -11,4 +11,6 @@ A collection of functions to create spatial weights matrix objects from polygon 
 
 For now **spatialreg** only has functions from **spdep**, where they are shown as deprecated. **spatialreg** only loads the namespace of **spdep**; if you attach it, the same functions in the other package will be masked. Some feed through adequately, others do not (mostly where `stats::model.matrix()` facilities do not like the extra level of passing arguments).
 
+Default branch now `main`
+
 Moved from [R-Forge](https://r-forge.r-project.org/projects/spdep/)
