@@ -108,11 +108,13 @@ all.equal(attr(nb_B1$neighbours, "region.id"), attr(nb_B$neighbours, "region.id"
 
 ### Log determinants (symmetric weights) used in spatial regression
 
-An initial reason for implementing support for sparse weights matrices in **spdep** was to permit the calculation of the log determinant term in spatial regressions for larger data sets. Using the eigenvalue approach with for example `eigenw` is limited by the need to operate on dense matrices in memory to solve the eigenproblem:
+An initial reason for implementing support for sparse weights matrices in **spdep** was to permit the calculation of the log determinant term in spatial regressions for larger data sets. Using the eigenvalue approach with for example `spatialreg::eigenw` is limited by the need to operate on dense matrices in memory to solve the eigenproblem:
 
 ```{r, echo=dothis, eval=dothis}
 rho <- 0.1
-sum(log(1 - rho * eigenw(nb_B)))
+do_spatialreg <- FALSE
+if (requireNamespace("spatialreg", quietly=TRUE)) do_spatialreg <- TRUE
+if (do_spatialreg) sum(log(1 - rho * spatialreg::eigenw(nb_B)))
 ```
 
 When `n` is large, this may become impractical and/or time-consuming, but does permit the rapid calculation of values of the log determinant for differing values of the spatial coefficient \( \rho \). The **Matrix** package provides many `determinant` methods, here for a `"dsCMatrix"` resulting from subtracting a `"dsCMatrix"`, the product of a scalar and a `"dsTMatrix"`, from a `"ddiMatrix"`. The value of the log determinant follows, calling a sparse Cholesky decomposition internally for suitable input matrices.
@@ -160,7 +162,7 @@ Calculating the log determinant for asymmetric weights (here with symmetric neig
 
 ```{r, echo=dothis, eval=dothis}
 rho <- 0.5
-sum(log(1 - rho * eigenw(nb_W)))
+sum(log(1 - rho * spatialreg::eigenw(nb_W)))
 class(I - rho * W)
 c(determinant(I - rho * W, logarithm=TRUE)$modulus)
 ```
@@ -199,7 +201,7 @@ As can be seen, the division by the square root of zero for entity 21 is not a p
 In spatial regression, the domain of the spatial coefficient is given by the inverse of the maximum and minimum eigenvalues. When `n` is moderate, we have the eigenvalues anyway, so the interval for line search is available without extra effort. When `n` is somewhat larger, use may be made of the `eigs` function in **RSpectra**:
 
 ```{r, echo=dothis, eval=dothis}
-1/range(eigenw(nb_B))
+1/range(spatialreg::eigenw(nb_B))
 if (!require("RSpectra", quietly=TRUE)) dothis <- FALSE
 ```
 
@@ -210,7 +212,7 @@ if (!require("RSpectra", quietly=TRUE)) dothis <- FALSE
 In this case, the results are trivial with small `k`.
 
 ```{r, echo=dothis, eval=dothis}
-1/range(eigenw(nb_W))
+1/range(spatialreg::eigenw(nb_W))
 1/Re(c(eigs(W, k=1, which="SR")$values, eigs(W, k=1, which="LR")$values))
 ```
 Using row-standardisation has the nice feature of setting the upper bound to unity, and there are graph methods for finding out whether the lower bound is `-1`.
@@ -318,14 +320,14 @@ spdep:::find_q1_q2(nb_rW)
 One block/graph component is found, and this one meets the cyclical matrix condition, as also shown by the domain:
 
 ```{r, echo=dothis, eval=dothis}
-1/range(Re(eigenw(similar.listw(nb_rW))))
+1/range(Re(spatialreg::eigenw(spatialreg::similar.listw(nb_rW))))
 ```
 
 This does not apply to the spatial weights we have been using above, with two non-singleton components, neither meeting the cyclical matrix condition:
 
 ```{r, echo=dothis, eval=dothis}
 spdep:::find_q1_q2(nb_W)
-1/range(Re(eigenw(similar.listw(nb_W))))
+1/range(Re(spatialreg::eigenw(spatialreg::similar.listw(nb_W))))
 ```
 
 By construction, all two-node connected graph components also meet the condition, as the eigenvalues sum to zero, and the maximum is unity, so the minimum must be -1.

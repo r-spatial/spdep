@@ -45,9 +45,6 @@ importFrom(LearnBayes, rwmetrop) # deprecated
 importFrom(gmodels, estimable) # deprecated
 importFrom(expm, expAtv, expm) # deprecated
 
-#importMethodsFrom("Matrix", "%*%", "crossprod", "t", "diag", "rowSums", "colSums") # defunct
-#importFrom("Matrix", "Diagonal", "drop") # defunct
-
 exportMethods(coerce)
 
 export(EBImoran.mc, probmap, choynowski, EBest, EBlocal)
@@ -103,64 +100,6 @@ export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
 
 
 
-export(errorsarlm) # deprecated (prabclus, spfrontier, ssfa)
-
-export(lagsarlm) # deprecated (lagsarlmtree)
-
-export(sacsarlm) # deprecated
-
-export(print.sarlm, summary.sarlm, residuals.sarlm, deviance.sarlm, 
-	coef.sarlm, fitted.sarlm, logLik.sarlm, anova.sarlm, vcov.sarlm,
-	predict.sarlm, print.summary.sarlm, print.sarlm.pred, bptest.sarlm) # deprecated
-
-export(lmSLX, create_WX, predict.SLX) # deprecated
-
-export(spBreg_lag, spBreg_err, spBreg_sac) # deprecated
-
-export(spautolm, residuals.spautolm, deviance.spautolm, coef.spautolm, 
-	fitted.spautolm, print.spautolm, summary.spautolm, LR1.spautolm, 
-	logLik.spautolm, print.summary.spautolm) # deprecated
-
-export(MCMCsamp) # deprecated
-
-export(do_ldet, eigen_setup, mcdet_setup, cheb_setup, spam_setup,
-        Matrix_setup, LU_setup, Matrix_J_setup, spam_update_setup,
-        moments_setup, SE_classic_setup, SE_whichMin_setup, SE_interp_setup,
-        LU_prepermutate_setup, eigen_pre_setup) # deprecated (spatialprobit, splm, HSAR)
-
-export(eigenw, jacobianSetup, can.be.simmed, similar.listw) # deprecated
-
-export(trW, impacts, intImpacts) # deprecated (splm, sphet)
-
-export(as_dgRMatrix_listw, as_dsTMatrix_listw, as_dsCMatrix_I,
-	as_dsCMatrix_IrW, Jacobian_W, powerWeights) # deprecated
-
-export(as.spam.listw) # deprecated (latticeDensity, splm)
-
-export(LR.sarlm, LR1.sarlm, Wald1.sarlm) # deprecated
-
-export(Hausman.test) # deprecated
-
-export(SpatialFiltering, print.SFResult, fitted.SFResult,
-	ME, print.ME_res, fitted.ME_res) # deprecated
-
-export(lagmess) # deprecated
-
-export(GMerrorsar, gstsls, GMargminImage,
-	residuals.gmsar, deviance.gmsar, coef.gmsar, fitted.gmsar, 
-	print.gmsar, summary.gmsar, print.summary.gmsar) # deprecated
-
-export(stsls, print.stsls, summary.stsls, print.summary.stsls, 
-	residuals.stsls, coef.stsls, deviance.stsls) # deprecated
-
-export(mom_calc, mom_calc_int2) # deprecated
-
-export(griffith_sone, subgraph_eigenw) # deprecated
-
-export(lextrB, lextrW, lextrS, l_max) # deprecated
-
-#import(maptools)
-
 S3method(print, nb)
 S3method(summary, nb)
 S3method(plot, nb)
@@ -203,87 +142,4 @@ S3method(plot, spcor)
 S3method(plot, mst)
 S3method(plot, skater)
 
-# deprecate candidates
-
-S3method(print, sarlm) # deprecated
-S3method(summary, sarlm) # deprecated
-S3method(residuals, sarlm) # deprecated
-S3method(deviance, sarlm) # deprecated
-S3method(coef, sarlm) # deprecated
-S3method(vcov, sarlm) # deprecated
-S3method(fitted, sarlm) # deprecated
-S3method(logLik, sarlm) # deprecated
-S3method(anova, sarlm) # deprecated
-S3method(predict, sarlm) # deprecated
-S3method(impacts, sarlm) # deprecated
-S3method(print, summary.sarlm) # deprecated
-S3method(print, sarlm.pred) # deprecated
-S3method(as.data.frame, sarlm.pred)
-
-S3method(Hausman.test, sarlm) # deprecated
-S3method(MCMCsamp, sarlm) # deprecated
-
-S3method(impacts, MCMC_sar_g) # deprecated
-S3method(impacts, MCMC_sem_g) # deprecated
-S3method(impacts, MCMC_sac_g) # deprecated
-
-S3method(impacts, SLX) # deprecated
-S3method(predict, SLX) # deprecated
-
-S3method(residuals, spautolm) # deprecated
-S3method(deviance, spautolm) # deprecated
-S3method(coef, spautolm) # deprecated
-S3method(fitted, spautolm) # deprecated
-S3method(print, spautolm) # deprecated
-S3method(summary, spautolm) # deprecated
-S3method(logLik, spautolm) # deprecated
-S3method(MCMCsamp, spautolm) # deprecated
-
-S3method(print, summary.spautolm) # deprecated
-
-S3method(residuals, gmsar) # deprecated
-S3method(deviance, gmsar) # deprecated
-S3method(coef, gmsar) # deprecated
-S3method(fitted, gmsar) # deprecated
-S3method(print, gmsar) # deprecated
-S3method(summary, gmsar) # deprecated
-S3method(Hausman.test, gmsar) # deprecated
-S3method(impacts, gmsar) # deprecated
-
-S3method(print, summary.gmsar) # deprecated
-
-S3method(fitted, SFResult) # deprecated
-S3method(print, SFResult) # deprecated
-S3method(fitted, ME_res) # deprecated
-S3method(print, ME_res) # deprecated
-
-S3method(residuals, stsls) # deprecated
-S3method(deviance, stsls) # deprecated
-S3method(coef, stsls) # deprecated
-S3method(print, stsls) # deprecated
-S3method(summary, stsls) # deprecated
-S3method(impacts, stsls) # deprecated
-
-S3method(print, summary.stsls) # deprecated
-
-S3method(print, lagImpact) # deprecated
-S3method(plot, lagImpact) # deprecated
-S3method(summary, lagImpact) # deprecated
-S3method(HPDinterval, lagImpact) # deprecated
-export(HPDinterval.lagImpact) # deprecated
-S3method(print, summary.lagImpact) # deprecated
-
-S3method(print, WXImpact) # deprecated
-S3method(summary, WXImpact) # deprecated
-S3method(print, summary.WXImpact) # deprecated
-
-S3method(print, lagmess) # deprecated
-S3method(summary, lagmess) # deprecated
-S3method(print, summary.lagmess) # deprecated
-S3method(residuals, lagmess) # deprecated
-S3method(deviance, lagmess) # deprecated
-S3method(coef, lagmess) # deprecated
-S3method(fitted, lagmess) # deprecated
-S3method(logLik, lagmess) # deprecated
-S3method(impacts, lagmess) # deprecated
 

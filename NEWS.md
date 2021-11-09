@@ -1,4 +1,8 @@
-# Version 1.1-12 (development)
+# Version 1.2-1 (development)
+
+* Switching deprecated functions moved to **spatialreg** to defunct.
+
+# Version 1.1-12 (2021-11-09)
 
 * In `poly2nb()`, reverted removal of legacy interpreted overlapping envelope code for sp objects that cannot be coerced to sf without **rgeos**.
 
