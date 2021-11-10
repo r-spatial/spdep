@@ -197,9 +197,11 @@ moranExpect_H1 <- function(listw, rho, select=FALSE){
 	if (!(select[1]))
 		select=1:length(listw$neighbours)
 	n <- length(select)
-	V <- listw2mat(listw)[select,select]
+	Vo <- listw2mat(listw)
+	V <- Vo[select,select]
 	M <- diag(n)-matrix(rep(1/n,n*n),nrow=n)
-	WOm <- invIrW(listw, rho=rho)[select,select]
+#	WOm <- invIrW(listw, rho=rho)[select,select]
+        WOm <- solve(diag(nrow(Vo)) - rho*Vo)[select,select]
 	B <- WOm %*% M %*%  t(WOm)
 	eigen <- eigen(B)
 	lambda <- eigen$values

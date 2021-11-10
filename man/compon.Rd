@@ -32,7 +32,7 @@ table(res$comp.id)
 plot(col2, coords, add=TRUE)
 points(coords, col=res$comp.id, pch=16)
 run <- FALSE
-if (require(igraph, quietly=TRUE)) run <- TRUE
+if (require(igraph, quietly=TRUE) && require(spatialreg, quietly=TRUE)) run <- TRUE
 if (run) {
 B <- as(nb2listw(col2, style="B", zero.policy=TRUE), "CsparseMatrix")
 g1 <- graph.adjacency(B, mode="undirected")

@@ -27,23 +27,6 @@ importFrom(units, set_units)
 importFrom(s2, s2_distance, s2_closest_edges, s2_buffer_cells, s2_intersects_matrix, s2_dwithin_matrix)
 importFrom(e1071, skewness, kurtosis)
 
-importFrom(MASS, mvrnorm) # deprecated
-importFrom(coda, as.mcmc, HPDinterval) # deprecated
-importFrom(splines, interpSpline) # deprecated
-importFrom(nlme, fdHess) # deprecated
-if (R.version$major >= 3) { # deprecated
-  if (R.version$major == 3 && R.version$minor < 3) {
-    import(Matrix)
-  } else if (R.version$major == 3 && R.version$minor >= 3) {
-    import(Matrix, except=c("expm"))
-  } else if(R.version$major > 3)
-    import(Matrix, except=c("expm"))
-} else {
-  import(Matrix)
-}
-importFrom(LearnBayes, rwmetrop) # deprecated
-importFrom(gmodels, estimable) # deprecated
-importFrom(expm, expAtv, expm) # deprecated
 
 exportMethods(coerce)
 
@@ -58,7 +41,7 @@ export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb,
 export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests, 
 	lm.morantest, localG, localG_perm, localmoran, localmoran_perm, moran,
 	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
-	nb2listw, nb2listwdist, nb2mat, listw2mat, mat2listw, invIrM, invIrW, nbdists, nblag,
+	nb2listw, nb2listwdist, nb2mat, listw2mat, mat2listw, nbdists, nblag,
 	nblag_cumul, poly2nb, read.gal, write.nb.gal, read.geoda, relativeneigh,
 	soi.graph, sp.correlogram, sp.mantel.mc, set.spChkOption, chkIDs,
 	get.spChkOption, spNamedVec, tri2nb,
@@ -80,8 +63,6 @@ export(nb2WB, listw2WB, nb2INLA)
 export(lm.morantest.exact, print.moranex, localmoran.exact, localmoran.exact.alt, print.localmoranex, as.data.frame.localmoranex)
 
 export(mstree, nbcosts, nbcost, plot.mst, plot.skater, prunecost, ssw, prunemst, skater)
-
-export(aple, aple.mc, aple.plot, localAple)
 
 export(tolerance.nb, Rotation)
 

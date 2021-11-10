@@ -623,7 +623,12 @@ autoregressive model better than Moran’s $I$, and re-scales the measure
 by a function of the eigenvalues of the spatial weights matrix. APLE
 requires the use of row standardised weights.
 
-```{r echo=TRUE,eval=TRUE}
+```{r, echo=FALSE,eval=TRUE}
+run <- require("spatialreg", quiet=TRUE) && packageVersion("spatialreg") >= "1.2"
+```
+
+
+```{r echo=TRUE,eval=run}
 vars_scaled <- lapply(vars, function(x) scale(eire_ge1[[x]], scale=FALSE))
 nb_W <- nb2listw(lw_unstand$neighbours, style="W")
 pre <- spdep:::preAple(0, listw=nb_W)
@@ -646,7 +651,7 @@ autocorrelation is very similar irrespective of spatial weights
 definition, while for others, the change in the definition from binary
 to general does make a difference.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 print(formatC(res, format="f", digits=4), quote=FALSE)
 ```
 
