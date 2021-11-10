@@ -136,7 +136,7 @@ else
 }
 if (run) {
 lm.target <- lm(e.errorsar$tary ~ e.errorsar$tarX - 1)
-Omega <- tcrossprod(invIrW(lw, rho=e.errorsar$lambda))
+Omega <- tcrossprod(spatialreg::invIrW(lw, rho=e.errorsar$lambda))
 e.clocmor <- summary(localmoran.sad(lm.target, nb=eire.nb, Omega=Omega))
 e.clocmor
 }

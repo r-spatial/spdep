@@ -135,11 +135,7 @@ listw2WB <- function(listw)
 }
 
 minmax.listw <- function(listw) {
-    if (requireNamespace("spatialreg", quiet=TRUE)) {
-      W <- as(listw, "CsparseMatrix")
-    } else {
-      W <- listw2mat(listw)
-    }
+    W <- listw2mat(listw)
     rm <- max(rowSums(W))
     cm <- max(colSums(W))
     res <- min(c(rm, cm))

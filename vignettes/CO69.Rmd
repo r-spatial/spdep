@@ -631,17 +631,17 @@ run <- require("spatialreg", quiet=TRUE) && packageVersion("spatialreg") >= "1.2
 ```{r echo=TRUE,eval=run}
 vars_scaled <- lapply(vars, function(x) scale(eire_ge1[[x]], scale=FALSE))
 nb_W <- nb2listw(lw_unstand$neighbours, style="W")
-pre <- spdep:::preAple(0, listw=nb_W)
-MoranAPLE <- sapply(vars_scaled, function(x) spdep:::inAple(x, pre))
-pre <- spdep:::preAple(0, listw=lw_std, override_similarity_check=TRUE)
-Prop_stdAPLE <- sapply(vars_scaled, function(x) spdep:::inAple(x, pre))
+pre <- spatialreg:::preAple(0, listw=nb_W)
+MoranAPLE <- sapply(vars_scaled, function(x) spatialreg:::inAple(x, pre))
+pre <- spatialreg:::preAple(0, listw=lw_std, override_similarity_check=TRUE)
+Prop_stdAPLE <- sapply(vars_scaled, function(x) spatialreg:::inAple(x, pre))
 res <- cbind(MoranAPLE, Prop_stdAPLE)
 colnames(res) <- c("APLE W", "APLE Gstd")
 rownames(res) <- vars
 ```
 
 In order to save time, we use the two internal functions
-[`spdep:::preAple`]{} and [`spdep:::inAple`]{}, since for each
+[`spatialreg:::preAple`]{} and [`spatialreg:::inAple`]{}, since for each
 definition of spatial weights, the same eigenvalue calculations need to
 be made. The notation using the [`:::`]{} operator says that the
 function with named after the operator is to be found in the namespace

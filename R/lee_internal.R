@@ -30,14 +30,13 @@ PQquant<-function(M)
         II<-matrix(rep(1, nrow(M)), ncol=1)
 
         aux<-list(
-                Foff0=as.numeric(t(II)%*%(M%*%II)-sum(diag(M))),
-                Fon0=sum(diag(M)),
-                Foff1=sum(diag(t(M)%*%M))-sum(diag(M)^2),
-                Fon1=sum(diag(M)^2),
-                Foff2 = sum((M%*%II-diag(M))^2),
-                Fall2 = as.numeric(sum((M%*%II)^2)) #as.numeric(t(II)%*%(t(M)%*%M)%*%II)
+            Foff0=as.numeric(t(II)%*%(M%*%II)-sum(diag(M))),
+            Fon0=sum(diag(M)),
+            Foff1=sum(diag(t(M)%*%M))-sum(diag(M)^2),
+            Fon1=sum(diag(M)^2),
+            Foff2 = sum((M%*%II-diag(M))^2),
+            Fall2 = as.numeric(sum((M%*%II)^2)) #as.numeric(t(II)%*%(t(M)%*%M)%*%II)
         )
-
         return(aux)
 }
 
