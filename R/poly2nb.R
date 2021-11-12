@@ -6,7 +6,7 @@
 
 
 poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
-	queen=TRUE, useC=TRUE, foundInBox=NULL) {
+	queen=TRUE, useC=TRUE, foundInBox=NULL, dfMaxLength=0) {
         verbose <- get("verbose", envir = .spdepOptions)
         .ptime_start <- proc.time()
         sf <- NULL
@@ -112,13 +112,46 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
                     foundInBox <- lapply(1:(n-1), function(i)
                         findInBox(i, BBindex))
                 } else {
-                    pl <- pl0
+                  pl <- pl0
                 }
-            }
-            if (is.null(foundInBox)) {
-                fB1 <- st_intersects(pl)
-                fB1a <- lapply(seq_along(fB1), function(i) {fB1[[i]][fB1[[i]] > i]})
+              }
+              if (is.null(foundInBox)) {
+                envs <- lapply(pl, function(x) {st_as_sfc(st_bbox(x))[[1]]})
+                if (sf_use_s2() && !is.na(st_is_longlat(pl)) &&
+                  st_is_longlat(pl)) {
+                  envs_sfc <- st_as_sfc(envs, crs=st_crs(pl))
+                } else {
+                  envs_sfc <- st_as_sfc(envs)
+                }
+                if (!is.na(st_is_longlat(envs_sfc)) &&
+                  st_is_longlat(envs_sfc) && sf_use_s2()) {
+                  if (dfMaxLength > 0) envs_sfc <- st_segmentize(envs_sfc,
+                    dfMaxLength=dfMaxLength)
+                  if (snap > sqrt(.Machine$double.eps)) {
+                    fB1 <- st_intersects(st_buffer(envs_sfc, dist=snap),
+                      sparse=TRUE, prepared=TRUE#,
+                      #options=s2_options(model="closed")
+                      )
+                  } else {
+                    fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE#,
+                      #options=s2_options(model="closed")
+                      )
+                  }
+                } else {
+                  if (snap > sqrt(.Machine$double.eps)) {
+                    fB1 <- st_intersects(st_buffer(envs_sfc, dist=snap),
+                      sparse=TRUE, prepared=TRUE)
+                  } else {
+                    fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE)
+                  }
+                }
+                rm(envs_sfc)
+                rm(envs)
+                fB1a <- lapply(seq_along(fB1), function(i) 
+                  {fB1[[i]][fB1[[i]] > i]})
                 foundInBox <- fB1a[-length(fB1a)]
+                rm(fB1)
+                rm(fB1a)
             }
             if (verbose) cat("findInBox:", (proc.time() - .ptime_start)[3])
         }
