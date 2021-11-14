@@ -6,7 +6,7 @@
 
 
 poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
-	queen=TRUE, useC=TRUE, foundInBox=NULL, dfMaxLength=0) {
+	queen=TRUE, useC=TRUE, foundInBox=NULL) {
         verbose <- get("verbose", envir = .spdepOptions)
         .ptime_start <- proc.time()
         sf <- NULL
@@ -49,12 +49,12 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 		}
 	}
         if (snap < 0) snap <- abs(snap)
-        if (snap < .Machine$double.eps) {
-            bsnap <- .Machine$double.eps
-        } else { 
-            bsnap <- snap
-        }
-        vbsnap <- c(-bsnap, snap)
+#        if (snap < .Machine$double.eps) {
+#            bsnap <- .Machine$double.eps
+#        } else { 
+#            bsnap <- snap
+#        }
+        vbsnap <- c(-snap, snap)
         if (verbose) cat("handle IDs:", (proc.time() - .ptime_start)[3], "\n")
         .ptime_start <- proc.time()
 
@@ -82,7 +82,7 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
             cat("massage polygons:", (proc.time() - .ptime_start)[3], "\n")
 
         .ptime_start <- proc.time()
-	dbsnap <- as.double(bsnap)
+#	dbsnap <- as.double(bsnap)
         dsnap <- as.double(snap)
         if (is.null(foundInBox)) {
             if (!sf) {
@@ -116,37 +116,23 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
                 }
               }
               if (is.null(foundInBox)) {
-                envs <- lapply(pl, function(x) {st_as_sfc(st_bbox(x))[[1]]})
-                if (sf_use_s2() && !is.na(st_is_longlat(pl)) &&
-                  st_is_longlat(pl)) {
+# https://github.com/r-spatial/spdep/issues/65
+                if (!is.na(st_is_longlat(pl)) &&
+                  st_is_longlat(pl) && sf_use_s2()) {
+                  fB1 <- st_intersects(pl, sparse=TRUE, prepared=TRUE,
+                      model="closed")
+                } else {
+                  cdsnap <- as.double(c(-snap, -snap, snap, snap))
+                  cbb <- t(apply(bb, 1, function(x) x+cdsnap))
+                  envs <- apply(cbb, 1, function(x) 
+                    st_polygon(list(rbind(x[c(1,2)], x[c(3,2)], x[c(3,4)],
+                    x[c(1,4)], x[c(1,2)]))))
                   envs_sfc <- st_as_sfc(envs, crs=st_crs(pl))
-                } else {
-                  envs_sfc <- st_as_sfc(envs)
-                }
-                if (!is.na(st_is_longlat(envs_sfc)) &&
-                  st_is_longlat(envs_sfc) && sf_use_s2()) {
-                  if (dfMaxLength > 0) envs_sfc <- st_segmentize(envs_sfc,
-                    dfMaxLength=dfMaxLength)
-                  if (snap > sqrt(.Machine$double.eps)) {
-                    fB1 <- st_intersects(st_buffer(envs_sfc, dist=snap),
-                      sparse=TRUE, prepared=TRUE#,
-                      #options=s2_options(model="closed")
-                      )
-                  } else {
-                    fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE#,
-                      #options=s2_options(model="closed")
-                      )
-                  }
-                } else {
-                  if (snap > sqrt(.Machine$double.eps)) {
-                    fB1 <- st_intersects(st_buffer(envs_sfc, dist=snap),
-                      sparse=TRUE, prepared=TRUE)
-                  } else {
                     fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE)
-                  }
+                  rm(envs_sfc)
+                  rm(envs)
+                  rm(cbb)
                 }
-                rm(envs_sfc)
-                rm(envs)
                 fB1a <- lapply(seq_along(fB1), function(i) 
                   {fB1[[i]][fB1[[i]] > i]})
                 foundInBox <- fB1a[-length(fB1a)]
