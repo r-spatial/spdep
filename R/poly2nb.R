@@ -119,8 +119,11 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 # https://github.com/r-spatial/spdep/issues/65
                 if (!is.na(st_is_longlat(pl)) &&
                   st_is_longlat(pl) && sf_use_s2()) {
-                  fB1 <- st_intersects(pl, sparse=TRUE, prepared=TRUE,
-                      model="closed")
+                  if (packageVersion("sf") < "1.0.4") {
+                    fB1 <- st_intersects(pl, sparse=TRUE)
+                  } else {
+                    fB1 <- st_intersects(pl, sparse=TRUE, model="closed")
+                  }
                 } else {
                   cdsnap <- as.double(c(-snap, -snap, snap, snap))
                   cbb <- t(apply(bb, 1, function(x) x+cdsnap))
@@ -128,7 +131,7 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
                     st_polygon(list(rbind(x[c(1,2)], x[c(3,2)], x[c(3,4)],
                     x[c(1,4)], x[c(1,2)]))))
                   envs_sfc <- st_as_sfc(envs, crs=st_crs(pl))
-                    fB1 <- st_intersects(envs_sfc, sparse=TRUE, prepared=TRUE)
+                    fB1 <- st_intersects(envs_sfc, sparse=TRUE)
                   rm(envs_sfc)
                   rm(envs)
                   rm(cbb)
