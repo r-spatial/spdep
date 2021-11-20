@@ -61,6 +61,7 @@ listw <- nb2listw(spData::africa.rook.nb)
 x <- spData::afcon$totcon
 
 localC(x, listw)
+set.seed(1)
 localC_perm(x, listw, nsim = 99)
 }
 \references{
