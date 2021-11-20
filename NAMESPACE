@@ -92,6 +92,8 @@ export(lee.mc, lee, lee.test)
 
 export(LOSH, LOSH.cs, LOSH.mc)
 
+export(localC, localC_perm)
+
 export(grid2nb)
 
 export(autocov_dist)
@@ -202,6 +204,14 @@ S3method(plot, spcor)
 
 S3method(plot, mst)
 S3method(plot, skater)
+
+S3method(localC, default)
+S3method(localC, formula)
+S3method(localC, list)
+S3method(localC, matrix)
+S3method(localC, data.frame)
+S3method(localC_perm, default)
+S3method(localC_perm, formula)
 
 # deprecate candidates
 

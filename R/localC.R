@@ -3,7 +3,7 @@ localC <- function(x, ...) {
 }
 
 
-localC.default <- function(x, ...) {
+localC.default <- function(x, listw, ...) {
   # check listw object
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -88,7 +88,7 @@ localC_perm <- function(x, ...) {
   UseMethod("localC_perm")
 }
 
-localC_perm.default <- function(x, listw, nsim = 499, alternative = "less") {
+localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", ...) {
 
   # checks are inherited from localC no need to implement
   obs <- localC(x, listw)
@@ -124,7 +124,7 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "less") {
 }
 
 localC_perm.formula <- function(formula, listw, data,
-                                nsim = 499, alternative = "less") {
+                                nsim = 499, alternative = "less", ...) {
 
   # if any data issues the localC formula method will catch it
   obs <- localC(formula, listw, data)

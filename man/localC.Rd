@@ -14,7 +14,7 @@
 \usage{
 localC(x, ...)
 
-\method{localC}{default}(x, ...)
+\method{localC}{default}(x, listw, ...)
 
 \method{localC}{formula}(formula, listw, data, ...)
 
@@ -26,9 +26,9 @@ localC(x, ...)
 
 localC_perm(x, ...)
 
-\method{localC_perm}{default}(x, listw, nsim = 499, alternative = "less")
+\method{localC_perm}{default}(x, listw, nsim = 499, alternative = "less", ...)
 
-\method{localC_perm}{formula}(formula, listw, data, nsim = 499, alternative = "less")
+\method{localC_perm}{formula}(formula, listw, data, nsim = 499, alternative = "less", ...)
 }
 \arguments{
 \item{x}{a numeric vector, numeric matrix, or list. See details for more.}
@@ -42,6 +42,7 @@ localC_perm(x, ...)
 \item{nsim}{The number of simulations to be used for permutation test.}
 
 \item{alternative}{A character defining the alternative hypothesis. Must be one of \code{"less"} or \code{"greater"}.}
+\item{...}{other arguments passed to methods}
 }
 \description{
 The Local Geary is a local adaptation of Geary's C statistic of spatial autocorrelation. The Local Geary uses squared differences to measure dissimilarity unlike the Local Moran. Low values of the Local Geary indicate positive spatial autocorrelation and large refers to negative spatial autocorrelation.
