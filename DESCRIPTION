@@ -35,7 +35,8 @@ Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bi
 	person("Michael", "Tiefelsdorf", role = "ctb"),
 	person("René", "Westerholt", role="ctb"),
 	person("Levi", "Wolf", role = "ctb"),
-	person("Danlin", "Yu", role = "ctb"))
+	person("Danlin", "Yu", role = "ctb"),
+	person("Josiah", "Parry", role = "ctb", comment = c(ORCID = "0000-0001-9910-865X")))
 Depends: R (>= 3.3.0), methods, sp (>= 1.0), spData (>= 0.2.6.0), sf 
 Imports: deldir, boot (>= 1.3-1), graphics, grDevices, utils, stats, Matrix, LearnBayes, MASS, coda, expm, gmodels, nlme, units, s2, e1071
 Suggests: spatialreg (>= 1.1-1), parallel, dbscan, rgeos, RColorBrewer, lattice, xtable, maptools (>= 0.5-4), foreign, igraph, RSpectra, knitr, rgdal, classInt, tmap, spam, ggplot2, rmarkdown, tinytest
@@ -74,4 +75,4 @@ Description: A collection of functions to create spatial weights matrix
   Some feed through adequately, others do not.
 License: GPL (>= 2)
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: RoxygenNote: 6.1.1
