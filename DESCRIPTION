@@ -28,6 +28,7 @@ Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bi
 	person("Giovanni", "Millo", role = "ctb"),
 	person("Werner", "Mueller", role = "ctb"),
 	person("Hisaji", "Ono", role = "ctb"),
+	person("Josiah", "Parry", role = "ctb", comment = c(ORCID = "0000-0001-9910-865X")),
 	person("Pedro", "Peres-Neto", role = "ctb"),
 	person("Gianfranco", "Piras", role = "ctb"),
 	person("Markus", "Reder", role = "ctb"),
@@ -52,7 +53,7 @@ Description: A collection of functions to create spatial weights matrix
   'Assunção/Reis' (1999) <doi:10.1002/(SICI)1097-0258(19990830)18:16%3C2147::AID-SIM179%3E3.0.CO;2-I> Index, 'Getis/Ord' G ('Getis' and 'Ord' 1992)
   <doi:10.1111/j.1538-4632.1992.tb00261.x> and multicoloured
   join count statistics, 'APLE' ('Li 'et al.' )
-  <doi:10.1111/j.1538-4632.2007.00708.x>, local 'Moran's I'
+  <doi:10.1111/j.1538-4632.2007.00708.x>, local 'Moran's I', 'Gearys C' 
   ('Anselin' 1995) <doi:10.1111/j.1538-4632.1995.tb00338.x> and
   'Getis/Ord' G ('Ord' and 'Getis' 1995)
   <doi:10.1111/j.1538-4632.1995.tb00912.x>,
@@ -74,4 +75,4 @@ Description: A collection of functions to create spatial weights matrix
   Some feed through adequately, others do not.
 License: GPL (>= 2)
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: RoxygenNote: 6.1.1
