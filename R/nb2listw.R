@@ -34,7 +34,7 @@ nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 			warning("zero sum general weights") 
 		glist <- lapply(glist, function(x) {mode(x) <- "numeric"; x})
 		attr(vlist, "mode") <- "general"
-		attr(vlist, "glist") <- deparse(substitute(glist))
+		attr(vlist, "glist") <- glist
 		attr(vlist, "glistsym") <- is.symmetric.glist(neighbours, glist)
 	}
 	attr(vlist, as.character(style)) <- TRUE

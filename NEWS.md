@@ -2,7 +2,7 @@
 
 * Recent changes in `poly2nb()` had reduced and most recently (1.1-8) removed the use of `snap=` in finding candidate neighbours; many thanks to Matilda Brown for a clear and well-documented issue #65 
 
-* Add local Geary's C #66 thanks to Josiah Parry
+* Add local Geary's C #66 thanks to Josiah Parry, discussion on further work on #68
 
 # Version 1.1-12 (2021-11-09)
 

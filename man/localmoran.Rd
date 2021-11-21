@@ -59,7 +59,7 @@ statistics: an overview. In P. Longley and M. Batty (eds) \emph{Spatial
 analysis: modelling in a GIS environment} (Cambridge: Geoinformation
 International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Local Spatial Autocorrelation in a Biological Model. Geographical Analysis, 30. 331--354; 
 Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 \doi{10.1007/s11749-018-0599-x}; 
-Sauer, J., Oshan, T. M., Rey, S., & Wolf, L. J. 2021. On Null Hypotheses and Heteroskedasticity. OSF Preprints. \doi{doi:10.31219/osf.io/ugkhp}}
+Sauer, J., Oshan, T. M., Rey, S., & Wolf, L. J. 2021. The Importance of Null Hypotheses: Understanding Differences in Local Moran’s under Heteroskedasticity. Geographical Analysis. \doi{doi:10.1111/gean.12304}}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 \seealso{\code{\link{localG}}}

@@ -12,23 +12,23 @@
 \alias{localC_perm.formula}
 \title{Compute Local Geary statistic}
 \usage{
-localC(x, ...)
+localC(x, ..., zero.policy=NULL)
 
-\method{localC}{default}(x, listw, ...)
+\method{localC}{default}(x, listw, ..., zero.policy=NULL)
 
-\method{localC}{formula}(formula, listw, data, ...)
+\method{localC}{formula}(formula, listw, data, ..., zero.policy=NULL)
 
-\method{localC}{list}(x, listw, ...)
+\method{localC}{list}(x, listw, ..., zero.policy=NULL)
 
-\method{localC}{matrix}(x, listw, ...)
+\method{localC}{matrix}(x, listw, ..., zero.policy=NULL)
 
-\method{localC}{data.frame}(x, listw, ...)
+\method{localC}{data.frame}(x, listw, ..., zero.policy=NULL)
 
-localC_perm(x, ...)
+localC_perm(x, ..., zero.policy=NULL)
 
-\method{localC_perm}{default}(x, listw, nsim = 499, alternative = "less", ...)
+\method{localC_perm}{default}(x, listw, nsim = 499, alternative = "less", ..., zero.policy=NULL)
 
-\method{localC_perm}{formula}(formula, listw, data, nsim = 499, alternative = "less", ...)
+\method{localC_perm}{formula}(formula, listw, data, nsim = 499, alternative = "less", ..., zero.policy=NULL)
 }
 \arguments{
 \item{x}{a numeric vector, numeric matrix, or list. See details for more.}
@@ -43,6 +43,7 @@ localC_perm(x, ...)
 
 \item{alternative}{A character defining the alternative hypothesis. Must be one of \code{"less"} or \code{"greater"}.}
 \item{...}{other arguments passed to methods}
+\item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
 }
 \description{
 The Local Geary is a local adaptation of Geary's C statistic of spatial autocorrelation. The Local Geary uses squared differences to measure dissimilarity unlike the Local Moran. Low values of the Local Geary indicate positive spatial autocorrelation and large refers to negative spatial autocorrelation.
@@ -57,12 +58,26 @@ While not required in the univariate context, the standardized Local Geary is ca
 The univariate Local Geary is calculated as \eqn{c_i = \sum_j w_{ij}(x_i - x_j)^2} and the multivariate Local Geary is calculated as \eqn{c_{k,i} = \sum_{v=1}^{k} c_{v,i}} as described in Anselin (2019).
 }
 \examples{
-listw <- nb2listw(spData::africa.rook.nb)
+orig <- spData::africa.rook.nb
+listw <- nb2listw(orig)
 x <- spData::afcon$totcon
 
-localC(x, listw)
+(A <- localC(x, listw))
+listw1 <- nb2listw(droplinks(sym.attr.nb(orig), 3, sym=TRUE), zero.policy=TRUE)
+(A1 <- localC(x, listw1, zero.policy=FALSE))
+(A2 <- localC(x, listw1, zero.policy=TRUE))
+if (require(rgeoda, quietly=TRUE)) {
+  W <- create_weights(as.numeric(length(x)))
+  for (i in 1:length(listw$neighbours)) {
+    set_neighbors_with_weights(W, i, listw$neighbours[[i]], listw$weights[[i]])
+    update_weights(W)
+  }
+  set.seed(1)
+  B <- local_geary(W, data.frame(x))
+  all.equal(A, lisa_values(B))
+}
 set.seed(1)
-localC_perm(x, listw, nsim = 99)
+localC_perm(x, listw, nsim = 999)
 }
 \references{
 {Anselin, L. (1995), Local Indicators of Spatial Association—LISA. Geographical Analysis, 27: 93-115. \doi{10.1111/j.1538-4632.1995.tb00338.x}}

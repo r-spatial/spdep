@@ -1,9 +1,9 @@
-localC <- function(x, ...) {
+localC <- function(x, ..., zero.policy=NULL) {
   UseMethod("localC")
 }
 
 
-localC.default <- function(x, listw, ...) {
+localC.default <- function(x, listw, ..., zero.policy=NULL) {
   # check listw object
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -11,10 +11,10 @@ localC.default <- function(x, listw, ...) {
   # check missing values
   if (any(is.na(x))) stop(paste("NA in ", deparse(substitute(x))))
 
-  localC_calc(scale(x), listw)
+  localC_calc(scale(x), listw, zero.policy=zero.policy)
 }
 
-localC.formula <- function(formula, listw, data, ...) {
+localC.formula <- function(formula, listw, data, ..., zero.policy=NULL) {
   # check listw object
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object."))
@@ -40,11 +40,11 @@ localC.formula <- function(formula, listw, data, ...) {
   if (length(char_cols) > 0)
     stop(paste("Formula contains character vectors:", char_cols))
 
-  rowSums(apply(scale(df), 2, localC_calc, listw)) / ncol(df)
+  rowSums(apply(scale(df), 2, localC_calc, listw, zero.policy=zero.policy)) / ncol(df)
 
 }
 
-localC.list <- function(x, listw, ...) {
+localC.list <- function(x, listw, ..., zero.policy=NULL) {
 
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object,"))
@@ -54,22 +54,22 @@ localC.list <- function(x, listw, ...) {
   }
 
   x <- scale(Reduce(cbind, x))
-  rowSums(apply(x, 2, localC_calc, listw)) / ncol(x)
+  rowSums(apply(x, 2, localC_calc, listw, zero.policy=zero.policy)) / ncol(x)
 
 }
 
 
-localC.matrix <- function(x, listw, ...) {
+localC.matrix <- function(x, listw, ..., zero.policy=NULL) {
 
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
 
   if (inherits(x, "character")) stop("x must be a numeric matrix.")
 
-  rowSums(apply(scale(x), 2, localC_calc, listw)) / ncol(x)
+  rowSums(apply(scale(x), 2, localC_calc, listw, zero.policy=zero.policy)) / ncol(x)
 }
 
-localC.data.frame <- function(x, listw, ...) {
+localC.data.frame <- function(x, listw, ..., zero.policy=NULL) {
 
   if (inherits(x, "sf")) {
     x[[attr(x, "sf_column")]] <- NULL
@@ -79,16 +79,16 @@ localC.data.frame <- function(x, listw, ...) {
   if (!all(sapply(x, class) %in% c("numeric", "integer")))
     stop("Columns of x must be numeric.")
 
-  rowSums(apply(scale(x), 2, localC_calc, listw)) / ncol(x)
+  rowSums(apply(scale(x), 2, localC_calc, listw, zero.policy=zero.policy)) / ncol(x)
 
 }
 
 
-localC_perm <- function(x, ...) {
+localC_perm <- function(x, ..., zero.policy=NULL) {
   UseMethod("localC_perm")
 }
 
-localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", ...) {
+localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", ..., zero.policy=NULL) {
 
   # checks are inherited from localC no need to implement
   obs <- localC(x, listw)
@@ -101,15 +101,15 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", ...)
 
   if (inherits(x, "list")) {
     x <- scale(as.matrix(Reduce(cbind, x)))
-    reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw))
+    reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw, zero.policy=zero.policy))
   }
 
   if (inherits(x, c("matrix", "data.frame"))) {
-    reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw))
+    reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw, zero.policy=zero.policy))
   }
 
   if (is.vector(x) & is.numeric(x)) {
-    reps <- replicate(nsim, localC(x[sample.int(length(x))], listw))
+    reps <- replicate(nsim, localC(x[sample.int(length(x))], listw, zero.policy=zero.policy))
   }
 
 
@@ -124,7 +124,7 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", ...)
 }
 
 localC_perm.formula <- function(formula, listw, data,
-                                nsim = 499, alternative = "less", ...) {
+                                nsim = 499, alternative = "less", ..., zero.policy=NULL) {
 
   # if any data issues the localC formula method will catch it
   obs <- localC(formula, listw, data)
@@ -137,7 +137,7 @@ localC_perm.formula <- function(formula, listw, data,
 
   x <- scale(model.frame(formula, data = data))
 
-  reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw))
+  reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw, zero.policy=zero.policy))
 
   pseudo_p <- localC_p(reps, obs, alternative, nsim)
 
@@ -154,11 +154,17 @@ localC_perm.formula <- function(formula, listw, data,
 
 
 # Local Geary Utils -------------------------------------------------------
-localC_calc <- function(x, listw) {
-  xij <- sapply(listw$neighbours, FUN = function(listw) x[listw])
-  res <- mapply(function(x, j, wi) sum(wi * (j - x)^2),
+localC_calc <- function(x, listw, zero.policy=NULL) {
+  if (any(card(listw$neighbours) == 0L)) {
+    res <- geary.intern(x, listw, n=length(listw$neighbours), zero.policy=zero.policy)
+  } else {
+    xij <- lapply(listw$neighbours, FUN = function(nbs_i) x[nbs_i])
+# xij: list of vectors: for each i, x[j] values of its n_i neighbours
+    res <- mapply(function(x, j, wi) sum(wi * (j - x)^2),
                 x, xij, listw$weights,
                 USE.NAMES = FALSE)
+# res: numeric vector: for each i, the sum over j of w_{ij} * (x[j] - x[i])^2
+  }
   res
 }
 
