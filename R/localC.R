@@ -84,14 +84,16 @@ localC.data.frame <- function(x, listw, ..., zero.policy=NULL) {
 }
 
 
-localC_perm <- function(x, ..., zero.policy=NULL) {
+localC_perm <- function(x, ..., conditional=FALSE, zero.policy=NULL) {
   UseMethod("localC_perm")
 }
 
-localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", ..., zero.policy=NULL) {
+localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", 
+             ..., conditional=FALSE, zero.policy=NULL) {
 
+  alternative <- match.arg(alternative, c("less", "two.sided", "greater"))
   # checks are inherited from localC no need to implement
-  obs <- localC(x, listw)
+  obs <- localC(x, listw, zero.policy=zero.policy)
 
   # if sf object remove geometry & cast as df
   if (inherits(x, "sf")) {
@@ -101,19 +103,26 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", ...,
 
   if (inherits(x, "list")) {
     x <- scale(as.matrix(Reduce(cbind, x)))
-    reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw, zero.policy=zero.policy))
+    reps <- apply(x, 2, function(xx) localC_perm_calc(xx, listw, obs, nsim,
+      alternative=alternative, conditional=conditional,
+      zero.policy=zero.policy))
   }
 
   if (inherits(x, c("matrix", "data.frame"))) {
-    reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw, zero.policy=zero.policy))
+    reps <- apply(x, 2, function(xx) localC_perm_calc(xx, listw, obs, nsim,
+      alternative=alternative, conditional=conditional, 
+      zero.policy=zero.policy))
   }
 
   if (is.vector(x) & is.numeric(x)) {
-    reps <- replicate(nsim, localC(x[sample.int(length(x))], listw, zero.policy=zero.policy))
+    reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative, 
+      conditional=conditional, zero.policy=zero.policy)
   }
 
 
-  pseudo_p <- localC_p(reps, obs, alternative, nsim)
+  pseudo_p <- NULL
+  if (!conditional) pseudo_p <- localC_p(reps, obs, alternative, nsim)
+  else pseudo_p <- reps
 
   attr(obs, "call") <- match.call()
   attr(obs, "pseudo-p") <- pseudo_p
@@ -124,10 +133,12 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", ...,
 }
 
 localC_perm.formula <- function(formula, listw, data,
-                                nsim = 499, alternative = "less", ..., zero.policy=NULL) {
+                                nsim = 499, alternative = "less", ...,
+                                conditional=FALSE, zero.policy=NULL) {
 
+  alternative <- match.arg(alternative, c("less", "two.sided", "greater"))
   # if any data issues the localC formula method will catch it
-  obs <- localC(formula, listw, data)
+  obs <- localC(formula, listw, data, zero.policy=zero.policy)
 
   # check if sf object in data
   if (inherits(data, "sf")) {
@@ -137,9 +148,12 @@ localC_perm.formula <- function(formula, listw, data,
 
   x <- scale(model.frame(formula, data = data))
 
-  reps <- replicate(nsim, localC(x[sample.int(nrow(x)),], listw, zero.policy=zero.policy))
+  reps <- apply(x, 2, function(xx) localC_perm_calc(xx, listw, obs, nsim,
+    alternative=alternative, conditional=conditional, zero.policy=zero.policy))
 
-  pseudo_p <- localC_p(reps, obs, alternative, nsim)
+  pseudo_p <- NULL
+  if (!conditional) pseudo_p <- localC_p(reps, obs, alternative, nsim)
+  else pseudo_p <- reps
 
 
   attr(obs, "call") <- match.call()
@@ -168,13 +182,99 @@ localC_calc <- function(x, listw, zero.policy=NULL) {
   res
 }
 
+localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided", 
+  conditional=FALSE, zero.policy=NULL) {
+  if (conditional) {
+    gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
+    ls <- rev(gr)
+    ts <- (ifelse(gr > ls, ls, gr))*2
+    if (alternative == "two.sided") {
+        probs <- ts
+        Prname <- "Pr(z != E(Ci))"
+    } else if (alternative == "greater") {
+        Prname <- "Pr(z > E(Ci))"
+        probs <- gr
+    } else {
+        Prname <- "Pr(z < E(Ci))"
+        probs <- ls
+    }
+    n <- length(listw$neighbours)
+    if (n != length(x))stop("Different numbers of observations")
+    crd <- card(listw$neighbours)
+    permC_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ci, alternative,
+      probs) {
+      res_i <- rep(as.numeric(NA), 8)
+      if (crdi > 0) {
+        sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
+          ncol=crdi, nrow=nsim)
+        diffs <- (zi - sz_i)^2
+        res_p <- c(diffs %*% wtsi)
+# res_p length nsim for obs i conditional draws
+        res_i[1] <- mean(res_p)
+        res_i[2] <- var(res_p)
+        res_i[3] <- (Ci - res_i[1])/sqrt(res_i[2])
+        if (alternative == "two.sided") 
+          res_i[4] <- 2 * pnorm(abs(res_i[3]), lower.tail=FALSE)
+        else if (alternative == "greater") 
+          res_i[4] <- pnorm(res_i[3], lower.tail=FALSE)
+        else res_i[4] <- pnorm(res_i[3])
+        res_i[5] <- probs[rank(c(res_p, Ci))[(nsim + 1L)]]
+        rnk0 <- as.integer(sum(res_p >= Ci))
+        drnk0 <- nsim - rnk0
+        rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
+        res_i[6] <- (rnk + 1.0) / (nsim + 1.0)
+        res_i[7] <- e1071::skewness(res_p)
+        res_i[8] <- e1071::kurtosis(res_p)
+      }
+      res_i
+    }
+    z <- scale(x)
+    oo <- lapply(1:n, function(i) permC_int(i, z[i], z[-i], crd[i],
+      listw$weights[[i]], nsim, obs[i], alternative, probs))
+    res <- do.call("rbind", oo)
+    colnames(res) <- c("E.Ci", "Var.Ci", "Z.Ci", Prname, 
+      paste0(Prname, " Sim"), "Pr(folded) Sim", "Skewness", "Kurtosis")
+    res
+  } else {
+    replicate(nsim, localC(x[sample.int(length(x))], listw,
+      zero.policy=zero.policy))
+  }
+}
+
 localC_p <- function(reps, obs, alternative, nsim) {
 
-  alternative <- match.arg(alternative, c("less", "greater"))
-
-  switch(alternative,
-         less = (rowSums(reps <= obs) + 1)/ (nsim + 1),
-         greater = (rowSums(reps >= obs) + 1)/ (nsim + 1))
+  gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
+  ls <- rev(gr)
+  ts <- (ifelse(gr > ls, ls, gr))*2
+  if (alternative == "two.sided") {
+    probs <- ts
+  } else if (alternative == "greater") {
+    probs <- gr
+  } else {
+    probs <- ls
+  }
+  res <- matrix(ncol=8, nrow=nrow(reps))
+  res[,1] <- apply(reps, 1, mean)
+  res[,2] <- apply(reps, 1, var)
+  res[,3] <- (obs - res[,1])/sqrt(res[,2])
+  if (alternative == "two.sided") 
+    res[,4] <- 2 * pnorm(abs(res[,3]), lower.tail=FALSE)
+  else if (alternative == "greater") 
+    res[,4] <- pnorm(res[,3], lower.tail=FALSE)
+  else res[,4] <- pnorm(res[,3])
+  res[,5] <- sapply(1:nrow(reps), function(i) probs[rank(c(reps[1,], obs[i]))[(nsim + 1L)]])
+  res[,6] <- sapply(1:nrow(reps), function(i)  {
+      rnk0 <- as.integer(sum(reps[1,] >= obs[i]))
+      drnk0 <- nsim - rnk0
+      rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
+      (rnk + 1.0) / (nsim + 1.0)
+    })
+  res[,7] <- apply(reps, 1, e1071::skewness)
+  res[,8] <- apply(reps, 1, e1071::kurtosis)
+#  switch(alternative,
+#         less = (rowSums(reps <= obs) + 1)/ (nsim + 1),
+#         greater = (rowSums(reps >= obs) + 1)/ (nsim + 1)) 
+  res
 
 }
 

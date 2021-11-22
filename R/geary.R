@@ -29,7 +29,7 @@ geary.intern <- function(x, listw, n, zero.policy=NULL, type="geary") {
 	res <- .Call("gearyw", listw$neighbours, listw$weights,
 		as.numeric(x), as.integer(cardnb),
 		as.logical(zero.policy), as.logical(ft), PACKAGE="spdep")
-	if (any(is.na(res))) warning("NAs in lagged values")
+#	if (any(is.na(res))) warning("NAs in lagged values")
 	res
 }
 

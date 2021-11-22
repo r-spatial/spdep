@@ -24,11 +24,13 @@ localC(x, ..., zero.policy=NULL)
 
 \method{localC}{data.frame}(x, listw, ..., zero.policy=NULL)
 
-localC_perm(x, ..., zero.policy=NULL)
+localC_perm(x, ..., conditional=FALSE, zero.policy=NULL)
 
-\method{localC_perm}{default}(x, listw, nsim = 499, alternative = "less", ..., zero.policy=NULL)
+\method{localC_perm}{default}(x, listw, nsim = 499, alternative = "less", ...,
+ conditional=FALSE, zero.policy=NULL)
 
-\method{localC_perm}{formula}(formula, listw, data, nsim = 499, alternative = "less", ..., zero.policy=NULL)
+\method{localC_perm}{formula}(formula, listw, data, nsim = 499,
+ alternative = "less", ..., conditional=FALSE, zero.policy=NULL)
 }
 \arguments{
 \item{x}{a numeric vector, numeric matrix, or list. See details for more.}
@@ -42,8 +44,9 @@ localC_perm(x, ..., zero.policy=NULL)
 \item{nsim}{The number of simulations to be used for permutation test.}
 
 \item{alternative}{A character defining the alternative hypothesis. Must be one of \code{"less"} or \code{"greater"}.}
-\item{...}{other arguments passed to methods}
-\item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+\item{...}{other arguments passed to methods.}
+\item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA.}
+\item{conditional}{default FALSE, sample from the whole data set; if TRUE, sample from all observations but the one which is being tested.}
 }
 \description{
 The Local Geary is a local adaptation of Geary's C statistic of spatial autocorrelation. The Local Geary uses squared differences to measure dissimilarity unlike the Local Moran. Low values of the Local Geary indicate positive spatial autocorrelation and large refers to negative spatial autocorrelation.
@@ -77,7 +80,33 @@ if (require(rgeoda, quietly=TRUE)) {
   all.equal(A, lisa_values(B))
 }
 set.seed(1)
-localC_perm(x, listw, nsim = 999)
+C <- localC_perm(x, listw, nsim = 499, conditional=TRUE, alternative="two.sided")
+cor(ifelse(lisa_pvalues(B) < 0.5, lisa_pvalues(B), 1-lisa_pvalues(B)), attr(C, "pseudo-p")[,6])
+# pseudo-p values probably wrongly folded
+\dontrun{
+library(reticulate)
+use_python("/usr/bin/python", required = TRUE)
+gp <- import("geopandas")
+ps <- import("libpysal")
+tf <- tempfile(fileext=".gal")
+write.nb.gal(orig, tf)
+fl <- ps$io$open(tf)
+w$transform <- "R"
+esda <- import("esda")
+lM <- esda$Moran_Local(x, w)
+all.equal(unname(localmoran(x, listw, mlvar=FALSE)[,1]), c(lM$Is))
+# confirm x and w the same
+lC <- esda$Geary_Local(connectivity=w)$fit(scale(x))
+# np$std missing ddof=1 
+n <- length(x)
+D01 <- spdep:::geary.intern((x - mean(x)) / sqrt(var(x)*(n-1)/n), listw, n=n)
+# lC components probably wrongly ordered
+o <- match(round(D0, 6), round(lC$localG, 6))
+all.equal(c(lC$localG)[o], D0)
+# simulation order not retained
+lC$p_sim[o]
+attr(C, "pseudo-p")[,6]
+}
 }
 \references{
 {Anselin, L. (1995), Local Indicators of Spatial Association—LISA. Geographical Analysis, 27: 93-115. \doi{10.1111/j.1538-4632.1995.tb00338.x}}
