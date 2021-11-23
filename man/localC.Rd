@@ -100,7 +100,7 @@ lC <- esda$Geary_Local(connectivity=w)$fit(scale(x))
 # np$std missing ddof=1 
 n <- length(x)
 D01 <- spdep:::geary.intern((x - mean(x)) / sqrt(var(x)*(n-1)/n), listw, n=n)
-# lC components probably wrongly ordered
+# lC components probably wrongly ordered https://github.com/pysal/esda/issues/192
 o <- match(round(D0, 6), round(lC$localG, 6))
 all.equal(c(lC$localG)[o], D0)
 # simulation order not retained
