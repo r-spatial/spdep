@@ -1,7 +1,6 @@
 localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     na.action=na.fail, alternative = "two.sided", p.adjust.method="none",
-    mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL,
-    rank=TRUE) {
+    mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL) {
     alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
     stopifnot(is.vector(x))
     if (!inherits(listw, "listw"))
@@ -28,11 +27,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     }
     n <- length(listw$neighbours)
     if (n != length(x))stop("Different numbers of observations")
-    res <- matrix(nrow=n, ncol=8)
-    if (!rank && alternative != "two.sided") {
-        rank <- TRUE
-        warning("rank=FALSE requires alternative=\"two.sided\", setting rank=TRUE")
-    }
+    res <- matrix(nrow=n, ncol=9)
     gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
     ls <- rev(gr)
     ts <- (ifelse(gr > ls, ls, gr))*2
@@ -46,14 +41,10 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         Prname <- "Pr(z < E(Ii))"
         probs <- ls
     }
-    if (rank) {
-        Prname_sim <- paste0(Prname, " Sim")
-    } else {
-        Prname_sim <- "Pr(folded) Sim"
-        probs <- NULL
-    }
-    colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname, Prname_sim,
-        "Skewness", "Kurtosis")
+    Prname_rank <- paste0(Prname, " Sim")
+    Prname_sim <- "Pr(folded) Sim"
+    colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname, Prname_rank, 
+        Prname_sim, "Skewness", "Kurtosis")
     if (adjust.x) {
         nc <- card(listw$neighbours) > 0L
 	xx <- mean(x[nc], na.rm=NAOK)
@@ -112,9 +103,9 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     }
 
     crd <- card(listw$neighbours)
-    permI_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ii, alternative, rank,
+    permI_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ii, alternative,
         sample_Ei, EIci, probs) {
-        res_i <- rep(as.numeric(NA), 7)       
+        res_i <- rep(as.numeric(NA), 8)       
         if (crdi > 0) {
             sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim)
@@ -129,18 +120,15 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
             else if (alternative == "greater") 
                 res_i[4] <- pnorm(res_i[3], lower.tail=FALSE)
             else res_i[4] <- pnorm(res_i[3])
-            if (rank) {
-                xrank <- rank(c(res_p, Ii))[(nsim + 1L)]
-	        res_i[5] <- probs[xrank]
-            } else {
-                rnk0 <- as.integer(sum(res_p >= Ii))
+            xrank <- rank(c(res_p, Ii))[(nsim + 1L)]
+	    res_i[5] <- probs[xrank]
+            rnk0 <- as.integer(sum(res_p >= Ii))
 # 210811 from https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213
-                drnk0 <- nsim - rnk0
-                rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
-                res_i[5] <- (rnk + 1.0) / (nsim + 1.0)
-            }
-            res_i[6] <- e1071::skewness(res_p)
-            res_i[7] <- e1071::kurtosis(res_p)
+            drnk0 <- nsim - rnk0
+            rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
+            res_i[6] <- (rnk + 1.0) / (nsim + 1.0)
+            res_i[7] <- e1071::skewness(res_p)
+            res_i[8] <- e1071::kurtosis(res_p)
         }
         res_i
     }
@@ -158,16 +146,15 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         assign("nsim", nsim, envir=env)
         assign("Iis", Iis, envir=env)
         assign("alternative", alternative, envir=env)
-        assign("rank", rank, envir=env)
         assign("EIc", EIc, envir=env)
         assign("sample_Ei", sample_Ei, envir=env)
         assign("probs", probs, envir=env)
         parallel::clusterExport(cl, varlist=c("z", "crd", "lww", "nsim", "Iis",
-            "alternative", "rank", "EIc", "sample_Ei", "probs"), envir=env)
+            "alternative", "EIc", "sample_Ei", "probs"), envir=env)
         if (!is.null(iseed)) parallel::clusterSetRNGStream(cl, iseed = iseed)
         oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
  	    permI_int(i, z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i],
-            alternative, rank, sample_Ei, EIc[i], probs)})
+            alternative, sample_Ei, EIc[i], probs)})
         out <- do.call("rbind", do.call("c", oo))
         rm(env)
       } else {
@@ -180,7 +167,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         RNGkind("L'Ecuyer-CMRG")
         if (!is.null(iseed)) set.seed(iseed)
         oo <- parallel::mclapply(sI, FUN=lapply, function(i) {permI_int(i,
-            z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i], alternative, rank, 
+            z[i], z[-i], crd[i], lww[[i]], nsim, Iis[i], alternative, 
             sample_Ei, EIc[i], probs)}, mc.cores=ncpus)
         RNGkind(oldRNG[1])
         out <- do.call("rbind", do.call("c", oo))
@@ -190,7 +177,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     } else {
         if (!is.null(iseed)) set.seed(iseed)
         oo <- lapply(1:n, function(i) permI_int(i, z[i], z[-i], 
-            crd[i], lww[[i]], nsim, Iis[i], alternative, rank, 
+            crd[i], lww[[i]], nsim, Iis[i], alternative, 
             sample_Ei, EIc[i], probs))
         out <- do.call("rbind", oo)
     }
@@ -200,8 +187,9 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     res[,4] <- out[,3]
     res[,5] <- p.adjustSP(out[,4], listw$neighbours, method=p.adjust.method)
     res[,6] <- p.adjustSP(out[,5], listw$neighbours, method=p.adjust.method)
-    res[,7] <- out[,6]
+    res[,7] <- p.adjustSP(out[,6], listw$neighbours, method=p.adjust.method)
     res[,8] <- out[,7]
+    res[,9] <- out[,8]
     if (!is.null(na.act) && excl) {
 	res <- naresid(na.act, res)
     }

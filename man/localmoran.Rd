@@ -16,7 +16,7 @@ localmoran(x, listw, zero.policy=NULL, na.action=na.fail, conditional=TRUE,
         spChk=NULL, adjust.x=FALSE)
 localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail, 
 	alternative = "two.sided", p.adjust.method="none", mlvar=TRUE,
-        spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL, rank=TRUE)
+        spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -24,7 +24,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
   \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. If \code{na.pass} is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)}
   \item{conditional}{default TRUE: expectation and variance are calculated using the conditional randomization null (Sokal 1998 Eqs. A7 & A8). Elaboration of these changes available in Sauer et al. (2021). If FALSE: expectation and variance are calculated using the total randomization null (Sokal 1998 Eqs. A3 & A4).}
-  \item{alternative}{a character string specifying the alternative hypothesis, must be one of greater (default), less or two.sided.}
+  \item{alternative}{a character string specifying the alternative hypothesis, must be one of greater, less or two.sided (default).}
   \item{p.adjust.method}{a character string specifying the probability value adjustment for multiple tests, default "none"; see \code{\link{p.adjustSP}}. Note that the number of multiple tests for each region is only taken as the number of neighbours + 1 for each region, rather than the total number of regions.}
   \item{mlvar}{default TRUE: values of local Moran's I are reported using the variance of the variable of interest (sum of squared deviances over n), but can be reported as the sample variance, dividing by (n-1) instead; both are used in other implementations.}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
@@ -32,7 +32,6 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{sample_Ei}{default TRUE; if conditional permutation, use the sample $E_i$ values, or the analytical values, leaving only variances calculated by simulation.}
   \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
-  \item{rank}{default TRUE, use \code{rank()} and \code{punif()} for [0, 1] p-values; if FALSE folded [0, 0.5] p-values.}
 }
 
 \details{
@@ -46,7 +45,8 @@ The values of local Moran's I are divided by the variance (or sample variance) o
   \item{Var.Ii}{variance of local moran statistic; for \code{localmoran_perm}the permutation sample standard deviations}
   \item{Z.Ii}{standard deviate of local moran statistic; for \code{localmoran_perm} based on permutation sample means and standard deviations}
   \item{Pr()}{p-value of local moran statistic using \code{pnorm()}; for \code{localmoran_perm} using standard deviatse based on permutation sample means and standard deviations}
-  \item{Pr() Sim}{For \code{localmoran_perm}, \code{rank()} and \code{punif()} of observed statistic rank for [0, 1] p-values, or if rank=FALSE, the simulation folded [0, 0.5] range ranked p-value (based on \url{https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213})}
+  \item{Pr() Sim}{For \code{localmoran_perm}, \code{rank()} and \code{punif()} of observed statistic rank for [0, 1] p-values using \code{alternative=}}
+  \item{Pr(folded) Sim}{the simulation folded [0, 0.5] range ranked p-value (based on \url{https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213})}
   \item{Skewness}{For \code{localmoran_perm}, the output of \code{e1071::skewness()} for the permutation samples underlying the standard deviates}
   \item{Kurtosis}{For \code{localmoran_perm}, the output of \code{e1071::kurtosis()} for the permutation samples underlying the standard deviates}
 In addition, an attribute data frame \code{"quadr"} with mean and median quadrant columns, and a column splitting on the demeaned variable and lagged demeaned variable at zero.
