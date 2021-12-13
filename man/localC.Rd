@@ -69,7 +69,9 @@ x <- spData::afcon$totcon
 listw1 <- nb2listw(droplinks(sym.attr.nb(orig), 3, sym=TRUE), zero.policy=TRUE)
 (A1 <- localC(x, listw1, zero.policy=FALSE))
 (A2 <- localC(x, listw1, zero.policy=TRUE))
-if (require(rgeoda, quietly=TRUE)) {
+run <- FALSE
+if (require(rgeoda, quietly=TRUE)) run <- TRUE
+if (run) {
   W <- create_weights(as.numeric(length(x)))
   for (i in 1:length(listw$neighbours)) {
     set_neighbors_with_weights(W, i, listw$neighbours[[i]], listw$weights[[i]])
@@ -79,10 +81,14 @@ if (require(rgeoda, quietly=TRUE)) {
   B <- local_geary(W, data.frame(x))
   all.equal(A, lisa_values(B))
 }
-set.seed(1)
-C <- localC_perm(x, listw, nsim = 499, conditional=TRUE, alternative="two.sided")
-cor(ifelse(lisa_pvalues(B) < 0.5, lisa_pvalues(B), 1-lisa_pvalues(B)), attr(C, "pseudo-p")[,6])
-# pseudo-p values probably wrongly folded
+if (run) {
+  set.seed(1)
+  C <- localC_perm(x, listw, nsim = 499, conditional=TRUE,
+    alternative="two.sided")
+  cor(ifelse(lisa_pvalues(B) < 0.5, lisa_pvalues(B), 1-lisa_pvalues(B)),
+    attr(C, "pseudo-p")[,6])
+}
+# pseudo-p values probably wrongly folded https://github.com/GeoDaCenter/rgeoda/issues/28
 \dontrun{
 library(reticulate)
 use_python("/usr/bin/python", required = TRUE)

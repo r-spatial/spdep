@@ -74,8 +74,10 @@
     <p>The function identifies neighbours of region points by Euclidean distance between lower (greater than or equal to (changed from version 1.1-7)) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dnearneigh</span><span class="op">(</span><span class="va">x</span>, <span class="va">d1</span>, <span class="va">d2</span>, row.names <span class="op">=</span> <span class="cn">NULL</span>, longlat <span class="op">=</span> <span class="cn">NULL</span>, bounds<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GE"</span>, <span class="st">"LE"</span><span class="op">)</span>,
- use_kd_tree<span class="op">=</span><span class="cn">TRUE</span>, symtest<span class="op">=</span><span class="cn">FALSE</span>, use_s2<span class="op">=</span><span class="cn">FALSE</span>, max_cells<span class="op">=</span><span class="fl">200</span>, dwithin<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dnearneigh</span><span class="op">(</span><span class="va">x</span>, <span class="va">d1</span>, <span class="va">d2</span>, row.names <span class="op">=</span> <span class="cn">NULL</span>, longlat <span class="op">=</span> <span class="cn">NULL</span>, bounds<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GE"</span>, <span class="st">"LE"</span><span class="op">)</span>,
+ use_kd_tree<span class="op">=</span><span class="cn">TRUE</span>, symtest<span class="op">=</span><span class="cn">FALSE</span>, use_s2<span class="op">=</span><span class="cn">FALSE</span>, max_cells<span class="op">=</span><span class="fl">200</span>, dwithin<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -321,13 +323,13 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-in"><span class="va">gck1b</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">xy1</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">gck1b</span>, <span class="va">xy1</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.011   0.000   0.011 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.011   0.000   0.012 </span>
 <span class="r-in"><span class="op">(</span><span class="va">all.linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 522.4464</span>
 <span class="r-in"><span class="co"># use s2 brute-force buffer/intersect approach (with two passes if d1 &gt; 0)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.146   0.000   0.147 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.135   0.000   0.136 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
@@ -362,7 +364,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-in"><span class="co"># use s2 brute-force buffer/intersect approach with smaller max_cells</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, max_cells<span class="op">=</span><span class="fl">500</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.286   0.000   0.287 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.273   0.000   0.275 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
@@ -397,7 +399,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-in"><span class="co"># use s2 brute-force dwithin_matrix approach </span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, dwithin<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.013   0.000   0.013 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.012   0.000   0.012 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
@@ -432,7 +434,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-in"><span class="co"># use legacy symmetric brute-force approach</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.007   0.000   0.007 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.007   0.000   0.006 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
@@ -479,7 +481,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>

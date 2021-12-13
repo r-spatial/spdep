@@ -74,9 +74,11 @@
     <p>Use vector files for import and export of weights, storing spatial entity coordinates in the arcs, and the entity indices in the data frame.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nb2lines</span><span class="op">(</span><span class="va">nb</span>, <span class="va">wts</span>, <span class="va">coords</span>, proj4string<span class="op">=</span><span class="cn">NULL</span>, as_sf<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nb2lines</span><span class="op">(</span><span class="va">nb</span>, <span class="va">wts</span>, <span class="va">coords</span>, proj4string<span class="op">=</span><span class="cn">NULL</span>, as_sf<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
 <span class="fu">listw2lines</span><span class="op">(</span><span class="va">listw</span>, <span class="va">coords</span>, proj4string<span class="op">=</span><span class="cn">NULL</span>, as_sf<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu">df2sn</span><span class="op">(</span><span class="va">df</span>, i<span class="op">=</span><span class="st">"i"</span>, i_ID<span class="op">=</span><span class="st">"i_ID"</span>, j<span class="op">=</span><span class="st">"j"</span>, wt<span class="op">=</span><span class="st">"wt"</span><span class="op">)</span></code></pre></div></div>
+<span class="fu">df2sn</span><span class="op">(</span><span class="va">df</span>, i<span class="op">=</span><span class="st">"i"</span>, i_ID<span class="op">=</span><span class="st">"i_ID"</span>, j<span class="op">=</span><span class="st">"j"</span>, wt<span class="op">=</span><span class="st">"wt"</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -147,12 +149,12 @@
 <span class="r-in"><span class="va">tf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">".gpkg"</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu">st_write</span><span class="op">(</span><span class="va">res</span>, dsn<span class="op">=</span><span class="va">tf</span>, driver<span class="op">=</span><span class="st">"GPKG"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> writing GPKG: substituting LOCAL_CS["Undefined Cartesian SRS"] for missing CRS</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Writing layer `file1c217a262986' to data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpjTLWPI/file1c217a262986.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Writing layer `file2adca4519f3e2' to data source </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpEoeulr/file2adca4519f3e2.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Writing 230 features with 5 fields and geometry type Line String.</span>
 <span class="r-in"><span class="va">inMap</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="va">tf</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `file1c217a262986' from data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpjTLWPI/file1c217a262986.gpkg' using driver `GPKG'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `file2adca4519f3e2' from data source </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpEoeulr/file2adca4519f3e2.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 230 features and 5 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: LINESTRING</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -220,7 +222,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>

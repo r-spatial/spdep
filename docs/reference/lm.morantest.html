@@ -74,9 +74,11 @@
     <p>Moran's I test for spatial autocorrelation in residuals from an estimated linear model (<code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm()</a></code>). The helper function <code>listw2U()</code> constructs a weights list object corresponding to the sparse matrix \(\frac{1}{2} ( \mathbf{W} + \mathbf{W}'\)</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">model</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"greater"</span>,
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">model</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"greater"</span>,
  spChk<span class="op">=</span><span class="cn">NULL</span>, resfun<span class="op">=</span><span class="va">weighted.residuals</span>, naSubset<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu">listw2U</span><span class="op">(</span><span class="va">listw</span><span class="op">)</span></code></pre></div></div>
+<span class="fu">listw2U</span><span class="op">(</span><span class="va">listw</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -247,7 +249,7 @@ variance under the method assumption.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>

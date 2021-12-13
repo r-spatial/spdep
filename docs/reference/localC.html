@@ -76,7 +76,8 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <p>Inference for the Local Geary is based on a permutation approach which compares the observed value to the reference distribution under spatial randomness. <code>localC_perm()</code> returns a pseudo p-value. This is not an analytical p-value and is based on the number of permutations and as such should be used with care.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">localC</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">localC</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span>
 
 <span class="co"># S3 method for default</span>
 <span class="fu">localC</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">...</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span>
@@ -101,7 +102,8 @@ Inference for the Local Geary is based on a permutation approach which compares 
 
 <span class="co"># S3 method for formula</span>
 <span class="fu">localC_perm</span><span class="op">(</span><span class="va">formula</span>, <span class="va">listw</span>, <span class="va">data</span>, nsim <span class="op">=</span> <span class="fl">499</span>,
- alternative <span class="op">=</span> <span class="st">"less"</span>, <span class="va">...</span>, conditional<span class="op">=</span><span class="cn">FALSE</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div></div>
+ alternative <span class="op">=</span> <span class="st">"less"</span>, <span class="va">...</span>, conditional<span class="op">=</span><span class="cn">FALSE</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -171,7 +173,14 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-out co"><span class="r-pr">#&gt;</span> [25] 0.09505331 2.99934478 1.17465032 1.64868780 0.87901004 0.05909537</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [31] 2.54591475 3.85570655 2.99413462 0.96084992 0.80678832 1.56869350</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.86422915 0.38817470 0.23425755 1.26191610 1.34455327 1.80707481</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geodacenter/rgeoda/" class="external-link">rgeoda</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/geodacenter/rgeoda/" class="external-link">rgeoda</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘rgeoda’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:spdep’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     skater</span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">  <span class="va">W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/create_weights.html" class="external-link">create_weights</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in">  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">listw</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">    <span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/set_neighbors_with_weights.html" class="external-link">set_neighbors_with_weights</a></span><span class="op">(</span><span class="va">W</span>, <span class="va">i</span>, <span class="va">listw</span><span class="op">$</span><span class="va">neighbours</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span>, <span class="va">listw</span><span class="op">$</span><span class="va">weights</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
@@ -181,17 +190,16 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in">  <span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/local_geary.html" class="external-link">local_geary</a></span><span class="op">(</span><span class="va">W</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">A</span>, <span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_values.html" class="external-link">lisa_values</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘rgeoda’</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The following object is masked from ‘package:spdep’:</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span>     skater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">C</span> <span class="op">&lt;-</span> <span class="fu">localC_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim <span class="op">=</span> <span class="fl">499</span>, conditional<span class="op">=</span><span class="cn">TRUE</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_pvalues.html" class="external-link">lisa_pvalues</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.5</span>, <span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_pvalues.html" class="external-link">lisa_pvalues</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span>, <span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_pvalues.html" class="external-link">lisa_pvalues</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">C</span>, <span class="st">"pseudo-p"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">6</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in">  <span class="va">C</span> <span class="op">&lt;-</span> <span class="fu">localC_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim <span class="op">=</span> <span class="fl">499</span>, conditional<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span class="r-in">    alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span>
+<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_pvalues.html" class="external-link">lisa_pvalues</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">0.5</span>, <span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_pvalues.html" class="external-link">lisa_pvalues</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span>, <span class="fl">1</span><span class="op">-</span><span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_pvalues.html" class="external-link">lisa_pvalues</a></span><span class="op">(</span><span class="va">B</span><span class="op">)</span><span class="op">)</span>,</span>
+<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">C</span>, <span class="st">"pseudo-p"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">6</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.985611</span>
-<span class="r-in"><span class="co"># pseudo-p values probably wrongly folded</span></span>
+<span class="r-in"><span class="co"># pseudo-p values probably wrongly folded https://github.com/GeoDaCenter/rgeoda/issues/28</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/reticulate" class="external-link">reticulate</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/pkg/reticulate/man/use_python.html" class="external-link">use_python</a></span><span class="op">(</span><span class="st">"/usr/bin/python"</span>, required <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -230,7 +238,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>

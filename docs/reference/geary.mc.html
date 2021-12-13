@@ -74,8 +74,10 @@
     <p>A permutation test for Geary's C statistic calculated by using nsim random permutations of x for the given spatial weighting scheme, to establish the rank of the observed statistic in relation to the nsim simulated values.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">geary.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,
- spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">geary.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,
+ spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -144,12 +146,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: less</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9931269</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.993127</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01138455</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01199472</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5299  0.9209  1.0042  0.9931  1.0610  1.2975 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5299  0.9426  1.0075  0.9931  1.0592  1.2307 </span>
 <span class="r-in"><span class="va">colold.lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="nblag.html">nblag</a></span><span class="op">(</span><span class="va">COL.nb</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span>
 <span class="r-in"> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span>
@@ -161,12 +163,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[2]], style = "W") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.81129, observed rank = 2, p-value = 0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.81129, observed rank = 5, p-value = 0.05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim2</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.7871  0.9210  0.9775  0.9745  1.0332  1.1873 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.7403  0.9225  0.9907  0.9896  1.0426  1.2771 </span>
 <span class="r-in"><span class="va">sim3</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span>
 <span class="r-in"> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">sim3</span></span>
@@ -177,12 +179,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[3]], style = "W") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 1.1303, observed rank = 94, p-value = 0.94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 1.1303, observed rank = 98, p-value = 0.98</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim3</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8177  0.9419  0.9959  0.9988  1.0448  1.2029 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.7829  0.9359  0.9786  0.9824  1.0297  1.2033 </span>
 </code></pre></div>
     </div>
   </div>
@@ -197,7 +199,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>

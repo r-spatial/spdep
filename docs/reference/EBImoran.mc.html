@@ -74,9 +74,11 @@
     <p>An empirical Bayes index modification of Moran's I for testing for spatial autocorrelation in a rate, typically the number of observed cases in a population at risk. The index value is tested by using nsim random permutations of the index for the given spatial weighting scheme, to establish the rank of the observed statistic in relation to the nsim simulated values.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">EBImoran.mc</span><span class="op">(</span><span class="va">n</span>, <span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, 
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">EBImoran.mc</span><span class="op">(</span><span class="va">n</span>, <span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, 
  alternative <span class="op">=</span> <span class="st">"greater"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span>,
- subtract_mean_in_numerator<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div></div>
+ subtract_mean_in_numerator<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -177,7 +179,7 @@ following components:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(ncCC89_nb, style = "B", zero.policy = TRUE)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 1000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.20904, observed rank = 997, p-value = 0.003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.20904, observed rank = 998, p-value = 0.002</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
@@ -194,7 +196,7 @@ following components:</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>

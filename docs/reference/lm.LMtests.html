@@ -88,14 +88,16 @@ dependent variable, RLMlag the other way round), and a portmanteau test
 (SARMA, in fact LMerr + RLMlag). Note: from spdep 0.3-32, the value of the weights matrix trace term is returned correctly for both underlying symmetric and asymmetric neighbour lists, before 0.3-32, the value was wrong for listw objects based on asymmetric neighbour lists, such as k-nearest neighbours (thanks to Luc Anselin for finding the bug).</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre><code>lm.LMtests(model, listw, zero.policy=NULL, test="LMerr", spChk=NULL, naSubset=TRUE)
+    <div id="ref-usage">
+    <div class="sourceCode"><pre><code>lm.LMtests(model, listw, zero.policy=NULL, test="LMerr", spChk=NULL, naSubset=TRUE)
 # S3 method for LMtestlist
 print(x, ...)
 # S3 method for LMtestlist
 summary(object, p.adjust.method="none", ...)
 # S3 method for LMtestlist.summary
 print(x, digits=max(3, getOption("digits") - 2), ...)
-&lt;!-- %tracew(listw) --&gt;</code></pre></div></div>
+&lt;!-- %tracew(listw) --&gt;</code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -243,7 +245,7 @@ Science and Urban Economics, 26, 77--104.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>

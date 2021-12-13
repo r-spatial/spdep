@@ -78,7 +78,8 @@
   functions have been moved to the <span class="pkg">spatialreg</span> package.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lextrB</span><span class="op">(</span><span class="va">lw</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lextrB</span><span class="op">(</span><span class="va">lw</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">lextrW</span><span class="op">(</span><span class="va">lw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">lextrS</span><span class="op">(</span><span class="va">lw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>, control<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#l_max(lw, zero.policy=TRUE, control=list())</span>
@@ -238,7 +239,8 @@
 <span class="co"># S3 method for summary.sarlm</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, digits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">5</span>, <span class="va">.Options</span><span class="op">$</span><span class="va">digits</span> <span class="op">-</span> <span class="fl">3</span><span class="op">)</span>,
   signif.stars <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span>
-<span class="fu">trW</span><span class="op">(</span>W<span class="op">=</span><span class="cn">NULL</span>, m <span class="op">=</span> <span class="fl">30</span>, p <span class="op">=</span> <span class="fl">16</span>, type <span class="op">=</span> <span class="st">"mult"</span>, listw<span class="op">=</span><span class="cn">NULL</span>, momentsSymmetry<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div></div>
+<span class="fu">trW</span><span class="op">(</span>W<span class="op">=</span><span class="cn">NULL</span>, m <span class="op">=</span> <span class="fl">30</span>, p <span class="op">=</span> <span class="fl">16</span>, type <span class="op">=</span> <span class="st">"mult"</span>, listw<span class="op">=</span><span class="cn">NULL</span>, momentsSymmetry<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -738,7 +740,7 @@ for the data on which the model was fitted. Should have row names corresponding 
 <span class="r-in"> <span class="st">"misc/nyadjwts.dbf"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">[</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">nyadjlw</span> <span class="op">&lt;-</span> <span class="fu"><a href="mat2listw.html">mat2listw</a></span><span class="op">(</span><span class="va">nyadjmat</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">listw_NY</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nyadjlw</span><span class="op">$</span><span class="va">neighbours</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://Matrix.R-forge.R-project.org/" class="external-link">Matrix</a></span><span class="op">)</span></span>
+<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://Matrix.R-forge.R-project.org/" class="external-link">Matrix</a></span><span class="op">)</span></span>
 <span class="r-in"><span class="va">W_C</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">listw_NY</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">W_R</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">listw_NY</span>, <span class="st">"RsparseMatrix"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">W_S</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">listw_NY</span>, <span class="st">"symmetricMatrix"</span><span class="op">)</span></span>
@@ -1669,7 +1671,7 @@ for the data on which the model was fitted. Should have row names corresponding 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>
