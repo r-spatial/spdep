@@ -4,6 +4,8 @@
 
 * Add local Geary's C #66 thanks to Josiah Parry, discussion on further work on #68
 
+* `localmoran_perm()` returns both look-up and folded rank p-values
+
 # Version 1.1-12 (2021-11-09)
 
 * In `poly2nb()`, reverted removal of legacy interpreted overlapping envelope code for sp objects that cannot be coerced to sf without **rgeos**.

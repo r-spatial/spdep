@@ -23,7 +23,7 @@
   Assunção/Reis (1999) &lt;doi:10.1002/(SICI)1097-0258(19990830)18:16%3C2147::AID-SIM179%3E3.0.CO;2-I&gt; Index, Getis/Ord G (Getis and Ord 1992)
   &lt;doi:10.1111/j.1538-4632.1992.tb00261.x&gt; and multicoloured
   join count statistics, APLE (Li et al. )
-  &lt;doi:10.1111/j.1538-4632.2007.00708.x&gt;, local Morans I
+  &lt;doi:10.1111/j.1538-4632.2007.00708.x&gt;, local Morans I, Gearys C 
   (Anselin 1995) &lt;doi:10.1111/j.1538-4632.1995.tb00338.x&gt; and
   Getis/Ord G (Ord and Getis 1995)
   &lt;doi:10.1111/j.1538-4632.1995.tb00912.x&gt;,
@@ -49,6 +49,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -61,18 +63,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -106,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/r-spatial/spdep/">
+  <a href="https://github.com/r-spatial/spdep/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -123,70 +119,75 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="spdep" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#spdep" class="anchor"></a>spdep</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="spdep">spdep<a class="anchor" aria-label="anchor" href="#spdep"></a>
+</h1></div>
 
-<div id="spatial-dependence-weighting-schemes-and-statistics" class="section level3">
-<h3 class="hasAnchor">
-<a href="#spatial-dependence-weighting-schemes-and-statistics" class="anchor"></a>Spatial Dependence: Weighting Schemes and Statistics</h3>
-<p>A collection of functions to create spatial weights matrix objects from polygon ‘contiguities’, from point patterns by distance and tessellations, for summarizing these objects, and for permitting their use in spatial data analysis, including regional aggregation by minimum spanning tree; a collection of tests for spatial ‘autocorrelation’, including global ‘Morans I’ and ‘Gearys C’ proposed by ‘Cliff’ and ‘Ord’ (1973, ISBN: 0850860369) and (1981, ISBN: 0850860814), ‘Hubert/Mantel’ general cross product statistic, Empirical Bayes estimates and ‘Assunção/Reis’ (1999) <a href="https://doi.org/10.1002/(SICI)1097-0258(19990830)18:16%3C2147" class="uri">https://doi.org/10.1002/(SICI)1097-0258(19990830)18:16%3C2147</a>::AID-SIM179%3E3.0.CO;2-I Index, ‘Getis/Ord’ G (‘Getis’ and ‘Ord’ 1992) <a href="https://doi.org/10.1111/j.1538-4632.1992.tb00261.x" class="uri">https://doi.org/10.1111/j.1538-4632.1992.tb00261.x</a> and multicoloured join count statistics, ‘APLE’ (‘Li ’et al.’ ) <a href="https://doi.org/10.1111/j.1538-4632.2007.00708.x" class="uri">https://doi.org/10.1111/j.1538-4632.2007.00708.x</a>, local ‘Moran’s I’ (Anselin 1995) <a href="https://doi.org/10.1111/j.1538-4632.1995.tb00338.x" class="uri">https://doi.org/10.1111/j.1538-4632.1995.tb00338.x</a> and ‘Getis/Ord’ G (‘Ord’ and ‘Getis’ 1995) <a href="https://doi.org/10.1111/j.1538-4632.1995.tb00912.x" class="uri">https://doi.org/10.1111/j.1538-4632.1995.tb00912.x</a>, ‘saddlepoint’ approximations (‘Tiefelsdorf’ 2002) <a href="https://doi.org/10.1111/j.1538-4632.2002.tb01084.x" class="uri">https://doi.org/10.1111/j.1538-4632.2002.tb01084.x</a> and exact tests for global and local ‘Moran’s I’ (‘Bivand et al.’ 2009) <a href="https://doi.org/10.1016/j.csda.2008.07.021" class="uri">https://doi.org/10.1016/j.csda.2008.07.021</a> and ‘LOSH’ local indicators of spatial heteroscedasticity (‘Ord’ and ‘Getis’) <a href="https://doi.org/10.1007/s00168-011-0492-y" class="uri">https://doi.org/10.1007/s00168-011-0492-y</a>. The implementation of most of the measures is described in ‘Bivand’ and ‘Wong’ (2018) <a href="https://doi.org/10.1007/s11749-018-0599-x" class="uri">https://doi.org/10.1007/s11749-018-0599-x</a>.</p>
+<div class="section level3">
+<h3 id="spatial-dependence-weighting-schemes-and-statistics">Spatial Dependence: Weighting Schemes and Statistics<a class="anchor" aria-label="anchor" href="#spatial-dependence-weighting-schemes-and-statistics"></a>
+</h3>
+<p>A collection of functions to create spatial weights matrix objects from polygon ‘contiguities’, from point patterns by distance and tessellations, for summarizing these objects, and for permitting their use in spatial data analysis, including regional aggregation by minimum spanning tree; a collection of tests for spatial ‘autocorrelation’, including global ‘Morans I’ and ‘Gearys C’ proposed by ‘Cliff’ and ‘Ord’ (1973, ISBN: 0850860369) and (1981, ISBN: 0850860814), ‘Hubert/Mantel’ general cross product statistic, Empirical Bayes estimates and ‘Assunção/Reis’ (1999) <a href="https://doi.org/10.1002/(SICI)1097-0258(19990830)18:16%3C2147" class="external-link uri">https://doi.org/10.1002/(SICI)1097-0258(19990830)18:16%3C2147</a>::AID-SIM179%3E3.0.CO;2-I Index, ‘Getis/Ord’ G (‘Getis’ and ‘Ord’ 1992) <a href="https://doi.org/10.1111/j.1538-4632.1992.tb00261.x" class="external-link uri">https://doi.org/10.1111/j.1538-4632.1992.tb00261.x</a> and multicoloured join count statistics, ‘APLE’ (‘Li ’et al.’ ) <a href="https://doi.org/10.1111/j.1538-4632.2007.00708.x" class="external-link uri">https://doi.org/10.1111/j.1538-4632.2007.00708.x</a>, local ‘Moran’s I’ (Anselin 1995) <a href="https://doi.org/10.1111/j.1538-4632.1995.tb00338.x" class="external-link uri">https://doi.org/10.1111/j.1538-4632.1995.tb00338.x</a> and ‘Getis/Ord’ G (‘Ord’ and ‘Getis’ 1995) <a href="https://doi.org/10.1111/j.1538-4632.1995.tb00912.x" class="external-link uri">https://doi.org/10.1111/j.1538-4632.1995.tb00912.x</a>, ‘saddlepoint’ approximations (‘Tiefelsdorf’ 2002) <a href="https://doi.org/10.1111/j.1538-4632.2002.tb01084.x" class="external-link uri">https://doi.org/10.1111/j.1538-4632.2002.tb01084.x</a> and exact tests for global and local ‘Moran’s I’ (‘Bivand et al.’ 2009) <a href="https://doi.org/10.1016/j.csda.2008.07.021" class="external-link uri">https://doi.org/10.1016/j.csda.2008.07.021</a> and ‘LOSH’ local indicators of spatial heteroscedasticity (‘Ord’ and ‘Getis’) <a href="https://doi.org/10.1007/s00168-011-0492-y" class="external-link uri">https://doi.org/10.1007/s00168-011-0492-y</a>. The implementation of most of the measures is described in ‘Bivand’ and ‘Wong’ (2018) <a href="https://doi.org/10.1007/s11749-018-0599-x" class="external-link uri">https://doi.org/10.1007/s11749-018-0599-x</a>.</p>
 <p><strong>spdep</strong> &gt;= 1.1-1 corresponds to <strong>spatialreg</strong> &gt;= 1.1-1, in which the model fitting functions are deprecated and pass through to <strong>spatialreg</strong>, but will mask those in <strong>spatialreg</strong>. From versions 1.2-1, the functions will be made defunct in <strong>spdep</strong>.</p>
-<p>For now <strong>spatialreg</strong> only has functions from <strong>spdep</strong>, where they are shown as deprecated. <strong>spatialreg</strong> only loads the namespace of <strong>spdep</strong>; if you attach it, the same functions in the other package will be masked. Some feed through adequately, others do not (mostly where <code><a href="https://rdrr.io/r/stats/model.matrix.html">stats::model.matrix()</a></code> facilities do not like the extra level of passing arguments).</p>
-<p>Moved from <a href="https://r-forge.r-project.org/projects/spdep/">R-Forge</a></p>
+<p>For now <strong>spatialreg</strong> only has functions from <strong>spdep</strong>, where they are shown as deprecated. <strong>spatialreg</strong> only loads the namespace of <strong>spdep</strong>; if you attach it, the same functions in the other package will be masked. Some feed through adequately, others do not (mostly where <code><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">stats::model.matrix()</a></code> facilities do not like the extra level of passing arguments).</p>
+<p>Default branch now <code>main</code></p>
+<p>Moved from <a href="https://r-forge.r-project.org/projects/spdep/" class="external-link">R-Forge</a></p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=spdep">https://​cloud.r-project.org/​package=spdep</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/r-spatial/spdep/">https://​github.com/​r-spatial/​spdep/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/r-spatial/spdep/issues/">https://​github.com/​r-spatial/​spdep/​issues/​</a>
-</li>
+<li><a href="https://cloud.r-project.org/package=spdep" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/r-spatial/spdep/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/r-spatial/spdep/issues/" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>GPL (&gt;= 2)</li>
 </ul>
 </div>
+
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html">Citing spdep</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Roger Bivand <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0003-2392-6140" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing spdep</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/r-spatial/spdep/actions"><img src="https://github.com/r-spatial/spdep/workflows/R-CMD-check/badge.svg" alt="Actions Status"></a></li>
-<li><a href="https://cran.r-project.org/package=spdep"><img src="http://www.r-pkg.org/badges/version/spdep" alt="CRAN"></a></li>
+<li>Roger Bivand <br><small class="roles"> Maintainer, author </small> <a href="https://orcid.org/0000-0003-2392-6140" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/r-spatial/spdep/actions" class="external-link"><img src="https://github.com/r-spatial/spdep/workflows/R-CMD-check/badge.svg" alt="Actions Status"></a></li>
+<li><a href="https://cran.r-project.org/package=spdep" class="external-link"><img src="http://www.r-pkg.org/badges/version/spdep" alt="CRAN"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Roger Bivand.</p>
+  <p></p>
+<p>Developed by Roger Bivand.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
 </div>
 
       </footer>
@@ -194,6 +195,8 @@
 
   
 
+
+  
 
   </body>
 </html>

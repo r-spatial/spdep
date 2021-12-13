@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1-12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -76,7 +72,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/r-spatial/spdep/">
+  <a href="https://github.com/r-spatial/spdep/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -91,471 +87,471 @@
 
       
 
-      </header><script src="sids_files/header-attrs-2.11/header-attrs.js"></script><script src="sids_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to the North Carolina SIDS data set (re-revised)</h1>
-                        <h4 class="author">Roger Bivand</h4>
+                        <h4 data-toc-skip class="author">Roger Bivand</h4>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/r-spatial/spdep/blob/master/vignettes/sids.Rmd"><code>vignettes/sids.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-spatial/spdep/blob/HEAD/vignettes/sids.Rmd" class="external-link"><code>vignettes/sids.Rmd</code></a></small>
       <div class="hidden name"><code>sids.Rmd</code></div>
 
     </div>
 
     
     
-<div id="introduction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h2>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>This data set was presented first in <span class="citation">Symons, Grimson, and Yuan (1983)</span>, analysed with reference to the spatial nature of the data in <span class="citation">Cressie and Read (1985)</span>, expanded in <span class="citation">Cressie and Chan (1989)</span>, and used in detail in <span class="citation">Cressie (1991)</span>. It is for the 100 counties of North Carolina, and includes counts of numbers of live births (also non-white live births) and numbers of sudden infant deaths, for the July 1, 1974 to June 30, 1978 and July 1, 1979 to June 30, 1984 periods. In <span class="citation">Cressie and Read (1985)</span>, a listing of county neighbours based on shared boundaries (contiguity) is given, and in <span class="citation">Cressie and Chan (1989)</span>, and in <span class="citation">Cressie (1991, 386–89)</span>, a different listing based on the criterion of distance between county seats, with a cutoff at 30 miles. The county seat location coordinates are given in miles in a local (unknown) coordinate reference system. The data are also used to exemplify a range of functions in the spatial statistics module user’s manual <span class="citation">(Kaluzny et al. 1996)</span>.</p>
 </div>
-<div id="getting-the-data-into-r" class="section level2">
-<h2 class="hasAnchor">
-<a href="#getting-the-data-into-r" class="anchor"></a>Getting the data into R</h2>
-<p>We will be using the <strong>spdep</strong> and <strong>spreg</strong> packages, here version: spdep, version 1.1-12, 2021-10-25, the <strong>sf</strong> package and the <strong>tmap</strong> package. The data from the sources referred to above is documented in the <a href="https://nowosad.github.io/spData/reference/nc.sids.html">help page</a> for the <code>nc.sids</code> data set in <strong>spData</strong>. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the <strong>maptools</strong> package.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.</p>
+<div class="section level2">
+<h2 id="getting-the-data-into-r">Getting the data into R<a class="anchor" aria-label="anchor" href="#getting-the-data-into-r"></a>
+</h2>
+<p>We will be using the <strong>spdep</strong> and <strong>spreg</strong> packages, here version: spdep, version 1.1-13, 2021-12-13, the <strong>sf</strong> package and the <strong>tmap</strong> package. The data from the sources referred to above is documented in the <a href="https://nowosad.github.io/spData/reference/nc.sids.html" class="external-link">help page</a> for the <code>nc.sids</code> data set in <strong>spData</strong>. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the <strong>maptools</strong> package.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/">spdep</a></span><span class="op">)</span>
-<span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +datum=NAD27"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/row.names.html">row.names</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span><span class="op">)</span></code></pre></div>
-<p>The shapefile format presupposes that you have three files with extensions <code>.shp</code>, <code>.shx</code>, and <code>.dbf</code>, where the first contains the geometry data, the second the spatial index, and the third the attribute data. They are required to have the same name apart from the extension, and are read here using <code><a href="https://r-spatial.github.io/sf/reference/st_read.html">sf::st_read()</a></code> into the <code>sf</code> object <code>nc</code>; the class is defined in <strong>sf</strong>. The centroids of the largest polygon in each county are available using the <code>st_centroid</code> method from <strong>sf</strong> as an <strong>sfc</strong> POINT object, and can be used to place labels after the extraction of the coordinate matrix:</p>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span>
+<span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +datum=NAD27"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span><span class="op">)</span></code></pre></div>
+<p>The shapefile format presupposes that you have three files with extensions <code>.shp</code>, <code>.shx</code>, and <code>.dbf</code>, where the first contains the geometry data, the second the spatial index, and the third the attribute data. They are required to have the same name apart from the extension, and are read here using <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code> into the <code>sf</code> object <code>nc</code>; the class is defined in <strong>sf</strong>. The centroids of the largest polygon in each county are available using the <code>st_centroid</code> method from <strong>sf</strong> as an <strong>sfc</strong> POINT object, and can be used to place labels after the extraction of the coordinate matrix:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html">sf_use_s2</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<pre><code>## Spherical geometry (s2) switched off</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Spherical geometry (s2) switched off</span></code></pre>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, axes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/text.html">text</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html">st_coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, label<span class="op">=</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span>, cex<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, axes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/sp/man/gridlines.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, label<span class="op">=</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span>, cex<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>We can examine the names of the columns of the data frame to see what it contains — in fact some of the same columns that we will be examining below, and some others which will be useful in cleaning the data set.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "CNTY_ID"   "AREA"      "PERIMETER" "CNTY_"     "NAME"      "FIPS"     
-##  [7] "FIPSNO"    "CRESS_ID"  "BIR74"     "SID74"     "NWBIR74"   "BIR79"    
-## [13] "SID79"     "NWBIR79"   "east"      "north"     "x"         "y"        
-## [19] "lon"       "lat"       "L_id"      "M_id"      "geometry"</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "CNTY_ID"   "AREA"      "PERIMETER" "CNTY_"     "NAME"      "FIPS"     </span>
+<span class="co">##  [7] "FIPSNO"    "CRESS_ID"  "BIR74"     "SID74"     "NWBIR74"   "BIR79"    </span>
+<span class="co">## [13] "SID79"     "NWBIR79"   "east"      "north"     "x"         "y"        </span>
+<span class="co">## [19] "lon"       "lat"       "L_id"      "M_id"      "geometry"</span></code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></code></pre></div>
-<pre><code>##     CNTY_ID          AREA          PERIMETER         CNTY_     
-##  Min.   :1825   Min.   :0.0420   Min.   :0.999   Min.   :1825  
-##  1st Qu.:1902   1st Qu.:0.0910   1st Qu.:1.324   1st Qu.:1902  
-##  Median :1982   Median :0.1205   Median :1.609   Median :1982  
-##  Mean   :1986   Mean   :0.1263   Mean   :1.673   Mean   :1986  
-##  3rd Qu.:2067   3rd Qu.:0.1542   3rd Qu.:1.859   3rd Qu.:2067  
-##  Max.   :2241   Max.   :0.2410   Max.   :3.640   Max.   :2241  
-##      NAME               FIPS               FIPSNO         CRESS_ID     
-##  Length:100         Length:100         Min.   :37001   Min.   :  1.00  
-##  Class :character   Class :character   1st Qu.:37050   1st Qu.: 25.75  
-##  Mode  :character   Mode  :character   Median :37100   Median : 50.50  
-##                                        Mean   :37100   Mean   : 50.50  
-##                                        3rd Qu.:37150   3rd Qu.: 75.25  
-##                                        Max.   :37199   Max.   :100.00  
-##      BIR74           SID74          NWBIR74           BIR79      
-##  Min.   :  248   Min.   : 0.00   Min.   :   1.0   Min.   :  319  
-##  1st Qu.: 1077   1st Qu.: 2.00   1st Qu.: 190.0   1st Qu.: 1336  
-##  Median : 2180   Median : 4.00   Median : 697.5   Median : 2636  
-##  Mean   : 3300   Mean   : 6.67   Mean   :1051.0   Mean   : 4224  
-##  3rd Qu.: 3936   3rd Qu.: 8.25   3rd Qu.:1168.5   3rd Qu.: 4889  
-##  Max.   :21588   Max.   :44.00   Max.   :8027.0   Max.   :30757  
-##      SID79          NWBIR79             east           north      
-##  Min.   : 0.00   Min.   :    3.0   Min.   : 19.0   Min.   :  6.0  
-##  1st Qu.: 2.00   1st Qu.:  250.5   1st Qu.:178.8   1st Qu.: 97.0  
-##  Median : 5.00   Median :  874.5   Median :285.0   Median :125.5  
-##  Mean   : 8.36   Mean   : 1352.8   Mean   :271.3   Mean   :122.1  
-##  3rd Qu.:10.25   3rd Qu.: 1406.8   3rd Qu.:361.2   3rd Qu.:151.5  
-##  Max.   :57.00   Max.   :11631.0   Max.   :482.0   Max.   :182.0  
-##        x                 y             lon              lat       
-##  Min.   :-328.04   Min.   :3757   Min.   :-84.08   Min.   :33.92  
-##  1st Qu.: -60.55   1st Qu.:3920   1st Qu.:-81.20   1st Qu.:35.26  
-##  Median : 114.38   Median :3963   Median :-79.26   Median :35.68  
-##  Mean   :  91.46   Mean   :3953   Mean   :-79.51   Mean   :35.62  
-##  3rd Qu.: 240.03   3rd Qu.:4000   3rd Qu.:-77.87   3rd Qu.:36.05  
-##  Max.   : 439.65   Max.   :4060   Max.   :-75.67   Max.   :36.52  
-##       L_id           M_id               geometry  
-##  Min.   :1.00   Min.   :1.00   MULTIPOLYGON :100  
-##  1st Qu.:1.00   1st Qu.:2.00   epsg:NA      :  0  
-##  Median :2.00   Median :3.00   +proj=long...:  0  
-##  Mean   :2.12   Mean   :2.67                      
-##  3rd Qu.:3.00   3rd Qu.:3.25                      
-##  Max.   :4.00   Max.   :4.00</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##     CNTY_ID          AREA          PERIMETER         CNTY_     </span>
+<span class="co">##  Min.   :1825   Min.   :0.0420   Min.   :0.999   Min.   :1825  </span>
+<span class="co">##  1st Qu.:1902   1st Qu.:0.0910   1st Qu.:1.324   1st Qu.:1902  </span>
+<span class="co">##  Median :1982   Median :0.1205   Median :1.609   Median :1982  </span>
+<span class="co">##  Mean   :1986   Mean   :0.1263   Mean   :1.673   Mean   :1986  </span>
+<span class="co">##  3rd Qu.:2067   3rd Qu.:0.1542   3rd Qu.:1.859   3rd Qu.:2067  </span>
+<span class="co">##  Max.   :2241   Max.   :0.2410   Max.   :3.640   Max.   :2241  </span>
+<span class="co">##      NAME               FIPS               FIPSNO         CRESS_ID     </span>
+<span class="co">##  Length:100         Length:100         Min.   :37001   Min.   :  1.00  </span>
+<span class="co">##  Class :character   Class :character   1st Qu.:37050   1st Qu.: 25.75  </span>
+<span class="co">##  Mode  :character   Mode  :character   Median :37100   Median : 50.50  </span>
+<span class="co">##                                        Mean   :37100   Mean   : 50.50  </span>
+<span class="co">##                                        3rd Qu.:37150   3rd Qu.: 75.25  </span>
+<span class="co">##                                        Max.   :37199   Max.   :100.00  </span>
+<span class="co">##      BIR74           SID74          NWBIR74           BIR79      </span>
+<span class="co">##  Min.   :  248   Min.   : 0.00   Min.   :   1.0   Min.   :  319  </span>
+<span class="co">##  1st Qu.: 1077   1st Qu.: 2.00   1st Qu.: 190.0   1st Qu.: 1336  </span>
+<span class="co">##  Median : 2180   Median : 4.00   Median : 697.5   Median : 2636  </span>
+<span class="co">##  Mean   : 3300   Mean   : 6.67   Mean   :1051.0   Mean   : 4224  </span>
+<span class="co">##  3rd Qu.: 3936   3rd Qu.: 8.25   3rd Qu.:1168.5   3rd Qu.: 4889  </span>
+<span class="co">##  Max.   :21588   Max.   :44.00   Max.   :8027.0   Max.   :30757  </span>
+<span class="co">##      SID79          NWBIR79             east           north      </span>
+<span class="co">##  Min.   : 0.00   Min.   :    3.0   Min.   : 19.0   Min.   :  6.0  </span>
+<span class="co">##  1st Qu.: 2.00   1st Qu.:  250.5   1st Qu.:178.8   1st Qu.: 97.0  </span>
+<span class="co">##  Median : 5.00   Median :  874.5   Median :285.0   Median :125.5  </span>
+<span class="co">##  Mean   : 8.36   Mean   : 1352.8   Mean   :271.3   Mean   :122.1  </span>
+<span class="co">##  3rd Qu.:10.25   3rd Qu.: 1406.8   3rd Qu.:361.2   3rd Qu.:151.5  </span>
+<span class="co">##  Max.   :57.00   Max.   :11631.0   Max.   :482.0   Max.   :182.0  </span>
+<span class="co">##        x                 y             lon              lat       </span>
+<span class="co">##  Min.   :-328.04   Min.   :3757   Min.   :-84.08   Min.   :33.92  </span>
+<span class="co">##  1st Qu.: -60.55   1st Qu.:3920   1st Qu.:-81.20   1st Qu.:35.26  </span>
+<span class="co">##  Median : 114.38   Median :3963   Median :-79.26   Median :35.68  </span>
+<span class="co">##  Mean   :  91.46   Mean   :3953   Mean   :-79.51   Mean   :35.62  </span>
+<span class="co">##  3rd Qu.: 240.03   3rd Qu.:4000   3rd Qu.:-77.87   3rd Qu.:36.05  </span>
+<span class="co">##  Max.   : 439.65   Max.   :4060   Max.   :-75.67   Max.   :36.52  </span>
+<span class="co">##       L_id           M_id               geometry  </span>
+<span class="co">##  Min.   :1.00   Min.   :1.00   MULTIPOLYGON :100  </span>
+<span class="co">##  1st Qu.:1.00   1st Qu.:2.00   epsg:NA      :  0  </span>
+<span class="co">##  Median :2.00   Median :3.00   +proj=long...:  0  </span>
+<span class="co">##  Mean   :2.12   Mean   :2.67                      </span>
+<span class="co">##  3rd Qu.:3.00   3rd Qu.:3.25                      </span>
+<span class="co">##  Max.   :4.00   Max.   :4.00</span></code></pre>
 <p>Let’s check the different versions of the data against each other - <strong>sf</strong> and <strong>spData</strong> have NC SIDS files, as does GeoDa Center in two forms:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="va">nc_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package<span class="op">=</span><span class="st">"sf"</span><span class="op">)</span>,
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span>
+<span class="va">nc_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package<span class="op">=</span><span class="st">"sf"</span><span class="op">)</span>,
                  quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span></code></pre></div>
-<pre><code>## Coordinate Reference System:
-##   User input: NAD27 
-##   wkt:
-## GEOGCRS["NAD27",
-##     DATUM["North American Datum 1927",
-##         ELLIPSOID["Clarke 1866",6378206.4,294.978698213898,
-##             LENGTHUNIT["metre",1]]],
-##     PRIMEM["Greenwich",0,
-##         ANGLEUNIT["degree",0.0174532925199433]],
-##     CS[ellipsoidal,2],
-##         AXIS["latitude",north,
-##             ORDER[1],
-##             ANGLEUNIT["degree",0.0174532925199433]],
-##         AXIS["longitude",east,
-##             ORDER[2],
-##             ANGLEUNIT["degree",0.0174532925199433]],
-##     ID["EPSG",4267]]</code></pre>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Coordinate Reference System:</span>
+<span class="co">##   User input: NAD27 </span>
+<span class="co">##   wkt:</span>
+<span class="co">## GEOGCRS["NAD27",</span>
+<span class="co">##     DATUM["North American Datum 1927",</span>
+<span class="co">##         ELLIPSOID["Clarke 1866",6378206.4,294.978698213898,</span>
+<span class="co">##             LENGTHUNIT["metre",1]]],</span>
+<span class="co">##     PRIMEM["Greenwich",0,</span>
+<span class="co">##         ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##     CS[ellipsoidal,2],</span>
+<span class="co">##         AXIS["latitude",north,</span>
+<span class="co">##             ORDER[1],</span>
+<span class="co">##             ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##         AXIS["longitude",east,</span>
+<span class="co">##             ORDER[2],</span>
+<span class="co">##             ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##     ID["EPSG",4267]]</span></code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>,
+<code class="sourceCode R"><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>,
                  package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></code></pre></div>
-<pre><code>## Coordinate Reference System: NA</code></pre>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Coordinate Reference System: NA</span></code></pre>
 <p>As the actual CRS is unknown, <strong>spData</strong> reports missing, although it may very well be <code>+proj=longlat +datum=NAD27</code></p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +datum=NAD27"</span></code></pre></div>
-<p>Next, are the geometries the same? <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html">sf::st_equals</a></code> returns a logical matrix, so we’ll check that the diagonal values are all <code>TRUE</code>, and that only those values are <code>TRUE</code> by summing and recalling that <code>n</code> is <code>100</code>:</p>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +datum=NAD27"</span></code></pre></div>
+<p>Next, are the geometries the same? <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">sf::st_equals</a></code> returns a logical matrix, so we’ll check that the diagonal values are all <code>TRUE</code>, and that only those values are <code>TRUE</code> by summing and recalling that <code>n</code> is <code>100</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span><span class="op">)</span>
-<span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html">st_equals</a></span><span class="op">(</span><span class="va">nc</span>, <span class="va">nc_sf</span>, sparse<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/diag.html">diag</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span> <span class="op">==</span> <span class="fl">100L</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span><span class="op">)</span>
+<span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_equals</a></span><span class="op">(</span><span class="va">nc</span>, <span class="va">nc_sf</span>, sparse<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span> <span class="op">==</span> <span class="fl">100L</span></code></pre></div>
+<pre><code><span class="co">## [1] TRUE</span></code></pre>
 <p>Next, let’s download the GeoDa files and repeat the comparisons:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">#download.file("https://geodacenter.github.io/data-and-lab//data/sids.zip", file.path(td, "sids.zip"), quiet=TRUE) </span>
 <span class="co"># local copy (2020-10-22) as repository sometimes offline</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"etc/misc/sids.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span>, <span class="va">td</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/misc/sids.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span>, <span class="va">td</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] TRUE</span></code></pre>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"sids.zip"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sids/sids.dbf"</span>, <span class="st">"sids/sids.prj"</span>, <span class="st">"sids/sids.shp"</span>, <span class="st">"sids/sids.shx"</span><span class="op">)</span>, exdir<span class="op">=</span><span class="va">td</span><span class="op">)</span>
-<span class="va">sids_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"sids/sids.shp"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"sids.zip"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sids/sids.dbf"</span>, <span class="st">"sids/sids.prj"</span>, <span class="st">"sids/sids.shp"</span>, <span class="st">"sids/sids.shx"</span><span class="op">)</span>, exdir<span class="op">=</span><span class="va">td</span><span class="op">)</span>
+<span class="va">sids_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"sids/sids.shp"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#download.file("https://geodacenter.github.io/data-and-lab//data/sids2.zip", file.path(td, "sids2.zip"), quiet=TRUE)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/files.html">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"etc/misc/sids2.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span>, <span class="va">td</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.copy</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/misc/sids2.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span>, <span class="va">td</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] TRUE</span></code></pre>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html">unzip</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"sids2.zip"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"sids2/sids2.dbf"</span>, <span class="st">"sids2/sids2.prj"</span>, <span class="st">"sids2/sids2.shp"</span>, <span class="st">"sids2/sids2.shx"</span><span class="op">)</span>, exdir<span class="op">=</span><span class="va">td</span><span class="op">)</span>
-<span class="va">sids2_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"sids2/sids2.shp"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/unzip.html" class="external-link">unzip</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"sids2.zip"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"sids2/sids2.dbf"</span>, <span class="st">"sids2/sids2.prj"</span>, <span class="st">"sids2/sids2.shp"</span>, <span class="st">"sids2/sids2.shx"</span><span class="op">)</span>, exdir<span class="op">=</span><span class="va">td</span><span class="op">)</span>
+<span class="va">sids2_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"sids2/sids2.shp"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">sids_sf</span><span class="op">)</span></code></pre></div>
-<pre><code>## Coordinate Reference System:
-##   User input: WGS 84 
-##   wkt:
-## GEOGCRS["WGS 84",
-##     DATUM["World Geodetic System 1984",
-##         ELLIPSOID["WGS 84",6378137,298.257223563,
-##             LENGTHUNIT["metre",1]]],
-##     PRIMEM["Greenwich",0,
-##         ANGLEUNIT["degree",0.0174532925199433]],
-##     CS[ellipsoidal,2],
-##         AXIS["latitude",north,
-##             ORDER[1],
-##             ANGLEUNIT["degree",0.0174532925199433]],
-##         AXIS["longitude",east,
-##             ORDER[2],
-##             ANGLEUNIT["degree",0.0174532925199433]],
-##     ID["EPSG",4326]]</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">sids_sf</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Coordinate Reference System:</span>
+<span class="co">##   User input: WGS 84 </span>
+<span class="co">##   wkt:</span>
+<span class="co">## GEOGCRS["WGS 84",</span>
+<span class="co">##     DATUM["World Geodetic System 1984",</span>
+<span class="co">##         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
+<span class="co">##             LENGTHUNIT["metre",1]]],</span>
+<span class="co">##     PRIMEM["Greenwich",0,</span>
+<span class="co">##         ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##     CS[ellipsoidal,2],</span>
+<span class="co">##         AXIS["latitude",north,</span>
+<span class="co">##             ORDER[1],</span>
+<span class="co">##             ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##         AXIS["longitude",east,</span>
+<span class="co">##             ORDER[2],</span>
+<span class="co">##             ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##     ID["EPSG",4326]]</span></code></pre>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">sids2_sf</span><span class="op">)</span></code></pre></div>
-<pre><code>## Coordinate Reference System:
-##   User input: WGS 84 
-##   wkt:
-## GEOGCRS["WGS 84",
-##     DATUM["World Geodetic System 1984",
-##         ELLIPSOID["WGS 84",6378137,298.257223563,
-##             LENGTHUNIT["metre",1]]],
-##     PRIMEM["Greenwich",0,
-##         ANGLEUNIT["degree",0.0174532925199433]],
-##     CS[ellipsoidal,2],
-##         AXIS["latitude",north,
-##             ORDER[1],
-##             ANGLEUNIT["degree",0.0174532925199433]],
-##         AXIS["longitude",east,
-##             ORDER[2],
-##             ANGLEUNIT["degree",0.0174532925199433]],
-##     ID["EPSG",4326]]</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">sids2_sf</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## Coordinate Reference System:</span>
+<span class="co">##   User input: WGS 84 </span>
+<span class="co">##   wkt:</span>
+<span class="co">## GEOGCRS["WGS 84",</span>
+<span class="co">##     DATUM["World Geodetic System 1984",</span>
+<span class="co">##         ELLIPSOID["WGS 84",6378137,298.257223563,</span>
+<span class="co">##             LENGTHUNIT["metre",1]]],</span>
+<span class="co">##     PRIMEM["Greenwich",0,</span>
+<span class="co">##         ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##     CS[ellipsoidal,2],</span>
+<span class="co">##         AXIS["latitude",north,</span>
+<span class="co">##             ORDER[1],</span>
+<span class="co">##             ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##         AXIS["longitude",east,</span>
+<span class="co">##             ORDER[2],</span>
+<span class="co">##             ANGLEUNIT["degree",0.0174532925199433]],</span>
+<span class="co">##     ID["EPSG",4326]]</span></code></pre>
 <p>It looks as though the external files are assuming WGS84/NAD83 for the datum, but also contain the same geometries.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">sids_sf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">)</span>
-<span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html">st_equals</a></span><span class="op">(</span><span class="va">sids_sf</span>, <span class="va">nc_sf</span>, sparse<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/diag.html">diag</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span> <span class="op">==</span> <span class="fl">100L</span></code></pre></div>
-<pre><code>## [1] FALSE</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">sids_sf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">)</span>
+<span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_equals</a></span><span class="op">(</span><span class="va">sids_sf</span>, <span class="va">nc_sf</span>, sparse<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span> <span class="op">==</span> <span class="fl">100L</span></code></pre></div>
+<pre><code><span class="co">## [1] FALSE</span></code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">sids2_sf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html">st_crs</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">)</span>
-<span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html">st_equals</a></span><span class="op">(</span><span class="va">sids2_sf</span>, <span class="va">nc_sf</span>, sparse<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/all.html">all</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/diag.html">diag</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span> <span class="op">==</span> <span class="fl">100L</span></code></pre></div>
-<pre><code>## [1] FALSE</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">sids2_sf</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">)</span>
+<span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_equals</a></span><span class="op">(</span><span class="va">sids2_sf</span>, <span class="va">nc_sf</span>, sparse<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">xx</span><span class="op">)</span> <span class="op">==</span> <span class="fl">100L</span></code></pre></div>
+<pre><code><span class="co">## [1] FALSE</span></code></pre>
 <p>Now for the contents of the files - <code>sids2</code> also contains rates, while the file in <code>spData</code> contains the coordinates as given in <span class="citation">Cressie (1991)</span>, and the parcels of contiguous counties on p. 554, and the aggregations used for median polishing.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">sids_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "Names: 12 string mismatches"                                  
-##  [2] "Component 4: Modes: numeric, character"                       
-##  [3] "Component 4: target is numeric, current is character"         
-##  [4] "Component 5: 100 string mismatches"                           
-##  [5] "Component 6: Modes: character, numeric"                       
-##  [6] "Component 6: target is character, current is numeric"         
-##  [7] "Component 7: Mean relative difference: 0.9986388"             
-##  [8] "Component 8: Mean relative difference: 64.33901"              
-##  [9] "Component 9: Mean relative difference: 0.9979786"             
-## [10] "Component 10: Mean relative difference: 156.5427"             
-## [11] "Component 11: Mean relative difference: 3.01968"              
-## [12] "Component 12: Mean relative difference: 0.9980208"            
-## [13] "Component 13: Mean relative difference: 160.8194"             
-## [14] "Component 14: Modes: numeric, list"                           
-## [15] "Component 14: Attributes: &lt; target is NULL, current is list &gt;"
-## [16] "Component 14: target is numeric, current is sfc_MULTIPOLYGON"</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">sids_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "Names: 12 string mismatches"                                  </span>
+<span class="co">##  [2] "Component 4: Modes: numeric, character"                       </span>
+<span class="co">##  [3] "Component 4: target is numeric, current is character"         </span>
+<span class="co">##  [4] "Component 5: 100 string mismatches"                           </span>
+<span class="co">##  [5] "Component 6: Modes: character, numeric"                       </span>
+<span class="co">##  [6] "Component 6: target is character, current is numeric"         </span>
+<span class="co">##  [7] "Component 7: Mean relative difference: 0.9986388"             </span>
+<span class="co">##  [8] "Component 8: Mean relative difference: 64.33901"              </span>
+<span class="co">##  [9] "Component 9: Mean relative difference: 0.9979786"             </span>
+<span class="co">## [10] "Component 10: Mean relative difference: 156.5427"             </span>
+<span class="co">## [11] "Component 11: Mean relative difference: 3.01968"              </span>
+<span class="co">## [12] "Component 12: Mean relative difference: 0.9980208"            </span>
+<span class="co">## [13] "Component 13: Mean relative difference: 160.8194"             </span>
+<span class="co">## [14] "Component 14: Modes: numeric, list"                           </span>
+<span class="co">## [15] "Component 14: Attributes: &lt; target is NULL, current is list &gt;"</span>
+<span class="co">## [16] "Component 14: target is numeric, current is sfc_MULTIPOLYGON"</span></code></pre>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">sids2_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "Names: 12 string mismatches"                         
-##  [2] "Component 4: Modes: numeric, character"              
-##  [3] "Component 4: target is numeric, current is character"
-##  [4] "Component 5: 100 string mismatches"                  
-##  [5] "Component 6: Modes: character, numeric"              
-##  [6] "Component 6: target is character, current is numeric"
-##  [7] "Component 7: Mean relative difference: 0.9986388"    
-##  [8] "Component 8: Mean relative difference: 64.33901"     
-##  [9] "Component 9: Mean relative difference: 0.9979786"    
-## [10] "Component 10: Mean relative difference: 156.5427"    
-## [11] "Component 11: Mean relative difference: 3.01968"     
-## [12] "Component 12: Mean relative difference: 0.9980208"   
-## [13] "Component 13: Mean relative difference: 160.8194"    
-## [14] "Component 14: Mean relative difference: 0.9984879"</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">sids2_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "Names: 12 string mismatches"                         </span>
+<span class="co">##  [2] "Component 4: Modes: numeric, character"              </span>
+<span class="co">##  [3] "Component 4: target is numeric, current is character"</span>
+<span class="co">##  [4] "Component 5: 100 string mismatches"                  </span>
+<span class="co">##  [5] "Component 6: Modes: character, numeric"              </span>
+<span class="co">##  [6] "Component 6: target is character, current is numeric"</span>
+<span class="co">##  [7] "Component 7: Mean relative difference: 0.9986388"    </span>
+<span class="co">##  [8] "Component 8: Mean relative difference: 64.33901"     </span>
+<span class="co">##  [9] "Component 9: Mean relative difference: 0.9979786"    </span>
+<span class="co">## [10] "Component 10: Mean relative difference: 156.5427"    </span>
+<span class="co">## [11] "Component 11: Mean relative difference: 3.01968"     </span>
+<span class="co">## [12] "Component 12: Mean relative difference: 0.9980208"   </span>
+<span class="co">## [13] "Component 13: Mean relative difference: 160.8194"    </span>
+<span class="co">## [14] "Component 14: Mean relative difference: 0.9984879"</span></code></pre>
 <p>The <strong>spData</strong> data set has some columns reordered and a surprise:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "Component \"NWBIR74\": Mean relative difference: 0.04891304"</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nc_sf</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">14</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span>,<span class="fl">4</span>,<span class="fl">1</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] "Component \"NWBIR74\": Mean relative difference: 0.04891304"</span></code></pre>
 <p>so a difference in <code>NWBIR74</code>:</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">nc_sf</span><span class="op">$</span><span class="va">NWBIR74</span> <span class="op">==</span> <span class="va">nc</span><span class="op">$</span><span class="va">NWBIR74</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 21</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="op">!</span><span class="op">(</span><span class="va">nc_sf</span><span class="op">$</span><span class="va">NWBIR74</span> <span class="op">==</span> <span class="va">nc</span><span class="op">$</span><span class="va">NWBIR74</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] 21</span></code></pre>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">NWBIR74</span><span class="op">[</span><span class="fl">21</span><span class="op">]</span>, <span class="va">nc_sf</span><span class="op">$</span><span class="va">NWBIR74</span><span class="op">[</span><span class="fl">21</span><span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 386 368</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">NWBIR74</span><span class="op">[</span><span class="fl">21</span><span class="op">]</span>, <span class="va">nc_sf</span><span class="op">$</span><span class="va">NWBIR74</span><span class="op">[</span><span class="fl">21</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] 386 368</span></code></pre>
 <p>where <strong>spData</strong> follows <span class="citation">Cressie (1991)</span> and <strong>sf</strong> and Geoda follow <span class="citation">Cressie and Chan (1989)</span> for NWBIR74 in Chowan county.</p>
 <p>We will now examine the data set reproduced from Cressie and collaborators, included in <strong>spData</strong> (formerly in <strong>spdep</strong>), and add the neighbour relationships used in <span class="citation">Cressie and Chan (1989)</span> to the background map as a graph shown in Figure :</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gal_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"weights/ncCR85.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+<code class="sourceCode R"><span class="va">gal_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/ncCR85.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="va">ncCR85</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read.gal.html">read.gal</a></span><span class="op">(</span><span class="va">gal_file</span>, region.id<span class="op">=</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span><span class="op">)</span>
 <span class="va">ncCR85</span></code></pre></div>
-<pre><code>## Neighbour list object:
-## Number of regions: 100 
-## Number of nonzero links: 492 
-## Percentage nonzero weights: 4.92 
-## Average number of links: 4.92</code></pre>
+<pre><code><span class="co">## Neighbour list object:</span>
+<span class="co">## Number of regions: 100 </span>
+<span class="co">## Number of nonzero links: 492 </span>
+<span class="co">## Percentage nonzero weights: 4.92 </span>
+<span class="co">## Average number of links: 4.92</span></code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">gal_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"weights/ncCC89.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
+<code class="sourceCode R"><span class="va">gal_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/ncCC89.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>
 <span class="va">ncCC89</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read.gal.html">read.gal</a></span><span class="op">(</span><span class="va">gal_file</span>, region.id<span class="op">=</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span><span class="op">)</span>
 <span class="va">ncCC89</span></code></pre></div>
-<pre><code>## Neighbour list object:
-## Number of regions: 100 
-## Number of nonzero links: 394 
-## Percentage nonzero weights: 3.94 
-## Average number of links: 3.94 
-## 2 regions with no links:
-## 37055 37095</code></pre>
+<pre><code><span class="co">## Neighbour list object:</span>
+<span class="co">## Number of regions: 100 </span>
+<span class="co">## Number of nonzero links: 394 </span>
+<span class="co">## Percentage nonzero weights: 3.94 </span>
+<span class="co">## Average number of links: 3.94 </span>
+<span class="co">## 2 regions with no links:</span>
+<span class="co">## 37055 37095</span></code></pre>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span>
-<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html">plot</a></span><span class="op">(</span><span class="va">ncCC89</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, <span class="va">of_largest_polygon</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span>
+<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ncCC89</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, <span class="va">of_largest_polygon</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/plot-CC89.nb-1.png" width="700"></p>
-<p>Printing the neighbour object shows that it is a neighbour list object, with a very sparse structure — if displayed as a matrix, only 3.94% of cells would be filled. Objects of class <span><code>nb</code></span> contain a list as long as the number of counties; each component of the list is a vector with the index numbers of the neighbours of the county in question, so that the neighbours of the county with <span><code>region.id</code></span> of <span><code>37001</code></span> can be retreived by matching against the indices. More information can be obtained by using <span><code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code></span> on an <span><code>nb</code></span> object. Finally, we associate a vector of names with the neighbour list, through the <span><code>row.names</code></span> argument. The names should be unique, as with data frame row names.</p>
+<p>Printing the neighbour object shows that it is a neighbour list object, with a very sparse structure — if displayed as a matrix, only 3.94% of cells would be filled. Objects of class <span><code>nb</code></span> contain a list as long as the number of counties; each component of the list is a vector with the index numbers of the neighbours of the county in question, so that the neighbours of the county with <span><code>region.id</code></span> of <span><code>37001</code></span> can be retreived by matching against the indices. More information can be obtained by using <span><code><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary()</a></code></span> on an <span><code>nb</code></span> object. Finally, we associate a vector of names with the neighbour list, through the <span><code>row.names</code></span> argument. The names should be unique, as with data frame row names.</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">r.id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">ncCC89</span>, <span class="st">"region.id"</span><span class="op">)</span>
-<span class="va">ncCC89</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="st">"37001"</span>, <span class="va">r.id</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1] 11 26 29 30 48</code></pre>
+<code class="sourceCode R"><span class="va">r.id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">ncCC89</span>, <span class="st">"region.id"</span><span class="op">)</span>
+<span class="va">ncCC89</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="st">"37001"</span>, <span class="va">r.id</span><span class="op">)</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<pre><code><span class="co">## [1] 11 26 29 30 48</span></code></pre>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">r.id</span><span class="op">[</span><span class="va">ncCC89</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html">match</a></span><span class="op">(</span><span class="st">"37001"</span>, <span class="va">r.id</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1] 37033 37081 37135 37063 37037</code></pre>
+<code class="sourceCode R"><span class="va">r.id</span><span class="op">[</span><span class="va">ncCC89</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="st">"37001"</span>, <span class="va">r.id</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<pre><code><span class="co">## [1] 37033 37081 37135 37063 37037</span></code></pre>
 <p>The neighbour list object records neighbours by their order in relation to the list itself, so the neighbours list for the county with <span><code>region.id</code></span> “37001” are the seventeenth, nineteenth, thirty-second, forty-first and sixty-eighth in the list. We can retreive their codes by looking them up in the <span><code>region.id</code></span> attribute.</p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">NAME</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">ncCC89</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1] "Dare" "Hyde"</code></pre>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">NAME</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">ncCC89</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span><span class="op">]</span></code></pre></div>
+<pre><code><span class="co">## [1] "Dare" "Hyde"</span></code></pre>
 <p>We should also note that this neighbour criterion generates two counties with no neighbours, Dare and Hyde, whose county seats were more than 30 miles from their nearest neighbours. The <span><code><a href="../reference/card.html">card()</a></code></span> function returns the cardinality of the neighbour set. We need to return to methods for handling no-neighbour objects later on. We will also show how new neighbours lists may be constructed in , and compare these with those from the literature.</p>
-<div id="probability-mapping" class="section level3">
-<h3 class="hasAnchor">
-<a href="#probability-mapping" class="anchor"></a>Probability mapping</h3>
+<div class="section level3">
+<h3 id="probability-mapping">Probability mapping<a class="anchor" aria-label="anchor" href="#probability-mapping"></a>
+</h3>
 <p>Rather than review functions for measuring and modelling spatial dependence in the <strong>spdep</strong> package, we will focus on probability mapping for disease rates data. Typically, we have counts of the incidence of some disease by spatial unit, associated with counts of populations at risk. The task is then to try to establish whether any spatial units seem to be characterised by higher or lower counts of cases than might have been expected in general terms <span class="citation">(Bailey and Gatrell 1995)</span>.</p>
 <p>An early approach by <span class="citation">Choynowski (1959)</span>, described by <span class="citation">Cressie and Read (1985)</span> and <span class="citation">Bailey and Gatrell (1995)</span>, assumes, given that the true rate for the spatial units is small, that as the population at risk increases to infinity, the spatial unit case counts are Poisson with mean value equal to the population at risk times the rate for the study area as a whole. Choynowski’s approach folds the two tails of the measured probabilities together, so that small values, for a chosen <span class="math inline">\(\alpha\)</span>, occur for spatial units with either unusually high or low rates. For this reason, the high and low counties are plotted separately below. Note that <code>cut</code> returns a <code>factor</code> labeled with cut intervals.</p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ch</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/choynowski.html">choynowski</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span>
-<span class="va">nc</span><span class="op">$</span><span class="va">ch_pmap_low</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="va">ch</span><span class="op">$</span><span class="va">type</span>, <span class="va">ch</span><span class="op">$</span><span class="va">pmap</span>, <span class="cn">NA</span><span class="op">)</span>
-<span class="va">nc</span><span class="op">$</span><span class="va">ch_pmap_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="op">!</span><span class="va">ch</span><span class="op">$</span><span class="va">type</span>, <span class="va">ch</span><span class="op">$</span><span class="va">pmap</span>, <span class="cn">NA</span><span class="op">)</span>
-<span class="va">prbs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.001</span>,<span class="fl">.01</span>,<span class="fl">.05</span>,<span class="fl">.1</span>,<span class="fl">1</span><span class="op">)</span>
-<span class="va">nc</span><span class="op">$</span><span class="va">high</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">ch_pmap_high</span>, <span class="va">prbs</span><span class="op">)</span>
-<span class="va">nc</span><span class="op">$</span><span class="va">low</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html">cut</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">ch_pmap_low</span>,<span class="va">prbs</span> <span class="op">)</span></code></pre></div>
+<span class="va">nc</span><span class="op">$</span><span class="va">ch_pmap_low</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">ch</span><span class="op">$</span><span class="va">type</span>, <span class="va">ch</span><span class="op">$</span><span class="va">pmap</span>, <span class="cn">NA</span><span class="op">)</span>
+<span class="va">nc</span><span class="op">$</span><span class="va">ch_pmap_high</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="op">!</span><span class="va">ch</span><span class="op">$</span><span class="va">type</span>, <span class="va">ch</span><span class="op">$</span><span class="va">pmap</span>, <span class="cn">NA</span><span class="op">)</span>
+<span class="va">prbs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">.001</span>,<span class="fl">.01</span>,<span class="fl">.05</span>,<span class="fl">.1</span>,<span class="fl">1</span><span class="op">)</span>
+<span class="va">nc</span><span class="op">$</span><span class="va">high</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">ch_pmap_high</span>, <span class="va">prbs</span><span class="op">)</span>
+<span class="va">nc</span><span class="op">$</span><span class="va">low</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">ch_pmap_low</span>,<span class="va">prbs</span> <span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">is_tmap</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span>
-<span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">is_tmap</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>
+<span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap" class="external-link">tmap</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">is_tmap</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span>
 <span class="va">is_tmap</span></code></pre></div>
-<pre><code>## [1] TRUE</code></pre>
+<pre><code><span class="co">## [1] TRUE</span></code></pre>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span>, palette<span class="op">=</span><span class="st">"Set1"</span>, title<span class="op">=</span><span class="st">"p-values"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_facets.html">tm_facets</a></span><span class="op">(</span>free.scales<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap" class="external-link">tmap</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span>, palette<span class="op">=</span><span class="st">"Set1"</span>, title<span class="op">=</span><span class="st">"p-values"</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_facets.html" class="external-link">tm_facets</a></span><span class="op">(</span>free.scales<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>panel.labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/choymap-1.png" width="700"></p>
-<p>For more complicated thematic maps, it may be helpful to use ColorBrewer (<a href="https://colorbrewer2.org" class="uri">https://colorbrewer2.org</a>) colour palettes. Here we use palettes accessed through <strong>tmap</strong>, available in R in the <strong>RColorBrewer</strong> package.</p>
-<p>While the <span><code><a href="../reference/choynowski.html">choynowski()</a></code></span> function only provides the probability map values required, the <span><code><a href="../reference/probmap.html">probmap()</a></code></span> function returns raw (crude) rates, expected counts (assuming a constant rate across the study area), relative risks, and Poisson probability map values calculated using the standard cumulative distribution function <span><code><a href="https://rdrr.io/r/stats/Poisson.html">ppois()</a></code></span>. This does not fold the tails together, so that counties with lower observed counts than expected, based on population size, have values in the lower tail, and those with higher observed counts than expected have values in the upper tail, as we can see.</p>
+<p>For more complicated thematic maps, it may be helpful to use ColorBrewer (<a href="https://colorbrewer2.org" class="external-link uri">https://colorbrewer2.org</a>) colour palettes. Here we use palettes accessed through <strong>tmap</strong>, available in R in the <strong>RColorBrewer</strong> package.</p>
+<p>While the <span><code><a href="../reference/choynowski.html">choynowski()</a></code></span> function only provides the probability map values required, the <span><code><a href="../reference/probmap.html">probmap()</a></code></span> function returns raw (crude) rates, expected counts (assuming a constant rate across the study area), relative risks, and Poisson probability map values calculated using the standard cumulative distribution function <span><code><a href="https://rdrr.io/r/stats/Poisson.html" class="external-link">ppois()</a></code></span>. This does not fold the tails together, so that counties with lower observed counts than expected, based on population size, have values in the lower tail, and those with higher observed counts than expected have values in the upper tail, as we can see.</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pmap</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/probmap.html">probmap</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span>
 <span class="va">nc</span><span class="op">$</span><span class="va">pmap</span> <span class="op">&lt;-</span> <span class="va">pmap</span><span class="op">$</span><span class="va">pmap</span></code></pre></div>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">brks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.001</span>,<span class="fl">0.01</span>,<span class="fl">0.025</span>,<span class="fl">0.05</span>,<span class="fl">0.95</span>,<span class="fl">0.975</span>,<span class="fl">0.99</span>,<span class="fl">0.999</span>,<span class="fl">1</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"pmap"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">brks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0.001</span>,<span class="fl">0.01</span>,<span class="fl">0.025</span>,<span class="fl">0.05</span>,<span class="fl">0.95</span>,<span class="fl">0.975</span>,<span class="fl">0.99</span>,<span class="fl">0.999</span>,<span class="fl">1</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"pmap"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
-<p>Marilia Carvalho (personal communication) and Virgilio Gómez Rubio <span class="citation">(Gómez-Rubio, Ferrándiz-Ferragud, and López-Quílez 2005)</span> have pointed to the unusual shape of the distribution of the Poisson probability values (histogram below), repeating the doubts about probability mapping voiced by <span class="citation">Cressie (1991, 392)</span>: “an extreme value <span class="math inline">\(\ldots\)</span> may be more due to its lack of fit to the Poisson model than to its deviation from the constant rate assumption”. There are many more high values than one would have expected, suggesting perhaps overdispersion, that is that the ratio of the variance and mean is larger than unity.</p>
+<p>Marilia Carvalho (personal communication) and Virgilio Gómez Rubio <span class="citation">(Gómez-Rubio, Ferrándiz-Ferragud, and López-Quílez 2005)</span> have pointed to the unusual shape of the distribution of the Poisson probability values (histogram below), repeating the doubts about probability mapping voiced by <span class="citation">Cressie (1991, 392)</span>: “an extreme value <span class="math inline">\(\ldots\)</span> may be more due to its lack of fit to the Poisson model than to its deviation from the constant rate assumption.” There are many more high values than one would have expected, suggesting perhaps overdispersion, that is that the ratio of the variance and mean is larger than unity.</p>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">pmap</span>, main<span class="op">=</span><span class="st">""</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">pmap</span>, main<span class="op">=</span><span class="st">""</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/poishist-1.png" width="700"></p>
 <p>One ad-hoc way to assess the impact of the possible failure of our assumption that the counts follow the Poisson distribution is to estimate the dispersion by fitting a generalized linear model of the observed counts including only the intercept (null model) and offset by the observed population at risk (suggested by Marilia Carvalho and associates):</p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">SID74</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html">offset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">BIR74</span><span class="op">)</span><span class="op">)</span>, data<span class="op">=</span><span class="va">nc</span>, family<span class="op">=</span><span class="st">"quasipoisson"</span><span class="op">)</span>
-<span class="va">nc</span><span class="op">$</span><span class="va">stdres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html">rstandard</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html" class="external-link">glm</a></span><span class="op">(</span><span class="va">SID74</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/offset.html" class="external-link">offset</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">BIR74</span><span class="op">)</span><span class="op">)</span>, data<span class="op">=</span><span class="va">nc</span>, family<span class="op">=</span><span class="st">"quasipoisson"</span><span class="op">)</span>
+<span class="va">nc</span><span class="op">$</span><span class="va">stdres</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/influence.measures.html" class="external-link">rstandard</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">brks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="op">-</span><span class="fl">3</span>, <span class="op">-</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">1.5</span>, <span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"stdres"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">0</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">brks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="op">-</span><span class="fl">3</span>, <span class="op">-</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">1.5</span>, <span class="op">-</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">1</span>, <span class="fl">1.5</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"stdres"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">0</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 <p>The dispersion is equal to 2.2786188, much greater than unity; we calculate the corrected probability map values by taking the standardised residuals of the model, taking the size of the dispersion into account; the results are shown above. Many fewer counties appear now to have unexpectedly large or small numbers of cases. This is an ad-hoc adjustment made because R provides access to a wide range of model-fitting functions that can be used to help check our assumptions. <span class="citation">Gómez-Rubio, Ferrándiz-Ferragud, and López-Quílez (2005)</span> chose rather to construct a probability map under the hypothesis that data are drawn from a Negative Binomial distribution.</p>
 <p>So far, none of the maps presented have made use of the spatial dependence possibly present in the data. A further elementary step that can be taken is to map Empirical Bayes estimates of the rates, which are smoothed in relation to the raw rates. The underlying question here is linked to the larger variance associated with rate estimates for counties with small populations at risk compared with counties with large populations at risk. Empirical Bayes estimates place more credence on the raw rates of counties with large populations at risk, and modify them much less than they modify rates for small counties. In the case of small populations at risk, more confidence is placed in either the global rate for the study area as a whole, or for local Empirical Bayes estimates, in rates for a larger moving window including the neighbours of the county being estimated. The function used for this in <strong>spdep</strong> is <span><code><a href="../reference/EBlocal.html">EBlocal()</a></code></span>, initially contributed by Marilia Carvalho. It parallels a similar function in GeoDa, but uses the <span class="citation">Bailey and Gatrell (1995)</span> interpretation of <span class="citation">Marshall (1991)</span>, rather than that in GeoDa <span class="citation">(Anselin, Syabri, and Smirnov 2002)</span>.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">global_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">global_rate</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span>
 <span class="va">nc</span><span class="op">$</span><span class="va">Expected</span> <span class="op">&lt;-</span> <span class="va">global_rate</span> <span class="op">*</span> <span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span>
 <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/EBlocal.html">EBlocal</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc</span><span class="op">$</span><span class="va">Expected</span>, <span class="va">ncCC89</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">nc</span><span class="op">$</span><span class="va">EB_loc</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">est</span></code></pre></div>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">brks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span>
-<span class="va">nc_miss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">ncCC89</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span>,<span class="op">]</span><span class="op">)</span>, <span class="va">of_largest_polygon</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"EB_loc"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">1</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">nc_miss</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">8</span>, size<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">brks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">4</span>, <span class="fl">5</span><span class="op">)</span>
+<span class="va">nc_miss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">ncCC89</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0</span>,<span class="op">]</span><span class="op">)</span>, <span class="va">of_largest_polygon</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"EB_loc"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">1</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc_miss</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_symbols.html" class="external-link">tm_symbols</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">8</span>, size<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 <p>The results are shown in Figure . Like other relevant functions in <strong>spdep</strong>,<code><a href="../reference/EBlocal.html">EBlocal()</a></code> takes a <code>zero.policy</code> argument to allow missing values to be passed through. In this case, no local estimate is available for the two counties with no neighbours, marked by stars.</p>
 <p>In addition to Empirical Bayes smoothing globally, used both for disease mapping and the Assun<span>c</span>ão and Reis correction to Moran’s <span class="math inline">\(I\)</span> for rates data (to shrink towards the global rate when the population at risk is small, here as a Monte Carlo test), lists of local neighbours can be used to shrink towards a local rate.</p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="fu"><a href="../reference/EBImoran.mc.html">EBImoran.mc</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span>, <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">ncCC89</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">999</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>## 
-##  Monte-Carlo simulation of Empirical Bayes Index (mean subtracted)
-## 
-## data:  cases: nc$SID74, risk population: nc$BIR74
-## weights: nb2listw(ncCC89, style = "B", zero.policy = TRUE)
-## number of simulations + 1: 1000
-## 
-## statistic = 0.25789, observed rank = 998, p-value = 0.002
-## alternative hypothesis: greater</code></pre>
+<pre><code><span class="co">## </span>
+<span class="co">##  Monte-Carlo simulation of Empirical Bayes Index (mean subtracted)</span>
+<span class="co">## </span>
+<span class="co">## data:  cases: nc$SID74, risk population: nc$BIR74</span>
+<span class="co">## weights: nb2listw(ncCC89, style = "B", zero.policy = TRUE)</span>
+<span class="co">## number of simulations + 1: 1000</span>
+<span class="co">## </span>
+<span class="co">## statistic = 0.25789, observed rank = 998, p-value = 0.002</span>
+<span class="co">## alternative hypothesis: greater</span></code></pre>
 </div>
 </div>
-<div id="exploration-and-modelling-of-the-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#exploration-and-modelling-of-the-data" class="anchor"></a>Exploration and modelling of the data</h2>
+<div class="section level2">
+<h2 id="exploration-and-modelling-of-the-data">Exploration and modelling of the data<a class="anchor" aria-label="anchor" href="#exploration-and-modelling-of-the-data"></a>
+</h2>
 <p>One of the first steps taken by <span class="citation">Cressie and Read (1985)</span> is to try to bring out spatial trends by dividing North Carolina up into <span class="math inline">\(4\times4\)</span> rough rectangles. Just to see how this works, let us map these rough rectangles before proceeding further.</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nc</span><span class="op">$</span><span class="va">both</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">L_id</span>, <span class="va">nc</span><span class="op">$</span><span class="va">M_id</span>, sep<span class="op">=</span><span class="st">":"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">nboth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html">unclass</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">both</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">nc</span><span class="op">$</span><span class="va">both</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">L_id</span>, <span class="va">nc</span><span class="op">$</span><span class="va">M_id</span>, sep<span class="op">=</span><span class="st">":"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">nboth</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">both</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"both"</span>, palette<span class="op">=</span><span class="st">"Set1"</span>, title<span class="op">=</span><span class="st">"rough\nrectangles"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"both"</span>, palette<span class="op">=</span><span class="st">"Set1"</span>, title<span class="op">=</span><span class="st">"rough\nrectangles"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
 <p>Cressie constructs a transformed SIDS rates variable, 1974–78, for his analyses (with co-workers). We can replicate his stem-and-leaf figure on p. 396 in the book, taken from <span class="citation">Cressie and Read (1989)</span>:</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nc</span><span class="op">$</span><span class="va">ft.SID74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">/</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/stem.html">stem</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">ft.SID74</span>, <span class="fl">1</span><span class="op">)</span>, scale<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
-<pre><code>## 
-##   The decimal point is at the |
-## 
-##   0 | 9
-##   1 | 111244
-##   1 | 567789999
-##   2 | 0011111222334444
-##   2 | 55555666677778999999999
-##   3 | 000111122333333344444444
-##   3 | 5568999
-##   4 | 013344
-##   4 | 555557
-##   5 | 2
-##   5 | 
-##   6 | 3</code></pre>
-<div id="medpol" class="section level3">
-<h3 class="hasAnchor">
-<a href="#medpol" class="anchor"></a>Median polish smoothing</h3>
+<code class="sourceCode R"><span class="va">nc</span><span class="op">$</span><span class="va">ft.SID74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">/</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/stem.html" class="external-link">stem</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">ft.SID74</span>, <span class="fl">1</span><span class="op">)</span>, scale<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## </span>
+<span class="co">##   The decimal point is at the |</span>
+<span class="co">## </span>
+<span class="co">##   0 | 9</span>
+<span class="co">##   1 | 111244</span>
+<span class="co">##   1 | 567789999</span>
+<span class="co">##   2 | 0011111222334444</span>
+<span class="co">##   2 | 55555666677778999999999</span>
+<span class="co">##   3 | 000111122333333344444444</span>
+<span class="co">##   3 | 5568999</span>
+<span class="co">##   4 | 013344</span>
+<span class="co">##   4 | 555557</span>
+<span class="co">##   5 | 2</span>
+<span class="co">##   5 | </span>
+<span class="co">##   6 | 3</span></code></pre>
+<div class="section level3">
+<h3 id="medpol">Median polish smoothing<a class="anchor" aria-label="anchor" href="#medpol"></a>
+</h3>
 <p><span class="citation">Cressie (1991, 46–48, 393–400)</span> discusses in some detail how smoothing may be used to partition the variation in the data into smooth and rough. In order to try it out on the North Carolina SIDS data set, we will use a coarse gridding into four columns and four rows given by <span class="citation">Cressie (1991, 553–54)</span>, where four grid cells are empty; these are given by variables <span><code>L_id</code></span> and <span><code>M_id</code></span> in object <span><code>nc</code></span>. Next we aggregate the number of live births and the number of SIDS cases 1974–1978 for the grid cells:</p>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mBIR74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span>, <span class="va">nc</span><span class="op">$</span><span class="va">both</span>, <span class="va">sum</span><span class="op">)</span>
-<span class="va">mSID74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html">tapply</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc</span><span class="op">$</span><span class="va">both</span>, <span class="va">sum</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">mBIR74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span>, <span class="va">nc</span><span class="op">$</span><span class="va">both</span>, <span class="va">sum</span><span class="op">)</span>
+<span class="va">mSID74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc</span><span class="op">$</span><span class="va">both</span>, <span class="va">sum</span><span class="op">)</span></code></pre></div>
 <p>Using the same Freeman-Tukey transformation as is used for the county data, we coerce the data into a correctly configured matrix, some of the cells of which are empty. The <span><code>medpolish</code></span> function is applied to the matrix, being told to remove empty cells; the function iterates over the rows and columns of the matrix using <span><code>median</code></span> to extract an overall effect, row and column effects, and residuals:</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mFT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">mSID74</span><span class="op">/</span><span class="va">mBIR74</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">mSID74</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">mBIR74</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mFT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">mSID74</span><span class="op">/</span><span class="va">mBIR74</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">mSID74</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">mBIR74</span><span class="op">)</span><span class="op">)</span>
 <span class="co"># mFT1 &lt;- t(matrix(mFT, 4, 4, byrow=TRUE))</span>
 <span class="co"># wrong assignment of 12 elements to a 4x4 matrix detected by CRAN test 2021-05-22</span>
-<span class="va">rc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">mFT</span><span class="op">)</span>, <span class="st">":"</span><span class="op">)</span>, <span class="va">as.integer</span><span class="op">)</span><span class="op">)</span>
-<span class="va">mFT1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span>, <span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span>
-<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">rc</span><span class="op">)</span><span class="op">)</span> <span class="va">mFT1</span><span class="op">[</span><span class="va">rc</span><span class="op">[</span><span class="va">i</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">rc</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mFT</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
-<span class="va">med</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/medpolish.html">medpolish</a></span><span class="op">(</span><span class="va">mFT1</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span>, trace.iter<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">rc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mFT</span><span class="op">)</span>, <span class="st">":"</span><span class="op">)</span>, <span class="va">as.integer</span><span class="op">)</span><span class="op">)</span>
+<span class="va">mFT1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span>, <span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rc</span><span class="op">)</span><span class="op">)</span> <span class="va">mFT1</span><span class="op">[</span><span class="va">rc</span><span class="op">[</span><span class="va">i</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">rc</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mFT</span><span class="op">[</span><span class="va">i</span><span class="op">]</span>
+<span class="va">med</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/medpolish.html" class="external-link">medpolish</a></span><span class="op">(</span><span class="va">mFT1</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span>, trace.iter<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
 <span class="va">med</span></code></pre></div>
-<pre><code>## 
-## Median Polish Results (Dataset: "mFT1")
-## 
-## Overall: 2.90965
-## 
-## Row Effects:
-## [1] -0.05686791 -0.37236370  0.05686791  0.79541774
-## 
-## Column Effects:
-## [1] -0.005484562 -0.446250551  0.003656375  0.726443256
-## 
-## Residuals:
-##           [,1]     [,2]      [,3]     [,4]
-## [1,]        NA -0.45800  0.000000  0.37556
-## [2,] -0.092554  0.00000  0.101695  0.00000
-## [3,]  0.092554  0.30464 -0.090726 -0.55364
-## [4,]        NA       NA  0.000000       NA</code></pre>
+<pre><code><span class="co">## </span>
+<span class="co">## Median Polish Results (Dataset: "mFT1")</span>
+<span class="co">## </span>
+<span class="co">## Overall: 2.90965</span>
+<span class="co">## </span>
+<span class="co">## Row Effects:</span>
+<span class="co">## [1] -0.05686791 -0.37236370  0.05686791  0.79541774</span>
+<span class="co">## </span>
+<span class="co">## Column Effects:</span>
+<span class="co">## [1] -0.005484562 -0.446250551  0.003656375  0.726443256</span>
+<span class="co">## </span>
+<span class="co">## Residuals:</span>
+<span class="co">##           [,1]     [,2]      [,3]     [,4]</span>
+<span class="co">## [1,]        NA -0.45800  0.000000  0.37556</span>
+<span class="co">## [2,] -0.092554  0.00000  0.101695  0.00000</span>
+<span class="co">## [3,]  0.092554  0.30464 -0.090726 -0.55364</span>
+<span class="co">## [4,]        NA       NA  0.000000       NA</span></code></pre>
 <p>Returning to the factors linking rows and columns to counties, and generating matrices of dummy variables using <span><code>model.matrix</code></span>, we can calculate fitted values of the Freeman-Tukey adjusted rate for each county, and residuals by subtracting the fitted value from the observed rate. Naturally, the fitted value will be the same for counties in the same grid cell:</p>
 <div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">mL_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html">model.matrix</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">L_id</span><span class="op">)</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">mM_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html">model.matrix</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">M_id</span><span class="op">)</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
-<span class="va">nc</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">med</span><span class="op">$</span><span class="va">overall</span> <span class="op">+</span> <span class="va">mL_id</span> <span class="op">%*%</span> <span class="va">med</span><span class="op">$</span><span class="va">row</span> <span class="op">+</span> <span class="va">mM_id</span> <span class="op">%*%</span> <span class="va">med</span><span class="op">$</span><span class="va">col</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">mL_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">model.matrix</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">L_id</span><span class="op">)</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">mM_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/model.matrix.html" class="external-link">model.matrix</a></span><span class="op">(</span><span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">M_id</span><span class="op">)</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span>
+<span class="va">nc</span><span class="op">$</span><span class="va">pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">med</span><span class="op">$</span><span class="va">overall</span> <span class="op">+</span> <span class="va">mL_id</span> <span class="op"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">%*%</a></span> <span class="va">med</span><span class="op">$</span><span class="va">row</span> <span class="op">+</span> <span class="va">mM_id</span> <span class="op"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">%*%</a></span> <span class="va">med</span><span class="op">$</span><span class="va">col</span><span class="op">)</span>
 <span class="va">nc</span><span class="op">$</span><span class="va">mp_resid</span> <span class="op">&lt;-</span> <span class="va">nc</span><span class="op">$</span><span class="va">ft.SID74</span> <span class="op">-</span> <span class="va">nc</span><span class="op">$</span><span class="va">pred</span></code></pre></div>
 <div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ft.SID74"</span>, <span class="st">"pred"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_facets.html">tm_facets</a></span><span class="op">(</span>free.scales<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Observed"</span>, <span class="st">"Median polish prediction"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"mp_resid"</span>, midpoint<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">out1</span>, <span class="va">out2</span>, ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">out1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ft.SID74"</span>, <span class="st">"pred"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_facets.html" class="external-link">tm_facets</a></span><span class="op">(</span>free.scales<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>panel.labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Observed"</span>, <span class="st">"Median polish prediction"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"mp_resid"</span>, midpoint<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/pkg/tmap/man/tmap_arrange.html" class="external-link">tmap_arrange</a></span><span class="op">(</span><span class="va">out1</span>, <span class="va">out2</span>, ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <p><img src="sids_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <p>The figure shows the median polish smoothing results as three maps, the observed Freeman-Tukey transformed SIDS rates, the fitted smoothed values, and the residuals. In addition, a plot for the median polish object is also shown, plotting the smooth residuals against the outer product of the row and column effects divided by the overall effect, which would indicate a lack of additivity between row and column if this was the case — this is more relevant for analysis of tables of covariates rather than geographical grids.</p>
 </div>
 </div>
-<div id="references" class="section level2 unnumbered">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
-<div id="refs" class="references hanging-indent">
-<div id="ref-anselin+syabri+smirnov:2002">
-<p>Anselin, Luc, Ibnu Syabri, and Oleg Smirnov. 2002. “Visualizing Multivariate Spatial Correlation with Dynamically Linked Windows.” In <em>University of California, Santa Barbara. CD-ROM</em>.</p>
+<div class="section level2 unnumbered">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-anselin+syabri+smirnov:2002" class="csl-entry">
+Anselin, Luc, Ibnu Syabri, and Oleg Smirnov. 2002. <span>“Visualizing Multivariate Spatial Correlation with Dynamically Linked Windows.”</span> In <em>University of <span>California</span>, <span>Santa</span> <span>Barbara</span>. <span>CD</span>-<span>ROM</span></em>.
 </div>
-<div id="ref-bailey+gatrell:1995">
-<p>Bailey, T. C., and A. C. Gatrell. 1995. <em>Interactive Spatial Data Analysis</em>. Harlow: Longman.</p>
+<div id="ref-bailey+gatrell:1995" class="csl-entry">
+Bailey, T. C., and A. C. Gatrell. 1995. <em>Interactive Spatial Data Analysis</em>. Harlow: Longman.
 </div>
-<div id="ref-choynowski:1959">
-<p>Choynowski, M. 1959. “Maps Based on Probabilities.” <em>Journal of the American Statistical Association</em> 54: 385–88.</p>
+<div id="ref-choynowski:1959" class="csl-entry">
+Choynowski, M. 1959. <span>“Maps Based on Probabilities.”</span> <em>Journal of the American Statistical Association</em> 54: 385–88.
 </div>
-<div id="ref-cressie:1991">
-<p>Cressie, N. 1991. <em>Statistics for Spatial Data</em>. New York: Wiley.</p>
+<div id="ref-cressie:1991" class="csl-entry">
+Cressie, N. 1991. <em>Statistics for Spatial Data</em>. New York: Wiley.
 </div>
-<div id="ref-cressie+chan:1989">
-<p>Cressie, N., and N. H. Chan. 1989. “Spatial Modelling of Regional Variables.” <em>Journal of the American Statistical Association</em> 84: 393–401.</p>
+<div id="ref-cressie+chan:1989" class="csl-entry">
+Cressie, N., and N. H. Chan. 1989. <span>“Spatial Modelling of Regional Variables.”</span> <em>Journal of the American Statistical Association</em> 84: 393–401.
 </div>
-<div id="ref-cressie+read:1985">
-<p>Cressie, N., and T. R. C. Read. 1985. “Do Sudden Infant Deaths Come in Clusters?” <em>Statistics and Decisions</em> Supplement Issue 2: 333–49.</p>
+<div id="ref-cressie+read:1985" class="csl-entry">
+Cressie, N., and T. R. C. Read. 1985. <span>“Do Sudden Infant Deaths Come in Clusters?”</span> <em>Statistics and Decisions</em> Supplement Issue 2: 333–49.
 </div>
-<div id="ref-cressie+read:1989">
-<p>———. 1989. “Spatial Data-Analysis of Regional Counts.” <em>Biometrical Journal</em> 31: 699–719.</p>
+<div id="ref-cressie+read:1989" class="csl-entry">
+———. 1989. <span>“Spatial Data-Analysis of Regional Counts.”</span> <em>Biometrical Journal</em> 31: 699–719.
 </div>
-<div id="ref-gomez-rubio+ferrandiz+lopez:2003">
-<p>Gómez-Rubio, V., J. Ferrándiz-Ferragud, and A. López-Quílez. 2005. “Detecting Clusters of Disease with R.” <em>Journal of Geographical Systems</em> 7: 189–206.</p>
+<div id="ref-gomez-rubio+ferrandiz+lopez:2003" class="csl-entry">
+Gómez-Rubio, V., J. Ferrándiz-Ferragud, and A. López-Quílez. 2005. <span>“Detecting Clusters of Disease with <span>R</span>.”</span> <em>Journal of Geographical Systems</em> 7: 189–206.
 </div>
-<div id="ref-kaluznyetal:1996">
-<p>Kaluzny, S. P., S. C. Vega, T. P. Cardoso, and A. A. Shelly. 1996. <em>S-PLUS SPATIALSTATS User’s Manual Version 1.0</em>. Seattle: MathSoft Inc.</p>
+<div id="ref-kaluznyetal:1996" class="csl-entry">
+Kaluzny, S. P., S. C. Vega, T. P. Cardoso, and A. A. Shelly. 1996. <em><span>S-PLUS SPATIALSTATS</span> User’s Manual Version 1.0</em>. Seattle: MathSoft Inc.
 </div>
-<div id="ref-marshall:1991">
-<p>Marshall, R. M. 1991. “Mapping Disease and Mortality Rates Using Empirical Bayes Estimators.” <em>Applied Statistics</em> 40: 283–94.</p>
+<div id="ref-marshall:1991" class="csl-entry">
+Marshall, R. M. 1991. <span>“Mapping Disease and Mortality Rates Using Empirical <span>Bayes</span> Estimators.”</span> <em>Applied Statistics</em> 40: 283–94.
 </div>
-<div id="ref-symonsetal:1983">
-<p>Symons, M. J., R. C. Grimson, and Y. C. Yuan. 1983. “Clustering of Rare Events.” <em>Biometrics</em> 39: 193–205.</p>
+<div id="ref-symonsetal:1983" class="csl-entry">
+Symons, M. J., R. C. Grimson, and Y. C. Yuan. 1983. <span>“Clustering of Rare Events.”</span> <em>Biometrics</em> 39: 193–205.
 </div>
 </div>
 </div>
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p>These data were taken with permission from a now-offline link: [sal.agecon.uiuc.edu/datasets/sids.zip]; see also <a href="https://geodacenter.github.io/data-and-lab/">GeoDa Center</a> for a contemporary source.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p>These data were taken with permission from a now-offline link: [sal.agecon.uiuc.edu/datasets/sids.zip]; see also <a href="https://geodacenter.github.io/data-and-lab/" class="external-link">GeoDa Center</a> for a contemporary source.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -571,11 +567,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Roger Bivand.</p>
+  <p></p>
+<p>Developed by Roger Bivand.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
 </div>
 
       </footer>
@@ -583,6 +581,8 @@
 
   
 
+
+  
 
   </body>
 </html>

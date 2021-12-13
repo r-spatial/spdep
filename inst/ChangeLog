@@ -1,3 +1,9 @@
+2021-12-13  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* ChangeLog, DESCRIPTION, R/lisa_perm.R, inst/ChangeLog,
+	man/localmoran.Rd: localmoran_perm() returns both look-up and folded
+	p-values
+
 2021-11-23  Roger Bivand <Roger.Bivand@gmail.com>
 
 	* man/localC.Rd: add prototype conditional simulation to localC
