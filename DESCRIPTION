@@ -58,14 +58,9 @@ Description: A collection of functions to create spatial weights matrix
   <doi:10.1007/s00168-011-0492-y>. The implementation of most of
   the measures is described in 'Bivand' and 'Wong' (2018)
   <doi:10.1007/s11749-018-0599-x>.
-  'spdep' >= 1.1-1 corresponds to 'spatialreg' >= 1.1-1, in which the model
-  fitting functions are deprecated and pass through to 'spatialreg', but
-  will mask those in 'spatialreg'. From versions 1.2-1, the functions will
-  be made defunct in 'spdep'.
-  For now 'spatialreg' only has functions from 'spdep', where they are shown
-  as deprecated. 'spatialreg' only loads the namespace of 'spdep'; if you
-  attach 'spdep', the same functions in the other package will be masked.
-  Some feed through adequately, others do not.
+  From 'spdep' and 'spatialreg' versions >= 1.2-1, the model fitting functions
+  previously present in this package are defunct in 'spdep' and may be found
+  in 'spatialreg'.
 License: GPL (>= 2)
 VignetteBuilder: knitr
 RoxygenNote: RoxygenNote: 6.1.1
