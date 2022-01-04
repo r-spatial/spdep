@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
       </span>
     </div>
 
@@ -36,9 +36,6 @@
     </li>
     <li>
       <a href="../articles/nb.html">Creating Neighbours</a>
-    </li>
-    <li>
-      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -119,7 +116,7 @@ To use this function for a set of coordinates with more than 1500 entries is mem
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ex.data</span><span class="op">&lt;-</span><span class="fu"><a href="https://www.math.uzh.ch/pages/spam//reference/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">ex.data</span><span class="op">&lt;-</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co">### Construct object of class nb with a tolerance angle of 30 degrees</span></span>
 <span class="r-in"><span class="co">### and a maximum distance of 2 m.</span></span>

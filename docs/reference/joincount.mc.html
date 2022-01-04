@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
       </span>
     </div>
 
@@ -36,9 +36,6 @@
     </li>
     <li>
       <a href="../articles/nb.html">Creating Neighbours</a>
-    </li>
-    <li>
-      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -140,12 +137,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "B") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Join-count statistic for low = 34, rank of observed statistic = 84,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> p-value = 0.16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Join-count statistic for low = 34, rank of observed statistic = 90.5,</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> p-value = 0.095</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mean of simulation variance of simulation </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               29.37374               18.09359 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               28.89899               15.52031 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of join-count statistic</span>
@@ -159,7 +156,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mean of simulation variance of simulation </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               26.80808               18.62606 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               27.26263               15.21604 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="fu"><a href="joincount.test.html">joincount.test</a></span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

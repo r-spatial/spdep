@@ -13,9 +13,6 @@
     <loc>/articles/nb.html</loc>
   </url>
   <url>
-    <loc>/articles/nb_igraph.html</loc>
-  </url>
-  <url>
     <loc>/articles/nb_sf.html</loc>
   </url>
   <url>
@@ -56,15 +53,6 @@
   </url>
   <url>
     <loc>/reference/airdist.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aple.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aple.mc.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aple.plot.html</loc>
   </url>
   <url>
     <loc>/reference/autocov_dist.html</loc>
@@ -125,9 +113,6 @@
   </url>
   <url>
     <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/invIrM.html</loc>
   </url>
   <url>
     <loc>/reference/joincount.mc.html</loc>
@@ -286,7 +271,7 @@
     <loc>/reference/sp.mantel.mc.html</loc>
   </url>
   <url>
-    <loc>/reference/spdep-deprecated.html</loc>
+    <loc>/reference/spdep-defunct.html</loc>
   </url>
   <url>
     <loc>/reference/spdep.html</loc>

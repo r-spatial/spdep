@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
       </span>
     </div>
 
@@ -54,9 +54,6 @@
     </li>
     <li>
       <a href="../articles/nb.html">Creating Neighbours</a>
-    </li>
-    <li>
-      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -121,12 +118,12 @@
 <span class="co">## plan transition to sf/stars/terra functions using GDAL and PROJ</span>
 <span class="co">## at your earliest convenience.</span>
 <span class="co">## </span>
-<span class="co">## rgdal: version: 1.5-27, (SVN revision 1155)</span>
+<span class="co">## rgdal: version: 1.5-29, (SVN revision 1158)</span>
 <span class="co">## Geospatial Data Abstraction Library extensions to R successfully loaded</span>
-<span class="co">## Loaded GDAL runtime: GDAL 3.4.0, released 2021/11/04</span>
+<span class="co">## Loaded GDAL runtime: GDAL 3.4.1, released 2021/12/27</span>
 <span class="co">## Path to GDAL shared files: /usr/local/share/gdal</span>
 <span class="co">## GDAL binary built with GEOS: TRUE </span>
-<span class="co">## Loaded PROJ runtime: Rel. 8.2.0, November 1st, 2021, [PJ_VERSION: 820]</span>
+<span class="co">## Loaded PROJ runtime: Rel. 8.2.1, January 1st, 2022, [PJ_VERSION: 821]</span>
 <span class="co">## Path to PROJ shared files: /home/rsb/.local/share/proj:/usr/local/share/proj:/usr/local/share/proj</span>
 <span class="co">## PROJ CDN enabled: FALSE</span>
 <span class="co">## Linking to sp version:1.4-6</span>
@@ -143,7 +140,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Loading required package: spData</span></code></pre>
 <pre><code><span class="co">## Loading required package: sf</span></code></pre>
-<pre><code><span class="co">## Linking to GEOS 3.10.1, GDAL 3.4.0, PROJ 8.2.0</span></code></pre>
+<pre><code><span class="co">## Linking to GEOS 3.10.1, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/NY_nb.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, region.id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">NY8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>For the sake of simplicity in showing how to create neighbour objects, we work on a subset of the map consisting of the census tracts within Syracuse, although the same principles apply to the full data set. We retrieve the part of the neighbour list in Syracuse using the <code>subset</code> method.</p>
@@ -221,7 +218,7 @@
 <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/rgeos/" class="external-link">rgeos</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mhahsler/dbscan" class="external-link">dbscan</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
   <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">soi.graph</a></span><span class="op">(</span><span class="va">Sy4_nb</span>, <span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></code></pre></div>
-<pre><code><span class="co">## rgeos version: 0.5-9, (SVN revision 681)</span>
+<pre><code><span class="co">## rgeos version: 0.5-9, (SVN revision 684)</span>
 <span class="co">##  GEOS runtime version: 3.10.1-CAPI-1.16.0 </span>
 <span class="co">##  Please note that rgeos will be retired by the end of 2023,</span>
 <span class="co">## plan transition to sf functions using GEOS at your earliest convenience.</span>

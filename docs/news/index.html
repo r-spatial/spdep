@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
       </span>
     </div>
 
@@ -36,9 +36,6 @@
     </li>
     <li>
       <a href="../articles/nb.html">Creating Neighbours</a>
-    </li>
-    <li>
-      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -70,7 +67,11 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.1-13" id="version-11-13-development">Version 1.1-13 (development)<a class="anchor" aria-label="anchor" href="#version-11-13-development"></a></h2>
+<h2 class="page-header" data-toc-text="1.2-1" id="version-12-1-development">Version 1.2-1 (development)<a class="anchor" aria-label="anchor" href="#version-12-1-development"></a></h2>
+<ul><li>Switching deprecated functions moved to <strong>spatialreg</strong> to defunct.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1-13" id="version-11-13-2021-12-14">Version 1.1-13 (2021-12-14)<small>2021-12-14</small><a class="anchor" aria-label="anchor" href="#version-11-13-2021-12-14"></a></h2>
 <ul><li><p>Recent changes in <code><a href="../reference/poly2nb.html">poly2nb()</a></code> had reduced and most recently (1.1-8) removed the use of <code>snap=</code> in finding candidate neighbours; many thanks to Matilda Brown for a clear and well-documented issue <a href="https://github.com/r-spatial/spdep/issues/65" class="external-link">#65</a></p></li>
 <li><p>Add local Geary’s C <a href="https://github.com/r-spatial/spdep/issues/66" class="external-link">#66</a> thanks to Josiah Parry, discussion on further work on <a href="https://github.com/r-spatial/spdep/issues/68" class="external-link">#68</a></p></li>
 <li><p><code><a href="../reference/localmoran.html">localmoran_perm()</a></code> returns both look-up and folded rank p-values</p></li>

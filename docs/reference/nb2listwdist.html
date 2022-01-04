@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
       </span>
     </div>
 
@@ -36,9 +36,6 @@
     </li>
     <li>
       <a href="../articles/nb.html">Creating Neighbours</a>
-    </li>
-    <li>
-      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -138,12 +135,12 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># World examples</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">world</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># neighbours on distance interval [0, 1000] kilometres</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu">st_crs</span><span class="op">(</span><span class="va">world</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat"</span><span class="op">)</span> <span class="co"># for older PROJ</span></span>
-<span class="r-in"><span class="va">pts</span> <span class="op">&lt;-</span> <span class="fu">st_centroid</span><span class="op">(</span><span class="fu">st_transform</span><span class="op">(</span><span class="va">world</span>, <span class="fl">3857</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">world</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat"</span><span class="op">)</span> <span class="co"># for older PROJ</span></span>
+<span class="r-in"><span class="va">pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">world</span>, <span class="fl">3857</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>st_centroid assumes attributes are constant over geometries of x</span>
 <span class="r-in"><span class="va">nb_world</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts</span>, <span class="fl">0</span>, <span class="fl">1000000</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme</span></span>
-<span class="r-in"><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">pts</span>, <span class="st">"Spatial"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"idw"</span>,</span>
+<span class="r-in"><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/coerce-methods.html" class="external-link">as</a></span><span class="op">(</span><span class="va">pts</span>, <span class="st">"Spatial"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"idw"</span>,</span>
 <span class="r-in">  alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs in lagged values</span>
@@ -172,7 +169,7 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
 <span class="r-in"><span class="co"># Boston examples</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">boston_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">boston.utm</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">boston.utm</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">boston.geoms</span> <span class="op">&lt;-</span> <span class="fu">st_as_sf</span><span class="op">(</span><span class="va">boston_coords</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">boston.geoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">boston_coords</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">nb_boston</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">boston.geoms</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span class="r-in"><span class="co"># Moran's I (crime) with exp weights with alpha = 2, no coding scheme</span></span>
 <span class="r-in"><span class="va">boston_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_boston</span>, <span class="va">boston.geoms</span>, type <span class="op">=</span> <span class="st">"exp"</span>, alpha <span class="op">=</span> <span class="fl">2</span>,</span>

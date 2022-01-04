@@ -25,7 +25,7 @@ approximation - is based on the randomisation assumption."><!-- mathjax --><scri
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
       </span>
     </div>
 
@@ -44,9 +44,6 @@ approximation - is based on the randomisation assumption."><!-- mathjax --><scri
     </li>
     <li>
       <a href="../articles/nb.html">Creating Neighbours</a>
-    </li>
-    <li>
-      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -140,7 +137,7 @@ tested</p></dd>
 <dt>save.M</dt>
 <dd><p>if TRUE, save a list of left and right M products in a list for the conditional tests, or a list of the regression model matrix components</p></dd>
 <dt>Omega</dt>
-<dd><p>A SAR process matrix may be passed in to test an alternative hypothesis, for example <code>Omega &lt;- invIrW(listw, rho=0.1); Omega &lt;- tcrossprod(Omega)</code>, <code><a href="https://rdrr.io/r/base/chol.html" class="external-link">chol()</a></code> is taken internally</p></dd>
+<dd><p>A SAR process matrix may be passed in to test an alternative hypothesis, for example <code>Omega &lt;- invIrW(listw, rho=0.1); Omega &lt;- tcrossprod(Omega)</code>, <code><a href="https://rdrr.io/pkg/Matrix/man/chol.html" class="external-link">chol()</a></code> is taken internally</p></dd>
 <dt>x</dt>
 <dd><p>object to be printed</p></dd>
 </dl><p><!-- %  \item{row.names}{ignored argument to \code{as.data.frame.localmoransad}; --><!-- %row names assigned from localmoransad object} --><!-- %  \item{optional}{ignored argument to \code{as.data.frame.localmoransad}; --><!-- %row names assigned from localmoransad object} --></p>
@@ -214,12 +211,12 @@ Geographical Analysis, 34, pp. 187--206.</p>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="localmoran.html">localmoran</a></code>, <code><a href="lm.morantest.html">lm.morantest</a></code>,
- <code><a href="lm.morantest.sad.html">lm.morantest.sad</a></code>, <code><a href="spdep-deprecated.html">errorsarlm</a></code></p></div>
+ <code><a href="lm.morantest.sad.html">lm.morantest.sad</a></code>, <code><a href="spdep-defunct.html">errorsarlm</a></code></p></div>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">eire</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/eire.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">eire</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/eire.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `eire' from data source </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 26 features and 10 fields</span>
@@ -228,7 +225,7 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">eire</span><span class="op">$</span><span class="va">names</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">st_crs</span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span>
+<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span>
 <span class="r-in"><span class="va">eire.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">lw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">e.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span><span class="op">)</span></span>
@@ -527,7 +524,7 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Log likelihood: -64.12465 </span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="va">lm.target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">tary</span> <span class="op">~</span> <span class="va">e.errorsar</span><span class="op">$</span><span class="va">tarX</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Omega</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/crossprod.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="fu"><a href="invIrM.html">invIrW</a></span><span class="op">(</span><span class="va">lw</span>, rho<span class="op">=</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">Omega</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/invIrM.html" class="external-link">invIrW</a></span><span class="op">(</span><span class="va">lw</span>, rho<span class="op">=</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">e.clocmor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, Omega<span class="op">=</span><span class="va">Omega</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">e.clocmor</span></span>
 <span class="r-in"><span class="op">}</span></span>

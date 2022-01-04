@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1-13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
       </span>
     </div>
 
@@ -36,9 +36,6 @@
     </li>
     <li>
       <a href="../articles/nb.html">Creating Neighbours</a>
-    </li>
-    <li>
-      <a href="../articles/nb_igraph.html">Spatial weights objects as sparse matrices and graphs</a>
     </li>
     <li>
       <a href="../articles/nb_sf.html">Creating Neighbours using sf objects</a>
@@ -120,8 +117,8 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu">st_centroid</span><span class="op">(</span><span class="fu">st_geometry</span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">k1</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">all.linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">k1</span>, <span class="va">coords</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -173,12 +170,12 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-out co"><span class="r-pr">#&gt;</span>   60 | 2299111199</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu">st_geometry</span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey"</span>, reset<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey"</span>, reset<span class="op">=</span><span class="cn">FALSE</span>,</span>
 <span class="r-in"> main<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Distance based neighbours 0-"</span>,  <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">all.linked</span><span class="op">)</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">col.nb.0.all</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">col.nb.0.all</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="dnearneigh-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">(</span><span class="va">sfc_obj</span> <span class="op">&lt;-</span> <span class="fu">st_centroid</span><span class="op">(</span><span class="fu">st_geometry</span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">(</span><span class="va">sfc_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry set for 49 features </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
@@ -272,8 +269,8 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-out co"><span class="r-pr">#&gt;</span>   4 | 555555555555666666666677778888888888889999</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5 | 00000000000000111111111122222222222222</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ll.nb</span>, <span class="va">xy</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">ll.nb</span>, <span class="va">gc.nb</span><span class="op">)</span>, <span class="va">xy</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"red"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ll.nb</span>, <span class="va">xy</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">ll.nb</span>, <span class="va">gc.nb</span><span class="op">)</span>, <span class="va">xy</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"red"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"Differences Euclidean/Great Circle"</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="dnearneigh-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
@@ -316,20 +313,20 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-out co"><span class="r-pr">#&gt;</span>   5 | 00000000000000111111111122222222222222</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">xy1</span> <span class="op">&lt;-</span> <span class="fu">st_as_sf</span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.center</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">m50.48</span>,<span class="op">]</span>, coords<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
-<span class="r-in">  crs<span class="op">=</span><span class="fu">st_crs</span><span class="op">(</span><span class="st">"+proj=longlat +ellps=GRS80"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">old_use_s2</span> <span class="op">&lt;-</span> <span class="fu">sf_use_s2</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">sf_use_s2</span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">xy1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.center</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">m50.48</span>,<span class="op">]</span>, coords<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>,</span>
+<span class="r-in">  crs<span class="op">=</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="st">"+proj=longlat +ellps=GRS80"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">old_use_s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">gck1b</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">xy1</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">gck1b</span>, <span class="va">xy1</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.011   0.000   0.012 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.011   0.001   0.012 </span>
 <span class="r-in"><span class="op">(</span><span class="va">all.linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 522.4464</span>
 <span class="r-in"><span class="co"># use s2 brute-force buffer/intersect approach (with two passes if d1 &gt; 0)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.135   0.000   0.136 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.139   0.000   0.139 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
@@ -364,7 +361,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-in"><span class="co"># use s2 brute-force buffer/intersect approach with smaller max_cells</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, max_cells<span class="op">=</span><span class="fl">500</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.273   0.000   0.275 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.276   0.000   0.276 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
@@ -399,7 +396,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-in"><span class="co"># use s2 brute-force dwithin_matrix approach </span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, dwithin<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.012   0.000   0.012 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.013   0.000   0.013 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
@@ -434,7 +431,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-in"><span class="co"># use legacy symmetric brute-force approach</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.007   0.000   0.006 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.007   0.000   0.007 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
@@ -466,7 +463,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 00001111123333444</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 55566666667778888899</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">sf_use_s2</span><span class="op">(</span><span class="va">old_use_s2</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="va">old_use_s2</span><span class="op">)</span></span>
 </code></pre></div>
     </div>
   </div>
