@@ -43,12 +43,20 @@ diffnb(col005, col005.w.b$neighbours)
 col005.w.mat.3T <- kronecker(diag(3), col005.w.mat)
 col005.w.b.3T <- mat2listw(col005.w.mat.3T, style="W")
 summary(col005.w.b.3T$neighbours)
+run <- FALSE
+if (require("spatialreg", quiet=TRUE)) run <- TRUE
+if (run) {
 W <- as(nb2listw(col005, style="W", zero.policy=TRUE), "CsparseMatrix")
 col005.spM <- mat2listw(W)
 summary(col005.spM$neighbours)
+}
+if (run) {
 diffnb(col005, col005.spM$neighbours)
-IW <- kronecker(Matrix::Diagonal(3), W)
+}
+if (run && require("Matrix", quiet=TRUE)) {
+IW <- kronecker(Diagonal(3), W)
 col005.spM.3T <- mat2listw(IW, style="W")
 summary(col005.spM.3T$neighbours)
+}
 }
 \keyword{spatial}

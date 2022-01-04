@@ -37,7 +37,7 @@ plot(col.lags[[2]], coords, add=TRUE, col="red", lty=2)
 cuml <- nblag_cumul(col.lags)
 cuml
 run <- FALSE
-if (require(igraph, quietly=TRUE)) run <- TRUE
+if (require(igraph, quietly=TRUE) && require(spatialreg, quietly=TRUE)) run <- TRUE
 if (run) {
 W <- as(nb2listw(col.gal.nb), "CsparseMatrix")
 G <- graph.adjacency(W, mode="directed", weight="W")

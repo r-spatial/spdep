@@ -1,42 +1,6 @@
 # Copyright 2001-7 by Roger Bivand
 #
 
-as.spam.listw <- function(listw) {
-    .Deprecated("spatialreg::as.spam.listw", msg="Function as.spam.listw moved to the spatialreg package")
-#    if (!requireNamespace("spatialreg", quietly=TRUE))
-#      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::as.spam.listw(listw=listw))
-    }
-    warning("install the spatialreg package")
-#  if (FALSE) {
-    if (requireNamespace("spam", quietly = TRUE)) {
-#if (!require(spam)) stop("spam not available")
-        N <- length(listw$neighbours)
-        W_sn <- listw2sn(listw)
-        rpts <- as.integer(cumsum(c(1, card(listw$neighbours))))
-        W <- new("spam", entries=W_sn$weights, colindices=W_sn$to,
-            rowpointers=rpts, dimension=as.integer(c(N, N)))
-        stopifnot(spam::validate_spam(W))
-        return(W)
-    } else stop("spam not available")
-}
-#}
-
-
-listw2U_spam <- function(lw) { 
-    .Deprecated("spatialreg::listw2U_spam", msg="Function listw2U_spam moved to the spatialreg package")
-#    if (!requireNamespace("spatialreg", quietly=TRUE))
-#      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::listw2U_spam(lw=lw))
-    }
-    warning("install the spatialreg package")
-#  if (FALSE) {
-    return(0.5 * (lw + t(lw)))
-}
-#}
-
 listw2sn <- function(listw) {
 	if(!inherits(listw, "listw")) stop("not a listw object")
 	cardw <- card(listw$neighbours)

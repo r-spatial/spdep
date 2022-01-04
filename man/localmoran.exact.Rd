@@ -89,7 +89,7 @@ lm.target <- lm(e.errorsar$tary ~ e.errorsar$tarX - 1)
 localmoran.exact.alt(lm.target, nb=eire.nb)
 }
 if (run) {
-Omega <- invIrW(nb2listw(eire.nb), rho=e.errorsar$lambda)
+Omega <- spatialreg::invIrW(nb2listw(eire.nb), rho=e.errorsar$lambda)
 Omega1 <- tcrossprod(Omega)
 localmoran.exact.alt(lm.target, nb=eire.nb, Omega=Omega1)
 }

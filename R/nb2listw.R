@@ -110,108 +110,6 @@ nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 	res
 }
 
-can.be.simmed <- function(listw) {
-    .Deprecated("spatialreg::can.be.simmed", msg="Function can.be.simmed moved to the spatialreg package")
-#    if (!requireNamespace("spatialreg", quietly=TRUE))
-#      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-    return(spatialreg::can.be.simmed(listw=listw))
-    }
-    warning("install the spatialreg package")
-#  if (FALSE) {
-	res <- is.symmetric.nb(listw$neighbours, FALSE)
-	if (res) {
-		if (attr(listw$weights, "mode") == "general")
-			res <- attr(listw$weights, "glistsym")
-	} else return(res)
-	res
-}
-#}
-
-
-similar.listw <- function(listw) {
-    .Deprecated("spatialreg::similar.listw", msg="Function similar.listw moved to the spatialreg package")
-#    if (!requireNamespace("spatialreg", quietly=TRUE))
-#      stop("install the spatialreg package")
-    if (requireNamespace("spatialreg", quietly=TRUE)) {
-      return(spatialreg::similar.listw(listw=listw))
-    }
-    warning("install the spatialreg package")
-#  if (FALSE) {
-	nbsym <- attr(listw$neighbours, "sym")
-	if(is.null(nbsym)) nbsym <- is.symmetric.nb(listw$neighbours, FALSE)
-	if (!nbsym) 
-		stop("Only symmetric nb can yield similar to symmetric weights")
-	if (attr(listw$weights, "mode") == "general")
-		if (!attr(listw$weights, "glistsym"))
-			stop("General weights must be symmetric")
-	n <- length(listw$neighbours)
-	if (n < 1) stop("non-positive number of entities")
-	cardnb <- card(listw$neighbours)
-	if (listw$style == "W") {
-		d <- attr(listw$weights, "comp")$d
-		glist <- vector(mode="list", length=n)
-		for (i in 1:n) glist[[i]] <- d[i] * listw$weights[[i]]
-		sd1 <- 1/sqrt(d)
-		for (i in 1:n) {
-			inb <- listw$neighbours[[i]]
-			icd <- cardnb[i]
-			if (icd > 0) {
-				for (j in 1:icd) {
-					glist[[i]][j] <- sd1[i] * 
-						glist[[i]][j] * sd1[inb[j]]
-				}
-			}
-		}
-		res <- listw
-		res$weights <- glist
-		attr(res$weights, "mode") <- "sim"
-		attr(res$weights, "W") <- TRUE
-		attr(res$weights, "comp") <- attr(listw$weights, "comp")
-		res$style <- "W:sim"
-	} else if (listw$style == "S") {
-		q <- attr(listw$weights, "comp")$q
-		Q <- attr(listw$weights, "comp")$Q
-		eff.n <- attr(listw$weights, "comp")$eff.n
-		glist <- vector(mode="list", length=n)
-		for (i in 1:n) {
-			glist[[i]] <- (Q/eff.n) * listw$weights[[i]]
-			glist[[i]] <- q[i] * glist[[i]]
-		}
-		sq1 <- 1/sqrt(q)
-		for (i in 1:n) {
-			inb <- listw$neighbours[[i]]
-			icd <- cardnb[i]
-			if (icd > 0) {
-				for (j in 1:icd) {
-					glist[[i]][j] <- sq1[i] * 
-						glist[[i]][j] * sq1[inb[j]]
-				}
-				glist[[i]] <- (eff.n/Q) * glist[[i]]
-			}
-		}
-		res <- listw
-		res$weights <- glist
-		attr(res$weights, "mode") <- "sim"
-		attr(res$weights, "S") <- TRUE
-		attr(res$weights, "comp") <- attr(listw$weights, "comp")
-		res$style <- "S:sim"
-	} else stop("Conversion not suitable for this weights style")
-	sym_out <- is.symmetric.glist(res$neighbours, res$weights)
-	if (!sym_out) {
-	    if (attr(sym_out, "d") < .Machine$double.eps ^ 0.5)
-		res <- listw2U(res)
-	    else stop("defective similarity")
-	}
-	res
-}
-#}
-
-#This code converts a "nb" object into a list of three elements 
-#(adj, weights, num) in the format required by WinBUGS
-#
-#The weights assigned are 1's always, which is the standard for
-#most models
 
 nb2WB <- function(nb)
 {
@@ -237,7 +135,7 @@ listw2WB <- function(listw)
 }
 
 minmax.listw <- function(listw) {
-    W <- as(listw, "CsparseMatrix")
+    W <- listw2mat(listw)
     rm <- max(rowSums(W))
     cm <- max(colSums(W))
     res <- min(c(rm, cm))
