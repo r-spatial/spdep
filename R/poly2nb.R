@@ -49,12 +49,12 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 		}
 	}
         if (snap < 0) snap <- abs(snap)
-        if (snap < .Machine$double.eps) {
-            bsnap <- .Machine$double.eps
-        } else { 
-            bsnap <- snap
-        }
-        vbsnap <- c(-bsnap, snap)
+#        if (snap < .Machine$double.eps) {
+#            bsnap <- .Machine$double.eps
+#        } else { 
+#            bsnap <- snap
+#        }
+        vbsnap <- c(-snap, snap)
         if (verbose) cat("handle IDs:", (proc.time() - .ptime_start)[3], "\n")
         .ptime_start <- proc.time()
 
@@ -82,7 +82,7 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
             cat("massage polygons:", (proc.time() - .ptime_start)[3], "\n")
 
         .ptime_start <- proc.time()
-	dbsnap <- as.double(bsnap)
+#	dbsnap <- as.double(bsnap)
         dsnap <- as.double(snap)
         if (is.null(foundInBox)) {
             if (!sf) {
@@ -112,13 +112,35 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
                     foundInBox <- lapply(1:(n-1), function(i)
                         findInBox(i, BBindex))
                 } else {
-                    pl <- pl0
+                  pl <- pl0
                 }
-            }
-            if (is.null(foundInBox)) {
-                fB1 <- st_intersects(pl)
-                fB1a <- lapply(seq_along(fB1), function(i) {fB1[[i]][fB1[[i]] > i]})
+              }
+              if (is.null(foundInBox)) {
+# https://github.com/r-spatial/spdep/issues/65
+                if (!is.na(st_is_longlat(pl)) &&
+                  st_is_longlat(pl) && sf_use_s2()) {
+                  if (packageVersion("sf") < "1.0.4") {
+                    fB1 <- st_intersects(pl, sparse=TRUE)
+                  } else {
+                    fB1 <- st_intersects(pl, sparse=TRUE, model="closed")
+                  }
+                } else {
+                  cdsnap <- as.double(c(-snap, -snap, snap, snap))
+                  cbb <- t(apply(bb, 1, function(x) x+cdsnap))
+                  envs <- apply(cbb, 1, function(x) 
+                    st_polygon(list(rbind(x[c(1,2)], x[c(3,2)], x[c(3,4)],
+                    x[c(1,4)], x[c(1,2)]))))
+                  envs_sfc <- st_as_sfc(envs, crs=st_crs(pl))
+                    fB1 <- st_intersects(envs_sfc, sparse=TRUE)
+                  rm(envs_sfc)
+                  rm(envs)
+                  rm(cbb)
+                }
+                fB1a <- lapply(seq_along(fB1), function(i) 
+                  {fB1[[i]][fB1[[i]] > i]})
                 foundInBox <- fB1a[-length(fB1a)]
+                rm(fB1)
+                rm(fB1a)
             }
             if (verbose) cat("findInBox:", (proc.time() - .ptime_start)[3])
         }

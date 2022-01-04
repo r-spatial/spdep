@@ -1,4 +1,4 @@
-# Copyright 2001-9 by Roger Bivand 
+# Copyright 2001-9, 2021 by Roger Bivand 
 #
 
 
@@ -7,10 +7,12 @@ geary <- function(x, listw, n, n1, S0, zero.policy=NULL) {
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(x))
-	z <- scale(x, scale=FALSE)
+#	z <- scale(x, scale=FALSE)
+        z <- scale(x)
 	zz <- sum(z^2)
 	K <- (n*sum(z^4))/(zz^2)
-	res <- geary.intern(x, listw, n, zero.policy, type="geary")
+#	res <- geary.intern(x, listw, n, zero.policy, type="geary")
+	res <- geary.intern(z, listw, n, zero.policy, type="geary")
 	C <- (n1 / (2*S0)) * (sum(res) / zz)
 	res <- list(C=C, K=K)
 	res
@@ -27,7 +29,7 @@ geary.intern <- function(x, listw, n, zero.policy=NULL, type="geary") {
 	res <- .Call("gearyw", listw$neighbours, listw$weights,
 		as.numeric(x), as.integer(cardnb),
 		as.logical(zero.policy), as.logical(ft), PACKAGE="spdep")
-	if (any(is.na(res))) warning("NAs in lagged values")
+#	if (any(is.na(res))) warning("NAs in lagged values")
 	res
 }
 

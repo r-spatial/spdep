@@ -70,6 +70,8 @@ export(lee.mc, lee, lee.test)
 
 export(LOSH, LOSH.cs, LOSH.mc)
 
+export(localC, localC_perm)
+
 export(grid2nb)
 
 export(autocov_dist)
@@ -122,5 +124,4 @@ S3method(plot, spcor)
 
 S3method(plot, mst)
 S3method(plot, skater)
-
 

@@ -1,6 +1,13 @@
 # Version 1.2-1 (development)
 
 * Switching deprecated functions moved to **spatialreg** to defunct.
+# Version 1.1-13 (2021-12-14)
+
+* Recent changes in `poly2nb()` had reduced and most recently (1.1-8) removed the use of `snap=` in finding candidate neighbours; many thanks to Matilda Brown for a clear and well-documented issue #65 
+
+* Add local Geary's C #66 thanks to Josiah Parry, discussion on further work on #68
+
+* `localmoran_perm()` returns both look-up and folded rank p-values
 
 # Version 1.1-12 (2021-11-09)
 
