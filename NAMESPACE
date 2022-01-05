@@ -13,14 +13,12 @@ importFrom(stats, influence.measures, lag, punif, lm, var, integrate,
              "na.omit", "naresid", "optimise", "printCoefmat", "resid",
              "terms", "uniroot", "weighted.residuals", "weights", "median")
 
-importFrom(stats, model.matrix, model.response, model.extract, coefficients, residuals, deviance, optimize, optim, nlminb, na.fail, as.formula, terms, coef, gaussian, model.weights, model.offset, glm.fit, logLik, predict, formula, lm.fit, model.frame, AIC, anova, napredict, nlm, optimHess, resid, fitted, weighted.residuals, weights, naresid, optimise, fitted.values, delete.response, printCoefmat, uniroot, na.omit, predict.lm, "dbeta", "rchisq", "runif", "spline") # deprecated
-
 importFrom(deldir, deldir)
 importFrom(boot, boot)
 
 importFrom(graphics, par, locator, lines, text, plot.new, plot.window, segments, points, identify, symbols, abline, hist, arrows, axis, stem)
 importFrom(utils, write.table, object.size, read.table, read.csv, packageDescription)
-importFrom(grDevices, rainbow)
+importFrom(grDevices, hcl.colors)
 if (.Platform$OS.type == "windows") importFrom(grDevices, bringToTop)
 importFrom(utils, packageVersion)
 importFrom(units, set_units)

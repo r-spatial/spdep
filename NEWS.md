@@ -1,4 +1,8 @@
-# Version 1.2-1 (development)
+# Version 1.2-2 (development)
+
+* Replace `rainbow()` by `hcl.colors(..., "Set 2")` in `plot.skater()`
+
+# Version 1.2-1 (2022-01-05)
 
 * Switching deprecated functions moved to **spatialreg** to defunct.
 

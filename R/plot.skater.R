@@ -6,7 +6,7 @@ function(x, coords, label.areas=NULL,
     label.areas <- as.character(1:n)
   gr.lab <- unique(x$groups)
   if (missing(groups.colors))
-    groups.colors <- rainbow(length(gr.lab))
+    groups.colors <- hcl.colors(length(gr.lab), "Set 2")
   symbols(coords[,1], coords[,2], circles=rep(cex.circles,n),
           inches=FALSE, xlab=" ", ylab=" ", xaxt="n", yaxt="n",
           fg=groups.colors[x$groups], ...)
