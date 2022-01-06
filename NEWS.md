@@ -1,6 +1,8 @@
 # Version 1.2-2 (development)
 
-* Replace `rainbow()` by `hcl.colors(..., "Set 2")` in `plot.skater()`
+* Replace `rainbow()` by `hcl.colors(..., "Set 2")` in `plot.skater()`.
+
+* Add link to R-sig-geo thread on `EBlocal()` NaN estimates when many counts are zero on help page.
 
 # Version 1.2-1 (2022-01-05)
 
