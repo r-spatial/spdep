@@ -88,7 +88,7 @@ localC_perm <- function(x, ..., conditional=FALSE, zero.policy=NULL) {
   UseMethod("localC_perm")
 }
 
-localC_perm.default <- function(x, listw, nsim = 499, alternative = "less", 
+localC_perm.default <- function(x, listw, nsim = 499, alternative = "less",
              ..., conditional=FALSE, zero.policy=NULL) {
 
   alternative <- match.arg(alternative, c("less", "two.sided", "greater"))
@@ -110,12 +110,12 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "less",
 
   if (inherits(x, c("matrix", "data.frame"))) {
     reps <- apply(x, 2, function(xx) localC_perm_calc(xx, listw, obs, nsim,
-      alternative=alternative, conditional=conditional, 
+      alternative=alternative, conditional=conditional,
       zero.policy=zero.policy))
   }
 
   if (is.vector(x) & is.numeric(x)) {
-    reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative, 
+    reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative,
       conditional=conditional, zero.policy=zero.policy)
   }
 
@@ -182,7 +182,7 @@ localC_calc <- function(x, listw, zero.policy=NULL) {
   res
 }
 
-localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided", 
+localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
   conditional=FALSE, zero.policy=NULL) {
   if (conditional) {
     gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
@@ -213,9 +213,9 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
         res_i[1] <- mean(res_p)
         res_i[2] <- var(res_p)
         res_i[3] <- (Ci - res_i[1])/sqrt(res_i[2])
-        if (alternative == "two.sided") 
+        if (alternative == "two.sided")
           res_i[4] <- 2 * pnorm(abs(res_i[3]), lower.tail=FALSE)
-        else if (alternative == "greater") 
+        else if (alternative == "greater")
           res_i[4] <- pnorm(res_i[3], lower.tail=FALSE)
         else res_i[4] <- pnorm(res_i[3])
         res_i[5] <- probs[rank(c(res_p, Ci))[(nsim + 1L)]]
@@ -232,7 +232,7 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
     oo <- lapply(1:n, function(i) permC_int(i, z[i], z[-i], crd[i],
       listw$weights[[i]], nsim, obs[i], alternative, probs))
     res <- do.call("rbind", oo)
-    colnames(res) <- c("E.Ci", "Var.Ci", "Z.Ci", Prname, 
+    colnames(res) <- c("E.Ci", "Var.Ci", "Z.Ci", Prname,
       paste0(Prname, " Sim"), "Pr(folded) Sim", "Skewness", "Kurtosis")
     res
   } else {
@@ -243,6 +243,12 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
 
 localC_p <- function(reps, obs, alternative, nsim) {
 
+  Prname <- switch(
+    alternative,
+    two.sided = "Pr(z != E(Ci))",
+    greater = "Pr(z > E(Ci))",
+    less = "Pr(z < E(Ci))"
+  )
   gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
   ls <- rev(gr)
   ts <- (ifelse(gr > ls, ls, gr))*2
@@ -257,9 +263,9 @@ localC_p <- function(reps, obs, alternative, nsim) {
   res[,1] <- apply(reps, 1, mean)
   res[,2] <- apply(reps, 1, var)
   res[,3] <- (obs - res[,1])/sqrt(res[,2])
-  if (alternative == "two.sided") 
+  if (alternative == "two.sided")
     res[,4] <- 2 * pnorm(abs(res[,3]), lower.tail=FALSE)
-  else if (alternative == "greater") 
+  else if (alternative == "greater")
     res[,4] <- pnorm(res[,3], lower.tail=FALSE)
   else res[,4] <- pnorm(res[,3])
   res[,5] <- sapply(1:nrow(reps), function(i) probs[rank(c(reps[1,], obs[i]))[(nsim + 1L)]])
@@ -273,7 +279,11 @@ localC_p <- function(reps, obs, alternative, nsim) {
   res[,8] <- apply(reps, 1, e1071::kurtosis)
 #  switch(alternative,
 #         less = (rowSums(reps <= obs) + 1)/ (nsim + 1),
-#         greater = (rowSums(reps >= obs) + 1)/ (nsim + 1)) 
+#         greater = (rowSums(reps >= obs) + 1)/ (nsim + 1))
+
+  colnames(res) <- c("E.Ci", "Var.Ci", "Z.Ci", Prname,
+                     paste0(Prname, " Sim"), "Pr(folded) Sim", "Skewness", "Kurtosis")
+
   res
 
 }
