@@ -60,6 +60,20 @@ While not required in the univariate context, the standardized Local Geary is ca
 
 The univariate Local Geary is calculated as \eqn{c_i = \sum_j w_{ij}(x_i - x_j)^2} and the multivariate Local Geary is calculated as \eqn{c_{k,i} = \sum_{v=1}^{k} c_{v,i}} as described in Anselin (2019).
 }
+
+\value{
+A numeric vector containing Local Geary statistic with attribute \code{pseudo-p} when \code{localC_perm()} is used. \code{pseudo-p} is an 8 column matrix containing
+
+  \item{E.Ci}{expectation of the Local Geary statistic based on permutation sample}
+  \item{Var.Ci}{standard deviate of Local Geary based on permutation sample}
+  \item{Z.Ci}{standard deviate of Local Geary based on permutation sample}
+  \item{Pr()}{p-value of Local Geary statistic using \code{pnorm()} using standard deviates based on permutation sample means and standard deviations}
+  \item{Pr() Sim}{\code{rank()} and \code{punif()} of observed statistic rank for [0, 1] p-values using \code{alternative=}}
+  \item{Pr(folded) Sim}{the simulation folded [0, 0.5] range ranked p-value (based on \url{https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213})}
+  \item{Skewness}{the output of \code{e1071::skewness()} for the permutation samples underlying the standard deviates}
+  \item{Kurtosis}{the output of \code{e1071::kurtosis()} for the permutation samples underlying the standard deviates}
+}
+
 \examples{
 orig <- spData::africa.rook.nb
 listw <- nb2listw(orig)
@@ -103,7 +117,7 @@ lM <- esda$Moran_Local(x, w)
 all.equal(unname(localmoran(x, listw, mlvar=FALSE)[,1]), c(lM$Is))
 # confirm x and w the same
 lC <- esda$Geary_Local(connectivity=w)$fit(scale(x))
-# np$std missing ddof=1 
+# np$std missing ddof=1
 n <- length(x)
 D01 <- spdep:::geary.intern((x - mean(x)) / sqrt(var(x)*(n-1)/n), listw, n=n)
 # lC components probably wrongly ordered https://github.com/pysal/esda/issues/192
