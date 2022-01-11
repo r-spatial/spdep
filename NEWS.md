@@ -4,6 +4,8 @@
 
 * Add link to R-sig-geo thread on `EBlocal()` NaN estimates when many counts are zero on help page.
 
+* Add documentation for object returned by `localC_perm()` #68 #72 #73
+
 # Version 1.2-1 (2022-01-05)
 
 * Switching deprecated functions moved to **spatialreg** to defunct.
