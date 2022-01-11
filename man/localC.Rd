@@ -65,7 +65,7 @@ The univariate Local Geary is calculated as \eqn{c_i = \sum_j w_{ij}(x_i - x_j)^
 A numeric vector containing Local Geary statistic with attribute \code{pseudo-p} when \code{localC_perm()} is used. \code{pseudo-p} is an 8 column matrix containing
 
   \item{E.Ci}{expectation of the Local Geary statistic based on permutation sample}
-  \item{Var.Ci}{standard deviate of Local Geary based on permutation sample}
+  \item{Var.Ci}{variance of Local Geary based on permutation sample}
   \item{Z.Ci}{standard deviate of Local Geary based on permutation sample}
   \item{Pr()}{p-value of Local Geary statistic using \code{pnorm()} using standard deviates based on permutation sample means and standard deviations}
   \item{Pr() Sim}{\code{rank()} and \code{punif()} of observed statistic rank for [0, 1] p-values using \code{alternative=}}
