@@ -84,12 +84,12 @@ localC.data.frame <- function(x, listw, ..., zero.policy=NULL) {
 }
 
 
-localC_perm <- function(x, ..., zero.policy=NULL) {
+localC_perm <- function(x, ..., zero.policy=NULL, iseed=NULL) {
   UseMethod("localC_perm")
 }
 
 localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
-             ..., zero.policy=NULL) {
+             ..., zero.policy=NULL, iseed=NULL) {
 
   alternative <- match.arg(alternative, c("two.sided", "less", "greater"))
   # checks are inherited from localC no need to implement
@@ -119,7 +119,7 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
     xorig <- as.matrix(x)
     x <- scale(xorig)
     reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative,
-      zero.policy=zero.policy)
+      zero.policy=zero.policy, iseed=iseed)
   }
   if (ncol(xorig) > 1L) {
     cluster <- rep(3L, length(obs))
@@ -150,7 +150,7 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
 
 localC_perm.formula <- function(formula, data, listw,
                                 nsim = 499, alternative = "two.sided", ...,
-                                zero.policy=NULL) {
+                                zero.policy=NULL, iseed=NULL) {
 
   alternative <- match.arg(alternative, c("less", "two.sided", "greater"))
   # if any data issues the localC formula method will catch it
@@ -166,7 +166,7 @@ localC_perm.formula <- function(formula, data, listw,
   x <- scale()
 
   reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative,
-    zero.policy=zero.policy)
+    zero.policy=zero.policy, iseed=iseed)
   if (ncol(xorig) > 1L) {
     cluster <- rep(3L, length(obs))
     cluster[obs <= reps[, 1]] <- 1L
@@ -211,7 +211,7 @@ localC_calc <- function(x, listw, zero.policy=NULL) {
 }
 
 localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
-  zero.policy=NULL) {
+  zero.policy=NULL, iseed=NULL) {
     nc <- ncol(x)
     stopifnot(nc > 0L)
     gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
@@ -229,9 +229,29 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
     }
     n <- length(listw$neighbours)
     if (n != nrow(x))stop("Different numbers of observations")
+
+    cores <- get.coresOption()
+    if (is.null(cores)) {
+        parallel <- "no"
+    } else {
+        parallel <- ifelse (get.mcOption(), "multicore", "snow")
+    }
+    ncpus <- ifelse(is.null(cores), 1L, cores)
+    cl <- NULL
+    if (parallel == "snow") {
+        cl <- get.ClusterOption()
+        if (is.null(cl)) {
+            parallel <- "no"
+            warning("no cluster in ClusterOption, parallel set to no")
+        }
+    }
+    if (!is.null(iseed)) {
+        stopifnot(is.numeric(iseed))
+        stopifnot(length(iseed) == 1L)
+    }
+
     crd <- card(listw$neighbours)
-    permC_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ci, alternative,
-      probs, nc) {
+    permC_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ci, nc) {
       res_i <- rep(as.numeric(NA), 8)
       if (crdi > 0) {
         if (nc == 1L) {
@@ -252,26 +272,66 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
 # res_p length nsim for obs i conditional draws
         res_i[1] <- mean(res_p)
         res_i[2] <- var(res_p)
-        res_i[3] <- (Ci - res_i[1])/sqrt(res_i[2])
-        if (alternative == "two.sided")
-          res_i[4] <- 2 * pnorm(abs(res_i[3]), lower.tail=FALSE)
-        else if (alternative == "greater")
-          res_i[4] <- pnorm(res_i[3], lower.tail=FALSE)
-        else res_i[4] <- pnorm(res_i[3])
-        res_i[5] <- probs[rank(c(res_p, Ci))[(nsim + 1L)]]
-        rnk0 <- as.integer(sum(res_p >= Ci))
-        drnk0 <- nsim - rnk0
-        rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
-        res_i[6] <- (rnk + 1.0) / (nsim + 1.0)
+        res_i[5] <- rank(c(res_p, Ci))[(nsim + 1L)]
+        res_i[6] <- as.integer(sum(res_p >= Ci))
         res_i[7] <- e1071::skewness(res_p)
         res_i[8] <- e1071::kurtosis(res_p)
       }
       res_i
     }
     z <- scale(x)
-    oo <- lapply(1:n, function(i) permC_int(i, z[i,,drop=FALSE], z[-i,], crd[i],
-      listw$weights[[i]], nsim, obs[i], alternative, probs, nc))
-    res <- do.call("rbind", oo)
+    lww <- listw$weights
+    if (parallel == "snow") {
+      if (requireNamespace("parallel", quietly = TRUE)) {
+        sI <- parallel::splitIndices(n, length(cl))
+        env <- new.env()
+        assign("z", z, envir=env)
+        assign("crd", crd, envir=env)
+        assign("lww", lww, envir=env)
+        assign("nsim", nsim, envir=env)
+        assign("obs", obs, envir=env)
+        assign("nc", nc, envir=env)
+        parallel::clusterExport(cl, varlist=c("z", "crd", "lww", "nsim",
+          "obs", "nc"), envir=env)
+        if (!is.null(iseed)) parallel::clusterSetRNGStream(cl, iseed = iseed)
+        oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
+          permC_int(i, z[i,,drop=FALSE], z[-i,], crd[i], lww[[i]], nsim,
+          obs[i], nc)})
+        res <- do.call("rbind", do.call("c", oo))
+        rm(env)
+      } else {
+        stop("parallel not available")
+      }
+    } else if (parallel == "multicore") {
+      if (requireNamespace("parallel", quietly = TRUE)) {
+        sI <- parallel::splitIndices(n, ncpus)
+        oldRNG <- RNGkind()
+        RNGkind("L'Ecuyer-CMRG")
+        oo <- parallel::mclapply(sI, FUN=lapply, function(i) {permC_int(i, 
+          z[i,,drop=FALSE], z[-i,], crd[i], lww[[i]], nsim, obs[i], nc)},
+          mc.cores=ncpus)
+        RNGkind(oldRNG[1])
+        res <- do.call("rbind", do.call("c", oo))
+      } else {
+        stop("parallel not available")
+      }
+    } else {
+      oo <- lapply(1:n, function(i) permC_int(i, z[i,,drop=FALSE], z[-i,],
+        crd[i], lww[[i]], nsim, obs[i], nc))
+      res <- do.call("rbind", oo)
+    }
+    res[,3] <- (obs - res[,1])/sqrt(res[,2])
+    if (alternative == "two.sided")
+      res[,4] <- 2 * pnorm(abs(res[,3]), lower.tail=FALSE)
+    else if (alternative == "greater")
+      res[,4] <- pnorm(res[,3], lower.tail=FALSE)
+    else res[,4] <- pnorm(res[,3])
+    res[,5] <- probs[as.integer(res[,5])]
+    rnk0 <- as.integer(res[,6])
+    drnk0 <- nsim - rnk0
+    rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
+    res[,6] <- (rnk + 1.0) / (nsim + 1.0)
+    
     colnames(res) <- c("E.Ci", "Var.Ci", "Z.Ci", Prname,
       paste0(Prname, " Sim"), "Pr(folded) Sim", "Skewness", "Kurtosis")
     res

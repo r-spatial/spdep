@@ -24,13 +24,13 @@ localC(x, ..., zero.policy=NULL)
 
 \method{localC}{data.frame}(x, listw, ..., zero.policy=NULL)
 
-localC_perm(x, ..., zero.policy=NULL)
+localC_perm(x, ..., zero.policy=NULL, iseed=NULL)
 
 \method{localC_perm}{default}(x, listw, nsim = 499, alternative = "two.sided", ...,
- zero.policy=NULL)
+ zero.policy=NULL, iseed=NULL)
 
 \method{localC_perm}{formula}(formula, data, listw, nsim = 499,
- alternative = "two.sided", ..., zero.policy=NULL)
+ alternative = "two.sided", ..., zero.policy=NULL, iseed=NULL)
 }
 \arguments{
 \item{x}{a numeric vector, numeric matrix, or list. See details for more.}
@@ -46,6 +46,7 @@ localC_perm(x, ..., zero.policy=NULL)
 \item{alternative}{A character defining the alternative hypothesis. Must be one of \code{"two.sided"}, \code{"less"} or \code{"greater"}.}
 \item{...}{other arguments passed to methods.}
 \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA.}
+  \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
 }
 \description{
 The Local Geary is a local adaptation of Geary's C statistic of spatial autocorrelation. The Local Geary uses squared differences to measure dissimilarity unlike the Local Moran. Low values of the Local Geary indicate positive spatial autocorrelation and large refers to negative spatial autocorrelation.
@@ -150,7 +151,7 @@ if (run) {
 }
 if (run) {
   set.seed(1)
-  lm_PC1_spdep <- localmoran_perm(g$PC1, lw, nsim=99999)
+  lm_PC1_spdep <- localmoran_perm(g$PC1, lw, nsim=9999)
   q <- attr(lm_PC1_spdep, "quadr")$pysal
   g$lm_PC1_spdep <- q
   is.na(g$lm_PC1_spdep) <- lm_PC1_spdep[,6] > 0.02 # note folded p-values
@@ -183,7 +184,20 @@ if (run) {
 }
 if (run) {
   set.seed(1)
-  lc_PC1_spdep <- localC_perm(g$PC1, lw, nsim=99999, alternative="two.sided")
+  system.time(lc_PC1_spdep <- localC_perm(g$PC1, lw, nsim=9999,
+    alternative="two.sided"))
+}
+if (run) {
+  if (require(parallel, quietly=TRUE)) {
+    ncpus <- detectCores()-1L
+    cores <- get.coresOption()
+    set.coresOption(ncpus)
+    system.time(lmc_PC1_spdep1 <- localC_perm(g$PC1, lw, nsim=9999,
+      alternative="two.sided", iseed=1))
+    set.coresOption(cores)
+  }
+}
+if (run) {
   g$lc_PC1_spdep <- attr(lc_PC1_spdep, "cluster")
   is.na(g$lc_PC1_spdep) <- attr(lc_PC1_spdep, "pseudo-p")[,6] > 0.01
   g$lc_PC1_spdep <- droplevels(g$lc_PC1_spdep)
@@ -263,7 +277,7 @@ if (run) {
 }
 if (run) {
   set.seed(1)
-  lmc_PC_spdep <- localC_perm(g[c("PC1","PC2")], lw, nsim=99999, alternative="two.sided")
+  lmc_PC_spdep <- localC_perm(g[c("PC1","PC2")], lw, nsim=9999, alternative="two.sided")
   all.equal(lisa_values(lmc_PC), c(lmc_PC_spdep))
 }
 if (run) {
@@ -271,7 +285,7 @@ if (run) {
 }
 if (run) {
   g$lmc_PC_spdep <- attr(lmc_PC_spdep, "cluster")
-  is.na(g$lmc_PC_spdep) <- attr(lmc_PC_spdep, "pseudo-p")[,6] > 0.0025
+  is.na(g$lmc_PC_spdep) <- p.adjust(attr(lmc_PC_spdep, "pseudo-p")[,6], "fdr") > 0.01
   g$lmc_PC_spdep <- droplevels(g$lmc_PC_spdep)
   if (tmap_ok) tm_shape(g) + tm_fill("lmc_PC_spdep", textNA="Insignificant",
     colorNA="gray95") + tm_borders() # rep. Fig. 10
@@ -294,15 +308,34 @@ if (run) {
 }
 if (run) {
   set.seed(1)
-  lmc_vars_spdep <- localC_perm(st_drop_geometry(g)[, 1:6], lw, nsim=99999, alternative="two.sided")
+  system.time(lmc_vars_spdep <- localC_perm(st_drop_geometry(g)[, 1:6], lw,
+    nsim=9999, alternative="two.sided"))
+}
+if (run) {
   all.equal(lisa_values(lmc_vars), c(lmc_vars_spdep))
 }
 if (run) {
   cor(attr(lmc_vars_spdep, "pseudo-p")[,6], lisa_pvalues(lmc_vars))
 }
 if (run) {
+  if (require(parallel, quietly=TRUE)) {
+    ncpus <- detectCores()-1L
+    cores <- get.coresOption()
+    set.coresOption(ncpus)
+    system.time(lmc_vars_spdep1 <- localC_perm(st_drop_geometry(g)[, 1:6], lw,
+      nsim=9999, alternative="two.sided", iseed=1))
+    set.coresOption(cores)
+  }
+}
+if (run) {
+  all.equal(lisa_values(lmc_vars), c(lmc_vars_spdep1))
+}
+if (run) {
+  cor(attr(lmc_vars_spdep1, "pseudo-p")[,6], lisa_pvalues(lmc_vars))
+}
+if (run) {
   g$lmc_vars_spdep <- attr(lmc_vars_spdep, "cluster")
-  is.na(g$lmc_vars_spdep) <- attr(lmc_vars_spdep, "pseudo-p")[,6] > 0.0025
+  is.na(g$lmc_vars_spdep) <- p.adjust(attr(lmc_vars_spdep, "pseudo-p")[,6], "fdr") > 0.01
   g$lmc_vars_spdep <- droplevels(g$lmc_vars_spdep)
   if (tmap_ok) tm_shape(g) + tm_fill("lmc_vars_spdep", textNA="Insignificant",
     colorNA="gray95") + tm_borders() # rep. Fig. 11
@@ -315,9 +348,8 @@ library(reticulate)
 use_python("/usr/bin/python", required = TRUE)
 gp <- import("geopandas")
 ps <- import("libpysal")
-tf <- tempfile(fileext=".gal")
-write.nb.gal(orig, tf)
-fl <- ps$io$open(tf)
+W <- listw2mat(listw)
+w <- ps$weights$full2W(W, rownames(W))
 w$transform <- "R"
 esda <- import("esda")
 lM <- esda$Moran_Local(x, w)
@@ -326,7 +358,7 @@ all.equal(unname(localmoran(x, listw, mlvar=FALSE)[,1]), c(lM$Is))
 lC <- esda$Geary_Local(connectivity=w)$fit(scale(x))
 # np$std missing ddof=1
 n <- length(x)
-D01 <- spdep:::geary.intern((x - mean(x)) / sqrt(var(x)*(n-1)/n), listw, n=n)
+D0 <- spdep:::geary.intern((x - mean(x)) / sqrt(var(x)*(n-1)/n), listw, n=n)
 # lC components probably wrongly ordered https://github.com/pysal/esda/issues/192
 o <- match(round(D0, 6), round(lC$localG, 6))
 all.equal(c(lC$localG)[o], D0)
