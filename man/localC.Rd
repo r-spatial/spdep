@@ -166,7 +166,13 @@ if (run) {
   is.na(g$lg_PC1) <- g$lg_PC1 == "Not significant"
   g$lg_PC1 <- droplevels(g$lg_PC1)
   if (tmap_ok) tm_shape(g) + tm_fill("lg_PC1", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 4
+    colorNA="gray95") + tm_borders() # Fig. 4 (wrong)
+  else plot(g["lg_PC1"])
+  g$lg_PC1a <- cut(g$PC1, c(-Inf, mean(g$PC1), Inf), labels=c("Low", "High"))
+  is.na(g$lg_PC1a) <- lisa_pvalues(lg_PC1) >= 0.01
+  g$lg_PC1a <- droplevels(g$lg_PC1a)
+  if (tmap_ok) tm_shape(g) + tm_fill("lg_PC1", textNA="Insignificant",
+    colorNA="gray95") + tm_borders() # Fig. 4 (guess)
   else plot(g["lg_PC1"])
 }
 if (run) {
