@@ -2,7 +2,7 @@
 #
 
 localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
-        conditional=TRUE, alternative = "two.sided", p.adjust.method="none",
+        conditional=TRUE, alternative = "two.sided",
         mlvar=TRUE, spChk=NULL, adjust.x=FALSE) {
         stopifnot(is.vector(x))
 	if (!inherits(listw, "listw"))
@@ -10,6 +10,7 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
+        alternative <- match.arg(alternative, c("two.sided", "greater", "less"))
 	if (!is.null(attr(listw$neighbours, "self.included")) &&
 		attr(listw$neighbours, "self.included"))
 		stop("Self included among neighbours")
@@ -114,7 +115,7 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 	} else {
 	  pv <- pnorm(res[,4])
 	}
-	res[,5] <- p.adjustSP(pv, listw$neighbours, method=p.adjust.method)
+	res[,5] <- pv
 	if (!is.null(na.act) && excl) {
 		res <- naresid(na.act, res)
 	}

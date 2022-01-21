@@ -1,10 +1,10 @@
-# Copyright 2000-2021 by Roger S. Bivand. 
+# Copyright 2000-2022 by Roger S. Bivand. 
 # Upgrade to sp classes February 2007
 # use of dbscan 210317 #53
 # s2 prototype 210612-16 not using indexing
-#
+# https://github.com/r-spatial/s2/pull/162 220117
 
-dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, use_s2=FALSE, max_cells=200, dwithin=FALSE) {
+dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, use_s2=packageVersion("s2") > "1.0.7", k=200, dwithin=FALSE) {
     stopifnot(is.logical(use_kd_tree))
     use_s2_ll <- FALSE
     if (inherits(x, "SpatialPoints")) {
@@ -92,63 +92,16 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
         z <- lapply(seq_along(z), function(i)
             {if (length(z[[i]]) == 0L) 0L else z[[i]]})
     } else if (use_s2_ll) {
-        cores <- get.coresOption()
-        if (is.null(cores) || !requireNamespace("parallel", quietly = TRUE)) {
-            parallel <- "no"
-        } else {
-            parallel <- ifelse (get.mcOption(), "multicore", "no")
-        }
-        ncpus <- ifelse(is.null(cores), 1L, cores)
-        sI <- parallel::splitIndices(length(s2x), ncpus)
         if (dwithin) {
-            if (parallel == "multicore") {
-                f <- function(i) s2::s2_dwithin_matrix(s2x[i], s2x,
-                    dist=d2*1000)
-                zz <- parallel::mclapply(sI, FUN=f, mc.cores=ncpus)
-                z <- do.call("c", zz)
-                rm(zz)
-            } else {
-                z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
-            }
+            z <- s2::s2_dwithin_matrix(s2x, s2x, dist=d2*1000)
         } else {
-            if (parallel == "multicore") {
-                f <- function(i) sf::st_as_sfc(s2::s2_buffer_cells(s2x[i],
-                    dist=d2*1000, max_cells=max_cells))
-                zz <- parallel::mclapply(sI, FUN=f, mc.cores=ncpus)
-                s2xb <- sf::st_as_s2(do.call("c", zz))
-                rm(zz)
-                f <- function(i) s2::s2_intersects_matrix(s2xb[i], s2x)
-                zz <- parallel::mclapply(sI, FUN=f, mc.cores=ncpus)
-                z <- do.call("c", zz)
-                rm(zz)
-                zz <- parallel::mclapply(sI, FUN=lapply, 
-                    function(i) {z[[i]][s2::s2_dwithin(s2x[i], s2x[z[[i]]], 
-                    dist=d2*1000)]}, mc.cores=ncpus)
-                z <- do.call("c", zz)
-                rm(zz)
-            } else {
-                s2xb <- s2::s2_buffer_cells(s2x, distance=d2*1000,
-                    max_cells=max_cells)
-                z <- s2::s2_intersects_matrix(s2xb, s2x)
-                z <- lapply(seq_along(z),
-                    function(i) z[[i]][s2::s2_dwithin(s2x[i], s2x[z[[i]]], 
-                    dist=d2*1000)])
-            }
-            rm(s2xb)
+            if (k < np) k <- np
+            z <- s2::s2_closest_edges(s2x, s2x, k=k, min_distance=d1*1000, 
+                max_distance=d2*1000)
         }
         z <- lapply(z, sort)
-        if (d1 > 0) {
-            if (dwithin) {
-                z1 <- s2::s2_dwithin_matrix(s2x, s2x, dist=d1*1000)
-            } else {
-                s2xb <- s2::s2_buffer_cells(s2x, distance=d1*1000,
-                    max_cells=max_cells)
-                z1 <- s2::s2_intersects_matrix(s2xb, s2x)
-                rm(s2xb)
-                z1 <- lapply(seq_along(z1),
-                    function(i) z1[[i]][s2::s2_dwithin(s2x[i], s2x[z1[[i]]], 
-                    dist=d1*1000)])
-            }
+        if (dwithin && d1 > 0) {
+            z1 <- s2::s2_dwithin_matrix(s2x, s2x, dist=d1*1000)
             z1 <- lapply(z1, sort)
             z <- lapply(seq_along(z), function(i) setdiff(z[[i]], z1[[i]])) 
         }

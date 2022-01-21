@@ -283,27 +283,67 @@ sf_use_s2(old_use_s2)
 
 ### Distance neighbours
 
-Distance neighbours are more problematic. While `nbdists()` works well with **s2** spherical coordinates, none of the tried adaptations for `dnearneigh()` work adequately yet. An argument `avoid_s2=` is TRUE by default, using the legacy brute-force approach, but only calculating distances from `i` to `j` and copying those to `j` to `i` through symmetry. Further, the legacy approach only calculates distances once, and selects the observations between `d1` and `d2` as neighbours. The distance metric is alway `"km"`.
-
-If we permit **s2** methods to run, without other arguments set, buffers are constructed around the points to `d2`, then these buffers are intersected with the points:
+Distance neighbours are more problematic. While `nbdists()` works well with **s2** spherical coordinates, none of the tried adaptations for `dnearneigh()` work adequately yet. An argument `use_s2=` is set to TRUE if **s2** > 1.0-7, using `s2::s2_closest_edges()` or the legacy brute-force approach, then only calculating distances from `i` to `j` and copying those to `j` to `i` through symmetry. The distance metric is alway `"km"`.
 
 ```{r, echo=dothis, eval=dothis}
-system.time(pts_ll3_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, use_s2=TRUE))
+max_1nn_ll <- max(unlist(nbdists(knn2nb(knearneigh(pts_ll, k=1)), pts_ll)))
 ```
-Time can be saved by reducing the cell count used to approximate the buffer:
+
+If we permit **s2** methods to run, without other arguments set, and **s2** > 1.0-7, `s2::s2_closest_edges()` is run:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(pts_ll4_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, use_s2=TRUE, max_cells=500))
+if (packageVersion("s2") > "1.0.7") {
+  system.time(for (i in 1:(reps/5)) pts_ll3_nb <- dnearneigh(pts_ll, d1=0,
+      d2=0.75*max_1nn_ll))/(reps/5)
+}
 ```
-Alternatively, brute-force spherical distances can be used, not (yet) using spatial indexing; performance also deteriorates with increasing numbers of observations:
+
+Alternatively, spherical distances can be used with `s2::s2_dwithin_matrix()`; performance also deteriorates with increasing numbers of observations:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:(reps/5)) pts_ll5_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn, use_s2=TRUE, dwithin=TRUE))/(reps/5)
+system.time(for (i in 1:(reps/5)) pts_ll5_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn_ll, use_s2=TRUE, dwithin=TRUE))/(reps/5)
 ```
-For the moment, `avoid_s2=` is `TRUE` by default as more remains to be examined to find out how to benefit from spherical spatial indexing, also because all the **s2** approaches need two runs to handle the `d1`-`d2` interval, and none of them benefit from symmetry:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:reps) pts_ll6_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn))/reps
+if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3_nb, pts_ll5_nb, check.attributes=FALSE)
+```
+
+Using `s2::s2_closest_edges()` respects `d1 > 0` without requiring a second pass in R, so is faster than `s2::s2_dwithin_matrix()`:
+
+
+```{r, echo=dothis, eval=dothis}
+if (packageVersion("s2") > "1.0.7") {
+  system.time(for (i in 1:(reps/5)) pts_ll3a_nb <- dnearneigh(pts_ll, d1=5,
+      d2=0.75*max_1nn_ll))/(reps/5)
+}
+```
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:(reps/5)) pts_ll5a_nb <- dnearneigh(pts_ll, d1=5, d2=0.75*max_1nn_ll, use_s2=TRUE, dwithin=TRUE))/(reps/5)
+```
+
+```{r, echo=dothis, eval=dothis}
+if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3a_nb, pts_ll5a_nb, check.attributes=FALSE)
+```
+
+Setting `use_s2=FALSE` falls back to the legacy version, which uses symmetry to reduce time:
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) pts_ll6_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn_ll, use_s2=FALSE))/reps
+```
+
+Minor differences may occur between the legacy ellipsoid and **s2** spherical approaches:
+
+```{r, echo=dothis, eval=dothis}
+all.equal(pts_ll5_nb, pts_ll6_nb, check.attributes=FALSE)
+```
+
+```{r, echo=dothis, eval=dothis}
+system.time(for (i in 1:reps) pts_ll6a_nb <- dnearneigh(pts_ll, d1=5, d2=0.75*max_1nn_ll, use_s2=FALSE))/reps
+```
+
+```{r, echo=dothis, eval=dothis}
+all.equal(pts_ll5a_nb, pts_ll6a_nb, check.attributes=FALSE)
 ```
 
 ### Contiguity neighbours for spherical polygon support {#spher-poly2nb}
@@ -314,7 +354,7 @@ It also turns out that when **sf** functions are used to find contiguity neighbo
 NY8_sf_ll <- st_transform(NY8_sf, "OGC:CRS84")
 st_is_longlat(NY8_sf_ll)
 ```
-The timings are a little slower when `st_intersects()` hands off geometry predicates to `s2_intersects_matrix()`, but the results are the same, and because spatial indexing is used, this scles well for larger data sets:
+The timings are a little slower when `st_intersects()` hands off geometry predicates to `s2_intersects_matrix()`, but the results are the same, and because spatial indexing is used, this scales well for larger data sets:
 
 ```{r, echo=dothis, eval=dothis}
 system.time(for (i in 1:reps) NY8_sf_1_nb_ll <- poly2nb(NY8_sf_ll, queen=TRUE, snap=eps))/reps

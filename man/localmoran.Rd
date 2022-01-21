@@ -12,10 +12,10 @@ and its expectation and variance were given in Anselin (1995), but those from So
 }
 \usage{
 localmoran(x, listw, zero.policy=NULL, na.action=na.fail, conditional=TRUE,
-	alternative = "two.sided", p.adjust.method="none", mlvar=TRUE,
+	alternative = "two.sided", mlvar=TRUE,
         spChk=NULL, adjust.x=FALSE)
 localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail, 
-	alternative = "two.sided", p.adjust.method="none", mlvar=TRUE,
+	alternative = "two.sided", mlvar=TRUE,
         spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL)
 }
 \arguments{
@@ -25,7 +25,6 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
   \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. If \code{na.pass} is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)}
   \item{conditional}{default TRUE: expectation and variance are calculated using the conditional randomization null (Sokal 1998 Eqs. A7 & A8). Elaboration of these changes available in Sauer et al. (2021). If FALSE: expectation and variance are calculated using the total randomization null (Sokal 1998 Eqs. A3 & A4).}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of greater, less or two.sided (default).}
-  \item{p.adjust.method}{a character string specifying the probability value adjustment for multiple tests, default "none"; see \code{\link{p.adjustSP}}. Note that the number of multiple tests for each region is only taken as the number of neighbours + 1 for each region, rather than the total number of regions.}
   \item{mlvar}{default TRUE: values of local Moran's I are reported using the variance of the variable of interest (sum of squared deviances over n), but can be reported as the sample variance, dividing by (n-1) instead; both are used in other implementations.}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{adjust.x}{default FALSE, if TRUE, x values of observations with no neighbours are omitted in the mean of x}
@@ -51,7 +50,7 @@ The values of local Moran's I are divided by the variance (or sample variance) o
   \item{Kurtosis}{For \code{localmoran_perm}, the output of \code{e1071::kurtosis()} for the permutation samples underlying the standard deviates}
 In addition, an attribute data frame \code{"quadr"} with mean and median quadrant columns, and a column splitting on the demeaned variable and lagged demeaned variable at zero.
 }
-\note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.}
+\note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself. For p-value adjustment, use \code{p.adjust()} or \code{p.adjustSP()} on the output vector.}
 \references{Anselin, L. 1995. Local indicators of spatial association,
 Geographical Analysis, 27, 93--115;
 Getis, A. and Ord, J. K. 1996 Local spatial
@@ -76,11 +75,10 @@ sum(resI[,1])/Szero(nb2listw(paper.nb))
 moran.test(afcon$totcon, nb2listw(paper.nb))
 # note equality for mean() only when the sum of weights equals
 # the number of observations (thanks to Juergen Symanzik)
-resI <- localmoran(afcon$totcon, nb2listw(paper.nb),
- p.adjust.method="bonferroni")
+resI <- localmoran(afcon$totcon, nb2listw(paper.nb))
 printCoefmat(data.frame(resI[oid,], row.names=afcon$name[oid]),
  check.names=FALSE)
-hist(resI[,5])
+hist(p.adjust(resI[,5], method="bonferroni"))
 totcon <-afcon$totcon
 is.na(totcon) <- sample(1:length(totcon), 5)
 totcon
