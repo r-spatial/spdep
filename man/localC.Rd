@@ -338,8 +338,8 @@ if (run) {
   cor(attr(lmc_vars_spdep1, "pseudo-p")[,6], lisa_pvalues(lmc_vars))
 }
 if (run) {
-  g$lmc_vars_spdep <- attr(lmc_vars_spdep, "cluster")
-  is.na(g$lmc_vars_spdep) <- p.adjust(attr(lmc_vars_spdep, "pseudo-p")[,6], "fdr") > 0.01
+  g$lmc_vars_spdep <- attr(lmc_vars_spdep1, "cluster")
+  is.na(g$lmc_vars_spdep) <- p.adjust(attr(lmc_vars_spdep1, "pseudo-p")[,6], "fdr") > 0.01
   g$lmc_vars_spdep <- droplevels(g$lmc_vars_spdep)
   if (tmap_ok) tm_shape(g) + tm_fill("lmc_vars_spdep", textNA="Insignificant",
     colorNA="gray95") + tm_borders() # rep. Fig. 11

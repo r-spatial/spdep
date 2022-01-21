@@ -261,10 +261,10 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
           res_p <- c(diffs %*% wtsi)
         } else {
           res_ps <- matrix(NA, ncol=nc, nrow=nsim)
+          sii <- sample.int(nrow(z_i), size=crdi*nsim, replace=TRUE)
           for (j in 1:nc) {
-            sz_i <- matrix(sample(z_i[,j], size=crdi*nsim, replace=TRUE),
-              ncol=crdi, nrow=nsim)
-            diffs <- (zi[,j] - sz_i)^2
+            sz_i <- matrix(z_i[sii, j], ncol=crdi, nrow=nsim)
+            diffs <- (zi[, j] - sz_i)^2
             res_ps[,j] <- c(diffs %*% wtsi)
           }
           res_p <- apply(res_ps, 1, mean)
