@@ -4,7 +4,7 @@
 
 * Add link to R-sig-geo thread on `EBlocal()` NaN estimates when many counts are zero on help page.
 
-* Revise and add documentation for object returned by `localC_perm()` #68 #72 #73
+* Revise and add documentation for object returned by `localC_perm()` #68 #72 #73 #74 #75 #76
 
 * For **s2** > 1.0.7, use indexed distances in `dnearneigh()` https://github.com/r-spatial/s2/pull/162.
 
