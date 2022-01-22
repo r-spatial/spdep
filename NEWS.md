@@ -6,6 +6,8 @@
 
 * Revise and add documentation for object returned by `localC_perm()` #68 #72 #73 #74 #75 #76
 
+* `localmoran.sad()` will now use multiple compute nodes if needed #77
+
 * For **s2** > 1.0.7, use indexed distances in `dnearneigh()` https://github.com/r-spatial/s2/pull/162.
 
 # Version 1.2-1 (2022-01-05)

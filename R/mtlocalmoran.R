@@ -1,4 +1,4 @@
-# Copyright 2002-2008 by Roger Bivand and Michael Tiefelsdorf,
+# Copyright 2002-2022 by Roger Bivand and Michael Tiefelsdorf,
 # with contributions by Danlin Yu
 #
 
@@ -64,45 +64,68 @@ localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
 # correction by Danlin Yu, 25 March 2004
 	a <- sum(sapply(B$weights, function(x) sqrt(sum(x^2))))
     } else if (style == "C") a <- sum(unlist(B$weights))
-    res <- vector(mode="list", length=length(select))
-    for (i in 1:length(select)) {
+    cores <- get.coresOption()
+    if (is.null(cores)) {
+        parallel <- "no"
+    } else {
+        parallel <- ifelse (get.mcOption(), "multicore", "snow")
+    }
+    ncpus <- ifelse(is.null(cores), 1L, cores)
+    cl <- NULL
+    if (parallel == "snow") {
+        cl <- get.ClusterOption()
+        if (is.null(cl)) {
+            parallel <- "no"
+            warning("no cluster in ClusterOption, parallel set to no")
+        }
+    }
+    sadLocalMoran_int <- function(i, B, select, style=style, n, D, a,
+        zero.policy=zero.policy, m, alternative=alternative, u, utu) {
         Vi <- listw2star(B, select[i], style=style, n, D, a,
 	    zero.policy=zero.policy)
         Viu <- lag.listw(Vi, u, zero.policy=TRUE)
 	Ii <- c((t(u) %*% Viu) / utu)
-	if (cond.sad) {
-            obj <- sadLocalMoranAlt(Ii, Vi, M1, M2, n, tol.bounds,
-                tol, maxiter, ii=select[i], alternative=alternative)
-            sad.p <- obj$sad.p
-            sad.r <- obj$sad.r
-            sad.u <- obj$sad.u
-            omega <- obj$omega
-            p.sad <- obj$p.sad
-            gamma <- obj$gamma
-	} else {
-	    ViX <- lag.listw(Vi, X, zero.policy=TRUE)
-	    MViM <- t(X) %*% ViX %*% XtXinv
-	    t1 <- -sum(diag(MViM))
-	    sumsq.Vi <- function(x) {
-                if (is.null(x)) NA
-	        else sum(x^2)
-	    }
-	    trVi2 <- sum(sapply(Vi$weights, sumsq.Vi), na.rm=TRUE)
-	    t2a <- sum(diag(t(ViX) %*% ViX %*% XtXinv))
-	    t2b <- sum(diag(MViM %*% MViM))
-	    t2 <- trVi2 - 2*t2a + t2b
-	    e1 <- 0.5 * (t1 + sqrt(2*t2 - t1^2))
-	    en <- 0.5 * (t1 - sqrt(2*t2 - t1^2))
-            gamma <- c(c(e1), c(en))
-            obj <- sadLocalMoran(Ii, gamma, m, ii=select[i],
-                alternative=alternative)
-            sad.p <- obj$sad.p
-            sad.r <- obj$sad.r
-            sad.u <- obj$sad.u
-            omega <- obj$omega
-            p.sad <- obj$p.sad
-            gamma <- obj$gamma
+	ViX <- lag.listw(Vi, X, zero.policy=TRUE)
+	MViM <- t(X) %*% ViX %*% XtXinv
+	t1 <- -sum(diag(MViM))
+	sumsq.Vi <- function(x) {
+            if (is.null(x)) NA
+	    else sum(x^2)
 	}
+	trVi2 <- sum(sapply(Vi$weights, sumsq.Vi), na.rm=TRUE)
+	t2a <- sum(diag(t(ViX) %*% ViX %*% XtXinv))
+	t2b <- sum(diag(MViM %*% MViM))
+	t2 <- trVi2 - 2*t2a + t2b
+	e1 <- 0.5 * (t1 + sqrt(2*t2 - t1^2))
+	en <- 0.5 * (t1 - sqrt(2*t2 - t1^2))
+        gamma <- c(c(e1), c(en))
+	e1 <- gamma[1]
+	en <- gamma[2]
+	l <- en
+	h <- e1
+	mi <- Ii
+	aroot= m*mi*(l+h-2*mi)+mi*(3*l+3*h-4*mi)-2*l*h
+        broot= (m+2)*mi*(l-mi)*(h-mi)
+        c1root= l**2 * mi**2 * (m+1)**2 + h**2 * mi**2 * (m+1)**2
+        c2root= 2*l*h * (2*l*h - 2*l*mi - 2*h*mi - 2*m*mi**2 -
+	    m**2 * mi**2 + mi**2)
+        omega= 0.25*((aroot-sqrt(c1root+c2root))/broot)
+	if (is.nan(omega)) {
+	    warning (paste("In zone:", select[i], "omega not a number"))
+	    sad.r <- sad.u <- sad.p <- NaN
+	} else { 
+            tau <- c(c(e1), rep(0, m), c(en))
+	    taumi <- tau - Ii
+            if (omega < 0 ) sad.r <- -sqrt(sum(log(1 - 2*omega*taumi)))
+            else sad.r <- sqrt(sum(log(1 - 2*omega*taumi)))
+            sad.u <- omega * sqrt(2*sum(taumi^2 / (1 - (2*omega*taumi))^2))
+            sad.p <- sad.r - ((1/sad.r)*log(sad.r/sad.u))
+	}
+        if (alternative == "two.sided") p.sad <- 2 * pnorm(abs(sad.p), 
+	    lower.tail=FALSE)
+        else if (alternative == "greater")
+            p.sad <- pnorm(sad.p, lower.tail=FALSE)
+        else p.sad <- pnorm(sad.p)
         statistic <- sad.p
         attr(statistic, "names") <- "Saddlepoint approximation"
         p.value <- p.sad
@@ -127,7 +150,137 @@ localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
 #	    if (save.Vi) {Vi = Vi}
 	    Vi = if(save.Vi) Vi else NULL)
         class(obj) <- "moransad"
-	res[[i]] <- obj
+        obj
+    }
+
+    sadLocalMoranAlt_int <- function(i, B, select, style=style, n, D, a,
+        zero.policy=zero.policy, M1, M2, tol.bounds, tol, maxiter,
+        alternative=alternative, u, utu, X) {
+        Vi <- listw2star(B, select[i], style=style, n, D, a,
+	    zero.policy=zero.policy)
+        Viu <- lag.listw(Vi, u, zero.policy=TRUE)
+	Ii <- c((t(u) %*% Viu) / utu)
+        ViI <- listw2mat(Vi) - Ii * diag(n)
+        innerTerm <- M1 %*% ViI %*% M2
+        evalue <- eigen(innerTerm, only.values=TRUE)$values
+        tau <- c(evalue)
+        e1 <- tau[1]
+        en <- tau[length(tau)]
+        low <- (1 / (2*tau[length(tau)])) + tol.bounds #+ 0.01
+        high <- (1 / (2*tau[1])) - tol.bounds #- 0.01
+        f <- function(omega, tau) {sum(tau/(1 - (2*omega*tau)))}
+        root <- uniroot(f, lower=low, upper=high, tol=tol, maxiter=maxiter,
+      	    tau=tau)
+        omega <- root$root
+# 0 should be expectation - maybe use try()
+        if (omega < 0 ) sad.r <- try(-sqrt(sum(log(1 - 2*omega*tau))))
+        else sad.r <- try(sqrt(sum(log(1 - 2*omega*tau))))
+        if (inherits(sad.r, "try.error")) {
+    	    warning (paste("In zone:", select[i], "sad.r not a number"))
+            sad.r <- sad.u <- sad.p <- NaN
+        } else { 
+	    sad.u <- omega * sqrt(2*sum(tau^2 / (1 - (2*omega*tau))^2))
+    	    sad.p <- sad.r - ((1/sad.r)*log(sad.r/sad.u))
+        }
+        if (alternative == "two.sided") p.sad <- 2 * pnorm(abs(sad.p), 
+	    lower.tail=FALSE)
+        else if (alternative == "greater")
+            p.sad <- pnorm(sad.p, lower.tail=FALSE)
+        else p.sad <- pnorm(sad.p)
+        gamma <- tau
+        statistic <- sad.p
+        attr(statistic, "names") <- "Saddlepoint approximation"
+        p.value <- p.sad
+        estimate <- c(Ii)
+        attr(estimate, "names") <- "Observed Moran Ii"
+        internal1 <- c(omega, sad.r, sad.u)
+        attr(internal1, "names") <- c("omega", "sad.r", "sad.u")
+        method <- paste("Saddlepoint approximation for local Moran I",
+            "(Barndorff-Nielsen formula)")
+        data.name <- paste("region:", select[i],
+	    attr(nb, "region.id")[select[i]],
+	    "\n", paste(strwrap(paste("model: ", gsub("[ ]+", " ", 
+	    paste(dmc, sep="", collapse="")))),
+	    collapse="\n"),
+            "\nneighbours:", deparse(substitute(nb)),
+	    "style:", style, "\n")
+        obj <- list(statistic = statistic, p.value = p.value,
+            estimate = estimate, method = method,
+	    alternative = alternative, data.name = data.name,
+	    internal1 = internal1, df = (n-p), tau = gamma,
+	    i = paste(select[i], attr(nb, "region.id")[select[i]]),
+#	    if (save.Vi) {Vi = Vi}
+	    Vi = if(save.Vi) Vi else NULL)
+        class(obj) <- "moransad"
+        obj
+    }
+    if (parallel == "snow") {
+      if (requireNamespace("parallel", quietly = TRUE)) {
+        sI <- parallel::splitIndices(n, length(cl))
+        env <- new.env()
+        assign("B", B, envir=env)
+        assign("select", select, envir=env)
+        assign("style", style, envir=env)
+        assign("n", n, envir=env)
+        assign("D", D, envir=env)
+        assign("a", a, envir=env)
+        assign("zero.policy", zero.policy, envir=env)
+        assign("alternative", alternative, envir=env)
+        assign("u", u, envir=env)
+        assign("utu", utu, envir=env)
+        if (cond.sad) {
+            assign("M1", M1, envir=env)
+            assign("M2", M2, envir=env)
+            assign("tol.bounds", tol.bounds, envir=env)
+            assign("tol", tol, envir=env)
+            assign("maxiter", maxiter, envir=env)
+            assign("X", X, envir=env)
+            parallel::clusterExport(cl, varlist=c("B", "select", "style",
+                "n", "D", "a", "zero.policy", "alternative", "u", "utu",
+                "M1", "M2", "tol.bounds", "tol", "maxiter", "X"), envir=env)
+            oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
+                sadLocalMoranAlt_int(i, B, select, style, n, D, a,
+                zero.policy, M1, M2, tol.bounds, tol, maxiter,
+                alternative, u, utu, X)})
+        } else {
+            assign("m", , envir=env)
+            parallel::clusterExport(cl, varlist=c("B", "select", "style",
+                "n", "D", "a", "zero.policy", "alternative", "u", "utu", "m"),
+                envir=env)
+            oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
+                sadLocalMoran_int(i, B, select, style, n, D, a, 
+                zero.policy, m, alternative, u, utu)})
+        }
+        res <- do.call("c", oo)
+        rm(env)
+      } else {
+        stop("parallel not available")
+      }
+    } else if (parallel == "multicore") {
+      if (requireNamespace("parallel", quietly = TRUE)) {
+        sI <- parallel::splitIndices(n, ncpus)
+        if (cond.sad) {
+            oo <- parallel::mclapply(sI, FUN=lapply, function(i) {
+                sadLocalMoranAlt_int(i, B, select, style, n, D, a,
+                zero.policy, M1, M2, tol.bounds, tol, maxiter,
+                alternative, u, utu, X)}, mc.cores=ncpus)
+        } else {
+            oo <- parallel::mclapply(sI, FUN=lapply, function(i) {
+                sadLocalMoran_int(i, B, select, style, n, D, a, 
+                zero.policy, m, alternative, u, utu)}, mc.cores=ncpus)
+        }
+        res <- do.call("c", oo)
+      } else {
+        stop("parallel not available")
+      }
+    } else {
+        if (cond.sad)
+            res <- lapply(1:n, function(i) sadLocalMoranAlt_int(i, B,
+                select, style, n, D, a, zero.policy, M1, M2, tol.bounds,
+                tol, maxiter, alternative, u, utu, X))
+        else
+            res <- lapply(1:n, function(i) sadLocalMoran_int(i, B, select, 
+                style, n, D, a, zero.policy, m, alternative, u, utu))
     }
     class(res) <- "localmoransad"
     if (save.M && cond.sad) attr(res, "M") <- list(M1=M1, M2=M2, type="cond")
@@ -136,72 +289,6 @@ localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
     res
 }
 
-sadLocalMoranAlt <- function(Ii, Vi, M1, M2, n, tol.bounds=0.0001,
-    tol = .Machine$double.eps^0.5, maxiter = 1000, ii, alternative="greater") {
-    ViI <- listw2mat(Vi) - Ii * diag(n)
-    innerTerm <- M1 %*% ViI %*% M2
-    evalue <- eigen(innerTerm, only.values=TRUE)$values
-    tau <- c(evalue)
-    e1 <- tau[1]
-    en <- tau[length(tau)]
-    low <- (1 / (2*tau[length(tau)])) + tol.bounds #+ 0.01
-    high <- (1 / (2*tau[1])) - tol.bounds #- 0.01
-    f <- function(omega, tau) {sum(tau/(1 - (2*omega*tau)))}
-    root <- uniroot(f, lower=low, upper=high, tol=tol, maxiter=maxiter,
-      	tau=tau)
-    omega <- root$root
-# 0 should be expectation - maybe use try()
-    if (omega < 0 ) sad.r <- try(-sqrt(sum(log(1 - 2*omega*tau))))
-    else sad.r <- try(sqrt(sum(log(1 - 2*omega*tau))))
-    if (inherits(sad.r, "try.error")) {
-    	warning (paste("In zone:", ii, "sad.r not a number"))
-        sad.r <- sad.u <- sad.p <- NaN
-    } else { 
-	sad.u <- omega * sqrt(2*sum(tau^2 / (1 - (2*omega*tau))^2))
-    	sad.p <- sad.r - ((1/sad.r)*log(sad.r/sad.u))
-    }
-        if (alternative == "two.sided") p.sad <- 2 * pnorm(abs(sad.p), 
-	    lower.tail=FALSE)
-        else if (alternative == "greater")
-            p.sad <- pnorm(sad.p, lower.tail=FALSE)
-        else p.sad <- pnorm(sad.p)
-    obj <- list(p.sad=p.sad, sad.p=sad.p, sad.r=sad.r, sad.u=sad.u,
-        omega=omega, root=root, gamma=tau)
-    obj
-}
-
-sadLocalMoran <- function(Ii, gamma, m, ii, alternative="greater") {
-	e1 <- gamma[1]
-	en <- gamma[2]
-	l <- en
-	h <- e1
-	mi <- Ii
-	aroot= m*mi*(l+h-2*mi)+mi*(3*l+3*h-4*mi)-2*l*h
-        broot= (m+2)*mi*(l-mi)*(h-mi)
-        c1root= l**2 * mi**2 * (m+1)**2 + h**2 * mi**2 * (m+1)**2
-        c2root= 2*l*h * (2*l*h - 2*l*mi - 2*h*mi - 2*m*mi**2 -
-	    m**2 * mi**2 + mi**2)
-        omega= 0.25*((aroot-sqrt(c1root+c2root))/broot)
-	if (is.nan(omega)) {
-	    warning (paste("In zone:", ii, "omega not a number"))
-	    sad.r <- sad.u <- sad.p <- NaN
-	} else { 
-            tau <- c(c(e1), rep(0, m), c(en))
-	    taumi <- tau - Ii
-            if (omega < 0 ) sad.r <- -sqrt(sum(log(1 - 2*omega*taumi)))
-            else sad.r <- sqrt(sum(log(1 - 2*omega*taumi)))
-            sad.u <- omega * sqrt(2*sum(taumi^2 / (1 - (2*omega*taumi))^2))
-            sad.p <- sad.r - ((1/sad.r)*log(sad.r/sad.u))
-	}
-        if (alternative == "two.sided") p.sad <- 2 * pnorm(abs(sad.p), 
-	    lower.tail=FALSE)
-        else if (alternative == "greater")
-            p.sad <- pnorm(sad.p, lower.tail=FALSE)
-        else p.sad <- pnorm(sad.p)
-	obj <- list(p.sad=p.sad, sad.p=sad.p, sad.r=sad.r, sad.u=sad.u,
-            omega=omega, gamma=gamma)
-        obj
-}
 
 print.localmoransad <- function(x, ...) {
     extract <- function(x, i) {x[[i]]}
