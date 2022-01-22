@@ -18,8 +18,8 @@ localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALS
 		stop("Check of data and weights ID integrity failed")
 	gstari <- FALSE
 	if (!is.null(attr(listw$neighbours, "self.included")) &&
-		attr(listw$neighbours, "self.included")) gstari <- TRUE
-        Gi_str <- ifelse(gstari, "Gi", "G*i")
+	    attr(listw$neighbours, "self.included")) gstari <- TRUE
+        Gi_str <- ifelse(gstari, "G*i", "Gi")
 	lx <- lag.listw(listw, x, zero.policy=zero.policy)
         if (GeoDa) {
             if (gstari) {
@@ -69,7 +69,8 @@ localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALS
                 ints <- cbind(G=lx/(x_star-c(x)), EG=EG/(x_star-c(x)),
                     VG=VG/(x_star-c(x))^2, ZG=res, pv=pv)
             }
-            colnames(ints)[5] <- Prname
+            colnames(ints) <- c(paste(c("", "E(", "V(", "Z("), Gi_str,
+                c("", ")", ")", ")"), sep=""), Prname)
             attr(res, "internals") <- ints
 	}
         attr(res, "gstari") <- gstari
