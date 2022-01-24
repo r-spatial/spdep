@@ -3,7 +3,7 @@
 #
 
 localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
-    zero.policy = NULL, alternative = "greater", spChk=NULL, 
+    zero.policy = NULL, alternative = "two.sided", spChk=NULL, 
     resfun=weighted.residuals,
     save.Vi = FALSE, tol = .Machine$double.eps^0.5,
     maxiter = 1000, tol.bounds=0.0001, save.M=FALSE, Omega=NULL) {
@@ -64,6 +64,7 @@ localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
 # correction by Danlin Yu, 25 March 2004
 	a <- sum(sapply(B$weights, function(x) sqrt(sum(x^2))))
     } else if (style == "C") a <- sum(unlist(B$weights))
+
     cores <- get.coresOption()
     if (is.null(cores)) {
         parallel <- "no"
@@ -79,6 +80,7 @@ localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
             warning("no cluster in ClusterOption, parallel set to no")
         }
     }
+
     sadLocalMoran_int <- function(i, B, select, style=style, n, D, a,
         zero.policy=zero.policy, m, alternative=alternative, u, utu) {
         Vi <- listw2star(B, select[i], style=style, n, D, a,

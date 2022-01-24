@@ -10,11 +10,11 @@
 }
 \usage{
 localmoran.exact(model, select, nb, glist = NULL, style = "W", 
- zero.policy = NULL, alternative = "greater", spChk = NULL, 
+ zero.policy = NULL, alternative = "two.sided", spChk = NULL, 
  resfun = weighted.residuals, save.Vi = FALSE, useTP=FALSE, truncErr=1e-6, 
  zeroTreat=0.1)
 localmoran.exact.alt(model, select, nb, glist = NULL, style = "W",
- zero.policy = NULL, alternative = "greater", spChk = NULL,
+ zero.policy = NULL, alternative = "two.sided", spChk = NULL,
  resfun = weighted.residuals, Omega = NULL, save.Vi = FALSE,
  save.M = FALSE, useTP=FALSE, truncErr=1e-6, zeroTreat=0.1)
 \method{print}{localmoranex}(x, \dots)

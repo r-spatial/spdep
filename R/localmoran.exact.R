@@ -1,7 +1,7 @@
-# Copyright (c) 2007-2008 Markus Reder and Roger Bivand
+# Copyright (c) 2007-2022 Markus Reder and Roger Bivand
 
 localmoran.exact <- function(model, select, nb, glist = NULL, style = "W",
-    zero.policy = NULL, alternative = "greater", spChk=NULL, 
+    zero.policy = NULL, alternative = "two.sided", spChk=NULL, 
     resfun=weighted.residuals, save.Vi = FALSE, useTP=FALSE, truncErr=1e-6,
     zeroTreat=0.1) {
 # need to impose check on weights TODO!!
@@ -49,8 +49,25 @@ localmoran.exact <- function(model, select, nb, glist = NULL, style = "W",
 # correction by Danlin Yu, 25 March 2004
 	a <- sum(sapply(B$weights, function(x) sqrt(sum(x^2))))
     } else if (style == "C") a <- sum(unlist(B$weights))
-    res <- vector(mode="list", length=length(select))
-    for (i in 1:length(select)) {
+
+    cores <- get.coresOption()
+    if (is.null(cores)) {
+        parallel <- "no"
+    } else {
+        parallel <- ifelse (get.mcOption(), "multicore", "snow")
+    }
+    ncpus <- ifelse(is.null(cores), 1L, cores)
+    cl <- NULL
+    if (parallel == "snow") {
+        cl <- get.ClusterOption()
+        if (is.null(cl)) {
+            parallel <- "no"
+            warning("no cluster in ClusterOption, parallel set to no")
+        }
+    }
+
+    exactLocalMoran_int <- function(i, select, B, style, n, D, a, 
+        zero.policy, u, X, utu, alternative, useTP, truncErr, zeroTreat) {
         Vi <- listw2star(B, select[i], style=style, n, D, a,
 	    zero.policy=zero.policy)
         Viu <- lag.listw(Vi, u, zero.policy=TRUE)
@@ -83,8 +100,55 @@ localmoran.exact <- function(model, select, nb, glist = NULL, style = "W",
         obj$df <- (n-p)
         obj$i <- paste(select[i], attr(nb, "region.id")[select[i]])
         obj$Vi <- if(save.Vi) Vi else NULL
-	res[[i]] <- obj
+	obj
     }
+
+    if (parallel == "snow") {
+      if (requireNamespace("parallel", quietly = TRUE)) {
+        sI <- parallel::splitIndices(n, length(cl))
+        env <- new.env()
+        assign("select", select, envir=env)
+        assign("B", B, envir=env)
+        assign("style", style, envir=env)
+        assign("n", n, envir=env)
+        assign("D", D, envir=env)
+        assign("a", a, envir=env)
+        assign("zero.policy", zero.policy, envir=env)
+        assign("alternative", alternative, envir=env)
+        assign("u", u, envir=env)
+        assign("utu", utu, envir=env)
+        assign("X", X, envir=env)
+        assign("useTP", useTP, envir=env)
+        assign("truncErr", truncErr, envir=env)
+        assign("zeroTreat", zeroTreat, envir=env)
+        parallel::clusterExport(cl, varlist=c("select", "B", "style",
+            "n", "D", "a", "zero.policy", "alternative", "u", "X", "utu", 
+            "useTP", "truncErr", "zeroTreat"), envir=env)
+        oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
+            exactLocalMoran_int(i, select, B, style, n, D, a, zero.policy, u,
+            X, utu, alternative, useTP, truncErr, zeroTreat)})
+        res <- do.call("c", oo)
+        rm(env)
+      } else {
+        stop("parallel not available")
+      }
+    } else if (parallel == "multicore") {
+      if (requireNamespace("parallel", quietly = TRUE)) {
+        sI <- parallel::splitIndices(n, ncpus)
+        oo <- parallel::mclapply(sI, FUN=lapply, function(i) {
+            exactLocalMoran_int(i, select, B, style, n, D, a, zero.policy, 
+            u, X, utu, alternative, useTP, truncErr, zeroTreat)}, 
+            mc.cores=ncpus)
+        res <- do.call("c", oo)
+      } else {
+        stop("parallel not available")
+      }
+    } else {
+        res <- lapply(1:n, function(i) exactLocalMoran_int(i, select, B, 
+            style, n, D, a, zero.policy, u, X, utu, alternative, useTP, 
+            truncErr, zeroTreat))
+    }
+
     class(res) <- "localmoranex"
     res
 }

@@ -21,7 +21,7 @@ approximation - is based on the randomisation assumption.
 }
 \usage{
 localmoran.sad(model, select, nb, glist=NULL, style="W",
- zero.policy=NULL, alternative="greater", spChk=NULL,
+ zero.policy=NULL, alternative="two.sided", spChk=NULL,
  resfun=weighted.residuals, save.Vi=FALSE,
  tol = .Machine$double.eps^0.5, maxiter = 1000, tol.bounds=0.0001,
  save.M=FALSE, Omega = NULL)
