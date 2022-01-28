@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
       </span>
     </div>
 
@@ -78,7 +78,7 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ri</dt>
-<dd><p>a numeric vector of counts of cases the same length as the neighbours list in nb</p></dd>
+<dd><p>a numeric vector of counts of cases the same length as the neighbours list in nb; if there are many zero counts, some estimates may be affected by division by zero, see <a href="https://stat.ethz.ch/pipermail/r-sig-geo/2022-January/028882.html" class="external-link">https://stat.ethz.ch/pipermail/r-sig-geo/2022-January/028882.html</a></p></dd>
 <dt>ni</dt>
 <dd><p>a numeric vector of populations at risk the same length as the neighbours list in nb</p></dd>
 <dt>nb</dt>
@@ -92,7 +92,7 @@
 </dl></div>
     <div id="details">
     <h2>Details</h2>
-    <p>Details of the implementation are to be found in Marshall, p. 286, and Bailey and Gatrell p. 307 and exercise 8.2, pp. 328--330. The example results do not fully correspond to the sources because of slightly differing neighbourhoods, but are generally close.</p>
+    <p>Details of the implementation are to be found in Marshall, p. 286, and Bailey and Gatrell p. 307 and exercise 8.2, pp. 328--330. The example results do not fully correspond to the sources because of slightly differing neighbourhoods, but are generally close. If there are many zero counts, some estimates may be affected by division by zero, see <a href="https://stat.ethz.ch/pipermail/r-sig-geo/2022-January/028882.html" class="external-link">https://stat.ethz.ch/pipermail/r-sig-geo/2022-January/028882.html</a>.</p>
     </div>
     <div id="value">
     <h2>Value</h2>
@@ -101,7 +101,7 @@
 <dd><p>a numerical vector of raw (crude) rates</p></dd>
 <dt>est</dt>
 <dd><p>a numerical vector of local empirical Bayes estimates</p></dd>
-</dl><p>and a <code>parameters</code> attribute list with components:</p>
+</dl><p>and a <code>parameters</code> attribute list with components (if both are zero, the estimate will be <code>NaN</code>, <a href="https://stat.ethz.ch/pipermail/r-sig-geo/2022-January/028882.html" class="external-link">https://stat.ethz.ch/pipermail/r-sig-geo/2022-January/028882.html</a>):</p>
 <dl><dt>a</dt>
 <dd><p>a numerical vector of local phi values</p></dd>
 <dt>m</dt>
@@ -143,7 +143,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

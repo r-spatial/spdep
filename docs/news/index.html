@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
       </span>
     </div>
 
@@ -67,7 +67,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2-1" id="version-12-1-development">Version 1.2-1 (development)<a class="anchor" aria-label="anchor" href="#version-12-1-development"></a></h2>
+<h2 class="page-header" data-toc-text="1.2-2" id="version-12-2-development">Version 1.2-2 (development)<a class="anchor" aria-label="anchor" href="#version-12-2-development"></a></h2>
+<ul><li><p>Replace <code><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">rainbow()</a></code> by <code>hcl.colors(..., "Set 2")</code> in <code><a href="../reference/plot.skater.html">plot.skater()</a></code>.</p></li>
+<li><p>Add link to R-sig-geo thread on <code><a href="../reference/EBlocal.html">EBlocal()</a></code> NaN estimates when many counts are zero on help page.</p></li>
+<li><p>Revise and add documentation for object returned by <code><a href="../reference/localC.html">localC_perm()</a></code> <a href="https://github.com/r-spatial/spdep/issues/68" class="external-link">#68</a> <a href="https://github.com/r-spatial/spdep/issues/72" class="external-link">#72</a> <a href="https://github.com/r-spatial/spdep/issues/73" class="external-link">#73</a> <a href="https://github.com/r-spatial/spdep/issues/74" class="external-link">#74</a> <a href="https://github.com/r-spatial/spdep/issues/75" class="external-link">#75</a> <a href="https://github.com/r-spatial/spdep/issues/76" class="external-link">#76</a></p></li>
+<li><p><code><a href="../reference/localmoran.sad.html">localmoran.sad()</a></code>, <code><a href="../reference/localmoran.exact.html">localmoran.exact()</a></code> and <code><a href="../reference/localmoran.exact.html">localmoran.exact.alt()</a></code> will now use multiple compute nodes if needed; if <code>Omega</code> is used, multiple cores may need more memory <a href="https://github.com/r-spatial/spdep/issues/77" class="external-link">#77</a></p></li>
+<li><p>For <strong>s2</strong> &gt; 1.0.7, use indexed distances in <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> <a href="https://github.com/r-spatial/s2/pull/162" class="external-link uri">https://github.com/r-spatial/s2/pull/162</a>.</p></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2-1" id="version-12-1-2022-01-05">Version 1.2-1 (2022-01-05)<small>2022-01-04</small><a class="anchor" aria-label="anchor" href="#version-12-1-2022-01-05"></a></h2>
 <ul><li>Switching deprecated functions moved to <strong>spatialreg</strong> to defunct.</li>
 </ul></div>
     <div class="section level2">
@@ -135,7 +143,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

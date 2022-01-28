@@ -1,3 +1,185 @@
+2022-01-24  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* NEWS.md, R/localmoran.exact.R, R/moran.exact.alt.R,
+	R/mtlocalmoran.R, man/localmoran.exact.Rd, man/localmoran.sad.Rd: 
+	fixes #77; switch alternative to two.sided
+
+2022-01-24  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* R/localC.R: speed up multilocal C
+
+2022-01-22  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* NEWS.md, R/mtlocalmoran.R: mc for SAD #77
+
+2022-01-22  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* R/localG.R: correct Gi internals colnames
+
+2022-01-21  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* NEWS.md: fixes #76
+
+2022-01-21  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* R/localC.R, man/localC.Rd: fixes #76
+
+2022-01-21  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* : commit 104c20319123a85ba934915f9f1296f4c5c719bf Merge: c2edcde
+	a04c1ae Author: Roger Bivand <rsbivand@users.noreply.github.com>
+	Date:   Fri Jan 21 11:57:05 2022 +0100
+
+2022-01-21  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* NEWS.md, R/dnearneigh.R, R/lisa_perm.R, R/localG.R,
+	R/localmoran.R, man/dnearneigh.Rd, man/localG.Rd,
+	man/localmoran.Rd, vignettes/nb_sf.Rmd: before PR merge
+
+2022-01-21  Roger Bivand <rsbivand@users.noreply.github.com>
+
+	* man/localC.Rd: Update localC.Rd
+
+2022-01-20  Roger Bivand <rsbivand@users.noreply.github.com>
+
+	* man/localC.Rd: Update localC.Rd
+
+2022-01-15  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* R/localC.R, man/localC.Rd: localC_perm multi
+
+2022-01-14  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* R/localC.R, man/localC.Rd: localC_perm multi
+
+2022-01-11  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* NEWS.md: tidy
+
+2022-01-11  Roger Bivand <rsbivand@users.noreply.github.com>
+
+	* : Merge pull request #73 from JosiahParry/localC-doc Document pseudo-p attribute for localC
+
+2022-01-10  josiahparry <josiah.parry@gmail.com>
+
+	* man/localC.Rd: add pseudo-p column documentation
+
+2022-01-10  josiahparry <josiah.parry@gmail.com>
+
+	* R/localC.R: add colnames to pseudo-p when conditional = FALSE
+
+2022-01-06  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* NEWS.md, man/EBlocal.Rd: EBlocal() NaN estimates
+
+2022-01-05  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* DESCRIPTION, NAMESPACE, NEWS.md, R/plot.skater.R: remove rainbow()
+
+2022-01-04  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* README.md, docs/index.html: update docs
+
+2022-01-04  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* docs/articles/CO69.html, docs/articles/nb_sf.html,
+	docs/index.html, docs/pkgdown.yml, docs/reference/EBImoran.mc.html,
+	docs/reference/bhicv.html, docs/reference/dnearneigh.html,
+	docs/reference/geary.mc.html, docs/reference/knearneigh.html,
+	docs/reference/mstree.html, docs/reference/nb2lines.html,
+	docs/reference/poly2nb.html: update docs
+
+2022-01-04  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* README.md: update docs
+
+2022-01-04  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* docs/404.html, docs/articles/CO69.html, docs/articles/index.html,
+	docs/articles/nb.html, docs/articles/nb_igraph.html,
+	docs/articles/nb_sf.html, docs/articles/sids.html,
+	docs/authors.html, docs/index.html, docs/news/index.html,
+	docs/pkgdown.yml, docs/reference/COL.OLD.html,
+	docs/reference/EBImoran.mc.html, docs/reference/EBest.html,
+	docs/reference/EBlocal.html, docs/reference/LOSH.cs.html,
+	docs/reference/LOSH.html, docs/reference/LOSH.mc.html,
+	docs/reference/aggregate.nb.html, docs/reference/airdist.html,
+	docs/reference/aple.html, docs/reference/aple.mc.html,
+	docs/reference/aple.plot.html, docs/reference/autocov_dist.html,
+	docs/reference/bhicv.html, docs/reference/card.html,
+	docs/reference/cell2nb.html, docs/reference/choynowski.html,
+	docs/reference/columbus.html, docs/reference/compon.html,
+	docs/reference/diffnb.html, docs/reference/dnearneigh.html,
+	docs/reference/droplinks.html, docs/reference/edit.nb.html,
+	docs/reference/eire.html, docs/reference/geary.html,
+	docs/reference/geary.mc.html, docs/reference/geary.test.html,
+	docs/reference/globalG.test.html, docs/reference/graphneigh.html,
+	docs/reference/grid2nb.html, docs/reference/include.self.html,
+	docs/reference/index.html, docs/reference/invIrM.html,
+	docs/reference/joincount.mc.html,
+	docs/reference/joincount.multi.html,
+	docs/reference/joincount.test.html, docs/reference/knearneigh.html,
+	docs/reference/knn2nb.html, docs/reference/lag.listw.html,
+	docs/reference/lee.html, docs/reference/lee.mc.html,
+	docs/reference/lee.test.html, docs/reference/listw2sn.html,
+	docs/reference/lm.LMtests.html,
+	docs/reference/lm.morantest.exact.html,
+	docs/reference/lm.morantest.html,
+	docs/reference/lm.morantest.sad.html, docs/reference/localC.html,
+	docs/reference/localG.html, docs/reference/localmoran.exact.html,
+	docs/reference/localmoran.html, docs/reference/localmoran.sad.html,
+	docs/reference/mat2listw.html, docs/reference/moran.html,
+	docs/reference/moran.mc.html, docs/reference/moran.plot.html,
+	docs/reference/moran.test.html, docs/reference/mstree.html,
+	docs/reference/nb2INLA.html, docs/reference/nb2WB.html,
+	docs/reference/nb2blocknb.html, docs/reference/nb2lines.html,
+	docs/reference/nb2listw.html, docs/reference/nb2listwdist.html,
+	docs/reference/nb2mat.html, docs/reference/nbcosts.html,
+	docs/reference/nbdists.html, docs/reference/nblag.html,
+	docs/reference/nboperations.html, docs/reference/p.adjustSP.html,
+	docs/reference/plot.mst.html, docs/reference/plot.nb.html,
+	docs/reference/plot.skater.html, docs/reference/poly2nb.html,
+	docs/reference/probmap.html, docs/reference/prunecost.html,
+	docs/reference/prunemst.html, docs/reference/read.gal.html,
+	docs/reference/read.gwt2nb.html, docs/reference/rotation.html,
+	docs/reference/set.mcOption.html,
+	docs/reference/set.spChkOption.html, docs/reference/skater.html,
+	docs/reference/sp.correlogram.html,
+	docs/reference/sp.mantel.mc.html,
+	docs/reference/spdep-defunct.html,
+	docs/reference/spdep-deprecated.html, docs/reference/spdep.html,
+	docs/reference/spweights.constants.html, docs/reference/ssw.html,
+	docs/reference/subset.listw.html, docs/reference/subset.nb.html,
+	docs/reference/summary.nb.html, docs/reference/testnb.html,
+	docs/reference/tolerance.nb.html, docs/reference/tri2nb.html,
+	docs/reference/write.nb.gal.html, docs/sitemap.xml: update docs
+
+2022-01-04  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* README.md: update description
+
+2022-01-04  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* DESCRIPTION, NEWS.md: update description
+
+2022-01-04  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* DESCRIPTION: reduce Imports
+
+2022-01-04  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* DESCRIPTION: reduce Imports
+
+2022-01-04  Roger Bivand <rsbivand@users.noreply.github.com>
+
+	* : Merge pull request #70 from r-spatial/defunct Defunct code now in **spatialreg** removed.
+
+2022-01-04  Roger Bivand <rsbivand@users.noreply.github.com>
+
+	* : commit dbdcd4e48d549be61b7bd3043c087270c3122784 Author: Roger
+	Bivand <Roger.Bivand@gmail.com> Date:   Mon Dec 13 15:31:52 2021
+	+0100
+
 2021-12-13  Roger Bivand <Roger.Bivand@gmail.com>
 
 	* docs/404.html, docs/articles/CO69.html, docs/articles/index.html,
@@ -190,6 +372,42 @@
 
 	* DESCRIPTION, NEWS.md, R/poly2nb.R,
 	inst/tinytest/test_poly2nb_snap.R, man/poly2nb.Rd: addressing #65
+
+2021-11-11  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* DESCRIPTION: tidy
+
+2021-11-10  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* R/lee.test.R, R/lee_internal.R, R/nb2listw.R,
+	man/localmoran.exact.Rd, man/localmoran.sad.Rd, vignettes/CO69.Rmd: 
+	execute defunct
+
+2021-11-10  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* DESCRIPTION, NAMESPACE, R/LR.spsarlm.R, R/ME.R,
+	R/SpatialFiltering.R, R/anova.sarlm.R, R/aple.R, R/aple.mc.R,
+	R/apleplot.R, R/bptest.sarlm.R, R/eigenw.R, R/error.hessian.R,
+	R/error.spsarlm.R, R/impacts.R, R/jacobian.R, R/jacobian_setup.R,
+	R/kpgm_new.R, R/lag.hessian.R, R/lag.spsarlm.R, R/lee.test.R,
+	R/lextrB.R, R/lextrW.R, R/listw2Matrix.R, R/listw2sn.R,
+	R/mcmcsamp.R, R/mess.R, R/moran.exact.R, R/nb2listw.R, R/nb2mat.R,
+	R/s2sls.R, R/sacsarlm.R, R/sarlm.R, R/spBreg.R, R/spautolm.R,
+	R/summary.spsarlm.R, man/aple.Rd, man/aple.mc.Rd, man/aple.plot.Rd,
+	man/compon.Rd, man/invIrM.Rd, man/mat2listw.Rd, man/nblag.Rd,
+	man/spdep-defunct.Rd, src/eminmaxC.c, src/init.c,
+	src/listw2Matrix.c, src/ml_sse.c, src/mom_calc.c, src/spdep.h,
+	vignettes/CO69.Rmd: execute defunct
+
+2021-11-09  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* vignettes/nb_igraph.Rmd: first stage defunct
+
+2021-11-09  Roger Bivand <Roger.Bivand@gmail.com>
+
+	* DESCRIPTION, NAMESPACE, NEWS.md, man/spdep-defunct.Rd,
+	man/spdep-deprecated.Rd, vignettes/nb_igraph.Rmd: first stage
+	defunct
 
 2021-11-08  Roger Bivand <Roger.Bivand@gmail.com>
 

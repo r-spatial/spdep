@@ -21,7 +21,7 @@ and its expectation and variance were given in Anselin (1995), but those from So
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
       </span>
     </div>
 
@@ -81,10 +81,10 @@ and its expectation and variance were given in Anselin (1995), but those from So
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">localmoran</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, conditional<span class="op">=</span><span class="cn">TRUE</span>,
-  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, p.adjust.method<span class="op">=</span><span class="st">"none"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,
+  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,
         spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
 <span class="fu">localmoran_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, 
-  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, p.adjust.method<span class="op">=</span><span class="st">"none"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,
+  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,
         spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span>, sample_Ei<span class="op">=</span><span class="cn">TRUE</span>, iseed<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
@@ -102,8 +102,6 @@ and its expectation and variance were given in Anselin (1995), but those from So
 <dd><p>default TRUE: expectation and variance are calculated using the conditional randomization null (Sokal 1998 Eqs. A7 &amp; A8). Elaboration of these changes available in Sauer et al. (2021). If FALSE: expectation and variance are calculated using the total randomization null (Sokal 1998 Eqs. A3 &amp; A4).</p></dd>
 <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of greater, less or two.sided (default).</p></dd>
-<dt>p.adjust.method</dt>
-<dd><p>a character string specifying the probability value adjustment for multiple tests, default "none"; see <code><a href="p.adjustSP.html">p.adjustSP</a></code>. Note that the number of multiple tests for each region is only taken as the number of neighbours + 1 for each region, rather than the total number of regions.</p></dd>
 <dt>mlvar</dt>
 <dd><p>default TRUE: values of local Moran's I are reported using the variance of the variable of interest (sum of squared deviances over n), but can be reported as the sample variance, dividing by (n-1) instead; both are used in other implementations.</p></dd>
 <dt>spChk</dt>
@@ -145,7 +143,7 @@ and its expectation and variance were given in Anselin (1995), but those from So
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.</p>
+    <p>Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself. For p-value adjustment, use <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust()</a></code> or <code><a href="p.adjustSP.html">p.adjustSP()</a></code> on the output vector.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -282,8 +280,7 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="co"># note equality for mean() only when the sum of weights equals</span></span>
 <span class="r-in"><span class="co"># the number of observations (thanks to Juergen Symanzik)</span></span>
-<span class="r-in"><span class="va">resI</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span>,</span>
-<span class="r-in"> p.adjust.method<span class="op">=</span><span class="st">"bonferroni"</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">resI</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/printCoefmat.html" class="external-link">printCoefmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>,</span>
 <span class="r-in"> check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   Ii        E.Ii      Var.Ii        Z.Ii</span>
@@ -330,49 +327,49 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 <span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                     2.9878e+00 -2.2835e-01  7.6320e-01  3.6814e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                     6.9467e+00 -2.9968e-01  4.2971e+00  3.4957e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          Pr.z....E.Ii..</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                       1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MALI                             1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SENEGAL                          0.7711</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BENIN                            1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MAURITANIA                       1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NIGER                            1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IVORY COAST                      1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GUINEA                           0.9215</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BURKINA FASO                     0.8849</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> LIBERIA                          1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SIERRA LEONE                     1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GHANA                            1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TOGO                             1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CAMEROON                         1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NIGERIA                          1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GABON                            1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CENTRAL AFRICAN REPUBLIC         0.7527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CHAD                             1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CONGO                            1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ZAIRE                            0.9246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ANGOLA                           0.7676</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> UGANDA                           0.0159</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> KENYA                            0.0036</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TANZANIA                         1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BURUNDI                          0.8545</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> RWANDA                           0.2472</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SOMALIA                          1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ETHIOPIA                         0.0269</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ZAMBIA                           1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ZIMBABWE                         1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MALAWI                           1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MOZAMBIQUE                       1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SOUTH AFRICA                     1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> LESOTHO                          1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BOTSWANA                         1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SWAZILAND                        1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MOROCCO                          1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ALGERIA                          1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TUNISIA                          1.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> LIBYA                            0.1205</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                            0.0021</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                            0.0014</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                       0.6890</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MALI                             0.1414</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SENEGAL                          0.1542</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BENIN                            0.2025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MAURITANIA                       0.6627</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NIGER                            0.4226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IVORY COAST                      0.1931</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GUINEA                           0.1536</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BURKINA FASO                     0.1264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> LIBERIA                          0.3207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SIERRA LEONE                     0.6294</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GHANA                            0.2644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> TOGO                             0.3826</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CAMEROON                         0.3462</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NIGERIA                          0.2348</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GABON                            0.5312</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CENTRAL AFRICAN REPUBLIC         0.1255</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHAD                             0.5223</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CONGO                            0.8934</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ZAIRE                            0.0925</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ANGOLA                           0.1919</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> UGANDA                           0.0026</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> KENYA                            0.0006</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> TANZANIA                         0.4668</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BURUNDI                          0.2136</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> RWANDA                           0.0494</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SOMALIA                          0.3408</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ETHIOPIA                         0.0067</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ZAMBIA                           0.4698</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ZIMBABWE                         0.9888</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MALAWI                           0.5524</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MOZAMBIQUE                       0.9057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SOUTH AFRICA                     0.2859</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> LESOTHO                          0.6533</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOTSWANA                         0.9304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SWAZILAND                        0.9521</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MOROCCO                          0.7767</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ALGERIA                          0.6847</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> TUNISIA                          0.4936</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> LIBYA                            0.0172</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                            0.0002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                            0.0005</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span>, method<span class="op">=</span><span class="st">"bonferroni"</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="localmoran-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="va">totcon</span> <span class="op">&lt;-</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">totcon</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">totcon</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
@@ -620,7 +617,7 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

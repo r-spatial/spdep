@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
       </span>
     </div>
 
@@ -98,13 +98,13 @@
 
     
     
-<div class="section level1">
-<h1 id="creating-neighbours">Creating Neighbours<a class="anchor" aria-label="anchor" href="#creating-neighbours"></a>
-</h1>
-<p>This vignette formed pp. 239–251 of the first edition of Bivand, R. S., Pebesma, E. and Gómez-Rubio V. (2008) <em>Applied Spatial Data Analysis with R</em>, Springer-Verlag, New York. It was retired from the second edition (2013) to accommodate material on other topics, and is made available in this form with the understanding of the publishers.</p>
 <div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<h2 id="creating-neighbours">Creating Neighbours<a class="anchor" aria-label="anchor" href="#creating-neighbours"></a>
 </h2>
+<p>This vignette formed pp. 239–251 of the first edition of Bivand, R. S., Pebesma, E. and Gómez-Rubio V. (2008) <em>Applied Spatial Data Analysis with R</em>, Springer-Verlag, New York. It was retired from the second edition (2013) to accommodate material on other topics, and is made available in this form with the understanding of the publishers.</p>
+<div class="section level3">
+<h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h3>
 <p>Creating spatial weights is a necessary step in using areal data, perhaps just to check that there is no remaining spatial patterning in residuals. The first step is to define which relationships between observations are to be given a non-zero weight, that is to choose the neighbour criterion to be used; the second is to assign weights to the identified neighbour links.</p>
 <p>The 281 census tract data set for eight central New York State counties featured prominently in <span class="citation">(Waller and Gotway 2004)</span> will be used in many of the examples, supplemented with tract boundaries derived from TIGER 1992 and distributed by SEDAC/CIESIN. The boundaries have been projected from geographical coordinates to UTM zone~18. This file is not identical with the boundaries used in the original source, but is very close and may be re-distributed, unlike the version used in the book. Starting from the census tract queen contiguities, where all touching polygons are neighbours, used in <span class="citation">(Waller and Gotway 2004)</span> and provided as a DBF file on their website, a GAL format file has been created and read into R.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -140,7 +140,7 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Loading required package: spData</span></code></pre>
 <pre><code><span class="co">## Loading required package: sf</span></code></pre>
-<pre><code><span class="co">## Linking to GEOS 3.10.1, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span></code></pre>
+<pre><code><span class="co">## Linking to GEOS 3.10.2, GDAL 3.4.1, PROJ 8.2.1; sf_use_s2() is TRUE</span></code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/NY_nb.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, region.id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">NY8</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>For the sake of simplicity in showing how to create neighbour objects, we work on a subset of the map consisting of the census tracts within Syracuse, although the same principles apply to the full data set. We retrieve the part of the neighbour list in Syracuse using the <code>subset</code> method.</p>
@@ -162,9 +162,9 @@
 <span class="co">## 1 most connected region:</span>
 <span class="co">## 136 with 9 links</span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="creating-contiguity-neighbours">Creating Contiguity Neighbours<a class="anchor" aria-label="anchor" href="#creating-contiguity-neighbours"></a>
-</h2>
+<div class="section level3">
+<h3 id="creating-contiguity-neighbours">Creating Contiguity Neighbours<a class="anchor" aria-label="anchor" href="#creating-contiguity-neighbours"></a>
+</h3>
 <p>We can create a copy of the same neighbours object for polygon contiguities using the <code><a href="../reference/poly2nb.html">poly2nb()</a></code> function in <strong>spdep</strong>. It takes an object extending the <code>SpatialPolygons</code> class as its first argument, and using heuristics identifies polygons sharing boundary points as neighbours. It also has a <code>snap=</code> argument, to allow the shared boundary points to be a short distance from one another.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span></code></pre></div>
@@ -205,9 +205,9 @@
 <p>Similar approaches may also be used to read ArcGIS coverage data by tallying the left neighbour and right neighbour arc indices with the polygons in the data set, using either <strong>RArcInfo</strong> or <strong>rgdal</strong>.</p>
 <p>In our Syracuse case, there are no exclaves or <code>islands' belonging to the data set, but not sharing boundary points within the snap distance. If the number of polygons is moderate, the missing neighbour links may be added interactively using the</code>edit()<code>method for</code>nb` objects, and displaying the polygon background. The same method may be used for removing links which, although contiguity exists, may be considered void, such as across a mountain range.</p>
 </div>
-<div class="section level2">
-<h2 id="creating-graph-based-neighbours">Creating Graph-Based Neighbours<a class="anchor" aria-label="anchor" href="#creating-graph-based-neighbours"></a>
-</h2>
+<div class="section level3">
+<h3 id="creating-graph-based-neighbours">Creating Graph-Based Neighbours<a class="anchor" aria-label="anchor" href="#creating-graph-based-neighbours"></a>
+</h3>
 <p>Continuing with irregularly located areal entities, it is possible to choose a point to represent the polygon-support entities. This is often the polygon centroid, which is not the average of the coordinates in each dimension, but takes proper care to weight the component triangles of the polygon by area. It is also possible to use other points, or if data are available, construct, for example population-weighted centroids. Once representative points are available, the criteria for neighbourhood can be extended from just contiguity to include graph measures, distance thresholds, and <span class="math inline">\(k\)</span>-nearest neighbours.</p>
 <p>The most direct graph representation of neighbours is to make a Delaunay triangulation of the points, shown in the first panel in the figure. The neighbour relationships are defined by the triangulation, which extends outwards to the convex hull of the points and which is planar. Note that graph-based representations construct the interpoint relationships based on Euclidean distance, with no option to use Great Circle distances for geographical coordinates. Because it joins distant points around the convex hull, it may be worthwhile to thin the triangulation as a Sphere of Influence (SOI) graph, removing links that are relatively long. Points are SOI neighbours if circles centred on the points, of radius equal to the points’ nearest neighbour distances, intersect in two places <span class="citation">(Avis and Horton 1985)</span>. Functions for graph-based neighbours were kindly contributed by Nicholas Lewin-Koh.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -219,7 +219,7 @@
   <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">soi.graph</a></span><span class="op">(</span><span class="va">Sy4_nb</span>, <span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span>
 <span class="op">}</span> <span class="kw">else</span> <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></code></pre></div>
 <pre><code><span class="co">## rgeos version: 0.5-9, (SVN revision 684)</span>
-<span class="co">##  GEOS runtime version: 3.10.1-CAPI-1.16.0 </span>
+<span class="co">##  GEOS runtime version: 3.10.2-CAPI-1.16.0 </span>
 <span class="co">##  Please note that rgeos will be retired by the end of 2023,</span>
 <span class="co">## plan transition to sf functions using GEOS at your earliest convenience.</span>
 <span class="co">##  GEOS using OverlayNG</span>
@@ -261,9 +261,9 @@
 <pre><code><span class="co">## Triangulation       Gabriel      Relative           SOI </span>
 <span class="co">##             1             1             1             1</span></code></pre>
 </div>
-<div class="section level2">
-<h2 id="distance-based-neighbours">Distance-Based Neighbours<a class="anchor" aria-label="anchor" href="#distance-based-neighbours"></a>
-</h2>
+<div class="section level3">
+<h3 id="distance-based-neighbours">Distance-Based Neighbours<a class="anchor" aria-label="anchor" href="#distance-based-neighbours"></a>
+</h3>
 <p>An alternative method is to choose the <span class="math inline">\(k\)</span> nearest points as neighbours – this adapts across the study area, taking account of differences in the densities of areal entities. Naturally, in the overwhelming majority of cases, it leads to asymmetric neighbours, but will ensure that all areas have <span class="math inline">\(k\)</span> neighbours. The <code><a href="../reference/knearneigh.html">knearneigh()</a></code> function returns an intermediate form converted to an <code>nb</code> object by <code><a href="../reference/knn2nb.html">knn2nb()</a></code>; <code><a href="../reference/knearneigh.html">knearneigh()</a></code> can also take a <code>longlat=</code> argument to handle geographical coordinates.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Sy8_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span>
@@ -354,9 +354,9 @@
 <span class="co">##    82.7  1505.0  3378.7  5865.8  8954.3 38438.1</span></code></pre>
 <p>If the areal entities are approximately regularly spaced, using distance-based neighbours is not necessarily a problem. Provided that care is taken to handle the side effects of “weighting” areas out of the analysis, using lists of neighbours with no-neighbour areas is not necessarily a problem either, but certainly ought to raise questions. Different disciplines handle the definition of neighbours in their own ways by convention; in particular, it seems that ecologists frequently use distance bands. If many distance bands are used, they approach the variogram, although the underlying understanding of spatial autocorrelation seems to be by contagion rather than continuous.</p>
 </div>
-<div class="section level2">
-<h2 id="higher-order-neighbours">Higher-Order Neighbours<a class="anchor" aria-label="anchor" href="#higher-order-neighbours"></a>
-</h2>
+<div class="section level3">
+<h3 id="higher-order-neighbours">Higher-Order Neighbours<a class="anchor" aria-label="anchor" href="#higher-order-neighbours"></a>
+</h3>
 <p>Distance bands can be generated by using a sequence of <code>d1</code> and <code>d2</code> argument values for the <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> function if needed to construct a spatial autocorrelogram as understood in ecology. In other conventions, correlograms are constructed by taking an input list of neighbours as the first-order sets, and stepping out across the graph to second-, third-, and higher-order neighbours based on the number of links traversed, but not permitting cycles, which could risk making <span class="math inline">\(i\)</span> a neighbour of <span class="math inline">\(i\)</span> itself <span class="citation">(O’Sullivan and Unwin 2003)</span>. The <code><a href="../reference/nblag.html">nblag()</a></code> function takes an existing neighbour list and returns a list of lists, from first to <code>maxlag=</code> order neighbours.</p>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">Sy0_nb_lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nblag.html">nblag</a></span><span class="op">(</span><span class="va">Sy0_nb</span>, maxlag<span class="op">=</span><span class="fl">9</span><span class="op">)</span>
@@ -381,9 +381,9 @@
 <span class="co">## ninth   63 0 0 0 0  0  0 0 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0</span></code></pre>
 <p>This shows how the wave of connectedness in the graph spreads to the third order, receding to the eighth order, and dying away at the ninth order - there are no tracts nine steps from each other in this graph. Both the distance bands and the graph step order approaches to spreading neighbourhoods can be used to examine the shape of relationship intensities in space, like the variogram, and can be used in attempting to look at the effects of scale.</p>
 </div>
-<div class="section level2">
-<h2 id="grid-neighbours">Grid Neighbours<a class="anchor" aria-label="anchor" href="#grid-neighbours"></a>
-</h2>
+<div class="section level3">
+<h3 id="grid-neighbours">Grid Neighbours<a class="anchor" aria-label="anchor" href="#grid-neighbours"></a>
+</h3>
 <p>When the data are known to be arranged in a regular, rectangular grid, the <code><a href="../reference/cell2nb.html">cell2nb()</a></code> function can be used to construct neighbour lists, including those on a torus. These are useful for simulations, because, since all areal entities have equal numbers of neighbours, and there are no edges, the structure of the graph is as neutral as can be achieved. Neighbours can either be of type rook or queen.</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7</span>, type<span class="op">=</span><span class="st">"rook"</span>, torus<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -418,9 +418,9 @@
 <span class="co">##    1    2    3    4 </span>
 <span class="co">##    1  133  121 2848</span></code></pre>
 </div>
-<div class="section level2 unnumbered">
-<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h2>
+<div class="section level3">
+<h3 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-avis+horton:1985" class="csl-entry">
 Avis, D., and J. Horton. 1985. <span>“Remarks on the Sphere of Influence Graph.”</span> In <em>Discrete Geometry and Convexity</em>, edited by J. E. Goodman, 323–27. New York: New York Academy of Sciences, New York.
@@ -459,7 +459,7 @@ Waller, L. A., and C. A. Gotway. 2004. <em>Applied Spatial Statistics for Public
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

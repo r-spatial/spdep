@@ -23,7 +23,7 @@ critical values may be found (see also details below)."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
       </span>
     </div>
 
@@ -84,9 +84,10 @@ critical values may be found (see also details below).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">localG</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_internals<span class="op">=</span><span class="cn">FALSE</span>, GeoDa<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu">localG_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_internals<span class="op">=</span><span class="cn">FALSE</span>,
- iseed<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">localG</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_internals<span class="op">=</span><span class="cn">FALSE</span>, GeoDa<span class="op">=</span><span class="cn">FALSE</span>,
+ alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span>
+<span class="fu">localG_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_internals<span class="op">=</span><span class="cn">TRUE</span>,
+ alternative <span class="op">=</span> <span class="st">"two.sided"</span>, iseed<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -100,11 +101,13 @@ critical values may be found (see also details below).</p>
 <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
 <dt>return_internals</dt>
-<dd><p>default FALSE, if TRUE, return internal values of G, EI and VG as as attribute matrix</p></dd>
+<dd><p>default FALSE but TRUE for permutation version, if TRUE, return internal values of G, EI and VG as as attribute matrix</p></dd>
 <dt>GeoDa</dt>
 <dd><p>default FALSE, if TRUE, drop x values for no-neighbour and self-neighbour only observations from all summations</p></dd>
 <dt>nsim</dt>
 <dd><p>default 499, number of conditonal permutation simulations</p></dd>
+<dt>alternative</dt>
+<dd><p>a character string specifying the alternative hypothesis, must be one of <code>"two.sided"</code> (default), <code>"greater"</code> or <code>"less"</code>.</p></dd>
 <dt>iseed</dt>
 <dd><p>default NULL, used to set the seed for possible parallel RNGs</p></dd>
 </dl></div>
@@ -221,7 +224,7 @@ International), 261--277; Bivand RS, Wong DWS 2018 Comparing implementations of 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

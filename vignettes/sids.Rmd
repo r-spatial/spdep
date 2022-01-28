@@ -43,7 +43,7 @@ library(spdep)
 ```
 
 We will be using the **spdep** and **spreg** packages, here version: `r spdep()[1]`, the **sf** package and the **tmap** package. The data from the sources
-referred to above is documented in the [help page](https://nowosad.github.io/spData/reference/nc.sids.html) for the `nc.sids`
+referred to above is documented in the help page for the `nc.sids`
 data set in **spData**. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the **maptools** package [^1]. These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.
 
 ```{r echo=TRUE,eval=TRUE}

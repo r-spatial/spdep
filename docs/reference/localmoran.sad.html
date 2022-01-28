@@ -25,7 +25,7 @@ approximation - is based on the randomisation assumption."><!-- mathjax --><scri
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
       </span>
     </div>
 
@@ -89,7 +89,7 @@ approximation - is based on the randomisation assumption.</p>
 
     <div id="ref-usage">
     <div class="sourceCode"><pre><code>localmoran.sad(model, select, nb, glist=NULL, style="W",
- zero.policy=NULL, alternative="greater", spChk=NULL,
+ zero.policy=NULL, alternative="two.sided", spChk=NULL,
  resfun=weighted.residuals, save.Vi=FALSE,
  tol = .Machine$double.eps^0.5, maxiter = 1000, tol.bounds=0.0001,
  save.M=FALSE, Omega = NULL)
@@ -232,59 +232,59 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-in"><span class="va">e.locmor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">e.locmor</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.21699668      0.74177148 2.291129e-01  0.95074844</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.37257361     -0.81297374 7.918834e-01 -1.00603119</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare          0.23197510      0.49502499 3.102912e-01  0.67166518</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork           0.78193548      1.75999915 3.920398e-02  1.74761575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal       -1.69064059     -1.98244914 9.762855e-01 -1.72031078</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin        -0.16069692     -0.15041940 5.597831e-01 -0.35212627</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway         1.31371473      3.34305297 4.143104e-04  2.66849536</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry          0.36534866      0.58147812 2.804591e-01  0.78073279</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare       -0.02557544      0.15146558 4.398042e-01  0.04167665</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny      0.57684331      1.62868431 5.168993e-02  1.70897697</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis      -0.05951798      0.01724651 4.931200e-01 -0.12155465</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim       0.38484587      1.27548777 1.010683e-01  1.47227033</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick      0.11817987      0.34038037 3.667850e-01  0.45727712</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford      1.41643200      3.10732224 9.439524e-04  2.51113769</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth         0.56242920      0.87665682 1.903365e-01  1.07441571</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo          0.87572704      2.02375701 2.149758e-02  2.05251226</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath         0.00367856      0.16081712 4.361187e-01  0.12813539</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan      0.55098311      1.06684464 1.430210e-01  1.23999193</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly        0.15155556      0.61933942 2.678464e-01  0.80786519</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon     2.04368839      6.66107106 1.359196e-11  4.53187292</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo        -0.47579871     -0.73430274 7.686179e-01 -0.94578114</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary    -0.03454106      0.04843351 4.806854e-01 -0.06919691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford     0.85723423      1.98516133 2.356326e-02  1.91385108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath     0.45138572      1.20305006 1.144785e-01  1.36017204</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.64371834      1.55468550 6.001049e-02  1.63188492</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow       0.02441950      0.21823347 4.136236e-01  0.21197000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.21699668      0.74177148 4.582258e-01  0.95074844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.37257361     -0.81297374 1.583767e+00 -1.00603119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare          0.23197510      0.49502499 6.205825e-01  0.67166518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork           0.78193548      1.75999915 7.840795e-02  1.74761575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal       -1.69064059     -1.98244914 1.952571e+00 -1.72031078</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin        -0.16069692     -0.15041940 1.119566e+00 -0.35212627</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway         1.31371473      3.34305297 8.286208e-04  2.66849536</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry          0.36534866      0.58147812 5.609183e-01  0.78073279</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare       -0.02557544      0.15146558 8.796085e-01  0.04167665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny      0.57684331      1.62868431 1.033799e-01  1.70897697</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis      -0.05951798      0.01724651 9.862400e-01 -0.12155465</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim       0.38484587      1.27548777 2.021367e-01  1.47227033</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick      0.11817987      0.34038037 7.335701e-01  0.45727712</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford      1.41643200      3.10732224 1.887905e-03  2.51113769</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth         0.56242920      0.87665682 3.806731e-01  1.07441571</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo          0.87572704      2.02375701 4.299516e-02  2.05251226</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath         0.00367856      0.16081712 8.722374e-01  0.12813539</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan      0.55098311      1.06684464 2.860420e-01  1.23999193</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly        0.15155556      0.61933942 5.356928e-01  0.80786519</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon     2.04368839      6.66107106 2.718381e-11  4.53187292</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo        -0.47579871     -0.73430274 1.537236e+00 -0.94578114</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary    -0.03454106      0.04843351 9.613708e-01 -0.06919691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford     0.85723423      1.98516133 4.712653e-02  1.91385108</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath     0.45138572      1.20305006 2.289569e-01  1.36017204</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.64371834      1.55468550 1.200210e-01  1.63188492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow       0.02441950      0.21823347 8.272472e-01  0.21197000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                 Pr. (Sad) Expectation   Variance   Skewness Kurtosis    Minimum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     1.708660e-01 -0.06471134 0.14423085 -0.7895263 7.059116  -5.461326</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      8.427997e-01 -0.04030838 0.16703857 -0.4622793 6.813004  -5.567356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare      2.508984e-01 -0.04219377 0.30674823 -0.3579185 6.761932  -7.406885</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork       4.026529e-02 -0.04363826 0.22003250 -0.4363325 6.799081  -6.360927</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal    9.573120e-01 -0.11935726 0.62821008 -0.7004303 6.979051 -11.236382</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin     6.376282e-01 -0.08240217 0.27093033 -0.7352902 7.009201  -7.420687</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway     3.809592e-03 -0.04389010 0.16491503 -0.5059997 6.838308  -5.573707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry      2.174798e-01 -0.03212369 0.46724761 -0.2212594 6.714810  -8.915104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare    4.833782e-01 -0.07623733 0.11187546 -1.0416026 7.339962  -4.999621</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny  4.372761e-02 -0.05911601 0.15247016 -0.7040737 6.982131  -5.538889</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis   5.483741e-01 -0.06620117 0.15016408 -0.7915137 7.061015  -5.574277</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim   7.047395e-02 -0.06828680 0.12621127 -0.8864130 7.157471  -5.186756</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick  3.237359e-01 -0.04172917 0.22070746 -0.4167943 6.789132  -6.348870</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford  6.017137e-03 -0.04055162 0.21985521 -0.4059156 6.783792  -6.324457</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth     1.413182e-01 -0.04386717 0.47831137 -0.2983105 6.738631  -9.149779</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo      2.005995e-02 -0.10340651 0.23408152 -0.9804377 7.264328  -7.165847</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath     4.490209e-01 -0.04799533 0.10324707 -0.6949022 6.974408  -4.551176</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan  1.074892e-01 -0.04136950 0.30828917 -0.3501006 6.758633  -7.415047</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly    2.095841e-01 -0.04662212 0.10238870 -0.6782821 6.960676  -4.519986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon 2.923151e-06 -0.04435301 0.09826301 -0.6591526 6.945294  -4.414164</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo     8.278699e-01 -0.11041170 0.24760301 -1.0156782 7.307311  -7.409091</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary 5.275836e-01 -0.04872132 0.08571886 -0.7716947 7.042300  -4.198353</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford 2.781959e-02 -0.05435079 0.21086415 -0.5533724 6.868342  -6.353514</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 8.688774e-02 -0.04181671 0.16806722 -0.4779156 6.821788  -5.599610</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   5.135187e-02 -0.05432673 0.20159596 -0.5654870 6.876461  -6.225016</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   4.160652e-01 -0.07022471 0.18808122 -0.7515626 7.023792  -6.198974</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     3.417321e-01 -0.06471134 0.14423085 -0.7895263 7.059116  -5.461326</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      3.144006e-01 -0.04030838 0.16703857 -0.4622793 6.813004  -5.567356</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare      5.017969e-01 -0.04219377 0.30674823 -0.3579185 6.761932  -7.406885</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork       8.053059e-02 -0.04363826 0.22003250 -0.4363325 6.799081  -6.360927</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal    8.537596e-02 -0.11935726 0.62821008 -0.7004303 6.979051 -11.236382</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin     7.247436e-01 -0.08240217 0.27093033 -0.7352902 7.009201  -7.420687</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway     7.619183e-03 -0.04389010 0.16491503 -0.5059997 6.838308  -5.573707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry      4.349597e-01 -0.03212369 0.46724761 -0.2212594 6.714810  -8.915104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare    9.667565e-01 -0.07623733 0.11187546 -1.0416026 7.339962  -4.999621</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny  8.745521e-02 -0.05911601 0.15247016 -0.7040737 6.982131  -5.538889</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis   9.032517e-01 -0.06620117 0.15016408 -0.7915137 7.061015  -5.574277</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim   1.409479e-01 -0.06828680 0.12621127 -0.8864130 7.157471  -5.186756</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick  6.474719e-01 -0.04172917 0.22070746 -0.4167943 6.789132  -6.348870</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford  1.203427e-02 -0.04055162 0.21985521 -0.4059156 6.783792  -6.324457</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth     2.826364e-01 -0.04386717 0.47831137 -0.2983105 6.738631  -9.149779</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo      4.011990e-02 -0.10340651 0.23408152 -0.9804377 7.264328  -7.165847</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath     8.980418e-01 -0.04799533 0.10324707 -0.6949022 6.974408  -4.551176</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan  2.149784e-01 -0.04136950 0.30828917 -0.3501006 6.758633  -7.415047</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly    4.191682e-01 -0.04662212 0.10238870 -0.6782821 6.960676  -4.519986</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon 5.846302e-06 -0.04435301 0.09826301 -0.6591526 6.945294  -4.414164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo     3.442602e-01 -0.11041170 0.24760301 -1.0156782 7.307311  -7.409091</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary 9.448329e-01 -0.04872132 0.08571886 -0.7716947 7.042300  -4.198353</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford 5.563919e-02 -0.05435079 0.21086415 -0.5533724 6.868342  -6.353514</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 1.737755e-01 -0.04181671 0.16806722 -0.4779156 6.821788  -5.599610</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   1.027037e-01 -0.05432673 0.20159596 -0.5654870 6.876461  -6.225016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   8.321304e-01 -0.07022471 0.18808122 -0.7515626 7.023792  -6.198974</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               Maximum        omega       sad.r       sad.u</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     3.908254  0.071122863  0.71853146  0.84900467</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      4.599954 -0.051532330 -0.69003582 -0.85816092</span>
@@ -338,59 +338,59 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-in"><span class="va">e.locmorw1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.wlm</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, resfun<span class="op">=</span><span class="va">weighted.residuals</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">e.locmorw1</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow        0.160490657      0.41009538 3.408680e-01  0.57729730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan        -0.144663771     -0.27825575 6.095920e-01 -0.45305168</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare         0.301676582      0.59021701 2.775226e-01  0.78987327</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork          1.520488153      3.49016956 2.413571e-04  2.83665634</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal      -0.435899664     -0.44665946 6.724395e-01 -0.67136090</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin       -0.340222996     -0.60886675 7.286936e-01 -0.85658016</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway        1.469009037      3.64546192 1.334560e-04  2.82274510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry         0.268957279      0.49517211 3.102393e-01  0.66861012</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare       0.002996577      0.12659200 4.496317e-01  0.09978249</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny     0.497968801      1.20610829 1.138879e-01  1.34091379</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis     -0.026328708     -0.01713904 5.068372e-01 -0.06511750</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim      0.277306386      0.80644537 2.099930e-01  1.01176491</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick     0.263122939      0.67591893 2.495461e-01  0.87759628</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford     0.605211711      1.23874274 1.077204e-01  1.35375850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth        0.359469683      0.53572990 2.960726e-01  0.73280188</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo         1.742480472      3.68118786 1.160749e-04  3.01500163</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath       -0.112171618     -0.26680698 6.051911e-01 -0.45470531</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan     0.241044892      0.46013751 3.227088e-01  0.64094159</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly       0.129191178      0.40988983 3.409434e-01  0.57205532</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon    1.469671750      4.39927211 5.430728e-06  3.13215267</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo        0.095559559      0.31036587 3.781414e-01  0.38503064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary    0.088352646      0.39958273 3.447319e-01  0.52592105</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford    1.212658861      2.69846035 3.483052e-03  2.29292584</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath    0.256165310      0.61222265 2.701952e-01  0.81620859</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford      0.619197906      1.31967483 9.347180e-02  1.42553832</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow      0.006531073      0.13142161 4.477209e-01  0.10986725</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 Pr. (Sad) Expectation   Variance   Skewness Kurtosis    Minimum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     0.2818693197 -0.01840558 0.19029731 -0.1986977 6.709176  -5.665283</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      0.6747442370 -0.02184465 0.19482455 -0.2329761 6.717975  -5.769371</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare      0.2148008928 -0.02782578 0.31166901 -0.2346279 6.718435  -7.299407</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork       0.0022794326 -0.07147410 0.20805228 -0.7280203 7.002789  -6.495227</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal    0.7490046749 -0.07638800 0.64784767 -0.4450323 6.803659 -10.931345</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin     0.8041615226 -0.11187469 0.14065367 -1.3324828 7.767845  -5.846924</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway     0.0023807205 -0.04407925 0.17227545 -0.4973247 6.833103  -5.688263</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry      0.2518721070 -0.05644300 0.43184063 -0.4031537 6.782459  -8.859407</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare    0.4602585046 -0.04145378 0.12329287 -0.5519841 6.867423  -4.857131</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny  0.0899742229 -0.02321457 0.18672759 -0.2528322 6.723714  -5.669156</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis   0.5259597777 -0.01882531 0.19166504 -0.2024943 6.710081  -5.689691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim   0.1558252365 -0.03314655 0.14819776 -0.4041387 6.782933  -5.190860</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick  0.1900814236 -0.04800976 0.21188592 -0.4885390 6.827925  -6.298874</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford  0.0879067180 -0.01321709 0.24923967 -0.1247567 6.694960  -6.392250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth     0.2318396371 -0.02272663 0.50895713 -0.1500895 6.699098  -9.179410</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo      0.0012848894 -0.09458039 0.24904116 -0.8745463 7.144787  -7.272523</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath     0.6753393701 -0.02548973 0.10555100 -0.3685280 6.766525  -4.353122</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan  0.2607803159 -0.02333303 0.33012248 -0.1912612 6.707452  -7.451275</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly    0.2836422486 -0.01927989 0.13120470 -0.2505068 6.723017  -4.750083</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon 0.0008676481 -0.02385522 0.11525625 -0.3302939 6.750604  -4.517676</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo     0.3501073587 -0.06927688 0.28207107 -0.6087587 6.906925  -7.416881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary 0.2994715317 -0.03719246 0.09871568 -0.5534442 6.868390  -4.347214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford 0.0109261375 -0.04027429 0.21558757 -0.4070996 6.784366  -6.264083</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 0.2071904211 -0.01522814 0.19650786 -0.1618342 6.701275  -5.716689</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   0.0770008257 -0.02786850 0.24041626 -0.2674357 6.728234  -6.450174</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   0.4562573299 -0.04751424 0.16911517 -0.5404006 6.859847  -5.677417</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow        0.160490657      0.41009538 6.817360e-01  0.57729730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan        -0.144663771     -0.27825575 1.219184e+00 -0.45305168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare         0.301676582      0.59021701 5.550452e-01  0.78987327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork          1.520488153      3.49016956 4.827142e-04  2.83665634</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal      -0.435899664     -0.44665946 1.344879e+00 -0.67136090</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin       -0.340222996     -0.60886675 1.457387e+00 -0.85658016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway        1.469009037      3.64546192 2.669119e-04  2.82274510</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry         0.268957279      0.49517211 6.204786e-01  0.66861012</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare       0.002996577      0.12659200 8.992633e-01  0.09978249</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny     0.497968801      1.20610829 2.277757e-01  1.34091379</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis     -0.026328708     -0.01713904 1.013674e+00 -0.06511750</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim      0.277306386      0.80644537 4.199861e-01  1.01176491</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick     0.263122939      0.67591893 4.990921e-01  0.87759628</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford     0.605211711      1.23874274 2.154408e-01  1.35375850</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth        0.359469683      0.53572990 5.921452e-01  0.73280188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo         1.742480472      3.68118786 2.321499e-04  3.01500163</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath       -0.112171618     -0.26680698 1.210382e+00 -0.45470531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan     0.241044892      0.46013751 6.454175e-01  0.64094159</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly       0.129191178      0.40988983 6.818868e-01  0.57205532</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon    1.469671750      4.39927211 1.086146e-05  3.13215267</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo        0.095559559      0.31036587 7.562827e-01  0.38503064</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary    0.088352646      0.39958273 6.894639e-01  0.52592105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford    1.212658861      2.69846035 6.966104e-03  2.29292584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath    0.256165310      0.61222265 5.403905e-01  0.81620859</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford      0.619197906      1.31967483 1.869436e-01  1.42553832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow      0.006531073      0.13142161 8.954418e-01  0.10986725</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                Pr. (Sad) Expectation   Variance   Skewness Kurtosis    Minimum</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     0.563738639 -0.01840558 0.19029731 -0.1986977 6.709176  -5.665283</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      0.650511526 -0.02184465 0.19482455 -0.2329761 6.717975  -5.769371</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare      0.429601786 -0.02782578 0.31166901 -0.2346279 6.718435  -7.299407</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork       0.004558865 -0.07147410 0.20805228 -0.7280203 7.002789  -6.495227</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal    0.501990650 -0.07638800 0.64784767 -0.4450323 6.803659 -10.931345</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin     0.391676955 -0.11187469 0.14065367 -1.3324828 7.767845  -5.846924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway     0.004761441 -0.04407925 0.17227545 -0.4973247 6.833103  -5.688263</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry      0.503744214 -0.05644300 0.43184063 -0.4031537 6.782459  -8.859407</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare    0.920517009 -0.04145378 0.12329287 -0.5519841 6.867423  -4.857131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny  0.179948446 -0.02321457 0.18672759 -0.2528322 6.723714  -5.669156</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis   0.948080445 -0.01882531 0.19166504 -0.2024943 6.710081  -5.689691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim   0.311650473 -0.03314655 0.14819776 -0.4041387 6.782933  -5.190860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick  0.380162847 -0.04800976 0.21188592 -0.4885390 6.827925  -6.298874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford  0.175813436 -0.01321709 0.24923967 -0.1247567 6.694960  -6.392250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth     0.463679274 -0.02272663 0.50895713 -0.1500895 6.699098  -9.179410</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo      0.002569779 -0.09458039 0.24904116 -0.8745463 7.144787  -7.272523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath     0.649321260 -0.02548973 0.10555100 -0.3685280 6.766525  -4.353122</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan  0.521560632 -0.02333303 0.33012248 -0.1912612 6.707452  -7.451275</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly    0.567284497 -0.01927989 0.13120470 -0.2505068 6.723017  -4.750083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon 0.001735296 -0.02385522 0.11525625 -0.3302939 6.750604  -4.517676</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo     0.700214717 -0.06927688 0.28207107 -0.6087587 6.906925  -7.416881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary 0.598943063 -0.03719246 0.09871568 -0.5534442 6.868390  -4.347214</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford 0.021852275 -0.04027429 0.21558757 -0.4070996 6.784366  -6.264083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 0.414380842 -0.01522814 0.19650786 -0.1618342 6.701275  -5.716689</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   0.154001651 -0.02786850 0.24041626 -0.2674357 6.728234  -6.450174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   0.912514660 -0.04751424 0.16911517 -0.5404006 6.859847  -5.677417</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               Maximum        omega       sad.r       sad.u</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     5.223549  0.033637462  0.38794383  0.41751442</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      5.245099 -0.022294725 -0.26091513 -0.27432856</span>
@@ -421,59 +421,59 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-in"><span class="va">e.locmorw2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.wlm</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, resfun<span class="op">=</span><span class="va">rstudent</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">e.locmorw2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow        0.121997164      0.32185426 3.737816e-01  0.45871930</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan        -0.110588620     -0.20105599 5.796726e-01 -0.34808741</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare         0.308759283      0.60290381 2.732863e-01  0.80379674</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork          1.404203115      3.23522979 6.077244e-04  2.69598105</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal      -0.421182109     -0.42837428 6.658107e-01 -0.65187732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin       -0.443534307     -0.88433550 8.117424e-01 -1.05167518</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway        1.376190254      3.42183495 3.110003e-04  2.70663064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry         0.241623387      0.45357724 3.250666e-01  0.61515126</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare       0.008842913      0.14324202 4.430495e-01  0.12690939</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny     0.382893124      0.93980330 1.736592e-01  1.12810394</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis     -0.019904450     -0.00246494 5.009834e-01 -0.04176108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim      0.200483743      0.60688769 2.719627e-01  0.80241456</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick     0.238810092      0.62310059 2.666092e-01  0.81824678</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford     0.466942853      0.96178354 1.680792e-01  1.14088225</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth        0.271710988      0.41271732 3.399069e-01  0.58520655</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo         1.705850161      3.60778634 1.544103e-04  2.97346461</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath       -0.160603054     -0.41587901 6.612507e-01 -0.63254531</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan     0.181378604      0.35629110 3.608113e-01  0.50697175</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly       0.107919508      0.35116431 3.627325e-01  0.49312417</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon    1.249826037      3.75170355 8.781854e-05  2.81402777</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo        0.079431883      0.27999953 3.897389e-01  0.33741411</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary    0.085153638      0.38940098 3.484898e-01  0.51126046</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford    1.022922345      2.28982205 1.101582e-02  2.06385578</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath    0.201539331      0.48899468 3.124227e-01  0.67791734</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford      0.481114325      1.03805702 1.496218e-01  1.21094348</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow     -0.011694661      0.08710223 4.652951e-01  0.03786608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow        0.121997164      0.32185426 0.7475631028  0.45871930</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan        -0.110588620     -0.20105599 1.1593452023 -0.34808741</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare         0.308759283      0.60290381 0.5465726820  0.80379674</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork          1.404203115      3.23522979 0.0012154487  2.69598105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal      -0.421182109     -0.42837428 1.3316213558 -0.65187732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin       -0.443534307     -0.88433550 1.6234848706 -1.05167518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway        1.376190254      3.42183495 0.0006220006  2.70663064</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry         0.241623387      0.45357724 0.6501331373  0.61515126</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare       0.008842913      0.14324202 0.8860990418  0.12690939</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny     0.382893124      0.93980330 0.3473184643  1.12810394</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis     -0.019904450     -0.00246494 1.0019667357 -0.04176108</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim      0.200483743      0.60688769 0.5439254449  0.80241456</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick     0.238810092      0.62310059 0.5332184222  0.81824678</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford     0.466942853      0.96178354 0.3361583457  1.14088225</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth        0.271710988      0.41271732 0.6798137369  0.58520655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo         1.705850161      3.60778634 0.0003088206  2.97346461</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath       -0.160603054     -0.41587901 1.3225014587 -0.63254531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan     0.181378604      0.35629110 0.7216225742  0.50697175</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly       0.107919508      0.35116431 0.7254650854  0.49312417</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon    1.249826037      3.75170355 0.0001756371  2.81402777</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo        0.079431883      0.27999953 0.7794778655  0.33741411</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary    0.085153638      0.38940098 0.6969795442  0.51126046</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford    1.022922345      2.28982205 0.0220316342  2.06385578</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath    0.201539331      0.48899468 0.6248454598  0.67791734</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford      0.481114325      1.03805702 0.2992435100  1.21094348</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow     -0.011694661      0.08710223 0.9305902563  0.03786608</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                Pr. (Sad) Expectation   Variance   Skewness Kurtosis    Minimum</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     0.323217876 -0.01840558 0.19029731 -0.1986977 6.709176  -5.665283</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      0.636112729 -0.02184465 0.19482455 -0.2329761 6.717975  -5.769371</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare      0.210757187 -0.02782578 0.31166901 -0.2346279 6.718435  -7.299407</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork       0.003509083 -0.07147410 0.20805228 -0.7280203 7.002789  -6.495227</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal    0.742759841 -0.07638800 0.64784767 -0.4450323 6.803659 -10.931345</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin     0.853525699 -0.11187469 0.14065367 -1.3324828 7.767845  -5.846924</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway     0.003398492 -0.04407925 0.17227545 -0.4973247 6.833103  -5.688263</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry      0.269227417 -0.05644300 0.43184063 -0.4031537 6.782459  -8.859407</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare    0.449506058 -0.04145378 0.12329287 -0.5519841 6.867423  -4.857131</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny  0.129638014 -0.02321457 0.18672759 -0.2528322 6.723714  -5.669156</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis   0.516655419 -0.01882531 0.19166504 -0.2024943 6.710081  -5.689691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim   0.211156597 -0.03314655 0.14819776 -0.4041387 6.782933  -5.190860</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick  0.206608144 -0.04800976 0.21188592 -0.4885390 6.827925  -6.298874</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford  0.126959464 -0.01321709 0.24923967 -0.1247567 6.694960  -6.392250</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth     0.279204420 -0.02272663 0.50895713 -0.1500895 6.699098  -9.179410</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo      0.001472292 -0.09458039 0.24904116 -0.8745463 7.144787  -7.272523</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath     0.736484694 -0.02548973 0.10555100 -0.3685280 6.766525  -4.353122</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan  0.306087322 -0.02333303 0.33012248 -0.1912612 6.707452  -7.451275</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly    0.310962427 -0.01927989 0.13120470 -0.2505068 6.723017  -4.750083</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon 0.002446250 -0.02385522 0.11525625 -0.3302939 6.750604  -4.517676</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo     0.367902373 -0.06927688 0.28207107 -0.6087587 6.906925  -7.416881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary 0.304584343 -0.03719246 0.09871568 -0.5534442 6.868390  -4.347214</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford 0.019515696 -0.04027429 0.21558757 -0.4070996 6.784366  -6.264083</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 0.248912051 -0.01522814 0.19650786 -0.1618342 6.701275  -5.716689</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   0.112958534 -0.02786850 0.24041626 -0.2674357 6.728234  -6.450174</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   0.484897230 -0.04751424 0.16911517 -0.5404006 6.859847  -5.677417</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     0.646435751 -0.01840558 0.19029731 -0.1986977 6.709176  -5.665283</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      0.727774542 -0.02184465 0.19482455 -0.2329761 6.717975  -5.769371</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare      0.421514374 -0.02782578 0.31166901 -0.2346279 6.718435  -7.299407</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork       0.007018166 -0.07147410 0.20805228 -0.7280203 7.002789  -6.495227</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal    0.514480318 -0.07638800 0.64784767 -0.4450323 6.803659 -10.931345</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin     0.292948602 -0.11187469 0.14065367 -1.3324828 7.767845  -5.846924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway     0.006796983 -0.04407925 0.17227545 -0.4973247 6.833103  -5.688263</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry      0.538454834 -0.05644300 0.43184063 -0.4031537 6.782459  -8.859407</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare    0.899012117 -0.04145378 0.12329287 -0.5519841 6.867423  -4.857131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny  0.259276027 -0.02321457 0.18672759 -0.2528322 6.723714  -5.669156</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis   0.966689162 -0.01882531 0.19166504 -0.2024943 6.710081  -5.689691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim   0.422313193 -0.03314655 0.14819776 -0.4041387 6.782933  -5.190860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick  0.413216288 -0.04800976 0.21188592 -0.4885390 6.827925  -6.298874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford  0.253918927 -0.01321709 0.24923967 -0.1247567 6.694960  -6.392250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth     0.558408841 -0.02272663 0.50895713 -0.1500895 6.699098  -9.179410</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo      0.002944584 -0.09458039 0.24904116 -0.8745463 7.144787  -7.272523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath     0.527030613 -0.02548973 0.10555100 -0.3685280 6.766525  -4.353122</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan  0.612174643 -0.02333303 0.33012248 -0.1912612 6.707452  -7.451275</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly    0.621924855 -0.01927989 0.13120470 -0.2505068 6.723017  -4.750083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon 0.004892500 -0.02385522 0.11525625 -0.3302939 6.750604  -4.517676</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo     0.735804747 -0.06927688 0.28207107 -0.6087587 6.906925  -7.416881</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary 0.609168686 -0.03719246 0.09871568 -0.5534442 6.868390  -4.347214</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford 0.039031392 -0.04027429 0.21558757 -0.4070996 6.784366  -6.264083</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 0.497824103 -0.01522814 0.19650786 -0.1618342 6.701275  -5.716689</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   0.225917068 -0.02786850 0.24041626 -0.2674357 6.728234  -6.450174</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   0.969794461 -0.04751424 0.16911517 -0.5404006 6.859847  -5.677417</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               Maximum         omega        sad.r        sad.u</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow     5.223549  0.0272472954  0.306852385  0.321490350</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan      5.245099 -0.0166242430 -0.190223798 -0.196022741</span>
@@ -528,33 +528,33 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-in"><span class="va">e.clocmor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, Omega<span class="op">=</span><span class="va">Omega</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">e.clocmor</span></span>
 <span class="r-in"><span class="op">}</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)   Pr. (N) Saddlepoint Pr. (Sad)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.17958462      -0.5947094 0.7239811 -0.01890335 0.5075409</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.24752628      -0.9775195 0.8358440 -1.30903979 0.9047396</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare         -0.27901334      -0.9987481 0.8410416 -1.41535136 0.9215172</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork           0.37808655      -0.5304596 0.7021033  0.06399747 0.4744861</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal       -1.01894688      -1.4634181 0.9283235 -1.88871177 0.9705348</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin        -0.18171297      -0.9790853 0.8362311 -1.11436913 0.8674396</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway         1.02193390       0.9527103 0.1703684  1.44844014 0.0737470</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry         -0.94967914      -1.1410950 0.8730848 -2.37909992 0.9913225</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare        0.07005053      -0.6531380 0.7431663 -0.10338270 0.5411704</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny      0.43022231      -0.3097714 0.6216326  0.46873471 0.3196296</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis      -0.12239133      -0.9818401 0.8369107 -0.97718184 0.8357604</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim      -0.24203970      -0.9591963 0.8312701 -1.53246533 0.9372962</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick     -0.03214546      -0.7729433 0.7802220 -0.80301568 0.7890172</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford      0.38307454      -0.4899146 0.6879028  0.16621954 0.4339921</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth         0.21301552      -0.6509309 0.7424545 -0.21224290 0.5840412</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo          0.93971200       0.3895188 0.3484462  1.15011408 0.1250484</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath         0.12484415      -0.6182203 0.7317849 -0.09720926 0.5387199</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan     -0.16109919      -0.8608004 0.8053260 -1.20575831 0.8860447</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly       -0.00632492      -0.7740865 0.7805602 -0.33915072 0.6327519</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon     1.02089429       0.6454801 0.2593080  1.21215474 0.1127266</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo        -2.01629233      -1.8957526 0.9710036 -3.59571732 0.9998383</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary    -0.10810709      -0.9082666 0.8181313 -1.09721449 0.8637262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford     0.44099279      -0.3488980 0.6364171  0.41219202 0.3400993</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath    -0.06329661      -0.8267635 0.7958144 -0.81444158 0.7923040</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.30764883      -0.5219835 0.6991591  0.12395154 0.4506768</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow      -0.01696406      -0.7708237 0.7795943 -0.68244661 0.7525217</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)   Pr. (N) Saddlepoint    Pr. (Sad)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.17958462      -0.5947094 1.4479623 -0.01890335 0.9849182094</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.24752628      -0.9775195 1.6716880 -1.30903979 0.1905208730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 Clare         -0.27901334      -0.9987481 1.6820833 -1.41535136 0.1569655033</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4 Cork           0.37808655      -0.5304596 1.4042067  0.06399747 0.9489722434</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 Donegal       -1.01894688      -1.4634181 1.8566470 -1.88871177 0.0589304608</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Dublin        -0.18171297      -0.9790853 1.6724621 -1.11436913 0.2651208630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 Galway         1.02193390       0.9527103 0.3407369  1.44844014 0.1474939945</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8 Kerry         -0.94967914      -1.1410950 1.7461696 -2.37909992 0.0173549707</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9 Kildare        0.07005053      -0.6531380 1.4863327 -0.10338270 0.9176592420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 Kilkenny      0.43022231      -0.3097714 1.2432652  0.46873471 0.6392592768</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 Laoghis      -0.12239133      -0.9818401 1.6738214 -0.97718184 0.3284791344</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 Leitrim      -0.24203970      -0.9591963 1.6625401 -1.53246533 0.1254076468</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 Limerick     -0.03214546      -0.7729433 1.5604441 -0.80301568 0.4219656703</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Longford      0.38307454      -0.4899146 1.3758057  0.16621954 0.8679841837</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 Louth         0.21301552      -0.6509309 1.4849089 -0.21224290 0.8319175420</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 Mayo          0.93971200       0.3895188 0.6968924  1.15011408 0.2500968884</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 Meath         0.12484415      -0.6182203 1.4635699 -0.09720926 0.9225602151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 Monaghan     -0.16109919      -0.8608004 1.6106520 -1.20575831 0.2279106930</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 Offaly       -0.00632492      -0.7740865 1.5611204 -0.33915072 0.7344961920</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 Roscommon     1.02089429       0.6454801 0.5186161  1.21215474 0.2254531518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 Sligo        -2.01629233      -1.8957526 1.9420072 -3.59571732 0.0003234989</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 Tipperary    -0.10810709      -0.9082666 1.6362626 -1.09721449 0.2725476425</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 Waterford     0.44099279      -0.3488980 1.2728341  0.41219202 0.6801986844</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath    -0.06329661      -0.8267635 1.5916289 -0.81444158 0.4153920271</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.30764883      -0.5219835 1.3983182  0.12395154 0.9013536464</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow      -0.01696406      -0.7708237 1.5591886 -0.68244661 0.4949565905</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Expectation   Variance Skewness  Kurtosis       Minimum   Maximum</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow       0.8594106  1.3067303 2.362830 10.416149 -4.079299e-17 20.625856</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan        1.1247112  1.9706416 2.347202 10.347468  1.645654e+00 25.347414</span>
@@ -627,7 +627,7 @@ Geographical Analysis, 34, pp. 187--206.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

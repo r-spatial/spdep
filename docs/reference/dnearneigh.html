@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
       </span>
     </div>
 
@@ -73,7 +73,8 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">dnearneigh</span><span class="op">(</span><span class="va">x</span>, <span class="va">d1</span>, <span class="va">d2</span>, row.names <span class="op">=</span> <span class="cn">NULL</span>, longlat <span class="op">=</span> <span class="cn">NULL</span>, bounds<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"GE"</span>, <span class="st">"LE"</span><span class="op">)</span>,
- use_kd_tree<span class="op">=</span><span class="cn">TRUE</span>, symtest<span class="op">=</span><span class="cn">FALSE</span>, use_s2<span class="op">=</span><span class="cn">FALSE</span>, max_cells<span class="op">=</span><span class="fl">200</span>, dwithin<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+ use_kd_tree<span class="op">=</span><span class="cn">TRUE</span>, symtest<span class="op">=</span><span class="cn">FALSE</span>, use_s2<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span>, k<span class="op">=</span><span class="fl">200</span>,
+ dwithin<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -95,11 +96,11 @@
 <dt>symtest</dt>
 <dd><p>Default FALSE; before release 1.1-7, TRUE - run symmetry check on output object, costly with large numbers of points.</p></dd>
 <dt>use_s2</dt>
-<dd><p>default=FALSE, as of <span class="pkg">s2</span> 1.0-5, distance bound compuations do not use spatial indexing so even if <code><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf::sf_use_s2()</a></code> is TRUE, <span class="pkg">s2</span> will not be used for distances on the sphere for <code>"sf"</code> or <code>"sfc"</code> objects; the default will change when/if spatial indexing becomes available. Until then, setting <code>set.coresOption</code> to a positive integer will experimentaly use that number of cores on <code>.Platform$OS.type== "unix"</code> systems.</p></dd>
-<dt>max_cells</dt>
-<dd><p>default 200; if <code>use_s2=TRUE</code>, <code>sf::st_is_longlat(x) == TRUE</code>, <code>sf::sf_use_s2() == TRUE</code> and <code>dwithin=FALSE</code>, set <code>max_cells</code> in <code><a href="https://r-spatial.github.io/s2/reference/s2_boundary.html" class="external-link">s2::s2_buffer_cells()</a></code></p></dd>
+<dd><p>default=<code>packageVersion("s2") &gt; "1.0.7"</code>, as of <span class="pkg">s2</span> &gt; 1.0-7, distance bound computations use spatial indexing so when <code><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf::sf_use_s2()</a></code> is TRUE, <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_closest_edges()</a></code> will be used for distances on the sphere for <code>"sf"</code> or <code>"sfc"</code> objects if <span class="pkg">s2</span> &gt; 1.0-7.</p></dd>
+<dt>k</dt>
+<dd><p>default 200, the number of closest points to consider when searching when using <span class="pkg">s2</span></p></dd>
 <dt>dwithin</dt>
-<dd><p>default FALSE to use <code><a href="https://r-spatial.github.io/s2/reference/s2_boundary.html" class="external-link">s2::s2_buffer_cells()</a></code> and <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_intersects_matrix()</a></code>, if TRUE, use <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_dwithin_matrix()</a></code>, both if <code>use_s2=TRUE</code>, <code>sf::st_is_longlat(x) == TRUE</code> and <code>sf::sf_use_s2() == TRUE</code>; both yield the same lists of neighbours.</p></dd>
+<dd><p>default FALSE, if TRUE, use <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_dwithin_matrix()</a></code>, both if <code>use_s2=TRUE</code>, <code>sf::st_is_longlat(x) == TRUE</code> and <code>sf::sf_use_s2() == TRUE</code>; yields the same lists of neighbours as <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_closest_edges()</a></code>.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -320,149 +321,127 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 <span class="r-in"><span class="va">gck1b</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">xy1</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">gck1b</span>, <span class="va">xy1</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.011   0.000   0.011 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.012   0.000   0.011 </span>
 <span class="r-in"><span class="op">(</span><span class="va">all.linked</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 522.4464</span>
-<span class="r-in"><span class="co"># use s2 brute-force buffer/intersect approach (with two passes if d1 &gt; 0)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.139   0.000   0.139 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 218 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.461806 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.541667 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 region with no links:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Link number distribution:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0  1  2  3  4  5  6  7  8  9 10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  5  8  6  8  5  2  3  3  5  2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 least connected regions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 8 29 41 45 with 1 link</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 most connected regions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 28 with 10 links</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of link distances:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0     649    1289    1567    2347    3939 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   The decimal point is 3 digit(s) to the right of the |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 0000111122222233333333334444444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 5555555555556666666666666777777777888888888899999999999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 00000001111111222223333333333334444444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 555555677777888888999999999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 01112223333344</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 5566667778889999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 00001111123333444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 55566666667778888899</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># use s2 brute-force buffer/intersect approach with smaller max_cells</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, max_cells<span class="op">=</span><span class="fl">500</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.281   0.000   0.282 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 218 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.461806 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.541667 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 region with no links:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Link number distribution:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0  1  2  3  4  5  6  7  8  9 10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  5  8  6  8  5  2  3  3  5  2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5 least connected regions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 8 29 41 45 with 1 link</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2 most connected regions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7 28 with 10 links</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of link distances:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0     649    1289    1567    2347    3939 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   The decimal point is 3 digit(s) to the right of the |</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 0000111122222233333333334444444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 5555555555556666666666666777777777888888888899999999999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 00000001111111222223333333333334444444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 555555677777888888999999999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 01112223333344</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 5566667778889999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 00001111123333444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 55566666667778888899</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="co"># use s2 brute-force dwithin_matrix approach </span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, dwithin<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb.dwithin</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, dwithin<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.012   0.000   0.012 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.011   0.001   0.012 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 218 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.461806 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.541667 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 region with no links:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 220 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.548611 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.583333 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Link number distribution:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0  1  2  3  4  5  6  7  8  9 10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  5  8  6  8  5  2  3  3  5  2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  3  4  5  6  7  8  9 10 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5  9  6  8  5  2  3  3  5  2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 least connected regions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 8 29 41 45 with 1 link</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 4 8 41 45 with 1 link</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 most connected regions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 28 with 10 links</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of link distances:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0     649    1289    1567    2347    3939 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   93.71  303.44  380.87  371.83  468.73  522.45 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   The decimal point is 3 digit(s) to the right of the |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   The decimal point is 2 digit(s) to the right of the |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 0000111122222233333333334444444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 5555555555556666666666666777777777888888888899999999999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 00000001111111222223333333333334444444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 555555677777888888999999999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 01112223333344</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 5566667778889999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 00001111123333444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 55566666667778888899</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 00112233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 666699</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 00222222334444444444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 667788999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 000000001111111122222222222233333333334444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 555566666677777788888899999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4 | 0000001111223333444444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4 | 55555555556666666666777788888888889999999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5 | 0000000000111111111111222222222222</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="co"># use s2 closest_edges approach s2 &gt; 1.0.7</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb.closest</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, dwithin<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.015   0.000   0.015 </span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
+<span class="r-in"><span class="op">}</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 220 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.548611 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.583333 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Link number distribution:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  3  4  5  6  7  8  9 10 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5  9  6  8  5  2  3  3  5  2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5 least connected regions:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 4 8 41 45 with 1 link</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 most connected regions:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7 28 with 10 links</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of link distances:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   93.71  303.44  380.87  371.83  468.73  522.45 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   The decimal point is 2 digit(s) to the right of the |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 00112233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 666699</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 00222222334444444444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 667788999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 000000001111111122222222222233333333334444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 555566666677777788888899999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4 | 0000001111223333444444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4 | 55555555556666666666777788888888889999999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5 | 0000000000111111111111222222222222</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="co"># use legacy symmetric brute-force approach</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">gc.nb.legacy</span> <span class="op">&lt;-</span> <span class="fu">dnearneigh</span><span class="op">(</span><span class="va">xy1</span>, <span class="fl">0</span>, <span class="va">all.linked</span>, use_s2<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   0.007   0.000   0.007 </span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">xy1</span>, scale<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 218 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.461806 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.541667 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 region with no links:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 220 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.548611 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.583333 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Link number distribution:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0  1  2  3  4  5  6  7  8  9 10 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1  5  8  6  8  5  2  3  3  5  2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1  2  3  4  5  6  7  8  9 10 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5  9  6  8  5  2  3  3  5  2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 least connected regions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4 8 29 41 45 with 1 link</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 4 8 41 45 with 1 link</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 most connected regions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 28 with 10 links</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of link distances:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0     649    1289    1567    2347    3939 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   93.71  303.44  380.87  371.83  468.73  522.45 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   The decimal point is 3 digit(s) to the right of the |</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   The decimal point is 2 digit(s) to the right of the |</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 0000111122222233333333334444444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 5555555555556666666666666777777777888888888899999999999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 00000001111111222223333333333334444444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 555555677777888888999999999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 01112223333344</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 5566667778889999</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 00001111123333444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 55566666667778888899</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0 | 99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 00112233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1 | 666699</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 00222222334444444444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2 | 667788999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 000000001111111122222222222233333333334444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   3 | 555566666677777788888899999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4 | 0000001111223333444444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   4 | 55555555556666666666777788888888889999999999</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   5 | 0000000000111111111111222222222222</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">gc.nb.closest</span>, <span class="va">gc.nb.dwithin</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span class="co"># legacy is ellipsoidal, s2 spherical, so minor differences expected</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">gc.nb.closest</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Component 2: Mean relative difference: 1"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Component 29: Numeric: lengths (2, 1) differ"</span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">gc.nb</span>, <span class="va">gc.nb.dwithin</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Component 2: Mean relative difference: 1"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "Component 29: Numeric: lengths (2, 1) differ"</span>
 <span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="va">old_use_s2</span><span class="op">)</span></span>
 </code></pre></div>
     </div>
@@ -478,7 +457,7 @@ for neighbours satisfying the distance criteria. See <code><a href="card.html">c
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer></div>

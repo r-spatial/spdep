@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
       </span>
     </div>
 
@@ -98,17 +98,17 @@
 
     
     
-<div class="section level1">
-<h1 id="creating-neighbours-using-sf-objects">Creating Neighbours using sf objects<a class="anchor" aria-label="anchor" href="#creating-neighbours-using-sf-objects"></a>
-</h1>
 <div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+<h2 id="creating-neighbours-using-sf-objects">Creating Neighbours using sf objects<a class="anchor" aria-label="anchor" href="#creating-neighbours-using-sf-objects"></a>
 </h2>
+<div class="section level3">
+<h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h3>
 <p>This vignette tracks the legacy nb vignette, which was based on part of the first (2008) edition of ASDAR. It adds hints to the code in the nb vignette to use the sf vector representation instead of the sp vector representation to create neighbour objects. .</p>
 </div>
-<div class="section level2">
-<h2 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
-</h2>
+<div class="section level3">
+<h3 id="summary">Summary<a class="anchor" aria-label="anchor" href="#summary"></a>
+</h3>
 <p>This is a summary of the results below:</p>
 <ul>
 <li><p>In general, if you need to reproduce results from using <code>"Spatial"</code> objects in <strong>spdep</strong>, coerce sf objects to sp objects before constructing neighbour objects (particularly if polygon centroids are used for point representation).</p></li>
@@ -116,9 +116,9 @@
 <li><p>From <strong>spdep</strong> 1.1-7, a number of steps have been taken to choose more efficient approaches especially for larger data sets, using functions in <strong>sf</strong> and the approximate nearest neighbour (ANN) implementation in <strong>dbscan</strong> rather than <strong>RANN</strong>.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2 id="data-set">Data set<a class="anchor" aria-label="anchor" href="#data-set"></a>
-</h2>
+<div class="section level3">
+<h3 id="data-set">Data set<a class="anchor" aria-label="anchor" href="#data-set"></a>
+</h3>
 <p>We’ll use the whole NY 8 county set of boundaries, as they challenge the implementations more than just the Syracuse subset. The description of the input geometries from ADSAR is: New York leukemia: used and documented extensively in Waller and Gotway (2004) and with data formerly made available in Chap. 9 of <code>http://web1.sph.emory.edu/users/lwaller/ch9index.htm</code>; the data import process is described in the help file of NY_data in <strong>spData</strong>; geometries downloaded from the CIESIN server at <a href="https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download" class="external-link">https://sedac.ciesin.columbia.edu/data/set/acrp-boundary-1992/data-download</a>, file /pub/census/usa/tiger/ny/bna_st/t8_36.zip, and extensively edited; a zip archive NY_data.zip of shapefiles and a GAL format neighbours list is on the book website. Further, the zipfile is now at a new location requiring login. The object listw_NY is directly imported from nyadjwts.dbf on the Waller &amp; Gotway (2004) chapter 9 website.</p>
 <p>The version of the New York 8 counties geometries used in ASDAR and included as a shapefile in spdep was converted from the original BNA file using an external utility program to convert to MapInfo format and converted on from there using GDAL 1.4.1 (the OGR BNA driver was not then available; it entered OGR at 1.5.0, release at the end of 2007), and contains invalid geometries. What was found in mid-2007 was that included villages were in/excluded by in-out umbilical cords to the boundary of the enclosing tract, when the underlying BNA file was first converted to MapInfo (holes could not exist then).</p>
 <p>Here we will use a GPKG file created as follows (rgdal could also be used with the same output; GDAL here is built with GEOS, so the BNA vector driver will use geometry tests: The BNA driver supports reading of polygons with holes or lakes. It determines what is a hole or a lake only from geometrical analysis (inclusion, non-intersection tests) and ignores completely the notion of polygon winding (whether the polygon edges are described clockwise or counter-clockwise). GDAL must be built with GEOS enabled to make geometry test work.):</p>
@@ -134,16 +134,16 @@
 <span class="va">sf_bna2_utm18</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">sf_bna2</span>, <span class="st">"+proj=utm +zone=18 +datum=NAD27"</span><span class="op">)</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_write.html" class="external-link">st_write</a></span><span class="op">(</span><span class="va">sf_bna2_utm18</span>, <span class="st">"NY8_bna_utm18.gpkg"</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="nb-and-listw-objects-copied-from-the-nb_igraph-vignette">nb and listw objects (copied from the nb_igraph vignette)<a class="anchor" aria-label="anchor" href="#nb-and-listw-objects-copied-from-the-nb_igraph-vignette"></a>
-</h2>
+<div class="section level3">
+<h3 id="nb-and-listw-objects-copied-from-the-nb_igraph-vignette">nb and listw objects (copied from the nb_igraph vignette)<a class="anchor" aria-label="anchor" href="#nb-and-listw-objects-copied-from-the-nb_igraph-vignette"></a>
+</h3>
 <p>Since the <strong>spdep</strong> package was created, <em>spatial weights</em> objects have been constructed as lists with three components and a few attributes, in old-style class <code>listw</code> objects. The first component of a <code>listw</code> object is an <code>nb</code> object, a list of <code>n</code> integer vectors, with at least a character vector <code>region.id</code> attribute with <code>n</code> unique values (like the <code>row.names</code> of a <code>data.frame</code> object); <code>n</code> is the number of spatial entities. Component <code>i</code> of this list contains the integer identifiers of the neighbours of <code>i</code> as a sorted vector with no duplication and values in <code>1:n</code>; if <code>i</code> has no neighbours, the component is a vector of length <code>1</code> with value <code>0L</code>. The <code>nb</code> object may contain an attribute indicating whether it is symmetric or not, that is whether <code>i</code> is a neighbour of <code>j</code> implies that <code>j</code> is a neighbour of <code>i</code>. Some neighbour definitions are symmetric by construction, such as contiguities or distance thresholds, others are asymmetric, such as <code>k</code>-nearest neighbours. The <code>nb</code> object redundantly stores both <code>i</code>-<code>j</code> and <code>j</code>-<code>i</code> links.</p>
 <p>The second component of a <code>listw</code> object is a list of <code>n</code> numeric vectors, each of the same length as the corresponding non-zero vectors in the <code>nb</code>object. These give the values of the spatial weights for each <code>i</code>-<code>j</code> neighbour pair. It is often the case that while the neighbours are symmetric by construction, the weights are not, as for example when weights are <em>row-standardised</em> by dividing each row of input weights by the count of neighbours or cardinality of the neighbour set of <code>i</code>. In the <code>nb2listw</code>function, it is also possible to pass through general weights, such as inverse distances, shares of boundary lengths and so on.</p>
 <p>The third component of a <code>listw</code> object records the <code>style</code> of the weights as a character code, with <code>"B"</code> for binary weights taking values zero or one (only one is recorded), <code>"W"</code> for row-standardised weights, and so on. In order to subset <code>listw</code> objects, knowledge of the <code>style</code> may be necessary.</p>
 </div>
-<div class="section level2">
-<h2 id="comparison-of-sp-and-sf-approaches">Comparison of sp and sf approaches<a class="anchor" aria-label="anchor" href="#comparison-of-sp-and-sf-approaches"></a>
-</h2>
+<div class="section level3">
+<h3 id="comparison-of-sp-and-sf-approaches">Comparison of sp and sf approaches<a class="anchor" aria-label="anchor" href="#comparison-of-sp-and-sf-approaches"></a>
+</h3>
 <p>First some housekeeping and setup to permit this vignette to be built when packages are missing or out-of-date:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span>
@@ -152,7 +152,7 @@
 <span class="op">}</span>
 <span class="kw">if</span> <span class="op">(</span><span class="va">dothis</span><span class="op">)</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf_extSoftVersion.html" class="external-link">sf_extSoftVersion</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##           GEOS           GDAL         proj.4 GDAL_with_GEOS     USE_PROJ_H </span>
-<span class="co">##       "3.10.1"        "3.4.1"        "8.2.1"         "true"         "true" </span>
+<span class="co">##       "3.10.2"        "3.4.1"        "8.2.1"         "true"         "true" </span>
 <span class="co">##           PROJ </span>
 <span class="co">##        "8.2.1"</span></code></pre>
 <p>Let us read the GPKG file with valid geometries in to ‘sf’ and ‘sp’ objects:</p>
@@ -162,9 +162,9 @@
 <pre><code><span class="co">## </span>
 <span class="co">## TRUE </span>
 <span class="co">##  281</span></code></pre>
-<div class="section level3">
-<h3 id="contiguity-neighbours-for-polygon-support">Contiguity neighbours for polygon support<a class="anchor" aria-label="anchor" href="#contiguity-neighbours-for-polygon-support"></a>
-</h3>
+<div class="section level4">
+<h4 id="contiguity-neighbours-for-polygon-support">Contiguity neighbours for polygon support<a class="anchor" aria-label="anchor" href="#contiguity-neighbours-for-polygon-support"></a>
+</h4>
 <p>Here we first generate a queen contiguity nb object using the legacy spdep approach. This first either uses a pre-computed list of vectors of probable neighbours or finds intersecting bounding boxes internally. Then the points on the boundaries of each set of polygons making up an observation are checked for a distance less than snap to any of the points of the set of polygons making up an observation included in the set of candidate neighbours. Because contiguity is symmetric, only i to j contiguities are tested. A queen contiguity is found as soon as one point matches, a rook contiguity as soon as two points match:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span><span class="op">)</span>
@@ -172,7 +172,7 @@
 <span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY8_sf_1_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">NY8_sf</span>, queen<span class="op">=</span><span class="cn">TRUE</span>, snap<span class="op">=</span><span class="va">eps</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.1468  0.0039  0.1511</span></code></pre>
+<span class="co">##  0.1821  0.0053  0.1887</span></code></pre>
 <p>Using spatial indices to check intersection of polygons is much faster than the legacy method in poly2nb. From <strong>spdep</strong> 1.1-7, use is made of GEOS through <strong>sf</strong> to find candidate neighbours when <code>foundInBox=NULL</code>, the default value. Because contiguity is symmetric by definition, <code>foundInBox=</code> only requires intersections for higher indices, leading to a slight overhead to remove duplicates, as <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_intersects()</a></code> reports both <code>i j</code> ans <code>j i</code> relationships. As <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_intersects()</a></code> does not report whether neighbours are <code>queen</code> or <code>rook</code>, a further step is needed to distinguish the two cases.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY8_sf_1_nb</span></code></pre></div>
@@ -183,9 +183,9 @@
 <span class="co">## Average number of links: 5.807829</span></code></pre>
 <p>spdep::poly2nb uses two heuristics, first to find candidate neighbours from intersecting polygons (<code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_intersects()</a></code>), and second to use the symmetry of the relationship to halve the number of remaining tests. This means that performance is linear in n, but with overhead for identifying candidates, and back-filling symmetric neighbours. Further, <code><a href="../reference/poly2nb.html">spdep::poly2nb()</a></code> stops searching for queen contiguity as soon as the first neighbour point is found within snap distance (if not identical, which is tested first); a second neighbour point indicates rook contiguities. For details of alternatives for spherical geometries, see section @ref(spher-poly2nb) below.</p>
 </div>
-<div class="section level3">
-<h3 id="contiguity-neighbours-from-invalid-polygons">Contiguity neighbours from invalid polygons<a class="anchor" aria-label="anchor" href="#contiguity-neighbours-from-invalid-polygons"></a>
-</h3>
+<div class="section level4">
+<h4 id="contiguity-neighbours-from-invalid-polygons">Contiguity neighbours from invalid polygons<a class="anchor" aria-label="anchor" href="#contiguity-neighbours-from-invalid-polygons"></a>
+</h4>
 <p>Next, we explore a further possible source of differences in neighbour object reproduction, using the original version of the tract boundaries used in ASDAR, but with some invalid geometries as mentioned earlier:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY8_sf_old</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/NY8_utm18.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
@@ -244,12 +244,12 @@
 <pre><code><span class="co">## [1] TRUE</span></code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="planar-point-based-neighbours">Planar point-based neighbours<a class="anchor" aria-label="anchor" href="#planar-point-based-neighbours"></a>
-</h2>
 <div class="section level3">
-<h3 id="finding-points-for-polygon-objects">Finding points for polygon objects<a class="anchor" aria-label="anchor" href="#finding-points-for-polygon-objects"></a>
+<h3 id="planar-point-based-neighbours">Planar point-based neighbours<a class="anchor" aria-label="anchor" href="#planar-point-based-neighbours"></a>
 </h3>
+<div class="section level4">
+<h4 id="finding-points-for-polygon-objects">Finding points for polygon objects<a class="anchor" aria-label="anchor" href="#finding-points-for-polygon-objects"></a>
+</h4>
 <p><code><a href="../reference/knearneigh.html">knearneigh()</a></code> and <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> require point support, so decisions must be taken about how to place the point in the areal object. We can use <code><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid()</a></code> to get the centroids, using the <code>of_largest_polygon=TRUE</code> argument to make sure that the centroid is that of the largest polygon id the observation is made up of more than one external ring:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY8_ct_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">NY8_sf</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
@@ -265,9 +265,9 @@
 <code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_is_longlat.html" class="external-link">st_is_longlat</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [1] FALSE</span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="graph-based-neighbours">Graph-based neighbours<a class="anchor" aria-label="anchor" href="#graph-based-neighbours"></a>
-</h3>
+<div class="section level4">
+<h4 id="graph-based-neighbours">Graph-based neighbours<a class="anchor" aria-label="anchor" href="#graph-based-neighbours"></a>
+</h4>
 <p>From this, we can check the graph-based neighbours (planar coordinates only):</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">deldir</span><span class="op">)</span><span class="op">)</span>
@@ -278,23 +278,23 @@
 <span class="va">NY86_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">gabrielneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span><span class="op">)</span><span class="op">)</span>
 <span class="va">NY87_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">relativeneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="k-nearest-neighbours">K-nearest neighbours<a class="anchor" aria-label="anchor" href="#k-nearest-neighbours"></a>
-</h3>
+<div class="section level4">
+<h4 id="k-nearest-neighbours">K-nearest neighbours<a class="anchor" aria-label="anchor" href="#k-nearest-neighbours"></a>
+</h4>
 <p>K-nearest neighbours use the coordinate matrices, and can handle Great Circle distances, but this is not demonstrated here, as the data set used is planar, in which case <code><a href="https://rdrr.io/pkg/dbscan/man/kNN.html" class="external-link">dbscan::kNN()</a></code> in 2D or 3D building a kd-tree is used:</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY88_nb_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.0551  0.0013  0.0565</span></code></pre>
+<span class="co">##  0.0823  0.0023  0.0849</span></code></pre>
 <p>Legacy code may be used omitting the kd-tree:</p>
 <div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY89_nb_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, k<span class="op">=</span><span class="fl">1</span>, use_kd_tree<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.0562  0.0010  0.0573</span></code></pre>
+<span class="co">##  0.0803  0.0021  0.0827</span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="distance-neighbours">Distance neighbours<a class="anchor" aria-label="anchor" href="#distance-neighbours"></a>
-</h3>
+<div class="section level4">
+<h4 id="distance-neighbours">Distance neighbours<a class="anchor" aria-label="anchor" href="#distance-neighbours"></a>
+</h4>
 <p>Distance neighbours need a threshold - <code>nbdists</code> shows the maximum distance to first nearest neighbour:</p>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dsts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">NY88_nb_sf</span>, <span class="va">NY8_ct_sf</span><span class="op">)</span><span class="op">)</span>
@@ -307,25 +307,25 @@
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY810_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.0719  0.0020  0.0741</span></code></pre>
+<span class="co">##  0.0941  0.0027  0.0972</span></code></pre>
 <p>By default, the function uses <code><a href="https://rdrr.io/pkg/dbscan/man/frNN.html" class="external-link">dbscan::frNN()</a></code> to build a kd-tree in 2D or 3D which is then used to find distance neighbours. For small n, the argument <code>use_kd_tree=FALSE</code> may speed up computation a little by reverting to legacy code not building a kd-tree first, but in general the differences are so small that the user will not notice:</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY811_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, use_kd_tree<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.0549  0.0013  0.0563</span></code></pre>
+<span class="co">##  0.0780  0.0027  0.0811</span></code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="spherical-point-based-neighbours">Spherical point-based neighbours<a class="anchor" aria-label="anchor" href="#spherical-point-based-neighbours"></a>
-</h2>
+<div class="section level3">
+<h3 id="spherical-point-based-neighbours">Spherical point-based neighbours<a class="anchor" aria-label="anchor" href="#spherical-point-based-neighbours"></a>
+</h3>
 <p>Spherical point-based neighbours may be found using Great Circle distances. These have been used for many years, but the switch of <strong>sf</strong> 1.0-0 to use <strong>s2</strong> by default has opened up new opportunities where spatial indexing on the sphere may help.</p>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">pts_ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">NY8_ct_sf</span>, <span class="st">"OGC:CRS84"</span><span class="op">)</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_is_longlat.html" class="external-link">st_is_longlat</a></span><span class="op">(</span><span class="va">pts_ll</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [1] TRUE</span></code></pre>
-<div class="section level3">
-<h3 id="k-nearest-neighbours-1">K-nearest neighbours<a class="anchor" aria-label="anchor" href="#k-nearest-neighbours-1"></a>
-</h3>
+<div class="section level4">
+<h4 id="k-nearest-neighbours-1">K-nearest neighbours<a class="anchor" aria-label="anchor" href="#k-nearest-neighbours-1"></a>
+</h4>
 <p>If the input geometries are in geographical coordinates, and <code><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2()</a></code> is <code>TRUE</code>, <code><a href="../reference/knearneigh.html">knearneigh()</a></code> will use spatially indexed points and <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_closest_edges()</a></code> (see <a href="https://github.com/r-spatial/s2/issues/125#issuecomment-860107442" class="external-link uri">https://github.com/r-spatial/s2/issues/125#issuecomment-860107442</a>)</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="op">(</span><span class="va">old_use_s2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
@@ -335,7 +335,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">pts_ll1_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, k<span class="op">=</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.0226  0.0000  0.0226</span></code></pre>
+<span class="co">##  0.0280  0.0000  0.0281</span></code></pre>
 <p>For this smaller data set, the legacy approach without spatial indexing is adequate, but slows down as the number of observations increases:</p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -343,7 +343,7 @@
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">pts_ll2_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, k<span class="op">=</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.0177  0.0000  0.0178</span></code></pre>
+<span class="co">##  0.0216  0.0000  0.0217</span></code></pre>
 <p>The WGS84 ellipsoid Great Circle distances differ a very little from the <strong>s2</strong> spherical distances, yielding output that here diverges for two tract centroids:</p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">pts_ll1_nb</span>, <span class="va">pts_ll2_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
@@ -365,45 +365,123 @@
 <code class="sourceCode R"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="va">old_use_s2</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## Spherical geometry (s2) switched on</span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="distance-neighbours-1">Distance neighbours<a class="anchor" aria-label="anchor" href="#distance-neighbours-1"></a>
-</h3>
-<p>Distance neighbours are more problematic. While <code><a href="../reference/nbdists.html">nbdists()</a></code> works well with <strong>s2</strong> spherical coordinates, none of the tried adaptations for <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> work adequately yet. An argument <code>avoid_s2=</code> is TRUE by default, using the legacy brute-force approach, but only calculating distances from <code>i</code> to <code>j</code> and copying those to <code>j</code> to <code>i</code> through symmetry. Further, the legacy approach only calculates distances once, and selects the observations between <code>d1</code> and <code>d2</code> as neighbours. The distance metric is alway <code>"km"</code>.</p>
-<p>If we permit <strong>s2</strong> methods to run, without other arguments set, buffers are constructed around the points to <code>d2</code>, then these buffers are intersected with the points:</p>
+<div class="section level4">
+<h4 id="distance-neighbours-1">Distance neighbours<a class="anchor" aria-label="anchor" href="#distance-neighbours-1"></a>
+</h4>
+<p>Distance neighbours are more problematic. While <code><a href="../reference/nbdists.html">nbdists()</a></code> works well with <strong>s2</strong> spherical coordinates, none of the tried adaptations for <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> work adequately yet. An argument <code>use_s2=</code> is set to TRUE if <strong>s2</strong> &gt; 1.0-7, using <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_closest_edges()</a></code> or the legacy brute-force approach, then only calculating distances from <code>i</code> to <code>j</code> and copying those to <code>j</code> to <code>i</code> through symmetry. The distance metric is alway <code>"km"</code>.</p>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">pts_ll3_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">max_1nn_ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/nbdists.html">nbdists</a></span><span class="op">(</span><span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>, <span class="va">pts_ll</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>If we permit <strong>s2</strong> methods to run, without other arguments set, and <strong>s2</strong> &gt; 1.0-7, <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_closest_edges()</a></code> is run:</p>
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="va">pts_ll3_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">0</span>,
+      d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn_ll</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##   0.886   0.000   0.888</span></code></pre>
-<p>Time can be saved by reducing the cell count used to approximate the buffer:</p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">pts_ll4_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, max_cells<span class="op">=</span><span class="fl">500</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="co">##  0.0315  0.0000  0.0310</span></code></pre>
+<p>Alternatively, spherical distances can be used with <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_dwithin_matrix()</a></code>; performance also deteriorates with increasing numbers of observations:</p>
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="va">pts_ll5_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn_ll</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, dwithin<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##   1.964   0.000   1.968</span></code></pre>
-<p>Alternatively, brute-force spherical distances can be used, not (yet) using spatial indexing; performance also deteriorates with increasing numbers of observations:</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="va">pts_ll5_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, dwithin<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span></code></pre></div>
+<span class="co">##  0.0775  0.0000  0.0775</span></code></pre>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">pts_ll3_nb</span>, <span class="va">pts_ll5_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] TRUE</span></code></pre>
+<p>Using <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_closest_edges()</a></code> respects <code>d1 &gt; 0</code> without requiring a second pass in R, so is faster than <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_dwithin_matrix()</a></code>:</p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="va">pts_ll3a_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">5</span>,
+      d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn_ll</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span>
+<span class="op">}</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.0675  0.0000  0.0675</span></code></pre>
-<p>For the moment, <code>avoid_s2=</code> is <code>TRUE</code> by default as more remains to be examined to find out how to benefit from spherical spatial indexing, also because all the <strong>s2</strong> approaches need two runs to handle the <code>d1</code>-<code>d2</code> interval, and none of them benefit from symmetry:</p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">pts_ll6_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<span class="co">##  0.0325  0.0000  0.0330</span></code></pre>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="va">pts_ll5a_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">5</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn_ll</span>, use_s2<span class="op">=</span><span class="cn">TRUE</span>, dwithin<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="op">(</span><span class="va">reps</span><span class="op">/</span><span class="fl">5</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.0098  0.0001  0.0100</span></code></pre>
+<span class="co">##   0.138   0.000   0.138</span></code></pre>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"s2"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="st">"1.0.7"</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">pts_ll3a_nb</span>, <span class="va">pts_ll5a_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">## [1] TRUE</span></code></pre>
+<p>Setting <code>use_s2=FALSE</code> falls back to the legacy version, which uses symmetry to reduce time:</p>
+<div class="sourceCode" id="cb80"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">pts_ll6_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn_ll</span>, use_s2<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<pre><code><span class="co">##    user  system elapsed </span>
+<span class="co">##  0.0118  0.0002  0.0121</span></code></pre>
+<p>Minor differences may occur between the legacy ellipsoid and <strong>s2</strong> spherical approaches:</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">pts_ll5_nb</span>, <span class="va">pts_ll6_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "Component 20: Numeric: lengths (6, 5) differ"     </span>
+<span class="co">##  [2] "Component 28: Numeric: lengths (7, 6) differ"     </span>
+<span class="co">##  [3] "Component 112: Numeric: lengths (109, 108) differ"</span>
+<span class="co">##  [4] "Component 116: Numeric: lengths (109, 108) differ"</span>
+<span class="co">##  [5] "Component 122: Numeric: lengths (105, 106) differ"</span>
+<span class="co">##  [6] "Component 123: Numeric: lengths (108, 107) differ"</span>
+<span class="co">##  [7] "Component 130: Numeric: lengths (108, 109) differ"</span>
+<span class="co">##  [8] "Component 134: Numeric: lengths (106, 105) differ"</span>
+<span class="co">##  [9] "Component 158: Numeric: lengths (101, 102) differ"</span>
+<span class="co">## [10] "Component 165: Numeric: lengths (101, 102) differ"</span>
+<span class="co">## [11] "Component 168: Numeric: lengths (101, 102) differ"</span>
+<span class="co">## [12] "Component 179: Numeric: lengths (89, 90) differ"  </span>
+<span class="co">## [13] "Component 180: Numeric: lengths (96, 97) differ"  </span>
+<span class="co">## [14] "Component 188: Numeric: lengths (46, 47) differ"  </span>
+<span class="co">## [15] "Component 189: Numeric: lengths (55, 56) differ"  </span>
+<span class="co">## [16] "Component 196: Numeric: lengths (47, 46) differ"  </span>
+<span class="co">## [17] "Component 210: Numeric: lengths (106, 104) differ"</span>
+<span class="co">## [18] "Component 226: Numeric: lengths (88, 87) differ"  </span>
+<span class="co">## [19] "Component 229: Numeric: lengths (55, 53) differ"  </span>
+<span class="co">## [20] "Component 235: Numeric: lengths (40, 39) differ"  </span>
+<span class="co">## [21] "Component 237: Numeric: lengths (14, 15) differ"  </span>
+<span class="co">## [22] "Component 245: Numeric: lengths (16, 15) differ"</span></code></pre>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">pts_ll6a_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts_ll</span>, d1<span class="op">=</span><span class="fl">5</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn_ll</span>, use_s2<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
+<pre><code><span class="co">##    user  system elapsed </span>
+<span class="co">##  0.0116  0.0001  0.0117</span></code></pre>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">pts_ll5a_nb</span>, <span class="va">pts_ll6a_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<pre><code><span class="co">##  [1] "Component 20: Numeric: lengths (6, 5) differ"       </span>
+<span class="co">##  [2] "Component 28: Numeric: lengths (7, 6) differ"       </span>
+<span class="co">##  [3] "Component 112: Numeric: lengths (62, 61) differ"    </span>
+<span class="co">##  [4] "Component 113: Numeric: lengths (62, 63) differ"    </span>
+<span class="co">##  [5] "Component 116: Numeric: lengths (56, 55) differ"    </span>
+<span class="co">##  [6] "Component 119: Numeric: lengths (68, 69) differ"    </span>
+<span class="co">##  [7] "Component 122: Numeric: lengths (43, 44) differ"    </span>
+<span class="co">##  [8] "Component 123: Numeric: lengths (50, 49) differ"    </span>
+<span class="co">##  [9] "Component 128: Numeric: lengths (65, 64) differ"    </span>
+<span class="co">## [10] "Component 130: Numeric: lengths (61, 63) differ"    </span>
+<span class="co">## [11] "Component 132: Numeric: lengths (45, 46) differ"    </span>
+<span class="co">## [12] "Component 134: Numeric: lengths (46, 45) differ"    </span>
+<span class="co">## [13] "Component 136: Numeric: lengths (61, 62) differ"    </span>
+<span class="co">## [14] "Component 147: Numeric: lengths (50, 51) differ"    </span>
+<span class="co">## [15] "Component 154: Numeric: lengths (56, 57) differ"    </span>
+<span class="co">## [16] "Component 158: Numeric: lengths (49, 50) differ"    </span>
+<span class="co">## [17] "Component 165: Mean relative difference: 0.02823018"</span>
+<span class="co">## [18] "Component 168: Numeric: lengths (54, 56) differ"    </span>
+<span class="co">## [19] "Component 179: Numeric: lengths (77, 78) differ"    </span>
+<span class="co">## [20] "Component 180: Numeric: lengths (85, 86) differ"    </span>
+<span class="co">## [21] "Component 188: Numeric: lengths (39, 40) differ"    </span>
+<span class="co">## [22] "Component 189: Numeric: lengths (48, 49) differ"    </span>
+<span class="co">## [23] "Component 196: Numeric: lengths (45, 44) differ"    </span>
+<span class="co">## [24] "Component 210: Numeric: lengths (68, 66) differ"    </span>
+<span class="co">## [25] "Component 226: Numeric: lengths (82, 81) differ"    </span>
+<span class="co">## [26] "Component 229: Numeric: lengths (48, 46) differ"    </span>
+<span class="co">## [27] "Component 235: Numeric: lengths (38, 37) differ"    </span>
+<span class="co">## [28] "Component 237: Numeric: lengths (14, 15) differ"    </span>
+<span class="co">## [29] "Component 245: Numeric: lengths (15, 14) differ"</span></code></pre>
 </div>
-<div class="section level3">
-<h3 id="spher-poly2nb">Contiguity neighbours for spherical polygon support<a class="anchor" aria-label="anchor" href="#spher-poly2nb"></a>
-</h3>
+<div class="section level4">
+<h4 id="spher-poly2nb">Contiguity neighbours for spherical polygon support<a class="anchor" aria-label="anchor" href="#spher-poly2nb"></a>
+</h4>
 <p>It also turns out that when <strong>sf</strong> functions are used to find contiguity neighbours, <strong>s2</strong> spatial indexing functionality is accessed in finding candidate neighbours in intersecting geometries.</p>
-<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb88"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">NY8_sf_ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">NY8_sf</span>, <span class="st">"OGC:CRS84"</span><span class="op">)</span>
 <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_is_longlat.html" class="external-link">st_is_longlat</a></span><span class="op">(</span><span class="va">NY8_sf_ll</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [1] TRUE</span></code></pre>
-<p>The timings are a little slower when <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_intersects()</a></code> hands off geometry predicates to <code>s2_intersects_matrix()</code>, but the results are the same, and because spatial indexing is used, this scles well for larger data sets:</p>
-<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
+<p>The timings are a little slower when <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">st_intersects()</a></code> hands off geometry predicates to <code>s2_intersects_matrix()</code>, but the results are the same, and because spatial indexing is used, this scales well for larger data sets:</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">reps</span><span class="op">)</span> <span class="va">NY8_sf_1_nb_ll</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">NY8_sf_ll</span>, queen<span class="op">=</span><span class="cn">TRUE</span>, snap<span class="op">=</span><span class="va">eps</span><span class="op">)</span><span class="op">)</span><span class="op">/</span><span class="va">reps</span></code></pre></div>
 <pre><code><span class="co">##    user  system elapsed </span>
-<span class="co">##  0.1483  0.0009  0.1495</span></code></pre>
-<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<span class="co">##  0.1988  0.0015  0.2018</span></code></pre>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">NY8_sf_1_nb</span>, <span class="va">NY8_sf_1_nb_ll</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">## [1] TRUE</span></code></pre>
 </div>
@@ -428,7 +506,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
