@@ -1,4 +1,8 @@
-# Version 1.2-2 (development)
+# Version 1.2-3 (development)
+
+* Added GA SI article to citations.
+
+# Version 1.2-2 (2022-01-28)
 
 * Replace `rainbow()` by `hcl.colors(..., "Set 2")` in `plot.skater()`.
 

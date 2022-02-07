@@ -13,6 +13,16 @@ citEntry(entry = "Article",
   paste("Bivand, Roger S. and Wong, David W. S. (2018)", "Comparing implementations of global and local indicators of spatial association", "TEST, 27(3), 716-748.", "URL https://doi.org/10.1007/s11749-018-0599-x")
 )
 
+citEntry(entry = "Article",
+  author = personList(as.person("Roger Bivand")),
+  title = "R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data",
+  journal = "Geographical Analysis",
+  year = "2022",
+  url = "https://doi.org/10.1111/gean.12319",
+  textVersion = 
+  paste("Bivand, R. (2022)", "R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data", "Geographical Analysis", "URL https://doi.org/10.1111/gean.12319")
+)
+
 citEntry(entry="book",
   author       = "Roger S. Bivand, Edzer Pebesma and Virgilio Gomez-Rubio",
   title        = "Applied spatial data analysis with {R}, Second edition",
