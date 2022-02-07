@@ -57,7 +57,8 @@ Description: A collection of functions to create spatial weights matrix
   of spatial heteroscedasticity ('Ord' and 'Getis')
   <doi:10.1007/s00168-011-0492-y>. The implementation of most of
   the measures is described in 'Bivand' and 'Wong' (2018)
-  <doi:10.1007/s11749-018-0599-x>.
+  <doi:10.1007/s11749-018-0599-x>, with further extensions in 'Bivand' (2022)
+  <doi:10.1111/gean.12319>.
   From 'spdep' and 'spatialreg' versions >= 1.2-1, the model fitting functions
   previously present in this package are defunct in 'spdep' and may be found
   in 'spatialreg'.
