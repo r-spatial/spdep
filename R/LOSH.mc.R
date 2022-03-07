@@ -91,6 +91,6 @@ LOSH.mc <- function(x, listw, a = 2, nsim = 99, zero.policy = NULL, na.action = 
     rownames(res) <- rn
   if (!is.null(na.act)) 
     attr(res, "na.action") <- na.act
-  class(res) <- c("htest", "mc.sim", "LOSH", class(res))
+  class(res) <- c("LOSH", "mc.sim", class(res))
   res
 }

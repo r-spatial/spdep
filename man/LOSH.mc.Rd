@@ -42,7 +42,9 @@ Ord, J. K., & Getis, A. 2012. Local spatial heteroscedasticity (LOSH), The Annal
 \examples{
     data(columbus, package="spData")
     resLOSH_mc <- LOSH.mc(columbus$CRIME, nb2listw(col.gal.nb), 2, 100)
+    summary(resLOSH_mc)
     resLOSH_cs <- LOSH.cs(columbus$CRIME, nb2listw(col.gal.nb))
+    summary(resLOSH_cs)
     plot(resLOSH_mc[,"Pr()"], resLOSH_cs[,"Pr()"])
 }
 \keyword{spatial}

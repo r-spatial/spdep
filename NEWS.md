@@ -1,5 +1,7 @@
 # Version 1.2-3 (development)
 
+* #79 remove `"htest"` class from `LOSH.mc()` output object.
+
 * Added GA SI article to citations.
 
 # Version 1.2-2 (2022-01-28)
