@@ -1,5 +1,7 @@
 # Version 1.2-3 (development)
 
+* #81 improved `dnearneigh()` help page.
+
 * #79 remove `"htest"` class from `LOSH.mc()` output object.
 
 * Added GA SI article to citations.

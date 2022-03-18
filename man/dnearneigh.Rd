@@ -3,7 +3,7 @@
 \alias{dnearneigh}
 \title{Neighbourhood contiguity by distance}
 \description{
-The function identifies neighbours of region points by Euclidean distance between lower (greater than or equal to (changed from version 1.1-7)) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers.
+The function identifies neighbours of region points by Euclidean distance in the metric of the points between lower (greater than or equal to (changed from version 1.1-7)) and upper (less than or equal to) bounds, or with longlat = TRUE, by Great Circle distance in kilometers. If \code{x} is an \code{"sf"} object and \code{use_s2=} is \code{TRUE}, spherical distances in km are used.
 }
 \usage{
 dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GE", "LE"),
@@ -12,10 +12,10 @@ dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GE", "LE"),
 }
 \arguments{
   \item{x}{matrix of point coordinates, an object inheriting from SpatialPoints or an \code{"sf"} or \code{"sfc"} object; if the \code{"sf"} or \code{"sfc"} object geometries are in geographical coordinates (\code{use_s2=FALSE}, \code{sf::st_is_longlat(x) == TRUE} and \code{sf::sf_use_s2() == TRUE}), \pkg{s2} will be used to find the neighbours because it will (we hope) use spatial indexing \url{https://github.com/r-spatial/s2/issues/125} as opposed to the legacy method which uses brute-force (at present \pkg{s2} also uses brute-force)}
-  \item{d1}{lower distance bound}
-  \item{d2}{upper distance bound}
+  \item{d1}{lower distance bound in the metric of the points if planar coordinates, in km if in geographical coordinates}
+  \item{d2}{upper distance boundd in the metric of the points if planar coordinates, in km if in geographical coordinates}
   \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}}
-  \item{longlat}{TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself, and overrides this argument if not NULL}
+  \item{longlat}{TRUE if point coordinates are geographical longitude-latitude decimal degrees, in which case distances are measured in kilometers; if x is a SpatialPoints object, the value is taken from the object itself, and overrides this argument if not NULL}
   \item{bounds}{character vector of length 2, default \code{c("GE", "LE")}, (GE: greater than or equal to, LE: less than or equal to) that is the finite and closed interval \code{[d1, d2]}, \code{d1 <= x <= d2}. The first element may also be \code{"GT"} (GT: greater than), the second \code{"LT"} (LT: less than) for finite, open intervals excluding the bounds; the first bound default was changed from \code{"GT"} to \code{"GE"} in release 1.1-7. When creating multiple distance bands, finite, half-open right-closed intervals may be used until the final interval to avoid overlapping on bounds: \code{"GE", "LT"}, that is \code{[d1, d2)}, \code{d1 <= x < d2}}
   \item{use_kd_tree}{default TRUE, if TRUE, use \pkg{dbscan} \code{\link[dbscan]{frNN}} if available (permitting 3D distances).}
   \item{symtest}{Default FALSE; before release 1.1-7, TRUE - run symmetry check on output object, costly with large numbers of points.}
