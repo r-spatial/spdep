@@ -6,9 +6,6 @@
 
 #include "spdep.h"
 
-#define DOUBLE_XMAX DBL_MAX
-
-
 #define MAX_TIES 1000
 /* Not worth doing this dynamically -- limits k + # ties + fence, in fact */
 
@@ -35,7 +32,7 @@ knearneigh(int *kin, int *pnte, int *p, double *test, int *res, double *dists,
         R_CheckUserInterrupt();
 	kn = kinit;
 	for (k = 0; k < kn; k++)
-	    nndist[k] = 0.99 * DOUBLE_XMAX;
+	    nndist[k] = 0.99 * DBL_MAX;
 	for (j = 0; j < nte; j++) {
 	    if (j == npat) continue;
 	    lon1[0] = test[npat];
@@ -69,7 +66,7 @@ knearneigh(int *kin, int *pnte, int *p, double *test, int *res, double *dists,
 				error("too many ties in knearneigh");
 			break;
 		    }
-	    nndist[kn] = 0.99 * DOUBLE_XMAX;
+	    nndist[kn] = 0.99 * DBL_MAX;
 	}
 	for (k = 0; k < kinit; k++) {
 	    res[k + (npat*kinit)] = pos[k]+1;
