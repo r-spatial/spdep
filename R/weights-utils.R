@@ -72,6 +72,19 @@ is.selfneighbour <- function(nb) {
     res <- sapply(seq(along=nb), function(i) i %in% nb[[i]]) 
 }
 
+remove.self <- function(nb) {
+  
+  if (is.null(attr(nb, "self.included")))  stop("Self not included. Cannot remove.")
+  
+  for (i in 1:length(nb)) {
+    nb[[i]] <- nb[[i]][-which(nb[[i]] == i)]
+  }
+  
+  attr(nb, "self.included") <- NULL
+  
+  return(nb)
+}
+
 # Copyright 2001-7 by Nicholas Lewin-Koh and Roger Bivand
 
 old.make.sym.nb <- function(nb){

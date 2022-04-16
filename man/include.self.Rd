@@ -1,12 +1,14 @@
 % Copyright 2001 by Roger S. Bivand
 \name{include.self}
 \alias{include.self}
+\alias{remove.self}
 \title{Include self in neighbours list}
 \description{
-The function includes the region itself in its own list of neighbours, and sets attribute "self.included" to TRUE.
+The function includes the region itself in its own list of neighbours, and sets attribute "self.included" to TRUE; \code{remove.self} reverts the effects of \code{include.self}.
 }
 \usage{
 include.self(nb)
+remove.self(nb)
 }
 \arguments{
   \item{nb}{input neighbours list of class \code{nb}}
@@ -24,5 +26,6 @@ col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- coordinates(as(columbus, "Spatial"))
 summary(col.gal.nb, coords)
 summary(include.self(col.gal.nb), coords)
+summary(remove.self(include.self(col.gal.nb)), coords)
 }
 \keyword{spatial}

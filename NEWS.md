@@ -1,4 +1,8 @@
-# Version 1.2-3 (development)
+# Version 1.2-4 (development)
+
+* added `remove.self()`, thanks to Josiah Parry #83.
+
+# Version 1.2-3 (2022-03-29)
 
 * replace deprecated S-compatibility macros `DOUBLE_`
 

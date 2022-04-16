@@ -50,7 +50,8 @@ export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests,
 	plot.Gabriel, plot.relative, print.jclist, print.LMtestlist, 
 	plot.mc.sim, as.data.frame.localmoransad, print.localmoransad, 
 	summary.localmoransad, print.summary.localmoransad, print.moransad, 
-	summary.moransad, print.summary.moransad, print.spcor, plot.spcor)
+	summary.moransad, print.summary.moransad, print.spcor, plot.spcor,
+        remove.self)
 
 export(write.sn2dat, read.dat2listw, nb2blocknb, p.adjustSP,
 	is.symmetric.glist, nb2lines, listw2lines, df2sn, 
