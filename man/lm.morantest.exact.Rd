@@ -48,7 +48,7 @@ must be one of greater (default), less or two.sided.}
 }
 \author{Markus Reder and Roger Bivand}
 
-\references{Roger Bivand, Werner G. Müller and Markus Reder (2009) "Power calculations for global and local Moran's I." \emph{Computational Statistics \& Data Analysis} 53, 2859-2872.}
+\references{Roger Bivand, Werner G. Müller and Markus Reder (2009) "Power calculations for global and local Moran's I." \emph{Computational Statistics & Data Analysis} 53, 2859-2872.}
 
 \seealso{\code{\link{lm.morantest.sad}}}
 \examples{
