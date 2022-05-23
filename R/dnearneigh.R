@@ -3,8 +3,9 @@
 # use of dbscan 210317 #53
 # s2 prototype 210612-16 not using indexing
 # https://github.com/r-spatial/s2/pull/162 220117
+# https://github.com/r-spatial/s2/pull/174 220520
 
-dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, use_s2=packageVersion("s2") > "1.0.7", k=200, dwithin=FALSE) {
+dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "LE"), use_kd_tree=TRUE, symtest=FALSE, use_s2=packageVersion("s2") > "1.0.7", k=200, dwithin=TRUE) {
     stopifnot(is.logical(use_kd_tree))
     use_s2_ll <- FALSE
     if (inherits(x, "SpatialPoints")) {

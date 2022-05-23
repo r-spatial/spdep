@@ -1,8 +1,12 @@
-# Version 1.2-4 (development)
+# Version 1.2-5 (development)
+
+* https://github.com/r-spatial/s2/pull/174 speeds up `dnearneigh()` for geographical coordinates without using `s2::s2_closest_edges()`.
+
+# Version 1.2-4 (2022-04-18)
 
 * added `remove.self()`, thanks to Josiah Parry #83.
 
-* unescape underscores in help pages
+* unescape underscores in help pages.
 
 # Version 1.2-3 (2022-03-29)
 
