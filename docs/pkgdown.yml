@@ -1,10 +1,10 @@
 pandoc: 2.14.0.3
-pkgdown: 2.0.2
+pkgdown: 2.0.3
 pkgdown_sha: ~
 articles:
   CO69: CO69.html
   nb: nb.html
   nb_sf: nb_sf.html
   sids: sids.html
-last_built: 2022-01-28T15:22Z
+last_built: 2022-05-24T09:16Z
 

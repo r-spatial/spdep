@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-5</span>
       </span>
     </div>
 
@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -135,7 +135,30 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">columbus</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
 <span class="r-in">    <span class="va">resLOSH_mc</span> <span class="op">&lt;-</span> <span class="fu">LOSH.mc</span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">100</span><span class="op">)</span></span>
+<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">resLOSH_mc</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        Hi             x_bar_i            ei                 Pr()         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.03438   Min.   :13.85   Min.   :   0.0298   Min.   :0.009901  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.23838   1st Qu.:24.71   1st Qu.:   7.0114   1st Qu.:0.128713  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :0.66689   Median :35.90   Median :  52.1094   Median :0.633663  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.06592   Mean   :34.88   Mean   : 151.9232   Mean   :0.541928  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.59680   3rd Qu.:45.39   3rd Qu.: 105.0551   3rd Qu.:0.900990  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :4.68765   Max.   :54.91   Max.   :2455.2201   Max.   :0.990099  </span>
 <span class="r-in">    <span class="va">resLOSH_cs</span> <span class="op">&lt;-</span> <span class="fu"><a href="LOSH.cs.html">LOSH.cs</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">resLOSH_cs</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        Hi               E.Hi       Var.Hi            Z.Hi        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.03438   Min.   :1   Min.   :0.4972   Min.   :0.04356  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.23838   1st Qu.:1   1st Qu.:0.9136   1st Qu.:0.35069  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :0.66689   Median :1   Median :1.4342   Median :1.19175  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.06592   Mean   :1   Mean   :1.4758   Mean   :1.89447  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.59680   3rd Qu.:1   3rd Qu.:1.9547   3rd Qu.:2.65120  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :4.68765   Max.   :1   Max.   :2.9958   Max.   :7.25681  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     x_bar_i            ei                 Pr()       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :13.85   Min.   :   0.0298   Min.   :0.0190  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:24.71   1st Qu.:   7.0114   1st Qu.:0.2050  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :35.90   Median :  52.1094   Median :0.5264  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :34.88   Mean   : 151.9232   Mean   :0.4507  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:45.39   3rd Qu.: 105.0551   3rd Qu.:0.6529  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :54.91   Max.   :2455.2201   Max.   :0.9540  </span>
 <span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">resLOSH_mc</span><span class="op">[</span>,<span class="st">"Pr()"</span><span class="op">]</span>, <span class="va">resLOSH_cs</span><span class="op">[</span>,<span class="st">"Pr()"</span><span class="op">]</span><span class="op">)</span></span>
 <span class="r-plt img"><img src="LOSH.mc-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
@@ -152,7 +175,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

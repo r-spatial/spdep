@@ -289,7 +289,14 @@ Distance neighbours are more problematic. While `nbdists()` works well with **s2
 max_1nn_ll <- max(unlist(nbdists(knn2nb(knearneigh(pts_ll, k=1)), pts_ll)))
 ```
 
-If we permit **s2** methods to run, without other arguments set, and **s2** > 1.0-7, `s2::s2_closest_edges()` is run:
+
+
+```{r, echo=dothis, eval=dothis}
+args(dnearneigh)
+```
+
+
+If we permit **s2** methods to run, without other arguments set, and **s2** > 1.0-7, `s2::s2_dwithin_matrix()` is run:
 
 ```{r, echo=dothis, eval=dothis}
 if (packageVersion("s2") > "1.0.7") {
@@ -298,10 +305,10 @@ if (packageVersion("s2") > "1.0.7") {
 }
 ```
 
-Alternatively, spherical distances can be used with `s2::s2_dwithin_matrix()`; performance also deteriorates with increasing numbers of observations:
+Alternatively, spherical distances can be used with `dwithin=FALSE` and `s2::s2_closest_edges()`; although running in similar time, `s2::s2_closest_edges()` depends on the additional `k=` argument, which, if mis-set, may miss valid neighbours:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:(reps/5)) pts_ll5_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn_ll, use_s2=TRUE, dwithin=TRUE))/(reps/5)
+system.time(for (i in 1:(reps/5)) pts_ll5_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn_ll, dwithin=FALSE))/(reps/5)
 ```
 
 ```{r, echo=dothis, eval=dothis}
@@ -314,12 +321,16 @@ Using `s2::s2_closest_edges()` respects `d1 > 0` without requiring a second pass
 ```{r, echo=dothis, eval=dothis}
 if (packageVersion("s2") > "1.0.7") {
   system.time(for (i in 1:(reps/5)) pts_ll3a_nb <- dnearneigh(pts_ll, d1=5,
-      d2=0.75*max_1nn_ll))/(reps/5)
+      d2=0.75*max_1nn_ll, dwithin=FALSE))/(reps/5)
 }
 ```
+Using `s2::s2_dwithin_matrix()` requires a second pass, one for the lower bound, another for the upper bound, and a set difference operation to find neighbours in the distance band:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:(reps/5)) pts_ll5a_nb <- dnearneigh(pts_ll, d1=5, d2=0.75*max_1nn_ll, use_s2=TRUE, dwithin=TRUE))/(reps/5)
+if (packageVersion("s2") > "1.0.7") {
+    system.time(for (i in 1:(reps/5)) pts_ll5a_nb <- dnearneigh(pts_ll, d1=5,
+        d2=0.75*max_1nn_ll))/(reps/5)
+}
 ```
 
 ```{r, echo=dothis, eval=dothis}

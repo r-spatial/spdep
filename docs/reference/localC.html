@@ -18,7 +18,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-5</span>
       </span>
     </div>
 
@@ -27,7 +27,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -151,8 +151,8 @@ Inference for the Local Geary is based on a permutation approach which compares 
 </dl></div>
     <div id="references">
     <h2>References</h2>
-    <p>Anselin, L. (1995), Local Indicators of Spatial Association—LISA. Geographical Analysis, 27: 93-115. doi: <a href="https://doi.org/10.1111/j.1538-4632.1995.tb00338.x" class="external-link">10.1111/j.1538-4632.1995.tb00338.x</a></p>
-<p>Anselin, L. (2019), A Local Indicator of Multivariate Spatial Association: Extending Geary's c. Geogr Anal, 51: 133-150. doi: <a href="https://doi.org/10.1111/gean.12164" class="external-link">10.1111/gean.12164</a></p>
+    <p>Anselin, L. (1995), Local Indicators of Spatial Association—LISA. Geographical Analysis, 27: 93-115. <a href="https://doi.org/10.1111/j.1538-4632.1995.tb00338.x" class="external-link">doi:10.1111/j.1538-4632.1995.tb00338.x</a></p>
+<p>Anselin, L. (2019), A Local Indicator of Multivariate Spatial Association: Extending Geary's c. Geogr Anal, 51: 133-150. <a href="https://doi.org/10.1111/gean.12164" class="external-link">doi:10.1111/gean.12164</a></p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -161,9 +161,9 @@ Inference for the Local Geary is based on a permutation approach which compares 
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">orig</span> <span class="op">&lt;-</span> <span class="fu">spData</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/spData/man/afcon.html" class="external-link">africa.rook.nb</a></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">orig</span> <span class="op">&lt;-</span> <span class="fu">spData</span><span class="fu">::</span><span class="va"><a href="https://nowosad.github.io/spData/reference/afcon.html" class="external-link">africa.rook.nb</a></span></span>
 <span class="r-in"><span class="va">listw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">orig</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">spData</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/spData/man/afcon.html" class="external-link">afcon</a></span><span class="op">$</span><span class="va">totcon</span></span>
+<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">spData</span><span class="fu">::</span><span class="va"><a href="https://nowosad.github.io/spData/reference/afcon.html" class="external-link">afcon</a></span><span class="op">$</span><span class="va">totcon</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="op">(</span><span class="va">A</span> <span class="op">&lt;-</span> <span class="fu">localC</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.39025457 0.50460439 0.15303047 2.90814878 3.40006901 0.17103368</span>
@@ -219,7 +219,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span class="co"># pseudo-p values probably wrongly folded https://github.com/GeoDaCenter/rgeoda/issues/28</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="va">tmap_ok</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap" class="external-link">tmap</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">tmap_ok</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">tmap_ok</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in">  <span class="co"># doi: 10.1111/gean.12164</span></span>
 <span class="r-in">  <span class="va">guerry_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"Guerry.shp"</span>, package <span class="op">=</span> <span class="st">"rgeoda"</span><span class="op">)</span></span>
@@ -500,7 +500,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
