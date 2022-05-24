@@ -354,7 +354,7 @@ system.time(for (i in 1:reps) pts_ll6a_nb <- dnearneigh(pts_ll, d1=5, d2=0.75*ma
 ```
 
 ```{r, echo=dothis, eval=dothis}
-all.equal(pts_ll5a_nb, pts_ll6a_nb, check.attributes=FALSE)
+if (packageVersion("s2") > "1.0.7") all.equal(pts_ll5a_nb, pts_ll6a_nb, check.attributes=FALSE)
 ```
 
 ### Contiguity neighbours for spherical polygon support {#spher-poly2nb}
