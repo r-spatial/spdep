@@ -72,9 +72,9 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">model</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"greater"</span>,
- spChk<span class="op">=</span><span class="cn">NULL</span>, resfun<span class="op">=</span><span class="va">weighted.residuals</span>, naSubset<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu">listw2U</span><span class="op">(</span><span class="va">listw</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">model</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"greater"</span>,</span>
+<span> spChk<span class="op">=</span><span class="cn">NULL</span>, resfun<span class="op">=</span><span class="va">weighted.residuals</span>, naSubset<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">listw2U</span><span class="op">(</span><span class="va">listw</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -82,37 +82,52 @@
     <dl><dt>model</dt>
 <dd><p>an object of class <code>lm</code> returned by <code>lm</code>; weights
 may be specified in the <code>lm</code> fit, but offsets should not be used</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis,
 must be one of "greater" (default), "less" or "two.sided".</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>resfun</dt>
+
+  <dt>resfun</dt>
 <dd><p>default: weighted.residuals; the function to be used to extract residuals from the <code>lm</code> object, may be <code>residuals</code>, <code>weighted.residuals</code>, <code>rstandard</code>, or <code>rstudent</code></p></dd>
-<dt>naSubset</dt>
+
+  <dt>naSubset</dt>
 <dd><p>default TRUE to subset listw object for omitted observations in model object (this is a change from earlier behaviour, when the <code>model$na.action</code> component was ignored, and the listw object had to be subsetted by hand)</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>htest</code> containing the following components:</p>
+    
+
+<p>A list with class <code>htest</code> containing the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the standard deviate of Moran's I.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the p-value of the test.</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the value of the observed Moran's I, its expectation and
 variance under the method assumption.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -129,10 +144,10 @@ variance under the method assumption.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">oldcrime1.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">COL.OLD</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">oldcrime.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="va">HOVAL</span> <span class="op">+</span> <span class="va">INC</span>, data <span class="op">=</span> <span class="va">COL.OLD</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">oldcrime1.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">COL.OLD</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">oldcrime.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="va">HOVAL</span> <span class="op">+</span> <span class="va">INC</span>, data <span class="op">=</span> <span class="va">COL.OLD</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I for regression residuals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -146,7 +161,7 @@ variance under the method assumption.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Observed Moran I      Expectation         Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      0.235638354     -0.033302866      0.008289408 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="lm.LMtests.html">lm.LMtests</a></span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="lm.LMtests.html">lm.LMtests</a></span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Lagrange multiplier diagnostics for spatial dependence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -156,7 +171,7 @@ variance under the method assumption.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> LMErr = 5.7231, df = 1, p-value = 0.01674</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"S"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"S"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I for regression residuals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -170,7 +185,7 @@ variance under the method assumption.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Observed Moran I      Expectation         Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      0.239317561     -0.033431740      0.007381982 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime1.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime1.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I for regression residuals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -184,8 +199,8 @@ variance under the method assumption.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Observed Moran I      Expectation         Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      0.510951264     -0.020833333      0.008779831 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span>
-<span class="r-in"> randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under normality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -198,10 +213,10 @@ variance under the method assumption.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.510951264      -0.020833333       0.008779831 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">oldcrime.wlm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="va">HOVAL</span> <span class="op">+</span> <span class="va">INC</span>, data <span class="op">=</span> <span class="va">COL.OLD</span>,</span>
-<span class="r-in"> weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">AREA_PL</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.wlm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span>
-<span class="r-in"> resfun<span class="op">=</span><span class="va">weighted.residuals</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">oldcrime.wlm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="va">HOVAL</span> <span class="op">+</span> <span class="va">INC</span>, data <span class="op">=</span> <span class="va">COL.OLD</span>,</span></span>
+<span class="r-in"><span> weights <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="va">AREA_PL</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.wlm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> resfun<span class="op">=</span><span class="va">weighted.residuals</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I for regression residuals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -216,8 +231,8 @@ variance under the method assumption.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Observed Moran I      Expectation         Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      0.241298974     -0.032224366      0.008235091 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.wlm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span>
-<span class="r-in"> resfun<span class="op">=</span><span class="va">rstudent</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.wlm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> resfun<span class="op">=</span><span class="va">rstudent</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I for regression residuals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -246,7 +261,7 @@ variance under the method assumption.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

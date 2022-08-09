@@ -72,17 +72,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">EBest</span><span class="op">(</span><span class="va">n</span>, <span class="va">x</span>, family<span class="op">=</span><span class="st">"poisson"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">EBest</span><span class="op">(</span><span class="va">n</span>, <span class="va">x</span>, family<span class="op">=</span><span class="st">"poisson"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>n</dt>
 <dd><p>a numeric vector of counts of cases</p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>a numeric vector of populations at risk</p></dd>
-<dt>family</dt>
+
+  <dt>family</dt>
 <dd><p>either "poisson" for rare conditions or "binomial" for non-rare conditions</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -90,16 +93,23 @@
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame with two columns:</p>
+    
+
+<p>A data frame with two columns:</p>
 <dl><dt>raw</dt>
 <dd><p>a numerical vector of raw (crude) rates</p></dd>
-<dt>estmm</dt>
+
+  <dt>estmm</dt>
 <dd><p>a numerical vector of empirical Bayes estimates</p></dd>
+
+
 </dl><p>and a <code>parameters</code> attribute list with components:</p>
 <dl><dt>a</dt>
 <dd><p>global method of moments phi value</p></dd>
-<dt>m</dt>
+
+  <dt>m</dt>
 <dd><p>global method of moments gamma value</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -116,22 +126,22 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">auckland</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/auckland.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">EBest</span><span class="op">(</span><span class="va">auckland</span><span class="op">$</span><span class="va">M77_85</span>, <span class="fl">9</span><span class="op">*</span><span class="va">auckland</span><span class="op">$</span><span class="va">Und5_81</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">"parameters"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">auckland</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/auckland.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">EBest</span><span class="op">(</span><span class="va">auckland</span><span class="op">$</span><span class="va">M77_85</span>, <span class="fl">9</span><span class="op">*</span><span class="va">auckland</span><span class="op">$</span><span class="va">Und5_81</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">"parameters"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $a</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.284173e-07</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $b</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.002633436</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">auckland</span><span class="op">$</span><span class="va">estmm000</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">estmm</span><span class="op">*</span><span class="fl">1000</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">auckland</span><span class="op">[</span>,<span class="st">"estmm000"</span><span class="op">]</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">2.5</span>,<span class="fl">3</span>,<span class="fl">3.5</span>,<span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in"> main<span class="op">=</span><span class="st">"Infant mortality per 1000 per year"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">auckland</span><span class="op">$</span><span class="va">estmm000</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">estmm</span><span class="op">*</span><span class="fl">1000</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">auckland</span><span class="op">[</span>,<span class="st">"estmm000"</span><span class="op">]</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">2</span>,<span class="fl">2.5</span>,<span class="fl">3</span>,<span class="fl">3.5</span>,<span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> main<span class="op">=</span><span class="st">"Infant mortality per 1000 per year"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="EBest-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">huddersfield</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">EBest</span><span class="op">(</span><span class="va">huddersfield</span><span class="op">$</span><span class="va">cases</span>, <span class="va">huddersfield</span><span class="op">$</span><span class="va">total</span>, family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,<span class="fl">4</span><span class="op">)</span><span class="op">*</span><span class="fl">100</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">huddersfield</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">EBest</span><span class="op">(</span><span class="va">huddersfield</span><span class="op">$</span><span class="va">cases</span>, <span class="va">huddersfield</span><span class="op">$</span><span class="va">total</span>, family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">res</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>,<span class="fl">4</span><span class="op">)</span><span class="op">*</span><span class="fl">100</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      raw estmm</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1  42.86 34.44</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  28.95 29.56</span>
@@ -218,7 +228,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

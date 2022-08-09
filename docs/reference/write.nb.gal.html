@@ -72,21 +72,26 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">write.nb.gal</span><span class="op">(</span><span class="va">nb</span>, <span class="va">file</span>, oldstyle<span class="op">=</span><span class="cn">TRUE</span>, shpfile<span class="op">=</span><span class="cn">NULL</span>, ind<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">write.nb.gal</span><span class="op">(</span><span class="va">nb</span>, <span class="va">file</span>, oldstyle<span class="op">=</span><span class="cn">TRUE</span>, shpfile<span class="op">=</span><span class="cn">NULL</span>, ind<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>nb</dt>
 <dd><p>an object of class <code>nb</code> with a list of integer vectors containing neighbour region number ids.</p></dd>
-<dt>file</dt>
+
+  <dt>file</dt>
 <dd><p>name of file with GAL lattice data</p></dd>
-<dt>oldstyle</dt>
+
+  <dt>oldstyle</dt>
 <dd><p>if TRUE, first line of file contains only number of spatial units, if FALSE, uses newer GeoDa style</p></dd>
-<dt>shpfile</dt>
+
+  <dt>shpfile</dt>
 <dd><p>Shapefile name taken from GAL file for this dataset</p></dd>
-<dt>ind</dt>
+
+  <dt>ind</dt>
 <dd><p>region id indicator variable name</p></dd>
+
 </dl></div>
     <div id="author">
     <h2>Author</h2>
@@ -99,11 +104,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">GALfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"GAL"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">write.nb.gal</span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="va">GALfile</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col.queen</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="va">GALfile</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">col.queen</span>, <span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">GALfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"GAL"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">write.nb.gal</span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="va">GALfile</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col.queen</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="va">GALfile</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">col.queen</span>, <span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 0 </span>
@@ -130,7 +135,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

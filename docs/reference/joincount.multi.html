@@ -72,32 +72,41 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">fx</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="cn">FALSE</span>,
- spChk <span class="op">=</span> <span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="co"># S3 method for jcmulti</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">fx</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span> spChk <span class="op">=</span> <span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for jcmulti</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>fx</dt>
 <dd><p>a factor of the same length as the neighbours and weights objects in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>adjust.n</dt>
+
+  <dt>adjust.n</dt>
 <dd><p>default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted consistently (up to and including spdep 0.3-28 the adjustment was inconsistent - thanks to Tomoki NAKAYA for a careful bug report)</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>object to be printed</p></dd>
-<dt>...</dt>
+
+  <dt>...</dt>
 <dd><p>arguments to be passed through for printing</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A matrix with class <code>jcmulti</code> with row and column names for observed and expected counts, variance, and z-value.</p>
+    
+
+<p>A matrix with class <code>jcmulti</code> with row and column names for observed and expected counts, variance, and z-value.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -118,35 +127,35 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">HICRIME</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">35</span>,<span class="fl">80</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>,<span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">HICRIME</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">HICRIME</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">35</span>,<span class="fl">80</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>,<span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">HICRIME</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           Joincount Expected Variance z-value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> low:low      34.000   29.592   18.895  1.0141</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> high:high    54.000   27.224   17.888  6.3307</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> high:low     28.000   59.184   26.233 -6.0884</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Jtot         28.000   59.184   26.233 -6.0884</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">hopkins</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">32</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">32</span>, <span class="va">hopkins</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">36</span>,<span class="fl">36</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="fl">3.5</span>, <span class="fl">20</span><span class="op">)</span>,</span>
-<span class="r-in"> col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">hopkins.rook.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">32</span>, type<span class="op">=</span><span class="st">"rook"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="spweights.constants.html">spweights.constants</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">hopkins.rook.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">hopkins.queen.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">32</span>, type<span class="op">=</span><span class="st">"queen"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">hopkins.bishop.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">hopkins.rook.nb</span>, <span class="va">hopkins.queen.nb</span>, verbose<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">hopkins4</span> <span class="op">&lt;-</span> <span class="va">hopkins</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">36</span>,<span class="fl">36</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
-<span class="r-in"><span class="va">hopkins4</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">hopkins4</span> <span class="op">&gt;</span> <span class="fl">3</span>, arr.ind<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">4</span></span>
-<span class="r-in"><span class="va">hopkins4.f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">hopkins4</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">hopkins4.f</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">hopkins4.f</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">hopkins.rook.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"replicates Upton &amp; Fingleton table 3.4 (p. 166)\n"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">hopkins4.f</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">hopkins.bishop.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"replicates Upton &amp; Fingleton table 3.6 (p. 168)\n"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">hopkins4.f</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">hopkins.queen.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"replicates Upton &amp; Fingleton table 3.7 (p. 169)\n"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">hopkins</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/image.html" class="external-link">image</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">32</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">32</span>, <span class="va">hopkins</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">36</span>,<span class="fl">36</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">0.5</span>, <span class="fl">3.5</span>, <span class="fl">20</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"white"</span>, <span class="st">"black"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/box.html" class="external-link">box</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">hopkins.rook.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">32</span>, type<span class="op">=</span><span class="st">"rook"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="spweights.constants.html">spweights.constants</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">hopkins.rook.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">hopkins.queen.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">32</span>, type<span class="op">=</span><span class="st">"queen"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">hopkins.bishop.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">hopkins.rook.nb</span>, <span class="va">hopkins.queen.nb</span>, verbose<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">hopkins4</span> <span class="op">&lt;-</span> <span class="va">hopkins</span><span class="op">[</span><span class="fl">5</span><span class="op">:</span><span class="fl">36</span>,<span class="fl">36</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">hopkins4</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">hopkins4</span> <span class="op">&gt;</span> <span class="fl">3</span>, arr.ind<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fl">4</span></span></span>
+<span class="r-in"><span><span class="va">hopkins4.f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">hopkins4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">hopkins4.f</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">hopkins4.f</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">hopkins.rook.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"replicates Upton &amp; Fingleton table 3.4 (p. 166)\n"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">hopkins4.f</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">hopkins.bishop.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"replicates Upton &amp; Fingleton table 3.6 (p. 168)\n"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">joincount.multi</span><span class="op">(</span><span class="va">hopkins4.f</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">hopkins.queen.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"replicates Upton &amp; Fingleton table 3.7 (p. 169)\n"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -161,7 +170,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -72,30 +72,35 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">set.spChkOption</span><span class="op">(</span><span class="va">check</span><span class="op">)</span>
-<span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span>
-<span class="fu">chkIDs</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span><span class="op">)</span>
-<span class="fu">spNamedVec</span><span class="op">(</span><span class="va">var</span>, <span class="va">data</span><span class="op">)</span>
-<span class="fu">set.VerboseOption</span><span class="op">(</span><span class="va">check</span><span class="op">)</span>
-<span class="fu">get.VerboseOption</span><span class="op">(</span><span class="op">)</span>
-<span class="fu">set.ZeroPolicyOption</span><span class="op">(</span><span class="va">check</span><span class="op">)</span>
-<span class="fu">get.ZeroPolicyOption</span><span class="op">(</span><span class="op">)</span>
-<span class="fu">set.listw_is_CsparseMatrix_Option</span><span class="op">(</span><span class="va">check</span><span class="op">)</span>
-<span class="fu">get.listw_is_CsparseMatrix_Option</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">set.spChkOption</span><span class="op">(</span><span class="va">check</span><span class="op">)</span></span>
+<span><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">chkIDs</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span><span class="op">)</span></span>
+<span><span class="fu">spNamedVec</span><span class="op">(</span><span class="va">var</span>, <span class="va">data</span><span class="op">)</span></span>
+<span><span class="fu">set.VerboseOption</span><span class="op">(</span><span class="va">check</span><span class="op">)</span></span>
+<span><span class="fu">get.VerboseOption</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">set.ZeroPolicyOption</span><span class="op">(</span><span class="va">check</span><span class="op">)</span></span>
+<span><span class="fu">get.ZeroPolicyOption</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu">set.listw_is_CsparseMatrix_Option</span><span class="op">(</span><span class="va">check</span><span class="op">)</span></span>
+<span><span class="fu">get.listw_is_CsparseMatrix_Option</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>check</dt>
 <dd><p>a logical value, TRUE or FALSE</p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>a vector the same length, or a two-dimensional array, or data frame with the same number of rows as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object or <code>nb</code> object inheriting from "nb"</p></dd>
-<dt>var</dt>
+
+  <dt>var</dt>
 <dd><p>a character string or integer value for the column to be selected</p></dd>
-<dt>data</dt>
+
+  <dt>data</dt>
 <dd><p>a two-dimensional array or data frame containing var</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -103,7 +108,8 @@
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>set.spChkOption()</code> returns the old logical value, <code>get.spChkOption()</code> returns the current logical value, and <code>chkIDs()</code> returns a logical value for the test lack of difference. <code>spNamedVec()</code> returns the selected column with the names set to the row names of the object from which it has been extracted.</p>
+    <p></p>
+<p><code>set.spChkOption()</code> returns the old logical value, <code>get.spChkOption()</code> returns the current logical value, and <code>chkIDs()</code> returns a logical value for the test lack of difference. <code>spNamedVec()</code> returns the selected column with the names set to the row names of the object from which it has been extracted.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -116,33 +122,33 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "1001" "1002" "1003" "1004" "1005" "1006" "1007" "1008" "1009" "1010"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "1011" "1012" "1013" "1014" "1015" "1016" "1017" "1018" "1019" "1020"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21] "1021" "1022" "1023" "1024" "1025" "1026" "1027" "1028" "1029" "1030"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [31] "1031" "1032" "1033" "1034" "1035" "1036" "1037" "1038" "1039" "1040"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [41] "1041" "1042" "1043" "1044" "1045" "1046" "1047" "1048" "1049"</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">columbus</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">columbus</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "1005" "1001" "1006" "1002" "1007" "1008" "1004" "1003" "1018" "1010"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [11] "1038" "1037" "1039" "1040" "1009" "1036" "1011" "1042" "1041" "1017"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [21] "1043" "1019" "1012" "1035" "1032" "1020" "1021" "1031" "1033" "1034"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [31] "1045" "1013" "1022" "1044" "1023" "1046" "1030" "1024" "1047" "1016"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [41] "1014" "1049" "1029" "1025" "1028" "1048" "1015" "1027" "1026"</span>
-<span class="r-in"><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span class="va">oldChk</span> <span class="op">&lt;-</span> <span class="fu">set.spChkOption</span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">oldChk</span> <span class="op">&lt;-</span> <span class="fu">set.spChkOption</span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu">chkIDs</span><span class="op">(</span><span class="va">COL.OLD</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">chkIDs</span><span class="op">(</span><span class="va">COL.OLD</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu">chkIDs</span><span class="op">(</span><span class="va">columbus</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">chkIDs</span><span class="op">(</span><span class="va">columbus</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu">chkIDs</span><span class="op">(</span><span class="va">columbus</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">chkIDs</span><span class="op">(</span><span class="va">columbus</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">COL.OLD</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">COL.OLD</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -155,8 +161,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.510951264      -0.020833333       0.008908762 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">columbus</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">columbus</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -169,20 +175,20 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.485770914      -0.020833333       0.008991121 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">columbus</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">columbus</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb)) : </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Check of data and weights ID integrity failed</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error in moran.test(spNamedVec(\"CRIME\", columbus), nb2listw(COL.nb)) : \n  Check of data and weights ID integrity failed\n"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "try-error"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"condition")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;simpleError in moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb)): Check of data and weights ID integrity failed&gt;</span>
-<span class="r-in"><span class="fu">set.spChkOption</span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">set.spChkOption</span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">columbus</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">columbus</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -195,17 +201,17 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.341628707      -0.020833333       0.008908762 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">columbus</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>,</span>
-<span class="r-in"> spChk<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, silent<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">tmp</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="fu">spNamedVec</span><span class="op">(</span><span class="st">"CRIME"</span>, <span class="va">columbus</span><span class="op">)</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> spChk<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, silent<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">tmp</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error in moran.test(spNamedVec(\"CRIME\", columbus), nb2listw(COL.nb), spChk = TRUE) : \n  Check of data and weights ID integrity failed\n"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "try-error"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"condition")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;simpleError in moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb), spChk = TRUE): Check of data and weights ID integrity failed&gt;</span>
-<span class="r-in"><span class="fu">set.spChkOption</span><span class="op">(</span><span class="va">oldChk</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">set.spChkOption</span><span class="op">(</span><span class="va">oldChk</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">get.spChkOption</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
 </code></pre></div>
     </div>
@@ -221,7 +227,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

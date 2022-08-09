@@ -72,35 +72,44 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for nb</span>
-<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">coords</span>, col<span class="op">=</span><span class="st">"black"</span>, points<span class="op">=</span><span class="cn">TRUE</span>, add<span class="op">=</span><span class="cn">FALSE</span>, arrows<span class="op">=</span><span class="cn">FALSE</span>,
- length<span class="op">=</span><span class="fl">0.1</span>, xlim<span class="op">=</span><span class="cn">NULL</span>, ylim<span class="op">=</span><span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span>
-<span class="co"># S3 method for listw</span>
-<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">coords</span>, col<span class="op">=</span><span class="st">"black"</span>, points<span class="op">=</span><span class="cn">TRUE</span>, add<span class="op">=</span><span class="cn">FALSE</span>, arrows<span class="op">=</span><span class="cn">FALSE</span>,
- length<span class="op">=</span><span class="fl">0.1</span>, xlim<span class="op">=</span><span class="cn">NULL</span>, ylim<span class="op">=</span><span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for nb</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">coords</span>, col<span class="op">=</span><span class="st">"black"</span>, points<span class="op">=</span><span class="cn">TRUE</span>, add<span class="op">=</span><span class="cn">FALSE</span>, arrows<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span> length<span class="op">=</span><span class="fl">0.1</span>, xlim<span class="op">=</span><span class="cn">NULL</span>, ylim<span class="op">=</span><span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for listw</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">coords</span>, col<span class="op">=</span><span class="st">"black"</span>, points<span class="op">=</span><span class="cn">TRUE</span>, add<span class="op">=</span><span class="cn">FALSE</span>, arrows<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span> length<span class="op">=</span><span class="fl">0.1</span>, xlim<span class="op">=</span><span class="cn">NULL</span>, ylim<span class="op">=</span><span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>an object of class <code>nb</code> or (for <code>plot.listw</code>) class <code>listw</code></p></dd>
-<dt>coords</dt>
+
+  <dt>coords</dt>
 <dd><p>matrix of region point coordinates, a <code>Spatial</code> object (points or polygons), or an <code>sfc</code> object (points or polygons)</p></dd>
-<dt>col</dt>
+
+  <dt>col</dt>
 <dd><p>plotting colour</p></dd>
-<dt>points</dt>
+
+  <dt>points</dt>
 <dd><p>(logical) add points to plot</p></dd>
-<dt>add</dt>
+
+  <dt>add</dt>
 <dd><p>(logical) add to existing plot</p></dd>
-<dt>arrows</dt>
+
+  <dt>arrows</dt>
 <dd><p>(logical) draw arrowheads for asymmetric neighbours</p></dd>
-<dt>length</dt>
+
+  <dt>length</dt>
 <dd><p>length in plot inches of arrow heads drawn for asymmetric
 neighbours lists</p></dd>
-<dt>xlim, ylim</dt>
+
+  <dt>xlim, ylim</dt>
 <dd><p>plot window bounds</p></dd>
-<dt>...</dt>
+
+  <dt>...</dt>
 <dd><p>further graphical parameters as in <code>par(..)</code></p></dd>
+
 </dl></div>
     <div id="author">
     <h2>Author</h2>
@@ -113,16 +122,16 @@ neighbours lists</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"GAL order 1 links with first nearest neighbours in red"</span>, cex.main<span class="op">=</span><span class="fl">0.6</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"GAL order 1 links with first nearest neighbours in red"</span>, cex.main<span class="op">=</span><span class="fl">0.6</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.nb-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">columbus</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"GAL order 1 links with first nearest neighbours in red"</span>, cex.main<span class="op">=</span><span class="fl">0.6</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col.knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="va">col.knn</span><span class="op">)</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"red"</span>, length<span class="op">=</span><span class="fl">0.08</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">columbus</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"GAL order 1 links with first nearest neighbours in red"</span>, cex.main<span class="op">=</span><span class="fl">0.6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col.knn</span> <span class="op">&lt;-</span> <span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="va">col.knn</span><span class="op">)</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"red"</span>, length<span class="op">=</span><span class="fl">0.08</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="plot.nb-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -138,7 +147,7 @@ neighbours lists</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

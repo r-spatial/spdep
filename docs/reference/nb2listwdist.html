@@ -72,28 +72,36 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">neighbours</span>, <span class="va">x</span>, type<span class="op">=</span><span class="st">"idw"</span>, style<span class="op">=</span><span class="st">"raw"</span>, 
-  alpha <span class="op">=</span> <span class="fl">1</span>, dmax <span class="op">=</span> <span class="cn">NULL</span>, longlat <span class="op">=</span> <span class="cn">NULL</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">neighbours</span>, <span class="va">x</span>, type<span class="op">=</span><span class="st">"idw"</span>, style<span class="op">=</span><span class="st">"raw"</span>, </span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span>, dmax <span class="op">=</span> <span class="cn">NULL</span>, longlat <span class="op">=</span> <span class="cn">NULL</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>neighbours</dt>
 <dd><p>an object of class <code>nb</code></p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>an <code>sp</code> <code>sf</code>, or <code>sfc</code> object</p></dd>
-<dt>type</dt>
+
+  <dt>type</dt>
 <dd><p>default “idw”; the intended type of distance modelling, can take values “idw”, “exp”, and “dpd”</p></dd>
-<dt>style</dt>
+
+  <dt>style</dt>
 <dd><p>default “raw”; <code>style</code> can take values “raw”, “W”, “B”, “C”, “U”, “minmax”, and “S”</p></dd>
-<dt>alpha</dt>
+
+  <dt>alpha</dt>
 <dd><p>default 0; a parameter for controlling the distance modelling, see “Details”</p></dd>
-<dt>dmax</dt>
+
+  <dt>dmax</dt>
 <dd><p>default NULL, maximum distance threshold that is required for type “dpd” but optional for all other types</p></dd>
-<dt>longlat</dt>
+
+  <dt>longlat</dt>
 <dd><p>default NULL; TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in metres; if x is a SpatialPoints object, the value is taken from the object itself, and overrides this argument if not NULL; distances are measured in map units if FALSE or NULL</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL; use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -107,15 +115,21 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>listw</code> object with the following members:</p>
+    
+
+<p>A <code>listw</code> object with the following members:</p>
 <dl><dt>style</dt>
 <dd><p>one of W, B, C, U, S, minmax as above</p></dd>
-<dt>type</dt>
+
+  <dt>type</dt>
 <dd><p>one of idw, exp, dpd as above</p></dd>
-<dt>neighbours</dt>
+
+  <dt>neighbours</dt>
 <dd><p>the input neighbours list</p></dd>
-<dt>weights</dt>
+
+  <dt>weights</dt>
 <dd><p>the weights for the neighbours and chosen style, with attributes set to report the type of relationships (binary or general, if general the form of the glist argument), and style as above</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -132,17 +146,17 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># World examples</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">world</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># neighbours on distance interval [0, 1000] kilometres</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">world</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat"</span><span class="op">)</span> <span class="co"># for older PROJ</span></span>
-<span class="r-in"><span class="va">pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">world</span>, <span class="fl">3857</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># World examples</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">world</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># neighbours on distance interval [0, 1000] kilometres</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">world</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat"</span><span class="op">)</span> <span class="co"># for older PROJ</span></span></span>
+<span class="r-in"><span><span class="va">pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">world</span>, <span class="fl">3857</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>st_centroid assumes attributes are constant over geometries of x</span>
-<span class="r-in"><span class="va">nb_world</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts</span>, <span class="fl">0</span>, <span class="fl">1000000</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme</span></span>
-<span class="r-in"><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/coerce-methods.html" class="external-link">as</a></span><span class="op">(</span><span class="va">pts</span>, <span class="st">"Spatial"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"idw"</span>,</span>
-<span class="r-in">  alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">nb_world</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">pts</span>, <span class="fl">0</span>, <span class="fl">1000000</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme</span></span></span>
+<span class="r-in"><span><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">pts</span>, <span class="st">"Spatial"</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"idw"</span>,</span></span>
+<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs in lagged values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
@@ -157,29 +171,29 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.473913014      -0.007042254       0.029997289 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme</span></span>
-<span class="r-in"><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="va">pts</span>, type <span class="op">=</span> <span class="st">"idw"</span>,</span>
-<span class="r-in">  alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Moran's I (life expectancy), DPD, alpha = 2, dmax = 1000 km, no coding scheme</span></span>
-<span class="r-in"><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="va">pts</span>, type <span class="op">=</span> <span class="st">"dpd"</span>,</span>
-<span class="r-in">  dmax <span class="op">=</span> <span class="fl">1000000</span>, alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Boston examples</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">boston_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">boston.utm</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">boston.utm</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">boston.geoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">boston_coords</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nb_boston</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">boston.geoms</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Moran's I (crime) with exp weights with alpha = 2, no coding scheme</span></span>
-<span class="r-in"><span class="va">boston_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_boston</span>, <span class="va">boston.geoms</span>, type <span class="op">=</span> <span class="st">"exp"</span>, alpha <span class="op">=</span> <span class="fl">2</span>,</span>
-<span class="r-in">  style<span class="op">=</span><span class="st">"raw"</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CRIM</span>, <span class="va">boston_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># Moran's I (crime) with idw weights with alpha = 2, coding scheme = W</span></span>
-<span class="r-in"><span class="va">boston_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_boston</span>, <span class="va">boston.geoms</span>, type <span class="op">=</span> <span class="st">"idw"</span>, alpha <span class="op">=</span> <span class="fl">2</span>,</span>
-<span class="r-in">  style<span class="op">=</span><span class="st">"W"</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CRIM</span>, <span class="va">boston_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme</span></span></span>
+<span class="r-in"><span><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="va">pts</span>, type <span class="op">=</span> <span class="st">"idw"</span>,</span></span>
+<span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Moran's I (life expectancy), DPD, alpha = 2, dmax = 1000 km, no coding scheme</span></span></span>
+<span class="r-in"><span><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="va">pts</span>, type <span class="op">=</span> <span class="st">"dpd"</span>,</span></span>
+<span class="r-in"><span>  dmax <span class="op">=</span> <span class="fl">1000000</span>, alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Boston examples</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">boston_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">boston.utm</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">boston.utm</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">boston.geoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">boston_coords</span>, coords <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span>, remove <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nb_boston</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">boston.geoms</span>, <span class="fl">0</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Moran's I (crime) with exp weights with alpha = 2, no coding scheme</span></span></span>
+<span class="r-in"><span><span class="va">boston_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_boston</span>, <span class="va">boston.geoms</span>, type <span class="op">=</span> <span class="st">"exp"</span>, alpha <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  style<span class="op">=</span><span class="st">"raw"</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CRIM</span>, <span class="va">boston_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># Moran's I (crime) with idw weights with alpha = 2, coding scheme = W</span></span></span>
+<span class="r-in"><span><span class="va">boston_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_boston</span>, <span class="va">boston.geoms</span>, type <span class="op">=</span> <span class="st">"idw"</span>, alpha <span class="op">=</span> <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>  style<span class="op">=</span><span class="st">"W"</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CRIM</span>, <span class="va">boston_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -194,7 +208,7 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

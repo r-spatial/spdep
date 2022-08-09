@@ -80,40 +80,52 @@ and its expectation and variance were given in Anselin (1995), but those from So
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">localmoran</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, conditional<span class="op">=</span><span class="cn">TRUE</span>,
-  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,
-        spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu">localmoran_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, 
-  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,
-        spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span>, sample_Ei<span class="op">=</span><span class="cn">TRUE</span>, iseed<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">localmoran</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, conditional<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>        spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">localmoran_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, </span>
+<span>  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span>        spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span>, sample_Ei<span class="op">=</span><span class="cn">TRUE</span>, iseed<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a numeric vector the same length as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>na.action</dt>
+
+  <dt>na.action</dt>
 <dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. If <code>na.pass</code> is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)</p></dd>
-<dt>conditional</dt>
+
+  <dt>conditional</dt>
 <dd><p>default TRUE: expectation and variance are calculated using the conditional randomization null (Sokal 1998 Eqs. A7 &amp; A8). Elaboration of these changes available in Sauer et al. (2021). If FALSE: expectation and variance are calculated using the total randomization null (Sokal 1998 Eqs. A3 &amp; A4).</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of greater, less or two.sided (default).</p></dd>
-<dt>mlvar</dt>
+
+  <dt>mlvar</dt>
 <dd><p>default TRUE: values of local Moran's I are reported using the variance of the variable of interest (sum of squared deviances over n), but can be reported as the sample variance, dividing by (n-1) instead; both are used in other implementations.</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>adjust.x</dt>
+
+  <dt>adjust.x</dt>
 <dd><p>default FALSE, if TRUE, x values of observations with no neighbours are omitted in the mean of x</p></dd>
-<dt>nsim</dt>
+
+  <dt>nsim</dt>
 <dd><p>default 499, number of conditonal permutation simulations</p></dd>
-<dt>sample_Ei</dt>
+
+  <dt>sample_Ei</dt>
 <dd><p>default TRUE; if conditional permutation, use the sample $E_i$ values, or the analytical values, leaving only variances calculated by simulation.</p></dd>
-<dt>iseed</dt>
+
+  <dt>iseed</dt>
 <dd><p>default NULL, used to set the seed for possible parallel RNGs</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -123,22 +135,31 @@ and its expectation and variance were given in Anselin (1995), but those from So
     <h2>Value</h2>
     <dl><dt>Ii</dt>
 <dd><p>local moran statistic</p></dd>
-<dt>E.Ii</dt>
+
+  <dt>E.Ii</dt>
 <dd><p>expectation of local moran statistic; for <code>localmoran_perm</code>the permutation sample means</p></dd>
-<dt>Var.Ii</dt>
+
+  <dt>Var.Ii</dt>
 <dd><p>variance of local moran statistic; for <code>localmoran_perm</code>the permutation sample standard deviations</p></dd>
-<dt>Z.Ii</dt>
+
+  <dt>Z.Ii</dt>
 <dd><p>standard deviate of local moran statistic; for <code>localmoran_perm</code> based on permutation sample means and standard deviations</p></dd>
-<dt>Pr()</dt>
+
+  <dt>Pr()</dt>
 <dd><p>p-value of local moran statistic using <code><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm()</a></code>; for <code>localmoran_perm</code> using standard deviatse based on permutation sample means and standard deviations</p></dd>
-<dt>Pr() Sim</dt>
+
+  <dt>Pr() Sim</dt>
 <dd><p>For <code>localmoran_perm</code>, <code><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank()</a></code> and <code><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">punif()</a></code> of observed statistic rank for [0, 1] p-values using <code>alternative=</code></p></dd>
-<dt>Pr(folded) Sim</dt>
+
+  <dt>Pr(folded) Sim</dt>
 <dd><p>the simulation folded [0, 0.5] range ranked p-value (based on <a href="https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213" class="external-link">https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213</a>)</p></dd>
-<dt>Skewness</dt>
+
+  <dt>Skewness</dt>
 <dd><p>For <code>localmoran_perm</code>, the output of <code><a href="https://rdrr.io/pkg/e1071/man/skewness.html" class="external-link">e1071::skewness()</a></code> for the permutation samples underlying the standard deviates</p></dd>
-<dt>Kurtosis</dt>
+
+  <dt>Kurtosis</dt>
 <dd><p>For <code>localmoran_perm</code>, the output of <code><a href="https://rdrr.io/pkg/e1071/man/kurtosis.html" class="external-link">e1071::kurtosis()</a></code> for the permutation samples underlying the standard deviates</p></dd>
+
 </dl><p>In addition, an attribute data frame <code>"quadr"</code> with mean and median quadrant columns, and a column splitting on the demeaned variable and lagged demeaned variable at zero.</p>
     </div>
     <div id="note">
@@ -169,11 +190,11 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">afcon</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">oid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">resI</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/printCoefmat.html" class="external-link">printCoefmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in"> check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">afcon</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">oid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">resI</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/printCoefmat.html" class="external-link">printCoefmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   Ii        E.Ii      Var.Ii        Z.Ii</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                3.7523e-01 -2.4317e-02  9.9646e-01  4.0025e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MALI                      4.6363e-01 -2.1841e-02  1.0896e-01  1.4708e+00</span>
@@ -260,13 +281,13 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 <span class="r-out co"><span class="r-pr">#&gt;</span> LIBYA                            0.0172</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                            0.0002</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                            0.0005</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="localmoran-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4167956</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="spweights.constants.html">Szero</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="spweights.constants.html">Szero</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4167956</span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -279,11 +300,11 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0.41679563       -0.02439024        0.01029358 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># note equality for mean() only when the sum of weights equals</span></span>
-<span class="r-in"><span class="co"># the number of observations (thanks to Juergen Symanzik)</span></span>
-<span class="r-in"><span class="va">resI</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/printCoefmat.html" class="external-link">printCoefmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in"> check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># note equality for mean() only when the sum of weights equals</span></span></span>
+<span class="r-in"><span><span class="co"># the number of observations (thanks to Juergen Symanzik)</span></span></span>
+<span class="r-in"><span><span class="va">resI</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/printCoefmat.html" class="external-link">printCoefmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   Ii        E.Ii      Var.Ii        Z.Ii</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                3.7523e-01 -2.4317e-02  9.9646e-01  4.0025e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MALI                      4.6363e-01 -2.1841e-02  1.0896e-01  1.4708e+00</span>
@@ -370,19 +391,19 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 <span class="r-out co"><span class="r-pr">#&gt;</span> LIBYA                            0.0172</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                            0.0002</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                            0.0005</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span>, method<span class="op">=</span><span class="st">"bonferroni"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></span><span class="op">(</span><span class="va">resI</span><span class="op">[</span>,<span class="fl">5</span><span class="op">]</span>, method<span class="op">=</span><span class="st">"bonferroni"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="localmoran-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="va">totcon</span> <span class="op">&lt;-</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">totcon</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">totcon</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">totcon</span></span>
+<span class="r-in"><span><span class="va">totcon</span> <span class="op">&lt;-</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">totcon</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">totcon</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">totcon</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1363 1421 1861 2355 5246  811  299  358  895 4751 1878  933  347 1130  241</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [16]  604 1015  998 2122 1090  848  618   NA  423   NA 3087 2273 3134 1142  824</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [31] 2881  487  604 1528 1554  629   NA  795   NA 1875   NA  363</span>
-<span class="r-in"><span class="va">resI.na</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.exclude</span>,</span>
-<span class="r-in"> zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">resI.na</span>, <span class="st">"na.action"</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="st">"exclude"</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI.na</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span> <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">resI.na</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">resI.na</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.exclude</span>,</span></span>
+<span class="r-in"><span> zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">resI.na</span>, <span class="st">"na.action"</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="st">"exclude"</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI.na</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">resI.na</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                               Ii     E.Ii  Var.Ii  Z.Ii Pr.z....E.Ii..</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                0.4383 -2.9e-02 1.1e+00  0.46         0.6483</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MALI                      0.5172 -2.6e-02 1.4e-01  1.47         0.1406</span>
@@ -426,8 +447,8 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 <span class="r-out co"><span class="r-pr">#&gt;</span> LIBYA                     0.6345 -1.8e-02 9.3e-02  2.14         0.0325</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                     2.5128 -2.3e-01 6.6e-01  3.39         0.0007</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                     6.0832 -3.0e-01 3.8e+00  3.28         0.0011</span>
-<span class="r-in"><span class="va">resG</span> <span class="op">&lt;-</span> <span class="fu"><a href="localG.html">localG</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="fu"><a href="include.self.html">include.self</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resG</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">resG</span> <span class="op">&lt;-</span> <span class="fu"><a href="localG.html">localG</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="fu"><a href="include.self.html">include.self</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resG</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          resG.oid.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                  -0.984</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MALI                        -1.699</span>
@@ -471,10 +492,10 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 <span class="r-out co"><span class="r-pr">#&gt;</span> LIBYA                        2.553</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                        4.039</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                        4.421</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">resI_p</span> <span class="op">&lt;-</span> <span class="fu">localmoran_perm</span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/printCoefmat.html" class="external-link">printCoefmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI_p</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>,</span>
-<span class="r-in"> check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">resI_p</span> <span class="op">&lt;-</span> <span class="fu">localmoran_perm</span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/printCoefmat.html" class="external-link">printCoefmat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI_p</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> check.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                   Ii        E.Ii      Var.Ii        Z.Ii</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                3.7523e-01 -3.0853e-02  9.0476e-01  4.2692e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MALI                      4.6363e-01 -2.1690e-02  1.2192e-01  1.3899e+00</span>
@@ -618,7 +639,7 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

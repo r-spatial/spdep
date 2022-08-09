@@ -80,27 +80,33 @@ attribute if needed, and <code>make.sym.nb</code> makes a non-symmetric list sym
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">is.symmetric.nb</span><span class="op">(</span><span class="va">nb</span>, verbose <span class="op">=</span> <span class="cn">NULL</span>, force <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu">sym.attr.nb</span><span class="op">(</span><span class="va">nb</span><span class="op">)</span>
-<span class="fu">make.sym.nb</span><span class="op">(</span><span class="va">nb</span><span class="op">)</span>
-<span class="fu">old.make.sym.nb</span><span class="op">(</span><span class="va">nb</span><span class="op">)</span>
-<span class="fu">is.symmetric.glist</span><span class="op">(</span><span class="va">nb</span>, <span class="va">glist</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">is.symmetric.nb</span><span class="op">(</span><span class="va">nb</span>, verbose <span class="op">=</span> <span class="cn">NULL</span>, force <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">sym.attr.nb</span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></span>
+<span><span class="fu">make.sym.nb</span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></span>
+<span><span class="fu">old.make.sym.nb</span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></span>
+<span><span class="fu">is.symmetric.glist</span><span class="op">(</span><span class="va">nb</span>, <span class="va">glist</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>nb</dt>
 <dd><p>an object of class <code>nb</code> with a list of integer vectors containing neighbour region number ids.</p></dd>
-<dt>verbose</dt>
+
+  <dt>verbose</dt>
 <dd><p>default NULL, use global option value; if TRUE prints non-matching pairs</p></dd>
-<dt>force</dt>
+
+  <dt>force</dt>
 <dd><p>do not respect a neighbours list <code>sym</code> attribute and test anyway</p></dd>
-<dt>glist</dt>
+
+  <dt>glist</dt>
 <dd><p>list of general weights corresponding to neighbours</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>TRUE if symmetric, FALSE if not; is.symmetric.glist returns a value with an attribute, "d", indicating for failed symmetry the largest failing value.</p>
+    
+
+<p>TRUE if symmetric, FALSE if not; is.symmetric.glist returns a value with an attribute, "d", indicating for failed symmetry the largest failing value.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -117,18 +123,18 @@ attribute if needed, and <code>make.sym.nb</code> makes a non-symmetric list sym
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">columbus</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">columbus</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">is.symmetric.nb</span><span class="op">(</span><span class="va">col.gal.nb</span>, verbose<span class="op">=</span><span class="cn">TRUE</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">columbus</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">columbus</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">is.symmetric.nb</span><span class="op">(</span><span class="va">col.gal.nb</span>, verbose<span class="op">=</span><span class="cn">TRUE</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="va">k4</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">4</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">ind</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">k4</span> <span class="op">&lt;-</span> <span class="fu">sym.attr.nb</span><span class="op">(</span><span class="va">k4</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">is.symmetric.nb</span><span class="op">(</span><span class="va">k4</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">k4</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">4</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">ind</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">k4</span> <span class="op">&lt;-</span> <span class="fu">sym.attr.nb</span><span class="op">(</span><span class="va">k4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">is.symmetric.nb</span><span class="op">(</span><span class="va">k4</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span class="va">k4.sym</span> <span class="op">&lt;-</span> <span class="fu">make.sym.nb</span><span class="op">(</span><span class="va">k4</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">is.symmetric.nb</span><span class="op">(</span><span class="va">k4.sym</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">k4.sym</span> <span class="op">&lt;-</span> <span class="fu">make.sym.nb</span><span class="op">(</span><span class="va">k4</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu">is.symmetric.nb</span><span class="op">(</span><span class="va">k4.sym</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
@@ -144,7 +150,7 @@ attribute if needed, and <code>make.sym.nb</code> makes a non-symmetric list sym
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

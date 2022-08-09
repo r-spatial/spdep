@@ -84,68 +84,93 @@ permutation test.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">var</span>, <span class="va">listw</span>, <span class="va">nsim</span>, type <span class="op">=</span> <span class="st">"moran"</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>,
- alternative <span class="op">=</span> <span class="st">"greater"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="co"># S3 method for mc.sim</span>
-<span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">xlim</span>, <span class="va">xlab</span>, <span class="va">main</span>, <span class="va">sub</span>, <span class="va">...</span>, ptype<span class="op">=</span><span class="st">"density"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">var</span>, <span class="va">listw</span>, <span class="va">nsim</span>, type <span class="op">=</span> <span class="st">"moran"</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span> alternative <span class="op">=</span> <span class="st">"greater"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for mc.sim</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">xlim</span>, <span class="va">xlab</span>, <span class="va">main</span>, <span class="va">sub</span>, <span class="va">...</span>, ptype<span class="op">=</span><span class="st">"density"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>var</dt>
 <dd><p>a numeric vector the same length as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>nsim</dt>
+
+  <dt>nsim</dt>
 <dd><p>number of permutations</p></dd>
-<dt>type</dt>
+
+  <dt>type</dt>
 <dd><p>"moran", "geary" or "sokal" criteria for similarity</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without 
   neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, 
   must be one of "greater" (default), or "less".</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>return_boot</dt>
+
+  <dt>return_boot</dt>
 <dd><p>return an object of class <code>boot</code> from the equivalent permutation bootstrap rather than an object of class <code>htest</code></p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>the object to be plotted</p></dd>
-<dt>xlim</dt>
+
+  <dt>xlim</dt>
 <dd><p>the range of the x axis</p></dd>
-<dt>xlab</dt>
+
+  <dt>xlab</dt>
 <dd><p>a title for the x axis</p></dd>
-<dt>main</dt>
+
+  <dt>main</dt>
 <dd><p>an overall title for the plot</p></dd>
-<dt>sub</dt>
+
+  <dt>sub</dt>
 <dd><p>a sub title for the plot</p></dd>
-<dt>ptype</dt>
+
+  <dt>ptype</dt>
 <dd><p>either "density" or "hist"</p></dd>
-<dt>...</dt>
+
+  <dt>...</dt>
 <dd><p>further arguments passed through</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>htest</code> and <code>mc.sim</code> containing the following components:</p>
+    
+
+<p>A list with class <code>htest</code> and <code>mc.sim</code> containing the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the observed Geary's C.</p></dd>
-<dt>parameter</dt>
+
+  <dt>parameter</dt>
 <dd><p>the rank of the observed Geary's C.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data, and the 
   number of simulations.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the pseudo p-value of the test.</p></dd>
-<dt>res</dt>
+
+  <dt>res</dt>
 <dd><p>nsim simulated values of statistic, final value is observed 
   statistic</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the mean and variance of the simulated distribution.</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -168,10 +193,10 @@ is in the vegan package.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>,</span>
-<span class="r-in"> nsim<span class="op">=</span><span class="fl">99</span>, type<span class="op">=</span><span class="st">"geary"</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sim1</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> nsim<span class="op">=</span><span class="fl">99</span>, type<span class="op">=</span><span class="st">"geary"</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sim1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Mantel permutation test for geary measure</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -185,10 +210,10 @@ is in the vegan package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mean of permutations   sd of permutations </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            98.852997             8.934135 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sp.mantel.mc-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>,</span>
-<span class="r-in"> type<span class="op">=</span><span class="st">"sokal"</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>,</span></span>
+<span class="r-in"><span> type<span class="op">=</span><span class="st">"sokal"</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Mantel permutation test for sokal measure</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -202,8 +227,8 @@ is in the vegan package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mean of permutations   sd of permutations </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            56.418584             3.227064 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>,</span>
-<span class="r-in"> type<span class="op">=</span><span class="st">"moran"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>,</span></span>
+<span class="r-in"><span> type<span class="op">=</span><span class="st">"moran"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Mantel permutation test for moran measure</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -231,7 +256,7 @@ is in the vegan package.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

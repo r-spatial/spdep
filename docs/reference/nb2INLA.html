@@ -72,19 +72,23 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nb2INLA</span><span class="op">(</span><span class="va">file</span>, <span class="va">nb</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nb2INLA</span><span class="op">(</span><span class="va">file</span>, <span class="va">nb</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>file where adjacency matrix will be stored</p></dd>
-<dt>nb</dt>
+
+  <dt>nb</dt>
 <dd><p>an object of class <code>nb</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Nothing is returned but a file will be created with the representation of
+    
+
+<p>Nothing is returned but a file will be created with the representation of
 the adjacency matrix as required by INLA for its spatial models.</p>
     </div>
     <div id="references">
@@ -98,10 +102,10 @@ the adjacency matrix as required by INLA for its spatial models.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">nb2INLA</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"columbus-INLA.adj"</span>, sep<span class="op">=</span><span class="st">"/"</span><span class="op">)</span>, <span class="va">col.gal.nb</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"columbus-INLA.adj"</span>, sep<span class="op">=</span><span class="st">"/"</span><span class="op">)</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">td</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">nb2INLA</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"columbus-INLA.adj"</span>, sep<span class="op">=</span><span class="st">"/"</span><span class="op">)</span>, <span class="va">col.gal.nb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">td</span>, <span class="st">"columbus-INLA.adj"</span>, sep<span class="op">=</span><span class="st">"/"</span><span class="op">)</span>, n<span class="op">=</span><span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "49"                        "1 2 2 3"                  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [3] "2 3 1 3 4"                 "3 4 1 2 4 5"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "4 4 2 3 5 8"               "5 7 3 4 6 8 9 11 15"      </span>
@@ -121,7 +125,7 @@ the adjacency matrix as required by INLA for its spatial models.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
