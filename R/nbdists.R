@@ -16,7 +16,7 @@ nbdists <- function(nb, coords, longlat=NULL) {
          		longlat <- TRUE
       		} else longlat <- FALSE
       		coords <- coordinates(coords)[, 1:2]
-        } else {
+        } else if (inherits(coords, "sf") || inherits(coords, "sfc")) {
             if (inherits(coords, "sf")) {
                 if (is.null(row.names)) row.names <- row.names(coords)
                 coords <- sf::st_geometry(coords)
@@ -37,8 +37,10 @@ nbdists <- function(nb, coords, longlat=NULL) {
                     s2x <- sf::st_as_s2(coords)
                     use_s2_ll <- TRUE
                 }
-                coords <- sf::st_coordinates(coords)
+                coords <- sf::st_coordinates(coords)[, 1:2]
             }
+        } else if (inherits(coords, "data.frame")) {
+            coords <- as.matrix(coords)
         }
         if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
 	if (!is.numeric(coords)) stop("Data non-numeric")

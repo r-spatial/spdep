@@ -1,4 +1,4 @@
-# Copyright 2001-2019 by Nicholas Lewin-Koh and Roger Bivand
+# Copyright 2001-2022 by Nicholas Lewin-Koh and Roger Bivand
 #
 
 relativeneigh <- function(coords, nnmult=3) {
@@ -15,6 +15,8 @@ relativeneigh <- function(coords, nnmult=3) {
         if (!is.na(sf::st_is_longlat(coords)) && sf::st_is_longlat(coords))
             warning("relativeneigh: coordinates should be planar")
         coords <- sf::st_coordinates(coords)
+    } else if (inherits(coords, "data.frame")) {
+        coords <- as.matrix(coords)
     }
     x <- coords
     if (!is.matrix(x)) stop("Data not in matrix form")

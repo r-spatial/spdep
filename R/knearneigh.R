@@ -14,7 +14,7 @@ knearneigh <- function(x, k=1, longlat=NULL, use_kd_tree=TRUE)
            longlat <- TRUE
         } else longlat <- FALSE
         x <- coordinates(x)[, 1:2]
-    } else {
+    } else if (inherits(x, "sf") || inherits(x, "sfc")) {
         if (inherits(x, "sf")) {
             if (is.null(row.names)) row.names <- row.names(x)
             x <- sf::st_geometry(x)
@@ -36,6 +36,8 @@ knearneigh <- function(x, k=1, longlat=NULL, use_kd_tree=TRUE)
            }
            x <- sf::st_coordinates(x)
         }
+    } else if (inherits(x, "data.frame")) {
+        x <- as.matrix(x)
     } 
     if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
     if (!is.numeric(x)) stop("knearneigh: data non-numeric")

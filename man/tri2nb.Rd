@@ -1,4 +1,4 @@
-% Copyright 2001 by Roger S. Bivand
+% Copyright 2001-2022 by Roger S. Bivand
 \name{tri2nb}
 \alias{tri2nb}
 \title{Neighbours list from tri object}
@@ -12,7 +12,7 @@ ids.
 tri2nb(coords, row.names = NULL)
 }
 \arguments{
-  \item{coords}{matrix of point coordinates with two columns, a SpatialPoints object or an \code{sfc} points object}
+  \item{coords}{matrix, data.frame or tibble of point coordinates with two columns, a SpatialPoints object or an \code{sfc} points object}
   \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}}
 }
 
@@ -54,5 +54,10 @@ seed <- 1234
 xid <- sample(1:nrow(xy))
 xy.nb <- tri2nb(xy[xid,])
 plot(xy.nb, xy[xid,])
+# example of reading points with readr::read_csv() yielding a tibble
+load(system.file("etc/misc/coords.rda", package="spdep"))
+class(coords)
+nb <- tri2nb(coords)
+plot(nb, coords)
 }
 \keyword{spatial}

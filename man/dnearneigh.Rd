@@ -106,5 +106,11 @@ if (packageVersion("s2") > "1.0.7") all.equal(gc.nb.closest, gc.nb.dwithin, chec
 if (packageVersion("s2") > "1.0.7") all.equal(gc.nb, gc.nb.closest, check.attributes=FALSE)
 all.equal(gc.nb, gc.nb.dwithin, check.attributes=FALSE)
 sf_use_s2(old_use_s2)
+# example of reading points with readr::read_csv() yielding a tibble
+load(system.file("etc/misc/coords.rda", package="spdep"))
+class(coords)
+k1 <- knn2nb(knearneigh(coords, k=1))
+all.linked <- max(unlist(nbdists(k1, coords)))
+dnearneigh(coords, 0, all.linked)
 }
 \keyword{spatial}

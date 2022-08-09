@@ -15,6 +15,8 @@ gabrielneigh <- function(coords, nnmult=3) {
         if (!is.na(sf::st_is_longlat(coords)) && sf::st_is_longlat(coords))
             warning("gabrielneigh: coordinates should be planar")
         coords <- sf::st_coordinates(coords)
+    } else if (inherits(coords, "data.frame")) {
+        coords <- as.matrix(coords)
     }
     x <- coords
     if (!is.matrix(x)) stop("Data not in matrix form")

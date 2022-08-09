@@ -17,7 +17,7 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
             longlat <- TRUE
         } else longlat <- FALSE
         x <- coordinates(x)
-    } else {
+    } else if (inherits(x, "sf") || inherits(x, "sfc")) {
         if (inherits(x, "sf")) {
             if (is.null(row.names)) row.names <- row.names(x)
             x <- sf::st_geometry(x)
@@ -39,6 +39,8 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
            }
            x <- sf::st_coordinates(x)
         }
+    } else if (inherits(x, "data.frame")) {
+        x <- as.matrix(x)
     }
     if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
     if (longlat && use_kd_tree) use_kd_tree <- FALSE

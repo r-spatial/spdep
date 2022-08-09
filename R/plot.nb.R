@@ -22,8 +22,8 @@ plot.nb <- function(x, coords, col="black", points=TRUE, add=FALSE,
         
         stopifnot(length(nb) == nrow(coords))
 	sym <- is.symmetric.nb(nb, verbose = FALSE, force = FALSE)
-	x <- coords[,1]
-	y <- coords[,2]
+	x <- coords[,1, drop=TRUE]
+	y <- coords[,2, drop=TRUE]
 	n <- length(nb)
 	if (n < 1) stop("non-positive number of entities")
 	if (!add) {

@@ -1,5 +1,7 @@
 # Version 1.2-5 (development)
 
+* permit use of data.frame or tibble as matrix for functions creating neighbour objects from 2D points (preferred use an object inheriting from  ``"SpatialPoints"` or `"sfc"`)
+
 * https://github.com/r-spatial/s2/pull/174 speeds up `dnearneigh()` for geographical coordinates without using `s2::s2_closest_edges()`.
 
 # Version 1.2-4 (2022-04-18)

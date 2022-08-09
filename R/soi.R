@@ -43,6 +43,8 @@ soi.graph <- function(tri.nb, coords, quadsegs=10){
       if (!is.na(sf::st_is_longlat(obj)) && sf::st_is_longlat(obj))
            warning("tri2nb: coordinates should be planar")
       coords <- sf::st_coordinates(obj)
+  } else if (inherits(obj, "data.frame")) {
+      coords <- as.matrix(obj)
   }
   if (!is.matrix(coords)) stop("Data not in matrix form")
   if (any(is.na(coords))) stop("Data cannot include NAs")
