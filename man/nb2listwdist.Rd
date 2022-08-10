@@ -47,7 +47,7 @@ A \code{listw} object with the following members:
 # World examples
 data(world, package="spData")
 # neighbours on distance interval [0, 1000] kilometres
-suppressWarnings(st_crs(world) <- "+proj=longlat") # for older PROJ
+# suppressWarnings(st_crs(world) <- "+proj=longlat") # for older PROJ
 pts <- st_centroid(st_transform(world, 3857))
 nb_world <- dnearneigh(pts, 0, 1000000)
 # Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme
