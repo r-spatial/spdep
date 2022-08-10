@@ -72,46 +72,63 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">geary.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,
- spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
+<span> spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a numeric vector the same length as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>nsim</dt>
+
+  <dt>nsim</dt>
 <dd><p>number of permutations</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less"; this reversal corresponds to that on <code><a href="geary.test.html">geary.test</a></code> described in the section on the output statistic value, based on Cliff and Ord 1973, p. 21 (changed 2011-04-11, thanks to Daniel Garavito).</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>adjust.n</dt>
+
+  <dt>adjust.n</dt>
 <dd><p>default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted</p></dd>
-<dt>return_boot</dt>
+
+  <dt>return_boot</dt>
 <dd><p>return an object of class <code>boot</code> from the equivalent permutation bootstrap rather than an object of class <code>htest</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>htest</code> and <code>mc.sim</code> containing the following components:</p>
+    
+
+<p>A list with class <code>htest</code> and <code>mc.sim</code> containing the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the observed Geary's C.</p></dd>
-<dt>parameter</dt>
+
+  <dt>parameter</dt>
 <dd><p>the rank of the observed Geary's C.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the pseudo p-value of the test.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data, and the number of simulations.</p></dd>
-<dt>res</dt>
+
+  <dt>res</dt>
 <dd><p>nsim simulated values of statistic, final value is observed statistic</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -128,10 +145,10 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span>
-<span class="r-in"> nsim<span class="op">=</span><span class="fl">99</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sim1</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> nsim<span class="op">=</span><span class="fl">99</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sim1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Geary C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -142,17 +159,17 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.52987, observed rank = 1, p-value = 0.99</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: less</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9956052</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01297666</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9888956</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01225885</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5299  0.9282  1.0075  0.9956  1.0716  1.2215 </span>
-<span class="r-in"><span class="va">colold.lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="nblag.html">nblag</a></span><span class="op">(</span><span class="va">COL.nb</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span>
-<span class="r-in"> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sim2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5299  0.9161  0.9935  0.9889  1.0637  1.2070 </span>
+<span class="r-in"><span><span class="va">colold.lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="nblag.html">nblag</a></span><span class="op">(</span><span class="va">COL.nb</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sim2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Geary C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -160,15 +177,15 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[2]], style = "W") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.81129, observed rank = 1, p-value = 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.81129, observed rank = 4, p-value = 0.04</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim2</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim2</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8113  0.9445  0.9868  0.9908  1.0420  1.2157 </span>
-<span class="r-in"><span class="va">sim3</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span>
-<span class="r-in"> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sim3</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.7800  0.9540  0.9912  0.9944  1.0476  1.2057 </span>
+<span class="r-in"><span><span class="va">sim3</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sim3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Geary C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -176,12 +193,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[3]], style = "W") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 1.1303, observed rank = 95, p-value = 0.95</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 1.1303, observed rank = 94, p-value = 0.94</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim3</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim3</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8406  0.9547  1.0062  1.0084  1.0543  1.2460 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.7915  0.9268  0.9954  0.9988  1.0511  1.2140 </span>
 </code></pre></div>
     </div>
   </div>
@@ -196,7 +213,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

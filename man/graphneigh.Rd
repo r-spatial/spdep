@@ -160,5 +160,10 @@ opar <- par(mfrow=c(1,2))
 plot(r2, show=TRUE, linecol=2)
 plot(r3, show=TRUE, linecol=2)
 par(opar)
+# example of reading points with readr::read_csv() yielding a tibble
+load(system.file("etc/misc/coords.rda", package="spdep"))
+class(coords)
+graph2nb(gabrielneigh(coords))
+graph2nb(relativeneigh(coords))
 }
 \keyword{spatial}

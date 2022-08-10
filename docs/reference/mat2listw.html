@@ -78,7 +78,7 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mat2listw</span><span class="op">(</span><span class="va">x</span>, row.names <span class="op">=</span> <span class="cn">NULL</span>, style<span class="op">=</span><span class="st">"M"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mat2listw</span><span class="op">(</span><span class="va">x</span>, row.names <span class="op">=</span> <span class="cn">NULL</span>, style<span class="op">=</span><span class="st">"M"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -86,20 +86,28 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
     <dl><dt>x</dt>
 <dd><p>A square non-negative matrix with no NAs representing spatial 
 weights; may be a matrix of class “sparseMatrix”</p></dd>
-<dt>row.names</dt>
+
+  <dt>row.names</dt>
 <dd><p>row names to use for region IDs</p></dd>
-<dt>style</dt>
+
+  <dt>style</dt>
 <dd><p>default "M", unknown style; if not "M", passed to <code><a href="nb2listw.html">nb2listw</a></code> to re-build the object</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A <code>listw</code> object with the following members:</p>
+    
+
+<p>A <code>listw</code> object with the following members:</p>
 <dl><dt>style</dt>
 <dd><p>"M", meaning matrix style, underlying style unknown, or assigned style argument in rebuilt object</p></dd>
-<dt>neighbours</dt>
+
+  <dt>neighbours</dt>
 <dd><p>the derived neighbours list</p></dd>
-<dt>weights</dt>
+
+  <dt>weights</dt>
 <dd><p>the weights for the neighbours derived from the matrix</p></dd>
+
 </dl></div>
     <div id="author">
     <h2>Author</h2>
@@ -112,10 +120,10 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col005</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>,</span>
-<span class="r-in"> of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">NEIGNO</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col005</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, <span class="fl">0</span>, <span class="fl">0.5</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">NEIGNO</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 170 </span>
@@ -131,9 +139,9 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1001 1007 1018 1010 1045 1044 1046 1047 1049 1048 1015 with 1 link</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 most connected regions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1038 1036 with 9 links</span>
-<span class="r-in"><span class="va">col005.w.mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2mat.html">nb2mat</a></span><span class="op">(</span><span class="va">col005</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col005.w.b</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.w.b</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">col005.w.mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2mat.html">nb2mat</a></span><span class="op">(</span><span class="va">col005</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col005.w.b</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.w.b</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 170 </span>
@@ -149,7 +157,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1001 1007 1018 1010 1045 1044 1046 1047 1049 1048 1015 with 1 link</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 most connected regions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1038 1036 with 9 links</span>
-<span class="r-in"><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">col005</span>, <span class="va">col005.w.b</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">col005</span>, <span class="va">col005.w.b</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 0 </span>
@@ -160,10 +168,10 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1029 1025 1028 1048 1015 1027 1026</span>
-<span class="r-in"><span class="va">col005.w.mat.3T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">col005.w.mat</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col005.w.b.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat.3T</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">col005.w.mat.3T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">col005.w.mat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col005.w.b.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat.3T</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>zero sum general weights</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.w.b.3T</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.w.b.3T</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 147 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 510 </span>
@@ -179,13 +187,13 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 5 9 10 31 34 36 39 42 46 47 51 54 58 59 80 83 85 88 91 95 96 100 103 107 108 129 132 134 137 140 144 145 with 1 link</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 most connected regions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11 16 60 65 109 114 with 9 links</span>
-<span class="r-in"><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/r-spatial/spatialreg/" class="external-link">"spatialreg"</a></span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/coerce-methods.html" class="external-link">as</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col005</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col005.spM</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">W</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.spM</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/r-spatial/spatialreg/" class="external-link">"spatialreg"</a></span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col005</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col005.spM</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">W</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.spM</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>1005, 1006, 1008, 1043 are not origins</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
@@ -202,9 +210,9 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1001 1007 1018 1010 1045 1044 1046 1047 1049 1048 1015 with 1 link</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 most connected regions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1038 1036 with 9 links</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">col005</span>, <span class="va">col005.spM</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">col005</span>, <span class="va">col005.spM</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 0 </span>
@@ -215,11 +223,11 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1029 1025 1028 1048 1015 1027 1026</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://Matrix.R-forge.R-project.org/" class="external-link">"Matrix"</a></span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">IW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html" class="external-link">Diagonal</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">W</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">col005.spM.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">IW</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.spM.3T</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://Matrix.R-forge.R-project.org/" class="external-link">"Matrix"</a></span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">IW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html" class="external-link">Diagonal</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">W</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col005.spM.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">IW</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.spM.3T</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>1, 3, 6, 21, 50, 52, 55, 70, 99, 101, 104, 119 are not origins</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>zero sum general weights</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
@@ -251,7 +259,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

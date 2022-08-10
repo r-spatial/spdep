@@ -72,21 +72,26 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">p.adjustSP</span><span class="op">(</span><span class="va">p</span>, <span class="va">nb</span>, method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">p.adjustSP</span><span class="op">(</span><span class="va">p</span>, <span class="va">nb</span>, method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>p</dt>
 <dd><p>vector of p-values</p></dd>
-<dt>nb</dt>
+
+  <dt>nb</dt>
 <dd><p>a list of neighbours of class <code>nb</code></p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>correction method as defined in <code><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></code>: "The adjustment methods include the Bonferroni correction ('"bonferroni"') in which the p-values are multiplied by the number of comparisons.  Four less conservative corrections are also included by Holm (1979) ('holm'), Hochberg (1988) ('hochberg'), Hommel (1988) ('hommel') and Benjamini &amp; Hochberg (1995) ('fdr'), respectively. A pass-through option ('none') is also included."</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A vector of corrected p-values using only the number of neighbours + 1.</p>
+    
+
+<p>A vector of corrected p-values using only the number of neighbours + 1.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -99,15 +104,15 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">afcon</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">oid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">resG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="localG.html">localG</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="fu"><a href="include.self.html">include.self</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">non</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html" class="external-link">format.pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">resG</span><span class="op">)</span><span class="op">)</span>, lower.tail<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">bon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html" class="external-link">format.pval</a></span><span class="op">(</span><span class="fu">p.adjustSP</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">resG</span><span class="op">)</span><span class="op">)</span>, lower.tail<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span class="r-in"> <span class="va">paper.nb</span>, <span class="st">"bonferroni"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">tot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html" class="external-link">format.pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">resG</span><span class="op">)</span><span class="op">)</span>, lower.tail<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,</span>
-<span class="r-in"> <span class="st">"bonferroni"</span>, n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">resG</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resG</span>, <span class="va">non</span>, <span class="va">bon</span>, <span class="va">tot</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">)</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">afcon</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">oid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">resG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="localG.html">localG</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="fu"><a href="include.self.html">include.self</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">non</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html" class="external-link">format.pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">resG</span><span class="op">)</span><span class="op">)</span>, lower.tail<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html" class="external-link">format.pval</a></span><span class="op">(</span><span class="fu">p.adjustSP</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">resG</span><span class="op">)</span><span class="op">)</span>, lower.tail<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> <span class="va">paper.nb</span>, <span class="st">"bonferroni"</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">tot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.pval.html" class="external-link">format.pval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/p.adjust.html" class="external-link">p.adjust</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">pnorm</a></span><span class="op">(</span><span class="fl">2</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">resG</span><span class="op">)</span><span class="op">)</span>, lower.tail<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> <span class="st">"bonferroni"</span>, n<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">resG</span><span class="op">)</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resG</span>, <span class="va">non</span>, <span class="va">bon</span>, <span class="va">tot</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">)</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                                 resG     non     bon     tot</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA               -0.98383592 0.02455 0.04911  1.0000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MALI                     -1.69893391 0.00034 0.00272  0.0143</span>
@@ -165,7 +170,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -72,22 +72,27 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">read.gal</span><span class="op">(</span><span class="va">file</span>, region.id<span class="op">=</span><span class="cn">NULL</span>, override.id<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu">read.geoda</span><span class="op">(</span><span class="va">file</span>, row.names<span class="op">=</span><span class="cn">NULL</span>, skip<span class="op">=</span><span class="fl">0</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">read.gal</span><span class="op">(</span><span class="va">file</span>, region.id<span class="op">=</span><span class="cn">NULL</span>, override.id<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">read.geoda</span><span class="op">(</span><span class="va">file</span>, row.names<span class="op">=</span><span class="cn">NULL</span>, skip<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>name of file with GAL lattice data</p></dd>
-<dt>region.id</dt>
+
+  <dt>region.id</dt>
 <dd><p>region IDs in specified order to coerse neighbours list order and numbering to that of the region.id</p></dd>
-<dt>override.id</dt>
+
+  <dt>override.id</dt>
 <dd><p>override any given (or NULL) region.id, collecting region.id numbering and order from the GAL file.</p></dd>
-<dt>row.names</dt>
+
+  <dt>row.names</dt>
 <dd><p>as in row.names in <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code>, typically a character string naming the column of the file to be used</p></dd>
-<dt>skip</dt>
+
+  <dt>skip</dt>
 <dd><p>skip number of lines, as in <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code></p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -95,7 +100,9 @@
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p>The function <code>read.gal()</code> returns an object of class <code>nb</code> with a list of integer vectors containing neighbour region number ids. The function <code>read.geoda</code> returns a data frame, and issues a warning if the returned object has only one column.</p>
+    
+
+<p>The function <code>read.gal()</code> returns an object of class <code>nb</code> with a list of integer vectors containing neighbour region number ids. The function <code>read.geoda</code> returns a data frame, and issues a warning if the returned object has only one column.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -112,22 +119,22 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">us48.fipsno</span> <span class="op">&lt;-</span> <span class="fu">read.geoda</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/weights/us48.txt"</span>,</span>
-<span class="r-in"> package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">us48.q</span> <span class="op">&lt;-</span> <span class="fu">read.gal</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/weights/us48_q.GAL"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span class="r-in"> <span class="va">us48.fipsno</span><span class="op">$</span><span class="va">Fipsno</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">us48.r</span> <span class="op">&lt;-</span> <span class="fu">read.gal</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/weights/us48_rk.GAL"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span class="r-in"> <span class="va">us48.fipsno</span><span class="op">$</span><span class="va">Fipsno</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">version</span><span class="op">$</span><span class="va">major</span>, <span class="va">version</span><span class="op">$</span><span class="va">minor</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">19</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="va">m50.48</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">us48.fipsno</span><span class="op">$</span><span class="st">"State.name"</span>, <span class="va">state.name</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="va">m50.48</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">us48.fipsno</span><span class="op">$</span><span class="st">"State_name"</span>, <span class="va">state.name</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">us48.q</span>, <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.center</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">m50.48</span>,<span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">us48.r</span>, <span class="va">us48.q</span><span class="op">)</span>,</span>
-<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.center</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">m50.48</span>,<span class="op">]</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"Differences between rook and queen criteria imported neighbours lists"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">us48.fipsno</span> <span class="op">&lt;-</span> <span class="fu">read.geoda</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/weights/us48.txt"</span>,</span></span>
+<span class="r-in"><span> package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">us48.q</span> <span class="op">&lt;-</span> <span class="fu">read.gal</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/weights/us48_q.GAL"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> <span class="va">us48.fipsno</span><span class="op">$</span><span class="va">Fipsno</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">us48.r</span> <span class="op">&lt;-</span> <span class="fu">read.gal</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/weights/us48_rk.GAL"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> <span class="va">us48.fipsno</span><span class="op">$</span><span class="va">Fipsno</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">state</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">version</span><span class="op">$</span><span class="va">major</span>, <span class="va">version</span><span class="op">$</span><span class="va">minor</span>, sep<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">19</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="va">m50.48</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">us48.fipsno</span><span class="op">$</span><span class="st">"State.name"</span>, <span class="va">state.name</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="va">m50.48</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="va">us48.fipsno</span><span class="op">$</span><span class="st">"State_name"</span>, <span class="va">state.name</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">us48.q</span>, <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.center</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">m50.48</span>,<span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">us48.r</span>, <span class="va">us48.q</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">state.center</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">m50.48</span>,<span class="op">]</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"red"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/title.html" class="external-link">title</a></span><span class="op">(</span>main<span class="op">=</span><span class="st">"Differences between rook and queen criteria imported neighbours lists"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="read.gal-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -143,7 +150,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

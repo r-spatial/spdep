@@ -82,18 +82,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">prunecost</span><span class="op">(</span><span class="va">edges</span>, <span class="va">data</span>, method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"maximum"</span>, <span class="st">"manhattan"</span>, 
-    <span class="st">"canberra"</span>, <span class="st">"binary"</span>, <span class="st">"minkowski"</span>, <span class="st">"mahalanobis"</span><span class="op">)</span>, 
-    p <span class="op">=</span> <span class="fl">2</span>, <span class="va">cov</span>, inverted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">prunecost</span><span class="op">(</span><span class="va">edges</span>, <span class="va">data</span>, method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"maximum"</span>, <span class="st">"manhattan"</span>, </span>
+<span>    <span class="st">"canberra"</span>, <span class="st">"binary"</span>, <span class="st">"minkowski"</span>, <span class="st">"mahalanobis"</span><span class="op">)</span>, </span>
+<span>    p <span class="op">=</span> <span class="fl">2</span>, <span class="va">cov</span>, inverted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>edges</dt>
 <dd><p>A matrix with 2 colums with each row is one edge</p></dd>
-<dt>data</dt>
+
+  <dt>data</dt>
 <dd><p>A data.frame with observations in the nodes.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>Character or function to declare distance method.
     If <code>method</code> is character, method must be "mahalanobis" or
     "euclidean", "maximum", "manhattan", "canberra", "binary"
@@ -106,18 +108,24 @@
      is computed between neighbour areas.
      If <code>method</code> is a <code>function</code>, this function is
      used to compute the distance.</p></dd>
-<dt>p</dt>
+
+  <dt>p</dt>
 <dd><p>The power of the Minkowski distance.</p></dd>
-<dt>cov</dt>
+
+  <dt>cov</dt>
 <dd><p>The covariance matrix used to compute the mahalanobis
    distance.</p></dd>
-<dt>inverted</dt>
+
+  <dt>inverted</dt>
 <dd><p>logical.  If 'TRUE', 'cov' is supposed to contain the
           inverse of the covariance matrix.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A vector with the differences between the dissimilarity of all nodes
+    
+
+<p>A vector with the differences between the dissimilarity of all nodes
   and the dissimilarity sum of all subgraphs obtained by pruning one
   edge each time.</p>
     </div>
@@ -132,13 +140,13 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="op">-</span><span class="fl">2</span><span class="op">:</span><span class="fl">2</span>, b<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>, <span class="fl">2</span>,<span class="fl">3</span>, <span class="fl">3</span>,<span class="fl">4</span>, <span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sweep.html" class="external-link">sweep</a></span><span class="op">(</span><span class="va">d</span>, <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html" class="external-link">colMeans</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>a<span class="op">=</span><span class="op">-</span><span class="fl">2</span><span class="op">:</span><span class="fl">2</span>, b<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span>, <span class="fl">2</span>,<span class="fl">3</span>, <span class="fl">3</span>,<span class="fl">4</span>, <span class="fl">4</span>,<span class="fl">5</span><span class="op">)</span>, ncol<span class="op">=</span><span class="fl">2</span>, byrow<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sweep.html" class="external-link">sweep</a></span><span class="op">(</span><span class="va">d</span>, <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/colSums.html" class="external-link">colMeans</a></span><span class="op">(</span><span class="va">d</span><span class="op">)</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 10.35574</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">prunecost</span><span class="op">(</span><span class="va">e</span>, <span class="va">d</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">prunecost</span><span class="op">(</span><span class="va">e</span>, <span class="va">d</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.138259 2.875555 2.820048 2.169740</span>
 </code></pre></div>
     </div>
@@ -154,7 +162,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

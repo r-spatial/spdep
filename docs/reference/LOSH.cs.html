@@ -72,24 +72,30 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">LOSH.cs</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, na.action <span class="op">=</span> <span class="va">na.fail</span>, 
-                 p.adjust.method <span class="op">=</span> <span class="st">"none"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">LOSH.cs</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, na.action <span class="op">=</span> <span class="va">na.fail</span>, </span>
+<span>                 p.adjust.method <span class="op">=</span> <span class="st">"none"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a numeric vector of the same length as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>na.action</dt>
+
+  <dt>na.action</dt>
 <dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. If <code>na.pass</code> is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)</p></dd>
-<dt>p.adjust.method</dt>
+
+ <dt>p.adjust.method</dt>
 <dd><p>a character string specifying the probability value adjustment for multiple tests, default "none"; see <code><a href="p.adjustSP.html">p.adjustSP</a></code>. Note that the number of multiple tests for each region is only taken as the number of neighbours + 1 for each region, rather than the total number of regions.</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -99,18 +105,25 @@
     <h2>Value</h2>
     <dl><dt>Hi</dt>
 <dd><p>LOSH statistic</p></dd>
-<dt>E.Hi</dt>
+
+    <dt>E.Hi</dt>
 <dd><p>expectation of LOSH</p></dd>
-<dt>Var.Hi</dt>
+
+    <dt>Var.Hi</dt>
 <dd><p>variance of LOSH</p></dd>
-<dt>Z.Hi</dt>
+
+    <dt>Z.Hi</dt>
 <dd><p>the approximately chi-square distributed test statistics</p></dd>
-<dt>x_bar_i</dt>
+
+    <dt>x_bar_i</dt>
 <dd><p>local spatially weighted mean values</p></dd>
-<dt>ei</dt>
+
+    <dt>ei</dt>
 <dd><p>residuals about local spatially weighted mean values</p></dd>
-<dt>Pr()</dt>
+
+    <dt>Pr()</dt>
 <dd><p>p-values for <code>Hi</code> obtained from a non-central Chi-square distribution with \(2/Var.Hi\) degrees of freedom</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -127,11 +140,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in">    <span class="va">resLOSH</span> <span class="op">&lt;-</span> <span class="fu">LOSH.cs</span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">NOX</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">boston.soi</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">resLOSH</span><span class="op">[</span>,<span class="st">"Hi"</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">resLOSH</span> <span class="op">&lt;-</span> <span class="fu">LOSH.cs</span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">NOX</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">boston.soi</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">resLOSH</span><span class="op">[</span>,<span class="st">"Hi"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="LOSH.cs-1.png" alt="" width="700" height="433"></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">resLOSH</span><span class="op">[</span>,<span class="st">"Hi"</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">resLOSH</span><span class="op">[</span>,<span class="st">"Hi"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9919329</span>
 </code></pre></div>
     </div>
@@ -147,7 +160,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

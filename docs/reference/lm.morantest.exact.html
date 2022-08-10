@@ -72,11 +72,11 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">lm.morantest.exact</span><span class="op">(</span><span class="va">model</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"greater"</span>,
- spChk <span class="op">=</span> <span class="cn">NULL</span>, resfun <span class="op">=</span> <span class="va">weighted.residuals</span>, zero.tol <span class="op">=</span> <span class="fl">1e-07</span>, Omega<span class="op">=</span><span class="cn">NULL</span>,
- save.M<span class="op">=</span><span class="cn">NULL</span>, save.U<span class="op">=</span><span class="cn">NULL</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>, truncErr<span class="op">=</span><span class="fl">1e-6</span>, zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>
-<span class="co"># S3 method for moranex</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lm.morantest.exact</span><span class="op">(</span><span class="va">model</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"greater"</span>,</span>
+<span> spChk <span class="op">=</span> <span class="cn">NULL</span>, resfun <span class="op">=</span> <span class="va">weighted.residuals</span>, zero.tol <span class="op">=</span> <span class="fl">1e-07</span>, Omega<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span> save.M<span class="op">=</span><span class="cn">NULL</span>, save.U<span class="op">=</span><span class="cn">NULL</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>, truncErr<span class="op">=</span><span class="fl">1e-6</span>, zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for moranex</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -84,59 +84,85 @@
     <dl><dt>model</dt>
 <dd><p>an object of class <code>lm</code> returned by <code>lm</code>; weights
 may be specified in the <code>lm</code> fit, but offsets should not be used</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis,
 must be one of greater (default), less or two.sided.</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>resfun</dt>
+
+  <dt>resfun</dt>
 <dd><p>default: weighted.residuals; the function to be used to extract residuals from the <code>lm</code> object, may be <code>residuals</code>, <code>weighted.residuals</code>, <code>rstandard</code>, or <code>rstudent</code></p></dd>
-<dt>zero.tol</dt>
+
+  <dt>zero.tol</dt>
 <dd><p>tolerance used to find eigenvalues close to absolute zero</p></dd>
-<dt>Omega</dt>
+
+  <dt>Omega</dt>
 <dd><p>A SAR process matrix may be passed in to test an alternative hypothesis, for example <code>Omega &lt;- invIrW(listw, rho=0.1); Omega &lt;- tcrossprod(Omega)</code>, <code><a href="https://rdrr.io/pkg/Matrix/man/chol.html" class="external-link">chol()</a></code> is taken internally</p></dd>
-<dt>save.M</dt>
+
+  <dt>save.M</dt>
 <dd><p>return the full M matrix for use in <code>spdep:::exactMoranAlt</code></p></dd>
-<dt>save.U</dt>
+
+  <dt>save.U</dt>
 <dd><p>return the full U matrix for use in <code>spdep:::exactMoranAlt</code></p></dd>
-<dt>useTP</dt>
+
+  <dt>useTP</dt>
 <dd><p>default FALSE, if TRUE, use truncation point in integration rather than upper=Inf, see Tiefelsdorf (2000), eq. 6.7, p.69</p></dd>
-<dt>truncErr</dt>
+
+  <dt>truncErr</dt>
 <dd><p>when useTP=TRUE, pass truncation error to truncation point function</p></dd>
-<dt>zeroTreat</dt>
+
+  <dt>zeroTreat</dt>
 <dd><p>when useTP=TRUE, pass zero adjustment to truncation point function</p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>a moranex object</p></dd>
-<dt>...</dt>
+
+  <dt>...</dt>
 <dd><p>arguments to be passed through</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of class <code>moranex</code> with the following components:</p>
+    
+
+<p>A list of class <code>moranex</code> with the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the saddlepoint approximation of the
  standard deviate of global Moran's I.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the p-value of the test.</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the value of the observed global Moran's I.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>gamma</dt>
+
+  <dt>gamma</dt>
 <dd><p>eigenvalues (excluding zero values)</p></dd>
-<dt>oType</dt>
+
+  <dt>oType</dt>
 <dd><p>usually set to "E"</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
-<dt>df</dt>
+
+  <dt>df</dt>
 <dd><p>degrees of freedom</p></dd>
+
 </dl></div>
     <div id="author">
     <h2>Author</h2>
@@ -153,7 +179,7 @@ must be one of greater (default), less or two.sided.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">eire</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/eire.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">eire</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/eire.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `eire' from data source </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 26 features and 10 fields</span>
@@ -161,11 +187,11 @@ must be one of greater (default), less or two.sided.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">eire</span><span class="op">$</span><span class="va">names</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span>
-<span class="r-in"><span class="va">eire.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="lm.morantest.html">lm.morantest</a></span><span class="op">(</span><span class="va">e.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">eire</span><span class="op">$</span><span class="va">names</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span></span>
+<span class="r-in"><span><span class="va">eire.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="lm.morantest.html">lm.morantest</a></span><span class="op">(</span><span class="va">e.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I for regression residuals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -179,7 +205,7 @@ must be one of greater (default), less or two.sided.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Observed Moran I      Expectation         Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.33660565      -0.05877741       0.01473183 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="lm.morantest.sad.html">lm.morantest.sad</a></span><span class="op">(</span><span class="va">e.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="lm.morantest.sad.html">lm.morantest.sad</a></span><span class="op">(</span><span class="va">e.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Saddlepoint approximation for global Moran's I (Barndorff-Nielsen</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	formula)</span>
@@ -194,7 +220,7 @@ must be one of greater (default), less or two.sided.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Observed Moran I </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0.3366057 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">lm.morantest.exact</span><span class="op">(</span><span class="va">e.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">lm.morantest.exact</span><span class="op">(</span><span class="va">e.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I statistic with exact p-value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -207,7 +233,7 @@ must be one of greater (default), less or two.sided.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3366057</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">lm.morantest.exact</span><span class="op">(</span><span class="va">e.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span>, useTP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">lm.morantest.exact</span><span class="op">(</span><span class="va">e.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span>, useTP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I statistic with exact p-value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -234,7 +260,7 @@ must be one of greater (default), less or two.sided.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

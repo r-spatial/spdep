@@ -80,7 +80,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mstree</span><span class="op">(</span><span class="va">nbw</span>, ini <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mstree</span><span class="op">(</span><span class="va">nbw</span>, ini <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -88,8 +88,10 @@
     <dl><dt>nbw</dt>
 <dd><p>An object of <code>listw</code> class returned by
     <code><a href="nb2listw.html">nb2listw</a></code> function. See this help for details.</p></dd>
-<dt>ini</dt>
+
+  <dt>ini</dt>
 <dd><p>The initial node in the minimal spanning tree.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -104,7 +106,9 @@
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A matrix with n-1 rows and tree columns. Each row is two nodes and the
+    
+
+<p>A matrix with n-1 rows and tree columns. Each row is two nodes and the
   cost, i. e. the edge and it cost.</p>
     </div>
     <div id="references">
@@ -119,29 +123,29 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">### loading data</span></span>
-<span class="r-in"><span class="va">bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/bhicv.shp"</span>,</span>
-<span class="r-in">      package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +ellps=WGS84"</span></span>
-<span class="r-in"><span class="co">### data padronized</span></span>
-<span class="r-in"><span class="va">dpad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">[</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### neighboorhod list </span></span>
-<span class="r-in"><span class="va">bh.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### calculing costs</span></span>
-<span class="r-in"><span class="va">lcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### making listw</span></span>
-<span class="r-in"><span class="va">nb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">lcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### find a minimum spanning tree</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">mst.bh</span> <span class="op">&lt;-</span> <span class="fu">mstree</span><span class="op">(</span><span class="va">nb.w</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">### loading data</span></span></span>
+<span class="r-in"><span><span class="va">bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/bhicv.shp"</span>,</span></span>
+<span class="r-in"><span>      package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +ellps=WGS84"</span></span></span>
+<span class="r-in"><span><span class="co">### data padronized</span></span></span>
+<span class="r-in"><span><span class="va">dpad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">[</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### neighboorhod list </span></span></span>
+<span class="r-in"><span><span class="va">bh.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### calculing costs</span></span></span>
+<span class="r-in"><span><span class="va">lcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### making listw</span></span></span>
+<span class="r-in"><span><span class="va">nb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">lcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### find a minimum spanning tree</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">mst.bh</span> <span class="op">&lt;-</span> <span class="fu">mstree</span><span class="op">(</span><span class="va">nb.w</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   0.002   0.000   0.002 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">mst.bh</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">mst.bh</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 97  3</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mst.bh</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mst.bh</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]      [,3]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    5   12 1.2951120</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   12   13 0.6141101</span>
@@ -149,7 +153,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]   13    6 0.9775650</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,]   11   31 0.9965625</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [6,]   31   39 0.6915158</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">mst.bh</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">tail</a></span><span class="op">(</span><span class="va">mst.bh</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       [,1] [,2]      [,3]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [92,]   89   90 2.5743702</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [93,]   26   56 2.6235317</span>
@@ -157,11 +161,11 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [95,]   87   72 0.7874461</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [96,]   49   36 2.8743677</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [97,]   24   25 3.4675168</span>
-<span class="r-in"><span class="co">### the mstree plot</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span>, border<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mst.bh</span>, <span class="fu">coordinates</span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/coerce-methods.html" class="external-link">as</a></span><span class="op">(</span><span class="va">bh</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span>, col<span class="op">=</span><span class="fl">2</span>, </span>
-<span class="r-in">     cex.lab<span class="op">=</span><span class="fl">.6</span>, cex.circles<span class="op">=</span><span class="fl">0.035</span>, fg<span class="op">=</span><span class="st">"blue"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co">### the mstree plot</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span>, border<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mst.bh</span>, <span class="fu">coordinates</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">bh</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span>, col<span class="op">=</span><span class="fl">2</span>, </span></span>
+<span class="r-in"><span>     cex.lab<span class="op">=</span><span class="fl">.6</span>, cex.circles<span class="op">=</span><span class="fl">0.035</span>, fg<span class="op">=</span><span class="st">"blue"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="mstree-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -177,7 +181,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

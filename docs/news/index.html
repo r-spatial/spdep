@@ -68,8 +68,9 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.2-5" id="version-12-5-development">Version 1.2-5 (development)<a class="anchor" aria-label="anchor" href="#version-12-5-development"></a></h2>
-<ul><li>
-<a href="https://github.com/r-spatial/s2/pull/174" class="external-link uri">https://github.com/r-spatial/s2/pull/174</a> speeds up <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> for geographical coordinates without using <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_closest_edges()</a></code>.</li></ul></div>
+<ul><li><p>permit use of data.frame or tibble as matrix for functions creating neighbour objects from 2D points (preferred use an object inheriting from `<code>"SpatialPoints"</code> or <code>"sfc"</code>)</p></li>
+<li><p><a href="https://github.com/r-spatial/s2/pull/174" class="external-link uri">https://github.com/r-spatial/s2/pull/174</a> speeds up <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> for geographical coordinates without using <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_closest_edges()</a></code>.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.2-4" id="version-12-4-2022-04-18">Version 1.2-4 (2022-04-18)<small>2022-04-18</small><a class="anchor" aria-label="anchor" href="#version-12-4-2022-04-18"></a></h2>
 <ul><li><p>added <code><a href="../reference/include.self.html">remove.self()</a></code>, thanks to Josiah Parry <a href="https://github.com/r-spatial/spdep/issues/83" class="external-link">#83</a>.</p></li>
@@ -155,7 +156,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

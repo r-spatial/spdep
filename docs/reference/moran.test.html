@@ -72,49 +72,67 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">moran.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>,
- alternative<span class="op">=</span><span class="st">"greater"</span>, rank <span class="op">=</span> <span class="cn">FALSE</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, spChk<span class="op">=</span><span class="cn">NULL</span>,
- adjust.n<span class="op">=</span><span class="cn">TRUE</span>, drop.EI2<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span> alternative<span class="op">=</span><span class="st">"greater"</span>, rank <span class="op">=</span> <span class="cn">FALSE</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, spChk<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span> adjust.n<span class="op">=</span><span class="cn">TRUE</span>, drop.EI2<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a numeric vector the same length as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>randomisation</dt>
+
+  <dt>randomisation</dt>
 <dd><p>variance of I calculated under the assumption of randomisation, if FALSE normality</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of greater (default), less or two.sided.</p></dd>
-<dt>rank</dt>
+
+  <dt>rank</dt>
 <dd><p>logical value - default FALSE for continuous variables, if TRUE, uses the adaptation of Moran's I for ranks suggested by Cliff and Ord (1981, p. 46)</p></dd>
-<dt>na.action</dt>
+
+  <dt>na.action</dt>
 <dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. If <code>na.pass</code> is used, zero is substituted for NA values in calculating the spatial lag</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>adjust.n</dt>
+
+  <dt>adjust.n</dt>
 <dd><p>default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted</p></dd>
-<dt>drop.EI2</dt>
+
+  <dt>drop.EI2</dt>
 <dd><p>default FALSE, if TRUE, emulate CrimeStat &lt;= 4.02</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>htest</code> containing the following components:</p>
+    
+
+<p>A list with class <code>htest</code> containing the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the standard deviate of Moran's I.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the p-value of the test.</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the value of the observed Moran's I, its expectation and variance under the method assumption.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the assumption used for calculating the standard deviate.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
+
 </dl></div>
     <div id="note">
     <h2>Note</h2>
@@ -139,9 +157,9 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">coords.OLD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">X</span>, <span class="va">COL.OLD</span><span class="op">$</span><span class="va">Y</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">coords.OLD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">X</span>, <span class="va">COL.OLD</span><span class="op">$</span><span class="va">Y</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -154,7 +172,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.510951264      -0.020833333       0.008908762 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -167,7 +185,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0.52063815       -0.02083333        0.00759872 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -180,7 +198,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0.52063815       -0.02083333        0.00759872 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"S"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"S"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -193,8 +211,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.512957470      -0.020833333       0.007971504 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span>
-<span class="r-in"> randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under normality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -207,9 +225,9 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.510951264      -0.020833333       0.008779831 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">colold.lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="nblag.html">nblag</a></span><span class="op">(</span><span class="va">COL.nb</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span>
-<span class="r-in"> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">colold.lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="nblag.html">nblag</a></span><span class="op">(</span><span class="va">COL.nb</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -222,8 +240,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.168485742      -0.020833333       0.005271314 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span>
-<span class="r-in"> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -236,12 +254,12 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      -0.138930745      -0.020833333       0.004354683 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="va">COL.k4.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords.OLD</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">COL.k4.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">COL.k4.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords.OLD</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">COL.k4.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -254,8 +272,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.624933667      -0.020833333       0.008003503 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span>
-<span class="r-in"> randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under normality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -268,10 +286,10 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.624933667      -0.020833333       0.007887613 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Note: non-symmetric weights matrix, use listw2U()"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Note: non-symmetric weights matrix, use listw2U()"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Note: non-symmetric weights matrix, use listw2U()</span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span>
-<span class="r-in"> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
+<span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -284,8 +302,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.624933667      -0.020833333       0.008003503 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span>
-<span class="r-in"> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span>, randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
+<span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span>, randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under normality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -298,9 +316,9 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.624933667      -0.020833333       0.007887613 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">ranks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ranks</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">ranks</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, rank<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">ranks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ranks</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">ranks</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, rank<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -313,19 +331,19 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.584333495      -0.020833333       0.008992923 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">crime</span> <span class="op">&lt;-</span> <span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span>
-<span class="r-in"> na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">crime</span> <span class="op">&lt;-</span> <span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in na.fail.default(x) : missing values in object</span>
-<span class="r-in"><span class="va">res</span></span>
+<span class="r-in"><span><span class="va">res</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error in na.fail.default(x) : missing values in object\n"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "try-error"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"condition")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;simpleError in na.fail.default(x): missing values in object&gt;</span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span class="r-in"> na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -339,8 +357,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0.42342213       -0.02631579        0.01346387 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span class="r-in"> na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -354,7 +372,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        0.42342213       -0.02631579        0.01346387 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.pass</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.pass</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs in lagged values</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
@@ -382,7 +400,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

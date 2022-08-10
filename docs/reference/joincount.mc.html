@@ -72,44 +72,60 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">joincount.mc</span><span class="op">(</span><span class="va">fx</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="cn">FALSE</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,
- spChk<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">joincount.mc</span><span class="op">(</span><span class="va">fx</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="cn">FALSE</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
+<span> spChk<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>fx</dt>
 <dd><p>a factor of the same length as the neighbours and weights objects in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>nsim</dt>
+
+  <dt>nsim</dt>
 <dd><p>number of permutations</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less".</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>jclist</code> of lists with class <code>htest</code> and <code>mc.sim</code> for each of the k colours containing the following components:</p>
+    
+
+<p>A list with class <code>jclist</code> of lists with class <code>htest</code> and <code>mc.sim</code> for each of the k colours containing the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the observed statistic.</p></dd>
-<dt>parameter</dt>
+
+  <dt>parameter</dt>
 <dd><p>the rank of the observed statistic.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the pseudo p-value of the test.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the mean and variance of the simulated distribution.</p></dd>
-<dt>res</dt>
+
+  <dt>res</dt>
 <dd><p>nsim simulated values of statistic, the final element is the observed statistic</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -126,10 +142,10 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">HICRIME</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">35</span>,<span class="fl">80</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>,<span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">HICRIME</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">joincount.mc</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">HICRIME</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">35</span>,<span class="fl">80</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>,<span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">HICRIME</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">joincount.mc</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of join-count statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -158,7 +174,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mean of simulation variance of simulation </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               27.26263               15.21604 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="joincount.test.html">joincount.test</a></span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="joincount.test.html">joincount.test</a></span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under nonfree sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -197,7 +213,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

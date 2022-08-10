@@ -78,20 +78,23 @@ locations as the key.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nb2blocknb</span><span class="op">(</span>nb<span class="op">=</span><span class="cn">NULL</span>, <span class="va">ID</span>, row.names <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nb2blocknb</span><span class="op">(</span>nb<span class="op">=</span><span class="cn">NULL</span>, <span class="va">ID</span>, row.names <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>nb</dt>
 <dd><p>an object of class <code>nb</code> with a list of integer vectors containing neighbour region number ids; if null, an nb object with no neighbours is created the length of <code>unique(as.character(ID))</code></p></dd>
-<dt>ID</dt>
+
+  <dt>ID</dt>
 <dd><p>identification tags of the locations for the location-less observations;</p>
 <p><code>sort(unique(as.character(ID)))</code> must be identical to</p>
 <p><code>sort(as.character(attr(nb, "region.id")))</code>;</p>
 <p>same length as <code>row.names</code> if provided.</p></dd>
-<dt>row.names</dt>
+
+  <dt>row.names</dt>
 <dd><p>character vector of observation ids to be added to the neighbours list as attribute <code>region.id</code>, default <code>seq(1, nrow(x))</code>; same length as <code>ID</code> if provided.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -109,7 +112,9 @@ the post code locations are known).</p>
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p>The function returns an object of class <code>nb</code> with a list of integer vectors containing neighbour observation number ids.</p>
+    
+
+<p>The function returns an object of class <code>nb</code> with a list of integer vectors containing neighbour observation number ids.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -122,31 +127,31 @@ the post code locations are known).</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">TOWN</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">townaggr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/aggregate.sf.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="va">boston.utm</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>town<span class="op">=</span><span class="va">boston.c</span><span class="op">$</span><span class="va">TOWN</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">block.rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="graphneigh.html">relativeneigh</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">townaggr</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">townaggr</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, sym<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">block.rel</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">block.rel</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">block.rel</span>, <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">townaggr</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">boston.utm</span>, pch<span class="op">=</span><span class="fl">18</span>, col<span class="op">=</span><span class="st">"lightgreen"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">block.nb</span> <span class="op">&lt;-</span> <span class="fu">nb2blocknb</span><span class="op">(</span><span class="va">block.rel</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">TOWN</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">block.nb</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">block.nb</span>, <span class="va">boston.utm</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">boston.utm</span>, pch<span class="op">=</span><span class="fl">18</span>, col<span class="op">=</span><span class="st">"lightgreen"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span></span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">boston.soi</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">block.nb</span> <span class="op">&lt;-</span> <span class="fu">nb2blocknb</span><span class="op">(</span><span class="cn">NULL</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">TOWN</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">block.nb</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">block.nb</span>, <span class="va">boston.utm</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span></span>
-<span class="r-in"><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">block.nb</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">TOWN</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">townaggr</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/aggregate.html" class="external-link">aggregate</a></span><span class="op">(</span><span class="va">boston.utm</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>town<span class="op">=</span><span class="va">boston.c</span><span class="op">$</span><span class="va">TOWN</span><span class="op">)</span>, <span class="va">mean</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">block.rel</span> <span class="op">&lt;-</span> <span class="fu"><a href="graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="graphneigh.html">relativeneigh</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">townaggr</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">townaggr</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, sym<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">block.rel</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">block.rel</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">block.rel</span>, <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">townaggr</span><span class="op">[</span>,<span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">boston.utm</span>, pch<span class="op">=</span><span class="fl">18</span>, col<span class="op">=</span><span class="st">"lightgreen"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">block.nb</span> <span class="op">&lt;-</span> <span class="fu">nb2blocknb</span><span class="op">(</span><span class="va">block.rel</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">TOWN</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">block.nb</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">block.nb</span>, <span class="va">boston.utm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">boston.utm</span>, pch<span class="op">=</span><span class="fl">18</span>, col<span class="op">=</span><span class="st">"lightgreen"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">boston.soi</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">block.nb</span> <span class="op">&lt;-</span> <span class="fu">nb2blocknb</span><span class="op">(</span><span class="cn">NULL</span>, <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">TOWN</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">block.nb</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">block.nb</span>, <span class="va">boston.utm</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">block.nb</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">block.nb</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -161,7 +166,7 @@ the post code locations are known).</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -72,21 +72,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">diffnb</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, verbose<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">diffnb</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, verbose<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>an object of class <code>nb</code></p></dd>
-<dt>y</dt>
+
+  <dt>y</dt>
 <dd><p>an object of class <code>nb</code></p></dd>
-<dt>verbose</dt>
+
+  <dt>verbose</dt>
 <dd><p>default NULL, use global option value; report regions ids taken from object attribute "region.id" with differences</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A neighbours list with class <code>nb</code></p>
+    
+
+<p>A neighbours list with class <code>nb</code></p>
+
+
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -95,21 +102,21 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">knn1</span> <span class="op">&lt;-</span> <span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">knn2</span> <span class="op">&lt;-</span> <span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, <span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nb1</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="va">knn1</span>, row.names<span class="op">=</span><span class="va">rn</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nb2</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="va">knn2</span>, row.names<span class="op">=</span><span class="va">rn</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">diffs</span> <span class="op">&lt;-</span> <span class="fu">diffnb</span><span class="op">(</span><span class="va">nb2</span>, <span class="va">nb1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey"</span>, reset<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span class="r-in"> main<span class="op">=</span><span class="st">"Plot of first (black) and second (red)\nnearest neighbours"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb1</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">diffs</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"red"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">knn1</span> <span class="op">&lt;-</span> <span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">knn2</span> <span class="op">&lt;-</span> <span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nb1</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="va">knn1</span>, row.names<span class="op">=</span><span class="va">rn</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nb2</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="va">knn2</span>, row.names<span class="op">=</span><span class="va">rn</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">diffs</span> <span class="op">&lt;-</span> <span class="fu">diffnb</span><span class="op">(</span><span class="va">nb2</span>, <span class="va">nb1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>no.readonly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey"</span>, reset<span class="op">=</span><span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span> main<span class="op">=</span><span class="st">"Plot of first (black) and second (red)\nnearest neighbours"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb1</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">diffs</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"red"</span>, lty<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="diffnb-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -124,7 +131,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

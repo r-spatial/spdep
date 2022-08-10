@@ -72,92 +72,125 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">localmoran.exact</span><span class="op">(</span><span class="va">model</span>, <span class="va">select</span>, <span class="va">nb</span>, glist <span class="op">=</span> <span class="cn">NULL</span>, style <span class="op">=</span> <span class="st">"W"</span>, 
- zero.policy <span class="op">=</span> <span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span>, 
- resfun <span class="op">=</span> <span class="va">weighted.residuals</span>, save.Vi <span class="op">=</span> <span class="cn">FALSE</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>, truncErr<span class="op">=</span><span class="fl">1e-6</span>, 
- zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>
-<span class="fu">localmoran.exact.alt</span><span class="op">(</span><span class="va">model</span>, <span class="va">select</span>, <span class="va">nb</span>, glist <span class="op">=</span> <span class="cn">NULL</span>, style <span class="op">=</span> <span class="st">"W"</span>,
- zero.policy <span class="op">=</span> <span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span>,
- resfun <span class="op">=</span> <span class="va">weighted.residuals</span>, Omega <span class="op">=</span> <span class="cn">NULL</span>, save.Vi <span class="op">=</span> <span class="cn">FALSE</span>,
- save.M <span class="op">=</span> <span class="cn">FALSE</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>, truncErr<span class="op">=</span><span class="fl">1e-6</span>, zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span>
-<span class="co"># S3 method for localmoranex</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span>
-<span class="co"># S3 method for localmoranex</span>
-<span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">x</span>, row.names<span class="op">=</span><span class="cn">NULL</span>, optional<span class="op">=</span><span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">localmoran.exact</span><span class="op">(</span><span class="va">model</span>, <span class="va">select</span>, <span class="va">nb</span>, glist <span class="op">=</span> <span class="cn">NULL</span>, style <span class="op">=</span> <span class="st">"W"</span>, </span>
+<span> zero.policy <span class="op">=</span> <span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span> resfun <span class="op">=</span> <span class="va">weighted.residuals</span>, save.Vi <span class="op">=</span> <span class="cn">FALSE</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>, truncErr<span class="op">=</span><span class="fl">1e-6</span>, </span>
+<span> zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="fu">localmoran.exact.alt</span><span class="op">(</span><span class="va">model</span>, <span class="va">select</span>, <span class="va">nb</span>, glist <span class="op">=</span> <span class="cn">NULL</span>, style <span class="op">=</span> <span class="st">"W"</span>,</span>
+<span> zero.policy <span class="op">=</span> <span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span> resfun <span class="op">=</span> <span class="va">weighted.residuals</span>, Omega <span class="op">=</span> <span class="cn">NULL</span>, save.Vi <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span> save.M <span class="op">=</span> <span class="cn">FALSE</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>, truncErr<span class="op">=</span><span class="fl">1e-6</span>, zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for localmoranex</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for localmoranex</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">x</span>, row.names<span class="op">=</span><span class="cn">NULL</span>, optional<span class="op">=</span><span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>model</dt>
 <dd><p>an object of class <code>lm</code> returned by <code>lm</code> (assuming no global spatial autocorrelation), or an object of class <code>sarlm</code> returned by a spatial simultaneous autoregressive model fit (assuming global spatial autocorrelation represented by the model spatial coefficient); weights may be specified in the <code>lm</code> fit, but offsets should not be used</p></dd>
-<dt>select</dt>
+
+  <dt>select</dt>
 <dd><p>an integer vector of the id. numbers of zones to be tested; if missing, all zones</p></dd>
-<dt>nb</dt>
+
+  <dt>nb</dt>
 <dd><p>a list of neighbours of class <code>nb</code></p></dd>
-<dt>glist</dt>
+
+  <dt>glist</dt>
 <dd><p>a list of general weights corresponding to neighbours</p></dd>
-<dt>style</dt>
+
+  <dt>style</dt>
 <dd><p>can take values W, B, C, and S</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis,
 must be one of greater (default), less or two.sided.</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>resfun</dt>
+
+  <dt>resfun</dt>
 <dd><p>default: weighted.residuals; the function to be used to extract residuals from the <code>lm</code> object, may be <code>residuals</code>, <code>weighted.residuals</code>, <code>rstandard</code>, or <code>rstudent</code></p></dd>
-<dt>Omega</dt>
+
+  <dt>Omega</dt>
 <dd><p>A SAR process matrix may be passed in to test an alternative hypothesis, for example <code>Omega &lt;- invIrW(listw, rho=0.1); Omega &lt;- tcrossprod(Omega)</code>, <code><a href="https://rdrr.io/pkg/Matrix/man/chol.html" class="external-link">chol()</a></code> is taken internally</p></dd>
-<dt>save.Vi</dt>
+
+  <dt>save.Vi</dt>
 <dd><p>if TRUE, return the star-shaped weights lists for each zone 
 tested</p></dd>
-<dt>save.M</dt>
+
+  <dt>save.M</dt>
 <dd><p>if TRUE, save a list of left and right M products</p></dd>
-<dt>useTP</dt>
+
+  <dt>useTP</dt>
 <dd><p>default FALSE, if TRUE, use truncation point in integration rather than upper=Inf, see Tiefelsdorf (2000), eq. 6.7, p.69</p></dd>
-<dt>truncErr</dt>
+
+  <dt>truncErr</dt>
 <dd><p>when useTP=TRUE, pass truncation error to truncation point function</p></dd>
-<dt>zeroTreat</dt>
+
+  <dt>zeroTreat</dt>
 <dd><p>when useTP=TRUE, pass zero adjustment to truncation point function</p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>object to be printed</p></dd>
-<dt>row.names</dt>
+
+  <dt>row.names</dt>
 <dd><p>ignored argument to <code>as.data.frame.localmoranex</code>;
 row names assigned from localmoranex object</p></dd>
-<dt>optional</dt>
+
+  <dt>optional</dt>
 <dd><p>ignored argument to <code>as.data.frame.localmoranex</code>;
 row names assigned from localmoranex object</p></dd>
-<dt>...</dt>
+
+  <dt>...</dt>
 <dd><p>arguments to be passed through</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>localmoranex</code> containing "select" lists, each with
+    
+
+<p>A list with class <code>localmoranex</code> containing "select" lists, each with
  class <code>moranex</code> with the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the exact standard deviate of global Moran's I.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the p-value of the test.</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the value of the observed local Moran's Ii.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>gamma</dt>
+
+  <dt>gamma</dt>
 <dd><p>eigenvalues (two extreme values for null, vector for alternative)</p></dd>
-<dt>oType</dt>
+
+  <dt>oType</dt>
 <dd><p>usually set to "E", but set to "N" if the integration leads to an out of domain value for <code>qnorm</code>, when the Normal assumption is substituted. This only occurs when the output p-value would be very close to zero</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
-<dt>df</dt>
+
+  <dt>df</dt>
 <dd><p>degrees of freedom</p></dd>
-<dt>i</dt>
+
+  <dt>i</dt>
 <dd><p>zone tested</p></dd>
-<dt>Vi</dt>
+
+  <dt>Vi</dt>
 <dd><p>zone tested</p></dd>
+
+
 </dl><p>When the alternative is being tested, a list of left and right M products in attribute M.</p>
     </div>
     <div id="references">
@@ -175,7 +208,7 @@ row names assigned from localmoranex object</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">eire</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/eire.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">eire</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/eire.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `eire' from data source </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 26 features and 10 fields</span>
@@ -183,11 +216,11 @@ row names assigned from localmoranex object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">eire</span><span class="op">$</span><span class="va">names</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span>
-<span class="r-in"><span class="va">eire.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="localmoran.sad.html">localmoran.sad</a></span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">eire</span><span class="op">$</span><span class="va">names</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span></span>
+<span class="r-in"><span><span class="va">eire.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="localmoran.sad.html">localmoran.sad</a></span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Saddlepoint    Pr. (Sad)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.21699668  0.95074844 3.417321e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.37257361 -1.00603119 3.144006e-01</span>
@@ -215,7 +248,7 @@ row names assigned from localmoranex object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath     0.45138572  1.36017204 1.737755e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.64371834  1.63188492 1.027037e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow       0.02441950  0.21197000 8.321304e-01</span>
-<span class="r-in"><span class="fu">localmoran.exact</span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">localmoran.exact</span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I    Exact SD  Pr. (exact)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.21699668  1.02706083 3.043918e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.37257361 -1.04864802 2.943401e-01</span>
@@ -243,7 +276,7 @@ row names assigned from localmoranex object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath     0.45138572  1.40091422 1.612397e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.64371834  1.66488051 9.593660e-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow       0.02441950  0.29717701 7.663314e-01</span>
-<span class="r-in"><span class="fu">localmoran.exact</span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, useTP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">localmoran.exact</span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, useTP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I    Exact SD  Pr. (exact)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.21699668  1.02706127 3.043916e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.37257361 -1.04864834 2.943400e-01</span>
@@ -271,14 +304,14 @@ row names assigned from localmoranex object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath     0.45138572  1.40091457 1.612396e-01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.64371834  1.66488069 9.593656e-02</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow       0.02441950  0.29790569 7.657751e-01</span>
-<span class="r-in"><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"spatialreg"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">e.errorsar</span> <span class="op">&lt;-</span> <span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/ML_models.html" class="external-link">errorsarlm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span>,</span>
-<span class="r-in"> listw<span class="op">=</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lm.target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">tary</span> <span class="op">~</span> <span class="va">e.errorsar</span><span class="op">$</span><span class="va">tarX</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">localmoran.exact.alt</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"spatialreg"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">e.errorsar</span> <span class="op">&lt;-</span> <span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/ML_models.html" class="external-link">errorsarlm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span>,</span></span>
+<span class="r-in"><span> listw<span class="op">=</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lm.target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">tary</span> <span class="op">~</span> <span class="va">e.errorsar</span><span class="op">$</span><span class="va">tarX</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">localmoran.exact.alt</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I    Exact SD Pr. (exact)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.17958462  0.83313548 0.404768327</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.24752628 -0.82861508 0.407322251</span>
@@ -306,11 +339,11 @@ row names assigned from localmoranex object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath    -0.06329661 -0.26575204 0.790430182</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.30764883  1.02115599 0.307180540</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow      -0.01696406 -0.04109885 0.967217095</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">Omega</span> <span class="op">&lt;-</span> <span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/invIrM.html" class="external-link">invIrW</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span>, rho<span class="op">=</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Omega1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="va">Omega</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">localmoran.exact.alt</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, Omega<span class="op">=</span><span class="va">Omega1</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">Omega</span> <span class="op">&lt;-</span> <span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/invIrM.html" class="external-link">invIrW</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span>, rho<span class="op">=</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Omega1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="va">Omega</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">localmoran.exact.alt</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, Omega<span class="op">=</span><span class="va">Omega1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I     Exact SD  Pr. (exact)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.17958462  0.009413917 0.9924888922</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.24752628 -1.416786314 0.1565454123</span>
@@ -338,9 +371,9 @@ row names assigned from localmoranex object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath    -0.06329661 -0.956519228 0.3388099745</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford       0.30764883  0.141381248 0.8875687674</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow      -0.01696406 -0.783977878 0.4330530908</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">localmoran.exact.alt</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, Omega<span class="op">=</span><span class="va">Omega1</span>, useTP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">localmoran.exact.alt</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, Omega<span class="op">=</span><span class="va">Omega1</span>, useTP<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I     Exact SD  Pr. (exact)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.17958462  0.009414171 0.9924886895</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.24752628 -1.416786809 0.1565452674</span>
@@ -382,7 +415,7 @@ row names assigned from localmoranex object</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

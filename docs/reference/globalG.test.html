@@ -72,44 +72,60 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">globalG.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,
- spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, B1correct<span class="op">=</span><span class="cn">TRUE</span>, adjust.x<span class="op">=</span><span class="cn">TRUE</span>, Arc_all_x<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
+<span> spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, B1correct<span class="op">=</span><span class="cn">TRUE</span>, adjust.x<span class="op">=</span><span class="cn">TRUE</span>, Arc_all_x<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a numeric vector the same length as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code>; if a sequence of distance bands is to be used, it is recommended that the weights style be binary (one of <code>c("B", "C", "U")</code>).</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>adjust.n</dt>
+
+  <dt>adjust.n</dt>
 <dd><p>default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted</p></dd>
-<dt>B1correct</dt>
+
+  <dt>B1correct</dt>
 <dd><p>default TRUE, if TRUE, the erratum referenced below: "On page 195, the coefficient of W2 in B1, (just below center of the page) should be 6,  not 3." is applied; if FALSE, 3 is used (as in CrimeStat IV)</p></dd>
-<dt>adjust.x</dt>
+
+  <dt>adjust.x</dt>
 <dd><p>default TRUE, if TRUE, x values of observations with no neighbours are omitted in the denominator of G</p></dd>
-<dt>Arc_all_x</dt>
+
+  <dt>Arc_all_x</dt>
 <dd><p>default FALSE, if Arc_all_x=TRUE and adjust.x=TRUE, use the full x vector in part of the denominator term for G</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>htest</code> containing the following components:</p>
+    
+
+<p>A list with class <code>htest</code> containing the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the standard deviate of Moran's I.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the p-value of the test.</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the value of the observed statistic, its expectation and variance.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -130,19 +146,19 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">nc.sids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">sidsrate79</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1000</span><span class="op">*</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID79</span><span class="op">)</span><span class="op">/</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR79</span></span>
-<span class="r-in"><span class="va">dists</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">33</span>, <span class="fl">40</span>, <span class="fl">50</span>, <span class="fl">60</span>, <span class="fl">70</span>, <span class="fl">80</span>, <span class="fl">90</span>, <span class="fl">100</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ndists</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">dists</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ZG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span>mode<span class="op">=</span><span class="st">"list"</span>, length<span class="op">=</span><span class="va">ndists</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ZG</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">dists</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">milesxy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">east</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">north</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">ndists</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">thisnb</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">milesxy</span>, <span class="fl">0</span>, <span class="va">dists</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">thislw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">thisnb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">ZG</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">globalG.test</span><span class="op">(</span><span class="va">sidsrate79</span>, <span class="va">thislw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ZG</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">estimate</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x</span><span class="op">$</span><span class="va">statistic</span>, p.value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">nc.sids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sidsrate79</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="fl">1000</span><span class="op">*</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID79</span><span class="op">)</span><span class="op">/</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR79</span></span></span>
+<span class="r-in"><span><span class="va">dists</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">33</span>, <span class="fl">40</span>, <span class="fl">50</span>, <span class="fl">60</span>, <span class="fl">70</span>, <span class="fl">80</span>, <span class="fl">90</span>, <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ndists</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">dists</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ZG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">vector</a></span><span class="op">(</span>mode<span class="op">=</span><span class="st">"list"</span>, length<span class="op">=</span><span class="va">ndists</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">ZG</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">dists</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">milesxy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">east</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">north</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">ndists</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">thisnb</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">milesxy</span>, <span class="fl">0</span>, <span class="va">dists</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">thislw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">thisnb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">ZG</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">globalG.test</span><span class="op">(</span><span class="va">sidsrate79</span>, <span class="va">thislw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ZG</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">estimate</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x</span><span class="op">$</span><span class="va">statistic</span>, p.value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Global G statistic standard deviate   p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10          0.33548581       0.04859237 0.4806221</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20          0.02024945      -0.73262399 0.7681061</span>
@@ -155,12 +171,12 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 <span class="r-out co"><span class="r-pr">#&gt;</span> 80          0.24606972      -0.18791364 0.5745278</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 90          0.30073463       0.11457610 0.4543906</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 100         0.34879996       0.31591356 0.3760341</span>
-<span class="r-in"><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">ndists</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">thisnb</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">milesxy</span>, <span class="fl">0</span>, <span class="va">dists</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">thislw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">thisnb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">ZG</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">globalG.test</span><span class="op">(</span><span class="va">sidsrate79</span>, <span class="va">thislw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ZG</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">estimate</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x</span><span class="op">$</span><span class="va">statistic</span>, p.value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">ndists</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">thisnb</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">milesxy</span>, <span class="fl">0</span>, <span class="va">dists</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">thislw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">thisnb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">ZG</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu">globalG.test</span><span class="op">(</span><span class="va">sidsrate79</span>, <span class="va">thislw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/t.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">ZG</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">estimate</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">x</span><span class="op">$</span><span class="va">statistic</span>, p.value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Global G statistic standard deviate   p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10          0.33548581       0.04859237 0.9612441</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20          0.02024945      -0.73262399 0.4637878</span>
@@ -187,7 +203,7 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

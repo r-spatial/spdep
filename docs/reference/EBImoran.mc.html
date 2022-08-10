@@ -72,31 +72,40 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">EBImoran.mc</span><span class="op">(</span><span class="va">n</span>, <span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, 
- alternative <span class="op">=</span> <span class="st">"greater"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span>,
- subtract_mean_in_numerator<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">EBImoran.mc</span><span class="op">(</span><span class="va">n</span>, <span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, </span>
+<span> alternative <span class="op">=</span> <span class="st">"greater"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span> subtract_mean_in_numerator<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>n</dt>
 <dd><p>a numeric vector of counts of cases the same length as the neighbours list in listw</p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>a numeric vector of populations at risk the same length as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>nsim</dt>
+
+  <dt>nsim</dt>
 <dd><p>number of permutations</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less"</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>return_boot</dt>
+
+  <dt>return_boot</dt>
 <dd><p>return an object of class <code>boot</code> from the equivalent permutation bootstrap rather than an object of class <code>htest</code></p></dd>
-<dt>subtract_mean_in_numerator</dt>
+
+  <dt>subtract_mean_in_numerator</dt>
 <dd><p>default TRUE, if TRUE subtract mean of z in numerator of EBI equation on p. 2157 in reference (consulted with Renato Assunção 2016-02-19); until February 2016 the default was FALSE agreeing with the printed paper.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -115,24 +124,35 @@ $$s^2 = \sum_{i=1}^{m} x_i (p_i - b)^2 / \sum_{i=1}^{m} x_i $$</p>
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>htest</code> and <code>mc.sim</code> containing the 
+    
+
+<p>A list with class <code>htest</code> and <code>mc.sim</code> containing the 
 following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the observed Moran's I.</p></dd>
-<dt>parameter</dt>
+
+  <dt>parameter</dt>
 <dd><p>the rank of the observed Moran's I.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the pseudo p-value of the test.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data, and the number of simulations.</p></dd>
-<dt>res</dt>
+
+  <dt>res</dt>
 <dd><p>nsim simulated values of statistic, final value is observed statistic</p></dd>
-<dt>z</dt>
+
+  <dt>z</dt>
 <dd><p>a numerical vector of Empirical Bayes indices as z above</p></dd>
+
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -149,12 +169,12 @@ following components:</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">nc.sids</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">FIPS</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ncCC89_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/ncCC89.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
-<span class="r-in"> region.id<span class="op">=</span><span class="va">rn</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">EBImoran.mc</span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span>,</span>
-<span class="r-in"> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">ncCC89_nb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">999</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">nc.sids</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">FIPS</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ncCC89_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/ncCC89.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span></span>
+<span class="r-in"><span> region.id<span class="op">=</span><span class="va">rn</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">EBImoran.mc</span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span>,</span></span>
+<span class="r-in"><span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">ncCC89_nb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">999</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The default for subtract_mean_in_numerator set TRUE from February 2016</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Empirical Bayes Index (mean subtracted)</span>
@@ -166,9 +186,9 @@ following components:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.25789, observed rank = 999, p-value = 0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="va">sids.p</span> <span class="op">&lt;-</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span> <span class="op">/</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span></span>
-<span class="r-in"><span class="fu"><a href="moran.mc.html">moran.mc</a></span><span class="op">(</span><span class="va">sids.p</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">ncCC89_nb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span>
-<span class="r-in"> nsim<span class="op">=</span><span class="fl">999</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">sids.p</span> <span class="op">&lt;-</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span> <span class="op">/</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="moran.mc.html">moran.mc</a></span><span class="op">(</span><span class="va">sids.p</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">ncCC89_nb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> nsim<span class="op">=</span><span class="fl">999</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Moran I</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -176,7 +196,7 @@ following components:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(ncCC89_nb, style = "B", zero.policy = TRUE)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 1000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.20904, observed rank = 998, p-value = 0.002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.20904, observed rank = 999, p-value = 0.001</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
@@ -193,7 +213,7 @@ following components:</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

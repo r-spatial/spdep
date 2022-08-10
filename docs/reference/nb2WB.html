@@ -72,20 +72,24 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nb2WB</span><span class="op">(</span><span class="va">nb</span><span class="op">)</span>
-<span class="fu">listw2WB</span><span class="op">(</span><span class="va">listw</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nb2WB</span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></span>
+<span><span class="fu">listw2WB</span><span class="op">(</span><span class="va">listw</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>nb</dt>
 <dd><p>an object of class <code>nb</code></p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object from for example <code>nb2listw</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list suitable for convering using <code>dput</code> for WinBUGS</p>
+    
+
+<p>A list suitable for convering using <code>dput</code> for WinBUGS</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -102,9 +106,9 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">nb2WB</span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="va">x</span>, control<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">nb2WB</span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="va">x</span>, control<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> list(c(2, 3, 1, 3, 4, 1, 2, 4, 5, 2, 3, 5, 8, 3, 4, 6, 8, 9, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11, 15, 5, 9, 8, 12, 13, 14, 4, 5, 7, 11, 12, 13, 5, 6, 10, 15, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20, 22, 25, 26, 9, 17, 20, 22, 5, 8, 12, 15, 16, 7, 8, 11, 13, </span>
@@ -133,8 +137,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1), c(2, 3, 4, 4, 7, 2, 4, 6, 8, 4, 5, 6, 4, 6, 6, 7, 3, 4, 3, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10, 3, 6, 3, 7, 7, 6, 4, 9, 7, 4, 2, 4, 4, 4, 7, 5, 6, 6, 2, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5, 3, 2, 6, 5, 4, 2, 2, 4, 3))</span>
-<span class="r-in"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">listw2WB</span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="va">x</span>, control<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">listw2WB</span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/dput.html" class="external-link">dput</a></span><span class="op">(</span><span class="va">x</span>, control<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> list(c(2, 3, 1, 3, 4, 1, 2, 4, 5, 2, 3, 5, 8, 3, 4, 6, 8, 9, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 11, 15, 5, 9, 8, 12, 13, 14, 4, 5, 7, 11, 12, 13, 5, 6, 10, 15, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 20, 22, 25, 26, 9, 17, 20, 22, 5, 8, 12, 15, 16, 7, 8, 11, 13, </span>
@@ -208,7 +212,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

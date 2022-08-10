@@ -37,7 +37,7 @@ tri2nb <- function(coords, row.names = NULL) {
     	if (is.null(row.names)) row.names <- as.character(1:n)
         stopifnot(!anyDuplicated(coords))
 #	tri <- tri.mesh(x=coords[,1], y=coords[,2])
-        tri <- deldir::deldir(x=coords[,1], y=coords[,2])
+        tri <- deldir::deldir(x=coords[, 1, drop=TRUE], y=coords[,2, drop=TRUE])
         from <- c(tri$delsgs[,5], tri$delsgs[,6])
         to <- c(tri$delsgs[,6], tri$delsgs[,5])
         df <- data.frame(from=as.integer(from), to=as.integer(to), weight=1)

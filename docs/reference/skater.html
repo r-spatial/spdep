@@ -78,27 +78,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">skater</span><span class="op">(</span><span class="va">edges</span>, <span class="va">data</span>, <span class="va">ncuts</span>, <span class="va">crit</span>, <span class="va">vec.crit</span>, method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, 
-    <span class="st">"maximum"</span>, <span class="st">"manhattan"</span>, <span class="st">"canberra"</span>, <span class="st">"binary"</span>, <span class="st">"minkowski"</span>, 
-    <span class="st">"mahalanobis"</span><span class="op">)</span>, p <span class="op">=</span> <span class="fl">2</span>, <span class="va">cov</span>, inverted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">skater</span><span class="op">(</span><span class="va">edges</span>, <span class="va">data</span>, <span class="va">ncuts</span>, <span class="va">crit</span>, <span class="va">vec.crit</span>, method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, </span>
+<span>    <span class="st">"maximum"</span>, <span class="st">"manhattan"</span>, <span class="st">"canberra"</span>, <span class="st">"binary"</span>, <span class="st">"minkowski"</span>, </span>
+<span>    <span class="st">"mahalanobis"</span><span class="op">)</span>, p <span class="op">=</span> <span class="fl">2</span>, <span class="va">cov</span>, inverted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>edges</dt>
 <dd><p>A matrix with 2 colums with each row is an edge</p></dd>
-<dt>data</dt>
+
+  <dt>data</dt>
 <dd><p>A data.frame with data observed over nodes.</p></dd>
-<dt>ncuts</dt>
+
+  <dt>ncuts</dt>
 <dd><p>The number of cuts</p></dd>
-<dt>crit</dt>
+
+  <dt>crit</dt>
 <dd><p>A scalar ow two dimensional vector with with
     criteria for groups. Examples: limits of group size or
     limits of population size. If scalar, is the minimum
     criteria for groups.</p></dd>
-<dt>vec.crit</dt>
+
+  <dt>vec.crit</dt>
 <dd><p>A vector for evaluating criteria.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>Character or function to declare distance method.
     If <code>method</code> is character, method must be "mahalanobis" or
     "euclidean", "maximum", "manhattan", "canberra", "binary"
@@ -111,32 +116,44 @@
      is computed between neighbour areas.
      If <code>method</code> is a <code>function</code>, this function is
      used to compute the distance.</p></dd>
-<dt>p</dt>
+
+  <dt>p</dt>
 <dd><p>The power of the Minkowski distance.</p></dd>
-<dt>cov</dt>
+
+  <dt>cov</dt>
 <dd><p>The covariance matrix used to compute the mahalanobis
    distance.</p></dd>
-<dt>inverted</dt>
+
+  <dt>inverted</dt>
 <dd><p>logical.  If 'TRUE', 'cov' is supposed to contain the
           inverse of the covariance matrix.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A object of <code>skater</code> class with:</p>
+    
+
+<p>A object of <code>skater</code> class with:</p>
 <dl><dt>groups</dt>
 <dd><p>A vector with length equal the number of nodes. Each
     position identifies the group of node</p></dd>
-<dt>edges.groups</dt>
+ 
+  <dt>edges.groups</dt>
 <dd><p>A list of length equal the number of groups with
     each element is a set of edges</p></dd>
-<dt>not.prune</dt>
+ 
+  <dt>not.prune</dt>
 <dd><p>A vector identifying the groups with are not
     candidates to partition.</p></dd>
-<dt>candidates</dt>
+
+  <dt>candidates</dt>
 <dd><p>A vector identifying the groups with are candidates
     to partition.</p></dd>
-<dt>ssto</dt>
+ 
+  <dt>ssto</dt>
 <dd><p>The total dissimilarity in each step of edge removal.</p></dd>
+
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -160,158 +177,158 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co">### loading data</span></span>
-<span class="r-in"><span class="va">bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/bhicv.shp"</span>,</span>
-<span class="r-in">      package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +ellps=WGS84"</span></span>
-<span class="r-in"><span class="co">### data standardized </span></span>
-<span class="r-in"><span class="va">dpad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">[</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### neighboorhod list</span></span>
-<span class="r-in"><span class="va">bh.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### calculating costs</span></span>
-<span class="r-in"><span class="va">lcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### making listw</span></span>
-<span class="r-in"><span class="va">nb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">lcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### find a minimum spanning tree</span></span>
-<span class="r-in"><span class="va">mst.bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="mstree.html">mstree</a></span><span class="op">(</span><span class="va">nb.w</span>,<span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### the mstree plot</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span>, border<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mst.bh</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">bh</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span>, col<span class="op">=</span><span class="fl">2</span>, </span>
-<span class="r-in">     cex.lab<span class="op">=</span><span class="fl">.6</span>, cex.circles<span class="op">=</span><span class="fl">0.035</span>, fg<span class="op">=</span><span class="st">"blue"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">### loading data</span></span></span>
+<span class="r-in"><span><span class="va">bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/bhicv.shp"</span>,</span></span>
+<span class="r-in"><span>      package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +ellps=WGS84"</span></span></span>
+<span class="r-in"><span><span class="co">### data standardized </span></span></span>
+<span class="r-in"><span><span class="va">dpad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">[</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### neighboorhod list</span></span></span>
+<span class="r-in"><span><span class="va">bh.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### calculating costs</span></span></span>
+<span class="r-in"><span><span class="va">lcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### making listw</span></span></span>
+<span class="r-in"><span><span class="va">nb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">lcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### find a minimum spanning tree</span></span></span>
+<span class="r-in"><span><span class="va">mst.bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="mstree.html">mstree</a></span><span class="op">(</span><span class="va">nb.w</span>,<span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### the mstree plot</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span>, border<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/gray.html" class="external-link">gray</a></span><span class="op">(</span><span class="fl">.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mst.bh</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">bh</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span>, col<span class="op">=</span><span class="fl">2</span>, </span></span>
+<span class="r-in"><span>     cex.lab<span class="op">=</span><span class="fl">.6</span>, cex.circles<span class="op">=</span><span class="fl">0.035</span>, fg<span class="op">=</span><span class="st">"blue"</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="skater-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co">### three groups with no restriction</span></span>
-<span class="r-in"><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co">### three groups with no restriction</span></span></span>
+<span class="r-in"><span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### groups size</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res1</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### groups size</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res1</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res1$groups):</span> object 'res1' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### the skater plot</span></span>
-<span class="r-in"><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res1</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">bh</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span>, cex.circles<span class="op">=</span><span class="fl">0.035</span>, cex.lab<span class="op">=</span><span class="fl">.7</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### the skater plot</span></span></span>
+<span class="r-in"><span><span class="va">opar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res1</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">bh</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span>, cex.circles<span class="op">=</span><span class="fl">0.035</span>, cex.lab<span class="op">=</span><span class="fl">.7</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'plot': object 'res1' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### the skater plot, using other colors</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res1</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">bh</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span>, cex.circles<span class="op">=</span><span class="fl">0.035</span>, cex.lab<span class="op">=</span><span class="fl">.7</span>,</span>
-<span class="r-in">     groups.colors<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">heat.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">res1</span><span class="op">$</span><span class="va">ed</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### the skater plot, using other colors</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res1</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">bh</span>, <span class="st">"Spatial"</span><span class="op">)</span><span class="op">)</span>, cex.circles<span class="op">=</span><span class="fl">0.035</span>, cex.lab<span class="op">=</span><span class="fl">.7</span>,</span></span>
+<span class="r-in"><span>     groups.colors<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">heat.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">res1</span><span class="op">$</span><span class="va">ed</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in h(simpleError(msg, call)):</span> error in evaluating the argument 'x' in selecting a method for function 'plot': object 'res1' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### the Spatial Polygons plot</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">heat.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">res1</span><span class="op">$</span><span class="va">edg</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">res1</span><span class="op">$</span><span class="va">groups</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### the Spatial Polygons plot</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">heat.colors</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">res1</span><span class="op">$</span><span class="va">edg</span><span class="op">)</span><span class="op">)</span><span class="op">[</span><span class="va">res1</span><span class="op">$</span><span class="va">groups</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in heat.colors(length(res1$edg)):</span> object 'res1' not found</span>
 <span class="r-plt img"><img src="skater-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### EXPERT OPTIONS</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### more one partition</span></span>
-<span class="r-in"><span class="va">res1b</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">res1</span>, <span class="va">dpad</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">### EXPERT OPTIONS</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### more one partition</span></span></span>
+<span class="r-in"><span><span class="va">res1b</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">res1</span>, <span class="va">dpad</span>, <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### length groups frequency</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res1</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### length groups frequency</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res1</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res1$groups):</span> object 'res1' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res1b</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res1b</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res1b$groups):</span> object 'res1b' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### thee groups with minimum population </span></span>
-<span class="r-in"><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span>, <span class="fl">200000</span>, <span class="va">bh</span><span class="op">$</span><span class="va">Pop</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### thee groups with minimum population </span></span></span>
+<span class="r-in"><span><span class="va">res2</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span>, <span class="fl">200000</span>, <span class="va">bh</span><span class="op">$</span><span class="va">Pop</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res2</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res2</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res2$groups):</span> object 'res2' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### thee groups with minimun number of areas</span></span>
-<span class="r-in"><span class="va">res3</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### thee groups with minimun number of areas</span></span></span>
+<span class="r-in"><span><span class="va">res3</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res3</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res3</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res3$groups):</span> object 'res3' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### thee groups with minimun and maximun number of areas</span></span>
-<span class="r-in"><span class="va">res4</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">50</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### thee groups with minimun and maximun number of areas</span></span></span>
+<span class="r-in"><span><span class="va">res4</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">50</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res4</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res4</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res4$groups):</span> object 'res4' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### if I want to get groups with 20 to 40 elements</span></span>
-<span class="r-in"><span class="va">res5</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span>,</span>
-<span class="r-in">   <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co">## DON'T MAKE DIVISIONS </span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### if I want to get groups with 20 to 40 elements</span></span></span>
+<span class="r-in"><span><span class="va">res5</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span>,</span></span>
+<span class="r-in"><span>   <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co">## DON'T MAKE DIVISIONS </span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res5$groups):</span> object 'res5' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### In this MST don't have groups with this restrictions</span></span>
-<span class="r-in"><span class="co">### In this case, first I do one division</span></span>
-<span class="r-in"><span class="co">### with the minimun criteria</span></span>
-<span class="r-in"><span class="va">res5a</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">1</span>, <span class="fl">20</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### In this MST don't have groups with this restrictions</span></span></span>
+<span class="r-in"><span><span class="co">### In this case, first I do one division</span></span></span>
+<span class="r-in"><span><span class="co">### with the minimun criteria</span></span></span>
+<span class="r-in"><span><span class="va">res5a</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">1</span>, <span class="fl">20</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> </span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5a</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5a</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res5a$groups):</span> object 'res5a' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### and do more one division with the full criteria</span></span>
-<span class="r-in"><span class="va">res5b</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">res5a</span>, <span class="va">dpad</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### and do more one division with the full criteria</span></span></span>
+<span class="r-in"><span><span class="va">res5b</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">res5a</span>, <span class="va">dpad</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5b</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5b</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res5b$groups):</span> object 'res5b' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### and do more one division with the full criteria</span></span>
-<span class="r-in"><span class="va">res5c</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">res5b</span>, <span class="va">dpad</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### and do more one division with the full criteria</span></span></span>
+<span class="r-in"><span><span class="va">res5c</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">res5b</span>, <span class="va">dpad</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5c</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5c</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res5c$groups):</span> object 'res5c' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">### It don't have another divison with this criteria</span></span>
-<span class="r-in"><span class="va">res5d</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">res5c</span>, <span class="va">dpad</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">### It don't have another divison with this criteria</span></span></span>
+<span class="r-in"><span><span class="va">res5d</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">res5c</span>, <span class="va">dpad</span>, <span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">40</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5d</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res5d</span><span class="op">$</span><span class="va">groups</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in table(res5d$groups):</span> object 'res5d' not found</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">bh.nb</span> <span class="op">&lt;-</span> <span class="va">boston.soi</span></span>
-<span class="r-in"><span class="va">dpad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### calculating costs</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">lcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### making listw</span></span>
-<span class="r-in"><span class="va">nb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">lcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### find a minimum spanning tree</span></span>
-<span class="r-in"><span class="va">mst.bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="mstree.html">mstree</a></span><span class="op">(</span><span class="va">nb.w</span>,<span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### three groups with no restriction</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span>logical<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># set nc to 1L here</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">nc</span> <span class="op">&gt;</span> <span class="fl">1L</span><span class="op">)</span> <span class="va">nc</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span>
-<span class="r-in"><span class="va">coresOpt</span> <span class="op">&lt;-</span> <span class="fu"><a href="set.mcOption.html">get.coresOption</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="set.mcOption.html">set.coresOption</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="set.mcOption.html">get.mcOption</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># no-op, "snow" parallel calculation not available</span></span>
-<span class="r-in">  <span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">makeCluster</a></span><span class="op">(</span><span class="fu"><a href="set.mcOption.html">get.coresOption</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="set.mcOption.html">set.ClusterOption</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="co">### calculating costs</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">plcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">lcosts</span>, <span class="va">plcosts</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### making listw</span></span>
-<span class="r-in"><span class="va">pnb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">plcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### find a minimum spanning tree</span></span>
-<span class="r-in"><span class="va">pmst.bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="mstree.html">mstree</a></span><span class="op">(</span><span class="va">pnb.w</span>,<span class="fl">5</span><span class="op">)</span></span>
-<span class="r-in"><span class="co">### three groups with no restriction</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">pres1</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">pmst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="set.mcOption.html">get.mcOption</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="set.mcOption.html">set.ClusterOption</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">res1</span>, <span class="va">pres1</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="set.mcOption.html">set.coresOption</a></span><span class="op">(</span><span class="va">coresOpt</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bh.nb</span> <span class="op">&lt;-</span> <span class="va">boston.soi</span></span></span>
+<span class="r-in"><span><span class="va">dpad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">7</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">### calculating costs</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">lcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">### making listw</span></span></span>
+<span class="r-in"><span><span class="va">nb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">lcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">### find a minimum spanning tree</span></span></span>
+<span class="r-in"><span><span class="va">mst.bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="mstree.html">mstree</a></span><span class="op">(</span><span class="va">nb.w</span>,<span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">### three groups with no restriction</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span>logical<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># set nc to 1L here</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">nc</span> <span class="op">&gt;</span> <span class="fl">1L</span><span class="op">)</span> <span class="va">nc</span> <span class="op">&lt;-</span> <span class="fl">1L</span></span></span>
+<span class="r-in"><span><span class="va">coresOpt</span> <span class="op">&lt;-</span> <span class="fu"><a href="set.mcOption.html">get.coresOption</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="set.mcOption.html">set.coresOption</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="set.mcOption.html">get.mcOption</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># no-op, "snow" parallel calculation not available</span></span></span>
+<span class="r-in"><span>  <span class="va">cl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">makeCluster</a></span><span class="op">(</span><span class="fu"><a href="set.mcOption.html">get.coresOption</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="set.mcOption.html">set.ClusterOption</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="co">### calculating costs</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">plcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">lcosts</span>, <span class="va">plcosts</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">### making listw</span></span></span>
+<span class="r-in"><span><span class="va">pnb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">plcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">### find a minimum spanning tree</span></span></span>
+<span class="r-in"><span><span class="va">pmst.bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="mstree.html">mstree</a></span><span class="op">(</span><span class="va">pnb.w</span>,<span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co">### three groups with no restriction</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">pres1</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">pmst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="set.mcOption.html">get.mcOption</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="set.mcOption.html">set.ClusterOption</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/parallel/makeCluster.html" class="external-link">stopCluster</a></span><span class="op">(</span><span class="va">cl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">res1</span>, <span class="va">pres1</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="set.mcOption.html">set.coresOption</a></span><span class="op">(</span><span class="va">coresOpt</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -326,7 +343,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

@@ -72,30 +72,39 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">LOSH.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, a <span class="op">=</span> <span class="fl">2</span>, nsim <span class="op">=</span> <span class="fl">99</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, na.action <span class="op">=</span> <span class="va">na.fail</span>, 
-                    spChk <span class="op">=</span> <span class="cn">NULL</span>, adjust.n <span class="op">=</span> <span class="cn">TRUE</span>, p.adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">LOSH.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, a <span class="op">=</span> <span class="fl">2</span>, nsim <span class="op">=</span> <span class="fl">99</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, na.action <span class="op">=</span> <span class="va">na.fail</span>, </span>
+<span>                    spChk <span class="op">=</span> <span class="cn">NULL</span>, adjust.n <span class="op">=</span> <span class="cn">TRUE</span>, p.adjust.method <span class="op">=</span> <span class="st">"none"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>a numeric vector of the same length as the neighbours list in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>a</dt>
+
+  <dt>a</dt>
 <dd><p>the exponent applied to the local residuals; the default value of 2 leads to a measure of heterogeneity in the spatial variance</p></dd>
-<dt>nsim</dt>
+
+  <dt>nsim</dt>
 <dd><p>the number of randomisations used in the bootstrap</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>na.action</dt>
+
+  <dt>na.action</dt>
 <dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. If <code>na.pass</code> is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>adjust.n</dt>
+
+  <dt>adjust.n</dt>
 <dd><p>default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted</p></dd>
-<dt>p.adjust.method</dt>
+
+  <dt>p.adjust.method</dt>
 <dd><p>a character string specifying the probability value adjustment for multiple tests, default "none"; see <code><a href="p.adjustSP.html">p.adjustSP</a></code>. Note that the number of multiple tests for each region is only taken as the number of neighbours + 1 for each region, rather than the total number of regions.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -105,19 +114,26 @@
     <h2>Value</h2>
     <dl><dt>Hi</dt>
 <dd><p>LOSH statistic</p></dd>
-<dt>E.Hi</dt>
+
+    <dt>E.Hi</dt>
 <dd><p>expectation of LOSH</p></dd>
-<dt>Var.Hi</dt>
+
+    <dt>Var.Hi</dt>
 <dd><p>variance of LOSH</p></dd>
-<dt>Z.Hi</dt>
+
+    <dt>Z.Hi</dt>
 <dd><p>the approximately chi-square distributed test statistics</p></dd>
-<dt>x_bar_i</dt>
+
+    <dt>x_bar_i</dt>
 <dd><p>local spatially weighted mean values</p></dd>
-<dt>ei</dt>
+
+    <dt>ei</dt>
 <dd><p>residuals about local spatially weighted mean values</p></dd>
-<dt>Pr()</dt>
+
+    <dt>Pr()</dt>
 <dd><p>p-values for <code>Hi</code> obtained from a conditional bootstrap distribution</p></dd>
-</dl></div>
+
+  </dl></div>
     <div id="references">
     <h2>References</h2>
     <p>Ord, J. K., &amp; Getis, A. 2012. Local spatial heteroscedasticity (LOSH), The Annals of Regional Science, 48 (2), 529--539; Xu, M., Mei, C. L., &amp; Yan, N. 2014. A note on the null distribution of the local spatial heteroscedasticity (LOSH) statistic. The Annals of Regional Science, 52 (3), 697--710.</p>
@@ -133,18 +149,18 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">columbus</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span>
-<span class="r-in">    <span class="va">resLOSH_mc</span> <span class="op">&lt;-</span> <span class="fu">LOSH.mc</span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">100</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">resLOSH_mc</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">columbus</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="va">resLOSH_mc</span> <span class="op">&lt;-</span> <span class="fu">LOSH.mc</span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span>, <span class="fl">2</span>, <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">resLOSH_mc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Hi             x_bar_i            ei                 Pr()         </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.03438   Min.   :13.85   Min.   :   0.0298   Min.   :0.009901  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.23838   1st Qu.:24.71   1st Qu.:   7.0114   1st Qu.:0.108911  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :0.66689   Median :35.90   Median :  52.1094   Median :0.683168  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.06592   Mean   :34.88   Mean   : 151.9232   Mean   :0.546979  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.23838   1st Qu.:24.71   1st Qu.:   7.0114   1st Qu.:0.138614  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Median :0.66689   Median :35.90   Median :  52.1094   Median :0.633663  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :1.06592   Mean   :34.88   Mean   : 151.9232   Mean   :0.548596  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:1.59680   3rd Qu.:45.39   3rd Qu.: 105.0551   3rd Qu.:0.900990  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :4.68765   Max.   :54.91   Max.   :2455.2201   Max.   :0.990099  </span>
-<span class="r-in">    <span class="va">resLOSH_cs</span> <span class="op">&lt;-</span> <span class="fu"><a href="LOSH.cs.html">LOSH.cs</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">resLOSH_cs</span><span class="op">)</span></span>
+<span class="r-in"><span>    <span class="va">resLOSH_cs</span> <span class="op">&lt;-</span> <span class="fu"><a href="LOSH.cs.html">LOSH.cs</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">resLOSH_cs</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        Hi               E.Hi       Var.Hi            Z.Hi        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Min.   :0.03438   Min.   :1   Min.   :0.4972   Min.   :0.04356  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1st Qu.:0.23838   1st Qu.:1   1st Qu.:0.9136   1st Qu.:0.35069  </span>
@@ -159,7 +175,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Mean   :34.88   Mean   : 151.9232   Mean   :0.4507  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  3rd Qu.:45.39   3rd Qu.: 105.0551   3rd Qu.:0.6529  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Max.   :54.91   Max.   :2455.2201   Max.   :0.9540  </span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">resLOSH_mc</span><span class="op">[</span>,<span class="st">"Pr()"</span><span class="op">]</span>, <span class="va">resLOSH_cs</span><span class="op">[</span>,<span class="st">"Pr()"</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">resLOSH_mc</span><span class="op">[</span>,<span class="st">"Pr()"</span><span class="op">]</span>, <span class="va">resLOSH_cs</span><span class="op">[</span>,<span class="st">"Pr()"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="LOSH.mc-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -175,7 +191,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

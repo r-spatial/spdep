@@ -107,54 +107,86 @@ listw2star(listw, ireg, style, n, D, a, zero.policy=NULL)</code></pre></div>
     <h2>Arguments</h2>
     <dl><dt>model</dt>
 <dd><p>an object of class <code>lm</code> returned by <code>lm</code> (assuming no global spatial autocorrelation), or an object of class <code>sarlm</code> returned by a spatial simultaneous autoregressive model fit (assuming global spatial autocorrelation represented by the model spatial coefficient); weights may be specified in the <code>lm</code> fit, but offsets should not be used</p></dd>
-<dt>select</dt>
+
+  <dt>select</dt>
 <dd><p>an integer vector of the id. numbers of zones to be tested; if missing, all zones</p></dd>
-<dt>nb</dt>
+
+  <dt>nb</dt>
 <dd><p>a list of neighbours of class <code>nb</code></p></dd>
-<dt>glist</dt>
+
+  <dt>glist</dt>
 <dd><p>a list of general weights corresponding to neighbours</p></dd>
-<dt>style</dt>
+
+  <dt>style</dt>
 <dd><p>can take values W, B, C, and S</p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis,
 must be one of greater (default), less or two.sided.</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>resfun</dt>
+
+  <dt>resfun</dt>
 <dd><p>default: weighted.residuals; the function to be used to extract residuals from the <code>lm</code> object, may be <code>residuals</code>, <code>weighted.residuals</code>, <code>rstandard</code>, or <code>rstudent</code></p></dd>
-<dt>save.Vi</dt>
+
+  <dt>save.Vi</dt>
 <dd><p>if TRUE, return the star-shaped weights lists for each zone 
 tested</p></dd>
-<dt>tol</dt>
+
+  <dt>tol</dt>
 <dd><p>the desired accuracy (convergence tolerance) for <code>uniroot</code></p></dd>
-<dt>maxiter</dt>
+
+  <dt>maxiter</dt>
 <dd><p>the maximum number of iterations for <code>uniroot</code></p></dd>
-<dt>tol.bounds</dt>
+
+  <dt>tol.bounds</dt>
 <dd><p>offset from bounds for <code>uniroot</code></p></dd>
-<dt>save.M</dt>
+
+  <dt>save.M</dt>
 <dd><p>if TRUE, save a list of left and right M products in a list for the conditional tests, or a list of the regression model matrix components</p></dd>
-<dt>Omega</dt>
+
+  <dt>Omega</dt>
 <dd><p>A SAR process matrix may be passed in to test an alternative hypothesis, for example <code>Omega &lt;- invIrW(listw, rho=0.1); Omega &lt;- tcrossprod(Omega)</code>, <code><a href="https://rdrr.io/pkg/Matrix/man/chol.html" class="external-link">chol()</a></code> is taken internally</p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>object to be printed</p></dd>
-</dl><p><!-- %  \item{row.names}{ignored argument to \code{as.data.frame.localmoransad}; --><!-- %row names assigned from localmoransad object} --><!-- %  \item{optional}{ignored argument to \code{as.data.frame.localmoransad}; --><!-- %row names assigned from localmoransad object} --></p>
+
+</dl><p><!-- %  \item{row.names}{ignored argument to \code{as.data.frame.localmoransad}; --></p>
+
+
+<p><!-- %row names assigned from localmoransad object} --></p>
+
+
+<p><!-- %  \item{optional}{ignored argument to \code{as.data.frame.localmoransad}; --></p>
+
+
+<p><!-- %row names assigned from localmoransad object} --></p>
 <dl><dt>object</dt>
 <dd><p>object to be summarised</p></dd>
-<dt>...</dt>
+
+  <dt>...</dt>
 <dd><p>arguments to be passed through</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>ireg</dt>
+
+  <dt>ireg</dt>
 <dd><p>a zone number</p></dd>
-<dt>n</dt>
+
+  <dt>n</dt>
 <dd><p>internal value depending on listw and style</p></dd>
-<dt>D</dt>
+
+  <dt>D</dt>
 <dd><p>internal value depending on listw and style</p></dd>
-<dt>a</dt>
+
+  <dt>a</dt>
 <dd><p>internal value depending on listw and style</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -174,29 +206,41 @@ and memory constraints may be reached for large lattices.</p>
     </div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>localmoransad</code> containing "select" lists, each with
+    
+
+<p>A list with class <code>localmoransad</code> containing "select" lists, each with
  class <code>moransad</code> with the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the saddlepoint approximation of the
  standard deviate of local Moran's Ii.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the p-value of the test.</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the value of the observed local Moran's Ii.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
-<dt>internal1</dt>
+
+  <dt>internal1</dt>
 <dd><p>Saddlepoint omega, r and u</p></dd>
-<dt>df</dt>
+
+  <dt>df</dt>
 <dd><p>degrees of freedom</p></dd>
-<dt>tau</dt>
+
+  <dt>tau</dt>
 <dd><p>maximum and minimum analytical eigenvalues</p></dd>
-<dt>i</dt>
+
+  <dt>i</dt>
 <dd><p>zone tested</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -216,7 +260,7 @@ Geographical Analysis, 34, pp. 187--206.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">eire</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/eire.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">eire</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/eire.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `eire' from data source </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   `/home/rsb/lib/r_libs/spData/shapes/eire.shp' using driver `ESRI Shapefile'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 26 features and 10 fields</span>
@@ -224,13 +268,13 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">eire</span><span class="op">$</span><span class="va">names</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span>
-<span class="r-in"><span class="va">eire.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">lw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.locmor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.locmor</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">eire</span><span class="op">$</span><span class="va">names</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span></span>
+<span class="r-in"><span><span class="va">eire.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">eire.nb</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.locmor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.locmor</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.21699668      0.74177148 4.582258e-01  0.95074844</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.37257361     -0.81297374 1.583767e+00 -1.00603119</span>
@@ -312,11 +356,11 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 4.596009  0.080097979  1.05978192  1.45704611</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   4.921174  0.085478829  1.32647942  1.98902088</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   4.513581  0.020437514  0.21417067  0.21406975</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">e.locmor</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">e.locmor</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3366057</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e.locmor</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="spweights.constants.html">Szero</a></span><span class="op">(</span><span class="va">lw</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">e.locmor</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="spweights.constants.html">Szero</a></span><span class="op">(</span><span class="va">lw</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3366057</span>
-<span class="r-in"><span class="fu"><a href="lm.morantest.html">lm.morantest</a></span><span class="op">(</span><span class="va">e.lm</span>, <span class="va">lw</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="lm.morantest.html">lm.morantest</a></span><span class="op">(</span><span class="va">e.lm</span>, <span class="va">lw</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Global Moran I for regression residuals</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -330,13 +374,13 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Observed Moran I      Expectation         Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.33660565      -0.05877741       0.01473183 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="co"># note equality for mean() only when the sum of weights equals</span></span>
-<span class="r-in"><span class="co"># the number of observations (thanks to Juergen Symanzik)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">e.locmor</span><span class="op">[</span>,<span class="st">"Pr. (Sad)"</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># note equality for mean() only when the sum of weights equals</span></span></span>
+<span class="r-in"><span><span class="co"># the number of observations (thanks to Juergen Symanzik)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">e.locmor</span><span class="op">[</span>,<span class="st">"Pr. (Sad)"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="localmoran.sad-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="va">e.wlm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span>, weights<span class="op">=</span><span class="va">RETSALE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.locmorw1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.wlm</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, resfun<span class="op">=</span><span class="va">weighted.residuals</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.locmorw1</span></span>
+<span class="r-in"><span><span class="va">e.wlm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span>, weights<span class="op">=</span><span class="va">RETSALE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.locmorw1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.wlm</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, resfun<span class="op">=</span><span class="va">weighted.residuals</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.locmorw1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow        0.160490657      0.41009538 6.817360e-01  0.57729730</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan        -0.144663771     -0.27825575 1.219184e+00 -0.45305168</span>
@@ -418,8 +462,8 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 5.351214  0.044919886  0.56403221  0.65024353</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   5.781330  0.066083430  1.11524637  1.57637406</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   4.537075  0.012609906  0.12748740  0.12720134</span>
-<span class="r-in"><span class="va">e.locmorw2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.wlm</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, resfun<span class="op">=</span><span class="va">rstudent</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.locmorw2</span></span>
+<span class="r-in"><span><span class="va">e.locmorw2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">e.wlm</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, resfun<span class="op">=</span><span class="va">rstudent</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.locmorw2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)      Pr. (N) Saddlepoint</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow        0.121997164      0.32185426 0.7475631028  0.45871930</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan        -0.110588620     -0.20105599 1.1593452023 -0.34808741</span>
@@ -501,16 +545,16 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath 5.351214  0.0379323563  0.457473561  0.506014991</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   5.781330  0.0582538352  0.911459483  1.197527949</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   4.537075  0.0083101099  0.084281843  0.083952776</span>
-<span class="r-in"><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"spatialreg"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">e.errorsar</span> <span class="op">&lt;-</span> <span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/ML_models.html" class="external-link">errorsarlm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span>,</span>
-<span class="r-in">  listw<span class="op">=</span><span class="va">lw</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"spatialreg"</span><span class="op">)</span> <span class="op">&lt;</span> <span class="st">"1.1.7"</span><span class="op">)</span></span>
-<span class="r-in">  <span class="fu">spatialreg</span><span class="fu">::</span><span class="fu">print.sarlm</span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">)</span></span>
-<span class="r-in"><span class="kw">else</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"spatialreg"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">e.errorsar</span> <span class="op">&lt;-</span> <span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/ML_models.html" class="external-link">errorsarlm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span>,</span></span>
+<span class="r-in"><span>  listw<span class="op">=</span><span class="va">lw</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"spatialreg"</span><span class="op">)</span> <span class="op">&lt;</span> <span class="st">"1.1.7"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="fu">spatialreg</span><span class="fu">::</span><span class="fu">print.sarlm</span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">else</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> spatialreg::errorsarlm(formula = OWNCONS ~ ROADACC, data = eire, </span>
@@ -522,12 +566,12 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.783970989 2.892719571 0.002800913 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Log likelihood: -64.12465 </span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">lm.target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">tary</span> <span class="op">~</span> <span class="va">e.errorsar</span><span class="op">$</span><span class="va">tarX</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">Omega</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/invIrM.html" class="external-link">invIrW</a></span><span class="op">(</span><span class="va">lw</span>, rho<span class="op">=</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.clocmor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, Omega<span class="op">=</span><span class="va">Omega</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">e.clocmor</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">lm.target</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">tary</span> <span class="op">~</span> <span class="va">e.errorsar</span><span class="op">$</span><span class="va">tarX</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Omega</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/matrix-products.html" class="external-link">tcrossprod</a></span><span class="op">(</span><span class="fu">spatialreg</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/spatialreg/reference/invIrM.html" class="external-link">invIrW</a></span><span class="op">(</span><span class="va">lw</span>, rho<span class="op">=</span><span class="va">e.errorsar</span><span class="op">$</span><span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.clocmor</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">localmoran.sad</span><span class="op">(</span><span class="va">lm.target</span>, nb<span class="op">=</span><span class="va">eire.nb</span>, Omega<span class="op">=</span><span class="va">Omega</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">e.clocmor</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              Local Morans I Stand. dev. (N)   Pr. (N) Saddlepoint    Pr. (Sad)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Carlow         0.17958462      -0.5947094 1.4479623 -0.01890335 0.9849182094</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Cavan         -0.24752628      -0.9775195 1.6716880 -1.30903979 0.1905208730</span>
@@ -609,9 +653,9 @@ Geographical Analysis, 34, pp. 187--206.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 Westmeath -0.058470593 -0.88397327 -0.83127666</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 Wexford   -0.009550496 -0.26689930 -0.24045996</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26 Wicklow   -0.050401553 -0.84395069 -0.73641410</span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">e.clocmor</span><span class="op">[</span>,<span class="st">"Pr. (Sad)"</span><span class="op">]</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">e.clocmor</span><span class="op">[</span>,<span class="st">"Pr. (Sad)"</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-plt img"><img src="localmoran.sad-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -627,7 +671,7 @@ Geographical Analysis, 34, pp. 187--206.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

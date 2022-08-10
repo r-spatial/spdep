@@ -30,5 +30,9 @@ col.knn <- knearneigh(coords, k=4)
 plot(st_geometry(columbus), border="grey")
 plot(knn2nb(col.knn), coords, add=TRUE)
 title(main="K nearest neighbours, k = 4")
+# example of reading points with readr::read_csv() yielding a tibble
+load(system.file("etc/misc/coords.rda", package="spdep"))
+class(coords)
+knn2nb(knearneigh(coords, k=4))
 }
 \keyword{spatial}

@@ -18,9 +18,12 @@ citEntry(entry = "Article",
   title = "R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data",
   journal = "Geographical Analysis",
   year = "2022",
+  volume = "54",
+  number = "3",
+  pages = "488-518",
   url = "https://doi.org/10.1111/gean.12319",
   textVersion = 
-  paste("Bivand, R. (2022)", "R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data", "Geographical Analysis", "URL https://doi.org/10.1111/gean.12319")
+  paste("Bivand, R. (2022)", "R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data", "Geographical Analysis, 54(3), 488-518", "URL https://doi.org/10.1111/gean.12319")
 )
 
 citEntry(entry="book",

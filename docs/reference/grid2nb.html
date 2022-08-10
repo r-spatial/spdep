@@ -74,8 +74,8 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">grid2nb</span><span class="op">(</span><span class="va">grid</span>, d <span class="op">=</span> <span class="va">grid</span><span class="op">@</span><span class="va">cells.dim</span>,
-        queen <span class="op">=</span> <span class="cn">TRUE</span>, nb <span class="op">=</span> <span class="cn">TRUE</span>, self <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">grid2nb</span><span class="op">(</span><span class="va">grid</span>, d <span class="op">=</span> <span class="va">grid</span><span class="op">@</span><span class="va">cells.dim</span>,</span>
+<span>        queen <span class="op">=</span> <span class="cn">TRUE</span>, nb <span class="op">=</span> <span class="cn">TRUE</span>, self <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -83,28 +83,38 @@
     <dl><dt>grid</dt>
 <dd><p>An object of class <code>GridTopology</code>. One can avoid to 
   supply this by just suplying the dimentions in the <code>d</code> argument.</p></dd>
-<dt>d</dt>
+ 
+  <dt>d</dt>
 <dd><p>A scalar (for one dimentional grid) or a length k vector
   specyfying the number of grid cells in each direction of the k
   dimentions.</p></dd>
-<dt>queen</dt>
+
+  <dt>queen</dt>
 <dd><p>Logical. Default is TRUE. To inform if the queen
   neighbourhood structure should be considered. If FALSE, only 
   a hyper-cube with a common face will be considered neighbour. 
   If TRUE, a single shared coordinate meets the contiguity condition.</p></dd>
-<dt>nb</dt>
+ 
+  <dt>nb</dt>
 <dd><p>Default TRUE. If TRUE, return the result as a neighbours
   list with class <code>nb</code>. If FALSE, the result is a matrix with
   <code>3^k</code> columns if <code>self = TRUE</code> or <code>3^k-1</code> if
   <code>self = FALSE</code>. Zeros are used for hyper-cubes at boundaries.</p></dd>
-<dt>self</dt>
+
+  <dt>self</dt>
 <dd><p>Default FALSE, to indicate if the hyper-cube neighbour
   itself should be considered a neighbour.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Either a matrix, if “nb” is FALSE or a neighbours list with
-  class <code>nb</code>. See <code><a href="card.html">card</a></code> for details of “nb”  objects.</p>
+    
+
+<p>Either a matrix, if “nb” is FALSE or a neighbours list with
+  class <code>nb</code>. See <code><a href="card.html">card</a></code> for details of “nb”</p>
+
+
+<p>objects.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -122,14 +132,14 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu">grid2nb</span><span class="op">(</span>d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">5L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nb</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu">grid2nb</span><span class="op">(</span>d <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5L</span>, <span class="fl">5L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nb</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 125 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 2072 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 13.2608 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 16.576 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 125 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 2072 </span>
@@ -143,18 +153,18 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 5 21 25 101 105 121 125 with 7 links</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27 most connected regions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32 33 34 37 38 39 42 43 44 57 58 59 62 63 64 67 68 69 82 83 84 87 88 89 92 93 94 with 26 links</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">gt</span> <span class="op">&lt;-</span> <span class="fu">GridTopology</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.125</span>,<span class="fl">.1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>,<span class="fl">.2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nb1</span> <span class="op">&lt;-</span> <span class="fu">grid2nb</span><span class="op">(</span><span class="va">gt</span>, queen <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">nb2</span> <span class="op">&lt;-</span> <span class="fu">grid2nb</span><span class="op">(</span><span class="va">gt</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">sg</span> <span class="op">&lt;-</span> <span class="fu">SpatialGrid</span><span class="op">(</span><span class="va">gt</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sg</span>, lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb1</span>, <span class="fu">coordinates</span><span class="op">(</span><span class="va">sg</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="fl">2</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://r-spatial.github.io/sf/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb2</span>, <span class="fu">coordinates</span><span class="op">(</span><span class="va">sg</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lty<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">gt</span> <span class="op">&lt;-</span> <span class="fu">GridTopology</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.125</span>,<span class="fl">.1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>,<span class="fl">.2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nb1</span> <span class="op">&lt;-</span> <span class="fu">grid2nb</span><span class="op">(</span><span class="va">gt</span>, queen <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nb2</span> <span class="op">&lt;-</span> <span class="fu">grid2nb</span><span class="op">(</span><span class="va">gt</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">sg</span> <span class="op">&lt;-</span> <span class="fu">SpatialGrid</span><span class="op">(</span><span class="va">gt</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sg</span>, lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb1</span>, <span class="fu">coordinates</span><span class="op">(</span><span class="va">sg</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="fl">2</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb2</span>, <span class="fu">coordinates</span><span class="op">(</span><span class="va">sg</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lty<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="grid2nb-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu">grid2nb</span><span class="op">(</span>d<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu">grid2nb</span><span class="op">(</span>d<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int [1:2] 1 3</span>
@@ -176,7 +186,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

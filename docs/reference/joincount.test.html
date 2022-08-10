@@ -84,48 +84,65 @@ permutations.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">joincount.test</span><span class="op">(</span><span class="va">fx</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,
- sampling<span class="op">=</span><span class="st">"nonfree"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="co"># S3 method for jclist</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">joincount.test</span><span class="op">(</span><span class="va">fx</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
+<span> sampling<span class="op">=</span><span class="st">"nonfree"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># S3 method for jclist</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>fx</dt>
 <dd><p>a factor of the same length as the neighbours and weights objects in listw</p></dd>
-<dt>listw</dt>
+
+  <dt>listw</dt>
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
-<dt>zero.policy</dt>
+
+  <dt>zero.policy</dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".</p></dd>
-<dt>sampling</dt>
+
+  <dt>sampling</dt>
 <dd><p>default “nonfree”, may be “free”</p></dd>
-<dt>adjust.n</dt>
+
+  <dt>adjust.n</dt>
 <dd><p>default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted consistently (up to and including spdep 0.3-28 the adjustment was inconsistent - thanks to Tomoki NAKAYA for a careful bug report)</p></dd>
-<dt>spChk</dt>
+
+  <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
-<dt>x</dt>
+
+  <dt>x</dt>
 <dd><p>object to be printed</p></dd>
-<dt>...</dt>
+
+  <dt>...</dt>
 <dd><p>arguments to be passed through for printing</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list with class <code>jclist</code> of lists with class <code>htest</code> for each of the k colours containing the following components:</p>
+    
+
+<p>A list with class <code>jclist</code> of lists with class <code>htest</code> for each of the k colours containing the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the standard deviate of the join count statistic.</p></dd>
-<dt>p.value</dt>
+
+  <dt>p.value</dt>
 <dd><p>the p-value of the test.</p></dd>
-<dt>estimate</dt>
+
+  <dt>estimate</dt>
 <dd><p>the value of the observed statistic, its expectation and variance under non-free sampling.</p></dd>
-<dt>alternative</dt>
+
+  <dt>alternative</dt>
 <dd><p>a character string describing the alternative hypothesis.</p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>a character string giving the method used.</p></dd>
-<dt>data.name</dt>
+
+  <dt>data.name</dt>
 <dd><p>a character string giving the name(s) of the data.</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -146,10 +163,10 @@ permutations.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">HICRIME</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">35</span>,<span class="fl">80</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>,<span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">HICRIME</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">HICRIME</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">35</span>,<span class="fl">80</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>,<span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">HICRIME</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under nonfree sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -174,7 +191,7 @@ permutations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same colour statistic           Expectation              Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              54.00000              27.22449              17.88838 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, sampling<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, sampling<span class="op">=</span><span class="st">"free"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under free sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -199,7 +216,7 @@ permutations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same colour statistic           Expectation              Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               54.0000               27.8284               84.2198 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under nonfree sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -224,7 +241,7 @@ permutations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same colour statistic           Expectation              Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            11.4051724             5.7500000             0.7979712 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"S"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"S"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under nonfree sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -249,7 +266,7 @@ permutations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same colour statistic           Expectation              Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            10.4249914             5.7500000             0.5734265 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under nonfree sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -274,7 +291,7 @@ permutations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same colour statistic           Expectation              Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             9.2920635             5.7500000             0.4784979 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/by.html" class="external-link">by</a></span><span class="op">(</span><span class="fu"><a href="card.html">card</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>, <span class="va">HICRIME</span>, <span class="va">summary</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/by.html" class="external-link">by</a></span><span class="op">(</span><span class="fu"><a href="card.html">card</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>, <span class="va">HICRIME</span>, <span class="va">summary</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> HICRIME: low</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    2.00    2.00    4.00    3.84    4.00   10.00 </span>
@@ -282,13 +299,13 @@ permutations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> HICRIME: high</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   3.000   4.750   6.000   5.667   7.000   9.000 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-in"><span class="va">coords.OLD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">X</span>, <span class="va">COL.OLD</span><span class="op">$</span><span class="va">Y</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">COL.k4.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords.OLD</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">COL.k4.nb</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">coords.OLD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">X</span>, <span class="va">COL.OLD</span><span class="op">$</span><span class="va">Y</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">COL.k4.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords.OLD</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">COL.k4.nb</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-in"><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under nonfree sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -313,9 +330,9 @@ permutations.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same colour statistic           Expectation              Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             40.500000             23.000000              6.762918 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Note non-symmetric weights matrix - use listw2U()\n"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Note non-symmetric weights matrix - use listw2U()\n"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Note non-symmetric weights matrix - use listw2U()</span>
-<span class="r-in"><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">joincount.test</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under nonfree sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -354,7 +371,7 @@ permutations.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

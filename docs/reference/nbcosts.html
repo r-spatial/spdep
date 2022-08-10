@@ -76,12 +76,12 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">nbcost</span><span class="op">(</span><span class="va">data</span>, <span class="va">id</span>, <span class="va">id.neigh</span>,  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"maximum"</span>, 
-    <span class="st">"manhattan"</span>, <span class="st">"canberra"</span>, <span class="st">"binary"</span>, <span class="st">"minkowski"</span>, <span class="st">"mahalanobis"</span><span class="op">)</span>,
-    p <span class="op">=</span> <span class="fl">2</span>, <span class="va">cov</span>, inverted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu">nbcosts</span><span class="op">(</span><span class="va">nb</span>, <span class="va">data</span>,  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"maximum"</span>, 
-    <span class="st">"manhattan"</span>, <span class="st">"canberra"</span>, <span class="st">"binary"</span>, <span class="st">"minkowski"</span>, <span class="st">"mahalanobis"</span><span class="op">)</span>,
-    p <span class="op">=</span> <span class="fl">2</span>, <span class="va">cov</span>, inverted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">nbcost</span><span class="op">(</span><span class="va">data</span>, <span class="va">id</span>, <span class="va">id.neigh</span>,  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"maximum"</span>, </span>
+<span>    <span class="st">"manhattan"</span>, <span class="st">"canberra"</span>, <span class="st">"binary"</span>, <span class="st">"minkowski"</span>, <span class="st">"mahalanobis"</span><span class="op">)</span>,</span>
+<span>    p <span class="op">=</span> <span class="fl">2</span>, <span class="va">cov</span>, inverted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="fu">nbcosts</span><span class="op">(</span><span class="va">nb</span>, <span class="va">data</span>,  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"euclidean"</span>, <span class="st">"maximum"</span>, </span>
+<span>    <span class="st">"manhattan"</span>, <span class="st">"canberra"</span>, <span class="st">"binary"</span>, <span class="st">"minkowski"</span>, <span class="st">"mahalanobis"</span><span class="op">)</span>,</span>
+<span>    p <span class="op">=</span> <span class="fl">2</span>, <span class="va">cov</span>, inverted <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -89,13 +89,17 @@
     <dl><dt>nb</dt>
 <dd><p>An object of <code>nb</code> class. See <code><a href="poly2nb.html">poly2nb</a></code> for
     details.</p></dd>
-<dt>data</dt>
+ 
+  <dt>data</dt>
 <dd><p>A matrix with observations in the nodes.</p></dd>
-<dt>id</dt>
+
+  <dt>id</dt>
 <dd><p>Node index to compute the cost</p></dd>
-<dt>id.neigh</dt>
+
+  <dt>id.neigh</dt>
 <dd><p>Idex of neighbours nodes of node <code>id</code></p></dd>
-<dt>method</dt>
+
+  <dt>method</dt>
 <dd><p>Character or function to declare distance method.
     If <code>method</code> is character, method must be "mahalanobis" or
     "euclidean", "maximum", "manhattan", "canberra", "binary"
@@ -108,18 +112,24 @@
      is computed between neighbour areas.
      If <code>method</code> is a <code>function</code>, this function is
      used to compute the distance.</p></dd>
-<dt>p</dt>
+
+  <dt>p</dt>
 <dd><p>The power of the Minkowski distance.</p></dd>
-<dt>cov</dt>
+
+  <dt>cov</dt>
 <dd><p>The covariance matrix used to compute the mahalanobis 
    distance.</p></dd>
-<dt>inverted</dt>
+
+  <dt>inverted</dt>
 <dd><p>logical.  If 'TRUE', 'cov' is supposed to contain the
           inverse of the covariance matrix.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A object of <code>nbdist</code> class. See <code><a href="nbdists.html">nbdists</a></code> for
+    
+
+<p>A object of <code>nbdist</code> class. See <code><a href="nbdists.html">nbdists</a></code> for
   details.</p>
     </div>
     <div id="note">
@@ -147,7 +157,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
