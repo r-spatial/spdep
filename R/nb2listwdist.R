@@ -80,8 +80,9 @@ nb2listwdist <- function(neighbours, x, type="idw", style="raw", alpha = 1, dmax
     }
     uvlist <- unlist(vlist)
     fins <- is.finite(uvlist)
+    if (all(!fins)) stop("no finite general weights")
     if (any(!fins)) {
-      max_finite <- max(uvlist) #max(is.finite(unlist(vlist)))
+      max_finite <- max(uvlist[fins]) #max(is.finite(unlist(vlist)))
       for(i in 1:n) {
         vlist[[i]][which(is.infinite(vlist[[i]]))] <- max_finite
       }

@@ -3,7 +3,7 @@
 
 
 knn2nb <- function(knn, row.names=NULL, sym=FALSE) {
-	if (class(knn) != "knn") stop("Not a knn object")
+	if (!inherits(knn, "knn")) stop("Not a knn object")
 	res <- vector(mode="list", length=knn$np)
     	if (!is.null(row.names)) {
 		if(length(row.names) != knn$np)

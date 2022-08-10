@@ -3,7 +3,7 @@
 
 sp.correlogram <- function (neighbours, var, order = 1, method = "corr", 
     style = "W", randomisation = TRUE, zero.policy = NULL, spChk = NULL) {
-    if (class(neighbours) != "nb") 
+    if (!inherits(neighbours, "nb"))
         stop("not a neighbours list")
     stopifnot(is.vector(var))
     if (any(is.na(var))) 
