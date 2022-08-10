@@ -2,6 +2,8 @@
 
 * https://github.com/r-spatial/s2/pull/174 speeds up `dnearneigh()` for geographical coordinates without using `s2::s2_closest_edges()`.
 
+* Adapting vignettes for absence of **rgdal** and **maptools**
+
 # Version 1.2-4 (2022-04-18)
 
 * added `remove.self()`, thanks to Josiah Parry #83.

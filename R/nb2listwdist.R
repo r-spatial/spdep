@@ -78,9 +78,13 @@ nb2listwdist <- function(neighbours, x, type="idw", style="raw", alpha = 1, dmax
             vlist[[i]][which(glist[[i]] > dmax)] <- 0
       }
     }
-    max_finite <- max(is.finite(unlist(vlist)))
-    for(i in 1:n) {
-      vlist[[i]][which(is.infinite(vlist[[i]]))] <- max_finite
+    uvlist <- unlist(vlist)
+    fins <- is.finite(uvlist)
+    if (any(!fins)) {
+      max_finite <- max(uvlist) #max(is.finite(unlist(vlist)))
+      for(i in 1:n) {
+        vlist[[i]][which(is.infinite(vlist[[i]]))] <- max_finite
+      }
     }
   }
   
