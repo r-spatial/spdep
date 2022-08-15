@@ -14,6 +14,10 @@ assign("listw_is_CsparseMatrix", FALSE, envir = .spdepOptions)
 
 setOldClass(c("listw"))
 
+.onLoad <- function(lib, pkg) {
+  options(Matrix.warnDeprecatedCoerce = 1L)
+}
+
 #.conflicts.OK <- TRUE
 
 #.onLoad <- function(lib, pkg) {

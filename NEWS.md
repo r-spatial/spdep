@@ -1,4 +1,8 @@
-# Version 1.2-5 (development)
+# Version 1.2-6 (development)
+
+* updating coercion for **Matrix** 1.4-2
+
+# Version 1.2-5 (2022-08-11)
 
 * permit use of data.frame or tibble as matrix for functions creating neighbour objects from 2D points (preferred use an object inheriting from  ``"SpatialPoints"` or `"sfc"`)
 
