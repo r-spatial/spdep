@@ -52,8 +52,15 @@ c1W <- clusters(g1W)
 print(all.equal(c1W$membership, res$comp.id, check.attributes=FALSE))
 }
 if (run) {
-B1 <- get.adjacency(g1)
+ow <- options("warn")$warn
+options("warn"=2L)
+# Matrix 1.4-2 vulnerability work-around
+B1 <- try(get.adjacency(g1), silent=TRUE)
+if (!inherits(B1, "try-error")) {
+#B1 <- get.adjacency(g1)
 print(all.equal(B, B1))
+}
+options("warn"=ow)
 }
 }
 
