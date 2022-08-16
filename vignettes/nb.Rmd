@@ -200,7 +200,7 @@ coords <- coordinates(Syracuse)
 IDs <- row.names(as(Syracuse, "data.frame"))
 #FIXME library(tripack)
 Sy4_nb <- tri2nb(coords, row.names=IDs)
-if (require(rgeos, quietly=TRUE) && require(dbscan, quietly=TRUE)) {
+if (require(dbscan, quietly=TRUE)) {
   Sy5_nb <- graph2nb(soi.graph(Sy4_nb, coords), row.names=IDs)
 } else Sy5_nb <- NULL
 Sy6_nb <- graph2nb(gabrielneigh(coords), row.names=IDs)
