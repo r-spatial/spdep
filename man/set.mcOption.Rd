@@ -37,7 +37,7 @@ get.ClusterOption()
 \examples{
 ls(envir=spdep:::.spdepOptions)
 library(parallel)
-nc <- detectCores(logical=FALSE)
+nc <- detectCores(logical=FALSE)-1L
 nc
 # set nc to 1L here
 if (nc > 1L) nc <- 1L

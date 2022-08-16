@@ -2,6 +2,8 @@
 
 * updating coercion for **Matrix** 1.4-2
 
+* fix ncpus issue in dontrun examples
+
 # Version 1.2-5 (2022-08-11)
 
 * permit use of data.frame or tibble as matrix for functions creating neighbour objects from 2D points (preferred use an object inheriting from  ``"SpatialPoints"` or `"sfc"`)

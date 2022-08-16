@@ -193,7 +193,9 @@ if (run) {
 }
 if (run) {
   if (require(parallel, quietly=TRUE)) {
-    ncpus <- detectCores()-1L
+    ncpus <- detectCores(logical=FALSE)-1L
+# test with single core
+    if (ncpus > 1L) ncpus <- 1L
     cores <- get.coresOption()
     set.coresOption(ncpus)
     system.time(lmc_PC1_spdep1 <- localC_perm(g$PC1, lw, nsim=9999,
@@ -323,7 +325,9 @@ if (run) {
 }
 if (run) {
   if (require(parallel, quietly=TRUE)) {
-    ncpus <- detectCores()-1L
+    ncpus <- detectCores(logical=FALSE)-1L
+# test with single core
+    if (ncpus > 1L) ncpus <- 1L
     cores <- get.coresOption()
     set.coresOption(ncpus)
     system.time(lmc_vars_spdep1 <- localC_perm(st_drop_geometry(g)[, 1:6], lw,

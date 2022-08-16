@@ -20,7 +20,7 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-6</span>
       </span>
     </div>
 
@@ -225,7 +225,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1029 1025 1028 1048 1015 1027 1026</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://Matrix.R-forge.R-project.org/" class="external-link">"Matrix"</a></span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">IW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html" class="external-link">Diagonal</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">W</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">col005.spM.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">IW</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col005.spM.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">IW</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.spM.3T</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>1, 3, 6, 21, 50, 52, 55, 70, 99, 101, 104, 119 are not origins</span>

@@ -171,7 +171,7 @@ mst.bh <- mstree(nb.w,5)
 ### three groups with no restriction
 system.time(res1 <- skater(mst.bh[,1:2], dpad, 2))
 library(parallel)
-nc <- detectCores(logical=FALSE)
+nc <- detectCores(logical=FALSE)-1L
 # set nc to 1L here
 if (nc > 1L) nc <- 1L
 coresOpt <- get.coresOption()
