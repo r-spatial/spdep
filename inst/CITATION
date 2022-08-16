@@ -8,7 +8,7 @@ citEntry(entry = "Article",
   volume = "27",
   number =  "3",
   pages = "716--748",
-  url = "https://doi.org/10.1007/s11749-018-0599-x",
+  doi = "10.1007/s11749-018-0599-x",
   textVersion = 
   paste("Bivand, Roger S. and Wong, David W. S. (2018)", "Comparing implementations of global and local indicators of spatial association", "TEST, 27(3), 716-748.", "URL https://doi.org/10.1007/s11749-018-0599-x")
 )
@@ -21,7 +21,7 @@ citEntry(entry = "Article",
   volume = "54",
   number = "3",
   pages = "488-518",
-  url = "https://doi.org/10.1111/gean.12319",
+  doi = "10.1111/gean.12319",
   textVersion = 
   paste("Bivand, R. (2022)", "R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data", "Geographical Analysis, 54(3), 488-518", "URL https://doi.org/10.1111/gean.12319")
 )
