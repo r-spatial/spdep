@@ -71,7 +71,7 @@ least 2 places. From 2016-05-31, Computational Geometry in C code replaced by ca
 See \code{\link{card}} for details of \dQuote{nb} objects.
 }
 \value{
-A list of class \code{Graph} withte following elements
+A list of class \code{Graph} with the following elements
   \item{np}{number of input points}
   \item{from}{array of origin ids}
   \item{to}{array of destination ids}
