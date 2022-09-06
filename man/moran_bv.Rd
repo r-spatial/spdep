@@ -40,7 +40,7 @@ listw <- nb2listw(boston.soi)
 moran_bv(x, y, listw)
 }
 \references{
-\href{https://geodacenter.github.io/workbook/5b_global_adv/lab5b.html}{Global Spatial Autocorrelation (2): Bivariate, Differential and EB Rate Moran Scatter Plot, Luc Anselin}
+Wartenberg, D. (1985), Multivariate Spatial Correlation: A Method for Exploratory Geographical Analysis. Geographical Analysis, 17: 263-283. \doi{10.1111/j.1538-4632.1985.tb00849.x}
 }
 
 \author{Josiah Parry \email{josiah.parry@gmail.com}}
