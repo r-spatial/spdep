@@ -30,14 +30,11 @@ I_i^B= cx_i\Sigma_j{w_{ij}y_j}
 }
 }
 \examples{
-# load boston data
-data("boston", package = "spData")
-x <- boston.c$CRIM
-y <- boston.c$NOX
-# convert the nb listw to listw
-listw <- nb2listw(boston.soi)
-
-localmoran_bv(x, y, listw, nsim = 99)
+# load columbus data
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData"))
+nb <- poly2nb(columbus)
+listw <- nb2listw(nb)
+localmoran_bv(columbus$CRIME, columbus$INC, listw, nsim = 99)
 }
 \references{
 Anselin, Luc, Ibnu Syabri, and Oleg Smirnov. 2002. “Visualizing Multivariate Spatial Correlation with Dynamically Linked Windows.” In New Tools for Spatial Data Analysis: Proceedings of the Specialist Meeting, edited by Luc Anselin and Sergio Rey. University of California, Santa Barbara: Center for Spatially Integrated Social Science (CSISS).
