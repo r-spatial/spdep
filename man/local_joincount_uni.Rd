@@ -39,7 +39,7 @@ listw <- nb2listw(COL.nb, style = "B")
 local_joincount_uni(x, listw)
 }
 
-\reference{
+\references{
 Anselin, L., & Li, X. (2019). Operational Local Join Count Statistics for Cluster Detection. Journal of geographical systems, 21(2), 189–210. \doi{10.1007/s10109-019-00299-x}
 }
 \author{Josiah Parry \email{josiah.parry@gmail.com}}
