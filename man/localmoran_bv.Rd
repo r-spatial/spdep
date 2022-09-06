@@ -23,7 +23,7 @@ Given two continuous numeric variables, calculate the bivariate Local Moran's I.
 }
 \details{
 The Bivariate Local Moran, like its global counterpart, evaluates the value
-of x at observation i with its spatial neighbors' value of y. The value of \eqn{I_i^B} is just xi * Wyi. Or, in simpler words, the local bivariate Moran is the result of multiplying x by the spatial lag of y. Formally it is defined as
+of x at observation i with its spatial neighbors' value of y. The value of \eqn{I_i^B} is xi * Wyi. Or, in simpler words, the local bivariate Moran is the result of multiplying x by the spatial lag of y. Formally it is defined as
 
 \eqn{
 I_i^B= cx_i\Sigma_j{w_{ij}y_j}
@@ -40,7 +40,7 @@ listw <- nb2listw(boston.soi)
 localmoran_bv(x, y, listw, nsim = 99)
 }
 \references{
-\href{https://geodacenter.github.io/workbook/6c_local_multi/lab6c.html#principle}{Local Spatial Autocorrelation (3): Multivariate Local Spatial Autocorrelation, Luc Anselin}
+Anselin, Luc, Ibnu Syabri, and Oleg Smirnov. 2002. “Visualizing Multivariate Spatial Correlation with Dynamically Linked Windows.” In New Tools for Spatial Data Analysis: Proceedings of the Specialist Meeting, edited by Luc Anselin and Sergio Rey. University of California, Santa Barbara: Center for Spatially Integrated Social Science (CSISS).
 }
 
 \author{Josiah Parry \email{josiah.parry@gmail.com}}
