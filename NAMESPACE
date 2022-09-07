@@ -82,6 +82,7 @@ export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
 
 export(moran_bv)
 
+export(local_joincount_uni)
 
 S3method(print, nb)
 S3method(summary, nb)
