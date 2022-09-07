@@ -80,9 +80,8 @@ export(set.VerboseOption, get.VerboseOption, set.ZeroPolicyOption,
 export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
         set.ClusterOption, get.ClusterOption)
 
-export(moran_bv)
+export(localmoran_bv, moran_bv,local_joincount_uni)
 
-export(local_joincount_uni)
 
 S3method(print, nb)
 S3method(summary, nb)
