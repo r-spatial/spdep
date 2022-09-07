@@ -1,4 +1,4 @@
-# Copyright 2001-15 by Roger Bivand 
+# Copyright 2001-15 by Roger Bivand
 #
 
 spweights.constants <- function(listw, zero.policy=NULL, adjust.n=TRUE) {
@@ -105,7 +105,7 @@ lag.listw <- function(x, var, zero.policy=NULL, NAOK=FALSE, ...) {
 				naok=NAOK, PACKAGE="spdep")
 
 		}
-	} 
+	}
     }
     if (any(is.na(res))) warning("NAs in lagged values")
     res
@@ -154,10 +154,10 @@ listw2U <- function(listw) {
 			    iwt <- wts[[i]]
 			    vlist[[i]] <- numeric(length=length(inl))
 			    for (j in 1:length(inl)) {
-				if (inl[j] %in% inb) 
+				if (inl[j] %in% inb)
 				    a <- iwt[which(inb == inl[j])]
 				else a <- 0
-				if (i %in% nb[[inl[j]]]) 
+				if (i %in% nb[[inl[j]]])
 				    b <- wts[[inl[j]]][which(nb[[inl[j]]] == i)]
 				else b <- 0
 				vlist[[i]][j] <- 0.5 * (a + b)
@@ -209,9 +209,16 @@ listw2star <- function(listw, ireg, style, n, D, a, zero.policy=NULL) {
 spdep <- function(build=FALSE) {
 #	require("utils")
 	.DESC <- packageDescription("spdep")
-	.spdep.Version <- paste(.DESC[["Package"]], ", version ", 
+	.spdep.Version <- paste(.DESC[["Package"]], ", version ",
 		.DESC[["Version"]], ", ", .DESC[["Date"]], sep="")
 	.spdep.Build <- paste("build:", .DESC[["Built"]])
 	if (build) return(c(.spdep.Version, .spdep.Build))
 	else return(.spdep.Version)
+}
+
+
+
+# find neighbor values
+find_xj <- function(x, nb) {
+  lapply(nb, FUN = function(nbs_i) x[nbs_i])
 }
