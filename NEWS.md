@@ -1,5 +1,9 @@
 # Version 1.2-6 (development)
 
+* #92, #93, #94 contributions of prototype bivariate Moran, local  bivariate Moran and local joincount tests by Josiah Parry
+
+* #91 `tolerance.nb()` update by F. Guillaume Blanchet
+
 * updating coercion for **Matrix** 1.4-2
 
 * fix ncpus issue in dontrun examples

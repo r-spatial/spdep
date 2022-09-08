@@ -163,6 +163,9 @@
     <loc>/reference/localG.html</loc>
   </url>
   <url>
+    <loc>/reference/local_joincount_uni.html</loc>
+  </url>
+  <url>
     <loc>/reference/localmoran.exact.html</loc>
   </url>
   <url>
@@ -170,6 +173,9 @@
   </url>
   <url>
     <loc>/reference/localmoran.sad.html</loc>
+  </url>
+  <url>
+    <loc>/reference/localmoran_bv.html</loc>
   </url>
   <url>
     <loc>/reference/mat2listw.html</loc>
@@ -185,6 +191,9 @@
   </url>
   <url>
     <loc>/reference/moran.test.html</loc>
+  </url>
+  <url>
+    <loc>/reference/moran_bv.html</loc>
   </url>
   <url>
     <loc>/reference/mstree.html</loc>
