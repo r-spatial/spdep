@@ -95,7 +95,7 @@
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>
-<dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less"</p></dd>
+<dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less"</p></dd>
 
   <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
@@ -174,7 +174,8 @@ following components:</p>
 <span class="r-in"><span><span class="va">ncCC89_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/ncCC89.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> region.id<span class="op">=</span><span class="va">rn</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">EBImoran.mc</span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span>, <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span>,</span></span>
-<span class="r-in"><span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">ncCC89_nb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">999</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">ncCC89_nb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">999</span>,</span></span>
+<span class="r-in"><span> alternative<span class="op">=</span><span class="st">"two.sided"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The default for subtract_mean_in_numerator set TRUE from February 2016</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Empirical Bayes Index (mean subtracted)</span>
@@ -183,12 +184,12 @@ following components:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(ncCC89_nb, style = "B", zero.policy = TRUE)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 1000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.25789, observed rank = 1000, p-value = 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.25789, observed rank = 1000, p-value &lt; 2.2e-16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">sids.p</span> <span class="op">&lt;-</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span> <span class="op">/</span> <span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="moran.mc.html">moran.mc</a></span><span class="op">(</span><span class="va">sids.p</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">ncCC89_nb</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span> nsim<span class="op">=</span><span class="fl">999</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span> nsim<span class="op">=</span><span class="fl">999</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Moran I</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -196,8 +197,8 @@ following components:</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(ncCC89_nb, style = "B", zero.policy = TRUE)  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 1000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.20904, observed rank = 997, p-value = 0.003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.20904, observed rank = 996, p-value = 0.008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

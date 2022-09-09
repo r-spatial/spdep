@@ -91,7 +91,7 @@
 <dd><p>if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>
-<dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less".</p></dd>
+<dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less".</p></dd>
 
   <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
@@ -145,7 +145,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">HICRIME</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">35</span>,<span class="fl">80</span><span class="op">)</span>, labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>,<span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">HICRIME</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">joincount.mc</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">joincount.mc</span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of join-count statistic</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -154,8 +154,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Join-count statistic for low = 34, rank of observed statistic = 90.5,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> p-value = 0.095</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> p-value = 0.19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mean of simulation variance of simulation </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               28.89899               15.52031 </span>
@@ -168,21 +168,21 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Join-count statistic for high = 54, rank of observed statistic = 100,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> p-value = 0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> p-value &lt; 2.2e-16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     mean of simulation variance of simulation </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               27.26263               15.21604 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu"><a href="joincount.test.html">joincount.test</a></span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="joincount.test.html">joincount.test</a></span><span class="op">(</span><span class="va">HICRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Join count test under nonfree sampling</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  HICRIME </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "B") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Std. deviate for low = 1.0141, p-value = 0.1553</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Std. deviate for low = 1.0141, p-value = 0.3105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same colour statistic           Expectation              Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              34.00000              29.59184              18.89550 </span>
@@ -193,8 +193,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  HICRIME </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "B") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Std. deviate for high = 6.3307, p-value = 1.22e-10</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Std. deviate for high = 6.3307, p-value = 2.44e-10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Same colour statistic           Expectation              Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              54.00000              27.22449              17.88838 </span>

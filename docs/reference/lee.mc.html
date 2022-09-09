@@ -94,7 +94,7 @@
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>
-<dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less".</p></dd>
+<dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less".</p></dd>
 
   <dt>na.action</dt>
 <dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. <code>na.pass</code> is not permitted because it is meaningless in a permutation test.</p></dd>
@@ -155,7 +155,7 @@ An integration of Pearson's r and Moran's I. J Geograph Syst  3: 369-385</p>
 <span class="r-in"><span><span class="va">x</span><span class="op">&lt;-</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span></span></span>
 <span class="r-in"><span><span class="va">y</span><span class="op">&lt;-</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CRIM</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">lee.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nsim<span class="op">=</span><span class="fl">99</span>, <span class="va">lw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">lee.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nsim<span class="op">=</span><span class="fl">99</span>, <span class="va">lw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Lee's L</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -163,15 +163,15 @@ An integration of Pearson's r and Moran's I. J Geograph Syst  3: 369-385</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: lw  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = -0.3263, observed rank = 1, p-value = 0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: less</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = -0.3263, observed rank = 1, p-value = 0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#Test with missing values</span></span></span>
 <span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span><span class="op">&lt;-</span><span class="cn">NA</span></span></span>
 <span class="r-in"><span><span class="va">y</span><span class="op">[</span><span class="fl">3</span><span class="op">:</span><span class="fl">7</span><span class="op">]</span><span class="op">&lt;-</span><span class="cn">NA</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">lee.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nsim<span class="op">=</span><span class="fl">99</span>, <span class="va">lw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>, alternative<span class="op">=</span><span class="st">"less"</span>, </span></span>
+<span class="r-in"><span><span class="fu">lee.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, nsim<span class="op">=</span><span class="fl">99</span>, <span class="va">lw</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span>, </span></span>
 <span class="r-in"><span>   na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Lee's L</span>
@@ -181,8 +181,8 @@ An integration of Pearson's r and Moran's I. J Geograph Syst  3: 369-385</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 1, 2, 3, 4, 5, 6, 7 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = -0.32447, observed rank = 1, p-value = 0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: less</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = -0.32447, observed rank = 1, p-value = 0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

@@ -171,15 +171,43 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.473913014      -0.007042254       0.029997289 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="co"># Moran's I (life expectancy) with IDW with alpha = 2, no coding scheme</span></span></span>
 <span class="r-in"><span><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="va">pts</span>, type <span class="op">=</span> <span class="st">"idw"</span>,</span></span>
 <span class="r-in"><span>  alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs in lagged values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  world$lifeExp  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: world_weights  n reduced by no-neighbour observations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 2.7769, p-value = 0.002744</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.473913014      -0.007042254       0.029997289 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Moran's I (life expectancy), DPD, alpha = 2, dmax = 1000 km, no coding scheme</span></span></span>
 <span class="r-in"><span><span class="va">world_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_world</span>, <span class="va">pts</span>, type <span class="op">=</span> <span class="st">"dpd"</span>,</span></span>
 <span class="r-in"><span>  dmax <span class="op">=</span> <span class="fl">1000000</span>, alpha <span class="op">=</span> <span class="fl">2</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">world</span><span class="op">$</span><span class="va">lifeExp</span>, <span class="va">world_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs in lagged values</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  world$lifeExp  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: world_weights  n reduced by no-neighbour observations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 8.8566, p-value &lt; 2.2e-16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.601451292      -0.007042254       0.004720372 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Boston examples</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">boston</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">boston_coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">boston.utm</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, y <span class="op">=</span> <span class="va">boston.utm</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span></span>
@@ -189,11 +217,37 @@ the latter of which leads to \(w_{ij} = 0\) for all \(d_{ij} &gt; d_{\textrm{max
 <span class="r-in"><span><span class="va">boston_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_boston</span>, <span class="va">boston.geoms</span>, type <span class="op">=</span> <span class="st">"exp"</span>, alpha <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>  style<span class="op">=</span><span class="st">"raw"</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CRIM</span>, <span class="va">boston_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  boston.c$CRIM  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: boston_weights  n reduced by no-neighbour observations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 51.34, p-value &lt; 2.2e-16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      0.8845114518     -0.0019960080      0.0002981586 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="co"># Moran's I (crime) with idw weights with alpha = 2, coding scheme = W</span></span></span>
 <span class="r-in"><span><span class="va">boston_weights</span> <span class="op">&lt;-</span> <span class="fu">nb2listwdist</span><span class="op">(</span><span class="va">nb_boston</span>, <span class="va">boston.geoms</span>, type <span class="op">=</span> <span class="st">"idw"</span>, alpha <span class="op">=</span> <span class="fl">2</span>,</span></span>
 <span class="r-in"><span>  style<span class="op">=</span><span class="st">"W"</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CRIM</span>, <span class="va">boston_weights</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span>, na.action <span class="op">=</span> <span class="va">na.pass</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  boston.c$CRIM  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: boston_weights  n reduced by no-neighbour observations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 18.976, p-value &lt; 2.2e-16</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      0.4392852330     -0.0019960080      0.0005408065 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>

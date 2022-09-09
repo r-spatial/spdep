@@ -110,7 +110,7 @@ permutation test.</p>
 
   <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, 
-  must be one of "greater" (default), or "less".</p></dd>
+  must be one of "greater" (default), "two.sided", or "less".</p></dd>
 
   <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
@@ -195,7 +195,7 @@ is in the vegan package.</p>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span> nsim<span class="op">=</span><span class="fl">99</span>, type<span class="op">=</span><span class="st">"geary"</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span></span>
+<span class="r-in"><span> nsim<span class="op">=</span><span class="fl">99</span>, type<span class="op">=</span><span class="st">"geary"</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Mantel permutation test for geary measure</span>
@@ -204,8 +204,8 @@ is in the vegan package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 51.927, observed rank = 1, p-value = 0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: less</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 51.927, observed rank = 1, p-value = 0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mean of permutations   sd of permutations </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            98.852997             8.934135 </span>
@@ -213,7 +213,7 @@ is in the vegan package.</p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="sp.mantel.mc-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu">sp.mantel.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>,</span></span>
-<span class="r-in"><span> type<span class="op">=</span><span class="st">"sokal"</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span></span>
+<span class="r-in"><span> type<span class="op">=</span><span class="st">"sokal"</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Mantel permutation test for sokal measure</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -221,8 +221,8 @@ is in the vegan package.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 36.695, observed rank = 1, p-value = 0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: less</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 36.695, observed rank = 1, p-value = 0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: two.sided</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> mean of permutations   sd of permutations </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            56.418584             3.227064 </span>
