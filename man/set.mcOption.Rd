@@ -29,7 +29,7 @@ get.ClusterOption()
 \value{
   The option access functions return their current settings, the assignment functions usually return the previous value of the option.
 }
-\note{An extended example is shown in the documentation of \code{\link{aple.mc}}, including treatment of seeding of RNG for multicore/cluster.}
+\note{An extended example is shown in the documentation of \code{\link[spatialreg]{aple.mc}}, including treatment of seeding of RNG for multicore/cluster.}
 
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
@@ -46,33 +46,33 @@ coresOpt <- get.coresOption()
 coresOpt
 if (!is.na(nc)) {
  invisible(set.coresOption(nc))
- print(exists("aple.mc"))
+ print(exists("moran.mc"))
  if(.Platform$OS.type == "windows") {
 # forking not permitted on Windows - start cluster
   print(get.mcOption())
   cl <- makeCluster(get.coresOption())
-  print(clusterEvalQ(cl, exists("aple.mc")))
+  print(clusterEvalQ(cl, exists("moran.mc")))
   set.ClusterOption(cl)
   clusterEvalQ(get.ClusterOption(), library(spdep))
-  print(clusterEvalQ(cl, exists("aple.mc")))
+  print(clusterEvalQ(cl, exists("moran.mc")))
   clusterEvalQ(get.ClusterOption(), detach(package:spdep))
   set.ClusterOption(NULL)
-  print(clusterEvalQ(cl, exists("aple.mc")))
+  print(clusterEvalQ(cl, exists("moran.mc")))
   stopCluster(cl)
  } else {
   mcOpt <- get.mcOption()
   print(mcOpt)
-  print(mclapply(1:get.coresOption(), function(i) exists("aple.mc"),
+  print(mclapply(1:get.coresOption(), function(i) exists("moran.mc"),
    mc.cores=get.coresOption()))
   invisible(set.mcOption(FALSE))
   cl <- makeCluster(nc)
-  print(clusterEvalQ(cl, exists("aple.mc")))
+  print(clusterEvalQ(cl, exists("moran.mc")))
   set.ClusterOption(cl)
   clusterEvalQ(get.ClusterOption(), library(spdep))
-  print(clusterEvalQ(cl, exists("aple.mc")))
+  print(clusterEvalQ(cl, exists("moran.mc")))
   clusterEvalQ(get.ClusterOption(), detach(package:spdep))
   set.ClusterOption(NULL)
-  print(clusterEvalQ(cl, exists("aple.mc")))
+  print(clusterEvalQ(cl, exists("moran.mc")))
   stopCluster(cl)
   invisible(set.mcOption(mcOpt))
  }

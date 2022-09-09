@@ -15,7 +15,7 @@ joincount.mc(fx, listw, nsim, zero.policy=FALSE, alternative="greater",
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{nsim}{number of permutations}
   \item{zero.policy}{if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
-  \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less".}
+  \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less".}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
 }
 
@@ -39,7 +39,7 @@ A list with class \code{jclist} of lists with class \code{htest} and \code{mc.si
 data(oldcol)
 HICRIME <- cut(COL.OLD$CRIME, breaks=c(0,35,80), labels=c("low","high"))
 names(HICRIME) <- rownames(COL.OLD)
-joincount.mc(HICRIME, nb2listw(COL.nb, style="B"), nsim=99)
-joincount.test(HICRIME, nb2listw(COL.nb, style="B"))
+joincount.mc(HICRIME, nb2listw(COL.nb, style="B"), nsim=99, alternative="two.sided")
+joincount.test(HICRIME, nb2listw(COL.nb, style="B"), alternative="two.sided")
 }
 \keyword{spatial}

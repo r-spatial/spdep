@@ -7,7 +7,7 @@ sp.mantel.mc <- function(var, listw, nsim, type="moran", zero.policy=NULL,
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(var))
-	alternative <- match.arg(alternative, c("greater", "less"))
+	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
 	if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
 		"is not a listw object"))
 	if(!is.numeric(var)) stop(paste(deparse(substitute(var)),
@@ -88,6 +88,8 @@ sp.mantel.mc <- function(var, listw, nsim, type="moran", zero.policy=NULL,
         	pval <- punif((diff + 1)/(nsim + 1), lower.tail=FALSE)
     	else if (alternative == "greater") 
         	pval <- punif((diff + 1)/(nsim + 1))
+        else pval <- punif(abs(xrank - (nsim+1)/2)/(nsim + 1), 0, 0.5,
+                lower.tail=FALSE)
 	if (!is.finite(pval) || pval < 0 || pval > 1) 
 		warning("Out-of-range p-value: reconsider test arguments")
 	statistic <- res[nsim+1]

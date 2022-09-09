@@ -26,7 +26,7 @@ sp.mantel.mc(var, listw, nsim, type = "moran", zero.policy = NULL,
   \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without 
   neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis, 
-  must be one of "greater" (default), or "less".}
+  must be one of "greater" (default), "two.sided", or "less".}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{return_boot}{return an object of class \code{boot} from the equivalent permutation bootstrap rather than an object of class \code{htest}}
   \item{x}{the object to be plotted}
@@ -65,11 +65,11 @@ is in the vegan package.}
 \examples{
 data(oldcol)
 sim1 <- sp.mantel.mc(COL.OLD$CRIME, nb2listw(COL.nb),
- nsim=99, type="geary", alternative="less")
+ nsim=99, type="geary", alternative="two.sided")
 sim1
 plot(sim1)
 sp.mantel.mc(COL.OLD$CRIME, nb2listw(COL.nb), nsim=99,
- type="sokal", alternative="less")
+ type="sokal", alternative="two.sided")
 sp.mantel.mc(COL.OLD$CRIME, nb2listw(COL.nb), nsim=99,
  type="moran")
 }

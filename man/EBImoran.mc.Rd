@@ -20,7 +20,7 @@ EBImoran.mc(n, x, listw, nsim, zero.policy = NULL,
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{nsim}{number of permutations}
   \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
-  \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less"}
+  \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less"}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{return_boot}{return an object of class \code{boot} from the equivalent permutation bootstrap rather than an object of class \code{htest}}
   \item{subtract_mean_in_numerator}{default TRUE, if TRUE subtract mean of z in numerator of EBI equation on p. 2157 in reference (consulted with Renato Assunção 2016-02-19); until February 2016 the default was FALSE agreeing with the printed paper.}
@@ -65,10 +65,11 @@ rn <- as.character(nc.sids$FIPS)
 ncCC89_nb <- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
  region.id=rn)
 EBImoran.mc(nc.sids$SID74, nc.sids$BIR74,
- nb2listw(ncCC89_nb, style="B", zero.policy=TRUE), nsim=999, zero.policy=TRUE)
+ nb2listw(ncCC89_nb, style="B", zero.policy=TRUE), nsim=999,
+ alternative="two.sided", zero.policy=TRUE)
 sids.p <- nc.sids$SID74 / nc.sids$BIR74
 moran.mc(sids.p, nb2listw(ncCC89_nb, style="B", zero.policy=TRUE),
- nsim=999, zero.policy=TRUE)
+ nsim=999, alternative="two.sided", zero.policy=TRUE)
 }
 \keyword{spatial}
 
