@@ -46,6 +46,7 @@ local_joincount_bv <- function(x, z, listw, nsim = 199, alternative = "two.sided
     message(
       "Co-location present for non-observed events.\n  e.g. xi == 0 and zi == 0"
     )
+    stop("Neither CLC or BJC cases identified.", call. = FALSE)
   } else {
     stop("Neither CLC or BJC cases identified.", call. = FALSE)
   }

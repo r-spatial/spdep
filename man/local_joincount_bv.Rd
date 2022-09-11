@@ -33,6 +33,8 @@ The bivariate join count (BJC) evaluates event occurrences in predefined regions
 
   The local bivariate join count statistic requires a binary weights list which can be generated with \code{nb2listw(nb, style = "B")}.
 
+  P-values are only reported for those regions that match the CLC or BJC criteria. Others will not have an associated p-value.
+
   P-values are estimated using a conditional permutation approach. This creates a reference distribution from which the observed statistic is compared.
 }
 
@@ -46,3 +48,17 @@ Anselin, L., & Li, X. (2019). Operational Local Join Count Statistics for Cluste
 }
 
 \author{Josiah Parry \email{josiah.parry@gmail.com}}
+
+\examples{
+data("oldcol")
+listw <- nb2listw(COL.nb, style = "B")
+# Colocation case
+x <- COL.OLD[["CP"]]
+z <- COL.OLD[["EW"]]
+res <- local_joincount_bv(x, z, listw)
+na.omit(res)
+# no colocation case
+z <- 1 - x
+res <- local_joincount_bv(x, z, listw)
+na.omit(res)
+}
