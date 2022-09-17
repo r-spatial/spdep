@@ -231,6 +231,7 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
     assign("obs", obs, envir=env)
     assign("nc", nc, envir=env)
     varlist <- ls(envir = env)
+
     permC_int <- function(i, env) {
 #    permC_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ci, nc) {
       res_i <- rep(as.numeric(NA), 8)

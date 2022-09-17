@@ -146,6 +146,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     crd <- card(listw$neighbours)
     lww <- listw$weights
     Iis <- res[,1]
+
     env <- new.env()
     assign("z", z, envir=env)
     assign("crd", crd, envir=env)
@@ -154,6 +155,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     assign("Iis", Iis, envir=env)
     assign("s2", s2, envir=env)
     varlist <- ls(envir = env)
+
     permI_int <- function(i, env) {
         res_i <- rep(as.numeric(NA), 8) # initialize output
         crdi <- get("crd", envir=env)[i]
@@ -263,6 +265,7 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
     assign("x_star", x_star, envir=env)
     assign("gstari", gstari, envir=env)
     varlist <- ls(envir = env)
+
     permG_int <- function(i, env) {
         res_i <- rep(as.numeric(NA), 6)
         crdi <- get("crd", envir=env)[i]
@@ -292,9 +295,9 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
     }
 
     out <- run_perm(fun=permG_int, n=n, env=env, iseed=iseed, varlist=varlist)
+
     EG <- out[,1]
     VG <- out[,2]
-
     res <- (G - EG)
     res <- res / sqrt(VG)
     if (return_internals) {
