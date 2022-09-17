@@ -55,10 +55,12 @@ listw <- nb2listw(COL.nb, style = "B")
 # Colocation case
 x <- COL.OLD[["CP"]]
 z <- COL.OLD[["EW"]]
+set.seed(1)
 res <- local_joincount_bv(x, z, listw)
 na.omit(res)
 # no colocation case
 z <- 1 - x
+set.seed(1)
 res <- local_joincount_bv(x, z, listw)
 na.omit(res)
 }

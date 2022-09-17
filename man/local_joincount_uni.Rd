@@ -36,7 +36,8 @@ P-values are estimated using a conditional permutation approach. This creates a 
 data(oldcol)
 x <- ifelse(COL.OLD$CRIME < 35, 0L, 1L)
 listw <- nb2listw(COL.nb, style = "B")
-local_joincount_uni(x, listw)
+set.seed(1)
+(res <- local_joincount_uni(x, listw))
 }
 
 \references{

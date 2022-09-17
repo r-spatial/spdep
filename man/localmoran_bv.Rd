@@ -34,7 +34,8 @@ I_i^B= cx_i\Sigma_j{w_{ij}y_j}
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData"))
 nb <- poly2nb(columbus)
 listw <- nb2listw(nb)
-localmoran_bv(columbus$CRIME, columbus$INC, listw, nsim = 99)
+set.seed(1)
+(res <- localmoran_bv(columbus$CRIME, columbus$INC, listw, nsim = 99))
 }
 \references{
 Anselin, Luc, Ibnu Syabri, and Oleg Smirnov. 2002. “Visualizing Multivariate Spatial Correlation with Dynamically Linked Windows.” In New Tools for Spatial Data Analysis: Proceedings of the Specialist Meeting, edited by Luc Anselin and Sergio Rey. University of California, Santa Barbara: Center for Spatially Integrated Social Science (CSISS).

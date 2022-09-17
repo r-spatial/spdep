@@ -2,7 +2,7 @@
 
 * #95 add `"two.sided"` to `lee.mc()`, same for `sp.mantel.mc()`, `EBImoran.mc()`, `joincount.mc()`, `geary.mc()`
 
-* #92, #93, #94, #96  contributions of prototype bivariate Moran, local  bivariate Moran and local joincount tests by Josiah Parry
+* #92, #93, #94, #96, #97  contributions of prototype bivariate Moran, local  bivariate Moran and local joincount and bivariate joincount tests by Josiah Parry
 
 * #91 `tolerance.nb()` update by F. Guillaume Blanchet
 

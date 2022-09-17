@@ -37,7 +37,10 @@ data(boston, package = "spData")
 x <- boston.c$CRIM
 y <- boston.c$NOX
 listw <- nb2listw(boston.soi)
-moran_bv(x, y, listw)
+set.seed(1)
+(res_xy <- moran_bv(x, y, listw))
+set.seed(1)
+(res_yx <- moran_bv(y, x, listw))
 }
 \references{
 Wartenberg, D. (1985), Multivariate Spatial Correlation: A Method for Exploratory Geographical Analysis. Geographical Analysis, 17: 263-283. \doi{10.1111/j.1538-4632.1985.tb00849.x}
