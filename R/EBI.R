@@ -58,21 +58,10 @@ EBImoran.mc <- function (n, x, listw, nsim, zero.policy = NULL,
             var <- var[i]
             return(EBImoran(z=var, ...))
         }
-        cores <- get.coresOption()
-        if (is.null(cores)) {
-        parallel <- "no"
-        } else {
-            parallel <- ifelse (get.mcOption(), "multicore", "snow")
-        }
-        ncpus <- ifelse(is.null(cores), 1L, cores)
-        cl <- NULL
-        if (parallel == "snow") {
-            cl <- get.ClusterOption()
-            if (is.null(cl)) {
-                parallel <- "no"
-                warning("no cluster in ClusterOption, parallel set to no")
-            }
-        }
+        p_setup <- parallel_setup(NULL)
+        parallel <- p_setup$parallel
+        ncpus <- p_setup$ncpus
+        cl <- p_setup$cl
         res <- boot(z, statistic=EBI_boot, R=nsim,
             sim="permutation", listw=listw, nn=m, S0=S0,
             zero.policy=zero.policy,

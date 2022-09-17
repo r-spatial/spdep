@@ -58,21 +58,10 @@ lee.mc <- function(x, y, listw, nsim, zero.policy=NULL,
 #                return(moran(x=var, ...)$I)
 		return(lee(x=var[i,1], y=var[i,2], ...)$L)
             }
-            cores <- get.coresOption()
-            if (is.null(cores)) {
-            parallel <- "no"
-            } else {
-                parallel <- ifelse (get.mcOption(), "multicore", "snow")
-            }
-            ncpus <- ifelse(is.null(cores), 1L, cores)
-            cl <- NULL
-            if (parallel == "snow") {
-                cl <- get.ClusterOption()
-                if (is.null(cl)) {
-                    parallel <- "no"
-                    warning("no cluster in ClusterOption, parallel set to no")
-                }
-            }
+            p_setup <- parallel_setup(NULL)
+            parallel <- p_setup$parallel
+            ncpus <- p_setup$ncpus
+            cl <- p_setup$cl
             res <- boot(xy, statistic=lee_boot, R=nsim,
                 sim="permutation", listw=listw, n=n, S2=S2, 
                 zero.policy=zero.policy, parallel=parallel, ncpus=ncpus, cl=cl)
