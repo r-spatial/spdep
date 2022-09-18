@@ -2,6 +2,7 @@ library(spdep)
 data(boston, package="spData")
 lw <- nb2listw(boston.soi)
 x <- boston.c$NOX
+y <- boston.c$LSTAT
 xx <- cbind(boston.c$NOX, boston.c$LSTAT, boston.c$RM)
 nsim <- 499L
 iseed=1L
@@ -9,6 +10,7 @@ expect_silent(no <- system.time(localmoran_perm(x, lw, nsim=nsim, iseed=iseed))[
 expect_silent(no <- system.time(localG_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
 expect_silent(no <- system.time(localC_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
 expect_silent(no <- system.time(localC_perm(xx, lw, nsim=nsim, iseed=iseed))["elapsed"])
+expect_silent(no <- system.time(localmoran_bv(x, y, lw, nsim=nsim, iseed=iseed))["elapsed"])
 if (require(parallel, quietly=TRUE)) {
  coresOpt <- get.coresOption()
  nc <- detectCores(logical=FALSE)-1L
@@ -24,6 +26,7 @@ if (require(parallel, quietly=TRUE)) {
    expect_silent(multicore <- system.time(localG_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
    expect_silent(multicore <- system.time(localC_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
    expect_silent(multicore <- system.time(localC_perm(xx, lw, nsim=nsim, iseed=iseed))["elapsed"])
+   expect_silent(multicore <- system.time(localmoran_bv(x, y, lw, nsim=nsim, iseed=iseed))["elapsed"])
    invisible(set.mcOption(FALSE))
    cl <- makeCluster(get.coresOption())
    set.ClusterOption(cl)
@@ -31,6 +34,7 @@ if (require(parallel, quietly=TRUE)) {
    expect_silent(snow <- system.time(localG_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
    expect_silent(snow <- system.time(localC_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
    expect_silent(snow <- system.time(localC_perm(xx, lw, nsim=nsim, iseed=iseed))["elapsed"])
+   expect_silent(snow <- system.time(localmoran_bv(x, y, lw, nsim=nsim, iseed=iseed))["elapsed"])
    invisible(stopCluster(cl))
    invisible(set.mcOption(mcOpt))
   } else {
@@ -40,6 +44,7 @@ if (require(parallel, quietly=TRUE)) {
    expect_silent(snow <- system.time(localG_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
    expect_silent(snow <- system.time(localC_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
    expect_silent(snow <- system.time(localC_perm(xx, lw, nsim=nsim, iseed=iseed))["elapsed"])
+   expect_silent(snow <- system.time(localmoran_bv(x, y, lw, nsim=nsim, iseed=iseed))["elapsed"])
    invisible(stopCluster(cl))
   }
   invisible(set.coresOption(coresOpt))

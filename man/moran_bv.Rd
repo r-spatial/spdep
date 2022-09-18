@@ -2,7 +2,7 @@
 \alias{moran_bv}
 \title{Compute the Global Bivariate Moran's I}
 \usage{
-moran_bv(x, y, listw, nsim = 99, scale = TRUE)
+moran_bv(x, y, listw, nsim = 499, scale = TRUE)
 }
 \arguments{
 \item{x}{a numeric vector of same length as \code{y}.}
@@ -16,7 +16,7 @@ moran_bv(x, y, listw, nsim = 99, scale = TRUE)
 \item{scale}{default \code{TRUE}.}
 }
 \value{
-a named list with two elements \code{Ib} and \code{p_sim} containing the bivariate Moran's I and simulated p-value respectively.
+An object of class \code{"boot"}, with the observed statistic in component \code{t0}.
 }
 \description{
 Given two continuous numeric variables, calculate the bivariate Moran's I. See details for more.
@@ -38,9 +38,21 @@ x <- boston.c$CRIM
 y <- boston.c$NOX
 listw <- nb2listw(boston.soi)
 set.seed(1)
-(res_xy <- moran_bv(x, y, listw))
+res_xy <- moran_bv(x, y, listw, nsim=499)
+res_xy$t0
+plot(res_xy)
 set.seed(1)
-(res_yx <- moran_bv(y, x, listw))
+lee_xy <- lee.mc(x, y, listw, nsim=499, return_boot=TRUE)
+lee_xy$t0
+plot(lee_xy)
+set.seed(1)
+res_yx <- moran_bv(y, x, listw, nsim=499)
+res_yx$t0
+plot(res_yx)
+set.seed(1)
+lee_yx <- lee.mc(y, x, listw, nsim=499, return_boot=TRUE)
+lee_yx$t0
+plot(lee_yx)
 }
 \references{
 Wartenberg, D. (1985), Multivariate Spatial Correlation: A Method for Exploratory Geographical Analysis. Geographical Analysis, 17: 263-283. \doi{10.1111/j.1538-4632.1985.tb00849.x}

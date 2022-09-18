@@ -217,7 +217,7 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
     n <- length(listw$neighbours)
 
     if (n != nrow(x))stop("Different numbers of observations")
-    probs <- probs_lut(nsim=nsim, alternative=alternative)
+    probs <- probs_lut(stat="C", nsim=nsim, alternative=alternative)
     Prname <- attr(probs, "Prname")
 
     crd <- card(listw$neighbours)

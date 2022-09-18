@@ -58,18 +58,18 @@ run_perm <- function(fun, n, env, iseed, varlist) {
     out
 }
 
-probs_lut <- function(nsim, alternative) {
+probs_lut <- function(stat="I", nsim, alternative) {
     gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
     ls <- rev(gr)
     ts <- (ifelse(gr > ls, ls, gr))*2
     if (alternative == "two.sided") {
         probs <- ts
-        Prname <- "Pr(z != E(Gi))"
+        Prname <- paste0("Pr(z != E(", stat, "i))")
     } else if (alternative == "greater") {
-        Prname <- "Pr(z > E(Gi))"
+        Prname <- paste0("Pr(z > E(", stat, "i))")
         probs <- gr
     } else {
-        Prname <- "Pr(z < E(Gi))"
+        Prname <- paste0("Pr(z < E(", stat, "i))")
         probs <- ls
     }
     attr(probs, "Prname") <- Prname
@@ -104,7 +104,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         excl <- class(na.act) == "exclude"
     }
     n <- length(listw$neighbours)
-    if (n != length(x))stop("Different numbers of observations")
+    if (n != length(x)) stop("Different numbers of observations")
     res <- matrix(nrow=n, ncol=9)
     if (adjust.x) {
         nc <- card(listw$neighbours) > 0L
@@ -157,7 +157,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     varlist <- ls(envir = env)
 
     permI_int <- function(i, env) {
-        res_i <- rep(as.numeric(NA), 8) # initialize output
+        res_i <- rep(as.numeric(NA), 6) # initialize output
         crdi <- get("crd", envir=env)[i]
         if (crdi > 0) { # if i has neighbours
             nsim <- get("nsim", envir=env)
@@ -174,13 +174,13 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
             res_i[2] <- var(res_p)
             Ii <- get("Iis", envir=env)[i]
             xrank <- rank(c(res_p, Ii))[(nsim + 1L)]
-	    res_i[5] <- xrank
+	    res_i[3] <- xrank
             rnk0 <- as.integer(sum(res_p >= Ii))
             drnk0 <- nsim - rnk0
             rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
-            res_i[6] <- rnk0
-            res_i[7] <- e1071::skewness(res_p)
-            res_i[8] <- e1071::kurtosis(res_p)
+            res_i[4] <- rnk0
+            res_i[5] <- e1071::skewness(res_p)
+            res_i[6] <- e1071::kurtosis(res_p)
         }
         res_i
     }
@@ -197,21 +197,21 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         res[,5] <- pnorm(res[,4], lower.tail=FALSE)
     else res[,5] <- pnorm(res[,4])
 # look-up table
-    probs <- probs_lut(nsim=nsim, alternative=alternative)
+    probs <- probs_lut(stat="I", nsim=nsim, alternative=alternative)
     Prname <- attr(probs, "Prname")
     Prname_rank <- paste0(Prname, " Sim")
     Prname_sim <- "Pr(folded) Sim"
-    res[,6] <- probs[as.integer(out[,5])]
+    res[,6] <- probs[as.integer(out[,3])]
 # 210811 from https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213
-    rnk0 <- as.integer(out[,6])
+    rnk0 <- as.integer(out[,4])
     drnk0 <- nsim - rnk0
     rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
 # folded
     res[,7] <- (rnk + 1.0) / (nsim + 1.0)
 # skewness
-    res[,8] <- out[,7]
+    res[,8] <- out[,5]
 # kurtosis
-    res[,9] <- out[,8]
+    res[,9] <- out[,6]
     colnames(res) <- c("Ii", "E.Ii", "Var.Ii", "Z.Ii", Prname, Prname_rank, 
         Prname_sim, "Skewness", "Kurtosis")
     if (!is.null(na.act) && excl) {
@@ -301,7 +301,7 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
     res <- (G - EG)
     res <- res / sqrt(VG)
     if (return_internals) {
-        probs <- probs_lut(nsim=nsim, alternative=alternative)
+        probs <- probs_lut(stat="G", nsim=nsim, alternative=alternative)
         Prname <- attr(probs, "Prname")
         Prname_rank <- paste0(Prname, " Sim")
         Prname_sim <- "Pr(folded) Sim"
