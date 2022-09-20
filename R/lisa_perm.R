@@ -21,14 +21,21 @@ parallel_setup <- function(iseed) {
     list(parallel=parallel, ncpus=ncpus, cl=cl)
 }
 
-run_perm <- function(fun, n, env, iseed, varlist) {
+spdep_splitIndices <- function(idx, lcl) {
+    n <- length(idx)
+    splits <- parallel::splitIndices(n, lcl)
+    res <- lapply(splits, function(i) idx[i])
+    res
+}
+
+run_perm <- function(fun, idx, env, iseed, varlist) {
     p_setup <- parallel_setup(iseed)
     parallel <- p_setup$parallel
     ncpus <- p_setup$ncpus
     cl <- p_setup$cl
     if (parallel == "snow") {
       if (requireNamespace("parallel", quietly = TRUE)) {
-        sI <- parallel::splitIndices(n, length(cl))
+        sI <- spdep_splitIndices(idx, length(cl))
         parallel::clusterExport(cl, varlist=varlist, envir=env)
         if (!is.null(iseed)) parallel::clusterSetRNGStream(cl, iseed = iseed)
         oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
@@ -39,7 +46,7 @@ run_perm <- function(fun, n, env, iseed, varlist) {
       }
     } else if (parallel == "multicore") {
       if (requireNamespace("parallel", quietly = TRUE)) {
-        sI <- parallel::splitIndices(n, ncpus)
+        sI <- spdep_splitIndices(idx, ncpus)
         oldRNG <- RNGkind()
         RNGkind("L'Ecuyer-CMRG")
         if (!is.null(iseed)) set.seed(iseed)
@@ -52,7 +59,7 @@ run_perm <- function(fun, n, env, iseed, varlist) {
       }
     } else {
         if (!is.null(iseed)) set.seed(iseed)
-        oo <- lapply(1:n, function(i) fun(i, env))
+        oo <- lapply(idx, function(i) fun(i, env))
         out <- do.call("rbind", oo)
     }
     out
@@ -185,7 +192,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         res_i
     }
 
-    out <- run_perm(fun=permI_int, n=n, env=env, iseed=iseed, varlist=varlist)
+    out <- run_perm(fun=permI_int, idx=1:n, env=env, iseed=iseed, varlist=varlist)
 
     if (sample_Ei) res[,2] <- out[,1]
     else  res[,2] <- EIc
@@ -294,7 +301,7 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
         res_i
     }
 
-    out <- run_perm(fun=permG_int, n=n, env=env, iseed=iseed, varlist=varlist)
+    out <- run_perm(fun=permG_int, idx=1:n, env=env, iseed=iseed, varlist=varlist)
 
     EG <- out[,1]
     VG <- out[,2]

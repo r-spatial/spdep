@@ -270,7 +270,7 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
       res_i
     }
 
-    res <- run_perm(fun=permC_int, n=n, env=env, iseed=iseed, varlist=varlist)
+    res <- run_perm(fun=permC_int, idx=1:n, env=env, iseed=iseed, varlist=varlist)
 
     res[,3] <- (obs - res[,1])/sqrt(res[,2])
     if (alternative == "two.sided")

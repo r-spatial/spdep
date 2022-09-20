@@ -68,7 +68,7 @@ localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
     res_i
   }
 
-  out <- run_perm(fun=permI_bv_int, n=n, env=env, iseed=iseed, varlist=varlist)
+  out <- run_perm(fun=permI_bv_int, idx=1:n, env=env, iseed=iseed, varlist=varlist)
 
   res <- matrix(nrow=n, ncol=7)
   res[,1] <- obs
