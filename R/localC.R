@@ -214,64 +214,54 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
   zero.policy=NULL, iseed=NULL) {
     nc <- ncol(x)
     stopifnot(nc > 0L)
-    gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
-    ls <- rev(gr)
-    ts <- (ifelse(gr > ls, ls, gr))*2
-    if (alternative == "two.sided") {
-        probs <- ts
-        Prname <- "Pr(z != E(Ci))"
-    } else if (alternative == "greater") {
-        Prname <- "Pr(z > E(Ci))"
-        probs <- gr
-    } else {
-        Prname <- "Pr(z < E(Ci))"
-        probs <- ls
-    }
     n <- length(listw$neighbours)
-    if (n != nrow(x))stop("Different numbers of observations")
 
-    cores <- get.coresOption()
-    if (is.null(cores)) {
-        parallel <- "no"
-    } else {
-        parallel <- ifelse (get.mcOption(), "multicore", "snow")
-    }
-    ncpus <- ifelse(is.null(cores), 1L, cores)
-    cl <- NULL
-    if (parallel == "snow") {
-        cl <- get.ClusterOption()
-        if (is.null(cl)) {
-            parallel <- "no"
-            warning("no cluster in ClusterOption, parallel set to no")
-        }
-    }
-    if (!is.null(iseed)) {
-        stopifnot(is.numeric(iseed))
-        stopifnot(length(iseed) == 1L)
-    }
+    if (n != nrow(x))stop("Different numbers of observations")
+    probs <- probs_lut(stat="C", nsim=nsim, alternative=alternative)
+    Prname <- attr(probs, "Prname")
 
     crd <- card(listw$neighbours)
-    permC_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ci, nc) {
+    z <- scale(x)
+    lww <- listw$weights
+    env <- new.env()
+    assign("z", z, envir=env)
+    assign("crd", crd, envir=env)
+    assign("lww", lww, envir=env)
+    assign("nsim", nsim, envir=env)
+    assign("obs", obs, envir=env)
+    assign("nc", nc, envir=env)
+    varlist <- ls(envir = env)
+
+    permC_int <- function(i, env) {
+#    permC_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ci, nc) {
       res_i <- rep(as.numeric(NA), 8)
-      if (crdi > 0) {
-        if (nc == 1L) {
+      crdi <- get("crd", envir=env)[i]
+      if (crdi > 0) { # if i has neighbours
+        nsim <- get("nsim", envir=env)
+        zi <- get("z", envir=env)[i,,drop=FALSE]
+        z_i <- get("z", envir=env)[-i,]
+        wtsi <- get("lww", envir=env)[[i]]
+        nc <- get("nc", envir=env)
+        if (nc == 1L) { # if univariate
           sz_i <- matrix(sample(c(z_i), size=crdi*nsim, replace=TRUE),
-            ncol=crdi, nrow=nsim)
+            ncol=crdi, nrow=nsim) # permute nsim*#neighbours from z[-i]
           diffs <- (c(zi) - sz_i)^2
           res_p <- c(diffs %*% wtsi)
-        } else {
-          res_p <- numeric(length=nsim)
+        } else { # else multivariate
+          res_p <- numeric(length=nsim) # for cumulation across columns
           sii <- sample.int(nrow(z_i), size=crdi*nsim, replace=TRUE)
-          for (j in 1:nc) {
-            sz_i <- matrix(z_i[sii, j], ncol=crdi, nrow=nsim)
+          for (j in 1:nc) { # permute nsim*#neighbours row indices from z[-i]
+            # create nsim by crdi matrix of z[-i, j] for j-th column
+            sz_i <- matrix(z_i[sii, j], ncol=crdi, nrow=nsim) 
             diffs <- (zi[, j] - sz_i)^2
-            res_p <- res_p + c(diffs %*% wtsi)
+            res_p <- res_p + c(diffs %*% wtsi) # cumulate across columns
           }
-          res_p <- res_p/nc
+          res_p <- res_p/nc # nsim simulated local Gi
         }
-# res_p length nsim for obs i conditional draws
+        # res_p length nsim for obs i conditional draws
         res_i[1] <- mean(res_p)
         res_i[2] <- var(res_p)
+        Ci <- get("obs", envir=env)[i]
         res_i[5] <- rank(c(res_p, Ci))[(nsim + 1L)]
         res_i[6] <- as.integer(sum(res_p >= Ci))
         res_i[7] <- e1071::skewness(res_p)
@@ -279,47 +269,9 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
       }
       res_i
     }
-    z <- scale(x)
-    lww <- listw$weights
-    if (parallel == "snow") {
-      if (requireNamespace("parallel", quietly = TRUE)) {
-        sI <- parallel::splitIndices(n, length(cl))
-        env <- new.env()
-        assign("z", z, envir=env)
-        assign("crd", crd, envir=env)
-        assign("lww", lww, envir=env)
-        assign("nsim", nsim, envir=env)
-        assign("obs", obs, envir=env)
-        assign("nc", nc, envir=env)
-        parallel::clusterExport(cl, varlist=c("z", "crd", "lww", "nsim",
-          "obs", "nc"), envir=env)
-        if (!is.null(iseed)) parallel::clusterSetRNGStream(cl, iseed = iseed)
-        oo <- parallel::clusterApply(cl, x = sI, fun=lapply, function(i) {
-          permC_int(i, z[i,,drop=FALSE], z[-i,], crd[i], lww[[i]], nsim,
-          obs[i], nc)})
-        res <- do.call("rbind", do.call("c", oo))
-        rm(env)
-      } else {
-        stop("parallel not available")
-      }
-    } else if (parallel == "multicore") {
-      if (requireNamespace("parallel", quietly = TRUE)) {
-        sI <- parallel::splitIndices(n, ncpus)
-        oldRNG <- RNGkind()
-        RNGkind("L'Ecuyer-CMRG")
-        oo <- parallel::mclapply(sI, FUN=lapply, function(i) {permC_int(i, 
-          z[i,,drop=FALSE], z[-i,], crd[i], lww[[i]], nsim, obs[i], nc)},
-          mc.cores=ncpus)
-        RNGkind(oldRNG[1])
-        res <- do.call("rbind", do.call("c", oo))
-      } else {
-        stop("parallel not available")
-      }
-    } else {
-      oo <- lapply(1:n, function(i) permC_int(i, z[i,,drop=FALSE], z[-i,],
-        crd[i], lww[[i]], nsim, obs[i], nc))
-      res <- do.call("rbind", oo)
-    }
+
+    res <- run_perm(fun=permC_int, n=n, env=env, iseed=iseed, varlist=varlist)
+
     res[,3] <- (obs - res[,1])/sqrt(res[,2])
     if (alternative == "two.sided")
       res[,4] <- 2 * pnorm(abs(res[,3]), lower.tail=FALSE)

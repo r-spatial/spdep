@@ -50,21 +50,10 @@ localmoran.exact <- function(model, select, nb, glist = NULL, style = "W",
 	a <- sum(sapply(B$weights, function(x) sqrt(sum(x^2))))
     } else if (style == "C") a <- sum(unlist(B$weights))
 
-    cores <- get.coresOption()
-    if (is.null(cores)) {
-        parallel <- "no"
-    } else {
-        parallel <- ifelse (get.mcOption(), "multicore", "snow")
-    }
-    ncpus <- ifelse(is.null(cores), 1L, cores)
-    cl <- NULL
-    if (parallel == "snow") {
-        cl <- get.ClusterOption()
-        if (is.null(cl)) {
-            parallel <- "no"
-            warning("no cluster in ClusterOption, parallel set to no")
-        }
-    }
+    p_setup <- parallel_setup(NULL)
+    parallel <- p_setup$parallel
+    ncpus <- p_setup$ncpus
+    cl <- p_setup$cl
 
     exactLocalMoran_int <- function(i, select, B, style, n, D, a, 
         zero.policy, u, X, utu, alternative, useTP, truncErr, zeroTreat) {

@@ -36,47 +36,48 @@ get.ClusterOption()
  
 \examples{
 ls(envir=spdep:::.spdepOptions)
-library(parallel)
-nc <- detectCores(logical=FALSE)-1L
-nc
+if (require(parallel, quietly=TRUE)) {
+ nc <- detectCores(logical=FALSE)-1L
+ nc
 # set nc to 1L here
-if (nc > 1L) nc <- 1L
+ if (nc > 1L) nc <- 1L
 #nc <- ifelse(nc > 2L, 2L, nc)
-coresOpt <- get.coresOption()
-coresOpt
-if (!is.na(nc)) {
- invisible(set.coresOption(nc))
- print(exists("moran.mc"))
- if(.Platform$OS.type == "windows") {
+ coresOpt <- get.coresOption()
+ coresOpt
+ if (!is.na(nc)) {
+  invisible(set.coresOption(nc))
+  print(exists("moran.mc"))
+  if(.Platform$OS.type == "windows") {
 # forking not permitted on Windows - start cluster
-  print(get.mcOption())
-  cl <- makeCluster(get.coresOption())
-  print(clusterEvalQ(cl, exists("moran.mc")))
-  set.ClusterOption(cl)
-  clusterEvalQ(get.ClusterOption(), library(spdep))
-  print(clusterEvalQ(cl, exists("moran.mc")))
-  clusterEvalQ(get.ClusterOption(), detach(package:spdep))
-  set.ClusterOption(NULL)
-  print(clusterEvalQ(cl, exists("moran.mc")))
-  stopCluster(cl)
- } else {
-  mcOpt <- get.mcOption()
-  print(mcOpt)
-  print(mclapply(1:get.coresOption(), function(i) exists("moran.mc"),
-   mc.cores=get.coresOption()))
-  invisible(set.mcOption(FALSE))
-  cl <- makeCluster(nc)
-  print(clusterEvalQ(cl, exists("moran.mc")))
-  set.ClusterOption(cl)
-  clusterEvalQ(get.ClusterOption(), library(spdep))
-  print(clusterEvalQ(cl, exists("moran.mc")))
-  clusterEvalQ(get.ClusterOption(), detach(package:spdep))
-  set.ClusterOption(NULL)
-  print(clusterEvalQ(cl, exists("moran.mc")))
-  stopCluster(cl)
-  invisible(set.mcOption(mcOpt))
+   print(get.mcOption())
+   cl <- makeCluster(get.coresOption())
+   print(clusterEvalQ(cl, exists("moran.mc")))
+   set.ClusterOption(cl)
+   clusterEvalQ(get.ClusterOption(), library(spdep))
+   print(clusterEvalQ(cl, exists("moran.mc")))
+   clusterEvalQ(get.ClusterOption(), detach(package:spdep))
+   set.ClusterOption(NULL)
+   print(clusterEvalQ(cl, exists("moran.mc")))
+   stopCluster(cl)
+  } else {
+   mcOpt <- get.mcOption()
+   print(mcOpt)
+   print(mclapply(1:get.coresOption(), function(i) exists("moran.mc"),
+    mc.cores=get.coresOption()))
+   invisible(set.mcOption(FALSE))
+   cl <- makeCluster(nc)
+   print(clusterEvalQ(cl, exists("moran.mc")))
+   set.ClusterOption(cl)
+   clusterEvalQ(get.ClusterOption(), library(spdep))
+   print(clusterEvalQ(cl, exists("moran.mc")))
+   clusterEvalQ(get.ClusterOption(), detach(package:spdep))
+   set.ClusterOption(NULL)
+   print(clusterEvalQ(cl, exists("moran.mc")))
+   stopCluster(cl)
+   invisible(set.mcOption(mcOpt))
+  }
+  invisible(set.coresOption(coresOpt))
  }
- invisible(set.coresOption(coresOpt))
 }
 }
 \keyword{ spatial }
