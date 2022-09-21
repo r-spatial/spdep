@@ -23,6 +23,7 @@ parallel_setup <- function(iseed) {
 
 spdep_splitIndices <- function(idx, lcl) {
     n <- length(idx)
+    stopifnot(n == length(unique(idx)))
     splits <- parallel::splitIndices(n, lcl)
     res <- lapply(splits, function(i) idx[i])
     res
