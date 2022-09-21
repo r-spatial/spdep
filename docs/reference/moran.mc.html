@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>
-<dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less".</p></dd>
+<dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less".</p></dd>
 
   <dt>na.action</dt>
 <dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. <code>na.pass</code> is not permitted because it is meaningless in a permutation test.</p></dd>

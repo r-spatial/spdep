@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">moran_bv</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">listw</span>, nsim <span class="op">=</span> <span class="fl">99</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">moran_bv</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">listw</span>, nsim <span class="op">=</span> <span class="fl">499</span>, scale <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -101,7 +101,7 @@
     <h2>Value</h2>
     
 
-<p>a named list with two elements <code>Ib</code> and <code>p_sim</code> containing the bivariate Moran's I and simulated p-value respectively.</p>
+<p>An object of class <code>"boot"</code>, with the observed statistic in component <code>t0</code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -128,13 +128,30 @@ spatial autocorrelation which may be a product of the inherent correlation of X 
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">boston.c</span><span class="op">$</span><span class="va">CRIM</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">boston.c</span><span class="op">$</span><span class="va">NOX</span></span></span>
 <span class="r-in"><span><span class="va">listw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">boston.soi</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">moran_bv</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">listw</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Ib</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res_xy</span> <span class="op">&lt;-</span> <span class="fu">moran_bv</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res_xy</span><span class="op">$</span><span class="va">t0</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4082073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $p_sim</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_xy</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="moran_bv-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lee_xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="lee.mc.html">lee.mc</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, return_boot<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lee_xy</span><span class="op">$</span><span class="va">t0</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3993476</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lee_xy</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="moran_bv-2.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res_yx</span> <span class="op">&lt;-</span> <span class="fu">moran_bv</span><span class="op">(</span><span class="va">y</span>, <span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res_yx</span><span class="op">$</span><span class="va">t0</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4029821</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_yx</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="moran_bv-3.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lee_yx</span> <span class="op">&lt;-</span> <span class="fu"><a href="lee.mc.html">lee.mc</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, return_boot<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lee_yx</span><span class="op">$</span><span class="va">t0</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3993476</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lee_yx</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="moran_bv-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>
