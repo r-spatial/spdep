@@ -98,7 +98,7 @@ local_joincount_uni <- function(fx, chosen, listw,
   p_ranks <- run_perm(permBB_int, index, env, iseed, varlist)
 
   p_res <- rep(NA_real_, length(x))
-  p_res[index] <- probs[index]
+  p_res[index] <- probs[floor(p_ranks)]
 
   res <- data.frame(obs, p_res)
   colnames(res) <- c("BB", attr(probs, "Prname"))
