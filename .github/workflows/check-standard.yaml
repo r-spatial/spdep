@@ -39,12 +39,7 @@ jobs:
         with:
           r-version: ${{ matrix.config.r }}
           rtools-version: ${{ matrix.config.rtools-version }}
-          
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::rcmdcheck
-          needs: check
-          
+ 
       - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
