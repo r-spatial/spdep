@@ -207,7 +207,7 @@ localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
     }
     if (parallel == "snow") {
       if (requireNamespace("parallel", quietly = TRUE)) {
-        sI <- parallel::splitIndices(n, length(cl))
+        sI <- spdep_splitIndices(select, length(cl))
         env <- new.env()
         assign("B", B, envir=env)
         assign("select", select, envir=env)
@@ -249,7 +249,7 @@ localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
       }
     } else if (parallel == "multicore") {
       if (requireNamespace("parallel", quietly = TRUE)) {
-        sI <- parallel::splitIndices(n, ncpus)
+        sI <- spdep_splitIndices(select, ncpus)
         if (cond.sad) {
             oo <- parallel::mclapply(sI, FUN=lapply, function(i) {
                 sadLocalMoranAlt_int(i, B, select, style, n, D, a,
@@ -266,13 +266,28 @@ localmoran.sad <- function (model, select, nb, glist = NULL, style = "W",
       }
     } else {
         if (cond.sad)
-            res <- lapply(1:n, function(i) sadLocalMoranAlt_int(i, B,
+            res <- lapply(select, function(i) sadLocalMoranAlt_int(i, B,
                 select, style, n, D, a, zero.policy, M1, M2, tol.bounds,
                 tol, maxiter, alternative, u, utu, X))
         else
-            res <- lapply(1:n, function(i) sadLocalMoran_int(i, B, select, 
+            res <- lapply(select, function(i) sadLocalMoran_int(i, B, select, 
                 style, n, D, a, zero.policy, m, alternative, u, utu))
     }
+
+    NAOK <- TRUE
+    lu <- lag.listw(B, u, zero.policy=TRUE)
+    lbs <- c("Low", "High")
+    quadr_ps <- interaction(cut(u, c(-Inf, 0, Inf), labels=lbs), 
+        cut(lu, c(-Inf, 0, Inf), labels=lbs), sep="-")
+    quadr <- interaction(cut(u, c(-Inf, mean(u, na.rm=NAOK), Inf),
+        labels=lbs), cut(lu, c(-Inf, mean(lu, na.rm=NAOK), Inf),
+        labels=lbs), sep="-")
+    quadr_med <- interaction(cut(u, c(-Inf, median(u, na.rm=NAOK), Inf),
+        labels=lbs), cut(lu, c(-Inf, median(lu, na.rm=NAOK), Inf),
+        labels=lbs), sep="-")
+    attr(res, "quadr") <- data.frame(mean=quadr, median=quadr_med,
+        pysal=quadr_ps)[select,]
+
     class(res) <- "localmoransad"
     if (save.M && cond.sad) attr(res, "M") <- list(M1=M1, M2=M2, type="cond")
     if (save.M && !cond.sad) attr(res, "M") <- list(X=X, XtXinv=XtXinv,
@@ -336,6 +351,7 @@ as.data.frame.localmoransad <- function(x, row.names=NULL, optional=FALSE, ...) 
 summary.localmoransad <- function(object, ...) {
     res <- as.data.frame(object)
     class(res) <- c("summary.localmoransad", class(res)) 
+    attr(res, "quadr") <- attr(object, "quadr")
     res
 }
 

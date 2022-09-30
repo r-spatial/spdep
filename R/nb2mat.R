@@ -54,7 +54,7 @@ mat2listw <- function(x, row.names=NULL, style="M") {
 	}
 #	style <- "M"
         if (is(x, "sparseMatrix")) {
-            xC <- as(x, "dgCMatrix")
+            xC <- as(x, "CsparseMatrix")
             i <- slot(xC, "i")+1
             p <- slot(xC, "p")
             dp <- diff(p)

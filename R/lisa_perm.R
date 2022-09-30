@@ -234,6 +234,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     res
 }
 
+# "localmoran" quadr mean/median/pysal "Low-Low", "Low-High", "High-Low", "High-High"
 
 
 localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=TRUE, alternative = "two.sided", iseed=NULL) {
@@ -332,8 +333,11 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
             Prname_rank, Prname_sim, "Skewness", "Kurtosis")
         attr(res, "internals") <- resint
     }
+    attr(res, "cluster") <- cut(x, c(-Inf, mean(x), Inf), labels = c("Low", "High"))
     attr(res, "gstari") <- gstari
     attr(res, "call") <- match.call()
     class(res) <- "localG"
     res
 }
+
+# "localG" cluster c("Low", "High")

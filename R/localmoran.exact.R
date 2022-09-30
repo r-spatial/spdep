@@ -94,7 +94,7 @@ localmoran.exact <- function(model, select, nb, glist = NULL, style = "W",
 
     if (parallel == "snow") {
       if (requireNamespace("parallel", quietly = TRUE)) {
-        sI <- parallel::splitIndices(n, length(cl))
+        sI <- spdep_splitIndices(select, length(cl))
         env <- new.env()
         assign("select", select, envir=env)
         assign("B", B, envir=env)
@@ -123,7 +123,7 @@ localmoran.exact <- function(model, select, nb, glist = NULL, style = "W",
       }
     } else if (parallel == "multicore") {
       if (requireNamespace("parallel", quietly = TRUE)) {
-        sI <- parallel::splitIndices(n, ncpus)
+        sI <- spdep_splitIndices(select, ncpus)
         oo <- parallel::mclapply(sI, FUN=lapply, function(i) {
             exactLocalMoran_int(i, select, B, style, n, D, a, zero.policy, 
             u, X, utu, alternative, useTP, truncErr, zeroTreat)}, 
@@ -133,10 +133,24 @@ localmoran.exact <- function(model, select, nb, glist = NULL, style = "W",
         stop("parallel not available")
       }
     } else {
-        res <- lapply(1:n, function(i) exactLocalMoran_int(i, select, B, 
+        res <- lapply(select, function(i) exactLocalMoran_int(i, select, B, 
             style, n, D, a, zero.policy, u, X, utu, alternative, useTP, 
             truncErr, zeroTreat))
     }
+
+    lu <- lag.listw(B, u, zero.policy=TRUE)
+    NAOK <- TRUE
+    lbs <- c("Low", "High")
+    quadr_ps <- interaction(cut(u, c(-Inf, 0, Inf), labels=lbs), 
+        cut(lu, c(-Inf, 0, Inf), labels=lbs), sep="-")
+    quadr <- interaction(cut(u, c(-Inf, mean(u, na.rm=NAOK), Inf),
+        labels=lbs), cut(lu, c(-Inf, mean(lu, na.rm=NAOK), Inf),
+        labels=lbs), sep="-")
+    quadr_med <- interaction(cut(u, c(-Inf, median(u, na.rm=NAOK), Inf),
+        labels=lbs), cut(lu, c(-Inf, median(lu, na.rm=NAOK), Inf),
+        labels=lbs), sep="-")
+    attr(res, "quadr") <- data.frame(mean=quadr, median=quadr_med,
+        pysal=quadr_ps)[select,]
 
     class(res) <- "localmoranex"
     res
@@ -195,6 +209,8 @@ as.data.frame.localmoranex <- function(x, row.names=NULL, optional=FALSE, ...) {
     res <- as.data.frame(res)
     extract <- function(x, i) {x[[i]]}
     res$oT <- sapply(x, extract, 7)
+    attr(res, "quadr") <- attr(x, "quadr")
+    class(res) <- c("data.frame.localmoranex", class(res))
     res
 }
 

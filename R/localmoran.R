@@ -129,4 +129,5 @@ localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
 }
 
 
+# "localmoran" quadr mean/median/pysal "Low-Low", "Low-High", "High-Low", "High-High"
 

@@ -73,8 +73,12 @@ localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALS
                 c("", ")", ")", ")"), sep=""), Prname)
             attr(res, "internals") <- ints
 	}
+        attr(res, "cluster") <- cut(x, c(-Inf, mean(x), Inf),
+            labels = c("Low", "High"))
         attr(res, "gstari") <- gstari
 	attr(res, "call") <- match.call()
 	class(res) <- "localG"
 	res
 }
+
+# "localG" cluster c("Low", "High")

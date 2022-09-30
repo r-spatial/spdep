@@ -193,7 +193,9 @@ localC_perm.formula <- function(formula, data, listw,
 
 }
 
+# "localC" cluster nlevel==3L (multi) c("Positive", "Negative", "Undefined")
 
+# "localC" cluster nlevel==4L (uni) c("High-High", "Low-Low", "Other Positive", "Negative")
 
 # Local Geary Utils -------------------------------------------------------
 localC_calc <- function(x, listw, zero.policy=NULL) {
