@@ -1,4 +1,8 @@
-# Version 1.2-6 (development)
+# Version 1.2-7 (development)
+
+* #103 refactoring local joincount test by Josiah Parry
+
+* add `hotspot` methods for `localmoran` (analytical, permutation, Saddlepoint and exact), `localC` (univariate and multivariate) and `localG` (analytical and permutation)
 
 * #95 add `"two.sided"` to `lee.mc()`, same for `sp.mantel.mc()`, `EBImoran.mc()`, `joincount.mc()`, `geary.mc()`
 
