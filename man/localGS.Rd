@@ -47,6 +47,6 @@ boston_listw2 <- nb2listwdist(dnearneigh(st_centroid(boston.tr_utm), 5000, 9500)
     boston.tr_utm, type = "dpd", alpha = 2, zero.policy = TRUE, dmax = 9500)
 
 boston_RM_gsi_1 <- localGS(boston.tr_utm, boston_listw1, 1, 2000, "RM", FALSE)
-boston_RM_gsi_2 <- localGS_exp(boston.tr_utm, boston_listw2, 2000, 9500, "RM", FALSE)
+boston_RM_gsi_2 <- localGS(boston.tr_utm, boston_listw2, 2000, 9500, "RM", FALSE)
 }
 \keyword{spatial}
