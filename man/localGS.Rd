@@ -32,7 +32,7 @@ Westerholt, R., Resch, B. & Zipf, A. 2015. A local scale-sensitive indicator of 
 Sonea, A. and Westerholt, R. (2021): Geographic and temporal access to basic banking services in Wales. Applied Spatial Analysis and Policy, 14 (4), 879--905.
 }
 
-\author{René Westerholt \email{rene.westerholt@tu-dortmund.de}}
+\author{RenÃ© Westerholt \email{rene.westerholt@tu-dortmund.de}}
 
 \seealso{\code{\link{localG}}}
   
@@ -46,7 +46,7 @@ boston_listw1 <- nb2listwdist(dnearneigh(st_centroid(boston.tr_utm), 1, 2000),
 boston_listw2 <- nb2listwdist(dnearneigh(st_centroid(boston.tr_utm), 5000, 9500), 
     boston.tr_utm, type = "dpd", alpha = 2, zero.policy = TRUE, dmax = 9500)
 
-boston_RM_gsi_1 <- localGS(boston.tr_utm, boston_listw1, 1, 2000, "RM", F)
-boston_RM_gsi_2 <- localGS_exp(boston.tr_utm, boston_listw2, 2000, 9500, "RM", F)
+boston_RM_gsi_1 <- localGS(boston.tr_utm, boston_listw1, 1, 2000, "RM", FALSE)
+boston_RM_gsi_2 <- localGS_exp(boston.tr_utm, boston_listw2, 2000, 9500, "RM", FALSE)
 }
 \keyword{spatial}
