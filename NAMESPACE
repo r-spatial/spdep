@@ -69,6 +69,8 @@ export(lee.mc, lee, lee.test)
 
 export(LOSH, LOSH.cs, LOSH.mc)
 
+export(localGS)
+
 export(localC, localC_perm)
 export(hotspot)
 
