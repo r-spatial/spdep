@@ -71,7 +71,8 @@ nbdists <- function(nb, coords, longlat=NULL) {
             s2d <- s2::s2_distance(s2x[card_reps], s2x[unlist(nb_has_nb)])/1000
 #            s2d <- units::set_units(units::set_units(s2d, "m"), "km")
             res <- vector(mode="list", length=length(nb))
-            res[has_nb] <- aggregate(s2d, by=list(card_reps), c)$x
+            res[has_nb] <- aggregate(s2d, by=list(card_reps), c,
+                simplify=FALSE)$x # issue 111, Josiah Parry
             dlist[[1]] <- res
         } else {
             dlist <- .Call("nbdists", nb, as.matrix(coords), as.integer(np), 

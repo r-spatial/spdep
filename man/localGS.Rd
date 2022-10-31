@@ -27,9 +27,9 @@ Only pairs of observations with a shared distance on the interval [\code{dmin}, 
     A vector of \eqn{GS_i} values that are given as z-scores.
 }
 \references{
-Westerholt, R., Resch, B. & Zipf, A. 2015. A local scale-sensitive indicator of spatial autocorrelation for assessing high-and low-value clusters in multiscale datasets. International Journal of Geographical Information Science, 29(5), 868--887.
+Westerholt, R., Resch, B. & Zipf, A. 2015. A local scale-sensitive indicator of spatial autocorrelation for assessing high-and low-value clusters in multiscale datasets. International Journal of Geographical Information Science, 29(5), 868--887, \url{https://doi.org/10.1080/13658816.2014.1002499}.
 
-Sonea, A. and Westerholt, R. (2021): Geographic and temporal access to basic banking services in Wales. Applied Spatial Analysis and Policy, 14 (4), 879--905.
+Sonea, A. and Westerholt, R. (2021): Geographic and temporal access to basic banking services in Wales. Applied Spatial Analysis and Policy, 14 (4), 879--905, \url{https://doi.org/10.1007/s12061-021-09386-3}.
 }
 
 \author{René Westerholt \email{rene.westerholt@tu-dortmund.de}}
@@ -38,7 +38,7 @@ Sonea, A. and Westerholt, R. (2021): Geographic and temporal access to basic ban
   
 \examples{
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.shp", package="spData")[1])
-boston.tr_utm <- st_transform(boston.tr, 32619)
+boston.tr_utm <- st_transform(boston.tr, 32619) #26786
 
 boston_listw1 <- nb2listwdist(dnearneigh(st_centroid(boston.tr_utm), 1, 2000),
     boston.tr_utm, type = "dpd", alpha = 2, zero.policy = TRUE, dmax = 9500)

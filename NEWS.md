@@ -1,4 +1,10 @@
-# Version 1.2-7 (development)
+# Version 1.2-8 (development)
+
+* addressing #111 by Josiah Parry
+
+* PRs from René Westerholt, ending with #109, for the local GS measure 
+
+# Version 1.2-7 (2022-10-01)
 
 * #103 refactoring local joincount test by Josiah Parry
 
