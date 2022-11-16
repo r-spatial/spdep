@@ -1,5 +1,7 @@
 # Version 1.2-8 (development)
 
+* fix #113, too low R version for `grDevices::hcl.colors()`
+
 * addressing #111 by Josiah Parry
 
 * PRs from René Westerholt, ending with #109, for the local GS measure 
