@@ -6,7 +6,11 @@ function(x, coords, label.areas=NULL,
     label.areas <- as.character(1:n)
   gr.lab <- unique(x$groups)
   if (missing(groups.colors))
-    groups.colors <- hcl.colors(length(gr.lab), "Set 2")
+    if (getRversion() >= "3.6.0") {
+      groups.colors <- hcl.colors(length(gr.lab), "Set 2")
+    } else {
+      groups.colors <- terrain.colors(length(gr.lab))
+    }
   symbols(coords[,1], coords[,2], circles=rep(cex.circles,n),
           inches=FALSE, xlab=" ", ylab=" ", xaxt="n", yaxt="n",
           fg=groups.colors[x$groups], ...)

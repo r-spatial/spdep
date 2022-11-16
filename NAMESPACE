@@ -18,7 +18,10 @@ importFrom(boot, boot)
 
 importFrom(graphics, par, locator, lines, text, plot.new, plot.window, segments, points, identify, symbols, abline, hist, arrows, axis, stem)
 importFrom(utils, write.table, object.size, read.table, read.csv, packageDescription)
-importFrom(grDevices, hcl.colors)
+importFrom(grDevices, terrain.colors)
+if (getRversion() >= "3.6.0") {
+    importFrom(grDevices, hcl.colors)
+}
 if (.Platform$OS.type == "windows") importFrom(grDevices, bringToTop)
 importFrom(utils, packageVersion)
 importFrom(units, set_units)
