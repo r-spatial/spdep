@@ -23,7 +23,7 @@ globalG.test(x, listw, zero.policy=NULL, alternative="greater",
 
 \value{
 A list with class \code{htest} containing the following components:
-  \item{statistic}{the value of the standard deviate of Moran's I.}
+  \item{statistic}{the value of the standard deviate of Getis-Ord G.}
   \item{p.value}{the p-value of the test.}
   \item{estimate}{the value of the observed statistic, its expectation and variance.}
   \item{alternative}{a character string describing the alternative hypothesis.}
