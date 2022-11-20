@@ -13,7 +13,7 @@ globalG.test <- function(x, listw, zero.policy=NULL,
 	if (!inherits(listw, "listw"))
 	stop(paste(deparse(substitute(listw)), "is not a listw object"))
 	if (is.na(match(listw$style, c("B", "C", "U")))) 
-          warning("Binary weights recommended (sepecially for distance bands)")
+          warning("Binary weights recommended (especially for distance bands)")
 	if (!is.numeric(x))
 	stop(paste(deparse(substitute(x)), "is not a numeric vector"))
 	if (any(is.na(x))) stop(paste("NA in ", deparse(substitute(x))))
