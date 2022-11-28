@@ -30,10 +30,6 @@ nb2listwdist <- function(neighbours, x, type="idw", style="raw", alpha = 1, dmax
     if (any(is.na(st_coordinates(x)))) stop("Coordinates include NAs")
   } 
   if (is.null(longlat) || !is.logical(longlat)) longlat <- FALSE
-  if (longlat) {
-    if (!.ll_sanity(bbox(x)))
-      warning("Coordinates are not geographical: longlat argument wrong")
-  }
   
   n <- length(neighbours)
   if (n < 1) stop("non-positive number of entities")
