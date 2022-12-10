@@ -21,7 +21,7 @@ localGS(x, listw, dmin, dmax, attr, longlat = NULL)
   \item{longlat}{default NULL; TRUE if point coordinates are longitude-latitude decimal degrees, in which case distances are measured in kilometres; if x is a SpatialPoints object, the value is taken from the object itself, and overrides this argument if not NULL; distances are measured in map units if FALSE or NULL}
 }
 \details{
-Only pairs of observations with a shared distance on the interval [\code{dmin}, \code{dmax}] that are within a maximum radius of \code{dmax} around a corresponding output observation are considered. Thereby, also the mean values and variance terms estimated within the measure are adjusted to the scale range under consideration. For application examples of the method see Westerholt et al. (2015) (applied to tweets) and Sonea & Westerholt (2021) (applied in an access to banking scenario).
+Only pairs of observations with a shared distance (in map units) on the interval [\code{dmin}, \code{dmax}] that are within a maximum radius of \code{dmax} around a corresponding output observation are considered. Thereby, also the mean values and variance terms estimated within the measure are adjusted to the scale range under consideration. For application examples of the method see Westerholt et al. (2015) (applied to tweets) and Sonea & Westerholt (2021) (applied in an access to banking scenario).
 }
   \value{
     A vector of \eqn{GS_i} values that are given as z-scores.
