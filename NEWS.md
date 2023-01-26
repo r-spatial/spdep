@@ -1,5 +1,7 @@
 # Version 1.2-8 (development)
 
+* adding #116, René Westerholt
+
 * fix #113, too low R version for `grDevices::hcl.colors()`
 
 * addressing #111 by Josiah Parry
