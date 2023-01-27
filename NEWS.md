@@ -2,6 +2,8 @@
 
 * fix #121 and #123; correcting returned values for `localG_perm()` when estimating the G-star measure (fix self x values and weights)
 
+* address #120, moving documentation of `listw2U()` from `?lm.morantest` to `?nb2listw`
+
 * addressing #119 for interpretation of `moran_bv()` results
 
 * adding #116, René Westerholt

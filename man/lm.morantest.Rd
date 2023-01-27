@@ -1,15 +1,12 @@
 % Copyright 2001-5 by Roger S. Bivand
 \name{lm.morantest}
 \alias{lm.morantest}
-\alias{listw2U}
 \title{Moran's I test for residual spatial autocorrelation}
 \description{
-  Moran's I test for spatial autocorrelation in residuals from an estimated linear model (\code{lm()}). The helper function \code{listw2U()} constructs a weights list object corresponding to the sparse matrix \eqn{\frac{1}{2} ( \mathbf{W} + \mathbf{W}'}{1/2 (W + W')}
-}
+  Moran's I test for spatial autocorrelation in residuals from an estimated linear model (\code{lm()}). }
 \usage{
 lm.morantest(model, listw, zero.policy=NULL, alternative = "greater",
  spChk=NULL, resfun=weighted.residuals, naSubset=TRUE)
-listw2U(listw)
 }
 \arguments{
   \item{model}{an object of class \code{lm} returned by \code{lm}; weights
