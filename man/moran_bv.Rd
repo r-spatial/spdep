@@ -30,7 +30,7 @@ I_B = \frac{\Sigma_i(\Sigma_j{w_{ij}y_j\times x_i})}{\Sigma_i{x_i^2}}
 
 It is important to note that this is a measure of autocorrelation of X
 with the spatial lag of Y. As such, the resultant measure may overestimate the amount of
-spatial autocorrelation which may be a product of the inherent correlation of X and Y.
+spatial autocorrelation which may be a product of the inherent correlation of X and Y. The output object is of class \code{"boot"}, so that plots and confidence intervals are available using appropriate methods.
 }
 \examples{
 data(boston, package = "spData")
@@ -40,18 +40,22 @@ listw <- nb2listw(boston.soi)
 set.seed(1)
 res_xy <- moran_bv(x, y, listw, nsim=499)
 res_xy$t0
+boot.ci(res_xy, conf=c(0.99, 0.95, 0.9), type="basic")
 plot(res_xy)
 set.seed(1)
 lee_xy <- lee.mc(x, y, listw, nsim=499, return_boot=TRUE)
 lee_xy$t0
+boot.ci(lee_xy, conf=c(0.99, 0.95, 0.9), type="basic")
 plot(lee_xy)
 set.seed(1)
 res_yx <- moran_bv(y, x, listw, nsim=499)
 res_yx$t0
+boot.ci(res_yx, conf=c(0.99, 0.95, 0.9), type="basic")
 plot(res_yx)
 set.seed(1)
 lee_yx <- lee.mc(y, x, listw, nsim=499, return_boot=TRUE)
 lee_yx$t0
+boot.ci(lee_yx, conf=c(0.99, 0.95, 0.9), type="basic")
 plot(lee_yx)
 }
 \references{
