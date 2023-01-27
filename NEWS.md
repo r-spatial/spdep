@@ -1,5 +1,7 @@
 # Version 1.2-8 (development)
 
+* fix #121 and #123; correcting returned values for `localG_perm()` when estimating the G-star measure (fix self x values and weights)
+
 * adding #116, René Westerholt
 
 * fix #113, too low R version for `grDevices::hcl.colors()`

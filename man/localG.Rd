@@ -1,4 +1,4 @@
-% Copyright 2001 by Roger S. Bivand
+% Copyright 2001-23 by Roger S. Bivand
 \name{localG}
 \alias{localG}
 \alias{localG_perm}
@@ -13,10 +13,10 @@ a Bonferroni-type test is suggested in the references, where tables of
 critical values may be found (see also details below).
 }
 \usage{
-localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=FALSE, GeoDa=FALSE,
+localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=TRUE, GeoDa=FALSE,
  alternative = "two.sided")
 localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=TRUE,
- alternative = "two.sided", iseed=NULL)
+ alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -28,12 +28,13 @@ localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=T
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of \code{"two.sided"} (default), \code{"greater"} or \code{"less"}.}
   \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
+  \item{fix_i_in_Gstar_permutations}{default \code{TRUE} (fix x at self in permutations for local G-star), set \code{FALSE} to use pre-1.2-8 behaviour}
 }
 \details{
 If the neighbours member of listw has a "self.included" attribute set
 to TRUE, the Gstar variant, including the self-weight \eqn{w_{ii} > 0},
 is calculated and returned.  The returned vector will have a "gstari"
-attribute set to TRUE.  Self-weights can be included by using the
+attribute set to TRUE.  Self-weights must be included by using the
 \code{include.self} function before converting
 the neighbour list to a spatial weights list with \code{nb2listw} as
 shown below in the example.
@@ -46,7 +47,7 @@ n=100: 3.289, n=1000: 3.886.
  A vector of G or Gstar values, with attributes "gstari" set to TRUE or
 FALSE, "call" set to the function call, and class "localG".
 }
-\note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.}
+\note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself, and from 1.2-8 fixing the observation itself as its own neighbour for local G-star.}
 \references{Ord, J. K. and Getis, A. 1995 Local spatial autocorrelation
 statistics: distributional issues and an application. \emph{Geographical
 Analysis}, 27, 286--306; Getis, A. and Ord, J. K. 1996 Local spatial

@@ -237,7 +237,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
 # "localmoran" quadr mean/median/pysal "Low-Low", "Low-High", "High-Low", "High-High"
 
 
-localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=TRUE, alternative = "two.sided", iseed=NULL) {
+localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=TRUE, alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE) {
     if (!inherits(listw, "listw"))
 	stop(paste(deparse(substitute(listw)), "is not a listw object"))
     if (!is.numeric(x))
@@ -303,7 +303,42 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
         res_i
     }
 
-    out <- run_perm(fun=permG_int, idx=1:n, env=env, iseed=iseed, varlist=varlist)
+    permGstar_int <- function(i, env) {
+        res_i <- rep(as.numeric(NA), 6)
+        crdi <- get("crd", envir=env)[i]
+        if (crdi > 0) { # if i has neighbours
+            nsim <- get("nsim", envir=env)
+            xi <- get("x", envir=env)[i]
+            x_i <- get("x", envir=env)[-i]
+            sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
+                ncol=crdi, nrow=nsim) # permute nsim*#neighbours from x[-i]
+            wtsi <- get("lww", envir=env)[[i]]
+            nbsi <- get("nbs", envir=env)[[i]]
+            ithnb <- which(nbsi == i)
+            sx_i[, ithnb] <- xi
+            lx_i <- sx_i %*% wtsi # nsim by 1 = nsim by crdi %*% crdi by 1
+            # create nsim samples of Gi at i
+            x_star <- get("x_star", envir=env)
+            # nsim by 1 = nsim by 1 / scalar
+            res_p <- lx_i/x_star
+            res_i[1] <- mean(res_p)
+            res_i[2] <- var(res_p)
+            Gi <- get("G", envir=env)[i]
+	    res_i[3] <- rank(c(res_p, Gi))[(nsim + 1L)]
+            res_i[4] <- as.integer(sum(res_p >= Gi))
+            res_i[5] <- e1071::skewness(res_p)
+            res_i[6] <- e1071::kurtosis(res_p)
+        }
+        res_i
+    }
+
+    thisfun <- permG_int
+    if (gstari && fix_i_in_Gstar_permutations) {
+        thisfun <- permGstar_int
+        assign("nbs", listw$neighbours, envir=env)
+    }
+
+    out <- run_perm(fun=thisfun, idx=1:n, env=env, iseed=iseed, varlist=varlist)
 
     EG <- out[,1]
     VG <- out[,2]
