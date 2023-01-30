@@ -55,13 +55,13 @@ title(main="Differences between Euclidean and Great Circle k=4 neighbours")
 summary(llk4.nb, xy, longlat=TRUE, scale=0.5)
 summary(gck4.nb, xy, longlat=TRUE, scale=0.5)
 
-xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
-  proj4string=CRS("+proj=longlat +ellps=GRS80"))
-gck4a.nb <- knn2nb(knearneigh(xy1, k=4))
-summary(gck4a.nb, xy1, scale=0.5)
+#xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
+#  proj4string=CRS("+proj=longlat +ellps=GRS80"))
+#gck4a.nb <- knn2nb(knearneigh(xy1, k=4))
+#summary(gck4a.nb, xy1, scale=0.5)
 
 xy1 <- st_as_sf((as.data.frame(state.center))[m50.48,], coords=1:2,
-  crs=st_crs("+proj=longlat +ellps=GRS80"))
+  crs=st_crs("OGC:CRS84"))
 old_use_s2 <- sf_use_s2()
 sf_use_s2(TRUE)
 system.time(gck4a.nb <- knn2nb(knearneigh(xy1, k=4)))

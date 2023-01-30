@@ -1,5 +1,7 @@
 # Version 1.2-8 (development)
 
+* move **sp** from Depends to Imports, to reduce the visual impression that **sp** objects are required for **spdep**; **sf** objects are now preferred, but **sp** objects can be used as before, although users may need to attach **sp** expliciitly.
+
 * fix #121 and #123; correcting returned values for `localG_perm()` when estimating the G-star measure (fix self x values and weights)
 
 * address #120, moving documentation of `listw2U()` from `?lm.morantest` to `?nb2listw`

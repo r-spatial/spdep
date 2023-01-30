@@ -43,7 +43,7 @@ grid2nb(grid, d = grid@cells.dim,
 nb <- grid2nb(d = c(5L, 5L, 5L))
 nb
 summary(nb)
-
+if (require("sp", quietly=TRUE)) {
 gt <- GridTopology(c(.125,.1), c(.25,.2), c(4L, 5L))
 nb1 <- grid2nb(gt, queen = FALSE)
 nb2 <- grid2nb(gt)
@@ -54,6 +54,7 @@ plot(nb1, coordinates(sg), add=TRUE, lty=2, col=2, lwd=2)
 plot(nb2, coordinates(sg), add=TRUE, lty=3, col=4)
 
 str(grid2nb(d=5))
+}
 }
 
 \keyword{spatial}

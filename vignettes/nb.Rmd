@@ -104,7 +104,11 @@ Sy2_nb <- poly2nb(Syracuse, queen=FALSE)
 isTRUE(all.equal(Sy0_nb, Sy2_nb, check.attributes=FALSE))
 ```
 
-```{r}
+```{r, echo=FALSE,eval=TRUE}
+run <- require("sp", quiet=TRUE)
+```
+
+```{r, echo=run}
 oopar <- par(mfrow=c(1,2), mar=c(3,3,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy0_nb, coordinates(Syracuse), add=TRUE, pch=19, cex=0.6)
@@ -195,7 +199,7 @@ nearest neighbour distances, intersect in two places
 [@avis+horton:1985]. Functions for graph-based
 neighbours were kindly contributed by Nicholas Lewin-Koh.
 
-```{r}
+```{r, echo=run}
 coords <- coordinates(Syracuse)
 IDs <- row.names(as(Syracuse, "data.frame"))
 #FIXME library(tripack)
@@ -206,7 +210,7 @@ if (require(dbscan, quietly=TRUE)) {
 Sy6_nb <- graph2nb(gabrielneigh(coords), row.names=IDs)
 Sy7_nb <- graph2nb(relativeneigh(coords), row.names=IDs)
 ```
-```{r}
+```{r, echo=run}
 oopar <- par(mfrow=c(2,2), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy4_nb, coords, add=TRUE, pch=".")
@@ -249,7 +253,7 @@ algorithm assumes that the graph is not directed). When there are
 more than one graph component, the matrix representation of the
 spatial weights can become block-diagonal if observations are appropriately sorted.
 
-```{r} 
+```{r, echo=run} 
 nb_l <- list(Triangulation=Sy4_nb, Gabriel=Sy6_nb,
   Relative=Sy7_nb)
 if (!is.null(Sy5_nb)) nb_l <- c(nb_l, list(SOI=Sy5_nb))
@@ -271,7 +275,7 @@ take a `longlat=` argument to handle geographical
 coordinates.
 
 
-```{r}
+```{r, echo=run}
 Sy8_nb <- knn2nb(knearneigh(coords, k=1), row.names=IDs)
 Sy9_nb <- knn2nb(knearneigh(coords, k=2), row.names=IDs)
 Sy10_nb <- knn2nb(knearneigh(coords, k=4), row.names=IDs)
@@ -280,7 +284,7 @@ sapply(nb_l, function(x) is.symmetric.nb(x, verbose=FALSE, force=TRUE))
 sapply(nb_l, function(x) n.comp.nb(x)$nc)
 ```
 
-```{r}
+```{r, echo=run}
 oopar <- par(mfrow=c(1,3), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy8_nb, coords, add=TRUE, pch=".")
@@ -311,7 +315,7 @@ setting the lower and upper distance bounds; it can also take a
 `longlat` argument to handle geographical coordinates.
 
 
-```{r}
+```{r, echo=run}
 dsts <- unlist(nbdists(Sy8_nb, coords))
 summary(dsts)
 max_1nn <- max(dsts)
@@ -324,7 +328,7 @@ sapply(nb_l, function(x) is.symmetric.nb(x, verbose=FALSE, force=TRUE))
 sapply(nb_l, function(x) n.comp.nb(x)$nc)
 ```
 
-```{r}
+```{r, echo=run}
 oopar <- par(mfrow=c(1,3), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy11_nb, coords, add=TRUE, pch=".")
@@ -350,7 +354,7 @@ study area are much larger than others, since to avoid
 no-neighbour areal entities, the distance criterion will need to
 be set such that many areas have many neighbours.
 
-```{r}
+```{r, echo=run}
 dS <- c(0.75, 1, 1.5)*max_1nn
 res <- sapply(nb_l, function(x) table(card(x)))
 mx <- max(card(Sy13_nb))
@@ -377,7 +381,7 @@ eight-county study area, the smallest distance securing at least
 one neighbour for every areal entity is over 38km.
 
 
-```{r}
+```{r, echo=run}
 dsts0 <- unlist(nbdists(NY_nb, coordinates(NY8)))
 summary(dsts0)
 ```
@@ -409,7 +413,7 @@ neighbour of $i$ itself [@osullivan+unwin:03]. The
 and returns a list of lists, from first to `maxlag=` order neighbours.
 
 
-```{r}
+```{r, echo=run}
 Sy0_nb_lags <- nblag(Sy0_nb, maxlag=9)
 names(Sy0_nb_lags) <- c("first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth")
 res <- sapply(Sy0_nb_lags, function(x) table(card(x)))
@@ -443,7 +447,7 @@ is as neutral as can be achieved. Neighbours can either be of
 type rook or queen.
 
 
-```{r}
+```{r, echo=run}
 cell2nb(7, 7, type="rook", torus=TRUE)
 cell2nb(7, 7, type="rook", torus=FALSE)
 ```
@@ -460,7 +464,7 @@ $281 \times 281$ matrix for the eight-county census tracts is
 feasible, easy for a $63 \times 63$ matrix for Syracuse census
 tracts, but demanding for a 3,$103 \times 3$,103 matrix.
 
-```{r}
+```{r, echo=run}
 data(meuse.grid)
 coordinates(meuse.grid) <- c("x", "y")
 gridded(meuse.grid) <- TRUE

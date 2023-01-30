@@ -1,5 +1,6 @@
 library(spdep)
 # https://github.com/r-spatial/spdep/issues/20
+if (require("sp", quietly=TRUE)) {
 GT <- GridTopology(c(1, 1), c(1, 1), c(10, 50))
 SPix <- as(SpatialGrid(GT), "SpatialPixels")
 nb_rook_cont <- poly2nb(as(SPix, "SpatialPolygons"), queen=FALSE)
@@ -67,4 +68,5 @@ xy.dista <- dnearneigh(NIN_sfa, 0, 1.01, row.names=NIN_sfa$id)
 expect_true(isTRUE(all.equal(xy.dista, xy.rooka, check.attributes=FALSE)))
 expect_true(isTRUE(all.equal(attr(xy.rooka, "region.id"),
   attr(xy.dista, "region.id"))))
+}
 

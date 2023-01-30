@@ -40,7 +40,7 @@ A \code{listw} object with the following members:
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-coords <- coordinates(as(columbus, "Spatial"))
+coords <- st_coordinates(st_centroid(columbus))
 cards <- card(col.gal.nb)
 col.w <- nb2listw(col.gal.nb)
 plot(cards, unlist(lapply(col.w$weights, sum)),xlim=c(0,10),

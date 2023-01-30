@@ -23,7 +23,7 @@ The function returns an object of class \code{nb} with a list of integer vectors
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-coords <- coordinates(as(columbus, "Spatial"))
+coords <- st_coordinates(st_centroid(columbus))
 summary(col.gal.nb, coords)
 summary(include.self(col.gal.nb), coords)
 summary(remove.self(include.self(col.gal.nb)), coords)

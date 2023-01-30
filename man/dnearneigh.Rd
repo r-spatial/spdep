@@ -68,15 +68,15 @@ plot(ll.nb, xy)
 plot(diffnb(ll.nb, gc.nb), xy, add=TRUE, col="red", lty=2)
 title(main="Differences Euclidean/Great Circle")
 
-xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
-  proj4string=CRS("+proj=longlat +ellps=GRS80"))
-gck1a <- knn2nb(knearneigh(xy1, k=1))
-(all.linked <- max(unlist(nbdists(gck1a, xy1))))
-gc.nb <- dnearneigh(xy1, 0, all.linked)
-summary(gc.nb, xy1, scale=0.5)
+#xy1 <- SpatialPoints((as.data.frame(state.center))[m50.48,],
+#  proj4string=CRS("+proj=longlat +ellps=GRS80"))
+#gck1a <- knn2nb(knearneigh(xy1, k=1))
+#(all.linked <- max(unlist(nbdists(gck1a, xy1))))
+#gc.nb <- dnearneigh(xy1, 0, all.linked)
+#summary(gc.nb, xy1, scale=0.5)
 
 xy1 <- st_as_sf((as.data.frame(state.center))[m50.48,], coords=1:2,
-  crs=st_crs("+proj=longlat +ellps=GRS80"))
+  crs=st_crs("OGC:CRS84"))
 old_use_s2 <- sf_use_s2()
 sf_use_s2(TRUE)
 gck1b <- knn2nb(knearneigh(xy1, k=1))

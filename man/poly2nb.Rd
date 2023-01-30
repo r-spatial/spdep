@@ -66,7 +66,7 @@ nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TR
 system.time(xxnb <- poly2nb(nc.sids))
 system.time(xxnb <- poly2nb(as(nc.sids, "Spatial")))
 plot(st_geometry(nc.sids))
-plot(xxnb, coordinates(as(nc.sids, "Spatial")), add=TRUE, col="blue")
+plot(xxnb, st_coordinates(st_centroid(nc.sids)), add=TRUE, col="blue")
 sq <- st_polygon(list(rbind(c(0,0), c(1,0), c(1,1), c(0,1), c(0,0))))
 sq2 <- sq + c(0,1)
 sq3 <- sq + c(1,0)

@@ -39,6 +39,9 @@ xy <- matrix(as.integer(unlist(strsplit(xyc, ":"))), ncol=2, byrow=TRUE)
 plot(nb7rt, xy)
 nb7rt <- cell2nb(7, 7, torus=TRUE)
 summary(nb7rt)
+run <- FALSE
+if (require("sp", quietly=TRUE)) run <- TRUE
+if (run) {
 # https://github.com/r-spatial/spdep/issues/20
 GT <- GridTopology(c(1, 1), c(1, 1), c(10, 50))
 SPix <- as(SpatialGrid(GT), "SpatialPixels")
@@ -46,12 +49,18 @@ nb_rook_cont <- poly2nb(as(SPix, "SpatialPolygons"), queen=FALSE)
 nb_rook_dist <- dnearneigh(coordinates(SPix), 0, 1.01)
 all.equal(nb_rook_cont, nb_rook_dist, check.attributes=FALSE)
 ## [1] TRUE
+}
+if (run) {
 t.nb <- cell2nb(GT, type='rook', legacy=TRUE)
 isTRUE(all.equal(nb_rook_cont, t.nb, check.attributes=FALSE))
 ## [1] FALSE
+}
+if (run) {
 t.nb <- cell2nb(GT, type='rook')
 isTRUE(all.equal(nb_rook_cont, t.nb, check.attributes=FALSE))
 ## [1] TRUE
+}
+if (run) {
 # https://github.com/r-spatial/spdep/issues/55
 # problem reported in issue caused by rep() cycling in unexpected order
 GT <- GridTopology(c(1, 1), c(1, 1), c(22, 11))
@@ -59,12 +68,17 @@ SPix <- as(SpatialGrid(GT), "SpatialPixels")
 nb_rook_cont <- poly2nb(as(SPix, "SpatialPolygons"), queen=FALSE)
 nb_rook_dist <- dnearneigh(coordinates(SPix), 0, 1.01)
 all.equal(nb_rook_cont, nb_rook_dist, check.attributes=FALSE)
+}
+if (run) {
 t.nb <- cell2nb(GT, type='rook', legacy=TRUE)
 isTRUE(all.equal(nb_rook_cont, t.nb, check.attributes=FALSE))
 ## [1] FALSE
+}
+if (run) {
 t.nb <- cell2nb(GT, type='rook', legacy=FALSE)
 isTRUE(all.equal(nb_rook_cont, t.nb, check.attributes=FALSE))
 ## [1] TRUE
-
 }
+}
+
 \keyword{spatial}

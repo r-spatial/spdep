@@ -2,7 +2,7 @@ useDynLib(spdep)
 
 import(spData)
 import(sf)
-import(sp)
+importFrom(sp, CRS, Line, Lines, SpatialLines, SpatialLinesDataFrame, bbox, coordinates, geometry, get_ll_TOL, is.projected, spDists)
 import(methods)
 
 importFrom(stats, influence.measures, lag, punif, lm, var, integrate,

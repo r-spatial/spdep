@@ -43,7 +43,7 @@ A new version of \code{make.sym.nb} by Bjarke Christensen is now included. The o
 \examples{
 columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
-coords <- coordinates(as(columbus, "Spatial"))
+coords <- st_coordinates(st_centroid(columbus))
 ind <- row.names(as(columbus, "Spatial"))
 print(is.symmetric.nb(col.gal.nb, verbose=TRUE, force=TRUE))
 k4 <- knn2nb(knearneigh(coords, k=4), row.names=ind)

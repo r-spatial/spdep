@@ -44,13 +44,17 @@ the counties of the Irish Republic, but omit Dublin from analyses. A
 shapefile included in this package, kindly made available by Michael
 Tiefelsdorf, is used as a starting point:
 
-```{r echo=TRUE,eval=TRUE,results='hide'}
+```{r, echo=FALSE,eval=TRUE}
+run <- require("sp", quiet=TRUE)
+```
+
+```{r echo=TRUE,eval=run,results='hide'}
 library(spdep)
 eire <- as(sf::st_read(system.file("shapes/eire.shp", package="spData")[1]), "Spatial")
 row.names(eire) <- as.character(eire$names)
 proj4string(eire) <- CRS("+proj=utm +zone=30 +ellps=airy +units=km")
 ```
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 class(eire)
 names(eire)
 ```
@@ -60,7 +64,7 @@ spatial data in are fully described in @bivandetal:08. To this we need
 to add the data tabulated in the paper in Table 2,[^1] p. 40, here in
 the form of a text file with added rainfall values from Table 9, p. 49:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 fn <- system.file("etc/misc/geary_eire.txt", package="spdep")[1]
 ge <- read.table(fn, header=TRUE)
 names(ge)
@@ -70,7 +74,7 @@ Since we assigned the county names as feature identifiers when reading
 the shapefiles, we do the same with the extra data, and combine the
 objects:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 row.names(ge) <- as.character(ge$county)
 all.equal(row.names(ge), row.names(eire))
 eire_ge <- cbind(eire, ge)
@@ -79,7 +83,7 @@ eire_ge <- cbind(eire, ge)
 Finally, we need to drop the Dublin county omitted in the analyses
 conducted in @cliff+ord:69:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 eire_ge1 <- eire_ge[!(row.names(eire_ge) %in% "Dublin"),]
 length(row.names(eire_ge1))
 ```
@@ -87,7 +91,7 @@ length(row.names(eire_ge1))
 To double-check our data, let us calculate the sample Beta coefficients,
 using the formulae given in the paper for sample moments:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 skewness <- function(z) {z <- scale(z, scale=FALSE); ((sum(z^3)/length(z))^2)/((sum(z^2)/length(z))^3)}
 kurtosis <- function(z) {z <- scale(z, scale=FALSE); (sum(z^4)/length(z))/((sum(z^2)/length(z))^2)}
 ```
@@ -97,7 +101,7 @@ computed in modern statistical software, see for example
 @joanes+gill:98. However, for our purposes, they let us reproduce Table
 3, p. 42:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 print(sapply(as(eire_ge1, "data.frame")[13:24], skewness), digits=3)
 print(sapply(as(eire_ge1, "data.frame")[13:24], kurtosis), digits=4)
 print(sapply(as(eire_ge1, "data.frame")[c(13,16,18,19)], function(x) skewness(log(x))), digits=3)
@@ -137,7 +141,7 @@ As a basis for comparison, we will first read the unstandardised
 weighting matrix given in Table A1, p. 54, of the paper, reading a file
 corrected for the misprint giving O rather than D as a neighbour of V:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 fn <- system.file("etc/misc/unstand_sn.txt", package="spdep")[1]
 unstand <- read.table(fn, header=TRUE)
 summary(unstand)
@@ -148,7 +152,7 @@ ordering and conversion to integer index representation is required to
 reach a representation similar to that of the SpatialStats module for
 spatial neighbours:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 class(unstand) <- c("spatial.neighbour", class(unstand))
 of <- ordered(unstand$from)
 attr(unstand, "region.id") <- levels(of)
@@ -161,7 +165,7 @@ Having done this, we can change its representation to a [`listw`]{}
 object, assigning an appropriate style (generalised binary) for
 unstandardised values:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 lw_unstand <- sn2listw(unstand)
 lw_unstand$style <- "B"
 lw_unstand
@@ -176,7 +180,7 @@ The contiguous neighbours represented in this object ought to match
 those found using [`poly2nb`]{}. However, we see that the reproduced
 contiguities have a smaller link count:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 nb <- poly2nb(eire_ge1)
 nb
 ```
@@ -185,7 +189,7 @@ The missing link is between Clare and Kerry, perhaps by the
 Tarbert–Killimer ferry, but the counties are not contiguous, as Figure
 \[plot\_nb\] shows:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 xx <- diffnb(nb, lw_unstand$neighbours, verbose=TRUE)
 ```
 ```{r echo=TRUE,eval=FALSE,results='hide'}
@@ -194,7 +198,7 @@ plot(nb, coordinates(eire_ge1), add=TRUE, pch=".", lwd=2)
 plot(xx, coordinates(eire_ge1), add=TRUE, pch=".", lwd=2, col=3)
 ```
 
-```{r eval=TRUE,echo=FALSE, fig.cap="County boundaries and contiguities"}
+```{r eval=run,echo=FALSE, fig.cap="County boundaries and contiguities"}
 par(mfrow=c(1,2))
 plot(eire_ge1, border="grey40")
 title(xlab="25 Irish counties")
@@ -227,7 +231,7 @@ approach also is mentioned there using ArcGIS coverages for the same
 purpose. GRASS was used to create the topology, and next the proportion
 of shared distance measure was calculated.
 
-```{r echo=FALSE,eval=TRUE}
+```{r echo=FALSE,eval=run}
 load(system.file("etc/misc/raw_grass_borders_new.RData", package="spdep")[1])
 ```
 ```{r echo=TRUE,eval=FALSE,results='hide'}
@@ -240,7 +244,7 @@ initGRASS(grass_home, home=tempdir(), SG=SG, override=TRUE)
 write_VECT(v_eire_ge1, "eire", flags=c("o", "overwrite"))
 res <- vect2neigh("eire", ID="serlet")
 ```
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 res$length <- res$length*1000
 attr(res, "external") <- attr(res, "external")*1000
 attr(res, "total") <- attr(res, "total")*1000
@@ -262,7 +266,7 @@ unless the boundary coordinates used here are identical with those in
 the original analysis, presumably measured by hand, small differences
 will occur.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 red_lw_unstand <- lw_unstand
 Clare <- which(attr(lw_unstand, "region.id") == "C")
 Kerry <- which(attr(lw_unstand, "region.id") == "H")
@@ -283,7 +287,7 @@ cattle per 1000 acres crops and pasture (1952), and see that the
 reconstructed weights seem to “reveal” more autocorrelation than the
 original weights.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 flatten <- function(x, digits=3, statistic="I") {
   res <- c(format(x$estimate, digits=digits),
     format(x$statistic, digits=digits),
@@ -314,7 +318,7 @@ general weights agree with those given on p. 42 in the paper, after
 allowing for small differences due to rounding in the weights values
 displayed in the paper (p. 54):
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 eire_ge1$ln_pagval2_10 <- log(eire_ge1$pagval2_10)
 eire_ge1$ln_cowspacre <- log(eire_ge1$cowspacre)
 eire_ge1$ln_pigspacre <- log(eire_ge1$pigspacre)
@@ -348,7 +352,7 @@ objects, and two different values of the [`randomisation=`]{} argument.
 In addition, [`geary.test`]{} is applied to a single spatial weights
 objects, and two different values of the [`randomisation=`]{} argument.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 system.time({
 MoranN <- lapply(vars, function(x) moran.test(eire_ge1[[x]], listw=nb_B, randomisation=FALSE))
 MoranR <- lapply(vars, function(x) moran.test(eire_ge1[[x]], listw=nb_B, randomisation=TRUE))
@@ -370,13 +374,13 @@ In order to conduct 8 different tests on 16 variables, we use
 the same row and column order as the original (we save a copy of six
 columns for comparison with bootstrap results below):
 
-```{r echo=FALSE,eval=TRUE}
+```{r echo=FALSE,eval=run}
 options("width"=100)
 ```
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 print(formatC(res, format="f", digits=4), quote=FALSE)
 ```
-```{r echo=FALSE,eval=TRUE}
+```{r echo=FALSE,eval=run}
 options("width"=90)
 ```
 
@@ -387,7 +391,7 @@ variables. We can see what has happened by substituting the weights
 constants for the standardised weights with those for unstandardised
 weights:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 wc_unstd <- spweights.constants(lw_unstand)
 wrong_N_sqVI <- sqrt((wc_unstd$nn*wc_unstd$S1 - wc_unstd$n*wc_unstd$S2 + 3*wc_unstd$S0*wc_unstd$S0)/((wc_unstd$nn-1)*wc_unstd$S0*wc_unstd$S0)-((-1/(wc_unstd$n-1))^2))
 raw_data <- grep("^ln_", vars, invert=TRUE)
@@ -404,7 +408,7 @@ expectation is constant for each measure, the square root of the
 variance of the measure under randomisation — extracting values
 calculated above:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 res <- lapply(c("MoranR", "GearyR", "Prop_unstdR", "Prop_stdR"), function(x) sapply(get(x), function(y) c(y$estimate[1], sqrt(y$estimate[3]))))
 res <- t(do.call("rbind", res))
 colnames(res) <- c("I", "sigma_I", "C", "sigma_C", "unstd_r", "sigma_r", "std_r", "sigma_r")
@@ -423,7 +427,7 @@ $1 \ldots
 n$, we can reproduce the values of the measure shown in the original
 Table 5:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 oMoranf <- function(x, nb) {
   z <- scale(x, scale=FALSE)
   n <- length(z)
@@ -462,7 +466,7 @@ the observed values between observations, and then comparing the
 simulated distribution under the null hypothesis of no spatial
 patterning with the observed value of the statistic in question.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 MoranI.boot <- function(var, i, ...) {
   var <- var[i]
   return(moran(x=var, ...)$I)
@@ -539,7 +543,7 @@ approaches. This indicates that we can, in general, rely on the
 analytical standard deviates, and that bootstrap methods will not help
 if assumptions underlying the measures are not met.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 print(formatC(res, format="f", digits=4), quote=FALSE)
 oores <- ores - res
 apply(oores, 2, mad)
@@ -558,7 +562,7 @@ global Moran’s $I$ runs quite quickly. First we need to fit null linear
 models (only including an intercept) to the variables, then apply
 [`lm.morantest.sad`]{} to the fitted model objects:
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 lm_objs <- lapply(vars, function(x) lm(formula(paste(x, "~1")), data=eire_ge1))
 system.time({
 MoranSad <- lapply(lm_objs, function(x) lm.morantest.sad(x, listw=nb_B))
@@ -580,7 +584,7 @@ because the clique of neighbours of each observation is typically very
 small. It is perhaps of interest that the differences are much smaller
 for the case of general weights than for unstandardised binary weights.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 print(formatC(res, format="f", digits=4), quote=FALSE)
 oores <- res - ores[,c(1,3,5)]
 apply(oores, 2, mad)
@@ -593,7 +597,7 @@ $I$, as described by @tiefelsdorf:00; its implementation is covered in
 weights matrix, and the solution of a numerical integration function,
 but for these cases, the timings are quite acceptable.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 system.time({ 
 MoranEx <- lapply(lm_objs, function(x) lm.morantest.exact(x, listw=nb_B))
 Prop_unstdEx  <- lapply(lm_objs, function(x) lm.morantest.exact(x, listw=lw_unstand))
@@ -607,7 +611,7 @@ The output is comparable with that of the Saddlepoint approximation, and
 the inferences drawn here are the same for the chosen cut-off as for the
 analytical standard deviates calculated under Normality.
 
-```{r echo=TRUE,eval=TRUE}
+```{r echo=TRUE,eval=run}
 print(formatC(res, format="f", digits=4), quote=FALSE)
 oores <- res - ores[,c(1,3,5)]
 apply(oores, 2, mad)
@@ -621,8 +625,8 @@ autoregressive model better than Moran’s $I$, and re-scales the measure
 by a function of the eigenvalues of the spatial weights matrix. APLE
 requires the use of row standardised weights.
 
-```{r, echo=FALSE,eval=TRUE}
-run <- require("spatialreg", quiet=TRUE) && packageVersion("spatialreg") >= "1.2"
+```{r, echo=FALSE,eval=run}
+run <- run && require("spatialreg", quiet=TRUE) && packageVersion("spatialreg") >= "1.2"
 ```
 
 
@@ -653,7 +657,7 @@ to general does make a difference.
 print(formatC(res, format="f", digits=4), quote=FALSE)
 ```
 
-```{r results='asis',eval=TRUE,echo=FALSE, fig.cap="Three contrasted spatial weights definitions"}
+```{r results='asis',eval=run,echo=FALSE, fig.cap="Three contrasted spatial weights definitions"}
 pal <- grey.colors(9, 1, 0.5, 2.2)
 oopar <- par(mfrow=c(1,3), mar=c(1,1,3,1)+0.1)
 z <- t(listw2mat(nb_B))
@@ -675,7 +679,7 @@ par(oopar)
 \caption{Three contrasted spatial weights definitions.}
 \label{plot_wts}
 
-```{r results='asis',eval=TRUE,echo=FALSE}
+```{r results='asis',eval=run,echo=FALSE}
 eire_ge1$nb_B <- sapply(nb_B$weights, sum)
 eire_ge1$lw_unstand <- sapply(lw_unstand$weights, sum)
 library(lattice)

@@ -47,7 +47,7 @@ mstree(nbw, ini = NULL)
 ### loading data
 bh <- st_read(system.file("etc/shapes/bhicv.shp",
       package="spdep")[1], quiet=TRUE)
-st_crs(bh) <- "+proj=longlat +ellps=WGS84"
+st_crs(bh) <- "OGC:CRS84"
 ### data padronized
 dpad <- data.frame(scale(as.data.frame(bh)[,5:8]))
 
@@ -68,7 +68,7 @@ tail(mst.bh)
 ### the mstree plot
 par(mar=c(0,0,0,0))
 plot(st_geometry(bh), border=gray(.5))
-plot(mst.bh, coordinates(as(bh, "Spatial")), col=2, 
+plot(mst.bh, st_coordinates(st_centroid(bh)), col=2, 
      cex.lab=.6, cex.circles=0.035, fg="blue", add=TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
