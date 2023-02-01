@@ -1,5 +1,7 @@
 # Version 1.2-8 (development)
 
+* Address 2) in #124; `localG_perm()` and `localmoran_perm()` get `no_repeat_in_row=` arguments to use conditional permutation without replacement by sample vectors; the default implementation uses sampling with replacement, which is acceptable across simulation draws, but arguably less acceptable within draws. Feedback would be valued.
+
 * Address 1) in #124; `localG_perm()` and `localG()` now return the same analytical standard deviates. The standard deviates from the simulated distributions are now returned in `attr(., "internals")[,"StdDev.Gi"]` from `localG_perm()`, as are p-values, etc.
 
 * move **sp** from Depends to Imports, to reduce the visual impression that **sp** objects are required for **spdep**; **sf** objects are now preferred, but **sp** objects can be used as before, although users may need to attach **sp** expliciitly.
