@@ -86,7 +86,8 @@ probs_lut <- function(stat="I", nsim, alternative) {
 
 localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     na.action=na.fail, alternative = "two.sided",
-    mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL) {
+    mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL,
+    no_repeat_in_row=FALSE) {
     alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
     stopifnot(is.vector(x))
     if (!inherits(listw, "listw"))
@@ -162,6 +163,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     assign("nsim", nsim, envir=env)
     assign("Iis", Iis, envir=env)
     assign("s2", s2, envir=env)
+    assign("n", n, envir=env)
     varlist <- ls(envir = env)
 
     permI_int <- function(i, env) {
@@ -169,10 +171,17 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
         crdi <- get("crd", envir=env)[i]
         if (crdi > 0) { # if i has neighbours
             nsim <- get("nsim", envir=env)
+            n_i <- get("n", envir=env) - 1L
             zi <- get("z", envir=env)[i]
             z_i <- get("z", envir=env)[-i]
-            sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
+            if (no_repeat_in_row) {
+              samples <- .Call("perm_no_replace", as.integer(nsim),
+                as.integer(n_i), as.integer(crdi), PACKAGE="spdep")
+              sz_i <- matrix(z_i[samples], ncol=crdi, nrow=nsim)
+            } else {
+              sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim) # permute nsim*#neighbours from z[-i]
+            }
             wtsi <- get("lww", envir=env)[[i]]
             lz_i <- sz_i %*% wtsi # nsim by 1 = nsim by crdi %*% crdi by 1
             # create nsim samples of Ii at i
@@ -303,20 +312,23 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, altern
     assign("G", G, envir=env)
     assign("x_star", x_star, envir=env)
     assign("gstari", gstari, envir=env)
+    assign("n", n, envir=env)
     assign("no_repeat_in_row", no_repeat_in_row, envir=env)
     varlist <- ls(envir = env)
 
     permG_int <- function(i, env) {
         res_i <- rep(as.numeric(NA), 6)
         crdi <- get("crd", envir=env)[i]
+        n_i <- get("n", envir=env) - 1L
         no_repeat_in_row <- get("no_repeat_in_row", envir=env)
         if (crdi > 0) { # if i has neighbours
             nsim <- get("nsim", envir=env)
             xi <- get("x", envir=env)[i]
             x_i <- get("x", envir=env)[-i]
             if (no_repeat_in_row) {
-              sx_i <- do.call("rbind", lapply(seq_len(nsim), function(x) 
-                sample(x_i, size=crdi, replace=FALSE)))
+              samples <- .Call("perm_no_replace", as.integer(nsim),
+                as.integer(n_i), as.integer(crdi), PACKAGE="spdep")
+              sx_i <- matrix(x_i[samples], ncol=crdi, nrow=nsim)
             } else {
               sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim) # permute nsim*#neighbours from x[-i]
@@ -343,14 +355,16 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, altern
     permGstar_int <- function(i, env) {
         res_i <- rep(as.numeric(NA), 6)
         crdi <- get("crd", envir=env)[i]
+        n_i <- get("n", envir=env) - 1L
         no_repeat_in_row <- get("no_repeat_in_row", envir=env)
         if (crdi > 0) { # if i has neighbours
             nsim <- get("nsim", envir=env)
             xi <- get("x", envir=env)[i]
             x_i <- get("x", envir=env)[-i]
             if (no_repeat_in_row) {
-              sx_i <- do.call("rbind", lapply(seq_len(nsim), function(x) 
-                sample(x_i, size=crdi, replace=FALSE)))
+              samples <- .Call("perm_no_replace", as.integer(nsim),
+                as.integer(n_i), as.integer(crdi), PACKAGE="spdep")
+              sx_i <- matrix(x_i[samples], ncol=crdi, nrow=nsim)
             } else {
               sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim) # permute nsim*#neighbours from x[-i]

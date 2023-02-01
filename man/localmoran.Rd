@@ -16,7 +16,8 @@ localmoran(x, listw, zero.policy=NULL, na.action=na.fail, conditional=TRUE,
         spChk=NULL, adjust.x=FALSE)
 localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail, 
 	alternative = "two.sided", mlvar=TRUE,
-        spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL)
+        spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL,
+        no_repeat_in_row=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -31,6 +32,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail,
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{sample_Ei}{default TRUE; if conditional permutation, use the sample $E_i$ values, or the analytical values, leaving only variances calculated by simulation.}
   \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
+  \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
 }
 
 \details{
