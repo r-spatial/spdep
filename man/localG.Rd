@@ -13,22 +13,22 @@ a Bonferroni-type test is suggested in the references, where tables of
 critical values may be found (see also details below).
 }
 \usage{
-localG(x, listw, zero.policy=NULL, spChk=NULL, return_internals=TRUE, GeoDa=FALSE,
- alternative = "two.sided")
-localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=TRUE,
- alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE)
+localG(x, listw, zero.policy=NULL, spChk=NULL, GeoDa=FALSE, alternative = "two.sided")
+localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL,
+ alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE,
+ no_repeat_in_row=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
-  \item{return_internals}{default FALSE but TRUE for permutation version, if TRUE, return internal values of G, EI and VG as as attribute matrix}
   \item{GeoDa}{default FALSE, if TRUE, drop x values for no-neighbour and self-neighbour only observations from all summations}
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of \code{"two.sided"} (default), \code{"greater"} or \code{"less"}.}
   \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
   \item{fix_i_in_Gstar_permutations}{default \code{TRUE} (fix x at self in permutations for local G-star), set \code{FALSE} to use pre-1.2-8 behaviour}
+  \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
 }
 \details{
 If the neighbours member of listw has a "self.included" attribute set
@@ -44,8 +44,7 @@ references for the 95th percentile are for n=1: 1.645, n=50: 3.083,
 n=100: 3.289, n=1000: 3.886.
 }
 \value{
- A vector of G or Gstar values, with attributes "gstari" set to TRUE or
-FALSE, "call" set to the function call, and class "localG".
+ A vector of G or Gstar standard deviate values, with attributes "gstari" set to TRUE or FALSE, "call" set to the function call, and class "localG". For conditional permutation, the returned value is the same as for \code{localG()}, and the simulated standard deviate is returned as column \code{"StdDev.Gi"} in \code{attr(., "internals")}.
 }
 \note{Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself, and from 1.2-8 fixing the observation itself as its own neighbour for local G-star.}
 \references{Ord, J. K. and Getis, A. 1995 Local spatial autocorrelation

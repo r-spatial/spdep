@@ -237,7 +237,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
 # "localmoran" quadr mean/median/pysal "Low-Low", "Low-High", "High-Low", "High-High"
 
 
-localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return_internals=TRUE, alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE) {
+localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE, no_repeat_in_row=FALSE) {
     if (!inherits(listw, "listw"))
 	stop(paste(deparse(substitute(listw)), "is not a listw object"))
     if (!is.numeric(x))
@@ -255,13 +255,43 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
     gstari <- FALSE
     if (!is.null(attr(listw$neighbours, "self.included")) &&
 	attr(listw$neighbours, "self.included")) gstari <- TRUE
+
     lx <- lag.listw(listw, x, zero.policy=zero.policy)
+
     x_star <- sum(x)
     if (gstari) {
         G <- lx/x_star
     } else {
         G <- lx/(x_star-c(x))
     }
+
+# #124 repeat localG standard deviate direct output
+    if (gstari) {
+	xibar <- rep(mean(x), n)
+	si2 <- rep(sum(scale(x, scale=FALSE)^2)/n, n)
+    } else {
+	xibar <- (rep(sum(x),n) - x) / (n - 1)
+	si2 <- ((rep(sum(x^2),n) - x^2) / (n - 1)) - xibar^2
+    }
+    Wi <- sapply(listw$weights, sum)
+    S1i <- sapply(listw$weights, function(x) sum(x^2))
+    EG <- Wi*xibar
+    if (gstari) {
+        res <- G - (EG/x_star)
+    } else {
+        res <- G - (EG/(x_star-c(x)))
+    }
+    if (gstari) {
+        VG <- si2*((n*S1i - Wi^2)/(n-1))
+    } else {
+        VG <- si2*(((n-1)*S1i - Wi^2)/(n-2))
+    }
+    if (gstari) {
+        res <- res / sqrt(VG/x_star^2)
+    } else {
+        res <- res / sqrt(VG/(x_star-c(x))^2)
+    }
+
     crd <- card(listw$neighbours)
     lww <- listw$weights
 
@@ -273,17 +303,24 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
     assign("G", G, envir=env)
     assign("x_star", x_star, envir=env)
     assign("gstari", gstari, envir=env)
+    assign("no_repeat_in_row", no_repeat_in_row, envir=env)
     varlist <- ls(envir = env)
 
     permG_int <- function(i, env) {
         res_i <- rep(as.numeric(NA), 6)
         crdi <- get("crd", envir=env)[i]
+        no_repeat_in_row <- get("no_repeat_in_row", envir=env)
         if (crdi > 0) { # if i has neighbours
             nsim <- get("nsim", envir=env)
             xi <- get("x", envir=env)[i]
             x_i <- get("x", envir=env)[-i]
-            sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
+            if (no_repeat_in_row) {
+              sx_i <- do.call("rbind", lapply(seq_len(nsim), function(x) 
+                sample(x_i, size=crdi, replace=FALSE)))
+            } else {
+              sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim) # permute nsim*#neighbours from x[-i]
+            }
             wtsi <- get("lww", envir=env)[[i]]
             lx_i <- sx_i %*% wtsi # nsim by 1 = nsim by crdi %*% crdi by 1
             # create nsim samples of Gi at i
@@ -306,12 +343,18 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
     permGstar_int <- function(i, env) {
         res_i <- rep(as.numeric(NA), 6)
         crdi <- get("crd", envir=env)[i]
+        no_repeat_in_row <- get("no_repeat_in_row", envir=env)
         if (crdi > 0) { # if i has neighbours
             nsim <- get("nsim", envir=env)
             xi <- get("x", envir=env)[i]
             x_i <- get("x", envir=env)[-i]
-            sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
+            if (no_repeat_in_row) {
+              sx_i <- do.call("rbind", lapply(seq_len(nsim), function(x) 
+                sample(x_i, size=crdi, replace=FALSE)))
+            } else {
+              sx_i <- matrix(sample(x_i, size=crdi*nsim, replace=TRUE),
                 ncol=crdi, nrow=nsim) # permute nsim*#neighbours from x[-i]
+            }
             wtsi <- get("lww", envir=env)[[i]]
             nbsi <- get("nbs", envir=env)[[i]]
             ithnb <- which(nbsi == i)
@@ -340,34 +383,31 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, return
 
     out <- run_perm(fun=thisfun, idx=1:n, env=env, iseed=iseed, varlist=varlist)
 
-    EG <- out[,1]
-    VG <- out[,2]
-    res <- (G - EG)
-    res <- res / sqrt(VG)
-    if (return_internals) {
-        probs <- probs_lut(stat="G", nsim=nsim, alternative=alternative)
-        Prname <- attr(probs, "Prname")
-        Prname_rank <- paste0(Prname, " Sim")
-        Prname_sim <- "Pr(folded) Sim"
-        if (alternative == "two.sided") 
-            pv <- 2 * pnorm(abs(res), lower.tail=FALSE)
-        else if (alternative == "greater") 
-            pv <- pnorm(res, lower.tail=FALSE)
-        else pv <- pnorm(res)
+# add simulated standard deviate direct output
+    res_sim <- (G - out[,1])
+    res_sim <- res_sim / sqrt(out[,2])
+    probs <- probs_lut(stat="G", nsim=nsim, alternative=alternative)
+    Prname <- attr(probs, "Prname")
+    Prname_rank <- paste0(Prname, " Sim")
+    Prname_sim <- "Pr(folded) Sim"
+    if (alternative == "two.sided") 
+        pv <- 2 * pnorm(abs(res_sim), lower.tail=FALSE)
+    else if (alternative == "greater") 
+        pv <- pnorm(res_sim, lower.tail=FALSE)
+    else pv <- pnorm(res_sim)
 # look-up table
-        pu <- probs[as.integer(out[,3])]
+    pu <- probs[as.integer(out[,3])]
 # 210811 from https://github.com/pysal/esda/blob/4a63e0b5df1e754b17b5f1205b8cadcbecc5e061/esda/crand.py#L211-L213
-        rnk0 <- as.integer(out[,4])
-        drnk0 <- nsim - rnk0
-        rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
+    rnk0 <- as.integer(out[,4])
+    drnk0 <- nsim - rnk0
+    rnk <- ifelse(drnk0 < rnk0, drnk0, rnk0)
 # folded
-        pr <- (rnk + 1.0) / (nsim + 1.0)
-        resint <- cbind(G=G, EG=EG, VG=VG, pv=pv, pu=pu, pr=pr,
-            sk=out[,5], ku=out[,6])
-        colnames(resint) <- c("Gi", "E.Gi", "Var.Gi", Prname,
-            Prname_rank, Prname_sim, "Skewness", "Kurtosis")
-        attr(res, "internals") <- resint
-    }
+    pr <- (rnk + 1.0) / (nsim + 1.0)
+    resint <- cbind(G=G, EG_sim=out[,1], VG_sim=out[,2], res_sim=res_sim,
+        pv=pv, pu=pu, pr=pr, sk=out[,5], ku=out[,6])
+    colnames(resint) <- c("Gi", "E.Gi", "Var.Gi", "StdDev.Gi", Prname,
+        Prname_rank, Prname_sim, "Skewness", "Kurtosis")
+    attr(res, "internals") <- resint
     attr(res, "cluster") <- cut(x, c(-Inf, mean(x), Inf), labels = c("Low", "High"))
     attr(res, "gstari") <- gstari
     attr(res, "call") <- match.call()

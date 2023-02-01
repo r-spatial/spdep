@@ -9,8 +9,10 @@ nsim <- 499L
 iseed=1L
 expect_silent(no <- system.time(localmoran_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
 expect_silent(no <- system.time(G <- localG_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
+expect_equal(c(G), c(localG(x, lw)))
 expect_silent(no <- system.time(Gs <- localG_perm(x, lws, nsim=nsim, iseed=iseed))["elapsed"])
-expect_false(isTRUE(all.equal(attr(G, "internals")[,5], attr(Gs, "internals")[,5])))
+expect_false(isTRUE(all.equal(attr(G, "internals")[,6], attr(Gs, "internals")[,6])))
+expect_equal(c(Gs), c(localG(x, lws)))
 expect_silent(no <- system.time(localC_perm(x, lw, nsim=nsim, iseed=iseed))["elapsed"])
 expect_silent(no <- system.time(localC_perm(xx, lw, nsim=nsim, iseed=iseed))["elapsed"])
 expect_silent(no <- system.time(localmoran_bv(x, y, lw, nsim=nsim, iseed=iseed))["elapsed"])

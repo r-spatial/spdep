@@ -1,7 +1,7 @@
 # Copyright 2001-18 by Roger Bivand 
 #
 
-localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=TRUE, GeoDa=FALSE, alternative = "two.sided") {
+localG <- function(x, listw, zero.policy=NULL, spChk=NULL, GeoDa=FALSE, alternative = "two.sided") {
 	if (!inherits(listw, "listw"))
 		stop(paste(deparse(substitute(listw)), "is not a listw object"))
 	if (!is.numeric(x))
@@ -47,32 +47,30 @@ localG <- function(x, listw, zero.policy=NULL, spChk=NULL, return_internals=TRUE
                 VG <- si2*(((n-1)*S1i - Wi^2)/(n-2))
 	}
         res <- res / sqrt(VG)
-        if (return_internals) {
-            alternative <- match.arg(alternative, c("two.sided", "greater",
-                "less"))
-            if (alternative == "two.sided") Prname <- paste0("Pr(z != E(",
-                Gi_str, "))")
-            else if (alternative == "greater") Prname <- paste0("Pr(z > E(",
-                Gi_str, "))")
-            else Prname <- paste0("Pr(z < E(", Gi_str, "))")
-            if (alternative == "two.sided") {
-	        pv <- 2 * pnorm(abs(res), lower.tail=FALSE)
-	    } else if (alternative == "greater") {
-	        pv <- pnorm(res, lower.tail=FALSE)
-	    } else {
-	        pv <- pnorm(res)
-	    }
-            if (gstari) {
-                ints <- cbind(G=lx/x_star, EG=EG/x_star, VG=VG/x_star^2,
-                    ZG=res, pv=pv)
-            } else {
-                ints <- cbind(G=lx/(x_star-c(x)), EG=EG/(x_star-c(x)),
-                    VG=VG/(x_star-c(x))^2, ZG=res, pv=pv)
-            }
-            colnames(ints) <- c(paste(c("", "E(", "V(", "Z("), Gi_str,
-                c("", ")", ")", ")"), sep=""), Prname)
-            attr(res, "internals") <- ints
+        alternative <- match.arg(alternative, c("two.sided", "greater",
+            "less"))
+        if (alternative == "two.sided") Prname <- paste0("Pr(z != E(",
+            Gi_str, "))")
+        else if (alternative == "greater") Prname <- paste0("Pr(z > E(",
+            Gi_str, "))")
+        else Prname <- paste0("Pr(z < E(", Gi_str, "))")
+        if (alternative == "two.sided") {
+	    pv <- 2 * pnorm(abs(res), lower.tail=FALSE)
+	} else if (alternative == "greater") {
+	    pv <- pnorm(res, lower.tail=FALSE)
+	} else {
+	    pv <- pnorm(res)
 	}
+        if (gstari) {
+           ints <- cbind(G=lx/x_star, EG=EG/x_star, VG=VG/x_star^2,
+                ZG=res, pv=pv)
+        } else {
+            ints <- cbind(G=lx/(x_star-c(x)), EG=EG/(x_star-c(x)),
+                VG=VG/(x_star-c(x))^2, ZG=res, pv=pv)
+        }
+        colnames(ints) <- c(paste(c("", "E(", "V(", "Z("), Gi_str,
+            c("", ")", ")", ")"), sep=""), Prname)
+        attr(res, "internals") <- ints
         attr(res, "cluster") <- cut(x, c(-Inf, mean(x), Inf),
             labels = c("Low", "High"))
         attr(res, "gstari") <- gstari
