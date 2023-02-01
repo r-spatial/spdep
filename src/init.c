@@ -30,6 +30,7 @@ static R_CallMethodDef CallEntries[] = {
     {"poly_loop2", (DL_FUNC) &poly_loop2, 8},
     {"symtest", (DL_FUNC) &symtest, 3},
     {"g_components", (DL_FUNC) &g_components, 2},
+    {"perm_no_replace", (DL_FUNC) &perm_no_replace, 3},
     {NULL, NULL, 0}
 };
 
