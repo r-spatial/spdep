@@ -30,6 +30,7 @@ SEXP spOverlap(SEXP bbbi, SEXP bbbj);
 SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs, SEXP dsnap, SEXP criterion, SEXP scale);
 SEXP symtest(SEXP nb, SEXP card, SEXP verbose);
 SEXP g_components(SEXP nblst, SEXP cmpnm);
+SEXP perm_no_replace(SEXP nsim0, SEXP n0, SEXP crsi0);
 
 void dfs(SEXP nblst, SEXP cmpnm, SEXP visited, int curcmp, int nodeid);
 void compute_gabriel(int *no_nodes, int *g1, int *g2, int *nogab, int *ngaballoc,  double *nodes_xd, double *nodes_yd);
