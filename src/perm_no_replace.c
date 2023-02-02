@@ -24,6 +24,13 @@ SEXP perm_no_replace(SEXP nsim0, SEXP n0, SEXP crdi0) {
     return y;
 }
 
+/* code for uniform samling without replacement, taken from 
+ * lines 536, 537, 542-548 of src/main/random.c of the R 
+ * source, Copyright (C) 1997--2022  The R Core Team, 
+ * Copyright (C) 1995, 1996  Robert Gentleman and Ross Ihaka,
+ * Copyright (C) 2003--2018  The R Foundation
+ */
+
 SEXP draw_no_replace(int n, int crdi) {
     SEXP y;
     PROTECT(y = allocVector(INTSXP, crdi));
