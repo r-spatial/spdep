@@ -3,7 +3,7 @@
 \title{Compute the Local Bivariate Moran's I Statistic}
 \usage{
 localmoran_bv(x, y, listw, nsim = 199, scale = TRUE, alternative="two.sided",
- iseed=1L)
+ iseed=1L, no_repeat_in_row=FALSE)
 }
 \arguments{
 \item{x}{a numeric vector of same length as \code{y}.}
@@ -18,6 +18,8 @@ localmoran_bv(x, y, listw, nsim = 199, scale = TRUE, alternative="two.sided",
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less".}
 \item{iseed}{default NULL, used to set the seed for possible parallel RNGs.}
+\item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
+
 }
 \value{
 a \code{data.frame} containing two columns \code{Ib} and \code{p_sim} containing the local bivariate Moran's I and simulated p-values respectively.

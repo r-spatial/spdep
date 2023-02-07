@@ -164,11 +164,13 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
     assign("Iis", Iis, envir=env)
     assign("s2", s2, envir=env)
     assign("n", n, envir=env)
+    assign("no_repeat_in_row", no_repeat_in_row, envir=env)
     varlist <- ls(envir = env)
 
     permI_int <- function(i, env) {
         res_i <- rep(as.numeric(NA), 6) # initialize output
         crdi <- get("crd", envir=env)[i]
+        no_repeat_in_row <- get("no_repeat_in_row", envir=env)
         if (crdi > 0) { # if i has neighbours
             nsim <- get("nsim", envir=env)
             n_i <- get("n", envir=env) - 1L

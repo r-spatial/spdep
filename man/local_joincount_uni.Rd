@@ -8,7 +8,8 @@ local_joincount_uni(
   listw,
   alternative = "two.sided",
   nsim = 199,
-  iseed = NULL
+  iseed = NULL,
+  no_repeat_in_row=FALSE
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ local_joincount_uni(
 \item{nsim}{the number of conditional permutation simulations}
 
 \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
+
+\item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
+
 }
 \value{
 a \code{data.frame} with two columns \code{BB} and \code{Pr()} and number of rows equal to the length of \code{x}.

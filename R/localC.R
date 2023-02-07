@@ -84,12 +84,13 @@ localC.data.frame <- function(x, listw, ..., zero.policy=NULL) {
 }
 
 
-localC_perm <- function(x, ..., zero.policy=NULL, iseed=NULL) {
+localC_perm <- function(x, ..., zero.policy=NULL, iseed=NULL,
+    no_repeat_in_row=FALSE) {
   UseMethod("localC_perm")
 }
 
 localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
-             ..., zero.policy=NULL, iseed=NULL) {
+             ..., zero.policy=NULL, iseed=NULL, no_repeat_in_row=FALSE) {
 
   alternative <- match.arg(alternative, c("two.sided", "less", "greater"))
   # checks are inherited from localC no need to implement
@@ -104,22 +105,22 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
   if (inherits(x, "list")) {
     xorig <- as.matrix(Reduce(cbind, x))
     x <- scale(xorig)
-    reps <- localC_perm_calc(x, listw, obs, nsim,
-      alternative=alternative, zero.policy=zero.policy)
+    reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative,
+      zero.policy=zero.policy, iseed=iseed, no_repeat_in_row=no_repeat_in_row)
   }
 
   if (inherits(x, c("matrix", "data.frame"))) {
     xorig <- as.matrix(x)
     x <- scale(xorig)
-    reps <- localC_perm_calc(x, listw, obs, nsim,
-      alternative=alternative, zero.policy=zero.policy)
+    reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative, 
+      zero.policy=zero.policy, iseed=iseed,no_repeat_in_row=no_repeat_in_row)
   }
 
   if (is.vector(x) & is.numeric(x)) {
     xorig <- as.matrix(x)
     x <- scale(xorig)
     reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative,
-      zero.policy=zero.policy, iseed=iseed)
+      zero.policy=zero.policy, iseed=iseed, no_repeat_in_row=no_repeat_in_row)
   }
   if (ncol(xorig) > 1L) {
     cluster <- rep(3L, length(obs))
@@ -150,7 +151,8 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
 
 localC_perm.formula <- function(formula, data, listw,
                                 nsim = 499, alternative = "two.sided", ...,
-                                zero.policy=NULL, iseed=NULL) {
+                                zero.policy=NULL, iseed=NULL, 
+                                no_repeat_in_row=FALSE) {
 
   alternative <- match.arg(alternative, c("less", "two.sided", "greater"))
   # if any data issues the localC formula method will catch it
@@ -166,7 +168,7 @@ localC_perm.formula <- function(formula, data, listw,
   x <- scale()
 
   reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative,
-    zero.policy=zero.policy, iseed=iseed)
+    zero.policy=zero.policy, iseed=iseed, no_repeat_in_row=no_repeat_in_row)
   if (ncol(xorig) > 1L) {
     cluster <- rep(3L, length(obs))
     cluster[obs <= reps[, 1]] <- 1L
@@ -213,7 +215,7 @@ localC_calc <- function(x, listw, zero.policy=NULL) {
 }
 
 localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
-  zero.policy=NULL, iseed=NULL) {
+  zero.policy=NULL, iseed=NULL, no_repeat_in_row=FALSE) {
     nc <- ncol(x)
     stopifnot(nc > 0L)
     n <- length(listw$neighbours)
@@ -232,26 +234,41 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
     assign("nsim", nsim, envir=env)
     assign("obs", obs, envir=env)
     assign("nc", nc, envir=env)
+    assign("n", n, envir=env)
+    assign("no_repeat_in_row", no_repeat_in_row, envir=env)
     varlist <- ls(envir = env)
 
     permC_int <- function(i, env) {
 #    permC_int <- function(i, zi, z_i, crdi, wtsi, nsim, Ci, nc) {
       res_i <- rep(as.numeric(NA), 8)
       crdi <- get("crd", envir=env)[i]
+      no_repeat_in_row <- get("no_repeat_in_row", envir=env)
       if (crdi > 0) { # if i has neighbours
         nsim <- get("nsim", envir=env)
+        n_i <- get("n", envir=env) - 1L
         zi <- get("z", envir=env)[i,,drop=FALSE]
         z_i <- get("z", envir=env)[-i,]
         wtsi <- get("lww", envir=env)[[i]]
         nc <- get("nc", envir=env)
         if (nc == 1L) { # if univariate
-          sz_i <- matrix(sample(c(z_i), size=crdi*nsim, replace=TRUE),
-            ncol=crdi, nrow=nsim) # permute nsim*#neighbours from z[-i]
+          if (no_repeat_in_row) {
+            samples <- .Call("perm_no_replace", as.integer(nsim),
+              as.integer(n_i), as.integer(crdi), PACKAGE="spdep")
+            sz_i <- matrix(z_i[samples], ncol=crdi, nrow=nsim)
+          } else {
+            sz_i <- matrix(sample(z_i, size=crdi*nsim, replace=TRUE),
+              ncol=crdi, nrow=nsim) # permute nsim*#neighbours from z[-i]
+          }
           diffs <- (c(zi) - sz_i)^2
           res_p <- c(diffs %*% wtsi)
         } else { # else multivariate
           res_p <- numeric(length=nsim) # for cumulation across columns
-          sii <- sample.int(nrow(z_i), size=crdi*nsim, replace=TRUE)
+          if (no_repeat_in_row) {
+            sii <- .Call("perm_no_replace", as.integer(nsim),
+              as.integer(n_i), as.integer(crdi), PACKAGE="spdep")
+          } else {
+            sii <- sample.int(nrow(z_i), size=crdi*nsim, replace=TRUE)
+          }
           for (j in 1:nc) { # permute nsim*#neighbours row indices from z[-i]
             # create nsim by crdi matrix of z[-i, j] for j-th column
             sz_i <- matrix(z_i[sii, j], ncol=crdi, nrow=nsim) 

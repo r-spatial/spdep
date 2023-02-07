@@ -1,5 +1,7 @@
 # Version 1.2-8 (development)
 
+* remaining users of `run_perm()` - `localC()`, `localmoran_bv()` and `local_joincount_uni()` get `no_repeat_in_row=` arguments.
+
 * Address 2) in #124; `localG_perm()` and `localmoran_perm()` get `no_repeat_in_row=` arguments to use conditional permutation without replacement by sample vectors; the default implementation uses sampling with replacement, which is acceptable across simulation draws, but arguably less acceptable within draws. Feedback would be valued.
 
 * Address 1) in #124; `localG_perm()` and `localG()` now return the same analytical standard deviates. The standard deviates from the simulated distributions are now returned in `attr(., "internals")[,"StdDev.Gi"]` from `localG_perm()`, as are p-values, etc.

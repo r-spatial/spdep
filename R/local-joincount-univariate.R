@@ -10,7 +10,8 @@
 local_joincount_uni <- function(fx, chosen, listw,
                                 alternative = "two.sided",
                                 nsim = 199,
-                                iseed = NULL) {
+                                iseed = NULL,
+                                no_repeat_in_row=FALSE) {
 
   # check that fx is a factor with 2 levels
   stopifnot(is.factor(fx))
@@ -62,6 +63,8 @@ local_joincount_uni <- function(fx, chosen, listw,
   assign("nsim", nsim, envir=env) # weights
   assign("xi", x, envir = env) # x col
   assign("obs", obs, envir = env) # observed values
+  assign("n", length(obs), envir=env)
+  assign("no_repeat_in_row", no_repeat_in_row, envir=env)
   varlist = ls(envir = env)
 
   permBB_int <- function(i, env) {
@@ -72,13 +75,20 @@ local_joincount_uni <- function(fx, chosen, listw,
     w_i <- get("lww", envir = env)[[i]] # weights for ith element
     nsim <- get("nsim", envir = env) # no. simulations
     obs <- get("obs", envir = env) # observed values
+    n_i <- get("n", envir=env) - 1L
+    no_repeat_in_row <- get("no_repeat_in_row", envir=env)
     # create matrix of replicates
-    sx_i <- matrix(sample(x_i,
+    if (no_repeat_in_row) {
+      samples <- .Call("perm_no_replace", as.integer(nsim),
+        as.integer(n_i), as.integer(crdi), PACKAGE="spdep")
+      sx_i <- matrix(x_i[samples], ncol=crdi, nrow=nsim)
+    } else {
+      sx_i <- matrix(sample(x_i,
                           size = crdi * nsim,
                           replace = TRUE),
                    ncol = crdi,
                    nrow = nsim)
-
+    }
     # calculate join counts for replicates
     res_i <- x[i] * (sx_i %*% w_i)
 

@@ -22,13 +22,14 @@ localC(x, ..., zero.policy=NULL)
 
 \method{localC}{data.frame}(x, listw, ..., zero.policy=NULL)
 
-localC_perm(x, ..., zero.policy=NULL, iseed=NULL)
+localC_perm(x, ..., zero.policy=NULL, iseed=NULL, no_repeat_in_row=FALSE)
 
 \method{localC_perm}{default}(x, listw, nsim = 499, alternative = "two.sided", ...,
- zero.policy=NULL, iseed=NULL)
+ zero.policy=NULL, iseed=NULL, no_repeat_in_row=FALSE)
 
 \method{localC_perm}{formula}(formula, data, listw, nsim = 499,
- alternative = "two.sided", ..., zero.policy=NULL, iseed=NULL)
+ alternative = "two.sided", ..., zero.policy=NULL, iseed=NULL,
+ no_repeat_in_row=FALSE)
 }
 \arguments{
 \item{x}{a numeric vector, numeric matrix, or list. See details for more.}
@@ -44,7 +45,8 @@ localC_perm(x, ..., zero.policy=NULL, iseed=NULL)
 \item{alternative}{A character defining the alternative hypothesis. Must be one of \code{"two.sided"}, \code{"less"} or \code{"greater"}.}
 \item{...}{other arguments passed to methods.}
 \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA.}
-  \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
+\item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
+\item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
 }
 \description{
 The Local Geary is a local adaptation of Geary's C statistic of spatial autocorrelation. The Local Geary uses squared differences to measure dissimilarity unlike the Local Moran. Low values of the Local Geary indicate positive spatial autocorrelation and large refers to negative spatial autocorrelation.

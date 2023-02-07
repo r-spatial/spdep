@@ -6,7 +6,7 @@ local_moran_bv_calc <- function(x, y, listw) {
 
 
 localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
-  alternative="two.sided", iseed=1L) {
+  alternative="two.sided", iseed=1L, no_repeat_in_row=FALSE) {
   stopifnot(length(x) == length(y))
   if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
     "is not a listw object"))
@@ -45,6 +45,8 @@ localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
   assign("lww", lww, envir=env)
   assign("nsim", nsim, envir=env)
   assign("obs", obs, envir=env)
+  assign("n", n, envir=env)
+  assign("no_repeat_in_row", no_repeat_in_row, envir=env)
   varlist <- ls(envir = env)
 
   permI_bv_int <- function(i, env) {
@@ -54,8 +56,16 @@ localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
       nsim <- get("nsim", envir=env)
       xi <- get("x", envir=env)[i]
       y_i <- get("y", envir=env)[-i]
-      sy_i <- matrix(sample(c(y_i), size=crdi*nsim, replace=TRUE),
+      n_i <- get("n", envir=env) - 1L
+      no_repeat_in_row <- get("no_repeat_in_row", envir=env)
+      if (no_repeat_in_row) {
+        samples <- .Call("perm_no_replace", as.integer(nsim),
+          as.integer(n_i), as.integer(crdi), PACKAGE="spdep")
+        sy_i <- matrix(y_i[samples], ncol=crdi, nrow=nsim)
+      } else {
+        sy_i <- matrix(sample(c(y_i), size=crdi*nsim, replace=TRUE),
         ncol=crdi, nrow=nsim) # permute nsim*#neighbours from y[-i]
+      }
       wtsi <- get("lww", envir=env)[[i]]
       res_p <- xi * sy_i %*% wtsi
       # res_p length nsim for obs i conditional draws
