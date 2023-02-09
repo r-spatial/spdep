@@ -13,7 +13,8 @@ a Bonferroni-type test is suggested in the references, where tables of
 critical values may be found (see also details below).
 }
 \usage{
-localG(x, listw, zero.policy=NULL, spChk=NULL, GeoDa=FALSE, alternative = "two.sided")
+localG(x, listw, zero.policy=NULL, spChk=NULL, GeoDa=FALSE, alternative = "two.sided",
+ return_internals=TRUE)
 localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL,
  alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE,
  no_repeat_in_row=FALSE)
@@ -26,6 +27,7 @@ localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL,
   \item{GeoDa}{default FALSE, if TRUE, drop x values for no-neighbour and self-neighbour only observations from all summations}
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of \code{"two.sided"} (default), \code{"greater"} or \code{"less"}.}
+  \item{return_internals}{default \code{TRUE}, unused}
   \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
   \item{fix_i_in_Gstar_permutations}{default \code{TRUE} (fix x at self in permutations for local G-star), set \code{FALSE} to use pre-1.2-8 behaviour}
   \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}

@@ -1,7 +1,7 @@
 # Copyright 2001-18 by Roger Bivand 
 #
 
-localG <- function(x, listw, zero.policy=NULL, spChk=NULL, GeoDa=FALSE, alternative = "two.sided") {
+localG <- function(x, listw, zero.policy=NULL, spChk=NULL, GeoDa=FALSE, alternative = "two.sided", return_internals=TRUE) {
 	if (!inherits(listw, "listw"))
 		stop(paste(deparse(substitute(listw)), "is not a listw object"))
 	if (!is.numeric(x))
