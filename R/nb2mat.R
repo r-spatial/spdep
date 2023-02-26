@@ -31,7 +31,7 @@ listw2mat <- function(listw) {
 }
 
 
-mat2listw <- function(x, row.names=NULL, style="M") {
+mat2listw <- function(x, row.names=NULL, style=NULL) {
 	if (!(is.matrix(x) || is(x, "sparseMatrix"))) stop("x is not a matrix")
 	n <- nrow(x)
 	if (n < 1) stop("non-positive number of entities")
@@ -52,6 +52,11 @@ mat2listw <- function(x, row.names=NULL, style="M") {
 			row.names <- as.character(1:n)
 		}
 	}
+        if (is.null(style)) {
+            style <- "M"
+        }
+        if (style == "M")
+            warning("style is M (missing); style should be set to a valid value")
 #	style <- "M"
         if (is(x, "sparseMatrix")) {
             xC <- as(x, "CsparseMatrix")
@@ -92,6 +97,8 @@ mat2listw <- function(x, row.names=NULL, style="M") {
 	attr(res, "region.id") <- attr(neighbours, "region.id")
 	attr(res, "call") <- match.call()
         if (style != "M") {
+	    if (!(style %in% c("W", "B", "C", "S", "U", "minmax")))
+		stop(paste("Style", style, "invalid"))
             res <- nb2listw(res$neighbours, glist=res$weights, style=style,
                 zero.policy=TRUE)
         }
