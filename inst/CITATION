@@ -1,39 +1,40 @@
 citHeader("To cite spdep in publications use one or more of the following as appropriate:")
 
-citEntry(entry = "Article",
-  author = personList(as.person("Roger Bivand"), as.person("David W. S. Wong")),
+bibentry(bibtype = "Article",
+  author = c(person(c("Roger"), "Bivand"), person(c("David W. S."), "Wong")),
   title = "Comparing implementations of global and local indicators of spatial association",
   journal = "TEST",
   year = "2018",
   volume = "27",
   number =  "3",
   pages = "716--748",
-  doi = "10.1007/s11749-018-0599-x",
-  textVersion = 
-  paste("Bivand, Roger S. and Wong, David W. S. (2018)", "Comparing implementations of global and local indicators of spatial association", "TEST, 27(3), 716-748.", "URL https://doi.org/10.1007/s11749-018-0599-x")
+  doi = "10.1007/s11749-018-0599-x"
 )
 
-citEntry(entry = "Article",
-  author = personList(as.person("Roger Bivand")),
+bibentry(bibtype = "Article",
+  author = c(person(c("Roger", "Bivand"))),
   title = "R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data",
   journal = "Geographical Analysis",
   year = "2022",
   volume = "54",
   number = "3",
   pages = "488-518",
-  doi = "10.1111/gean.12319",
-  textVersion = 
-  paste("Bivand, R. (2022)", "R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data", "Geographical Analysis, 54(3), 488-518", "URL https://doi.org/10.1111/gean.12319")
+  doi = "10.1111/gean.12319"
 )
 
-citEntry(entry="book",
-  author       = "Roger S. Bivand, Edzer Pebesma and Virgilio Gomez-Rubio",
+bibentry(bibtype="book",
+  author       = c(person(c("Roger S."), "Bivand"), person(c("Edzer"), "Pebesma"), person(c("Virgilio"), c("Gómez-Rubio"))),
   title        = "Applied spatial data analysis with {R}, Second edition",
   year         = "2013",
   publisher    = "Springer, NY",
-  url          = "https://asdar-book.org/",
-  textVersion = 
-  paste("Roger S. Bivand, Edzer Pebesma, Virgilio Gomez-Rubio, 2013.",
-	"Applied spatial data analysis with R, Second edition. Springer, NY.",
-	"https://asdar-book.org/")
+  url          = "https://asdar-book.org/"
 )
+
+bibentry(bibtype="book",
+  author       = c(person(c("Edzer"), "Pebesma"), person(c("Roger S."), "Bivand")),
+  title        = "Spatial Data Science With Applications in {R}",
+  year         = "2023",
+  publisher    = "Chapman & Hall",
+  url          = "https://r-spatial.org/book/"
+)
+
