@@ -195,7 +195,7 @@ if (run) {
 }
 if (run) {
   if (require(parallel, quietly=TRUE)) {
-    ncpus <- detectCores(logical=FALSE)-1L
+    ncpus <- max(2L, detectCores(), na.rm = TRUE)-1L
 # test with single core
     if (ncpus > 1L) ncpus <- 1L
     cores <- get.coresOption()
@@ -327,7 +327,7 @@ if (run) {
 }
 if (run) {
   if (require(parallel, quietly=TRUE)) {
-    ncpus <- detectCores(logical=FALSE)-1L
+    ncpus <- max(2L, detectCores(), na.rm = TRUE)-1L
 # test with single core
     if (ncpus > 1L) ncpus <- 1L
     cores <- get.coresOption()
