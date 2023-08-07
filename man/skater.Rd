@@ -18,7 +18,7 @@ skater(edges, data, ncuts, crit, vec.crit, method = c("euclidean",
   \item{edges}{A matrix with 2 colums with each row is an edge}
   \item{data}{A data.frame with data observed over nodes.}
   \item{ncuts}{The number of cuts}
-  \item{crit}{A scalar ow two dimensional vector with with
+  \item{crit}{A scalar or two dimensional vector with
     criteria for groups. Examples: limits of group size or
     limits of population size. If scalar, is the minimum
     criteria for groups.}
