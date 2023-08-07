@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -136,11 +136,11 @@
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href="lm.morantest.html">listw2U()</a></code> can be used to make the matrix symmetric. In non-symmetric weights matrix cases, the variance of the test statistic may be negative (thanks to Franz Munoz I for a well documented bug report). Geary's C is affected by non-symmetric weights under normality much more than Moran's I. From 0.4-35, the sign of the standard deviate of C is changed to match Cliff and Ord (1973, p. 21).</p>
+    <p>The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href="nb2listw.html">listw2U()</a></code> can be used to make the matrix symmetric. In non-symmetric weights matrix cases, the variance of the test statistic may be negative (thanks to Franz Munoz I for a well documented bug report). Geary's C is affected by non-symmetric weights under normality much more than Moran's I. From 0.4-35, the sign of the standard deviate of C is changed to match Cliff and Ord (1973, p. 21).</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="geary.html">geary</a></code>, <code><a href="geary.mc.html">geary.mc</a></code>, <code><a href="lm.morantest.html">listw2U</a></code></p></div>
+    <div class="dont-index"><p><code><a href="geary.html">geary</a></code>, <code><a href="geary.mc.html">geary.mc</a></code>, <code><a href="nb2listw.html">listw2U</a></code></p></div>
     </div>
 
     <div id="ref-examples">
@@ -237,7 +237,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Note non-symmetric weights matrix - use listw2U()\n"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Note non-symmetric weights matrix - use listw2U()</span>
-<span class="r-in"><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
+<span class="r-in"><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
 <span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under randomisation</span>
@@ -251,7 +251,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.399254423       1.000000000       0.008697812 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
+<span class="r-in"><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
 <span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span>, randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under normality</span>
@@ -279,7 +279,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

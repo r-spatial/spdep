@@ -238,7 +238,7 @@ load(system.file("etc/misc/raw_grass_borders_new.RData", package="spdep")[1])
 library(terra)
 v_eire_ge1 <-vect(eire_ge1)
 SG <- rasterize(v_eire_ge1, rast(nrows=70, ncols=50, extent=ext(v_eire_ge1)), field="county")
-library(rgrass7)
+library(rgrass)
 grass_home <- "/home/rsb/topics/grass/g820/grass82"
 initGRASS(grass_home, home=tempdir(), SG=SG, override=TRUE)
 write_VECT(v_eire_ge1, "eire", flags=c("o", "overwrite"))

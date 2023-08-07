@@ -21,7 +21,7 @@ and its expectation and variance were given in Anselin (1995), but those from So
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -85,7 +85,8 @@ and its expectation and variance were given in Anselin (1995), but those from So
 <span>        spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu">localmoran_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, </span>
 <span>  alternative <span class="op">=</span> <span class="st">"two.sided"</span>, mlvar<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span>        spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span>, sample_Ei<span class="op">=</span><span class="cn">TRUE</span>, iseed<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span>        spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.x<span class="op">=</span><span class="cn">FALSE</span>, sample_Ei<span class="op">=</span><span class="cn">TRUE</span>, iseed<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span>        no_repeat_in_row<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -125,6 +126,9 @@ and its expectation and variance were given in Anselin (1995), but those from So
 
   <dt>iseed</dt>
 <dd><p>default NULL, used to set the seed for possible parallel RNGs</p></dd>
+
+  <dt>no_repeat_in_row</dt>
+<dd><p>default <code>FALSE</code>, if <code>TRUE</code>, sample conditionally in each row without replacements to avoid duplicate values, <a href="https://github.com/r-spatial/spdep/issues/124" class="external-link">https://github.com/r-spatial/spdep/issues/124</a></p></dd>
 
 </dl></div>
     <div id="details">
@@ -639,7 +643,7 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

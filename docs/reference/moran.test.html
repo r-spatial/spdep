@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -140,7 +140,7 @@
 Goodchild's CATMOG 47 (1986),
 see also Upton &amp; Fingleton (1985) p. 171; it agrees with SpaceStat,
 see Tutorial workbook Chapter 22; VI is the second crude moment minus the
-square of the first crude moment. The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href="lm.morantest.html">listw2U()</a></code> can be used to make the matrix symmetric.</p>
+square of the first crude moment. The derivation of the test (Cliff and Ord, 1981, p. 18) assumes that the weights matrix is symmetric. For inherently non-symmetric matrices, such as k-nearest neighbour matrices, <code><a href="nb2listw.html">listw2U()</a></code> can be used to make the matrix symmetric.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -152,7 +152,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="moran.html">moran</a></code>, <code><a href="moran.mc.html">moran.mc</a></code>, <code><a href="lm.morantest.html">listw2U</a></code></p></div>
+    <div class="dont-index"><p><code><a href="moran.html">moran</a></code>, <code><a href="moran.mc.html">moran.mc</a></code>, <code><a href="nb2listw.html">listw2U</a></code></p></div>
     </div>
 
     <div id="ref-examples">
@@ -288,7 +288,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Note: non-symmetric weights matrix, use listw2U()"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Note: non-symmetric weights matrix, use listw2U()</span>
-<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
 <span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
@@ -302,7 +302,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.624933667      -0.020833333       0.008003503 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="lm.morantest.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">listw2U</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.k4.nb</span>,</span></span>
 <span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span>, randomisation<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under normality</span>
@@ -400,7 +400,7 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

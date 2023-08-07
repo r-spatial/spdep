@@ -23,7 +23,7 @@ critical values may be found (see also details below)."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -84,10 +84,11 @@ critical values may be found (see also details below).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">localG</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_internals<span class="op">=</span><span class="cn">FALSE</span>, GeoDa<span class="op">=</span><span class="cn">FALSE</span>,</span>
-<span> alternative <span class="op">=</span> <span class="st">"two.sided"</span><span class="op">)</span></span>
-<span><span class="fu">localG_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, return_internals<span class="op">=</span><span class="cn">TRUE</span>,</span>
-<span> alternative <span class="op">=</span> <span class="st">"two.sided"</span>, iseed<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">localG</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, GeoDa<span class="op">=</span><span class="cn">FALSE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span>
+<span> return_internals<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">localG_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>,</span>
+<span> alternative <span class="op">=</span> <span class="st">"two.sided"</span>, iseed<span class="op">=</span><span class="cn">NULL</span>, fix_i_in_Gstar_permutations<span class="op">=</span><span class="cn">TRUE</span>,</span>
+<span> no_repeat_in_row<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -104,9 +105,6 @@ critical values may be found (see also details below).</p>
   <dt>spChk</dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
 
-  <dt>return_internals</dt>
-<dd><p>default FALSE but TRUE for permutation version, if TRUE, return internal values of G, EI and VG as as attribute matrix</p></dd>
-
   <dt>GeoDa</dt>
 <dd><p>default FALSE, if TRUE, drop x values for no-neighbour and self-neighbour only observations from all summations</p></dd>
 
@@ -116,8 +114,17 @@ critical values may be found (see also details below).</p>
   <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of <code>"two.sided"</code> (default), <code>"greater"</code> or <code>"less"</code>.</p></dd>
 
+  <dt>return_internals</dt>
+<dd><p>default <code>TRUE</code>, unused</p></dd>
+
   <dt>iseed</dt>
 <dd><p>default NULL, used to set the seed for possible parallel RNGs</p></dd>
+
+  <dt>fix_i_in_Gstar_permutations</dt>
+<dd><p>default <code>TRUE</code> (fix x at self in permutations for local G-star), set <code>FALSE</code> to use pre-1.2-8 behaviour</p></dd>
+
+  <dt>no_repeat_in_row</dt>
+<dd><p>default <code>FALSE</code>, if <code>TRUE</code>, sample conditionally in each row without replacements to avoid duplicate values, <a href="https://github.com/r-spatial/spdep/issues/124" class="external-link">https://github.com/r-spatial/spdep/issues/124</a></p></dd>
 
 </dl></div>
     <div id="details">
@@ -125,7 +132,7 @@ critical values may be found (see also details below).</p>
     <p>If the neighbours member of listw has a "self.included" attribute set
 to TRUE, the Gstar variant, including the self-weight \(w_{ii} &gt; 0\),
 is calculated and returned.  The returned vector will have a "gstari"
-attribute set to TRUE.  Self-weights can be included by using the
+attribute set to TRUE.  Self-weights must be included by using the
 <code>include.self</code> function before converting
 the neighbour list to a spatial weights list with <code>nb2listw</code> as
 shown below in the example.</p>
@@ -137,12 +144,11 @@ n=100: 3.289, n=1000: 3.886.</p>
     <h2>Value</h2>
     
 
-<p>A vector of G or Gstar values, with attributes "gstari" set to TRUE or
-FALSE, "call" set to the function call, and class "localG".</p>
+<p>A vector of G or Gstar standard deviate values, with attributes "gstari" set to TRUE or FALSE, "call" set to the function call, and class "localG". For conditional permutation, the returned value is the same as for <code>localG()</code>, and the simulated standard deviate is returned as column <code>"StdDev.Gi"</code> in <code>attr(., "internals")</code>.</p>
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself.</p>
+    <p>Conditional permutations added for comparative purposes; permutations are over the whole data vector omitting the observation itself, and from 1.2-8 fixing the observation itself as its own neighbour for local G-star.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -176,7 +182,7 @@ International), 261--277; Bivand RS, Wong DWS 2018 Comparing implementations of 
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">G30_sim</span> <span class="op">&lt;-</span> <span class="fu">localG_perm</span><span class="op">(</span><span class="va">xyz</span><span class="op">$</span><span class="va">val</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb30</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">G30_sim</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">xyz</span><span class="op">$</span><span class="va">val</span><span class="op">)</span><span class="op">-</span><span class="fl">136</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.13091</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.221979</span>
 <span class="r-in"><span><span class="va">nb60</span> <span class="op">&lt;-</span> <span class="fu"><a href="dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">xycoords</span>, <span class="fl">0</span>, <span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">G60</span> <span class="op">&lt;-</span> <span class="fu">localG</span><span class="op">(</span><span class="va">xyz</span><span class="op">$</span><span class="va">val</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb60</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">G60</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">xyz</span><span class="op">$</span><span class="va">val</span><span class="op">)</span><span class="op">-</span><span class="fl">136</span><span class="op">]</span></span></span>
@@ -235,7 +241,7 @@ International), 261--277; Bivand RS, Wong DWS 2018 Comparing implementations of 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

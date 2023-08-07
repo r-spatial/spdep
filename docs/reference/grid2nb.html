@@ -18,7 +18,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -153,18 +153,19 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 5 21 25 101 105 121 125 with 7 links</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27 most connected regions:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32 33 34 37 38 39 42 43 44 57 58 59 62 63 64 67 68 69 82 83 84 87 88 89 92 93 94 with 26 links</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">gt</span> <span class="op">&lt;-</span> <span class="fu">GridTopology</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.125</span>,<span class="fl">.1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>,<span class="fl">.2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/edzer/sp/" class="external-link">"sp"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">gt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialGrid.html" class="external-link">GridTopology</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.125</span>,<span class="fl">.1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>,<span class="fl">.2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">4L</span>, <span class="fl">5L</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">nb1</span> <span class="op">&lt;-</span> <span class="fu">grid2nb</span><span class="op">(</span><span class="va">gt</span>, queen <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">nb2</span> <span class="op">&lt;-</span> <span class="fu">grid2nb</span><span class="op">(</span><span class="va">gt</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">sg</span> <span class="op">&lt;-</span> <span class="fu">SpatialGrid</span><span class="op">(</span><span class="va">gt</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">sg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialGrid.html" class="external-link">SpatialGrid</a></span><span class="op">(</span><span class="va">gt</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">sg</span>, lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb1</span>, <span class="fu">coordinates</span><span class="op">(</span><span class="va">sg</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="fl">2</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb2</span>, <span class="fu">coordinates</span><span class="op">(</span><span class="va">sg</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lty<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></span>
-<span class="r-plt img"><img src="grid2nb-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb1</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">sg</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lty<span class="op">=</span><span class="fl">2</span>, col<span class="op">=</span><span class="fl">2</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb2</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">sg</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, lty<span class="op">=</span><span class="fl">3</span>, col<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu">grid2nb</span><span class="op">(</span>d<span class="op">=</span><span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-plt img"><img src="grid2nb-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ : int [1:2] 1 3</span>
@@ -186,7 +187,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

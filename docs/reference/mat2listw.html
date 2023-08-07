@@ -20,7 +20,7 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -78,7 +78,7 @@ sequence of numbers 1:nrow(x), or as given as an argument. The style can be impo
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mat2listw</span><span class="op">(</span><span class="va">x</span>, row.names <span class="op">=</span> <span class="cn">NULL</span>, style<span class="op">=</span><span class="st">"M"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mat2listw</span><span class="op">(</span><span class="va">x</span>, row.names <span class="op">=</span> <span class="cn">NULL</span>, style<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -91,7 +91,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <dd><p>row names to use for region IDs</p></dd>
 
   <dt>style</dt>
-<dd><p>default "M", unknown style; if not "M", passed to <code><a href="nb2listw.html">nb2listw</a></code> to re-build the object</p></dd>
+<dd><p>default NULL, missing, set to "M" and warning given; if not "M", passed to <code><a href="nb2listw.html">nb2listw</a></code> to re-build the object</p></dd>
 
 </dl></div>
     <div id="value">
@@ -141,6 +141,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1038 1036 with 9 links</span>
 <span class="r-in"><span><span class="va">col005.w.mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2mat.html">nb2mat</a></span><span class="op">(</span><span class="va">col005</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">col005.w.b</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>style is M (missing); style should be set to a valid value</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.w.b</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
@@ -168,7 +169,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1029 1025 1028 1048 1015 1027 1026</span>
-<span class="r-in"><span><span class="va">col005.w.mat.3T</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">col005.w.mat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col005.w.mat.3T</span> <span class="op">&lt;-</span> <span class="fu">kronecker</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diag.html" class="external-link">diag</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">col005.w.mat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">col005.w.b.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat.3T</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>zero sum general weights</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.w.b.3T</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
@@ -194,6 +195,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-in"><span><span class="va">col005.spM</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">W</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.spM</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>style is M (missing); style should be set to a valid value</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>1005, 1006, 1008, 1043 are not origins</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
@@ -223,8 +225,8 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1009 1036 1011 1042 1041 1017 1043 1019 1012 1035 1032 1020 1021 1031</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1033 1034 1045 1013 1022 1044 1023 1046 1030 1024 1047 1016 1014 1049</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1029 1025 1028 1048 1015 1027 1026</span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://Matrix.R-forge.R-project.org/" class="external-link">"Matrix"</a></span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">IW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/kronecker.html" class="external-link">kronecker</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html" class="external-link">Diagonal</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">W</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://Matrix.R-forge.R-project.org" class="external-link">"Matrix"</a></span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">IW</span> <span class="op">&lt;-</span> <span class="fu">kronecker</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/Diagonal.html" class="external-link">Diagonal</a></span><span class="op">(</span><span class="fl">3</span><span class="op">)</span>, <span class="va">W</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">col005.spM.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">IW</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.spM.3T</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -259,7 +261,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

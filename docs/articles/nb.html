@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -88,7 +88,8 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Creating Neighbours</h1>
-                        <h4 data-toc-skip class="author">Roger Bivand</h4>
+                        <h4 data-toc-skip class="author">Roger
+Bivand</h4>
             
       
       <small class="dont-index">Source: <a href="https://github.com/r-spatial/spdep/blob/HEAD/vignettes/nb.Rmd" class="external-link"><code>vignettes/nb.Rmd</code></a></small>
@@ -101,18 +102,46 @@
 <div class="section level2">
 <h2 id="creating-neighbours">Creating Neighbours<a class="anchor" aria-label="anchor" href="#creating-neighbours"></a>
 </h2>
-<p>This vignette formed pp. 239–251 of the first edition of Bivand, R. S., Pebesma, E. and Gómez-Rubio V. (2008) <em>Applied Spatial Data Analysis with R</em>, Springer-Verlag, New York. It was retired from the second edition (2013) to accommodate material on other topics, and is made available in this form with the understanding of the publishers.</p>
+<p>This vignette formed pp. 239–251 of the first edition of Bivand, R.
+S., Pebesma, E. and Gómez-Rubio V. (2008) <em>Applied Spatial Data
+Analysis with R</em>, Springer-Verlag, New York. It was retired from the
+second edition (2013) to accommodate material on other topics, and is
+made available in this form with the understanding of the
+publishers.</p>
 <div class="section level3">
 <h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h3>
-<p>Creating spatial weights is a necessary step in using areal data, perhaps just to check that there is no remaining spatial patterning in residuals. The first step is to define which relationships between observations are to be given a non-zero weight, that is to choose the neighbour criterion to be used; the second is to assign weights to the identified neighbour links.</p>
-<p>The 281 census tract data set for eight central New York State counties featured prominently in <span class="citation">(Waller and Gotway 2004)</span> will be used in many of the examples, supplemented with tract boundaries derived from TIGER 1992 and distributed by SEDAC/CIESIN. The boundaries have been projected from geographical coordinates to UTM zone~18. This file is not identical with the boundaries used in the original source, but is very close and may be re-distributed, unlike the version used in the book. Starting from the census tract queen contiguities, where all touching polygons are neighbours, used in <span class="citation">(Waller and Gotway 2004)</span> and provided as a DBF file on their website, a GAL format file has been created and read into R.</p>
+<p>Creating spatial weights is a necessary step in using areal data,
+perhaps just to check that there is no remaining spatial patterning in
+residuals. The first step is to define which relationships between
+observations are to be given a non-zero weight, that is to choose the
+neighbour criterion to be used; the second is to assign weights to the
+identified neighbour links.</p>
+<p>The 281 census tract data set for eight central New York State
+counties featured prominently in <span class="citation">(Waller and
+Gotway 2004)</span> will be used in many of the examples, supplemented
+with tract boundaries derived from TIGER 1992 and distributed by
+SEDAC/CIESIN. The boundaries have been projected from geographical
+coordinates to UTM zone~18. This file is not identical with the
+boundaries used in the original source, but is very close and may be
+re-distributed, unlike the version used in the book. Starting from the
+census tract queen contiguities, where all touching polygons are
+neighbours, used in <span class="citation">(Waller and Gotway
+2004)</span> and provided as a DBF file on their website, a GAL format
+file has been created and read into R.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Loading required package: sp</span></span></code></pre>
 <pre><code><span><span class="co">## Loading required package: spData</span></span></code></pre>
+<pre><code><span><span class="co">## The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,</span></span>
+<span><span class="co">## which was just loaded, will retire in October 2023.</span></span>
+<span><span class="co">## Please refer to R-spatial evolution reports for details, especially</span></span>
+<span><span class="co">## https://r-spatial.org/r/2023/05/15/evolution4.html.</span></span>
+<span><span class="co">## It may be desirable to make the sf package available;</span></span>
+<span><span class="co">## package maintainers should consider adding sf to Suggests:.</span></span>
+<span><span class="co">## The sp package is now running under evolution status 2</span></span>
+<span><span class="co">##      (status 2 uses the sf package in place of rgdal)</span></span></code></pre>
 <pre><code><span><span class="co">## Loading required package: sf</span></span></code></pre>
-<pre><code><span><span class="co">## Linking to GEOS 3.11.0, GDAL 3.5.2, PROJ 9.1.0; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.12.0, GDAL 3.7.1, PROJ 9.2.1; sf_use_s2() is TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NY8</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/NY8_utm18.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">)</span>, <span class="st">"Spatial"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `NY8_utm18' from data source </span></span>
@@ -124,7 +153,11 @@
 <span><span class="co">## Projected CRS: WGS 84 / UTM zone 18N</span></span></code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">NY_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/NY_nb.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span>, region.id<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">NY8</span><span class="op">)</span><span class="op">)</span><span class="op">-</span><span class="fl">1L</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>For the sake of simplicity in showing how to create neighbour objects, we work on a subset of the map consisting of the census tracts within Syracuse, although the same principles apply to the full data set. We retrieve the part of the neighbour list in Syracuse using the <code>subset</code> method.</p>
+<p>For the sake of simplicity in showing how to create neighbour
+objects, we work on a subset of the map consisting of the census tracts
+within Syracuse, although the same principles apply to the full data
+set. We retrieve the part of the neighbour list in Syracuse using the
+<code>subset</code> method.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Syracuse</span> <span class="op">&lt;-</span> <span class="va">NY8</span><span class="op">[</span><span class="va">NY8</span><span class="op">$</span><span class="va">AREANAME</span> <span class="op">==</span> <span class="st">"Syracuse city"</span>,<span class="op">]</span></span>
 <span><span class="va">Sy0_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/terra/man/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">NY_nb</span>, <span class="va">NY8</span><span class="op">$</span><span class="va">AREANAME</span> <span class="op">==</span> <span class="st">"Syracuse city"</span><span class="op">)</span></span>
@@ -146,7 +179,13 @@
 <div class="section level3">
 <h3 id="creating-contiguity-neighbours">Creating Contiguity Neighbours<a class="anchor" aria-label="anchor" href="#creating-contiguity-neighbours"></a>
 </h3>
-<p>We can create a copy of the same neighbours object for polygon contiguities using the <code><a href="../reference/poly2nb.html">poly2nb()</a></code> function in <strong>spdep</strong>. It takes an object extending the <code>SpatialPolygons</code> class as its first argument, and using heuristics identifies polygons sharing boundary points as neighbours. It also has a <code>snap=</code> argument, to allow the shared boundary points to be a short distance from one another.</p>
+<p>We can create a copy of the same neighbours object for polygon
+contiguities using the <code><a href="../reference/poly2nb.html">poly2nb()</a></code> function in
+<strong>spdep</strong>. It takes an object extending the
+<code>SpatialPolygons</code> class as its first argument, and using
+heuristics identifies polygons sharing boundary points as neighbours. It
+also has a <code>snap=</code> argument, to allow the shared boundary
+points to be a short distance from one another.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "SpatialPolygonsDataFrame"</span></span>
@@ -156,7 +195,21 @@
 <code class="sourceCode R"><span><span class="va">Sy1_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">Sy0_nb</span>, <span class="va">Sy1_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
-<p>As we can see, creating the contiguity neighbours from the <code>Syracuse</code> object reproduces the neighbours from <span class="citation">(Waller and Gotway 2004)</span>. Careful examination of the next figure shows, however, that the graph of neighbours is not planar, since some neighbour links cross each other. By default, the contiguity condition is met when at least one point on the boundary of one polygon is within the snap distance of at least one point of its neighbour. This relationship is given by the argument <code>queen=TRUE</code> by analogy with movements on a chessboard. So when three or more polygons meet at a single point, they all meet the contiguity condition, giving rise to crossed links. If <code>queen=FALSE</code>, at least two boundary points must be within the snap distance of each other, with the conventional name of a `rook’ relationship. The figure shows the crossed line differences that arise when polygons touch only at a single point, compared to the stricter rook criterion.</p>
+<p>As we can see, creating the contiguity neighbours from the
+<code>Syracuse</code> object reproduces the neighbours from <span class="citation">(Waller and Gotway 2004)</span>. Careful examination of
+the next figure shows, however, that the graph of neighbours is not
+planar, since some neighbour links cross each other. By default, the
+contiguity condition is met when at least one point on the boundary of
+one polygon is within the snap distance of at least one point of its
+neighbour. This relationship is given by the argument
+<code>queen=TRUE</code> by analogy with movements on a chessboard. So
+when three or more polygons meet at a single point, they all meet the
+contiguity condition, giving rise to crossed links. If
+<code>queen=FALSE</code>, at least two boundary points must be within
+the snap distance of each other, with the conventional name of a `rook’
+relationship. The figure shows the crossed line differences that arise
+when polygons touch only at a single point, compared to the stricter
+rook criterion.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Sy2_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">Syracuse</span>, queen<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">Sy0_nb</span>, <span class="va">Sy2_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -174,26 +227,71 @@
 <span><span class="co">## of first list</span></span></code></pre>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span>, labels<span class="op">=</span><span class="st">"b)"</span>, cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="nb_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="nb_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oopar</span><span class="op">)</span></span></code></pre></div>
-<p>a: Queen-style census tract contiguities, Syracuse; b: Rook-style contiguity differences shown as thicker lines</p>
-<p>If we have access to a GIS such as GRASS or ArcGIS, we can export the <code>SpatialPolygonsDataFrame</code> object and use the topology engine in the GIS to find contiguities in the graph of polygon edges - a shared edge will yield the same output as the rook relationship.</p>
-<p>This procedure does, however, depend on the topology of the set of polygons being clean, which holds for this subset, but not for the full eight-county data set. Not infrequently, there are small artefacts, such as slivers where boundary lines intersect or diverge by distances that cannot be seen on plots, but which require intervention to keep the geometries and data correctly associated. When these geometrical artefacts are present, the topology is not clean, because unambiguous shared polygon boundaries cannot be found in all cases; artefacts typically arise when data collected for one purpose are combined with other data or used for another purpose. Topologies are usually cleaned in a GIS by <code>snapping' vertices closer than a threshold distance together, removing artefacts -- for example, snapping across a river channel where the correct boundary is the median line but the input polygons stop at the channel banks on each side. The</code>poly2nb()<code>function does have a</code>snap` argument, which may also be used when input data possess geometrical artefacts.</p>
+<p>a: Queen-style census tract contiguities, Syracuse; b: Rook-style
+contiguity differences shown as thicker lines</p>
+<p>If we have access to a GIS such as GRASS or ArcGIS, we can export the
+<code>SpatialPolygonsDataFrame</code> object and use the topology engine
+in the GIS to find contiguities in the graph of polygon edges - a shared
+edge will yield the same output as the rook relationship.</p>
+<p>This procedure does, however, depend on the topology of the set of
+polygons being clean, which holds for this subset, but not for the full
+eight-county data set. Not infrequently, there are small artefacts, such
+as slivers where boundary lines intersect or diverge by distances that
+cannot be seen on plots, but which require intervention to keep the
+geometries and data correctly associated. When these geometrical
+artefacts are present, the topology is not clean, because unambiguous
+shared polygon boundaries cannot be found in all cases; artefacts
+typically arise when data collected for one purpose are combined with
+other data or used for another purpose. Topologies are usually cleaned
+in a GIS by
+<code>snapping' vertices closer than a threshold distance together, removing artefacts -- for example, snapping across a river channel where the correct boundary is the median line but the input polygons stop at the channel banks on each side. The</code>poly2nb()<code>function does have a</code>snap`
+argument, which may also be used when input data possess geometrical
+artefacts.</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">spgrass6</span><span class="op">)</span></span>
 <span><span class="fu">writeVECT6</span><span class="op">(</span><span class="va">Syracuse</span>, <span class="st">"SY0"</span><span class="op">)</span></span>
 <span><span class="va">contig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/readVECT.html" class="external-link">vect2neigh</a></span><span class="op">(</span><span class="st">"SY0"</span><span class="op">)</span></span>
 <span><span class="va">Sy3_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/listw2sn.html">sn2listw</a></span><span class="op">(</span><span class="va">contig</span><span class="op">)</span><span class="op">$</span><span class="va">neighbours</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Logic.html" class="external-link">isTRUE</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">Sy3_nb</span>, <span class="va">Sy2_nb</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p>Similar approaches may also be used to read ArcGIS coverage data by tallying the left neighbour and right neighbour arc indices with the polygons in the data set, using either <strong>RArcInfo</strong> or <strong>rgdal</strong>.</p>
-<p>In our Syracuse case, there are no exclaves or <code>islands' belonging to the data set, but not sharing boundary points within the snap distance. If the number of polygons is moderate, the missing neighbour links may be added interactively using the</code>edit()<code>method for</code>nb` objects, and displaying the polygon background. The same method may be used for removing links which, although contiguity exists, may be considered void, such as across a mountain range.</p>
+<p>Similar approaches may also be used to read ArcGIS coverage data by
+tallying the left neighbour and right neighbour arc indices with the
+polygons in the data set, using either <strong>RArcInfo</strong> or
+<strong>rgdal</strong>.</p>
+<p>In our Syracuse case, there are no exclaves or
+<code>islands' belonging to the data set, but not sharing boundary points within the snap distance. If the number of polygons is moderate, the missing neighbour links may be added interactively using the</code>edit()<code>method for</code>nb`
+objects, and displaying the polygon background. The same method may be
+used for removing links which, although contiguity exists, may be
+considered void, such as across a mountain range.</p>
 </div>
 <div class="section level3">
 <h3 id="creating-graph-based-neighbours">Creating Graph-Based Neighbours<a class="anchor" aria-label="anchor" href="#creating-graph-based-neighbours"></a>
 </h3>
-<p>Continuing with irregularly located areal entities, it is possible to choose a point to represent the polygon-support entities. This is often the polygon centroid, which is not the average of the coordinates in each dimension, but takes proper care to weight the component triangles of the polygon by area. It is also possible to use other points, or if data are available, construct, for example population-weighted centroids. Once representative points are available, the criteria for neighbourhood can be extended from just contiguity to include graph measures, distance thresholds, and <span class="math inline">\(k\)</span>-nearest neighbours.</p>
-<p>The most direct graph representation of neighbours is to make a Delaunay triangulation of the points, shown in the first panel in the figure. The neighbour relationships are defined by the triangulation, which extends outwards to the convex hull of the points and which is planar. Note that graph-based representations construct the interpoint relationships based on Euclidean distance, with no option to use Great Circle distances for geographical coordinates. Because it joins distant points around the convex hull, it may be worthwhile to thin the triangulation as a Sphere of Influence (SOI) graph, removing links that are relatively long. Points are SOI neighbours if circles centred on the points, of radius equal to the points’ nearest neighbour distances, intersect in two places <span class="citation">(Avis and Horton 1985)</span>. Functions for graph-based neighbours were kindly contributed by Nicholas Lewin-Koh.</p>
+<p>Continuing with irregularly located areal entities, it is possible to
+choose a point to represent the polygon-support entities. This is often
+the polygon centroid, which is not the average of the coordinates in
+each dimension, but takes proper care to weight the component triangles
+of the polygon by area. It is also possible to use other points, or if
+data are available, construct, for example population-weighted
+centroids. Once representative points are available, the criteria for
+neighbourhood can be extended from just contiguity to include graph
+measures, distance thresholds, and <span class="math inline">\(k\)</span>-nearest neighbours.</p>
+<p>The most direct graph representation of neighbours is to make a
+Delaunay triangulation of the points, shown in the first panel in the
+figure. The neighbour relationships are defined by the triangulation,
+which extends outwards to the convex hull of the points and which is
+planar. Note that graph-based representations construct the interpoint
+relationships based on Euclidean distance, with no option to use Great
+Circle distances for geographical coordinates. Because it joins distant
+points around the convex hull, it may be worthwhile to thin the
+triangulation as a Sphere of Influence (SOI) graph, removing links that
+are relatively long. Points are SOI neighbours if circles centred on the
+points, of radius equal to the points’ nearest neighbour distances,
+intersect in two places <span class="citation">(Avis and Horton
+1985)</span>. Functions for graph-based neighbours were kindly
+contributed by Nicholas Lewin-Koh.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span></span>
 <span><span class="va">IDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">Syracuse</span>, <span class="st">"data.frame"</span><span class="op">)</span><span class="op">)</span></span>
@@ -201,10 +299,16 @@
 <span><span class="va">Sy4_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tri2nb.html">tri2nb</a></span><span class="op">(</span><span class="va">coords</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mhahsler/dbscan" class="external-link">dbscan</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">soi.graph</a></span><span class="op">(</span><span class="va">Sy4_nb</span>, <span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
-<span><span class="op">}</span> <span class="kw">else</span> <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
-<span><span class="va">Sy6_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">gabrielneigh</a></span><span class="op">(</span><span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="va">Sy5_nb</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span></code></pre></div>
+<pre><code><span><span class="co">## </span></span>
+<span><span class="co">## Attaching package: 'dbscan'</span></span></code></pre>
+<pre><code><span><span class="co">## The following object is masked from 'package:stats':</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##     as.dendrogram</span></span></code></pre>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Sy6_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">gabrielneigh</a></span><span class="op">(</span><span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">Sy7_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">relativeneigh</a></span><span class="op">(</span><span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oopar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy4_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
@@ -220,19 +324,40 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy7_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span>, labels<span class="op">=</span><span class="st">"d)"</span>, cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="nb_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<p><img src="nb_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oopar</span><span class="op">)</span></span></code></pre></div>
-<p>a: Delauney triangulation neighbours; b: Sphere of influence neighbours (if available); c: Gabriel graph neighbours; d: Relative graph neighbours</p>
-<p>Delaunay triangulation neighbours and SOI neighbours are symmetric by design – if <span class="math inline">\(i\)</span> is a neighbour of <span class="math inline">\(j\)</span>, then <span class="math inline">\(j\)</span> is a neighbour of <span class="math inline">\(i\)</span>. The Gabriel graph is also a subgraph of the Delaunay triangulation, retaining a different set of neighbours <span class="citation">(Matula and Sokal 1980)</span>. It does not, however, guarantee symmetry; the same applies to Relative graph neighbours <span class="citation">(Toussaint 1980)</span>. The <code><a href="../reference/graphneigh.html">graph2nb()</a></code> function takes a <code>sym</code> argument to insert links to restore symmetry, but the graphs then no longer exactly fulfil their neighbour criteria. All the graph-based neighbour schemes always ensure that all the points will have at least one neighbour. Subgraphs of the full triangulation may also have more than one graph after trimming. The functions <code><a href="../reference/testnb.html">is.symmetric.nb()</a></code> can be used to check for symmetry, with argument <code>force=TRUE</code> if the symmetry attribute is to be overridden, and <code><a href="../reference/compon.html">n.comp.nb()</a></code> reports the number of graph components and~the components to which points belong (after enforcing symmetry, because the algorithm assumes that the graph is not directed). When there are more than one graph component, the matrix representation of the spatial weights can become block-diagonal if observations are appropriately sorted.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<p>a: Delauney triangulation neighbours; b: Sphere of influence
+neighbours (if available); c: Gabriel graph neighbours; d: Relative
+graph neighbours</p>
+<p>Delaunay triangulation neighbours and SOI neighbours are symmetric by
+design – if <span class="math inline">\(i\)</span> is a neighbour of
+<span class="math inline">\(j\)</span>, then <span class="math inline">\(j\)</span> is a neighbour of <span class="math inline">\(i\)</span>. The Gabriel graph is also a subgraph
+of the Delaunay triangulation, retaining a different set of neighbours
+<span class="citation">(Matula and Sokal 1980)</span>. It does not,
+however, guarantee symmetry; the same applies to Relative graph
+neighbours <span class="citation">(Toussaint 1980)</span>. The
+<code><a href="../reference/graphneigh.html">graph2nb()</a></code> function takes a <code>sym</code> argument to
+insert links to restore symmetry, but the graphs then no longer exactly
+fulfil their neighbour criteria. All the graph-based neighbour schemes
+always ensure that all the points will have at least one neighbour.
+Subgraphs of the full triangulation may also have more than one graph
+after trimming. The functions <code><a href="../reference/testnb.html">is.symmetric.nb()</a></code> can be used
+to check for symmetry, with argument <code>force=TRUE</code> if the
+symmetry attribute is to be overridden, and <code><a href="../reference/compon.html">n.comp.nb()</a></code>
+reports the number of graph components and~the components to which
+points belong (after enforcing symmetry, because the algorithm assumes
+that the graph is not directed). When there are more than one graph
+component, the matrix representation of the spatial weights can become
+block-diagonal if observations are appropriately sorted.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nb_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Triangulation<span class="op">=</span><span class="va">Sy4_nb</span>, Gabriel<span class="op">=</span><span class="va">Sy6_nb</span>,</span>
 <span>  Relative<span class="op">=</span><span class="va">Sy7_nb</span><span class="op">)</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">Sy5_nb</span><span class="op">)</span><span class="op">)</span> <span class="va">nb_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>SOI<span class="op">=</span><span class="va">Sy5_nb</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">x</span>, verbose<span class="op">=</span><span class="cn">FALSE</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Triangulation       Gabriel      Relative           SOI </span></span>
 <span><span class="co">##          TRUE         FALSE         FALSE          TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Triangulation       Gabriel      Relative           SOI </span></span>
 <span><span class="co">##             1             1             1             1</span></span></code></pre>
@@ -240,8 +365,16 @@
 <div class="section level3">
 <h3 id="distance-based-neighbours">Distance-Based Neighbours<a class="anchor" aria-label="anchor" href="#distance-based-neighbours"></a>
 </h3>
-<p>An alternative method is to choose the <span class="math inline">\(k\)</span> nearest points as neighbours – this adapts across the study area, taking account of differences in the densities of areal entities. Naturally, in the overwhelming majority of cases, it leads to asymmetric neighbours, but will ensure that all areas have <span class="math inline">\(k\)</span> neighbours. The <code><a href="../reference/knearneigh.html">knearneigh()</a></code> function returns an intermediate form converted to an <code>nb</code> object by <code><a href="../reference/knn2nb.html">knn2nb()</a></code>; <code><a href="../reference/knearneigh.html">knearneigh()</a></code> can also take a <code>longlat=</code> argument to handle geographical coordinates.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<p>An alternative method is to choose the <span class="math inline">\(k\)</span> nearest points as neighbours – this
+adapts across the study area, taking account of differences in the
+densities of areal entities. Naturally, in the overwhelming majority of
+cases, it leads to asymmetric neighbours, but will ensure that all areas
+have <span class="math inline">\(k\)</span> neighbours. The
+<code><a href="../reference/knearneigh.html">knearneigh()</a></code> function returns an intermediate form
+converted to an <code>nb</code> object by <code><a href="../reference/knn2nb.html">knn2nb()</a></code>;
+<code><a href="../reference/knearneigh.html">knearneigh()</a></code> can also take a <code>longlat=</code> argument
+to handle geographical coordinates.</p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Sy8_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">Sy9_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">Sy10_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">4</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
@@ -249,11 +382,11 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">x</span>, verbose<span class="op">=</span><span class="cn">FALSE</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    k1    k2    k4 </span></span>
 <span><span class="co">## FALSE FALSE FALSE</span></span></code></pre>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## k1 k2 k4 </span></span>
 <span><span class="co">## 15  1  1</span></span></code></pre>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oopar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy8_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
@@ -264,21 +397,33 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy10_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span>, labels<span class="op">=</span><span class="st">"c)"</span>, cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="nb_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<p><img src="nb_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oopar</span><span class="op">)</span></span></code></pre></div>
 <p>a: <span class="math inline">\(k=1\)</span> neighbours; b: <span class="math inline">\(k=2\)</span> neighbours; c: <span class="math inline">\(k=4\)</span> neighbours</p>
-<p>The figure shows the neighbour relationships for <span class="math inline">\(k= 1, 2, 4\)</span>, with many components for <span class="math inline">\(k=1\)</span>. If need be, <span class="math inline">\(k\)</span>-nearest neighbour objects can be made symmetrical using the <code><a href="../reference/testnb.html">make.sym.nb()</a></code> function. The <span class="math inline">\(k=1\)</span> object is also useful in finding the minimum distance at which all areas have a distance-based neighbour. Using the <code><a href="../reference/nbdists.html">nbdists()</a></code> function, we can calculate a list of vectors of distances corresponding to the neighbour object, here for first nearest neighbours. The greatest value will be the minimum distance needed to make sure that all the areas are linked to at least one neighbour. The <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> function is used to find neighbours with an interpoint distance, with arguments <code>d1</code> and <code>d2</code> setting the lower and upper distance bounds; it can also take a <code>longlat</code> argument to handle geographical coordinates.</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<p>The figure shows the neighbour relationships for <span class="math inline">\(k= 1, 2, 4\)</span>, with many components for
+<span class="math inline">\(k=1\)</span>. If need be, <span class="math inline">\(k\)</span>-nearest neighbour objects can be made
+symmetrical using the <code><a href="../reference/testnb.html">make.sym.nb()</a></code> function. The <span class="math inline">\(k=1\)</span> object is also useful in finding the
+minimum distance at which all areas have a distance-based neighbour.
+Using the <code><a href="../reference/nbdists.html">nbdists()</a></code> function, we can calculate a list of
+vectors of distances corresponding to the neighbour object, here for
+first nearest neighbours. The greatest value will be the minimum
+distance needed to make sure that all the areas are linked to at least
+one neighbour. The <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> function is used to find
+neighbours with an interpoint distance, with arguments <code>d1</code>
+and <code>d2</code> setting the lower and upper distance bounds; it can
+also take a <code>longlat</code> argument to handle geographical
+coordinates.</p>
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dsts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">Sy8_nb</span>, <span class="va">coords</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">dsts</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">##   395.7   587.3   700.1   760.4   906.1  1544.6</span></span></code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">max_1nn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">dsts</span><span class="op">)</span></span>
 <span><span class="va">max_1nn</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1544.615</span></span></code></pre>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Sy11_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">coords</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">Sy12_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">coords</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">1</span><span class="op">*</span><span class="va">max_1nn</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">Sy13_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">coords</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">1.5</span><span class="op">*</span><span class="va">max_1nn</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
@@ -286,11 +431,11 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">x</span>, verbose<span class="op">=</span><span class="cn">FALSE</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   d1   d2   d3 </span></span>
 <span><span class="co">## TRUE TRUE TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## d1 d2 d3 </span></span>
 <span><span class="co">##  4  1  1</span></span></code></pre>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oopar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy11_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
@@ -301,12 +446,20 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy13_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span>, labels<span class="op">=</span><span class="st">"c)"</span>, cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="nb_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<p><img src="nb_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oopar</span><span class="op">)</span></span></code></pre></div>
-<p>a: Neighbours within 1,158m; b: neighbours within 1,545m; c: neighbours within 2,317m</p>
-<p>The figure shows how the numbers of distance-based neighbours increase with moderate increases in distance. Moving from <span class="math inline">\(0.75\)</span> times the minimum all-included distance, to the all-included distance, and <span class="math inline">\(1.5\)</span> times the minimum all-included distance, the numbers of links grow rapidly. This is a major problem when some of the first nearest neighbour distances in a study area are much larger than others, since to avoid no-neighbour areal entities, the distance criterion will need to be set such that many areas have many neighbours.</p>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<p>a: Neighbours within 1,158m; b: neighbours within 1,545m; c:
+neighbours within 2,317m</p>
+<p>The figure shows how the numbers of distance-based neighbours
+increase with moderate increases in distance. Moving from <span class="math inline">\(0.75\)</span> times the minimum all-included
+distance, to the all-included distance, and <span class="math inline">\(1.5\)</span> times the minimum all-included
+distance, the numbers of links grow rapidly. This is a major problem
+when some of the first nearest neighbour distances in a study area are
+much larger than others, since to avoid no-neighbour areal entities, the
+distance criterion will need to be set such that many areas have many
+neighbours.</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.75</span>, <span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">*</span><span class="va">max_1nn</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">Sy13_nb</span><span class="op">)</span><span class="op">)</span></span>
@@ -321,20 +474,45 @@
 <span><span class="co"># RSB quietening greys</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/barplot.html" class="external-link">barplot</a></span><span class="op">(</span><span class="va">res1</span>, col<span class="op">=</span><span class="va">pal</span>, beside<span class="op">=</span><span class="cn">TRUE</span>, legend.text<span class="op">=</span><span class="cn">FALSE</span>, xlab<span class="op">=</span><span class="st">"numbers of neighbours"</span>, ylab<span class="op">=</span><span class="st">"tracts"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/legend.html" class="external-link">legend</a></span><span class="op">(</span><span class="st">"topright"</span>, legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">dS</span>, digits<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, fill<span class="op">=</span><span class="va">pal</span>, bty<span class="op">=</span><span class="st">"n"</span>, cex<span class="op">=</span><span class="fl">0.8</span>, title<span class="op">=</span><span class="st">"max. distance"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="nb_files/figure-html/unnamed-chunk-14-1.png" width="700"> Distance-based neighbours: frequencies of numbers of neighbours by census tract</p>
-<p>The figure shows the counts of sizes of sets of neighbours for the three different distance limits. In Syracuse, the census tracts are of similar areas, but were we to try to use the distance-based neighbour criterion on the eight-county study area, the smallest distance securing at least one neighbour for every areal entity is over 38km.</p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<p><img src="nb_files/figure-html/unnamed-chunk-15-1.png" width="700">
+Distance-based neighbours: frequencies of numbers of neighbours by
+census tract</p>
+<p>The figure shows the counts of sizes of sets of neighbours for the
+three different distance limits. In Syracuse, the census tracts are of
+similar areas, but were we to try to use the distance-based neighbour
+criterion on the eight-county study area, the smallest distance securing
+at least one neighbour for every areal entity is over 38km.</p>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dsts0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">NY_nb</span>, <span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">NY8</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">dsts0</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">##    82.7  1505.0  3378.7  5865.8  8954.3 38438.1</span></span></code></pre>
-<p>If the areal entities are approximately regularly spaced, using distance-based neighbours is not necessarily a problem. Provided that care is taken to handle the side effects of “weighting” areas out of the analysis, using lists of neighbours with no-neighbour areas is not necessarily a problem either, but certainly ought to raise questions. Different disciplines handle the definition of neighbours in their own ways by convention; in particular, it seems that ecologists frequently use distance bands. If many distance bands are used, they approach the variogram, although the underlying understanding of spatial autocorrelation seems to be by contagion rather than continuous.</p>
+<p>If the areal entities are approximately regularly spaced, using
+distance-based neighbours is not necessarily a problem. Provided that
+care is taken to handle the side effects of “weighting” areas out of the
+analysis, using lists of neighbours with no-neighbour areas is not
+necessarily a problem either, but certainly ought to raise questions.
+Different disciplines handle the definition of neighbours in their own
+ways by convention; in particular, it seems that ecologists frequently
+use distance bands. If many distance bands are used, they approach the
+variogram, although the underlying understanding of spatial
+autocorrelation seems to be by contagion rather than continuous.</p>
 </div>
 <div class="section level3">
 <h3 id="higher-order-neighbours">Higher-Order Neighbours<a class="anchor" aria-label="anchor" href="#higher-order-neighbours"></a>
 </h3>
-<p>Distance bands can be generated by using a sequence of <code>d1</code> and <code>d2</code> argument values for the <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> function if needed to construct a spatial autocorrelogram as understood in ecology. In other conventions, correlograms are constructed by taking an input list of neighbours as the first-order sets, and stepping out across the graph to second-, third-, and higher-order neighbours based on the number of links traversed, but not permitting cycles, which could risk making <span class="math inline">\(i\)</span> a neighbour of <span class="math inline">\(i\)</span> itself <span class="citation">(O’Sullivan and Unwin 2003)</span>. The <code><a href="../reference/nblag.html">nblag()</a></code> function takes an existing neighbour list and returns a list of lists, from first to <code>maxlag=</code> order neighbours.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<p>Distance bands can be generated by using a sequence of
+<code>d1</code> and <code>d2</code> argument values for the
+<code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> function if needed to construct a spatial
+autocorrelogram as understood in ecology. In other conventions,
+correlograms are constructed by taking an input list of neighbours as
+the first-order sets, and stepping out across the graph to second-,
+third-, and higher-order neighbours based on the number of links
+traversed, but not permitting cycles, which could risk making <span class="math inline">\(i\)</span> a neighbour of <span class="math inline">\(i\)</span> itself <span class="citation">(O’Sullivan and Unwin 2003)</span>. The
+<code><a href="../reference/nblag.html">nblag()</a></code> function takes an existing neighbour list and
+returns a list of lists, from first to <code>maxlag=</code> order
+neighbours.</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Sy0_nb_lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nblag.html">nblag</a></span><span class="op">(</span><span class="va">Sy0_nb</span>, maxlag<span class="op">=</span><span class="fl">9</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">Sy0_nb_lags</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"first"</span>, <span class="st">"second"</span>, <span class="st">"third"</span>, <span class="st">"fourth"</span>, <span class="st">"fifth"</span>, <span class="st">"sixth"</span>, <span class="st">"seventh"</span>, <span class="st">"eighth"</span>, <span class="st">"ninth"</span><span class="op">)</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">Sy0_nb_lags</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -355,28 +533,49 @@
 <span><span class="co">## seventh 21 7 4 5 9  7  3 5 1  0  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0</span></span>
 <span><span class="co">## eighth  49 6 5 2 1  0  0 0 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0</span></span>
 <span><span class="co">## ninth   63 0 0 0 0  0  0 0 0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0</span></span></code></pre>
-<p>This shows how the wave of connectedness in the graph spreads to the third order, receding to the eighth order, and dying away at the ninth order - there are no tracts nine steps from each other in this graph. Both the distance bands and the graph step order approaches to spreading neighbourhoods can be used to examine the shape of relationship intensities in space, like the variogram, and can be used in attempting to look at the effects of scale.</p>
+<p>This shows how the wave of connectedness in the graph spreads to the
+third order, receding to the eighth order, and dying away at the ninth
+order - there are no tracts nine steps from each other in this graph.
+Both the distance bands and the graph step order approaches to spreading
+neighbourhoods can be used to examine the shape of relationship
+intensities in space, like the variogram, and can be used in attempting
+to look at the effects of scale.</p>
 </div>
 <div class="section level3">
 <h3 id="grid-neighbours">Grid Neighbours<a class="anchor" aria-label="anchor" href="#grid-neighbours"></a>
 </h3>
-<p>When the data are known to be arranged in a regular, rectangular grid, the <code><a href="../reference/cell2nb.html">cell2nb()</a></code> function can be used to construct neighbour lists, including those on a torus. These are useful for simulations, because, since all areal entities have equal numbers of neighbours, and there are no edges, the structure of the graph is as neutral as can be achieved. Neighbours can either be of type rook or queen.</p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<p>When the data are known to be arranged in a regular, rectangular
+grid, the <code><a href="../reference/cell2nb.html">cell2nb()</a></code> function can be used to construct
+neighbour lists, including those on a torus. These are useful for
+simulations, because, since all areal entities have equal numbers of
+neighbours, and there are no edges, the structure of the graph is as
+neutral as can be achieved. Neighbours can either be of type rook or
+queen.</p>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7</span>, type<span class="op">=</span><span class="st">"rook"</span>, torus<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Neighbour list object:</span></span>
 <span><span class="co">## Number of regions: 49 </span></span>
 <span><span class="co">## Number of nonzero links: 196 </span></span>
 <span><span class="co">## Percentage nonzero weights: 8.163265 </span></span>
 <span><span class="co">## Average number of links: 4</span></span></code></pre>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7</span>, type<span class="op">=</span><span class="st">"rook"</span>, torus<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Neighbour list object:</span></span>
 <span><span class="co">## Number of regions: 49 </span></span>
 <span><span class="co">## Number of nonzero links: 168 </span></span>
 <span><span class="co">## Percentage nonzero weights: 6.997085 </span></span>
 <span><span class="co">## Average number of links: 3.428571</span></span></code></pre>
-<p>When a regular, rectangular grid is not complete, then we can use knowledge of the cell size stored in the grid topology to create an appropriate list of neighbours, using a tightly bounded distance criterion. Neighbour lists of this kind are commonly found in ecological assays, such as studies of species richness at a national or continental scale. It is also in these settings, with moderately large <span class="math inline">\(n\)</span>, here <span class="math inline">\(n=3\)</span>,103, that the use of a sparse, list based representation shows its strength. Handling a <span class="math inline">\(281 \times 281\)</span> matrix for the eight-county census tracts is feasible, easy for a <span class="math inline">\(63 \times 63\)</span> matrix for Syracuse census tracts, but demanding for a 3,<span class="math inline">\(103 \times 3\)</span>,103 matrix.</p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<p>When a regular, rectangular grid is not complete, then we can use
+knowledge of the cell size stored in the grid topology to create an
+appropriate list of neighbours, using a tightly bounded distance
+criterion. Neighbour lists of this kind are commonly found in ecological
+assays, such as studies of species richness at a national or continental
+scale. It is also in these settings, with moderately large <span class="math inline">\(n\)</span>, here <span class="math inline">\(n=3\)</span>,103, that the use of a sparse, list
+based representation shows its strength. Handling a <span class="math inline">\(281 \times 281\)</span> matrix for the
+eight-county census tracts is feasible, easy for a <span class="math inline">\(63 \times 63\)</span> matrix for Syracuse census
+tracts, but demanding for a 3,<span class="math inline">\(103 \times
+3\)</span>,103 matrix.</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/gridded-methods.html" class="external-link">gridded</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
@@ -388,7 +587,7 @@
 <span><span class="co">## Number of nonzero links: 12022 </span></span>
 <span><span class="co">## Percentage nonzero weights: 0.1248571 </span></span>
 <span><span class="co">## Average number of links: 3.874315</span></span></code></pre>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">mg_nb</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">##    1    2    3    4 </span></span>
@@ -399,19 +598,27 @@
 </h3>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-avis+horton:1985" class="csl-entry">
-Avis, D., and J. Horton. 1985. <span>“Remarks on the Sphere of Influence Graph.”</span> In <em>Discrete Geometry and Convexity</em>, edited by J. E. Goodman, 323–27. New York: New York Academy of Sciences, New York.
+Avis, D., and J. Horton. 1985. <span>“Remarks on the Sphere of Influence
+Graph.”</span> In <em>Discrete Geometry and Convexity</em>, edited by J.
+E. Goodman, 323–27. New York: New York Academy of Sciences, New York.
 </div>
 <div id="ref-matula+sokal:80" class="csl-entry">
-Matula, D. W., and R. R. Sokal. 1980. <span>“Properties of <span>G</span>abriel Graphs Relevant to Geographic Variation Research and the Clustering of Points in the Plane.”</span> <em>Geographical Analysis</em> 12: 205–22.
+Matula, D. W., and R. R. Sokal. 1980. <span>“Properties of
+<span>G</span>abriel Graphs Relevant to Geographic Variation Research
+and the Clustering of Points in the Plane.”</span> <em>Geographical
+Analysis</em> 12: 205–22.
 </div>
 <div id="ref-osullivan+unwin:03" class="csl-entry">
-O’Sullivan, D., and D. J. Unwin. 2003. <em>Geographical Information Analysis</em>. Hoboken, NJ: Wiley.
+O’Sullivan, D., and D. J. Unwin. 2003. <em>Geographical Information
+Analysis</em>. Hoboken, NJ: Wiley.
 </div>
 <div id="ref-toussaint:80" class="csl-entry">
-Toussaint, G. T. 1980. <span>“The Relative Neighborhood Graph of a Finite Planar Set.”</span> <em>Pattern Recognition</em> 12: 261–68.
+Toussaint, G. T. 1980. <span>“The Relative Neighborhood Graph of a
+Finite Planar Set.”</span> <em>Pattern Recognition</em> 12: 261–68.
 </div>
 <div id="ref-WallerGotway:2004" class="csl-entry">
-Waller, L. A., and C. A. Gotway. 2004. <em>Applied Spatial Statistics for Public Health Data</em>. Hoboken, NJ: John Wiley &amp; Sons.
+Waller, L. A., and C. A. Gotway. 2004. <em>Applied Spatial Statistics
+for Public Health Data</em>. Hoboken, NJ: John Wiley &amp; Sons.
 </div>
 </div>
 </div>
@@ -435,7 +642,7 @@ Waller, L. A., and C. A. Gotway. 2004. <em>Applied Spatial Statistics for Public
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

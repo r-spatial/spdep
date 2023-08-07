@@ -18,7 +18,7 @@ than half of the time."><!-- mathjax --><script src="https://cdnjs.cloudflare.co
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -80,7 +80,8 @@ than half of the time.</p>
 <span>  <span class="va">listw</span>,</span>
 <span>  alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span>
 <span>  nsim <span class="op">=</span> <span class="fl">199</span>,</span>
-<span>  iseed <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  iseed <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  no_repeat_in_row<span class="op">=</span><span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -108,6 +109,11 @@ than half of the time.</p>
 
 <dt>iseed</dt>
 <dd><p>default NULL, used to set the seed for possible parallel RNGs</p></dd>
+
+
+<dt>no_repeat_in_row</dt>
+<dd><p>default <code>FALSE</code>, if <code>TRUE</code>, sample conditionally in each row without replacements to avoid duplicate values, <a href="https://github.com/r-spatial/spdep/issues/124" class="external-link">https://github.com/r-spatial/spdep/issues/124</a></p></dd>
+
 
 </dl></div>
     <div id="value">
@@ -201,7 +207,7 @@ than half of the time.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

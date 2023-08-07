@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
       </span>
     </div>
 
@@ -111,7 +111,7 @@ I_B = \frac{\Sigma_i(\Sigma_j{w_{ij}y_j\times x_i})}{\Sigma_i{x_i^2}}
 \)</p>
 <p>It is important to note that this is a measure of autocorrelation of X
 with the spatial lag of Y. As such, the resultant measure may overestimate the amount of
-spatial autocorrelation which may be a product of the inherent correlation of X and Y.</p>
+spatial autocorrelation which may be a product of the inherent correlation of X and Y. The output object is of class <code>"boot"</code>, so that plots and confidence intervals are available using appropriate methods.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -132,24 +132,80 @@ spatial autocorrelation which may be a product of the inherent correlation of X 
 <span class="r-in"><span><span class="va">res_xy</span> <span class="op">&lt;-</span> <span class="fu">moran_bv</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res_xy</span><span class="op">$</span><span class="va">t0</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4082073</span>
+<span class="r-in"><span><span class="fu">boot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/boot.ci.html" class="external-link">boot.ci</a></span><span class="op">(</span><span class="va">res_xy</span>, conf<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.99</span>, <span class="fl">0.95</span>, <span class="fl">0.9</span><span class="op">)</span>, type<span class="op">=</span><span class="st">"basic"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Based on 499 bootstrap replicates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CALL : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> boot::boot.ci(boot.out = res_xy, conf = c(0.99, 0.95, 0.9), type = "basic")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intervals : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Level      Basic         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 99%   ( 0.7443,  0.8789 )   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95%   ( 0.7639,  0.8673 )   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90%   ( 0.7739,  0.8615 )  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Calculations and Intervals on Original Scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Some basic intervals may be unstable</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_xy</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="moran_bv-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lee_xy</span> <span class="op">&lt;-</span> <span class="fu"><a href="lee.mc.html">lee.mc</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, return_boot<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lee_xy</span><span class="op">$</span><span class="va">t0</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3993476</span>
+<span class="r-in"><span><span class="fu">boot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/boot.ci.html" class="external-link">boot.ci</a></span><span class="op">(</span><span class="va">lee_xy</span>, conf<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.99</span>, <span class="fl">0.95</span>, <span class="fl">0.9</span><span class="op">)</span>, type<span class="op">=</span><span class="st">"basic"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Based on 499 bootstrap replicates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CALL : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> boot::boot.ci(boot.out = lee_xy, conf = c(0.99, 0.95, 0.9), type = "basic")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intervals : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Level      Basic         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 99%   ( 0.6363,  0.7236 )   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95%   ( 0.6538,  0.7131 )   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90%   ( 0.6584,  0.7098 )  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Calculations and Intervals on Original Scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Some basic intervals may be unstable</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lee_xy</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="moran_bv-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res_yx</span> <span class="op">&lt;-</span> <span class="fu">moran_bv</span><span class="op">(</span><span class="va">y</span>, <span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">res_yx</span><span class="op">$</span><span class="va">t0</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4029821</span>
+<span class="r-in"><span><span class="fu">boot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/boot.ci.html" class="external-link">boot.ci</a></span><span class="op">(</span><span class="va">res_yx</span>, conf<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.99</span>, <span class="fl">0.95</span>, <span class="fl">0.9</span><span class="op">)</span>, type<span class="op">=</span><span class="st">"basic"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Based on 499 bootstrap replicates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CALL : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> boot::boot.ci(boot.out = res_yx, conf = c(0.99, 0.95, 0.9), type = "basic")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intervals : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Level      Basic         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 99%   ( 0.7301,  0.8729 )   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95%   ( 0.7574,  0.8584 )   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90%   ( 0.7664,  0.8541 )  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Calculations and Intervals on Original Scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Some basic intervals may be unstable</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">res_yx</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="moran_bv-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lee_yx</span> <span class="op">&lt;-</span> <span class="fu"><a href="lee.mc.html">lee.mc</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, return_boot<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lee_yx</span><span class="op">$</span><span class="va">t0</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3993476</span>
+<span class="r-in"><span><span class="fu">boot</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/boot/man/boot.ci.html" class="external-link">boot.ci</a></span><span class="op">(</span><span class="va">lee_yx</span>, conf<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.99</span>, <span class="fl">0.95</span>, <span class="fl">0.9</span><span class="op">)</span>, type<span class="op">=</span><span class="st">"basic"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Based on 499 bootstrap replicates</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CALL : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> boot::boot.ci(boot.out = lee_yx, conf = c(0.99, 0.95, 0.9), type = "basic")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Intervals : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Level      Basic         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 99%   ( 0.6363,  0.7236 )   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 95%   ( 0.6538,  0.7131 )   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 90%   ( 0.6584,  0.7098 )  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Calculations and Intervals on Original Scale</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Some basic intervals may be unstable</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">lee_yx</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="moran_bv-4.png" alt="" width="700" height="433"></span>
 </code></pre></div>
@@ -166,7 +222,7 @@ spatial autocorrelation which may be a product of the inherent correlation of X 
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
