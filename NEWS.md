@@ -1,4 +1,8 @@
-# Version 1.2-8 (development)
+# Version 1.2-9 (development)
+
+* replace `rgrass7` with `rgrass` in vignette
+
+# Version 1.2-8 (2023-02-28)
 
 * `mat2listw()` warning if no `style=` argument given, or if `M"` is given https://github.com/r-spatial/spatialreg/issues/24, https://github.com/r-spatial/spatialreg/issues/23. 
 
