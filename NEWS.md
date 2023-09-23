@@ -1,5 +1,7 @@
 # Version 1.2-9 (development)
 
+* confusing error message in `moran.plot()` if no-neighbour cases, but `zero.policy=FALSE`
+
 * replace `rgrass7` with `rgrass` in vignette
 
 # Version 1.2-8 (2023-02-28)

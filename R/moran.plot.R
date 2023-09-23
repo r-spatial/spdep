@@ -25,6 +25,7 @@ moran.plot <- function(x, listw, zero.policy=NULL, spChk=NULL,
 	if (is.null(labels) || length(labels) != n)
 		labels <- as.character(attr(listw, "region.id"))
 	wx <- lag.listw(listw, x, zero.policy=zero.policy)
+        if (anyNA(wx)) warning("no-neighbour observation(s) in moran.plot() - use zero.policy=TRUE")
 	if (is.null(xlab)) xlab <- xname
 	if (is.null(ylab)) ylab <- paste("spatially lagged", xname)
 	if (plot) plot(x, wx, xlab=xlab, ylab=ylab, ...)
@@ -39,17 +40,26 @@ moran.plot <- function(x, listw, zero.policy=NULL, spChk=NULL,
 	}
 	xwx.lm <- lm(wx ~ x)
 	if (plot) abline(xwx.lm)
-	if (plot) abline(h=mean(wx), lty=2)
+	if (plot) abline(h=mean(wx, na.rm=TRUE), lty=2)
 	if (plot) abline(v=mean(x), lty=2)
 	infl.xwx <- influence.measures(xwx.lm)
 	is.inf <- apply(infl.xwx$is.inf, 1, any)
 	if (plot) points(x[is.inf], wx[is.inf], pch=9, cex=1.2)
 	if (plot && labs)
 	    text(x[is.inf], wx[is.inf], labels=labels[is.inf], pos=2, cex=0.7)
-	rownames(infl.xwx$infmat) <- labels
+        if (length(labels) > nrow(infl.xwx$infmat)) {
+            rownames(infl.xwx$infmat) <- labels[!is.na(wx)]
+        } else {
+	    rownames(infl.xwx$infmat) <- labels
+        }
 	if (!quiet) summary(infl.xwx)
         if (return_df) {
-            res <- data.frame(x=x, wx=wx, is_inf=is.inf, labels=labels)
+            if (length(labels) > nrow(infl.xwx$infmat)) {
+                res <- data.frame(x=x[!is.na(wx)], wx=wx[!is.na(wx)],
+                    is_inf=is.inf, labels=labels[!is.na(wx)])
+            } else {
+                res <- data.frame(x=x, wx=wx, is_inf=is.inf, labels=labels)
+            }
             res <- cbind(res, as.data.frame(infl.xwx$infmat))
             attr(res, "xname") <- xname
         } else {
