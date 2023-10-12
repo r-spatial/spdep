@@ -10,7 +10,7 @@ output:
     toc_depth: 2
 bibliography: refs.bib
 vignette: >
-  %\VignetteIndexEntry{The Problem of Spatial Autocorrelation:” forty years on}
+  %\VignetteIndexEntry{"The Problem of Spatial Autocorrelation:” forty years on}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 --- 
