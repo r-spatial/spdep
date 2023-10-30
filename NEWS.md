@@ -1,5 +1,7 @@
 # Version 1.2-9 (development)
 
+* adding a `zero.policy` attribute to functions creating `listw` objects: `nb2listw`
+
 * confusing error message in `moran.plot()` if no-neighbour cases, but `zero.policy=FALSE`
 
 * replace `rgrass7` with `rgrass` in vignette

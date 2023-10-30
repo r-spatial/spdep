@@ -103,6 +103,7 @@ nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 	class(res) <- c("listw", "nb")
 	attr(res, "region.id") <- attr(neighbours, "region.id")
 	attr(res, "call") <- match.call()
+        attr(res, "zero.policy") <- zero.policy
 	if (!is.null(attr(neighbours, "GeoDa")))
 		attr(res, "GeoDa") <- attr(neighbours, "GeoDa")
 	if (!is.null(attr(res, "GeoDa")$dist)) 

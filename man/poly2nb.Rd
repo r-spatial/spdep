@@ -76,5 +76,9 @@ df <- st_as_sf(gm, id=1:4)
 plot(st_geometry(df))
 text(st_coordinates(st_centroid(gm)), as.character(df$id))
 unclass(poly2nb(df, queen = FALSE))
+col_geoms <- st_geometry(columbus)
+col_geoms[1] <- st_buffer(col_geoms[1], dist=-0.05)
+st_geometry(columbus) <- col_geoms
+poly2nb(columbus)
 }
 \keyword{spatial}
