@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>,</span>
 <span>    alternative<span class="op">=</span><span class="st">"greater"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -88,7 +88,7 @@
 <dd><p>variance of I calculated under the assumption of randomisation, if FALSE normality</p></dd>
 
   <dt>zero.policy</dt>
-<dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
+<dd><p>default <code>attr(listw, "zero.policy")</code> as set when <code>listw</code> was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".</p></dd>

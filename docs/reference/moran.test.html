@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>,</span>
 <span> alternative<span class="op">=</span><span class="st">"greater"</span>, rank <span class="op">=</span> <span class="cn">FALSE</span>, na.action<span class="op">=</span><span class="va">na.fail</span>, spChk<span class="op">=</span><span class="cn">NULL</span>,</span>
 <span> adjust.n<span class="op">=</span><span class="cn">TRUE</span>, drop.EI2<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -89,7 +89,7 @@
 <dd><p>variance of I calculated under the assumption of randomisation, if FALSE normality</p></dd>
 
   <dt>zero.policy</dt>
-<dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
+<dd><p>default <code>attr(listw, "zero.policy")</code> as set when <code>listw</code> was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of greater (default), less or two.sided.</p></dd>
@@ -385,6 +385,50 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.103248466      -0.020833333       0.008736122 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col_geoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">col_geoms</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_buffer</a></span><span class="op">(</span><span class="va">col_geoms</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, dist<span class="op">=</span><span class="op">-</span><span class="fl">0.05</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">col_geoms</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">nb1</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 232 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.662641 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.734694 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 region with no links:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 disjoint connected subgraphs</span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">lw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb1</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in nb2listw(nb1, style = "W") : Empty neighbour sets found</span>
+<span class="r-in"><span><span class="op">(</span><span class="va">lw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb1</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Characteristics of weights list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 232 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.662641 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.734694 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 region with no links:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 disjoint connected subgraphs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weights style: W </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weights constants summary:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    n   nn S0       S1       S2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> W 48 2304 48 22.23035 199.8188</span>
+<span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="va">lw</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: lw  n reduced by no-neighbour observations</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 2.7707, p-value = 0.002797</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.23901261       -0.02127660        0.00882535 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -115,6 +115,16 @@
   <dt>weights</dt>
 <dd><p>the weights for the neighbours and chosen style, with attributes set to report the type of relationships (binary or general, if general the form of the glist argument), and style as above</p></dd>
 
+</dl><p>and attributes:</p>
+<dl><dt>region.id</dt>
+<dd><p>character, as the neighbour object</p></dd>
+
+  <dt>call</dt>
+<dd><p>the function call</p></dd>
+
+  <dt>zero.policy</dt>
+<dd><p>logical; the value of <code>zero.policy</code> when the object was created</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -163,9 +173,9 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  2  3  4  5  6  7  8  9 10 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  7  7 13  4  9  6  1  1  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 7 least connected regions:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 6 31 39 42 46 47 with 2 links</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  with 2 links</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 most connected region:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 with 10 links</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  with 10 links</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Weights style: minmax </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Weights constants summary:</span>

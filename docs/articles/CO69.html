@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -410,9 +410,9 @@ was calculated.</p>
 <span><span class="co">## 1 2 3 4 5 6 7 8 </span></span>
 <span><span class="co">## 1 2 5 5 8 1 2 1 </span></span>
 <span><span class="co">## 1 least connected region:</span></span>
-<span><span class="co">## E with 1 link</span></span>
+<span><span class="co">##  with 1 link</span></span>
 <span><span class="co">## 1 most connected region:</span></span>
-<span><span class="co">## V with 8 links</span></span>
+<span><span class="co">##  with 8 links</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Weights style: B </span></span>
 <span><span class="co">## Weights constants summary:</span></span>
@@ -446,9 +446,9 @@ differences will occur.</p>
 <span><span class="co">## 1 2 3 4 5 6 7 8 </span></span>
 <span><span class="co">## 1 2 5 5 8 1 2 1 </span></span>
 <span><span class="co">## 1 least connected region:</span></span>
-<span><span class="co">## E with 1 link</span></span>
+<span><span class="co">##  with 1 link</span></span>
 <span><span class="co">## 1 most connected region:</span></span>
-<span><span class="co">## V with 8 links</span></span>
+<span><span class="co">##  with 8 links</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Weights style: B </span></span>
 <span><span class="co">## Weights constants summary:</span></span>
@@ -565,7 +565,7 @@ weights objects, and two different values of the
 <span><span class="va">Prop_stdR</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">vars</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">eire_ge1</span><span class="op">[[</span><span class="va">x</span><span class="op">]</span><span class="op">]</span>, listw<span class="op">=</span><span class="va">lw_std</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##    0.12    0.00    0.12</span></span></code></pre>
+<span><span class="co">##   0.121   0.000   0.121</span></span></code></pre>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranN"</span>, <span class="st">"MoranR"</span>, <span class="st">"GearyN"</span>, <span class="st">"GearyR"</span>, <span class="st">"Prop_unstdN"</span>, <span class="st">"Prop_unstdR"</span>, <span class="st">"Prop_stdN"</span>, <span class="st">"Prop_stdR"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span>
@@ -786,7 +786,7 @@ fitted model objects:</p>
 <span><span class="va">Prop_stdSad</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lm_objs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/lm.morantest.sad.html">lm.morantest.sad</a></span><span class="op">(</span><span class="va">x</span>, listw<span class="op">=</span><span class="va">lw_std</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.065   0.000   0.065</span></span></code></pre>
+<span><span class="co">##   0.067   0.000   0.067</span></span></code></pre>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranSad"</span>, <span class="st">"Prop_unstdSad"</span>, <span class="st">"Prop_stdSad"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span></code></pre></div>
@@ -839,7 +839,7 @@ these cases, the timings are quite acceptable.</p>
 <span><span class="va">Prop_stdEx</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lm_objs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/lm.morantest.exact.html">lm.morantest.exact</a></span><span class="op">(</span><span class="va">x</span>, listw<span class="op">=</span><span class="va">lw_std</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.084   0.001   0.085</span></span></code></pre>
+<span><span class="co">##   0.083   0.000   0.083</span></span></code></pre>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranEx"</span>, <span class="st">"Prop_unstdEx"</span>, <span class="st">"Prop_stdEx"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span></code></pre></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">LOSH.cs</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, na.action <span class="op">=</span> <span class="va">na.fail</span>, </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">LOSH.cs</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>, na.action <span class="op">=</span> <span class="va">na.fail</span>, </span>
 <span>                 p.adjust.method <span class="op">=</span> <span class="st">"none"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -85,7 +85,7 @@
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
 
   <dt>zero.policy</dt>
-<dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
+<dd><p>default <code>attr(listw, "zero.policy")</code> as set when <code>listw</code> was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>na.action</dt>
 <dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. If <code>na.pass</code> is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)</p></dd>

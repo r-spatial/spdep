@@ -23,7 +23,7 @@ critical values may be found (see also details below)."><!-- mathjax --><script 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -84,9 +84,9 @@ critical values may be found (see also details below).</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">localG</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, GeoDa<span class="op">=</span><span class="cn">FALSE</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span>
-<span> return_internals<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu">localG_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">localG</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, GeoDa<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span> alternative <span class="op">=</span> <span class="st">"two.sided"</span>, return_internals<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">localG_perm</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">499</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>, spChk<span class="op">=</span><span class="cn">NULL</span>,</span>
 <span> alternative <span class="op">=</span> <span class="st">"two.sided"</span>, iseed<span class="op">=</span><span class="cn">NULL</span>, fix_i_in_Gstar_permutations<span class="op">=</span><span class="cn">TRUE</span>,</span>
 <span> no_repeat_in_row<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>

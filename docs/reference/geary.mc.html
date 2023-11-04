@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
 <span> spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -88,7 +88,7 @@
 <dd><p>number of permutations</p></dd>
 
   <dt>zero.policy</dt>
-<dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
+<dd><p>default <code>attr(listw, "zero.policy")</code> as set when <code>listw</code> was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), or "less"; this reversal corresponds to that on <code><a href="geary.test.html">geary.test</a></code> described in the section on the output statistic value, based on Cliff and Ord 1973, p. 21 (changed 2011-04-11, thanks to Daniel Garavito).</p></dd>
@@ -160,12 +160,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: less</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9949109</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.012612</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01038392</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0119779</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5299  0.9488  0.9967  0.9949  1.0598  1.2113 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5299  0.9401  1.0218  1.0126  1.0906  1.2388 </span>
 <span class="r-in"><span><span class="va">colold.lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="nblag.html">nblag</a></span><span class="op">(</span><span class="va">COL.nb</span>, <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span></span>
@@ -177,12 +177,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[2]], style = "W") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.81129, observed rank = 4, p-value = 0.04</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.81129, observed rank = 1, p-value = 0.01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim2</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.7273  0.9338  0.9860  0.9879  1.0482  1.1900 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8113  0.9541  1.0113  1.0014  1.0569  1.1619 </span>
 <span class="r-in"><span><span class="va">sim3</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim3</span></span></span>
@@ -193,12 +193,12 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[3]], style = "W") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 1.1303, observed rank = 94, p-value = 0.94</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 1.1303, observed rank = 92, p-value = 0.92</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim3</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8289  0.9117  0.9835  0.9821  1.0344  1.2064 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8264  0.9586  1.0079  1.0099  1.0562  1.2047 </span>
 </code></pre></div>
     </div>
   </div>

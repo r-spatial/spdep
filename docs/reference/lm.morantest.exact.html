@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -72,9 +72,10 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lm.morantest.exact</span><span class="op">(</span><span class="va">model</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"greater"</span>,</span>
-<span> spChk <span class="op">=</span> <span class="cn">NULL</span>, resfun <span class="op">=</span> <span class="va">weighted.residuals</span>, zero.tol <span class="op">=</span> <span class="fl">1e-07</span>, Omega<span class="op">=</span><span class="cn">NULL</span>,</span>
-<span> save.M<span class="op">=</span><span class="cn">NULL</span>, save.U<span class="op">=</span><span class="cn">NULL</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>, truncErr<span class="op">=</span><span class="fl">1e-6</span>, zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">lm.morantest.exact</span><span class="op">(</span><span class="va">model</span>, <span class="va">listw</span>, zero.policy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>,</span>
+<span> alternative <span class="op">=</span> <span class="st">"greater"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span>, resfun <span class="op">=</span> <span class="va">weighted.residuals</span>,</span>
+<span> zero.tol <span class="op">=</span> <span class="fl">1e-07</span>, Omega<span class="op">=</span><span class="cn">NULL</span>, save.M<span class="op">=</span><span class="cn">NULL</span>, save.U<span class="op">=</span><span class="cn">NULL</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span> truncErr<span class="op">=</span><span class="fl">1e-6</span>, zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="co"># S3 method for moranex</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -89,7 +90,7 @@ may be specified in the <code>lm</code> fit, but offsets should not be used</p><
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code></p></dd>
 
   <dt>zero.policy</dt>
-<dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
+<dd><p>default <code>attr(listw, "zero.policy")</code> as set when <code>listw</code> was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>

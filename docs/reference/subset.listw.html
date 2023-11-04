@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for listw</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">subset</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">subset</span>, zero.policy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"zero.policy"</span><span class="op">)</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -85,7 +85,7 @@
 <dd><p>logical expression</p></dd>
 
   <dt>zero.policy</dt>
-<dd><p>default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors - passed through to <code>nb2listw</code></p></dd>
+<dd><p>default <code>attr(x, "zero.policy")</code> as set when <code>x</code> was created, if attribute not set, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors - passed through to <code>nb2listw</code></p></dd>
 
   <dt>...</dt>
 <dd><p>generic function pass-through</p></dd>
@@ -95,7 +95,7 @@
     <h2>Value</h2>
     
 
-<p>The function returns an object of class <code>listw</code> with component <code>style</code> the same as the input object, component <code>neighbours</code> a list of integer vectors containing neighbour region number ids (compacted to run from 1:number of regions in subset), and component <code>weights</code> as the weights computed for <code>neighbours</code> using <code>style</code>.</p>
+<p>The function returns an object of class <code>listw</code> with component <code>style</code> the same as the input object, component <code>neighbours</code> a list of integer vectors containing neighbour region number ids (compacted to run from 1:number of regions in subset), and component <code>weights</code> as the weights computed for <code>neighbours</code> using <code>style</code>. If no-neighbour observations are created by subsetting and <code>zero.policy</code> in the input weights object was FALSE, it will be set to TRUE and a warning issued.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -136,6 +136,46 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Weights constants summary:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    n   nn S0       S1       S2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> W 43 1849 43 19.26584 178.4604</span>
+<span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lw</span>, <span class="st">"zero.policy"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="op">(</span><span class="va">lwa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">lw</span>, <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span> <span class="op">!=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Characteristics of weights list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 48 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 230 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 9.982639 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.791667 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2 disjoint connected subgraphs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weights style: W </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weights constants summary:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    n   nn S0       S1       S2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> W 48 2304 48 22.46811 199.4398</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lwa</span>, <span class="st">"zero.policy"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="op">(</span><span class="va">lwb</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/subset.html" class="external-link">subset</a></span><span class="op">(</span><span class="va">lw</span>, <span class="op">!</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">21</span>, <span class="fl">36</span>, <span class="fl">39</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting created no-neighbour observations, zero.policy set TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Characteristics of weights list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 46 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 216 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 10.20794 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 4.695652 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 region with no links:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3 disjoint connected subgraphs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weights style: W </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Weights constants summary:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    n   nn S0     S1       S2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> W 45 2025 45 22.857 187.4843</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lwb</span>, <span class="st">"zero.policy"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 </code></pre></div>
     </div>
   </div>

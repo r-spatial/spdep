@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2-8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
       </span>
     </div>
 
@@ -72,7 +72,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="cn">NULL</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
 <span> spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, B1correct<span class="op">=</span><span class="cn">TRUE</span>, adjust.x<span class="op">=</span><span class="cn">TRUE</span>, Arc_all_x<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -85,7 +85,7 @@
 <dd><p>a <code>listw</code> object created for example by <code>nb2listw</code>; if a sequence of distance bands is to be used, it is recommended that the weights style be binary (one of <code>c("B", "C", "U")</code>).</p></dd>
 
   <dt>zero.policy</dt>
-<dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
+<dd><p>default <code>attr(listw, "zero.policy")</code> as set when <code>listw</code> was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
   <dt>alternative</dt>
 <dd><p>a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".</p></dd>
