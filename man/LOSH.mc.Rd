@@ -5,15 +5,15 @@
 The function draws inferences about local spatial heteroscedasticity (LOSH) by means of the randomisation-based Monte-Carlo bootstrap proposed by Xu et al. (2014).
 }
 \usage{
-LOSH.mc(x, listw, a = 2, nsim = 99, zero.policy = NULL, na.action = na.fail, 
-                    spChk = NULL, adjust.n = TRUE, p.adjust.method = "none")
+LOSH.mc(x, listw, a = 2, nsim = 99, zero.policy = attr(listw, "zero.policy"),
+ na.action = na.fail, spChk = NULL, adjust.n = TRUE, p.adjust.method = "none")
 }
 \arguments{
   \item{x}{a numeric vector of the same length as the neighbours list in listw}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{a}{the exponent applied to the local residuals; the default value of 2 leads to a measure of heterogeneity in the spatial variance}
   \item{nsim}{the number of randomisations used in the bootstrap}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. If \code{na.pass} is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{adjust.n}{ default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}

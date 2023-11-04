@@ -21,9 +21,17 @@ listw2sn <- function(listw) {
 	res
 }
 
-sn2listw <- function(sn) {
+sn2listw <- function(sn, style=NULL, zero.policy=NULL) {
 	if(!inherits(sn, "spatial.neighbour")) 
 	    stop("not a spatial.neighbour object")
+        if (is.null(zero.policy))
+            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        stopifnot(is.logical(zero.policy))
+        if (is.null(style)) {
+            style <- "M"
+        }
+        if (style == "M")
+            warning("style is M (missing); style should be set to a valid value")
 	n <- attr(sn, "n")
 	if (n < 1) stop("non-positive n")
 	region.id <- attr(sn, "region.id")
@@ -55,12 +63,25 @@ sn2listw <- function(sn) {
 			nlist[[i]] <- 0L
 		}
 	}
-	res <- list(style=as.character(NA), neighbours=nlist, weights=vlist)
+	res <- list(style=style, neighbours=nlist, weights=vlist)
 	class(res) <- c("listw", "nb")
+        if (any(card(res$neighbours) == 0L)) {
+            if (!zero.policy) {
+                warning("no-neighbour observations found, zero.policy set to TRUE")
+                zero.policy <- !zero.policy
+            }
+        }
 	if (!(is.null(attr(sn, "GeoDa"))))
 		attr(res, "GeoDa") <- attr(sn, "GeoDa")
 	attr(res, "region.id") <- region.id
 	attr(res, "call") <- match.call()
+        attr(res, "zero.policy") <- zero.policy
+        if (style != "M") {
+	    if (!(style %in% c("W", "B", "C", "S", "U", "minmax")))
+		stop(paste("Style", style, "invalid"))
+            res <- nb2listw(res$neighbours, glist=res$weights, style=style,
+                zero.policy=zero.policy)
+        }
 	res
 }
 

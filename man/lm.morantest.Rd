@@ -5,14 +5,14 @@
 \description{
   Moran's I test for spatial autocorrelation in residuals from an estimated linear model (\code{lm()}). }
 \usage{
-lm.morantest(model, listw, zero.policy=NULL, alternative = "greater",
- spChk=NULL, resfun=weighted.residuals, naSubset=TRUE)
+lm.morantest(model, listw, zero.policy=attr(listw, "zero.policy"),
+ alternative = "greater", spChk=NULL, resfun=weighted.residuals, naSubset=TRUE)
 }
 \arguments{
   \item{model}{an object of class \code{lm} returned by \code{lm}; weights
 may be specified in the \code{lm} fit, but offsets should not be used}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of "greater" (default), "less" or "two.sided".}

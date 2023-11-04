@@ -10,10 +10,10 @@
 approximation to global Moran's I's reference distribution. 
 }
 \usage{
-lm.morantest.sad(model, listw, zero.policy=NULL, alternative="greater", 
-  spChk=NULL, resfun=weighted.residuals, tol=.Machine$double.eps^0.5,
-  maxiter=1000, tol.bounds=0.0001, zero.tol = 1e-07, Omega=NULL,
-  save.M=NULL, save.U=NULL)
+lm.morantest.sad(model, listw, zero.policy=attr(listw, "zero.policy"),
+  alternative="greater", spChk=NULL, resfun=weighted.residuals,
+  tol=.Machine$double.eps^0.5, maxiter=1000, tol.bounds=0.0001,
+  zero.tol = 1e-07, Omega=NULL, save.M=NULL, save.U=NULL)
 \method{print}{moransad}(x, ...)
 \method{summary}{moransad}(object, ...)
 \method{print}{summary.moransad}(x, ...) 
@@ -23,7 +23,7 @@ lm.morantest.sad(model, listw, zero.policy=NULL, alternative="greater",
   \item{model}{an object of class \code{lm} returned by \code{lm}; weights
 may be specified in the \code{lm} fit, but offsets should not be used}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of greater (default), less or two.sided.}

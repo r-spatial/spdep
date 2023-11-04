@@ -11,18 +11,18 @@ used as a diagnostic tool. The statistic is:
 and its expectation and variance were given in Anselin (1995), but those from Sokal et al. (1998) are implemented here.
 }
 \usage{
-localmoran(x, listw, zero.policy=NULL, na.action=na.fail, conditional=TRUE,
-	alternative = "two.sided", mlvar=TRUE,
+localmoran(x, listw, zero.policy=attr(listw, "zero.policy"), na.action=na.fail,
+        conditional=TRUE, alternative = "two.sided", mlvar=TRUE,
         spChk=NULL, adjust.x=FALSE)
-localmoran_perm(x, listw, nsim=499, zero.policy=NULL, na.action=na.fail, 
-	alternative = "two.sided", mlvar=TRUE,
+localmoran_perm(x, listw, nsim=499, zero.policy=attr(listw, "zero.policy"), 
+        na.action=na.fail, alternative = "two.sided", mlvar=TRUE,
         spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL,
         no_repeat_in_row=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+  \item{zero.policy}{default default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. If \code{na.pass} is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)}
   \item{conditional}{default TRUE: expectation and variance are calculated using the conditional randomization null (Sokal 1998 Eqs. A7 & A8). Elaboration of these changes available in Sauer et al. (2021). If FALSE: expectation and variance are calculated using the total randomization null (Sokal 1998 Eqs. A3 & A4).}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of greater, less or two.sided (default).}

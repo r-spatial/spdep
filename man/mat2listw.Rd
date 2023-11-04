@@ -10,7 +10,7 @@ object, optionally adding region IDs from the row names of the matrix, as a
 sequence of numbers 1:nrow(x), or as given as an argument. The style can be imposed by rebuilting the weights list object internally.
 }
 \usage{
-mat2listw(x, row.names = NULL, style=NULL)
+mat2listw(x, row.names = NULL, style=NULL, zero.policy = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -18,6 +18,7 @@ mat2listw(x, row.names = NULL, style=NULL)
 weights; may be a matrix of class \dQuote{sparseMatrix}}
   \item{row.names}{row names to use for region IDs}
   \item{style}{default NULL, missing, set to "M" and warning given; if not "M", passed to \code{\link{nb2listw}} to re-build the object}
+  \item{zero.policy}{default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
 }
 
 \value{

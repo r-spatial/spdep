@@ -31,7 +31,7 @@ listw2mat <- function(listw) {
 }
 
 
-mat2listw <- function(x, row.names=NULL, style=NULL) {
+mat2listw <- function(x, row.names=NULL, style=NULL, zero.policy=NULL) {
 	if (!(is.matrix(x) || is(x, "sparseMatrix"))) stop("x is not a matrix")
 	n <- nrow(x)
 	if (n < 1) stop("non-positive number of entities")
@@ -39,6 +39,8 @@ mat2listw <- function(x, row.names=NULL, style=NULL) {
 	if (n != m) stop("x must be a square matrix")
 	if (any(x < 0)) stop("values in x cannot be negative")
 	if (any(is.na(x))) stop("NA values in x not allowed")
+        if (is.null(zero.policy))
+            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
     	if (!is.null(row.names)) {
 		if(length(row.names) != n)
             		stop("row.names wrong length")
@@ -92,15 +94,22 @@ mat2listw <- function(x, row.names=NULL, style=NULL) {
  	attr(neighbours, "call") <- NA
         attr(neighbours, "sym") <- is.symmetric.nb(neighbours, 
 		verbose=FALSE, force=TRUE)
+        if (any(card(neighbours) == 0L)) {
+            if (!zero.policy) {
+                warning("no-neighbour observations found, zero.policy set to TRUE")
+                zero.policy <- !zero.policy
+            }
+        }
 	res <- list(style=style, neighbours=neighbours, weights=weights)
 	class(res) <- c("listw", "nb")
 	attr(res, "region.id") <- attr(neighbours, "region.id")
 	attr(res, "call") <- match.call()
+        attr(res, "zero.policy") <- zero.policy
         if (style != "M") {
 	    if (!(style %in% c("W", "B", "C", "S", "U", "minmax")))
 		stop(paste("Style", style, "invalid"))
             res <- nb2listw(res$neighbours, glist=res$weights, style=style,
-                zero.policy=TRUE)
+                zero.policy=zero.policy)
         }
 	res
 }

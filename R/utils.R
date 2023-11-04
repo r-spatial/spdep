@@ -1,7 +1,7 @@
 # Copyright 2001-15 by Roger Bivand
 #
 
-spweights.constants <- function(listw, zero.policy=NULL, adjust.n=TRUE) {
+spweights.constants <- function(listw, zero.policy=attr(listw, "zero.policy"), adjust.n=TRUE) {
     if (get.listw_is_CsparseMatrix_Option()) {
         stopifnot(is(listw, "CsparseMatrix"))
         cards <- rowSums(listw > 0)
@@ -65,7 +65,7 @@ Szero <- function(listw) {
 	sum(unlist(listw$weights))
 }
 
-lag.listw <- function(x, var, zero.policy=NULL, NAOK=FALSE, ...) {
+lag.listw <- function(x, var, zero.policy=attr(listw, "zero.policy"), NAOK=FALSE, ...) {
     if (!is.logical(NAOK)) stop("NAOK must be logical")
     if (get.listw_is_CsparseMatrix_Option()) {
 	if (!NAOK && any(is.na(var))) stop("NA in variable")
@@ -175,7 +175,7 @@ listw2U <- function(listw) {
 }
 
 
-listw2star <- function(listw, ireg, style, n, D, a, zero.policy=NULL) {
+listw2star <- function(listw, ireg, style, n, D, a, zero.policy=attr(listw, "zero.policy")) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))

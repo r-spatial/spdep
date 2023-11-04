@@ -1,7 +1,7 @@
 # Copyright 2001-2010 by Roger Bivand 
 #
 
-lm.morantest <- function(model, listw, zero.policy=NULL, 
+lm.morantest <- function(model, listw, zero.policy=attr(listw, "zero.policy"), 
 	    alternative = "greater", spChk=NULL, resfun=weighted.residuals,		    naSubset=TRUE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)

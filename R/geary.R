@@ -2,7 +2,7 @@
 #
 
 
-geary <- function(x, listw, n, n1, S0, zero.policy=NULL) {
+geary <- function(x, listw, n, n1, S0, zero.policy=attr(listw, "zero.policy")) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -18,7 +18,7 @@ geary <- function(x, listw, n, n1, S0, zero.policy=NULL) {
 	res
 }
 
-geary.intern <- function(x, listw, n, zero.policy=NULL, type="geary") {
+geary.intern <- function(x, listw, n, zero.policy=attr(listw, "zero.policy"), type="geary") {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -33,7 +33,7 @@ geary.intern <- function(x, listw, n, zero.policy=NULL, type="geary") {
 	res
 }
 
-geary.test <- function(x, listw, randomisation=TRUE, zero.policy=NULL,
+geary.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "zero.policy"),
     alternative="greater", spChk=NULL, adjust.n=TRUE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
@@ -95,7 +95,7 @@ geary.test <- function(x, listw, randomisation=TRUE, zero.policy=NULL,
 	res
 }
 
-geary.mc <- function(x, listw, nsim, zero.policy=NULL,
+geary.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", spChk=NULL, adjust.n=TRUE, return_boot=FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)

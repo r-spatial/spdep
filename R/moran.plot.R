@@ -1,7 +1,7 @@
 # Copyright 2001 by Roger Bivand 
 #
 
-moran.plot <- function(x, listw, zero.policy=NULL, spChk=NULL,
+moran.plot <- function(x, listw, zero.policy=attr(listw, "zero.policy"), spChk=NULL,
  labels=NULL, xlab=NULL, ylab=NULL, quiet=NULL, plot=TRUE, return_df=TRUE, ...)
 {
 	if (!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),

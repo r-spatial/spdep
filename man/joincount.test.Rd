@@ -13,14 +13,14 @@ factors, and results may be checked against those of \code{joincount.mc}
 permutations.
 }
 \usage{
-joincount.test(fx, listw, zero.policy=NULL, alternative="greater",
+joincount.test(fx, listw, zero.policy=attr(listw, "zero.policy"), alternative="greater",
  sampling="nonfree", spChk=NULL, adjust.n=TRUE)
 \method{print}{jclist}(x, ...)
 }
 \arguments{
   \item{fx}{a factor of the same length as the neighbours and weights objects in listw}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".}
   \item{sampling}{default \dQuote{nonfree}, may be \dQuote{free}}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted consistently (up to and including spdep 0.3-28 the adjustment was inconsistent - thanks to Tomoki NAKAYA for a careful bug report)}
@@ -62,5 +62,16 @@ print(is.symmetric.nb(COL.k4.nb))
 joincount.test(HICRIME, nb2listw(COL.k4.nb, style="B"))
 cat("Note non-symmetric weights matrix - use listw2U()\n")
 joincount.test(HICRIME, listw2U(nb2listw(COL.k4.nb, style="B")))
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+HICRIME <- cut(columbus$CRIME, breaks=c(0,35,80), labels=c("low","high"))
+(nb <- poly2nb(columbus))
+lw <- nb2listw(nb, style="B")
+joincount.test(HICRIME, lw)
+col_geoms <- st_geometry(columbus)
+col_geoms[21] <- st_buffer(col_geoms[21], dist=-0.05)
+st_geometry(columbus) <- col_geoms
+(nb <- poly2nb(columbus))
+lw <- nb2listw(nb, style="B", zero.policy=TRUE)
+joincount.test(HICRIME, lw)
 }
 \keyword{spatial}

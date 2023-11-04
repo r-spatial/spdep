@@ -183,6 +183,7 @@ nb2listwdist <- function(neighbours, x, type="idw", style="raw", alpha = 1, dmax
   class(res) <- c("listw", "nb")
   attr(res, "region.id") <- attr(neighbours, "region.id")
   attr(res, "call") <- match.call()
+  attr(res, "zero.policy") <- zero.policy
   if (!is.null(attr(neighbours, "GeoDa")))
     attr(res, "GeoDa") <- attr(neighbours, "GeoDa")
   if (!is.null(attr(res, "GeoDa")$dist)) 

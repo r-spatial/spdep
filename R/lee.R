@@ -1,7 +1,7 @@
 #Lee (2001)'s bivariate association statistic
 #Based on code by Roger Bivand for moran's I
 
-lee <- function(x, y, listw, n, S2=NULL, zero.policy=NULL, NAOK=FALSE) {
+lee <- function(x, y, listw, n, S2=NULL, zero.policy=attr(listw, "zero.policy"), NAOK=FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))

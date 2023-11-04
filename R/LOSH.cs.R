@@ -1,4 +1,4 @@
-LOSH.cs <- function(x, listw, zero.policy = NULL, na.action = na.fail, 
+LOSH.cs <- function(x, listw, zero.policy = attr(listw, "zero.policy"), na.action = na.fail, 
                  p.adjust.method = "none", spChk = NULL) {
                  
   stopifnot(is.vector(x))

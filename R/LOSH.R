@@ -1,4 +1,4 @@
-LOSH <- function(x, listw, a = 2, var_hi = TRUE, zero.policy = NULL, na.action = na.fail, spChk = NULL) {
+LOSH <- function(x, listw, a = 2, var_hi = TRUE, zero.policy = attr(listw, "zero.policy"), na.action = na.fail, spChk = NULL) {
   if (is.null(zero.policy)) 
     zero.policy <- get("zeroPolicy", envir = .spdepOptions)
   stopifnot(is.logical(zero.policy))

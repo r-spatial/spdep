@@ -1,7 +1,7 @@
 # Copyright 2002-2008 by Roger Bivand and Michael Tiefelsdorf
 #
 
-lm.morantest.sad <- function (model, listw, zero.policy = NULL, 
+lm.morantest.sad <- function (model, listw, zero.policy = attr(listw, "zero.policy"), 
     alternative = "greater", spChk=NULL, resfun=weighted.residuals, 
     tol = .Machine$double.eps^0.5, maxiter = 1000, tol.bounds=0.0001,
     zero.tol=1.0e-7, Omega=NULL, save.M=NULL, save.U=NULL) 

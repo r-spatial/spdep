@@ -1,7 +1,7 @@
 # Copyright 2001-7 by Roger Bivand 
 #
 
-lm.LMtests <- function(model, listw, zero.policy=NULL, test="LMerr",
+lm.LMtests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="LMerr",
 	spChk=NULL, naSubset=TRUE) {
 
 	if (inherits(model, "lm")) na.act <- model$na.action

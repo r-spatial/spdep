@@ -1,7 +1,7 @@
 # Copyright 2001-18 by Roger Bivand 
 #
 
-moran <- function(x, listw, n, S0, zero.policy=NULL, NAOK=FALSE) {
+moran <- function(x, listw, n, S0, zero.policy=attr(listw, "zero.policy"), NAOK=FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -19,7 +19,7 @@ moran <- function(x, listw, n, S0, zero.policy=NULL, NAOK=FALSE) {
 	res
 }
 
-moran.test <- function(x, listw, randomisation=TRUE, zero.policy=NULL,
+moran.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", rank = FALSE, na.action=na.fail, spChk=NULL, 
 	adjust.n=TRUE, drop.EI2=FALSE) {
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
@@ -95,7 +95,7 @@ moran.test <- function(x, listw, randomisation=TRUE, zero.policy=NULL,
 	res
 }
 
-moran.mc <- function(x, listw, nsim, zero.policy=NULL,
+moran.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", na.action=na.fail, spChk=NULL,
         return_boot=FALSE, adjust.n=TRUE) {
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))

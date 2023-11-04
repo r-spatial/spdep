@@ -29,7 +29,7 @@ localmoran.sad(model, select, nb, glist=NULL, style="W",
 \method{print}{localmoransad}(x, ...)
 \method{summary}{localmoransad}(object, ...)
 \method{print}{summary.localmoransad}(x, ...)
-listw2star(listw, ireg, style, n, D, a, zero.policy=NULL)
+listw2star(listw, ireg, style, n, D, a, zero.policy=attr(listw, "zero.policy"))
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
@@ -38,7 +38,7 @@ listw2star(listw, ireg, style, n, D, a, zero.policy=NULL)
   \item{nb}{a list of neighbours of class \code{nb}}
   \item{glist}{a list of general weights corresponding to neighbours}
   \item{style}{can take values W, B, C, and S}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis,
 must be one of greater (default), less or two.sided.}

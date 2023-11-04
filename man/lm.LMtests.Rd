@@ -17,7 +17,8 @@ dependent variable, RLMlag the other way round), and a portmanteau test
 (SARMA, in fact LMerr + RLMlag). Note: from spdep 0.3-32, the value of the weights matrix trace term is returned correctly for both underlying symmetric and asymmetric neighbour lists, before 0.3-32, the value was wrong for listw objects based on asymmetric neighbour lists, such as k-nearest neighbours (thanks to Luc Anselin for finding the bug).
 }
 \usage{
-lm.LMtests(model, listw, zero.policy=NULL, test="LMerr", spChk=NULL, naSubset=TRUE)
+lm.LMtests(model, listw, zero.policy=attr(listw, "zero.policy"), test="LMerr",
+ spChk=NULL, naSubset=TRUE)
 \method{print}{LMtestlist}(x, ...)
 \method{summary}{LMtestlist}(object, p.adjust.method="none", ...)
 \method{print}{LMtestlist.summary}(x, digits=max(3, getOption("digits") - 2), ...)
@@ -28,7 +29,7 @@ lm.LMtests(model, listw, zero.policy=NULL, test="LMerr", spChk=NULL, naSubset=TR
   \item{model}{an object of class \code{lm} returned by \code{lm}, or optionally a vector of externally calculated residuals (run though \code{na.omit} if any NAs present) for use when only "LMerr" is chosen; weights and offsets should not be used in the \code{lm} object}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw},
 expected to be row-standardised (W-style)}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA}
   \item{test}{a character vector of tests requested chosen from LMerr, LMlag,
 RLMerr, RLMlag, SARMA; test="all" computes all the tests.}

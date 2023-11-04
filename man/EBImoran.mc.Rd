@@ -9,7 +9,7 @@
   An empirical Bayes index modification of Moran's I for testing for spatial autocorrelation in a rate, typically the number of observed cases in a population at risk. The index value is tested by using nsim random permutations of the index for the given spatial weighting scheme, to establish the rank of the observed statistic in relation to the nsim simulated values.
 }
 \usage{
-EBImoran.mc(n, x, listw, nsim, zero.policy = NULL, 
+EBImoran.mc(n, x, listw, nsim, zero.policy = attr(listw, "zero.policy"), 
  alternative = "greater", spChk=NULL, return_boot=FALSE,
  subtract_mean_in_numerator=TRUE)
 }
@@ -19,7 +19,7 @@ EBImoran.mc(n, x, listw, nsim, zero.policy = NULL,
   \item{x}{a numeric vector of populations at risk the same length as the neighbours list in listw}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{nsim}{number of permutations}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less"}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{return_boot}{return an object of class \code{boot} from the equivalent permutation bootstrap rather than an object of class \code{htest}}

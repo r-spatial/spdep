@@ -7,7 +7,7 @@
   A function for tallying join counts between same-colour and different colour spatial objects, where neighbour relations are defined by a weights list. Given the global counts in each colour, expected counts and variances are calculated under non-free sampling, and a z-value reported. Since multiple tests are reported, no p-values are given, allowing the user to adjust the significance level applied. Jtot is the count of all different-colour joins.
 }
 \usage{
-joincount.multi(fx, listw, zero.policy = FALSE,
+joincount.multi(fx, listw, zero.policy = attr(listw, "zero.policy"),
  spChk = NULL, adjust.n=TRUE)
 \method{print}{jcmulti}(x, ...)
 }
@@ -15,7 +15,7 @@ joincount.multi(fx, listw, zero.policy = FALSE,
 \arguments{
   \item{fx}{a factor of the same length as the neighbours and weights objects in listw}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
-  \item{zero.policy}{if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted consistently (up to and including spdep 0.3-28 the adjustment was inconsistent - thanks to Tomoki NAKAYA for a careful bug report)}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{x}{object to be printed}
@@ -34,11 +34,22 @@ A matrix with class \code{jcmulti} with row and column names for observed and ex
 \seealso{\code{\link{joincount.test}}}
 
 \examples{
+columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+HICRIME <- cut(columbus$CRIME, breaks=c(0,35,80), labels=c("low","high"))
+(nb <- poly2nb(columbus))
+lw <- nb2listw(nb, style="B")
+joincount.multi(HICRIME, lw)
+col_geoms <- st_geometry(columbus)
+col_geoms[21] <- st_buffer(col_geoms[21], dist=-0.05)
+st_geometry(columbus) <- col_geoms
+(nb <- poly2nb(columbus))
+lw <- nb2listw(nb, style="B", zero.policy=TRUE)
+joincount.multi(HICRIME, lw)
+\dontrun{
 data(oldcol)
 HICRIME <- cut(COL.OLD$CRIME, breaks=c(0,35,80), labels=c("low","high"))
 names(HICRIME) <- rownames(COL.OLD)
 joincount.multi(HICRIME, nb2listw(COL.nb, style="B"))
-\dontrun{
 data(hopkins, package="spData")
 image(1:32, 1:32, hopkins[5:36,36:5], breaks=c(-0.5, 3.5, 20),
  col=c("white", "black"))

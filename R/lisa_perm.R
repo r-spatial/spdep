@@ -84,7 +84,7 @@ probs_lut <- function(stat="I", nsim, alternative) {
     probs
 }
 
-localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
+localmoran_perm <- function(x, listw, nsim=499L, zero.policy=attr(listw, "zero.policy"),
     na.action=na.fail, alternative = "two.sided",
     mlvar=TRUE, spChk=NULL, adjust.x=FALSE, sample_Ei=TRUE, iseed=NULL,
     no_repeat_in_row=FALSE) {
@@ -248,7 +248,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=NULL,
 # "localmoran" quadr mean/median/pysal "Low-Low", "Low-High", "High-Low", "High-High"
 
 
-localG_perm <- function(x, listw, nsim=499, zero.policy=NULL, spChk=NULL, alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE, no_repeat_in_row=FALSE) {
+localG_perm <- function(x, listw, nsim=499, zero.policy=attr(listw, "zero.policy"), spChk=NULL, alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE, no_repeat_in_row=FALSE) {
     if (!inherits(listw, "listw"))
 	stop(paste(deparse(substitute(listw)), "is not a listw object"))
     if (!is.numeric(x))

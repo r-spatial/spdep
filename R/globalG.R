@@ -3,7 +3,7 @@
 # General G Statistics
 #
 #
-globalG.test <- function(x, listw, zero.policy=NULL,
+globalG.test <- function(x, listw, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", spChk=NULL, adjust.n=TRUE, B1correct=TRUE, adjust.x=TRUE, Arc_all_x=FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)

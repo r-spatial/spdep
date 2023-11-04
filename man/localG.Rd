@@ -13,9 +13,9 @@ a Bonferroni-type test is suggested in the references, where tables of
 critical values may be found (see also details below).
 }
 \usage{
-localG(x, listw, zero.policy=NULL, spChk=NULL, GeoDa=FALSE, alternative = "two.sided",
- return_internals=TRUE)
-localG_perm(x, listw, nsim=499, zero.policy=NULL, spChk=NULL,
+localG(x, listw, zero.policy=attr(listw, "zero.policy"), spChk=NULL, GeoDa=FALSE,
+ alternative = "two.sided", return_internals=TRUE)
+localG_perm(x, listw, nsim=499, zero.policy=attr(listw, "zero.policy"), spChk=NULL,
  alternative = "two.sided", iseed=NULL, fix_i_in_Gstar_permutations=TRUE,
  no_repeat_in_row=FALSE)
 }

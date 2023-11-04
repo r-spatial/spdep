@@ -10,26 +10,38 @@ summary.nb <- function(object, coords=NULL, longlat=NULL, scale=1, ...) {
     n.nb <- length(nb)
     regids <- attr(nb, "region.id")
     if(is.null(regids)) regids <- as.character(1:n.nb)
-    print.nb(object)
+    attr(object, "c.nb") <-  c.nb
+    attr(object, "n.nb") <-  n.nb
+    attr(object, "regids") <- regids
+    attr(object, "scale") <- scale
+    if(!is.null(object$coords)) {
+        dlist <- nbdists(object, coords, longlat=longlat)
+        attr(object, "dlist") <- dlist
+    }
+    class(object) <- c("summary.nb", "nb")
+    object
+}
+
+print.summary.nb <- function(x, ...) {
+    print.nb(x)
     cat("Link number distribution:\n")
-    print(table(c.nb, deparse.level=0))
-    if(any(c.nb > 0)) {
-        min.nb <- min(c.nb[c.nb > 0])
-        cat(length(c.nb[c.nb == min.nb]), " least connected region",
-	    ifelse(length(c.nb[c.nb == min.nb]) < 2L, "", "s"), ":\n",
-	    paste(regids[which(c.nb == min.nb)], collapse=" "), " with ",
+    print(table(attr(x, "c.nb"), deparse.level=0))
+    if(any(attr(x, "c.nb") > 0)) {
+        min.nb <- min(attr(x, "c.nb")[attr(x, "c.nb") > 0])
+        cat(length(attr(x, "c.nb")[attr(x, "c.nb") == min.nb]), " least connected region",
+	    ifelse(length(attr(x, "c.nb")[attr(x, "c.nb") == min.nb]) < 2L, "", "s"), ":\n",
+	    paste(x$regids[which(attr(x, "c.nb") == min.nb)], collapse=" "), " with ",
 	    min.nb, " link", ifelse(min.nb < 2L, "", "s"), "\n", sep="")
-        max.nb <- max(c.nb)
-	cat(length(c.nb[c.nb == max.nb]), " most connected region",
-	    ifelse(length(c.nb[c.nb == max.nb]) < 2L, "", "s"), ":\n",
-	    paste(regids[which(c.nb == max.nb)], collapse=" "), " with ",
+        max.nb <- max(attr(x, "c.nb"))
+	cat(length(attr(x, "c.nb")[attr(x, "c.nb") == max.nb]), " most connected region",
+	    ifelse(length(attr(x, "c.nb")[attr(x, "c.nb") == max.nb]) < 2L, "", "s"), ":\n",
+	    paste(x$regids[which(attr(x, "c.nb") == max.nb)], collapse=" "), " with ",
 	    max.nb, " link", ifelse(max.nb < 2L, "", "s"), "\n", sep="")
     }
-    if(!is.null(coords)) {
-        dlist <- nbdists(nb, coords, longlat=longlat)
+    if(!is.null(attr(x, "dlist"))) {
 	cat("Summary of link distances:\n")
-	print(summary(unlist(dlist)))
-	stem(unlist(dlist), scale=scale)
+	print(summary(unlist(attr(x, "dlist"))))
+	stem(unlist(attr(x, "dlist")), scale=attr(x, "scale"))
     }
 }
 
@@ -50,31 +62,41 @@ print.nb <- function(x, ...) {
         ifelse(length(c.nb[c.nb == 0]) < 2L, "", "s"), " with no links:\n",
 	paste(strwrap(paste(regids[which(c.nb == 0)], collapse=" ")),
         collapse="\n"), "\n", sep="")
+    comp <- n.comp.nb(x)
+    if (comp$nc > 1) cat(comp$nc, " disjoint connected subgraphs\n", sep="")
     res <- is.symmetric.nb(nb, verbose=FALSE)
     if (!res) cat("Non-symmetric neighbours list\n")
     invisible(x)
 }
 
 summary.listw <- function(object, coords=NULL, longlat=FALSE, 
-	zero.policy=NULL, scale=1, ...) {
+	zero.policy=attr(object, "zero.policy"), scale=1, adjust.n=TRUE, ...) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
         if (any(card(object$neighbours) == 0) && !zero.policy)
             stop("regions with no neighbours found, use zero.policy=TRUE")
-	cat("Characteristics of weights list object:\n")
-	summary(object$neighbours, coords=coords, longlat=longlat, 
+	nb_sum <- summary(object$neighbours, coords=coords, longlat=longlat, 
 		scale=scale, ...)
-	style <- object$style
-	cat(paste("\nWeights style:", style, "\n"))
+        attr(object, "nb_sum") <- nb_sum
+        style <- object$style
 	if (is.na(style)) style = "NA"
-	cat("Weights constants summary:\n")
-	print(data.frame(rbind(unlist(spweights.constants(object,
-		zero.policy=zero.policy))[c(1, 5:8)]), row.names=style))
-
+	weights_const <- data.frame(rbind(unlist(spweights.constants(object,
+		zero.policy=zero.policy, adjust.n=adjust.n))[c(1, 5:8)]), row.names=style)
+        attr(object, "weights_const") <- weights_const
+        class(object) <- c("summary.listw", "listw")
+        object
 }
 
-print.listw <- function(x, zero.policy=NULL, ...) {
+print.summary.listw <- function(x, ...) {
+	cat("Characteristics of weights list object:\n")
+        print.summary.nb(attr(x, "nb_sum"))
+	cat(paste("\nWeights style:", x$style, "\n"))
+	cat("Weights constants summary:\n")
+        print(attr(x, "weights_const"))
+}
+
+print.listw <- function(x, zero.policy=attr(x, "zero.policy"), ...) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))

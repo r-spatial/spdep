@@ -2,7 +2,7 @@
 # Addition of Martuzzi and Elliott Copyright 2006 Olaf Berke and Roger Bivand
 #
 
-EBImoran <- function (z, listw, nn, S0, zero.policy = NULL, subtract_mean_in_numerator=TRUE) 
+EBImoran <- function (z, listw, nn, S0, zero.policy = attr(listw, "zero.policy"), subtract_mean_in_numerator=TRUE) 
 {
 #default subtract_mean_in_numerator=TRUE 160219 RA
         if (is.null(zero.policy))
@@ -18,7 +18,7 @@ EBImoran <- function (z, listw, nn, S0, zero.policy = NULL, subtract_mean_in_num
     res
 }
 
-EBImoran.mc <- function (n, x, listw, nsim, zero.policy = NULL,
+EBImoran.mc <- function (n, x, listw, nsim, zero.policy = attr(listw, "zero.policy"),
  alternative = "greater", spChk = NULL, return_boot=FALSE, subtract_mean_in_numerator=TRUE) 
 {
 #default subtract_mean_in_numerator=TRUE 160219 RA

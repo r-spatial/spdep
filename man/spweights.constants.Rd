@@ -7,12 +7,12 @@
  The function calculates the constants needed for tests of spatial autocorrelation for general weights matrices represented as \code{listw} objects. Note: from spdep 0.3-32, the values of S1 and S2 are returned correctly for both underlying symmetric and asymmetric neighbour lists, before 0.3-32, S1 and S2 were wrong for listw objects based on asymmetric neighbour lists, such as k-nearest neighbours (thanks to Luc Anselin for finding the bug).
 }
 \usage{
-spweights.constants(listw, zero.policy=NULL, adjust.n=TRUE)
+spweights.constants(listw, zero.policy=attr(listw, "zero.policy"), adjust.n=TRUE)
 Szero(listw)
 }
 \arguments{
   \item{listw}{a \code{listw} object from for example \code{nb2listw}}
-  \item{zero.policy}{default NULL, use global option value; if TRUE ignore zones without neighbours, if FALSE fail when encountered}
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE ignore zones without neighbours, if FALSE fail when encountered}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}
 }
 

@@ -1,7 +1,8 @@
 # Copyright 2002-2010 by Roger Bivand 
 #
 
-sp.mantel.mc <- function(var, listw, nsim, type="moran", zero.policy=NULL,
+sp.mantel.mc <- function(var, listw, nsim, type="moran",
+        zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", spChk=NULL, return_boot=FALSE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)

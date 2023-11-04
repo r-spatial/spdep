@@ -6,7 +6,7 @@
    Geary's test for spatial autocorrelation using a spatial weights matrix in weights list form. The assumptions underlying the test are sensitive to the form of the graph of neighbour relationships and other factors, and results may be checked against those of \code{geary.mc} permutations. 
 }
 \usage{
-geary.test(x, listw, randomisation=TRUE, zero.policy=NULL,
+geary.test(x, listw, randomisation=TRUE, zero.policy=attr(listw, "zero.policy"),
     alternative="greater", spChk=NULL, adjust.n=TRUE)
 }
 
@@ -14,7 +14,7 @@ geary.test(x, listw, randomisation=TRUE, zero.policy=NULL,
   \item{x}{a numeric vector the same length as the neighbours list in listw}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{randomisation}{variance of I calculated under the assumption of randomisation, if FALSE normality}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}

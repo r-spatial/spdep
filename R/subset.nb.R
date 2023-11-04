@@ -6,6 +6,7 @@ subset.nb <- function(x, subset, ...) {
     if (!inherits(x, "nb")) stop("not a neighbours list")
     if (!is.logical(subset)) stop("subset not a logical vector")
     n <- length(x)
+    input_nc <- n.comp.nb(x)$nc
     if (n != length(subset))
 	stop("neighours list and subset vector different lengths")
     old.ids <- 1:n
@@ -34,11 +35,12 @@ subset.nb <- function(x, subset, ...) {
 	    attr(z, xattrs[i]) <- attr(x, xattrs[i])
     }
     z <- sym.attr.nb(z)
+    if (input_nc < n.comp.nb(z)$nc) warning("subsetting caused increase in subgraph count")
     z
 }
 
 
-subset.listw <- function(x, subset, zero.policy=NULL, ...) {
+subset.listw <- function(x, subset, zero.policy=attr(x, "zero.policy"), ...) {
     if (!inherits(x, "listw")) stop("not a weights list")
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
@@ -53,6 +55,12 @@ subset.listw <- function(x, subset, zero.policy=NULL, ...) {
     if (n != length(subset))
 	stop("neighbours list and subset vector different lengths")
     subnb <- subset.nb(x=nb, subset=subset)
+    if (any(card(subnb) == 0L)) {
+        if (!zero.policy) {
+            warning("subsetting created no-neighbour observations, zero.policy set TRUE")
+            zero.policy <- !zero.policy
+        }
+    }
     sublistw <- nb2listw(neighbours=subnb, glist=NULL, style=style,
 	zero.policy=zero.policy)
     sublistw

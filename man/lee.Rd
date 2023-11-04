@@ -11,7 +11,7 @@
 }{L(x,y) = (n sum_i (sum_j w_ij (x_i - xbar)) (sum_j w_ij (y_j - ybar))) / (S2 sqrt(sum_i (x_i - xbar)^2)) sqrt(sum_i (x_i - xbar)^2))}
 }
 \usage{
-lee(x, y, listw, n, S2, zero.policy=NULL, NAOK=FALSE)
+lee(x, y, listw, n, S2, zero.policy=attr(listw, "zero.policy"), NAOK=FALSE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -19,7 +19,7 @@ lee(x, y, listw, n, S2, zero.policy=NULL, NAOK=FALSE)
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{n}{number of zones}
   \item{S2}{Sum of squared sum of weights by rows.}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{NAOK}{if 'TRUE' then any 'NA' or 'NaN' or 'Inf' values in x are passed on to the foreign function.  If 'FALSE', the presence of 'NA' or 'NaN' or 'Inf' values is regarded as an error.}
 }
 

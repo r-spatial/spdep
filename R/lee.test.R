@@ -2,7 +2,7 @@
 #
 
 lee.test <- function(x, y, listw, #randomisation=TRUE, 
-	zero.policy=NULL,
+	zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", 
 	#rank = FALSE, 
 	na.action=na.fail, spChk=NULL#, 

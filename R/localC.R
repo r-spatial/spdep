@@ -3,7 +3,7 @@ localC <- function(x, ..., zero.policy=NULL) {
 }
 
 
-localC.default <- function(x, listw, ..., zero.policy=NULL) {
+localC.default <- function(x, listw, ..., zero.policy=attr(listw, "zero.policy")) {
   # check listw object
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -14,7 +14,7 @@ localC.default <- function(x, listw, ..., zero.policy=NULL) {
   localC_calc(scale(x), listw, zero.policy=zero.policy)
 }
 
-localC.formula <- function(formula, data, listw, ..., zero.policy=NULL) {
+localC.formula <- function(formula, data, listw, ..., zero.policy=attr(listw, "zero.policy")) {
   # check listw object
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object."))
@@ -44,7 +44,7 @@ localC.formula <- function(formula, data, listw, ..., zero.policy=NULL) {
 
 }
 
-localC.list <- function(x, listw, ..., zero.policy=NULL) {
+localC.list <- function(x, listw, ..., zero.policy=attr(listw, "zero.policy")) {
 
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object,"))
@@ -59,7 +59,7 @@ localC.list <- function(x, listw, ..., zero.policy=NULL) {
 }
 
 
-localC.matrix <- function(x, listw, ..., zero.policy=NULL) {
+localC.matrix <- function(x, listw, ..., zero.policy=attr(listw, "zero.policy")) {
 
   if (!inherits(listw, "listw"))
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -69,7 +69,7 @@ localC.matrix <- function(x, listw, ..., zero.policy=NULL) {
   rowSums(apply(scale(x), 2, localC_calc, listw, zero.policy=zero.policy)) / ncol(x)
 }
 
-localC.data.frame <- function(x, listw, ..., zero.policy=NULL) {
+localC.data.frame <- function(x, listw, ..., zero.policy=attr(listw, "zero.policy")) {
 
   if (inherits(x, "sf")) {
     x[[attr(x, "sf_column")]] <- NULL
@@ -90,7 +90,7 @@ localC_perm <- function(x, ..., zero.policy=NULL, iseed=NULL,
 }
 
 localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
-             ..., zero.policy=NULL, iseed=NULL, no_repeat_in_row=FALSE) {
+             ..., zero.policy=attr(listw, "zero.policy"), iseed=NULL, no_repeat_in_row=FALSE) {
 
   alternative <- match.arg(alternative, c("two.sided", "less", "greater"))
   # checks are inherited from localC no need to implement
@@ -151,7 +151,7 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
 
 localC_perm.formula <- function(formula, data, listw,
                                 nsim = 499, alternative = "two.sided", ...,
-                                zero.policy=NULL, iseed=NULL, 
+                                zero.policy=attr(listw, "zero.policy"), iseed=NULL, 
                                 no_repeat_in_row=FALSE) {
 
   alternative <- match.arg(alternative, c("less", "two.sided", "greater"))
@@ -200,7 +200,7 @@ localC_perm.formula <- function(formula, data, listw,
 # "localC" cluster nlevel==4L (uni) c("High-High", "Low-Low", "Other Positive", "Negative")
 
 # Local Geary Utils -------------------------------------------------------
-localC_calc <- function(x, listw, zero.policy=NULL) {
+localC_calc <- function(x, listw, zero.policy=attr(listw, "zero.policy")) {
   if (any(card(listw$neighbours) == 0L)) {
     res <- geary.intern(x, listw, n=length(listw$neighbours), zero.policy=zero.policy)
   } else {
@@ -215,7 +215,7 @@ localC_calc <- function(x, listw, zero.policy=NULL) {
 }
 
 localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
-  zero.policy=NULL, iseed=NULL, no_repeat_in_row=FALSE) {
+  zero.policy=attr(listw, "zero.policy"), iseed=NULL, no_repeat_in_row=FALSE) {
     nc <- ncol(x)
     stopifnot(nc > 0L)
     n <- length(listw$neighbours)

@@ -1,4 +1,4 @@
-LOSH.mc <- function(x, listw, a = 2, nsim = 99, zero.policy = NULL, na.action = na.fail, 
+LOSH.mc <- function(x, listw, a = 2, nsim = 99, zero.policy = attr(listw, "zero.policy"), na.action = na.fail, 
                     spChk = NULL, adjust.n = TRUE, p.adjust.method = "none") {
   
   stopifnot(is.vector(x))

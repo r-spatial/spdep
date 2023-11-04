@@ -12,7 +12,7 @@
 criterion.
 }
 \usage{
-geary(x, listw, n, n1, S0, zero.policy=NULL)
+geary(x, listw, n, n1, S0, zero.policy=attr(listw, "zero.policy"))
 %geary.intern(x, listw, n, zero.policy, type="geary")
 }
 
@@ -22,7 +22,7 @@ geary(x, listw, n, n1, S0, zero.policy=NULL)
   \item{n}{number of zones}
   \item{n1}{n - 1}
   \item{S0}{global sum of weights}
-  \item{zero.policy}{default NULL, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
+  \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
 %  \item{type}{"geary" or "sokal" criteria for similarity}
 }
 

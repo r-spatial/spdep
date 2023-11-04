@@ -1,7 +1,7 @@
 # Copyright 2001-18 by Roger Bivand, 2021 Jeff Sauer and Levi Wolf (conditional code)
 #
 
-localmoran <- function(x, listw, zero.policy=NULL, na.action=na.fail,
+localmoran <- function(x, listw, zero.policy=attr(listw, "zero.policy"), na.action=na.fail,
         conditional=TRUE, alternative = "two.sided",
         mlvar=TRUE, spChk=NULL, adjust.x=FALSE) {
         stopifnot(is.vector(x))

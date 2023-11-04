@@ -14,7 +14,7 @@ joincount <- function(dums, listw) {
 	res
 }
 
-joincount.test <- function(fx, listw, zero.policy=NULL,
+joincount.test <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", sampling="nonfree",  
 	spChk=NULL, adjust.n=TRUE) {
         if (is.null(zero.policy))
@@ -107,11 +107,14 @@ print.jclist <- function(x, ...) {
 	invisible(x)
 }
 
-joincount.mc <- function(fx, listw, nsim, zero.policy=FALSE,
+joincount.mc <- function(fx, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", spChk=NULL) {
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
 	if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
 		"is not a listw object"))
+        if (is.null(zero.policy))
+            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        stopifnot(is.logical(zero.policy))
 	if(!is.factor(fx)) stop(paste(deparse(substitute(fx)),
 		"is not a factor"))
 	if(missing(nsim)) stop("nsim must be given")
@@ -181,13 +184,16 @@ joincount.mc <- function(fx, listw, nsim, zero.policy=FALSE,
 
 
 
-joincount.multi <- function(fx, listw, zero.policy=FALSE, #adjust.n=TRUE,
+joincount.multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"), #adjust.n=TRUE,
 	spChk=NULL, adjust.n=TRUE) {
 	if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
 		"is not a listw object"))
 	if(!is.factor(fx)) stop(paste(deparse(substitute(fx)),
 		"is not a factor"))
 	if (any(is.na(fx))) stop("NA in factor")
+        if (is.null(zero.policy))
+            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        stopifnot(is.logical(zero.policy))
 	n <- length(listw$neighbours)
 	if (n != length(fx)) stop("objects of different length")
 	cards <- card(listw$neighbours)

@@ -1,8 +1,8 @@
-# Copyright 20014 by Roger Bivand, Virgilio Gómez-Rubio
+# Copyright 2014 by Roger Bivand, Virgilio Gómez-Rubio
 #
 
 
-lee.mc <- function(x, y, listw, nsim, zero.policy=NULL,
+lee.mc <- function(x, y, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", na.action=na.fail, spChk=NULL,
         return_boot=FALSE) {
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))

@@ -10,11 +10,13 @@ The function makes a \code{"spatial neighbour"} object representation
 \code{"listw"} spatial weights object. \code{sn2listw()} is the inverse function to \code{listw2sn()}, creating a \code{"listw"} object from a \code{"spatial neighbour"} object. }
 \usage{
 listw2sn(listw)
-sn2listw(sn)
+sn2listw(sn, style = NULL, zero.policy = NULL)
 }
 \arguments{
   \item{listw}{a \code{listw} object from for example \code{nb2listw}}
   \item{sn}{a \code{spatial.neighbour} object}
+  \item{style}{default NULL, missing, set to "M" and warning given; if not "M", passed to \code{\link{nb2listw}} to re-build the object}
+  \item{zero.policy}{default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
 }
 
 \value{

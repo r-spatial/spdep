@@ -48,8 +48,8 @@ export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests,
 	get.spChkOption, spNamedVec, tri2nb,
 	spweights.constants, lag.listw, listw2U, listw2star, is.symmetric.nb,
 	sym.attr.nb, include.self, make.sym.nb, union.nb, intersect.nb,
-	setdiff.nb, complement.nb, Szero, spdep, print.nb, summary.nb,
-	plot.nb, edit.nb, subset.nb, summary.listw, print.listw, subset.listw,
+	setdiff.nb, complement.nb, Szero, spdep,
+	plot.nb, edit.nb, subset.nb, subset.listw,
 	plot.Gabriel, plot.relative, print.jclist, print.LMtestlist,
 	plot.mc.sim, as.data.frame.localmoransad, print.localmoransad,
 	summary.localmoransad, print.summary.localmoransad, print.moransad,
@@ -91,12 +91,14 @@ export(localmoran_bv, moran_bv,local_joincount_uni, local_joincount_bv)
 
 S3method(print, nb)
 S3method(summary, nb)
+S3method(print, summary.nb)
 S3method(plot, nb)
 S3method(edit, nb)
 S3method(subset, nb)
 S3method(aggregate, nb)
 
 S3method(summary, listw)
+S3method(print, summary.listw)
 S3method(print, listw)
 S3method(plot, listw)
 S3method(subset, listw)
