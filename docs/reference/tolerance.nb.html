@@ -130,24 +130,18 @@ To use this function for a set of coordinates with more than 1500 entries is mem
 <span class="r-in"><span><span class="co">### and a maximum distance of 2 m.</span></span></span>
 <span class="r-in"><span><span class="va">nb.ex</span><span class="op">&lt;-</span><span class="fu">tolerance.nb</span><span class="op">(</span><span class="va">ex.data</span>, unit.angle <span class="op">=</span> <span class="st">"degrees"</span>, max.dist<span class="op">=</span><span class="fl">1</span>,</span></span>
 <span class="r-in"><span> tolerance <span class="op">=</span> <span class="fl">30</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>style is M (missing); style should be set to a valid value</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no-neighbour observations found, zero.policy set to TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### Construct object of class nb with a tolerance angle of 30 degrees</span></span></span>
 <span class="r-in"><span><span class="co">### and a maximum distance of 2 m. The coordinates are rotated at an angle</span></span></span>
 <span class="r-in"><span><span class="co">### of 45 degrees counterclockwise.</span></span></span>
 <span class="r-in"><span><span class="va">nb.ex2</span><span class="op">&lt;-</span><span class="fu">tolerance.nb</span><span class="op">(</span><span class="va">ex.data</span>, unit.angle <span class="op">=</span> <span class="st">"degrees"</span>, max.dist<span class="op">=</span><span class="fl">1</span>,</span></span>
 <span class="r-in"><span> tolerance <span class="op">=</span> <span class="fl">30</span>, rot.angle <span class="op">=</span> <span class="fl">45</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>style is M (missing); style should be set to a valid value</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no-neighbour observations found, zero.policy set to TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">### Construct object of class nb with a tolerance angle of pi/8 radians</span></span></span>
 <span class="r-in"><span><span class="co">### and a maximum distance of 1.5 m. The coordinates are rotated at</span></span></span>
 <span class="r-in"><span><span class="co">### an angle of pi/4 radians clockwise.</span></span></span>
 <span class="r-in"><span><span class="va">nb.ex3</span><span class="op">&lt;-</span><span class="fu">tolerance.nb</span><span class="op">(</span><span class="va">ex.data</span>, unit.angle <span class="op">=</span> <span class="st">"radians"</span>, max.dist<span class="op">=</span><span class="fl">1.5</span>,</span></span>
 <span class="r-in"><span> tolerance <span class="op">=</span> <span class="va">pi</span><span class="op">/</span><span class="fl">8</span>, rot.angle <span class="op">=</span> <span class="op">-</span><span class="va">pi</span><span class="op">*</span><span class="fl">2</span><span class="op">/</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>style is M (missing); style should be set to a valid value</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no-neighbour observations found, zero.policy set to TRUE</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb.ex</span>,<span class="va">ex.data</span>,asp<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
