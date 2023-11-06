@@ -30,12 +30,12 @@ print.summary.nb <- function(x, ...) {
         min.nb <- min(attr(x, "c.nb")[attr(x, "c.nb") > 0])
         cat(length(attr(x, "c.nb")[attr(x, "c.nb") == min.nb]), " least connected region",
 	    ifelse(length(attr(x, "c.nb")[attr(x, "c.nb") == min.nb]) < 2L, "", "s"), ":\n",
-	    paste(x$regids[which(attr(x, "c.nb") == min.nb)], collapse=" "), " with ",
+	    paste(attr(x, "regids")[which(attr(x, "c.nb") == min.nb)], collapse=" "), " with ",
 	    min.nb, " link", ifelse(min.nb < 2L, "", "s"), "\n", sep="")
         max.nb <- max(attr(x, "c.nb"))
 	cat(length(attr(x, "c.nb")[attr(x, "c.nb") == max.nb]), " most connected region",
 	    ifelse(length(attr(x, "c.nb")[attr(x, "c.nb") == max.nb]) < 2L, "", "s"), ":\n",
-	    paste(x$regids[which(attr(x, "c.nb") == max.nb)], collapse=" "), " with ",
+	    paste(attr(x, "regids")[which(attr(x, "c.nb") == max.nb)], collapse=" "), " with ",
 	    max.nb, " link", ifelse(max.nb < 2L, "", "s"), "\n", sep="")
     }
     if(!is.null(attr(x, "dlist"))) {
