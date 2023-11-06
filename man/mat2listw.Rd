@@ -37,18 +37,20 @@ columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], qui
 col005 <- dnearneigh(st_coordinates(st_centroid(st_geometry(columbus),
  of_largest_polygon=TRUE)), 0, 0.5, as.character(columbus$NEIGNO))
 summary(col005)
-col005.w.mat <- nb2mat(col005, zero.policy=TRUE)
-col005.w.b <- mat2listw(col005.w.mat)
+col005.w.mat <- nb2mat(col005, style="W", zero.policy=TRUE)
+try(col005.w.b <- mat2listw(col005.w.mat, style="W"))
+col005.w.b <- mat2listw(col005.w.mat, style="W", zero.policy=TRUE)
 summary(col005.w.b$neighbours)
 diffnb(col005, col005.w.b$neighbours)
 col005.w.mat.3T <- kronecker(diag(3), col005.w.mat)
-col005.w.b.3T <- mat2listw(col005.w.mat.3T, style="W")
+col005.w.b.3T <- mat2listw(col005.w.mat.3T, style="W", zero.policy=TRUE)
 summary(col005.w.b.3T$neighbours)
 run <- FALSE
 if (require("spatialreg", quiet=TRUE)) run <- TRUE
 if (run) {
 W <- as(nb2listw(col005, style="W", zero.policy=TRUE), "CsparseMatrix")
-col005.spM <- mat2listw(W)
+try(col005.spM <- mat2listw(W))
+col005.spM <- mat2listw(W, style="W", zero.policy=TRUE)
 summary(col005.spM$neighbours)
 }
 if (run) {
@@ -56,7 +58,7 @@ diffnb(col005, col005.spM$neighbours)
 }
 if (run && require("Matrix", quiet=TRUE)) {
 IW <- kronecker(Diagonal(3), W)
-col005.spM.3T <- mat2listw(as(IW, "CsparseMatrix"), style="W")
+col005.spM.3T <- mat2listw(as(IW, "CsparseMatrix"), style="W", zero.policy=TRUE)
 summary(col005.spM.3T$neighbours)
 }
 }

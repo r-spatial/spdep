@@ -68,9 +68,46 @@ function (coords, unit.angle = "degrees", max.dist, tolerance, rot.angle, plot.s
 		}
 	}
 
-	nb.obj <- mat2listw(angles)$neighbours
+	nb.obj <- mat2nb(angles)
 
 	return(nb.obj)
+}
+
+mat2nb <- function(x, row.names=NULL) {
+    	n <- nrow(x)
+	if (n < 1) stop("non-positive number of entities")
+	m <- ncol(x)
+	if (n != m) stop("x must be a square matrix")
+	if (any(x < 0)) stop("values in x cannot be negative")
+	if (any(is.na(x))) stop("NA values in x not allowed")
+    	if (!is.null(row.names)) {
+	    if(length(row.names) != n)
+            	stop("row.names wrong length")
+	    if (length(unique(row.names)) != length(row.names))
+	    	stop("non-unique row.names given")
+    	}
+    	if (is.null(row.names)) {
+	    if (!is.null(row.names(x))) {
+		row.names <- row.names(x)
+	    } else {
+		row.names <- as.character(1:n)
+	    }
+	}
+	neighbours <- vector(mode="list", length=n)
+	for (i in 1:n) {
+	    nbs  <- which(x[i,] > 0.0)
+	    if (length(nbs) > 0) {
+		neighbours[[i]] <- nbs
+	    } else {
+		neighbours[[i]] <- 0L
+	    }
+        }
+	class(neighbours) <- "nb"
+	attr(neighbours, "region.id") <- row.names
+ 	attr(neighbours, "call") <- NA
+        attr(neighbours, "sym") <- is.symmetric.nb(neighbours, 
+		verbose=FALSE, force=TRUE)
+        neighbours
 }
 
 `find.angles` <-

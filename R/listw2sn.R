@@ -43,7 +43,7 @@ sn2listw <- function(sn, style=NULL, zero.policy=NULL) {
 	attr(nlist, "region.id") <- region.id
 	vlist <- vector(mode="list", length=n)
 	rle.sn <- rle(sn[,1])
-	if (n != length(rle.sn$lengths)) {
+	if (!zero.policy && n != length(rle.sn$lengths)) {
             nnhits <- region.id[which(!(1:n %in% rle.sn$values))]
 	    warning(paste(paste(nnhits, collapse=", "),
                 ifelse(length(nnhits) < 2, "is not an origin",
@@ -67,8 +67,7 @@ sn2listw <- function(sn, style=NULL, zero.policy=NULL) {
 	class(res) <- c("listw", "nb")
         if (any(card(res$neighbours) == 0L)) {
             if (!zero.policy) {
-                warning("no-neighbour observations found, zero.policy set to TRUE")
-                zero.policy <- !zero.policy
+                stop("no-neighbour observations found, set zero.policy to TRUE")
             }
         }
 	if (!(is.null(attr(sn, "GeoDa"))))
