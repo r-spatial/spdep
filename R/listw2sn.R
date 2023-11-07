@@ -21,7 +21,7 @@ listw2sn <- function(listw) {
 	res
 }
 
-sn2listw <- function(sn, style=NULL, zero.policy=NULL) {
+sn2listw <- function(sn, style=NULL, zero.policy=NULL, from_mat2listw=FALSE) {
 	if(!inherits(sn, "spatial.neighbour")) 
 	    stop("not a spatial.neighbour object")
         if (is.null(zero.policy))
@@ -66,8 +66,12 @@ sn2listw <- function(sn, style=NULL, zero.policy=NULL) {
 	res <- list(style=style, neighbours=nlist, weights=vlist)
 	class(res) <- c("listw", "nb")
         if (any(card(res$neighbours) == 0L)) {
-            if (!zero.policy) {
-                stop("no-neighbour observations found, set zero.policy to TRUE")
+            if (!from_mat2listw) {
+                if (!zero.policy) {
+                    stop("no-neighbour observations found, set zero.policy to TRUE")
+                }
+            } else {
+                warning("no-neighbour observations found, set zero.policy to TRUE;\nthis warning will soon become an error")
             }
         }
 	if (!(is.null(attr(sn, "GeoDa"))))

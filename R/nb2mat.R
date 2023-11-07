@@ -72,7 +72,8 @@ mat2listw <- function(x, row.names=NULL, style=NULL, zero.policy=NULL) {
             class(df) <- c(class(df), "spatial.neighbour")
             attr(df, "region.id") <- row.names
             attr(df, "n") <- dim(xC)[1]
-            res <- sn2listw(df, style=style, zero.policy=zero.policy)
+            res <- sn2listw(df, style=style, zero.policy=zero.policy,
+                from_mat2listw=TRUE)
             neighbours <- res$neighbours
             weights <- res$weights
         } else {
@@ -96,7 +97,7 @@ mat2listw <- function(x, row.names=NULL, style=NULL, zero.policy=NULL) {
 		verbose=FALSE, force=TRUE)
         if (any(card(neighbours) == 0L)) {
             if (!zero.policy) {
-                stop("no-neighbour observations found, set zero.policy to TRUE")
+                warning("no-neighbour observations found, set zero.policy to TRUE;\nthis warning will soon become an error")
             }
         }
 	res <- list(style=style, neighbours=neighbours, weights=weights)
