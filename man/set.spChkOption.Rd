@@ -5,6 +5,8 @@
 \alias{spNamedVec}
 \alias{set.VerboseOption}
 \alias{get.VerboseOption}
+\alias{set.SubgraphOption}
+\alias{get.SubgraphOption}
 \alias{set.ZeroPolicyOption}
 \alias{get.ZeroPolicyOption}
 \alias{set.listw_is_CsparseMatrix_Option}
@@ -12,7 +14,7 @@
 %- Also NEED an `\alias' for EACH other topic documented here.
 \title{Control checking of spatial object IDs}
 \description{
-  Provides support for checking the mutual integrity of spatial neighbour weights and spatial data; similar mechanisms are used for passing global verbose and zero.policy options, and for providing access to a running cluster for embarrassingly parallel tasks. 
+  Provides support for checking the mutual integrity of spatial neighbour weights and spatial data; similar mechanisms are used for passing global verbose and zero.policy options, and for causing functions creating neighbour objects to warn if there are multiple subgraphs. 
 }
 \usage{
 set.spChkOption(check)
@@ -23,6 +25,8 @@ set.VerboseOption(check)
 get.VerboseOption()
 set.ZeroPolicyOption(check)
 get.ZeroPolicyOption()
+set.SubgraphOption(check)
+get.SubgraphOption()
 set.listw_is_CsparseMatrix_Option(check)
 get.listw_is_CsparseMatrix_Option()
 }

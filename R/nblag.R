@@ -38,6 +38,11 @@ nblag <- function(neighbours, maxlag)
 		class(lags[[i]]) <- "nb"
 		attr(lags[[i]], "region.id") <- attr(neighbours, "region.id")
 		lags[[i]] <- sym.attr.nb(lags[[i]])
+                if (get.SubgraphOption()) {
+                  nsg <- n.comp.nb(lags[[i]])$nc
+                  if (nsg > 1)
+                    warning("neighbour object ", i, " has ", nsg, " sub-graphs")
+                }
 	}
 	attr(lags, "call") <- match.call()
 	lags
@@ -67,5 +72,9 @@ nblag_cumul <- function (nblags) {
     attr(lags, "region.id") <- attr(nblags[[1]], "region.id")
     attr(lags, "call") <- match.call()
     class(lags) <- "nb"
+    if (get.SubgraphOption()) {
+        nsg <- n.comp.nb(lags)$nc
+        if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+    }
     lags
 }

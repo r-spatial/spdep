@@ -51,6 +51,10 @@ tri2nb <- function(coords, row.names = NULL) {
 	attr(nb, "tri") <- TRUE
 	attr(nb, "call") <- match.call()
 	nb <- sym.attr.nb(nb)
+        if (get.SubgraphOption()) {
+            nsg <- n.comp.nb(nb)$nc
+            if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        }
 	nb
 }
 

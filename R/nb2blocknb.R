@@ -47,6 +47,10 @@ nb2blocknb <- function(nb=NULL, ID, row.names = NULL) {
 	attr(res, "block") <- TRUE
 	attr(res, "call") <- match.call()
 	res <- sym.attr.nb(res)
+        if (get.SubgraphOption()) {
+          nsg <- n.comp.nb(res)$nc
+          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        }
 	res
 }
 

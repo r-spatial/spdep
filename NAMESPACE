@@ -82,7 +82,7 @@ export(grid2nb)
 export(autocov_dist)
 
 export(set.VerboseOption, get.VerboseOption, set.ZeroPolicyOption,
-        get.ZeroPolicyOption)
+        get.ZeroPolicyOption, get.SubgraphOption, set.SubgraphOption)
 export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
         set.ClusterOption, get.ClusterOption)
 

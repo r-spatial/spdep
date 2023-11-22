@@ -31,5 +31,9 @@ graph2nb <- function(gob, row.names=NULL,sym=FALSE) {
  	attr(res, "type") <- attr(gob, "type")
 	class(res) <- "nb"
 	res <- sym.attr.nb(res)
+        if (get.SubgraphOption()) {
+          nsg <- n.comp.nb(res)$nc
+          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        }
 	res
 }

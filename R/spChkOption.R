@@ -29,6 +29,17 @@ set.VerboseOption <- function(check) {
 	res
 }
 
+get.SubgraphOption <- function() {
+	get("report_nb_subgraphs", envir = .spdepOptions)
+}
+
+set.SubgraphOption <- function(check) {
+	if (!is.logical(check)) stop ("logical argument required")
+	res <- get("report_nb_subgraphs", envir = .spdepOptions)
+	assign("report_nb_subgraphs", check, envir = .spdepOptions)
+	res
+}
+
 get.VerboseOption <- function() {
 	get("verbose", envir = .spdepOptions)
 }

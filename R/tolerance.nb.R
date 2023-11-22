@@ -107,6 +107,10 @@ mat2nb <- function(x, row.names=NULL) {
  	attr(neighbours, "call") <- NA
         attr(neighbours, "sym") <- is.symmetric.nb(neighbours, 
 		verbose=FALSE, force=TRUE)
+        if (get.SubgraphOption()) {
+          nsg <- n.comp.nb(neighbours)$nc
+          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        }
         neighbours
 }
 

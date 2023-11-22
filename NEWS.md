@@ -1,5 +1,7 @@
 # Version 1.3-1 (development)
 
+* functions creating `nb` objects now warn if the object has a sub-graph count of > 1 and  `get.SubgraphOption` is `TRUE` (default `FALSE`): `complement.nb`, `diffnb`, `dnearneigh`, `droplinks`, `edit.nb`, `graph2nb`, `knn2nb`, `nb2blocknb`, `nblag`, `nblag_cumul`, `poly2nb`, `read.gal`, `read.gwt2nb`, `setdiff.nb`, `tolerance.nb`, `tri2nb`, `union.nb`
+
 * `summary.nb`, `print.nb`, `summary.listw` and `print.listw` now report the subgraph count from `n.comp.nb` if it is more than one
 
 * `subset.nb` now reports if the subgraph count of the neighbour object increases on subsetting

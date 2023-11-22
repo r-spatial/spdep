@@ -26,7 +26,7 @@ autocov_dist(z, xy, nbs = 1, type = "inverse", zero.policy = NULL,
 
 \note{The validity of this approach strongly hinges on the correct choice of the
 neighbourhood scheme! Using \option{style="B"} ensures symmetry of the
-neighbourhood matrix (i.e. w_{nm} = w_{mn}). Please see Bardos et al. (2015)
+neighbourhood matrix (i.e. \eqn{w_{nm} = w_{mn}}). Please see Bardos et al. (2015)
 for details.}
 
 \references{Augustin N.H., Mugglestone M.A. and Buckland S.T. (1996) An autologistic model for the spatial distribution of wildlife. \emph{Journal of Applied Ecology}, 33, 339-347; Gumpertz M.L., Graham J.M. and Ristaino J.B. (1997) Autologistic model of spatial pattern of Phytophthora epidemic in bell pepper: effects of soil variables on disease presence. \emph{Journal of Agricultural, Biological and Environmental Statistics}, 2, 131-156; Bardos, D.C., Guillera-Arroita, G. and Wintle, B.A. (2015) Valid auto-models for spatially autocorrelated occupancy and abundance data. arXiv, 1501.06529.}

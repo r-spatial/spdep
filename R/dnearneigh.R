@@ -123,6 +123,10 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
     attr(z, "nbtype") <- "distance"
     if (symtest) z <- sym.attr.nb(z)
     else attr(z, "sym") <- TRUE
+    if (get.SubgraphOption()) {
+        nsg <- n.comp.nb(z)$nc
+        if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+    }
     z
 }
 

@@ -4,6 +4,7 @@
 .spdepOptions <- new.env(FALSE, globalenv())
 assign("spChkID", FALSE, envir = .spdepOptions)
 assign("zeroPolicy", FALSE, envir = .spdepOptions)
+assign("report_nb_subgraphs", FALSE, envir = .spdepOptions)
 assign("verbose", FALSE, envir = .spdepOptions)
 assign("mc", ifelse(.Platform$OS.type == "windows", FALSE, TRUE),
  envir = .spdepOptions)

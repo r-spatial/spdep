@@ -31,6 +31,10 @@ diffnb <- function(x, y, verbose=NULL) {
 	attr(res, "region.id") <- attr(x, "region.id")
 	attr(res, "call") <- match.call()
 	res <- sym.attr.nb(res)
+        if (get.SubgraphOption()) {
+          nsg <- n.comp.nb(res)$nc
+          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        }
 	res
 }	
 	
