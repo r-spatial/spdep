@@ -145,8 +145,10 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1038 1036 with 9 links</span>
 <span class="r-in"><span><span class="va">col005.w.mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2mat.html">nb2mat</a></span><span class="op">(</span><span class="va">col005</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="va">col005.w.b</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in mat2listw(col005.w.mat, style = "W") : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   no-neighbour observations found, set zero.policy to TRUE</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no-neighbour observations found, set zero.policy to TRUE;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> this warning will soon become an error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in nb2listw(res$neighbours, glist = res$weights, style = style,  : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Empty neighbour sets found</span>
 <span class="r-in"><span><span class="va">col005.w.b</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.w.b</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
@@ -207,8 +209,12 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>style is M (missing); style should be set to a valid value</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>style is M (missing); style should be set to a valid value</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>1005, 1006, 1008, 1043 are not origins</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Error in sn2listw(df, style = style, zero.policy = zero.policy) : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   no-neighbour observations found, set zero.policy to TRUE</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no-neighbour observations found, set zero.policy to TRUE;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> this warning will soon become an error</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no-neighbour observations found, set zero.policy to TRUE;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> this warning will soon become an error</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no-neighbour observations found, set zero.policy to TRUE;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> this warning will soon become an error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 170 </span>
@@ -244,6 +250,8 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-in"><span><span class="va">col005.spM.3T</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">IW</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.spM.3T</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>no-neighbour observations found, set zero.policy to TRUE;</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> this warning will soon become an error</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 147 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 510 </span>
