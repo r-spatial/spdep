@@ -1,4 +1,8 @@
-# Version 1.3-1 (development)
+# Version 1.3-2 (development)
+
+* add `style` to `sn2listw` use in `tri2nb`
+
+# Version 1.3-1 (2023-11-23)
 
 * functions creating `nb` objects now warn if the object has a sub-graph count of > 1 and  `get.SubgraphOption` is `TRUE` (default `FALSE`): `complement.nb`, `diffnb`, `dnearneigh`, `droplinks`, `edit.nb`, `graph2nb`, `knn2nb`, `nb2blocknb`, `nblag`, `nblag_cumul`, `poly2nb`, `read.gal`, `read.gwt2nb`, `setdiff.nb`, `tolerance.nb`, `tri2nb`, `union.nb`
 

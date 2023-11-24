@@ -44,7 +44,7 @@ tri2nb <- function(coords, row.names = NULL) {
         attr(df, "n") <- tri$n.data
         class(df) <- c(class(df), "spatial.neighbour")
         df1 <- df[order(df$from),]
-        nb <- sn2listw(df1)$neighbours
+        nb <- sn2listw(df1, style="B")$neighbours
 #	nb <- neighbours(tri)
  	attr(nb, "region.id") <- row.names
 	class(nb) <- "nb"
