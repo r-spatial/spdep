@@ -76,7 +76,7 @@ create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
         X0
 }
 
-SDM.LMtests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="all", spChk=NULL, naSubset=TRUE, Durbin=TRUE, alternative="greater") {
+SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="all", Durbin=TRUE) {
 
 	if (inherits(model, "lm")) na.act <- model$na.action
 	else na.act <- attr(model, "na.action")
@@ -88,7 +88,7 @@ SDM.LMtests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), te
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
-	if (!is.null(na.act) && naSubset) {
+	if (!is.null(na.act)) {
 	    subset <- !(1:length(listw$neighbours) %in% na.act)
 	    listw <- subset(listw, subset, zero.policy=zero.policy)
 	}
@@ -98,14 +98,11 @@ SDM.LMtests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), te
 	N <- length(listw$neighbours)
 	u <- resid(model)
 	if (N != length(u)) stop("objects of different length")
-	if (is.null(spChk)) spChk <- get.spChkOption()
-	if (spChk && !chkIDs(u, listw))
-		stop("Check of data and weights ID integrity failed")
 	u <- as.vector(u)
 
 	if (is.null(attr(listw$weights, "W")) || !attr(listw$weights, "W"))
 		warning("Spatial weights matrix not row standardized")
-	all.tests <- c("SDM_LMlag", "SDM_RLMlag", "SDM_LMWX", "SDM_RLMWX", "SDM_Joint")
+	all.tests <- c("SDM_RSlag", "SDM_adjRSlag", "SDM_RSWX", "SDM_adjRSWX", "SDM_Joint")
 	if (test[1] == "all") test <- all.tests
 	if (!all(test %in% all.tests))
 		stop("Invalid test selected - must be either \"all\" or a vector of tests")		
@@ -161,11 +158,11 @@ SDM.LMtests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), te
 	for (i in 1:nt) {
 		testi <- test[i]
 		zz <- switch(testi,
-		SDM_LMlag = vec <- c((1/N) * ((dl^2) * 1/Jl.p), 1),
-		SDM_RLMlag = vec <- c((1/N)*((dl_adj^2)*(1/Jl.p_adj)), 1),
-		SDM_LMWX = vec <- c((1/N) * (t(dg) %*% invJg.p %*% dg),
+		SDM_RSlag = vec <- c((1/N) * ((dl^2) * 1/Jl.p), 1),
+		SDM_adjRSlag = vec <- c((1/N)*((dl_adj^2)*(1/Jl.p_adj)), 1),
+		SDM_RSWX = vec <- c((1/N) * (t(dg) %*% invJg.p %*% dg),
                     ncol(X0)),
-		SDM_RLMWX = vec <- c((1/N) * (dg_adj %*% solve(Jg.p_adj) %*% 
+		SDM_adjRSWX = vec <- c((1/N) * (dg_adj %*% solve(Jg.p_adj) %*% 
                     t(dg_adj)), ncol(X0)),
 		SDM_Joint = vec <- c(((1/N) * (t(c(dl, dg)) %*% 
                     J.22 %*% c(dl, dg))), ncol(X0)+1)
