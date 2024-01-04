@@ -2,13 +2,14 @@
 \alias{SDM.RStests}
 
 \title{
-
+Rao's score and adjusted Rao's score tests of linear hypotheses for spatial Durbin models
 }
 \description{
-
+Rao's score and adjusted Rao's score tests of linear hypotheses applied to a fitted linear model to examine whether either the spatially lagged dependent variable \code{lag} or the spatially lagged independent variable(s) \code{WX} should be included in the model, or both. Adjusted tests are provided for \code{lag} and \code{WX} adapting to the presence of the other, and a joint test for both. The joint test is equal to the unadjusted of one plus the adjusted of the other.
 }
 \usage{
-SDM.RStests(model, listw, zero.policy = attr(listw, "zero.policy"), test = "all", Durbin = TRUE)
+SDM.RStests(model, listw, zero.policy = attr(listw, "zero.policy"), test = "all",
+ Durbin = TRUE)
 }
 
 \arguments{
@@ -20,9 +21,7 @@ neighbours, if FALSE assign NA}
   \item{test}{test="all" computes all the tests, a character vector of tests requested chosen from SDM_RSlag, SDM_adjRSlag, SDM_RSWX, SDM_adjRSWX, SDM_Joint}
   \item{Durbin}{default TRUE for Durbin models including WX; if TRUE, full spatial Durbin model; if a formula object, the subset of explanatory variables to lag}
 }
-\details{
 
-}
 \value{
 A list of class \code{LMtestlist} of \code{htest} objects, each with:
   \item{statistic}{the value of the Lagrange Multiplier test.}
@@ -32,11 +31,11 @@ A list of class \code{LMtestlist} of \code{htest} objects, each with:
   \item{data.name}{a character string giving the name(s) of the data.}
 }
 \references{
-
+Malabika Koley and Anil K. Bera (2024) To use, or not to use the spatial Durbin model? – that is the question, Spatial Economic Analysis, 19:1, 30-56, \doi{10.1080/17421772.2023.2256810}
 }
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}, Malabika Koley and Anil K. Bera}
 \note{
-
+The results in the example below agree with those in Table 3, p. 22 in Koley and Bera (2024).
 }
 
 \seealso{
@@ -48,7 +47,21 @@ col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 col.listw <- nb2listw(col.gal.nb, style="W")
 lm_obj <- lm(CRIME ~ INC + HOVAL, data=columbus)
 summary(lm.LMtests(lm_obj, col.listw, test="all"))
-summary(SDM.RStests(lm_obj, col.listw, test="all"))
+res <- SDM.RStests(lm_obj, col.listw, test="all")
+summary(res)
+all.equal(unname(res$SDM_Joint$statistic),
+ unname(res$SDM_RSlag$statistic + res$SDM_adjRSWX$statistic))
+all.equal(unname(res$SDM_Joint$statistic),
+ unname(res$SDM_adjRSlag$statistic + res$SDM_RSWX$statistic))
+summary(SDM.RStests(lm_obj, nb2listw(col.gal.nb, style="C"), test="all"))
+summary(SDM.RStests(lm_obj, col.listw, test="all", Durbin= ~ INC))
+lm_obj0 <- lm(I(scale(CRIME)) ~ 0 + I(scale(INC)) + I(scale(HOVAL)),
+ data=columbus)
+summary(SDM.RStests(lm_obj0, col.listw, test="all"))
+columbusNA <- columbus
+columbusNA$HOVAL[15] <- NA
+lm_objNA <- lm(CRIME ~ INC + HOVAL, data=columbusNA)
+summary(SDM.RStests(lm_objNA, col.listw, test="all"))
 }
 \keyword{spatial}
 

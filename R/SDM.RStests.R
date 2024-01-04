@@ -49,29 +49,20 @@ create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
             if (inherits(X0, "try-error")) 
                  stop("Durbin variable mis-match")
             
-            inds <- match(substring(colnames(X0), 5,
-	        nchar(colnames(X0))), colnames(X))
+            inds <- match(colnames(X0), colnames(X))
             if (anyNA(inds)) {
               wna <- which(is.na(inds)) #TR: continue if Durbin has intercept, but formula has not
               if (length(wna) == 1 && grepl("Intercept", colnames(X0)[wna])
-                 && attr(terms(formula), "intercept") == 0
                  && attr(terms(Durbin), "intercept") == 1) {
                 inds <- inds[-wna]
-              } else{
+              } else {
                 stop("X0 variables not in X: ",
-                     paste(substring(colnames(X0), 5,
-                     nchar(colnames(X0)))[is.na(inds)], collapse=" "))
+                     paste(colnames(X0)[is.na(inds)], collapse=" "))
               }
             } 
-            icept <- grep("(Intercept)", colnames(X))
-            iicept <- length(icept) > 0L
-            if (iicept) {
-                xn <- colnames(X)[-1]
-            } else {
-                xn <- colnames(X)
-            }
-            wxn <- substring(colnames(X0), nchar(prefix)+2,
-                nchar(colnames(X0)))
+            icept <- grep("(Intercept)", colnames(X0))
+            if (length(icept) == 1L && listw$style == "W") 
+                X0 <- X0[, -icept, drop=FALSE]
         } else stop("Durbin argument neither TRUE nor formula")
         X0
 }
@@ -176,11 +167,15 @@ SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), te
 		if (!is.finite(p.value) || p.value < 0 || p.value > 1) 
 		    warning("Out-of-range p-value: reconsider test arguments")
 		names(p.value) <- ""
-		method <- "Lagrange multiplier spatial Durbin diagnostics"
+		method <- "Rao's score test spatial Durbin diagnostics"
+                Durf <- ""
+                if (is.formula(Durbin))
+                    Durf <- paste0("Durbin: ", paste(as.character(Durbin),
+                    collapse=" "), "\n")
 		data.name <- paste("\n", paste(strwrap(paste("model: ",
 		    gsub("[ ]+", " ", paste(deparse(model$call), 
 		    sep="", collapse="")))), collapse="\n"),
-    	            "\nweights: ", listw_name, "\n", sep="")
+    	            "\nweights: ", listw_name, "\n", Durf, sep="")
 		tres[[i]] <- list(statistic=statistic, parameter=parameter,
 			p.value=p.value, method=method, data.name=data.name)
 		class(tres[[i]]) <- "htest"
