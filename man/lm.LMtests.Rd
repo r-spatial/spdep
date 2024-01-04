@@ -70,7 +70,7 @@ A list of class \code{LMtestlist} of \code{htest} objects, each with:
 \references{Anselin, L. 1988 Spatial econometrics: methods and
 models. (Dordrecht: Kluwer); Anselin, L., Bera, A. K., Florax, R. and
 Yoon, M. J. 1996 Simple diagnostic tests for spatial dependence. Regional
-Science and Urban Economics, 26, 77--104.}
+Science and Urban Economics, 26, 77--104 \doi{10.1016/0166-0462(95)02111-6}.}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no} and Andrew Bernat}
 
 \seealso{\code{\link{lm}}}

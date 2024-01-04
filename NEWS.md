@@ -1,5 +1,7 @@
 # Version 1.3-2 (development)
 
+* add `SDM.RStests` implementation of Rao's score tests for spatial Durbin models (Koley and Bera, 2024) 
+
 * add `style` to `sn2listw` use in `tri2nb`
 
 # Version 1.3-1 (2023-11-23)
