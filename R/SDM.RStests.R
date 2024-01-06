@@ -67,7 +67,7 @@ create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
         X0
 }
 
-SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="all", Durbin=TRUE) {
+SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="SDM", Durbin=TRUE) {
 
 	if (inherits(model, "lm")) na.act <- model$na.action
 	else na.act <- attr(model, "na.action")
@@ -93,10 +93,14 @@ SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), te
 
 	if (is.null(attr(listw$weights, "W")) || !attr(listw$weights, "W"))
 		warning("Spatial weights matrix not row standardized")
-	all.tests <- c("SDM_RSlag", "SDM_adjRSlag", "SDM_RSWX", "SDM_adjRSWX", "SDM_Joint")
-	if (test[1] == "all") test <- all.tests
+	SDM.tests <- c("SDM_RSlag", "SDM_adjRSlag", "SDM_RSWX", "SDM_adjRSWX", "SDM_Joint")
+	SDEM.tests <- c("SDEM_RSerr", "SDEM_RSWX", "SDEM_Joint")
+        all.tests <- c(SDM.tests, SDEM.tests)
+	if (test[1] == "SDM") test <- SDM.tests
+	if (test[1] == "SDEM") test <- SDEM.tests
+        if (test[1] == "all") test <- all.tests
 	if (!all(test %in% all.tests))
-		stop("Invalid test selected - must be either \"all\" or a vector of tests")		
+	  stop("Invalid test selected - must be either \"all\", \"SDM\", \"SDEM\" or a vector of tests")		
 	nt <- length(test)
 	if (nt < 1) stop("non-positive number of tests")
 
@@ -118,8 +122,10 @@ SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), te
 	XtXinv <- chol2inv(model$qr$qr[p1, p1, drop = FALSE])
 	sigma2 <- c(t(u) %*% u) / N
 	TrW <- tracew(listw)
+	Wu <- lag.listw(listw, u, zero.policy)
 	Wy <- lag.listw(listw, y, zero.policy)
-        dl <- (t(Wy) %*% u)/sigma2
+        dr <- (t(Wy) %*% u)/sigma2 # lagged y
+        dl <- (t(Wu) %*% u)/sigma2 # lagged residuals
 	Wyhat <- lag.listw(listw, yhat, zero.policy)
         WX0 <- lag.listw(listw, X0, zero.policy)
         dg <- c(t(WX0) %*% u)/sigma2
@@ -128,35 +134,43 @@ SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), te
         J_11 <- rbind(cbind((crossprod(X)/(N*sigma2)), rep(0, k)), 
                       cbind(t(rep(0, k)), (1/(2*(sigma2^2)))))
         invJ_11 <- solve(J_11)
-        Jlp <- rbind((t(X) %*% Wyhat)/(N*sigma2), t(rep(0, 1)))
-        Jgp <- rbind((t(X) %*% WX0)/(N*sigma2), t(rep(0, k0)))
-        J_12 <- cbind(Jlp, Jgp)
-        Jll <- (c(crossprod(Wyhat)) + TrW*sigma2)/(N*sigma2)
+        Jrp <- rbind((t(X) %*% Wyhat)/(N*sigma2), t(rep(0, 1)))
+        Jgb <- (t(X) %*% WX0)/(N*sigma2)
+        Jgp <- rbind(Jgb, t(rep(0, k0)))
+        J_12 <- cbind(Jrp, Jgp)
+        Jrr <- (c(crossprod(Wyhat)) + TrW*sigma2)/(N*sigma2)
         Jgg <- crossprod(WX0)/(N*sigma2)
-        Jlg <-  (t(WX0) %*% Wyhat)/(N*sigma2)
-        J_22 <- rbind(cbind(Jll, t(Jlg)), cbind(Jlg, Jgg))
-        Jlg.p <- t(Jlg) - c(t(Jlp) %*% invJ_11 %*% Jgp)
-        Jl.p <- Jll - c(t(Jlp) %*% invJ_11 %*% Jlp)
+        Jrg <-  (t(WX0) %*% Wyhat)/(N*sigma2)
+        J_22 <- rbind(cbind(Jrr, t(Jrg)), cbind(Jrg, Jgg))
+        Jrg.p <- t(Jrg) - c(t(Jrp) %*% invJ_11 %*% Jgp)
+        Jr.p <- Jrr - c(t(Jrp) %*% invJ_11 %*% Jrp)
         Jg.p <- Jgg - (t(Jgp) %*% invJ_11 %*% Jgp)
         invJg.p <- solve(Jg.p)
-        dl_adj <- dl - (Jlg.p %*% invJg.p %*% dg)
-        Jl.p_adj <- Jl.p - (Jlg.p %*% invJg.p %*% t(Jlg.p))
-        dg_adj <- dg - c(dl * (1/Jl.p)) * Jlg.p
-        Jg.p_adj <- Jg.p - ((1/Jl.p) * crossprod(Jlg.p))
+        dr_adj <- dr - (Jrg.p %*% invJg.p %*% dg)
+        Jr.p_adj <- Jr.p - (Jrg.p %*% invJg.p %*% t(Jrg.p))
+        dg_adj <- dg - c(dr * (1/Jr.p)) * Jrg.p
+        Jg.p_adj <- Jg.p - ((1/Jr.p) * crossprod(Jrg.p))
         J.22 <- solve(J_22 - t(J_12) %*% invJ_11 %*% J_12)
+        invJg.b <- solve(Jgg - t(Jgb) %*% solve(crossprod(X)/(N*sigma2)) %*%
+            Jgb)
 	tres <- vector(mode="list", length=nt)
 	names(tres) <- test
 	for (i in 1:nt) {
 		testi <- test[i]
 		zz <- switch(testi,
-		SDM_RSlag = vec <- c((1/N) * ((dl^2) * 1/Jl.p), 1),
-		SDM_adjRSlag = vec <- c((1/N)*((dl_adj^2)*(1/Jl.p_adj)), 1),
+		SDM_RSlag = vec <- c((1/N) * ((dr^2) * 1/Jr.p), 1),
+		SDM_adjRSlag = vec <- c((1/N)*((dr_adj^2)*(1/Jr.p_adj)), 1),
 		SDM_RSWX = vec <- c((1/N) * (t(dg) %*% invJg.p %*% dg),
                     ncol(X0)),
 		SDM_adjRSWX = vec <- c((1/N) * (dg_adj %*% solve(Jg.p_adj) %*% 
                     t(dg_adj)), ncol(X0)),
-		SDM_Joint = vec <- c(((1/N) * (t(c(dl, dg)) %*% 
-                    J.22 %*% c(dl, dg))), ncol(X0)+1)
+		SDM_Joint = vec <- c(((1/N) * (t(c(dr, dg)) %*% 
+                    J.22 %*% c(dr, dg))), ncol(X0)+1),
+                SDEM_RSerr = vec <- c((dl^2) / TrW, 1),
+                SDEM_RSWX = vec <- c(((t(dg) %*% invJg.b %*% dg) / N),
+                    ncol(X0)),
+                SDEM_Joint = vec <- c(((t(dg) %*% invJg.b %*% dg) / N) + 
+                    ((dl^2) / TrW), ncol(X0)+1)
                 )
 		if (is.null(zz)) stop(paste(testi, ": no such test", sep=""))
 		statistic <- vec[1]
