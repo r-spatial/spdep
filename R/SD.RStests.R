@@ -67,7 +67,7 @@ create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
         X0
 }
 
-SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="SDM", Durbin=TRUE) {
+SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="SDM", Durbin=TRUE) {
 
 	if (inherits(model, "lm")) na.act <- model$na.action
 	else na.act <- attr(model, "na.action")
@@ -194,7 +194,7 @@ SDM.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), te
 			p.value=p.value, method=method, data.name=data.name)
 		class(tres[[i]]) <- "htest"
 	}
-	class(tres) <- "LMtestlist"
+	class(tres) <- "RStestlist"
 	tres
 }
 

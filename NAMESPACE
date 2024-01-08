@@ -40,7 +40,7 @@ export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb,
 	knearneigh, knn2nb)
 
 export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests, 
-        SDM.RStests,
+        lm.RStests, SD.RStests,
 	lm.morantest, localG, localG_perm, localmoran, localmoran_perm, moran,
 	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
 	nb2listw, nb2listwdist, nb2mat, listw2mat, mat2listw, nbdists, nblag,
@@ -51,7 +51,7 @@ export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests,
 	sym.attr.nb, include.self, make.sym.nb, union.nb, intersect.nb,
 	setdiff.nb, complement.nb, Szero, spdep,
 	plot.nb, edit.nb, subset.nb, subset.listw,
-	plot.Gabriel, plot.relative, print.jclist, print.LMtestlist,
+	plot.Gabriel, plot.relative, print.jclist,
 	plot.mc.sim, as.data.frame.localmoransad, print.localmoransad,
 	summary.localmoransad, print.summary.localmoransad, print.moransad,
 	summary.moransad, print.summary.moransad, print.spcor, plot.spcor,
@@ -110,9 +110,9 @@ S3method(plot, relative)
 
 S3method(print, jclist)
 S3method(print, jcmulti)
-S3method(print, LMtestlist)
-S3method(summary, LMtestlist)
-S3method(print, LMtestlist.summary)
+S3method(print, RStestlist)
+S3method(summary, RStestlist)
+S3method(print, RStestlist.summary)
 S3method(plot, mc.sim)
 
 S3method(as.data.frame, localmoransad)

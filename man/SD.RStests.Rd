@@ -1,14 +1,14 @@
-\name{SDM.RStests}
-\alias{SDM.RStests}
+\name{SD.RStests}
+\alias{SD.RStests}
 
 \title{
-Rao's score and adjusted Rao's score tests of linear hypotheses for spatial Durbin models
+Rao's score and adjusted Rao's score tests of linear hypotheses for spatial Durbin and spatial Durbin error models
 }
 \description{
 Rao's score and adjusted Rao's score tests of linear hypotheses applied to a fitted linear model to examine whether either the spatially lagged dependent variable \code{lag} or the spatially lagged independent variable(s) \code{WX} should be included in the model, or both (SDM). Adjusted tests are provided for \code{lag} and \code{WX} adapting to the presence of the other, and a joint test for both. The joint test is equal to the unadjusted of one plus the adjusted of the other. In addition, draft tests are added from Koley (2024, section 6) for spatial Durbin error models to examine whether either the spatially lagged error \code{err} or the spatially lagged independent variable(s) \code{WX} should be included in the model, or both (SDEM); because of orthogonality, no adjusted tests are required.
 }
 \usage{
-SDM.RStests(model, listw, zero.policy = attr(listw, "zero.policy"), test = "SDM",
+SD.RStests(model, listw, zero.policy = attr(listw, "zero.policy"), test = "SDM",
  Durbin = TRUE)
 }
 
@@ -39,33 +39,33 @@ The results in the example below agree with those in Table 3, p. 22 in Koley and
 }
 
 \seealso{
-\code{\link{lm}}, \code{\link{lm.LMtests}}
+\code{\link{lm}}, \code{\link{lm.RStests}}
 }
 \examples{
 columbus <- sf::st_read(system.file("shapes/columbus.shp", package="spData")[1])
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 col.listw <- nb2listw(col.gal.nb, style="W")
 lm_obj <- lm(CRIME ~ INC + HOVAL, data=columbus)
-summary(lm.LMtests(lm_obj, col.listw, test="all"))
-res <- SDM.RStests(lm_obj, col.listw, test="SDM")
+summary(lm.RStests(lm_obj, col.listw, test="all"))
+res <- SD.RStests(lm_obj, col.listw, test="SDM")
 summary(res)
 all.equal(unname(res$SDM_Joint$statistic),
  unname(res$SDM_RSlag$statistic + res$SDM_adjRSWX$statistic))
 all.equal(unname(res$SDM_Joint$statistic),
  unname(res$SDM_adjRSlag$statistic + res$SDM_RSWX$statistic))
-res <- SDM.RStests(lm_obj, col.listw, test="SDEM")
+res <- SD.RStests(lm_obj, col.listw, test="SDEM")
 summary(res)
 all.equal(unname(res$SDEM_Joint$statistic),
  unname(res$SDEM_RSerr$statistic + res$SDEM_RSWX$statistic))
-summary(SDM.RStests(lm_obj, nb2listw(col.gal.nb, style="C"), test="all"))
-summary(SDM.RStests(lm_obj, col.listw, test="all", Durbin= ~ INC))
+summary(SD.RStests(lm_obj, nb2listw(col.gal.nb, style="C"), test="all"))
+summary(SD.RStests(lm_obj, col.listw, test="all", Durbin= ~ INC))
 lm_obj0 <- lm(I(scale(CRIME)) ~ 0 + I(scale(INC)) + I(scale(HOVAL)),
  data=columbus)
-summary(SDM.RStests(lm_obj0, col.listw, test="all"))
+summary(SD.RStests(lm_obj0, col.listw, test="all"))
 columbusNA <- columbus
 columbusNA$HOVAL[15] <- NA
 lm_objNA <- lm(CRIME ~ INC + HOVAL, data=columbusNA)
-summary(SDM.RStests(lm_objNA, col.listw, test="all"))
+summary(SD.RStests(lm_objNA, col.listw, test="all"))
 }
 \keyword{spatial}
 
