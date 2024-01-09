@@ -7,7 +7,7 @@
 }
 \usage{
 geary.mc(x, listw, nsim, zero.policy=attr(listw, "zero.policy"), alternative="greater",
- spChk=NULL, adjust.n=TRUE, return_boot=FALSE)
+ spChk=NULL, adjust.n=TRUE, return_boot=FALSE, na.action=na.fail)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -18,7 +18,7 @@ geary.mc(x, listw, nsim, zero.policy=attr(listw, "zero.policy"), alternative="gr
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}
   \item{return_boot}{return an object of class \code{boot} from the equivalent permutation bootstrap rather than an object of class \code{htest}}
-}
+  \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. \code{na.pass} is not permitted because it is meaningless in a permutation test.}}
 
 \value{
 A list with class \code{htest} and \code{mc.sim} containing the following components:
@@ -37,6 +37,7 @@ A list with class \code{htest} and \code{mc.sim} containing the following compon
 
 \examples{
 data(oldcol)
+set.seed(1)
 sim1 <- geary.mc(COL.OLD$CRIME, nb2listw(COL.nb, style="W"),
  nsim=99, alternative="less")
 sim1
@@ -52,5 +53,18 @@ sim3 <- geary.mc(COL.OLD$CRIME, nb2listw(colold.lags[[3]],
  style="W"), nsim=99)
 sim3
 summary(sim3$res)
+crime <- COL.OLD$CRIME
+is.na(crime) <- sample(1:length(crime), 10)
+try(geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99,
+ na.action=na.fail))
+geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
+ na.action=na.omit)
+geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
+ return_boot=TRUE, na.action=na.omit)
+geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
+ na.action=na.exclude)
+geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
+ return_boot=TRUE, na.action=na.exclude)
+try(geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, na.action=na.pass))
 }
 \keyword{spatial}

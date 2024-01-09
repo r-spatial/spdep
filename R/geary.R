@@ -1,4 +1,4 @@
-# Copyright 2001-9, 2021 by Roger Bivand 
+# Copyright 2001-24 by Roger Bivand 
 #
 
 
@@ -7,6 +7,7 @@ geary <- function(x, listw, n, n1, S0, zero.policy=attr(listw, "zero.policy")) {
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(x))
+        stopifnot(all(is.finite(x)))
 #	z <- scale(x, scale=FALSE)
         z <- scale(x)
 	zz <- sum(z^2)
@@ -34,16 +35,24 @@ geary.intern <- function(x, listw, n, zero.policy=attr(listw, "zero.policy"), ty
 }
 
 geary.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "zero.policy"),
-    alternative="greater", spChk=NULL, adjust.n=TRUE) {
+    alternative="greater", spChk=NULL, adjust.n=TRUE, na.action=na.fail) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
 	alternative <- match.arg(alternative, c("less", "greater", "two.sided"))
-	if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
-		"is not a listw object"))
-	if(!is.numeric(x)) stop(paste(deparse(substitute(x)),
-		"is not a numeric vector"))
-	if (any(is.na(x))) stop("NA in X")
+	wname <- deparse(substitute(listw))
+	if (!inherits(listw, "listw")) stop(wname, "is not a listw object")
+        xname <- deparse(substitute(x))
+	if(!is.numeric(x)) stop(xname,
+		" is not a numeric vector")
+	if (deparse(substitute(na.action)) == "na.pass")
+	    stop("na.pass not permitted")
+	x <- na.action(x)
+	na.act <- attr(x, "na.action")
+	if (!is.null(na.act)) {
+	    subset <- !(1:length(listw$neighbours) %in% na.act)
+	    listw <- subset(listw, subset, zero.policy=zero.policy)
+	}
 	n <- length(listw$neighbours)
 	if (n != length(x)) stop("objects of different length")
 	if (is.null(spChk)) spChk <- get.spChkOption()
@@ -52,9 +61,9 @@ geary.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "ze
 	
 	wc <- spweights.constants(listw, zero.policy, adjust.n=adjust.n)
 	S02 <- wc$S0*wc$S0
-	res <- geary(x, listw, wc$n, wc$n1, wc$S0, zero.policy)
+	res <- geary(as.vector(x), listw, wc$n, wc$n1, wc$S0, zero.policy)
 	C <- res$C
-	if (is.na(C)) stop("NAs generated in geary - check zero.policy")
+	if (is.na(C)) stop("NAs generated in geary - check zero.policy and na.action")
 	K <- res$K
 	EC <- 1
 	if(randomisation) {
@@ -85,29 +94,43 @@ geary.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "ze
 	names(vec) <- c("Geary C statistic", "Expectation", "Variance")
 	method <- paste("Geary C test under", ifelse(randomisation,
 	    "randomisation", "normality"))
-	data.name <- paste(deparse(substitute(x)), "\nweights:",
-	    deparse(substitute(listw)), "\n")
+	data.name <- paste(xname, "\nweights:", wname,
+            ifelse(is.null(na.act), "", paste("\nomitted:", 
+	    paste(na.act, collapse=", "))),
+            ifelse(adjust.n && isTRUE(any(sum(card(listw$neighbours) == 0L))),
+            "\nn reduced by no-neighbour observations", ""), "\n")
 	res <- list(statistic=statistic, p.value=PrC, estimate=vec, 
 	    alternative=ifelse(alternative == "two.sided", alternative, 
 	    paste("Expectation", alternative, "than statistic")), 
 	    method=method, data.name=data.name)
+	if (!is.null(na.act)) attr(res, "na.action") <- na.act
 	class(res) <- "htest"
 	res
 }
 
 geary.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
-	alternative="greater", spChk=NULL, adjust.n=TRUE, return_boot=FALSE) {
+	alternative="greater", spChk=NULL, adjust.n=TRUE, return_boot=FALSE,
+        na.action=na.fail) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(x))
 	alternative <- match.arg(alternative, c("less", "greater", "two.sided"))
-	if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
-		"is not a listw object"))
-	if(!is.numeric(x)) stop(paste(deparse(substitute(x)),
-		"is not a numeric vector"))
+	wname <- deparse(substitute(listw))
+	if (!inherits(listw, "listw")) stop(wname, "is not a listw object")
+        xname <- deparse(substitute(x))
+	if(!is.numeric(x)) stop(xname, " is not a numeric vector")
 	if(missing(nsim)) stop("nsim must be given")
-	if (any(is.na(x))) stop("NA in X")
+	if (deparse(substitute(na.action)) == "na.pass")
+	    stop("na.pass not permitted")
+	x <- na.action(x)
+	na.act <- attr(x, "na.action")
+	if (!is.null(na.act)) {
+	    subset <- !(1:length(listw$neighbours) %in% na.act)
+	    listw <- subset(listw, subset, zero.policy=zero.policy)
+            if (return_boot) 
+              message("NA observations omitted: ", paste(na.act, collapse=", "))
+	}
 	n <- length(listw$neighbours)
 	if (n != length(x)) stop("objects of different length")
 	if (is.null(spChk)) spChk <- get.spChkOption()
@@ -134,7 +157,7 @@ geary.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	res <- numeric(length=nsim+1)
 	for (i in 1:nsim) res[i] <- geary(sample(x), listw, n, wc$n1, wc$S0,
 	    zero.policy)$C
-	res[nsim+1] <- geary(x, listw, n, wc$n1, wc$S0, zero.policy)$C
+	res[nsim+1] <- geary(as.vector(x), listw, n, wc$n1, wc$S0, zero.policy)$C
 	rankres <- rank(res)
 	xrank <- rankres[length(res)]
 	diff <- nsim - xrank
@@ -153,12 +176,13 @@ geary.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	parameter <- xrank
 	names(parameter) <- "observed rank"
 	method <- "Monte-Carlo simulation of Geary C"
-	data.name <- paste(deparse(substitute(x)), "\nweights:",
-	    deparse(substitute(listw)), "\nnumber of simulations + 1:",
-	    nsim+1, "\n")
+	data.name <- paste(xname, "\nweights:", wname,
+            ifelse(is.null(na.act), "", paste("\nomitted:", paste(na.act, 
+                collapse=", "))), "\nnumber of simulations + 1:", nsim+1, "\n")
 	lres <- list(statistic=statistic, parameter=parameter,
 	    p.value=pval, alternative=alternative, method=method, 
 	    data.name=data.name, res=res)
+	if (!is.null(na.act)) attr(res, "na.action") <- na.act
 	class(lres) <- c("htest", "mc.sim")
 	lres
 }

@@ -1,26 +1,34 @@
-# Copyright 2002-2018 by Hisaji ONO and Roger Bivand 
+# Copyright 2002-2024 by Hisaji ONO and Roger Bivand 
 #
 # General G Statistics
 #
 #
 globalG.test <- function(x, listw, zero.policy=attr(listw, "zero.policy"),
-	alternative="greater", spChk=NULL, adjust.n=TRUE, B1correct=TRUE, adjust.x=TRUE, Arc_all_x=FALSE) {
+	alternative="greater", spChk=NULL, adjust.n=TRUE, B1correct=TRUE,
+        adjust.x=TRUE, Arc_all_x=FALSE, na.action=na.fail) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(x))
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
-	if (!inherits(listw, "listw"))
-	stop(paste(deparse(substitute(listw)), "is not a listw object"))
+	wname <- deparse(substitute(listw))
+	if (!inherits(listw, "listw")) stop(wname, "is not a listw object")
 	if (is.na(match(listw$style, c("B", "C", "U")))) 
           warning("Binary weights recommended (especially for distance bands)")
-	if (!is.numeric(x))
-	stop(paste(deparse(substitute(x)), "is not a numeric vector"))
-	if (any(is.na(x))) stop(paste("NA in ", deparse(substitute(x))))
-	if (any(x < 0.0)) 
-		stop(paste("Negative value in ", deparse(substitute(x))))
+        xname <- deparse(substitute(x))
+	if(!is.numeric(x)) stop(xname, " is not a numeric vector")
+	if (deparse(substitute(na.action)) == "na.pass")
+	    stop("na.pass not permitted")
+	x <- na.action(x)
+	na.act <- attr(x, "na.action")
+	if (!is.null(na.act)) {
+	    subset <- !(1:length(listw$neighbours) %in% na.act)
+	    listw <- subset(listw, subset, zero.policy=zero.policy)
+	}
+	if (any(x < 0.0)) stop("Negative value in ", xname)
+        
 	n <- length(listw$neighbours)
-	if (n != length(x))stop("Different numbers of observations")
+	if (n != length(x)) stop("Different numbers of observations")
 	if (is.null(spChk)) spChk <- get.spChkOption()
 	if (spChk && !chkIDs(x, listw))
 		stop("Check of data and weights ID integrity failed")
@@ -80,8 +88,10 @@ globalG.test <- function(x, listw, zero.policy=attr(listw, "zero.policy"),
 		warning("Out-of-range p-value: reconsider test arguments")
 	vec <- c(G, E.G, var.G)
 	names(vec) <- c("Global G statistic", "Expectation", "Variance")
-	data.name <- paste(deparse(substitute(x)), "\nweights:",
-	    deparse(substitute(listw)), "\n")
+	data.name <- paste(xname, "\nweights:", wname, ifelse(is.null(na.act),
+            "", paste("\nomitted:", paste(na.act, collapse=", "))),
+            ifelse(adjust.n && isTRUE(any(sum(card(listw$neighbours) == 0L))),
+            "\nn reduced by no-neighbour observations", ""), "\n")
 	res <- list(statistic=statistic, p.value=PrG, estimate=vec, 
 	    alternative=alternative, data.name=data.name, method=method)
 	class(res) <- "htest"

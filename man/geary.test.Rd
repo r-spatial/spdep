@@ -7,7 +7,7 @@
 }
 \usage{
 geary.test(x, listw, randomisation=TRUE, zero.policy=attr(listw, "zero.policy"),
-    alternative="greater", spChk=NULL, adjust.n=TRUE)
+    alternative="greater", spChk=NULL, adjust.n=TRUE, na.action=na.fail)
 }
 
 \arguments{
@@ -18,6 +18,7 @@ geary.test(x, listw, randomisation=TRUE, zero.policy=attr(listw, "zero.policy"),
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}
+  \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. \code{na.pass} is not permitted.}
 }
 
 \value{
@@ -62,5 +63,13 @@ geary.test(COL.OLD$CRIME, listw2U(nb2listw(COL.k4.nb,
  style="W")))
 geary.test(COL.OLD$CRIME, listw2U(nb2listw(COL.k4.nb,
  style="W")), randomisation=FALSE)
+crime <- COL.OLD$CRIME
+is.na(crime) <- sample(1:length(crime), 10)
+try(geary.test(crime, nb2listw(COL.nb, style="W"), na.action=na.fail))
+geary.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
+ na.action=na.omit)
+geary.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
+ na.action=na.exclude)
+try(geary.test(crime, nb2listw(COL.nb, style="W"), na.action=na.pass))
 }
 \keyword{spatial}
