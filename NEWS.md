@@ -3,6 +3,8 @@
 * change `lm.LMtests` to `lm.RStests` and re-name Lagrange multiplier to Rao's score
 
 * add `SD.RStests` implementation of Rao's score tests for spatial Durbin models (Koley and Bera, 2024) and for SDEM models (Koley, forthcoming)
+ 
+* #139 add `na.action` argument to `geary.test`, `geary.mc` and `globalG.test`
 
 * add `style` to `sn2listw` use in `tri2nb`
 
