@@ -1,5 +1,7 @@
 # Version 1.3-2 (development)
 
+* #139 add `na.action` argument to `geary.test`, `geary.mc` and `globalG.test`
+
 * add `style` to `sn2listw` use in `tri2nb`
 
 # Version 1.3-1 (2023-11-23)

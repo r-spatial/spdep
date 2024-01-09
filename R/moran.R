@@ -1,4 +1,4 @@
-# Copyright 2001-18 by Roger Bivand 
+# Copyright 2001-24 by Roger Bivand 
 #
 
 moran <- function(x, listw, n, S0, zero.policy=attr(listw, "zero.policy"), NAOK=FALSE) {
@@ -23,10 +23,10 @@ moran.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "ze
 	alternative="greater", rank = FALSE, na.action=na.fail, spChk=NULL, 
 	adjust.n=TRUE, drop.EI2=FALSE) {
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
-	if (!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
-		"is not a listw object"))
-	if (!is.numeric(x)) stop(paste(deparse(substitute(x)),
-		"is not a numeric vector"))
+	wname <- deparse(substitute(listw))
+	if (!inherits(listw, "listw")) stop(wname, "is not a listw object")
+	xname <- deparse(substitute(x))
+	if (!is.numeric(x)) stop(xname,	" is not a numeric vector")
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -34,8 +34,6 @@ moran.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "ze
 	if (spChk && !chkIDs(x, listw))
 		stop("Check of data and weights ID integrity failed")
 #	if (any(is.na(x))) stop("NA in X")
-	xname <- deparse(substitute(x))
-	wname <- deparse(substitute(listw))
 	NAOK <- deparse(substitute(na.action)) == "na.pass"
 	x <- na.action(x)
 	na.act <- attr(x, "na.action")
@@ -86,8 +84,8 @@ moran.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "ze
 		wname, ifelse(is.null(na.act), "", paste("\nomitted:", 
 	    paste(na.act, collapse=", "))),
             ifelse(adjust.n && isTRUE(any(sum(card(listw$neighbours) == 0L))),
-            "n reduced by no-neighbour observations\n", ""),
-            ifelse(drop.EI2, "EI^2 term dropped in VI", ""), "\n")
+            "\nn reduced by no-neighbour observations", ""),
+            ifelse(drop.EI2, "\nEI^2 term dropped in VI", ""), "\n")
 	res <- list(statistic=statistic, p.value=PrI, estimate=vec, 
 	    alternative=alternative, method=method, data.name=data.name)
 	if (!is.null(na.act)) attr(res, "na.action") <- na.act
@@ -99,10 +97,10 @@ moran.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", na.action=na.fail, spChk=NULL,
         return_boot=FALSE, adjust.n=TRUE) {
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
-	if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
-		"is not a listw object"))
-	if(!is.numeric(x)) stop(paste(deparse(substitute(x)),
-		"is not a numeric vector"))
+	wname <- deparse(substitute(listw))
+	if(!inherits(listw, "listw")) stop(wname, "is not a listw object")
+	xname <- deparse(substitute(x))
+	if(!is.numeric(x)) stop(xname, "is not a numeric vector")
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -114,8 +112,6 @@ moran.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	if (!zero.policy && any(cards == 0))
 		stop("regions with no neighbours found")
 #	if (any(is.na(x))) stop("NA in X")
-	xname <- deparse(substitute(x))
-	wname <- deparse(substitute(listw))
 	if (deparse(substitute(na.action)) == "na.pass")
 	    stop("na.pass not permitted")
 	x <- na.action(x)
@@ -123,6 +119,8 @@ moran.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	if (!is.null(na.act)) {
 	    subset <- !(1:length(listw$neighbours) %in% na.act)
 	    listw <- subset(listw, subset, zero.policy=zero.policy)
+            if (return_boot) 
+              message("NA observations omitted: ", paste(na.act, collapse=", "))
 	}
 	n <- length(listw$neighbours)
 	if (n != length(x)) stop("objects of different length")

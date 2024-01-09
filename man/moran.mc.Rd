@@ -56,5 +56,18 @@ summary(sim2$res[1:nsim])
 sim3 <- moran.mc(COL.OLD$CRIME, nb2listw(colold.lags[[3]],
  style="W"), nsim=nsim)
 summary(sim3$res[1:nsim])
+crime <- COL.OLD$CRIME
+is.na(crime) <- sample(1:length(crime), 10)
+try(moran.mc(crime, nb2listw(COL.nb, style="W"), nsim=99,
+ na.action=na.fail))
+moran.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
+ na.action=na.omit)
+moran.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
+ return_boot=TRUE, na.action=na.omit)
+moran.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
+ na.action=na.exclude)
+moran.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
+ return_boot=TRUE, na.action=na.exclude)
+try(moran.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, na.action=na.pass))
 }
 \keyword{spatial}

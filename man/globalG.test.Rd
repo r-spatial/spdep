@@ -7,7 +7,8 @@ The global G statistic for spatial autocorrelation, complementing the local Gi L
 }
 \usage{
 globalG.test(x, listw, zero.policy=attr(listw, "zero.policy"), alternative="greater",
- spChk=NULL, adjust.n=TRUE, B1correct=TRUE, adjust.x=TRUE, Arc_all_x=FALSE)
+ spChk=NULL, adjust.n=TRUE, B1correct=TRUE, adjust.x=TRUE, Arc_all_x=FALSE,
+ na.action=na.fail)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -19,6 +20,7 @@ globalG.test(x, listw, zero.policy=attr(listw, "zero.policy"), alternative="grea
   \item{B1correct}{default TRUE, if TRUE, the erratum referenced below: "On page 195, the coefficient of W2 in B1, (just below center of the page) should be 6,  not 3." is applied; if FALSE, 3 is used (as in CrimeStat IV)}
   \item{adjust.x}{default TRUE, if TRUE, x values of observations with no neighbours are omitted in the denominator of G}
   \item{Arc_all_x}{default FALSE, if Arc_all_x=TRUE and adjust.x=TRUE, use the full x vector in part of the denominator term for G}
+  \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. \code{na.pass} is not permitted.}
 }
 
 \value{
@@ -59,5 +61,16 @@ for (i in 1:ndists) {
   ZG[[i]] <- globalG.test(sidsrate79, thislw, zero.policy=TRUE, alternative="two.sided")
 }
 t(sapply(ZG, function(x) c(x$estimate[1], x$statistic, p.value=unname(x$p.value))))
+data(oldcol)
+crime <- COL.OLD$CRIME
+is.na(crime) <- sample(1:length(crime), 10)
+res <- try(globalG.test(crime, nb2listw(COL.nb, style="B"),
+ na.action=na.fail))
+res
+globalG.test(crime, nb2listw(COL.nb, style="B"), zero.policy=TRUE,
+ na.action=na.omit)
+globalG.test(crime, nb2listw(COL.nb, style="B"), zero.policy=TRUE,
+ na.action=na.exclude)
+try(globalG.test(crime, nb2listw(COL.nb, style="B"), na.action=na.pass))
 }
 \keyword{spatial}
