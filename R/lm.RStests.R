@@ -94,10 +94,19 @@ lm.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 		    warning("Out-of-range p-value: reconsider test arguments")
 		names(p.value) <- ""
 		method <- "Rao's score (a.k.a Lagrange multiplier) diagnostics for spatial dependence"
-		data.name <- paste("\n", paste(strwrap(paste("model: ",
-		    gsub("[ ]+", " ", paste(deparse(model$call), 
-		    sep="", collapse="")))), collapse="\n"),
-    	            "\nweights: ", listw_name, "\n", sep="")
+                fmla <- gsub("[ ]+", " ", paste(deparse(model$call), sep="",
+                    collapse=""))
+                if (GNM) {
+                    if (!is.null(attr(model, "SLX_call"))) {
+                        fmla <- paste("lm(", attr(model, "SLX_call"), ")", sep="")
+                    } else {
+                        fmla <- gsub("[ ]+", " ", paste(deparse(model$terms),
+                            sep="", collapse=""))
+                    }
+                }
+		data.name <- paste("\n", paste(strwrap(paste("model: ", fmla)),
+                    collapse="\n"),
+    	            "\ntest weights: ", listw_name, "\n", sep="")
 		tres[[i]] <- list(statistic=statistic, parameter=parameter,
 			p.value=p.value, method=method, data.name=data.name)
 		class(tres[[i]]) <- "htest"
