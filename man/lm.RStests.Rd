@@ -73,7 +73,9 @@ A list of class \code{RStestlist} of \code{htest} objects, each with:
 \references{Anselin, L. 1988 Spatial econometrics: methods and
 models. (Dordrecht: Kluwer); Anselin, L., Bera, A. K., Florax, R. and
 Yoon, M. J. 1996 Simple diagnostic tests for spatial dependence. Regional
-Science and Urban Economics, 26, 77--104 \doi{10.1016/0166-0462(95)02111-6}.}
+Science and Urban Economics, 26, 77--104 \doi{10.1016/0166-0462(95)02111-6}; 
+Malabika Koley (2024) Specification Testing under General Nesting Spatial 
+Model, \url{https://sites.google.com/view/malabikakoley/research}.}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no} and Andrew Bernat}
 
 \seealso{\code{\link{lm}}, \code{\link{SD.RStests}}}
@@ -82,9 +84,12 @@ Science and Urban Economics, 26, 77--104 \doi{10.1016/0166-0462(95)02111-6}.}
 data(oldcol)
 oldcrime.lm <- lm(CRIME ~ HOVAL + INC, data = COL.OLD)
 summary(oldcrime.lm)
-res <- lm.RStests(oldcrime.lm, nb2listw(COL.nb), test=c("RSerr", "RSlag",
-  "adjRSerr", "adjRSlag", "SARMA"))
+lw <- nb2listw(COL.nb)
+res <- lm.RStests(oldcrime.lm, listw=lw, test="all")
 summary(res)
-lm.RStests(oldcrime.lm, nb2listw(COL.nb))
+if (require("spatialreg", quietly=TRUE)) {
+  oldcrime.slx <- lm(CRIME ~ HOVAL + INC, data = COL.OLD, listw=lw)
+  summary(lm.RStests(oldcrime.slx, listw=lw, test=c("adjRSerr", "adjRSlag")))
+}
 }
 \keyword{spatial}

@@ -74,6 +74,17 @@ SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 
 	listw_name <- deparse(substitute(listw))
 
+	SDM.tests <- c("SDM_RSlag", "SDM_adjRSlag", "SDM_RSWX", "SDM_adjRSWX", "SDM_Joint")
+	SDEM.tests <- c("SDEM_RSerr", "SDEM_RSWX", "SDEM_Joint")
+        all.tests <- c(SDM.tests, SDEM.tests)
+	if (test[1] == "SDM") test <- SDM.tests
+	if (test[1] == "SDEM") test <- SDEM.tests
+        if (test[1] == "all") test <- all.tests
+	if (!all(test %in% all.tests))
+	  stop("Invalid test selected - must be either \"all\", \"SDM\", \"SDEM\" or a vector of tests")		
+	nt <- length(test)
+	if (nt < 1) stop("non-positive number of tests")
+
 	if (!inherits(listw, "listw")) stop(paste(listw_name,
 		"is not a listw object"))
         if (is.null(zero.policy))
@@ -93,16 +104,6 @@ SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 
 	if (is.null(attr(listw$weights, "W")) || !attr(listw$weights, "W"))
 		warning("Spatial weights matrix not row standardized")
-	SDM.tests <- c("SDM_RSlag", "SDM_adjRSlag", "SDM_RSWX", "SDM_adjRSWX", "SDM_Joint")
-	SDEM.tests <- c("SDEM_RSerr", "SDEM_RSWX", "SDEM_Joint")
-        all.tests <- c(SDM.tests, SDEM.tests)
-	if (test[1] == "SDM") test <- SDM.tests
-	if (test[1] == "SDEM") test <- SDEM.tests
-        if (test[1] == "all") test <- all.tests
-	if (!all(test %in% all.tests))
-	  stop("Invalid test selected - must be either \"all\", \"SDM\", \"SDEM\" or a vector of tests")		
-	nt <- length(test)
-	if (nt < 1) stop("non-positive number of tests")
 
         if (is.formula(Durbin)) {
             dt <- try(eval(model$call[["data"]]), silent=TRUE)

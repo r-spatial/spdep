@@ -1,6 +1,6 @@
 # Version 1.3-2 (development)
 
-* change `lm.LMtests` to `lm.RStests` and re-name Lagrange multiplier to Rao's score
+* change `lm.LMtests` to `lm.RStests` and re-name Lagrange multiplier to Rao's score; add `GNM_` prefix to test names if the input object inherits from `SlX` created by `spatialreg::lmSLX` (Koley, forthcoming)
 
 * add `SD.RStests` implementation of Rao's score tests for spatial Durbin models (Koley and Bera, 2024) and for SDEM models (Koley, forthcoming)
  

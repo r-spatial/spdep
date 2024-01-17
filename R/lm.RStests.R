@@ -10,6 +10,7 @@ lm.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 
 	if (inherits(model, "lm")) na.act <- model$na.action
 	else na.act <- attr(model, "na.action")
+	GNM <- inherits(model, "SlX")
 
 	listw_name <- deparse(substitute(listw))
 
@@ -72,6 +73,7 @@ lm.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 	if (nt < 1) stop("non-positive number of tests")
 	tres <- vector(mode="list", length=nt)
 	names(tres) <- test
+	if (GNM) names(tres) <- paste("GNM_", names(tres), sep="")
 	for (i in 1:nt) {
 		testi <- test[i]
 		zz <- switch(testi,
