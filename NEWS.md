@@ -1,5 +1,7 @@
 # Version 1.3-2 (development)
 
+* #143 `row.names` pass-through in `poly2nb` corrected, harmonised `row.names` pass-through also in `nbdists` and `dnearneigh`
+
 * #139 add `na.action` argument to `geary.test`, `geary.mc` and `globalG.test`
 
 * add `style` to `sn2listw` use in `tri2nb`

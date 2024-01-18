@@ -16,6 +16,7 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
 	    && !is.na(is.projected(x)) && !is.projected(x)) {
             longlat <- TRUE
         } else longlat <- FALSE
+        if (is.null(row.names)) row.names <- row.names(x)
         x <- coordinates(x)
     } else if (inherits(x, "sf") || inherits(x, "sfc")) {
         if (inherits(x, "sf")) {
