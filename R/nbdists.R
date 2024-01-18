@@ -15,6 +15,7 @@ nbdists <- function(nb, coords, longlat=NULL) {
 		    && !is.na(is.projected(coords)) && !is.projected(coords)) {
          		longlat <- TRUE
       		} else longlat <- FALSE
+                if (is.null(row.names)) row.names <- row.names(coords)
       		coords <- coordinates(coords)[, 1:2]
         } else if (inherits(coords, "sf") || inherits(coords, "sfc")) {
             if (inherits(coords, "sf")) {

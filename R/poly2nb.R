@@ -14,7 +14,7 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
             sf <- FALSE
         } else {
             if (inherits(pl, "sf")) {
-                row.names <- row.names(pl)
+                if (is.null(row.names)) row.names <- row.names(pl)
                 regid <- NULL
                 pl <- sf::st_geometry(pl)
             }
