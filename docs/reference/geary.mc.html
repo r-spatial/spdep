@@ -73,7 +73,7 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">nsim</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
-<span> spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span> spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, return_boot<span class="op">=</span><span class="cn">FALSE</span>, na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -102,6 +102,8 @@
   <dt>return_boot</dt>
 <dd><p>return an object of class <code>boot</code> from the equivalent permutation bootstrap rather than an object of class <code>htest</code></p></dd>
 
+  <dt>na.action</dt>
+<dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. <code>na.pass</code> is not permitted because it is meaningless in a permutation test.</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -146,6 +148,7 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim1</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span> nsim<span class="op">=</span><span class="fl">99</span>, alternative<span class="op">=</span><span class="st">"less"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim1</span></span></span>
@@ -153,19 +156,19 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Geary C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W")  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.52987, observed rank = 1, p-value = 0.99</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: less</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9905898</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.002705</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">var</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01235372</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01043616</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim1</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5299  0.9225  1.0000  0.9906  1.0710  1.2144 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.5299  0.9362  1.0141  1.0027  1.0673  1.2459 </span>
 <span class="r-in"><span><span class="va">colold.lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="nblag.html">nblag</a></span><span class="op">(</span><span class="va">COL.nb</span>, <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim2</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span></span>
@@ -174,15 +177,15 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Geary C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[2]], style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[2]], style = "W")  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.81129, observed rank = 2, p-value = 0.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.81129, observed rank = 1, p-value = 0.01</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim2</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8090  0.9579  1.0123  1.0075  1.0575  1.1845 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8113  0.9500  1.0173  1.0147  1.0731  1.1962 </span>
 <span class="r-in"><span><span class="va">sim3</span> <span class="op">&lt;-</span> <span class="fu">geary.mc</span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">colold.lags</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">sim3</span></span></span>
@@ -190,15 +193,85 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Geary C</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[3]], style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[3]], style = "W")  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 1.1303, observed rank = 93, p-value = 0.93</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 1.1303, observed rank = 89, p-value = 0.89</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim3</span><span class="op">$</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.8015  0.9369  1.0017  0.9932  1.0467  1.1948 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.7903  0.9609  0.9989  1.0148  1.0656  1.2726 </span>
+<span class="r-in"><span><span class="va">crime</span> <span class="op">&lt;-</span> <span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in na.fail.default(x) : missing values in object</span>
+<span class="r-in"><span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Geary C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 14, 16, 17, 21, 24, 31, 32, 42, 44, 47 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.49368, observed rank = 1, p-value = 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> return_boot<span class="op">=</span><span class="cn">TRUE</span>, na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> NA observations omitted: 14, 16, 17, 21, 24, 31, 32, 42, 44, 47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> DATA PERMUTATION</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> boot(data = x, statistic = geary_boot, R = nsim, sim = "permutation", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     listw = listw, n = n, n1 = wc$n1, S0 = wc$S0, zero.policy = zero.policy, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     parallel = parallel, ncpus = ncpus, cl = cl)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bootstrap Statistics :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      original    bias    std. error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t1* 0.4936767 0.4891213   0.1517218</span>
+<span class="r-in"><span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Geary C</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 14, 16, 17, 21, 24, 31, 32, 42, 44, 47 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.49368, observed rank = 1, p-value = 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> return_boot<span class="op">=</span><span class="cn">TRUE</span>, na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> NA observations omitted: 14, 16, 17, 21, 24, 31, 32, 42, 44, 47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> DATA PERMUTATION</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> boot(data = x, statistic = geary_boot, R = nsim, sim = "permutation", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     listw = listw, n = n, n1 = wc$n1, S0 = wc$S0, zero.policy = zero.policy, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     parallel = parallel, ncpus = ncpus, cl = cl)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bootstrap Statistics :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      original    bias    std. error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t1* 0.4936767 0.4570379   0.1307276</span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">geary.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, na.action<span class="op">=</span><span class="va">na.pass</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in geary.mc(crime, nb2listw(COL.nb, style = "W"), nsim = 99, na.action = na.pass) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   na.pass not permitted</span>
 </code></pre></div>
     </div>
   </div>

@@ -344,33 +344,37 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;simpleError in na.fail.default(x): missing values in object&gt;</span>
 <span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 5, 7, 9, 15, 19, 33, 40, 45, 47, 48   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 7, 10, 12, 13, 14, 18, 26, 41, 42, 47 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> n reduced by no-neighbour observations  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 3.8759, p-value = 5.311e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 3.9826, p-value = 3.408e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.42342213       -0.02631579        0.01346387 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.43709247       -0.02702703        0.01358066 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 5, 7, 9, 15, 19, 33, 40, 45, 47, 48   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 7, 10, 12, 13, 14, 18, 26, 41, 42, 47 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> n reduced by no-neighbour observations  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 3.8759, p-value = 5.311e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 3.9826, p-value = 3.408e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.42342213       -0.02631579        0.01346387 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.43709247       -0.02702703        0.01358066 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">moran.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.pass</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>NAs in lagged values</span>
@@ -380,11 +384,11 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W")    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 1.3275, p-value = 0.09216</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 2.4925, p-value = 0.006342</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic       Expectation          Variance </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0.103248466      -0.020833333       0.008736122 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.212782897      -0.020833333       0.008784908 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">col_geoms</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span></span>
@@ -421,8 +425,8 @@ square of the first crude moment. The derivation of the test (Cliff and Ord, 198
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Moran I test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: lw  n reduced by no-neighbour observations</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: lw  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> n reduced by no-neighbour observations  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Moran I statistic standard deviate = 2.7707, p-value = 0.002797</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>

@@ -138,7 +138,7 @@ variance under the method assumption.</p></dd>
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="lm.LMtests.html">lm.LMtests</a></code>, <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code></p></div>
+    <div class="dont-index"><p><code><a href="lm.RStests.html">lm.LMtests</a></code>, <code><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></code></p></div>
     </div>
 
     <div id="ref-examples">
@@ -160,15 +160,17 @@ variance under the method assumption.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Observed Moran I      Expectation         Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      0.235638354     -0.033302866      0.008289408 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="fu"><a href="lm.LMtests.html">lm.LMtests</a></span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="lm.RStests.html">lm.LMtests</a></span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Please update scripts to use lm.RStests in place of lm.LMtests</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 	Lagrange multiplier diagnostics for spatial dependence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score (a.k.a Lagrange multiplier) diagnostics for spatial</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	dependence</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> model: lm(formula = CRIME ~ HOVAL + INC, data = COL.OLD)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> test weights: listw</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> LMErr = 5.7231, df = 1, p-value = 0.01674</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> RSerr = 5.7231, df = 1, p-value = 0.01674</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">lm.morantest</span><span class="op">(</span><span class="va">oldcrime.lm</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"S"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>

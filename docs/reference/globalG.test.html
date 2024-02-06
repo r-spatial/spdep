@@ -73,7 +73,8 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>, alternative<span class="op">=</span><span class="st">"greater"</span>,</span>
-<span> spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, B1correct<span class="op">=</span><span class="cn">TRUE</span>, adjust.x<span class="op">=</span><span class="cn">TRUE</span>, Arc_all_x<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span> spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, B1correct<span class="op">=</span><span class="cn">TRUE</span>, adjust.x<span class="op">=</span><span class="cn">TRUE</span>, Arc_all_x<span class="op">=</span><span class="cn">FALSE</span>,</span>
+<span> na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -104,6 +105,9 @@
 
   <dt>Arc_all_x</dt>
 <dd><p>default FALSE, if Arc_all_x=TRUE and adjust.x=TRUE, use the full x vector in part of the denominator term for G</p></dd>
+
+  <dt>na.action</dt>
+<dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. <code>na.pass</code> is not permitted.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -189,6 +193,55 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 <span class="r-out co"><span class="r-pr">#&gt;</span> 80          0.24606972      -0.18791364 0.8509443</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 90          0.30073463       0.11457610 0.9087811</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 100         0.34879996       0.31591356 0.7520681</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">oldcol</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">crime</span> <span class="op">&lt;-</span> <span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in na.fail.default(x) : missing values in object</span>
+<span class="r-in"><span><span class="va">res</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Error in na.fail.default(x) : missing values in object\n"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "try-error"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"condition")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;simpleError in na.fail.default(x): missing values in object&gt;</span>
+<span class="r-in"><span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Getis-Ord global G statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "B") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 2, 3, 5, 6, 7, 10, 13, 30, 39, 49 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> n reduced by no-neighbour observations </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> standard deviate = 3.8084, p-value = 6.993e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Global G statistic        Expectation           Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1.441233e-01       1.123755e-01       6.949287e-05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>subsetting caused increase in subgraph count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Getis-Ord global G statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "B") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 2, 3, 5, 6, 7, 10, 13, 30, 39, 49 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> n reduced by no-neighbour observations </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> standard deviate = 3.8084, p-value = 6.993e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Global G statistic        Expectation           Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1.441233e-01       1.123755e-01       6.949287e-05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.pass</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in globalG.test(crime, nb2listw(COL.nb, style = "B"), na.action = na.pass) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   na.pass not permitted</span>
 </code></pre></div>
     </div>
   </div>

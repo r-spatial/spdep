@@ -73,7 +73,7 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span>,</span>
-<span>    alternative<span class="op">=</span><span class="st">"greater"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<span>    alternative<span class="op">=</span><span class="st">"greater"</span>, spChk<span class="op">=</span><span class="cn">NULL</span>, adjust.n<span class="op">=</span><span class="cn">TRUE</span>, na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -98,6 +98,9 @@
 
   <dt>adjust.n</dt>
 <dd><p>default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted</p></dd>
+
+  <dt>na.action</dt>
+<dd><p>a function (default <code>na.fail</code>), can also be <code>na.omit</code> or <code>na.exclude</code> - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to <code>nb2listw</code> may be subsetted. <code>na.pass</code> is not permitted.</p></dd>
 
 </dl></div>
     <div id="value">
@@ -151,7 +154,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W")   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 4.7605, p-value = 9.655e-07</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
@@ -165,7 +168,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under normality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W")   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 4.6388, p-value = 1.752e-06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
@@ -180,7 +183,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[2]], style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[2]], style = "W")   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 2.2896, p-value = 0.01102</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
@@ -194,7 +197,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[3]], style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(colold.lags[[3]], style = "W")   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = -1.5667, p-value = 0.9414</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
@@ -213,7 +216,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.k4.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.k4.nb, style = "W")   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 6.4415, p-value = 5.916e-11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
@@ -227,7 +230,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under normality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.k4.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.k4.nb, style = "W")   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 6.2873, p-value = 1.615e-10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
@@ -243,7 +246,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under randomisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: listw2U(nb2listw(COL.k4.nb, style = "W")) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: listw2U(nb2listw(COL.k4.nb, style = "W"))   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 6.4415, p-value = 5.916e-11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
@@ -257,7 +260,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under normality</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  COL.OLD$CRIME </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> weights: listw2U(nb2listw(COL.k4.nb, style = "W")) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: listw2U(nb2listw(COL.k4.nb, style = "W"))   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 6.2873, p-value = 1.615e-10</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
@@ -265,6 +268,43 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic       Expectation          Variance </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0.399254423       1.000000000       0.009129529 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="va">crime</span> <span class="op">&lt;-</span> <span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">geary.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in na.fail.default(x) : missing values in object</span>
+<span class="r-in"><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under randomisation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 3, 4, 10, 20, 21, 23, 27, 29, 31, 38  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 4.2726, p-value = 9.661e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic       Expectation          Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.45199742        1.00000000        0.01645071 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">geary.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Geary C test under randomisation</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 3, 4, 10, 20, 21, 23, 27, 29, 31, 38  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic standard deviate = 4.2726, p-value = 9.661e-06</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: Expectation greater than statistic</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geary C statistic       Expectation          Variance </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.45199742        1.00000000        0.01645071 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">geary.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.pass</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in geary.test(crime, nb2listw(COL.nb, style = "W"), na.action = na.pass) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   na.pass not permitted</span>
 </code></pre></div>
     </div>
   </div>

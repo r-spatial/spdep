@@ -184,6 +184,72 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">sim3</span><span class="op">$</span><span class="va">res</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">nsim</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> -0.192986 -0.055468 -0.024154 -0.026327  0.004769  0.129996 </span>
+<span class="r-in"><span><span class="va">crime</span> <span class="op">&lt;-</span> <span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">crime</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">moran.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.fail</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in na.fail.default(x) : missing values in object</span>
+<span class="r-in"><span><span class="fu">moran.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Moran I</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 5, 7, 9, 15, 19, 33, 40, 45, 47, 48 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.42342, observed rank = 100, p-value = 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">moran.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> return_boot<span class="op">=</span><span class="cn">TRUE</span>, na.action<span class="op">=</span><span class="va">na.omit</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> NA observations omitted: 5, 7, 9, 15, 19, 33, 40, 45, 47, 48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> DATA PERMUTATION</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> boot(data = x, statistic = moran_boot, R = nsim, sim = "permutation", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     listw = listw, n = n, S0 = S0, zero.policy = zero.policy, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     parallel = parallel, ncpus = ncpus, cl = cl)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bootstrap Statistics :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      original     bias    std. error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t1* 0.4234221 -0.4429891   0.1293935</span>
+<span class="r-in"><span><span class="fu">moran.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Monte-Carlo simulation of Moran I</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "W") </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 5, 7, 9, 15, 19, 33, 40, 45, 47, 48 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> number of simulations + 1: 100 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> statistic = 0.42342, observed rank = 100, p-value = 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">moran.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span> return_boot<span class="op">=</span><span class="cn">TRUE</span>, na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> NA observations omitted: 5, 7, 9, 15, 19, 33, 40, 45, 47, 48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> DATA PERMUTATION</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> boot(data = x, statistic = moran_boot, R = nsim, sim = "permutation", </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     listw = listw, n = n, S0 = S0, zero.policy = zero.policy, </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     parallel = parallel, ncpus = ncpus, cl = cl)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bootstrap Statistics :</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      original     bias    std. error</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> t1* 0.4234221 -0.4384413   0.1243937</span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">moran.mc</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span>, nsim<span class="op">=</span><span class="fl">99</span>, na.action<span class="op">=</span><span class="va">na.pass</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Error in moran.mc(crime, nb2listw(COL.nb, style = "W"), nsim = 99, na.action = na.pass) : </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   na.pass not permitted</span>
 </code></pre></div>
     </div>
   </div>
