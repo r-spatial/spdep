@@ -1,6 +1,6 @@
 Package: spdep
 Version: 1.3-2
-Date: 2023-11-24
+Date: 2024-01-17
 Title: Spatial Dependence: Weighting Schemes, Statistics
 Encoding: UTF-8
 Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), 
@@ -9,6 +9,7 @@ Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"),
 	person("Micah", "Altman", role = "ctb"),
 	person("Luc", "Anselin", role = "ctb"),
 	person("Renato", "Assunção", role = "ctb"),
+	person("Anil", "Bera", role = "ctb"),
 	person("Olaf", "Berke", role = "ctb"),
 	person("F. Guillaume", "Blanchet", role = "ctb"),
 	person("Marilia", "Carvalho", role = "ctb"),
@@ -19,6 +20,7 @@ Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"),
         person("Dewey", "Dunnington", role = c("ctb"),
            comment = c(ORCID = "0000-0002-9415-4582")),
 	person("Virgilio", "Gómez-Rubio", role = "ctb"),
+	person("Malabika", "Koley", role = "ctb"),
 	person("Elias", "Krainski", role = "ctb"),
 	person("Pierre", "Legendre", role = "ctb"),
 	person("Nicholas", "Lewin-Koh", role = "ctb"),
@@ -62,9 +64,13 @@ Description: A collection of functions to create spatial weights matrix
   <doi:10.1016/j.csda.2008.07.021> and 'LOSH' local indicators
   of spatial heteroscedasticity ('Ord' and 'Getis')
   <doi:10.1007/s00168-011-0492-y>. The implementation of most of
-  the measures is described in 'Bivand' and 'Wong' (2018)
+  these measures is described in 'Bivand' and 'Wong' (2018)
   <doi:10.1007/s11749-018-0599-x>, with further extensions in 'Bivand' (2022)
-  <doi:10.1111/gean.12319>.
+  <doi:10.1111/gean.12319>. Lagrange multiplier tests for spatial dependence
+  in linear models are provided (Anselin et al. 1996)
+  <doi:10.1016/0166-0462(95)02111-6>, as are Rao's score tests for hypothesised
+  spatial Durbin models based in fitted linear models (Koley and Bera 2024)
+  <doi:10.1080/17421772.2023.2256810>.
   From 'spdep' and 'spatialreg' versions >= 1.2-1, the model fitting functions
   previously present in this package are defunct in 'spdep' and may be found
   in 'spatialreg'.

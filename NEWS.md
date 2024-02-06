@@ -1,5 +1,9 @@
 # Version 1.3-2 (development)
 
+* change `lm.LMtests` to `lm.RStests` and re-name Lagrange multiplier to Rao's score; add `GNM_` prefix to test names if the input object inherits from `SlX` created by `spatialreg::lmSLX` (Koley, forthcoming)
+
+* add `SD.RStests` implementation of Rao's score tests for spatial Durbin models (Koley and Bera, 2024) and for SDEM models (Koley, forthcoming)
+ 
 * #143 `row.names` pass-through in `poly2nb` corrected, harmonised `row.names` pass-through also in `nbdists` and `dnearneigh`
 
 * #139 add `na.action` argument to `geary.test`, `geary.mc` and `globalG.test`

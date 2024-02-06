@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-2</span>
       </span>
     </div>
 
@@ -124,8 +124,8 @@ manual <span class="citation">(Kaluzny et al. 1996)</span>.</p>
 <h2 id="getting-the-data-into-r">Getting the data into R<a class="anchor" aria-label="anchor" href="#getting-the-data-into-r"></a>
 </h2>
 <p>We will be using the <strong>spdep</strong> and
-<strong>spreg</strong> packages, here version: spdep, version 1.3-1,
-2023-11-03, the <strong>sf</strong> package and the
+<strong>spreg</strong> packages, here version: spdep, version 1.3-2,
+2024-01-02, the <strong>sf</strong> package and the
 <strong>tmap</strong> package. The data from the sources referred to
 above is documented in the help page for the <code>nc.sids</code> data
 set in <strong>spData</strong>. The actual data, included in a shapefile
@@ -159,7 +159,7 @@ it contains — in fact some of the same columns that we will be examining
 below, and some others which will be useful in cleaning the data
 set.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] "CNTY_ID"   "AREA"      "PERIMETER" "CNTY_"     "NAME"      "FIPS"     </span></span>
 <span><span class="co">##  [7] "FIPSNO"    "CRESS_ID"  "BIR74"     "SID74"     "NWBIR74"   "BIR79"    </span></span>
 <span><span class="co">## [13] "SID79"     "NWBIR79"   "east"      "north"     "x"         "y"        </span></span>
@@ -609,7 +609,7 @@ figure on p. 396 in the book, taken from <span class="citation">Cressie
 and Read (1989)</span>:</p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nc</span><span class="op">$</span><span class="va">ft.SID74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">/</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">SID74</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">nc</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/stem.html" class="external-link">stem</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">ft.SID74</span>, <span class="fl">1</span><span class="op">)</span>, scale<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/stem.html" class="external-link">stem</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/math-generics.html" class="external-link">round</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">ft.SID74</span>, <span class="fl">1</span><span class="op">)</span>, scale<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">##   The decimal point is at the |</span></span>
 <span><span class="co">## </span></span>
@@ -652,7 +652,7 @@ column effects, and residuals:</p>
 <code class="sourceCode R"><span><span class="va">mFT</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">mSID74</span><span class="op">/</span><span class="va">mBIR74</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">mSID74</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">mBIR74</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co"># mFT1 &lt;- t(matrix(mFT, 4, 4, byrow=TRUE))</span></span>
 <span><span class="co"># wrong assignment of 12 elements to a 4x4 matrix detected by CRAN test 2021-05-22</span></span>
-<span><span class="va">rc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mFT</span><span class="op">)</span>, <span class="st">":"</span><span class="op">)</span>, <span class="va">as.integer</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">rc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">mFT</span><span class="op">)</span>, <span class="st">":"</span><span class="op">)</span>, <span class="va">as.integer</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">mFT1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="cn">NA</span><span class="op">)</span>, <span class="fl">4</span>, <span class="fl">4</span><span class="op">)</span></span>
 <span><span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/pkg/terra/man/dimensions.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">rc</span><span class="op">)</span><span class="op">)</span> <span class="va">mFT1</span><span class="op">[</span><span class="va">rc</span><span class="op">[</span><span class="va">i</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">rc</span><span class="op">[</span><span class="va">i</span>,<span class="fl">2</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mFT</span><span class="op">[</span><span class="va">i</span><span class="op">]</span></span>
 <span><span class="va">med</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/medpolish.html" class="external-link">medpolish</a></span><span class="op">(</span><span class="va">mFT1</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span>, trace.iter<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
