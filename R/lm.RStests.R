@@ -41,8 +41,13 @@ lm.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 	if (test[1] == "all") {
            test <- all.tests
         } else {
-            o <- match(test, old.tests)
-            if (any(!is.na(o))) test[o[!is.na(o)]] <- all.tests[o[!is.na(o)]]
+            o <- match(old.tests, test)
+            if (any(!is.na(o))) {
+                for (i in seq(along=test)) {
+                    m <- match(test[i], old.tests)
+                    test[i] <- all.tests[m]
+                }
+            }
         }
 	if (!all(test %in% all.tests))
 		stop("Invalid test selected - must be either \"all\" or a vector of tests")		

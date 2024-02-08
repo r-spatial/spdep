@@ -1,4 +1,8 @@
-# Version 1.3-3 (development)
+# Version 1.3-4 (development)
+
+* fix https://github.com/edzer/sdsr/issues/121, wrong assignment of old test names in `lmRStests`
+
+# Version 1.3-3 (2024-02-07)
 
 * change `lm.LMtests` to `lm.RStests` and re-name Lagrange multiplier to Rao's score; add `GNM_` prefix to test names if the input object inherits from `SlX` created by `spatialreg::lmSLX` (Koley, forthcoming)
 
