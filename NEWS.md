@@ -2,6 +2,8 @@
 
 * fix https://github.com/edzer/sdsr/issues/121, wrong assignment of old test names in `lmRStests`
 
+* fix #144 in `plot.nb` and `nb2lines`
+
 # Version 1.3-3 (2024-02-07)
 
 * change `lm.LMtests` to `lm.RStests` and re-name Lagrange multiplier to Rao's score; add `GNM_` prefix to test names if the input object inherits from `SlX` created by `spatialreg::lmSLX` (Koley, forthcoming)

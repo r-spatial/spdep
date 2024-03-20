@@ -5,8 +5,9 @@ nb2lines <- function(nb, wts, coords, proj4string=NULL, as_sf=FALSE) {
 
         if (inherits(coords, "sfc")) {
             if (!inherits(coords, "sfc_POINT")) {
-                if (inherits(coords, "sfc_POLYGON") || 
-                    inherits(coords, "sfc_MULTIPOLYGON")) 
+#                if (inherits(coords, "sfc_POLYGON") || #144
+#                    inherits(coords, "sfc_MULTIPOLYGON")) 
+                 if (all(st_dimension(coords) == 2))
                     coords <- sf::st_point_on_surface(coords)
                 else stop("Point-conforming geometries required")
             }
