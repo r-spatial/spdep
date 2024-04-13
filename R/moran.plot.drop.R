@@ -1,5 +1,4 @@
 moran.plot.drop <- function(x, listw, nsim = 999, cv = 2.58, significant = TRUE, plain = FALSE, zero.policy = FALSE, xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL, labels = NULL) {
-  require(spdep)
   if (!inherits(listw, "listw")) 
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
   stopifnot(is.vector(x))
@@ -99,12 +98,6 @@ moran.plot.drop <- function(x, listw, nsim = 999, cv = 2.58, significant = TRUE,
         points(c(x_q4[i]), c(y_q4[i]), pch = 20, cex = 0.5, col = "royalblue")
         if (labs  && length(x_q4) > 0) 
           text(x_q4[i], y_q4[i], labels = labels[i], pos = 2, cex = 0.5, col = "royalblue")
-      }
-      if (zero.policy) {
-        n0 <- ZLXi == 0
-        if (any(n0)) {
-          symbols(x[n0], wx[n0], inches = FALSE, circles = rep(diff(range(x))/50, length(which(n0))), bg = "grey", add = TRUE)
-        }
       }
     }
   }
