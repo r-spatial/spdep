@@ -1,5 +1,4 @@
 moran.plot.seismogram <- function(x, listw, nsim = 999, cv = 2.58, plain = FALSE, zero.policy = FALSE, xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL) {
-  require(spdep)
   if (!inherits(listw, "listw")) 
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
   stopifnot(is.vector(x))
