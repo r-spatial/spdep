@@ -49,5 +49,6 @@ data(boston)
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.shp", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.seismogram(boston.c$CMEDV, boston.listw, 999, 2.58, zero.policy = TRUE, plain = FALSE, plot = TRUE)
+moran.plot.seismogram(boston.c$CMEDV, boston.listw, 999, 2.58, zero.policy = TRUE,
+  plain = FALSE, plot = TRUE)
 }
