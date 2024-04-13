@@ -10,7 +10,7 @@ A version of the Moran scatterplot (see \code{\link{moran.plot}}) supplemented b
 moran.plot.drop(x, listw, nsim = 999, cv = 2.58,
   significant = TRUE, plain = FALSE, zero.policy = FALSE,
   xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE,
-  spChk = NULL, labels = FALSE)
+  spChk = NULL, labels = NULL)
 }
 
 \arguments{
@@ -26,7 +26,7 @@ moran.plot.drop(x, listw, nsim = 999, cv = 2.58,
   \item{plot}{default TRUE; if FALSE, plotting is suppressed}
   \item{return_df}{default TRUE; invisibly return a data.frame object, if FALSE do not return anything}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
-  \item{labels}{default FALSE; no labels are plotted by default; character labels for points are assigned to significant observations if provided, region IDs are used if set to TRUE}
+  \item{labels}{default NULL; no labels are plotted by default; character labels for points are assigned to significant observations if provided, region IDs are used if set to TRUE}
 }
 
 \details{
@@ -53,5 +53,6 @@ data(boston)
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.shp", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.drop(boston.c$CMEDV, boston.listw, 999, 2.58, zero.policy = TRUE, significant = TRUE, plain = FALSE, labels = FALSE, plot = TRUE)
+moran.plot.drop(boston.c$CMEDV, boston.listw, 999, 2.58, zero.policy = TRUE, 
+  significant = TRUE, plain = FALSE, labels = FALSE, plot = TRUE)
 }
