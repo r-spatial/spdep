@@ -63,7 +63,7 @@ knearneigh <- function(x, k=1, longlat=NULL, use_kd_tree=TRUE)
 # https://github.com/r-spatial/spdep/issues/38
     zd <- any(duplicated(x)) #zerodist(SpatialPoints(x))
 # kNN() handles duplicate points
-    if (zd)  {
+    if (zd && !use_s2_ll)  {
         warning("knearneigh: identical points found")
         if (use_kd_tree) {
             warning("knearneigh: kd_tree not available for identical points")

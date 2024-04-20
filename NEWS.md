@@ -1,5 +1,7 @@
 # Version 1.3-4 (development)
 
+* remove spurious warning in `knearneigh` for longlat geometries
+
 * fix https://github.com/edzer/sdsr/issues/121, wrong assignment of old test names in `lmRStests`
 
 * fix #144 in `plot.nb` and `nb2lines`
