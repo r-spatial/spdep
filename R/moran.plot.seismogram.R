@@ -1,6 +1,8 @@
 moran.plot.seismogram <- function(x, listw, locmoran, cv = 2.58, plain = FALSE, zero.policy = FALSE, xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL) {
   if (!inherits(listw, "listw")) 
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
+  if (!inherits(locmoran, "localmoran")) 
+    stop(paste(deparse(substitute(locmoran)), "is not a localmoran object"))
   stopifnot(is.vector(x))
   stopifnot(is.logical(plain))
   stopifnot(is.logical(return_df))
