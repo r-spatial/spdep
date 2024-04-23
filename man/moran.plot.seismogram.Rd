@@ -7,7 +7,7 @@
 A variant of the Moran scatterplot (see \code{\link{moran.plot}}) supplemented by lines connecting location-wise critical values. The plot allows for visual inspection of potential spatial weights misspecifiation.
 }
 \usage{
-moran.plot.seismogram(x, listw, nsim = 999, cv = 2.58,
+moran.plot.seismogram(x, listw, locmoran, cv = 2.58,
   plain = FALSE, zero.policy = FALSE, xlab = NULL,
   ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL)
 }
@@ -15,7 +15,7 @@ moran.plot.seismogram(x, listw, nsim = 999, cv = 2.58,
 \arguments{
   \item{x}{a numerical vector holding the attribute of interest}
   \item{listw}{a \code{listw} spatial weights object}
-  \item{nsim}{default 999; number of conditonal permutation simulations}
+  \item{locmoran}{a fitted object of type localmoran}
   \item{cv}{default 2.58; the desired critical value assuming approximate normality of standardised local Moran's \emph{I} values}
   \item{plain}{default FALSE; a plain Moran scatterplot is displayed if TRUE}
   \item{zero.policy}{default NULL; use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
@@ -49,6 +49,6 @@ data(boston)
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.shp", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.seismogram(boston.c$CMEDV, boston.listw, 999, 2.58, zero.policy = TRUE,
-  plain = FALSE, plot = TRUE)
+moran.plot.seismogram(boston.c$CMEDV, boston.listw, localmoran(boston.c$CMEDV, boston.listw), 2.58,
+zero.policy = TRUE, plain = FALSE, plot = TRUE)
 }
