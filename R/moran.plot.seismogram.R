@@ -1,4 +1,4 @@
-moran.plot.seismogram <- function(x, listw, nsim = 999, cv = 2.58, plain = FALSE, zero.policy = FALSE, xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL) {
+moran.plot.seismogram <- function(x, listw, locmoran, cv = 2.58, plain = FALSE, zero.policy = FALSE, xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL) {
   if (!inherits(listw, "listw")) 
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
   stopifnot(is.vector(x))
@@ -25,7 +25,6 @@ moran.plot.seismogram <- function(x, listw, nsim = 999, cv = 2.58, plain = FALSE
     ylab <- paste("spatially lagged", xname)
   Z <- as.vector(scale(x))
   ZLXi <- lag.listw(listw, Z, zero.policy = zero.policy)
-  locmoran <- localmoran_perm(Z, listw, nsim = nsim)
   ZIi <- locmoran[, 4]
   b <- ((cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(Z) / (Z - mean(Z))
   b2 <- ((-cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(Z) / (Z - mean(Z))
