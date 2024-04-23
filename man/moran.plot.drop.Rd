@@ -7,7 +7,7 @@
 A version of the Moran scatterplot (see \code{\link{moran.plot}}) supplemented by lines indicating \emph{p} values for visual inspection of statistical significance.
 }
 \usage{
-moran.plot.drop(x, listw, nsim = 999, cv = 2.58,
+moran.plot.drop(x, listw, locmoran, cv = 2.58,
   significant = TRUE, plain = FALSE, zero.policy = FALSE,
   xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE,
   spChk = NULL, labels = NULL)
@@ -16,7 +16,7 @@ moran.plot.drop(x, listw, nsim = 999, cv = 2.58,
 \arguments{
   \item{x}{a numerical vector holding the attribute of interest}
   \item{listw}{a \code{listw} spatial weights object}
-  \item{nsim}{default 999; number of conditonal permutation simulations}
+  \item{locmoran}{a fitted object of type localmoran}
   \item{cv}{default 2.58; the desired critical value assuming approximate normality of standardised local Moran's \emph{I} values}
   \item{significant}{default TRUE; a parameter indicating whether to display plot distances of significant (default) or non-significant observations}
   \item{plain}{default FALSE; a plain Moran scatterplot is displayed if TRUE}
@@ -53,6 +53,6 @@ data(boston)
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.shp", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.drop(boston.c$CMEDV, boston.listw, 999, 2.58, zero.policy = TRUE, 
-  significant = TRUE, plain = FALSE, labels = FALSE, plot = TRUE)
+moran.plot.drop(boston.c$CMEDV, boston.listw, localmoran(boston.c$CMEDV, boston.listw), 2.58,
+  zero.policy = TRUE, significant = TRUE, plain = FALSE, labels = FALSE, plot = TRUE)
 }
