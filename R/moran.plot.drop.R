@@ -1,6 +1,8 @@
 moran.plot.drop <- function(x, listw, locmoran, cv = 2.58, significant = TRUE, plain = FALSE, zero.policy = FALSE, xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL, labels = NULL) {
   if (!inherits(listw, "listw")) 
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
+  if (!inherits(locmoran, "localmoran")) 
+    stop(paste(deparse(substitute(locmoran)), "is not a localmoran object"))
   stopifnot(is.vector(x))
   stopifnot(is.logical(significant))
   stopifnot(is.logical(plain))
