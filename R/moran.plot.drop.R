@@ -1,4 +1,4 @@
-moran.plot.drop <- function(x, listw, nsim = 999, cv = 2.58, significant = TRUE, plain = FALSE, zero.policy = FALSE, xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL, labels = NULL) {
+moran.plot.drop <- function(x, listw, locmoran, cv = 2.58, significant = TRUE, plain = FALSE, zero.policy = FALSE, xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE, spChk = NULL, labels = NULL) {
   if (!inherits(listw, "listw")) 
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
   stopifnot(is.vector(x))
@@ -31,7 +31,6 @@ moran.plot.drop <- function(x, listw, nsim = 999, cv = 2.58, significant = TRUE,
     ylab <- paste("spatially lagged", xname)
   Z <- as.vector(scale(x))
   ZLXi <- lag.listw(listw, Z, zero.policy = zero.policy)
-  locmoran <- localmoran_perm(Z, listw, nsim = nsim)
   ZIi <- locmoran[, 4]
   b <- ((cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(Z) / (Z - mean(Z))
   b2 <- ((-cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(Z) / (Z - mean(Z))
