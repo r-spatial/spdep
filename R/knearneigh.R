@@ -84,6 +84,8 @@ knearneigh <- function(x, k=1, longlat=NULL, use_kd_tree=TRUE)
         if (use_s2_ll) {
             z <- s2::s2_closest_edges(s2x, s2x, k=(k+1))
             z <- lapply(z, sort)
+            if (any(!(sapply(seq_along(z), function(i) i %in% z[[i]]))))
+                stop("increase k; k must be at least as large as the largest count of identical points")
             z <- lapply(seq_along(z), function(i) setdiff(z[[i]], i))
             res <- list(nn=do.call("rbind", z), np=np, k=k,
     	        dimension=dimension, x=x)

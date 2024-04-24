@@ -1,5 +1,7 @@
 # Version 1.3-4 (development)
 
+* Introduce error in `knearneigh` for `k` less than the largest count of identical points; if encountered, increase `k`
+
 * remove spurious warning in `knearneigh` for longlat geometries
 
 * fix https://github.com/edzer/sdsr/issues/121, wrong assignment of old test names in `lmRStests`
