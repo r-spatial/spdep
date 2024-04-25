@@ -18,7 +18,7 @@ moran.plot(x, listw, zero.policy=attr(listw, "zero.policy"), spChk=NULL, labels=
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{labels}{character labels for points with high influence measures, if set to FALSE, no labels are plotted for points with large influence}
   \item{xlab}{label for x axis}
-  \item{ylab}{label for x axis}
+  \item{ylab}{label for y axis}
   \item{quiet}{default NULL, use !verbose global option value; if TRUE, output of summary of influence object suppressed}
   \item{plot}{default TRUE, if false, plotting is suppressed}
   \item{return_df}{default TRUE, invisibly return a data.frame object; if FALSE invisibly return an influence measures object}
