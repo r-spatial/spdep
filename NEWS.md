@@ -1,6 +1,8 @@
 # Version 1.3-4 (development)
 
-* Introduce error in `knearneigh` for `k` less than the largest count of identical points; if encountered, increase `k`
+* add `moran.plot.drop`, `moran.plot.seismogram`, by René Westerholt, see https://doi.org/10.5281/zenodo.10897792, from https://github.com/r-spatial/spdep/pull/149
+
+* report previously undetected error in `knearneigh` when `k` less than the largest count of identical points; if encountered, the user should increase `k`
 
 * remove spurious warning in `knearneigh` for longlat geometries
 

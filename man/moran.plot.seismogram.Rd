@@ -37,7 +37,7 @@ When return_df is TRUE, a data frame object with the following members is return
   \item{b}{the y-coordinates of the critical values}
 }
 
-\references{Westerholt, R. (2024): Extending the Moran scatterplot by indications of critical values and \emph{p}-values: introducing the Moran seismogram and the drop plot. Proceedings of the 32nd Annual GIS Research UK Conference (GISRUK), Leeds, UK. \url{https://doi.org/10.5281/zenodo.10897792}}
+\references{Westerholt, R. (2024): Extending the Moran scatterplot by indications of critical values and \emph{p}-values: introducing the Moran seismogram and the drop plot. Proceedings of the 32nd Annual GIS Research UK Conference (GISRUK), Leeds, UK. \doi{10.5281/zenodo.10897792}}
 
 \author{Rene Westerholt \email{rene.westerholt@tu-dortmund.de}}
 
