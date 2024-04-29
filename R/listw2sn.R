@@ -69,9 +69,11 @@ sn2listw <- function(sn, style=NULL, zero.policy=NULL, from_mat2listw=FALSE) {
             if (!from_mat2listw) {
                 if (!zero.policy) {
                     stop("no-neighbour observations found, set zero.policy to TRUE")
-                }
+                } 
             } else {
+                if (!zero.policy) {
                 warning("no-neighbour observations found, set zero.policy to TRUE;\nthis warning will soon become an error")
+                }
             }
         }
 	if (!(is.null(attr(sn, "GeoDa"))))

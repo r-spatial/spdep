@@ -35,8 +35,8 @@ run <- FALSE
 if (require(igraph, quietly=TRUE) && require(spatialreg, quietly=TRUE)) run <- TRUE
 if (run) {
 B <- as(nb2listw(col2, style="B", zero.policy=TRUE), "CsparseMatrix")
-g1 <- graph.adjacency(B, mode="undirected")
-c1 <- clusters(g1)
+g1 <- graph_from_adjacency_matrix(B, mode="undirected")
+c1 <- components(g1)
 print(c1$no == res$nc)
 }
 if (run) {
@@ -47,8 +47,8 @@ print(all.equal(c1$csize, c(table(res$comp.id)), check.attributes=FALSE))
 }
 if (run) {
 W <- as(nb2listw(col2, style="W", zero.policy=TRUE), "CsparseMatrix")
-g1W <- graph.adjacency(W, mode="directed", weighted="W")
-c1W <- clusters(g1W)
+g1W <- graph_from_adjacency_matrix(W, mode="directed", weighted="W")
+c1W <- components(g1W)
 print(all.equal(c1W$membership, res$comp.id, check.attributes=FALSE))
 }
 if (run) {

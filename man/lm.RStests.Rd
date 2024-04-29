@@ -88,7 +88,7 @@ lw <- nb2listw(COL.nb)
 res <- lm.RStests(oldcrime.lm, listw=lw, test="all")
 summary(res)
 if (require("spatialreg", quietly=TRUE)) {
-  oldcrime.slx <- lm(CRIME ~ HOVAL + INC, data = COL.OLD, listw=lw)
+  oldcrime.slx <- lm(CRIME ~ HOVAL + INC, data = COL.OLD)
   summary(lm.RStests(oldcrime.slx, listw=lw, test=c("adjRSerr", "adjRSlag")))
 }
 }
