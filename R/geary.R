@@ -2,18 +2,18 @@
 #
 
 
-geary <- function(x, listw, n, n1, S0, zero.policy=attr(listw, "zero.policy")) {
+geary <- function(x, listw, n, n1, S0, zero.policy=attr(listw, "zero.policy"),
+        scale=TRUE) { #https://github.com/r-spatial/spdep/issues/151
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(x))
         stopifnot(all(is.finite(x)))
-#	z <- scale(x, scale=FALSE)
-        z <- scale(x)
+	z <- scale(x, scale=scale)
 	zz <- sum(z^2)
 	K <- (n*sum(z^4))/(zz^2)
-#	res <- geary.intern(x, listw, n, zero.policy, type="geary")
-	res <- geary.intern(z, listw, n, zero.policy, type="geary")
+        if (!scale) res <- geary.intern(x, listw, n, zero.policy, type="geary")
+	else res <- geary.intern(z, listw, n, zero.policy, type="geary")
 	C <- (n1 / (2*S0)) * (sum(res) / zz)
 	res <- list(C=C, K=K)
 	res
@@ -34,8 +34,10 @@ geary.intern <- function(x, listw, n, zero.policy=attr(listw, "zero.policy"), ty
 	res
 }
 
-geary.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "zero.policy"),
-    alternative="greater", spChk=NULL, adjust.n=TRUE, na.action=na.fail) {
+geary.test <- function(x, listw, randomisation=TRUE, 
+    zero.policy=attr(listw, "zero.policy"), alternative="greater", 
+    spChk=NULL, adjust.n=TRUE, na.action=na.fail, scale=TRUE) { 
+#https://github.com/r-spatial/spdep/issues/151
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -61,7 +63,8 @@ geary.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "ze
 	
 	wc <- spweights.constants(listw, zero.policy, adjust.n=adjust.n)
 	S02 <- wc$S0*wc$S0
-	res <- geary(as.vector(x), listw, wc$n, wc$n1, wc$S0, zero.policy)
+	res <- geary(as.vector(x), listw, wc$n, wc$n1, wc$S0, zero.policy, 
+            scale=scale)
 	C <- res$C
 	if (is.na(C)) stop("NAs generated in geary - check zero.policy and na.action")
 	K <- res$K
@@ -110,7 +113,7 @@ geary.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "ze
 
 geary.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", spChk=NULL, adjust.n=TRUE, return_boot=FALSE,
-        na.action=na.fail) {
+        na.action=na.fail, scale=TRUE) {
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
         stopifnot(is.logical(zero.policy))
@@ -151,13 +154,15 @@ geary.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
             cl <- p_setup$cl
             res <- boot(x, statistic=geary_boot, R=nsim,
                 sim="permutation", listw=listw, n=n, n1=wc$n1, S0=wc$S0, 
-                zero.policy=zero.policy, parallel=parallel, ncpus=ncpus, cl=cl)
+                zero.policy=zero.policy, scale=scale, parallel=parallel,
+                ncpus=ncpus, cl=cl)
             return(res)
         }
 	res <- numeric(length=nsim+1)
 	for (i in 1:nsim) res[i] <- geary(sample(x), listw, n, wc$n1, wc$S0,
-	    zero.policy)$C
-	res[nsim+1] <- geary(as.vector(x), listw, n, wc$n1, wc$S0, zero.policy)$C
+	    zero.policy, scale=scale)$C
+	res[nsim+1] <- geary(as.vector(x), listw, n, wc$n1, wc$S0, zero.policy,
+            scale=scale)$C
 	rankres <- rank(res)
 	xrank <- rankres[length(res)]
 	diff <- nsim - xrank
