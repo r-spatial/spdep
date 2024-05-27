@@ -36,8 +36,7 @@ must be one of greater (default), less or two.sided.}
 }
 \value{
   A list of class \code{moranex} with the following components:
-  \item{statistic}{the value of the saddlepoint approximation of the
- standard deviate of global Moran's I.}
+  \item{statistic}{the value of the exact standard deviate of global Moran's I.}
   \item{p.value}{the p-value of the test.}
   \item{estimate}{the value of the observed global Moran's I.}
   \item{method}{a character string giving the method used.}
