@@ -7,7 +7,7 @@
 }
 \usage{
 geary.mc(x, listw, nsim, zero.policy=attr(listw, "zero.policy"), alternative="greater",
- spChk=NULL, adjust.n=TRUE, return_boot=FALSE, na.action=na.fail)
+ spChk=NULL, adjust.n=TRUE, return_boot=FALSE, na.action=na.fail, scale=TRUE)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
@@ -18,7 +18,9 @@ geary.mc(x, listw, nsim, zero.policy=attr(listw, "zero.policy"), alternative="gr
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}
   \item{return_boot}{return an object of class \code{boot} from the equivalent permutation bootstrap rather than an object of class \code{htest}}
-  \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. \code{na.pass} is not permitted because it is meaningless in a permutation test.}}
+  \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. \code{na.pass} is not permitted because it is meaningless in a permutation test.}
+  \item{scale}{default TRUE, may be FALSE to revert changes made to accommodate \code{localC} in November 2021 (see #151)}
+}
 
 \value{
 A list with class \code{htest} and \code{mc.sim} containing the following components:

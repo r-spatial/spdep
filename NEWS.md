@@ -1,5 +1,7 @@
 # Version 1.3-4 (development)
 
+* add `scale` argument to `geary.test`, `geary.mc` and `geary` #151, and appropriate tests
+
 * Introduce error in `knearneigh` for `k` less than the largest count of identical points; if encountered, increase `k`
 
 * remove spurious warning in `knearneigh` for longlat geometries
