@@ -6,43 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Spatial Dependence: Weighting Schemes, Statistics • spdep</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Spatial Dependence: Weighting Schemes, Statistics">
-<meta property="og:description" content="A collection of functions to create spatial weights matrix
-  objects from polygon contiguities, from point patterns by distance and
-  tessellations, for summarizing these objects, and for permitting their
-  use in spatial data analysis, including regional aggregation by minimum
-  spanning tree; a collection of tests for spatial autocorrelation,
-  including global Morans I and Gearys C proposed by Cliff and Ord
-  (1973, ISBN: 0850860369) and (1981, ISBN: 0850860814), Hubert/Mantel
-  general cross product statistic, Empirical Bayes estimates and
-  Assunção/Reis (1999) &lt;doi:10.1002/(SICI)1097-0258(19990830)18:16%3C2147::AID-SIM179%3E3.0.CO;2-I&gt; Index, Getis/Ord G (Getis and Ord 1992)
-  &lt;doi:10.1111/j.1538-4632.1992.tb00261.x&gt; and multicoloured
-  join count statistics, APLE (Li et al. )
-  &lt;doi:10.1111/j.1538-4632.2007.00708.x&gt;, local Morans I, Gearys C 
-  (Anselin 1995) &lt;doi:10.1111/j.1538-4632.1995.tb00338.x&gt; and
-  Getis/Ord G (Ord and Getis 1995)
-  &lt;doi:10.1111/j.1538-4632.1995.tb00912.x&gt;,
-  saddlepoint approximations (Tiefelsdorf 2002)
-  &lt;doi:10.1111/j.1538-4632.2002.tb01084.x&gt; and exact tests
-  for global and local Morans I (Bivand et al. 2009)
-  &lt;doi:10.1016/j.csda.2008.07.021&gt; and LOSH local indicators
-  of spatial heteroscedasticity (Ord and Getis)
-  &lt;doi:10.1007/s00168-011-0492-y&gt;. The implementation of most of
-  these measures is described in Bivand and Wong (2018)
-  &lt;doi:10.1007/s11749-018-0599-x&gt;, with further extensions in Bivand (2022)
-  &lt;doi:10.1111/gean.12319&gt;. Lagrange multiplier tests for spatial dependence
-  in linear models are provided (Anselin et al. 1996)
-  &lt;doi:10.1016/0166-0462(95)02111-6&gt;, as are Rao score tests for hypothesised
-  spatial Durbin models based on linear models (Koley and Bera 2023)
-  &lt;doi:10.1080/17421772.2023.2256810&gt;.
-  From spdep and spatialreg versions &gt;= 1.2-1, the model fitting functions
-  previously present in this package are defunct in spdep and may be found
-  in spatialreg'.">
+<meta property="og:description" content="A collection of functions to create spatial weights matrix objects from polygon contiguities, from point patterns by distance and tessellations, for summarizing these objects, and for permitting their use in spatial data analysis, including regional aggregation by minimum spanning tree; a collection of tests for spatial autocorrelation, including global Morans I and Gearys C proposed by Cliff and Ord (1973, ISBN: 0850860369) and (1981, ISBN: 0850860814), Hubert/Mantel general cross product statistic, Empirical Bayes estimates and Assunção/Reis (1999) &lt;doi:10.1002/(SICI)1097-0258(19990830)18:16%3C2147::AID-SIM179%3E3.0.CO;2-I&gt; Index, Getis/Ord G (Getis and Ord 1992) &lt;doi:10.1111/j.1538-4632.1992.tb00261.x&gt; and multicoloured join count statistics, APLE (Li et al. ) &lt;doi:10.1111/j.1538-4632.2007.00708.x&gt;, local Morans I, Gearys C (Anselin 1995) &lt;doi:10.1111/j.1538-4632.1995.tb00338.x&gt; and Getis/Ord G (Ord and Getis 1995) &lt;doi:10.1111/j.1538-4632.1995.tb00912.x&gt;, saddlepoint approximations (Tiefelsdorf 2002) &lt;doi:10.1111/j.1538-4632.2002.tb01084.x&gt; and exact tests for global and local Morans I (Bivand et al. 2009) &lt;doi:10.1016/j.csda.2008.07.021&gt; and LOSH local indicators of spatial heteroscedasticity (Ord and Getis) &lt;doi:10.1007/s00168-011-0492-y&gt;. The implementation of most of these measures is described in Bivand and Wong (2018) &lt;doi:10.1007/s11749-018-0599-x&gt;, with further extensions in Bivand (2022) &lt;doi:10.1111/gean.12319&gt;. Lagrange multiplier tests for spatial dependence in linear models are provided (Anselin et al. 1996) &lt;doi:10.1016/0166-0462(95)02111-6&gt;, as are Rao score tests for hypothesised spatial Durbin models based on linear models (Koley and Bera 2023) &lt;doi:10.1080/17421772.2023.2256810&gt;. From spdep and spatialreg versions &gt;= 1.2-1, the model fitting functions previously present in this package are defunct in spdep and may be found in spatialreg'.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -63,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-4</span>
       </span>
     </div>
 
@@ -83,10 +53,10 @@
       <a href="articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a>
     </li>
     <li>
-      <a href="articles/nb.html">Creating Neighbours</a>
+      <a href="articles/nb_sf.html">Creating Neighbours using sf objects</a>
     </li>
     <li>
-      <a href="articles/nb_sf.html">Creating Neighbours using sf objects</a>
+      <a href="articles/nb.html">Creating Neighbours</a>
     </li>
     <li>
       <a href="articles/sids.html">Introduction to the North Carolina SIDS data set (re-revised)</a>
@@ -178,7 +148,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

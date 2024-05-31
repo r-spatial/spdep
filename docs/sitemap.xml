@@ -52,9 +52,6 @@
     <loc>/reference/SD.RStests.html</loc>
   </url>
   <url>
-    <loc>/reference/SDM.RStests.html</loc>
-  </url>
-  <url>
     <loc>/reference/aggregate.nb.html</loc>
   </url>
   <url>
@@ -152,9 +149,6 @@
   </url>
   <url>
     <loc>/reference/listw2sn.html</loc>
-  </url>
-  <url>
-    <loc>/reference/lm.LMtests.html</loc>
   </url>
   <url>
     <loc>/reference/lm.RStests.html</loc>
