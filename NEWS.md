@@ -1,5 +1,7 @@
 # Version 1.3-4 (development)
 
+* #155 Throw error if `hotspot` despatched on object without a `"quadr"` attribute
+
 * #154 turn on `s2` in vignette
 
 # Version 1.3-4 (2024-05-31)
