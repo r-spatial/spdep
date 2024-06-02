@@ -1,5 +1,9 @@
 # Version 1.3-4 (development)
 
+* #154 turn on `s2` in vignette
+
+# Version 1.3-4 (2024-05-31)
+
 * add `scale` argument to `geary.test`, `geary.mc` and `geary` #151, and appropriate tests
 
 * Introduce error in `knearneigh` for `k` less than the largest count of identical points; if encountered, increase `k`
