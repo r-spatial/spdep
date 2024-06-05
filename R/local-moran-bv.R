@@ -6,10 +6,16 @@ local_moran_bv_calc <- function(x, y, listw) {
 
 
 localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
-  alternative="two.sided", iseed=1L, no_repeat_in_row=FALSE) {
+  alternative="two.sided", iseed=1L, no_repeat_in_row=FALSE,
+  zero.policy=attr(listw, "zero.policy")) {
   stopifnot(length(x) == length(y))
   if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
     "is not a listw object"))
+  if (is.null(zero.policy))
+    zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+  stopifnot(is.logical(zero.policy))
+  n <- length(listw$neighbours)
+  if (n != length(x)) stop("Different numbers of observations")
 # FIXME is listw assumed to be row-standardized?
   n <- length(listw$neighbours)
   stopifnot(n == length(x))
@@ -21,12 +27,28 @@ localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
   if (missing(nsim)) stop("nsim must be given")
   stopifnot(all(!is.na(x)))
   stopifnot(all(!is.na(y)))
+  
+  xx <- mean(x)
+  ly <- lag.listw(listw, y, zero.policy=zero.policy)
+  lyy <- mean(ly)
+  lbs <- c("Low", "High")
+  quadr <- interaction(cut(x, c(-Inf, xx, Inf), labels=lbs), 
+    cut(ly, c(-Inf, lyy, Inf), labels=lbs), sep="-")
+  xmed <- median(x)
+  lymed <- median(ly)
+  quadr_med <- interaction(cut(x, c(-Inf, xmed, Inf), labels=lbs),
+    cut(ly, c(-Inf, lymed, Inf), labels=lbs), sep="-")
 
   # the variables should be scaled and are by default
   if (scale) {
     x <- as.numeric(scale(x))
     y <- as.numeric(scale(y))
   }
+
+  ly <- lag.listw(listw, y, zero.policy=zero.policy)
+  quadr_ps <- interaction(cut(x, c(-Inf, 0, Inf), labels=lbs), 
+    cut(ly, c(-Inf, 0, Inf), labels=lbs), sep="-")
+
   cards <- card(listw$neighbours)
   stopifnot(all(cards > 0L))
 # FIXME no zero.policy handling
@@ -103,6 +125,8 @@ localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
   Prname_sim <- "Pr(folded) Sim"
   colnames(res) <- c("Ibvi", "E.Ibvi", "Var.Ibvi", "Z.Ibvi", Prname,
     Prname_rank, Prname_sim)
+  attr(res, "quadr") <- data.frame(mean=quadr, median=quadr_med, 
+    pysal=quadr_ps)
   class(res) <- c("localmoran", class(res))
   res
 }
