@@ -8,12 +8,13 @@ between the data and the lag. If zero policy is TRUE, such observations
 are also marked if they occur.
 }
 \usage{
-moran.plot(x, listw, zero.policy=attr(listw, "zero.policy"), spChk=NULL, labels=NULL,
- xlab=NULL, ylab=NULL, quiet=NULL, plot=TRUE, return_df=TRUE, ...)
+moran.plot(x, listw, y=NULL, zero.policy=attr(listw, "zero.policy"), spChk=NULL,
+ labels=NULL, xlab=NULL, ylab=NULL, quiet=NULL, plot=TRUE, return_df=TRUE, ...)
 }
 \arguments{
   \item{x}{a numeric vector the same length as the neighbours list in listw}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
+  \item{y}{an optional numeric vector the same length as the neighbours list in listw for a bi-variate plot}
   \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
   \item{labels}{character labels for points with high influence measures, if set to FALSE, no labels are plotted for points with large influence}

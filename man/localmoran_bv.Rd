@@ -47,6 +47,7 @@ columbus$hs <- hotspot(res, Prname="Pr(folded) Sim", cutoff=0.05,
 if (require("tmap", quietly=TRUE)) {
   tm_shape(columbus) + tm_fill("hs")
 }
+moran.plot(x=columbus$CRIME, y=columbus$INC, listw=listw)
 }
 \references{
 Anselin, Luc, Ibnu Syabri, and Oleg Smirnov. 2002. “Visualizing Multivariate Spatial Correlation with Dynamically Linked Windows.” In New Tools for Spatial Data Analysis: Proceedings of the Specialist Meeting, edited by Luc Anselin and Sergio Rey. University of California, Santa Barbara: Center for Spatially Integrated Social Science (CSISS).
