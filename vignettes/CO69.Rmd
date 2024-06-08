@@ -50,9 +50,9 @@ run <- require("sp", quiet=TRUE)
 
 ```{r echo=TRUE,eval=run,results='hide'}
 library(spdep)
-eire <- as(sf::st_read(system.file("shapes/eire.shp", package="spData")[1]), "Spatial")
+eire <- as(sf::st_read(system.file("shapes/eire.gpkg", package="spData")[1]), "Spatial")
 row.names(eire) <- as.character(eire$names)
-proj4string(eire) <- CRS("+proj=utm +zone=30 +ellps=airy +units=km")
+#proj4string(eire) <- CRS("+proj=utm +zone=30 +ellps=airy +units=km")
 ```
 ```{r echo=TRUE,eval=run}
 class(eire)

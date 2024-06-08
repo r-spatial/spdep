@@ -32,7 +32,7 @@ and a \code{parameters} attribute list with components:
 \seealso{\code{\link{EBlocal}}, \code{\link{probmap}}, \code{\link{EBImoran.mc}}}
 
 \examples{
-auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
+auckland <- st_read(system.file("shapes/auckland.gpkg", package="spData")[1], quiet=TRUE)
 res <- EBest(auckland$M77_85, 9*auckland$Und5_81)
 attr(res, "parameters")
 auckland$estmm000 <- res$estmm*1000

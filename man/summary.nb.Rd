@@ -35,7 +35,7 @@ the link lengths are also printed. Print and summary functions are also availabl
 \seealso{\code{\link{plot.nb}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
 col.gal.nb

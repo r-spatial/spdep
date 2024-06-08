@@ -52,7 +52,7 @@ of the Institute of British Geographers}, 66, 95--118.}
 \seealso{\code{\link{nblag}}, \code{\link{moran}}, \code{\link[stats]{p.adjust}}}
 
 \examples{
-nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+nc.sids <- st_read(system.file("shapes/sids.gpkg", package="spData")[1], quiet=TRUE)
 rn <- as.character(nc.sids$FIPS)
 ncCC89_nb <- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
  region.id=rn)

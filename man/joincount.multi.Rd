@@ -34,7 +34,7 @@ A matrix with class \code{jcmulti} with row and column names for observed and ex
 \seealso{\code{\link{joincount.test}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 HICRIME <- cut(columbus$CRIME, breaks=c(0,35,80), labels=c("low","high"))
 (nb <- poly2nb(columbus))
 lw <- nb2listw(nb, style="B")

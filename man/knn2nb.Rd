@@ -24,7 +24,7 @@ The function returns an object of class \code{nb} with a list of integer vectors
 \seealso{\code{\link{knearneigh}}, \code{\link{card}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 coords <- st_coordinates(st_centroid(columbus))
 col.knn <- knearneigh(coords, k=4)
 plot(st_geometry(columbus), border="grey")

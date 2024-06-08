@@ -41,7 +41,7 @@ A new version of \code{make.sym.nb} by Bjarke Christensen is now included. The o
 \seealso{\code{\link{read.gal}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- st_coordinates(st_centroid(columbus))
 ind <- row.names(as(columbus, "Spatial"))

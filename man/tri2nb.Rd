@@ -38,7 +38,7 @@ The function returns an object of class \code{nb} with a list of integer vectors
 \seealso{\code{\link{knn2nb}}, \code{\link{dnearneigh}}, \code{\link{cell2nb}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
 ind <- row.names(columbus)
 suppressPackageStartupMessages(require(deldir))

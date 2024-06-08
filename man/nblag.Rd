@@ -23,7 +23,7 @@ returns a list of lagged neighbours lists each with class \code{nb}
 \seealso{\code{\link{summary.nb}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- st_coordinates(st_centroid(columbus))
 summary(col.gal.nb, coords)

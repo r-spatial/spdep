@@ -37,7 +37,7 @@ and a \code{parameters} attribute list with components (if both are zero, the es
 \seealso{\code{\link{EBest}}, \code{\link{probmap}}}
 
 \examples{
-auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
+auckland <- st_read(system.file("shapes/auckland.gpkg", package="spData")[1], quiet=TRUE)
 auckland.nb <- poly2nb(auckland)
 res <- EBlocal(auckland$M77_85,  9*auckland$Und5_81, auckland.nb)
 auckland$est000 <- res$est*1000

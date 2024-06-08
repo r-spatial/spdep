@@ -83,7 +83,7 @@ moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
 moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
  na.action=na.exclude)
 moran.test(crime, nb2listw(COL.nb, style="W"), na.action=na.pass)
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col_geoms <- st_geometry(columbus)
 col_geoms[1] <- st_buffer(col_geoms[1], dist=-0.05)
 st_geometry(columbus) <- col_geoms

@@ -42,7 +42,7 @@ The results in the example below agree with those in Table 3, p. 22 in Koley and
 \code{\link{lm}}, \code{\link{lm.RStests}}
 }
 \examples{
-columbus <- sf::st_read(system.file("shapes/columbus.shp", package="spData")[1])
+columbus <- sf::st_read(system.file("shapes/columbus.gpkg", package="spData")[1])
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 col.listw <- nb2listw(col.gal.nb, style="W")
 lm_obj <- lm(CRIME ~ INC + HOVAL, data=columbus)
