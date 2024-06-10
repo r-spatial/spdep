@@ -20,7 +20,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
       </span>
     </div>
 
@@ -178,9 +178,10 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">### loading data</span></span></span>
-<span class="r-in"><span><span class="va">bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/bhicv.shp"</span>,</span></span>
+<span class="r-in"><span><span class="va">bh</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/bhicv.gpkg"</span>,</span></span>
 <span class="r-in"><span>      package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"OGC:CRS84"</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span>
 <span class="r-in"><span><span class="co">### data standardized </span></span></span>
 <span class="r-in"><span><span class="va">dpad</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">bh</span><span class="op">)</span><span class="op">[</span>,<span class="fl">5</span><span class="op">:</span><span class="fl">8</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -299,7 +300,7 @@
 <span class="r-in"><span><span class="co">### calculating costs</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">lcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.047   0.000   0.049 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.044   0.000   0.045 </span>
 <span class="r-in"><span><span class="co">### making listw</span></span></span>
 <span class="r-in"><span><span class="va">nb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">lcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">### find a minimum spanning tree</span></span></span>
@@ -322,7 +323,7 @@
 <span class="r-in"><span><span class="co">### calculating costs</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">plcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.053   0.000   0.054 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.039   0.001   0.041 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">lcosts</span>, <span class="va">plcosts</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="co">### making listw</span></span></span>
