@@ -1,13 +1,14 @@
-# Copyright 2001 by Roger Bivand 
+# Copyright 2001-24 by Roger Bivand 
 #
 
-moran.plot <- function(x, listw, zero.policy=attr(listw, "zero.policy"), spChk=NULL,
+moran.plot <- function(x, listw, y=NULL, zero.policy=attr(listw, "zero.policy"), spChk=NULL,
  labels=NULL, xlab=NULL, ylab=NULL, quiet=NULL, plot=TRUE, return_df=TRUE, ...)
 {
 	if (!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
 		"is not a listw object"))
         if (is.null(quiet)) quiet <- !get("verbose", envir = .spdepOptions)
         stopifnot(is.vector(x))
+        if (!is.null(y)) stopifnot(is.vector(y))
         stopifnot(is.logical(quiet))
         if (is.null(zero.policy))
             zero.policy <- get("zeroPolicy", envir = .spdepOptions)
@@ -20,14 +21,32 @@ moran.plot <- function(x, listw, zero.policy=attr(listw, "zero.policy"), spChk=N
 	if (is.null(spChk)) spChk <- get.spChkOption()
 	if (spChk && !chkIDs(x, listw))
 		stop("Check of data and weights ID integrity failed")
+        if (!is.null(y)) {
+            yname <- deparse(substitute(y))
+	    if (!is.numeric(y)) stop(paste(yname, "is not a numeric vector"))
+	    if (any(is.na(y))) stop("NA in Y")
+	    if (n != length(y)) stop("objects of different length")
+	    if (spChk && !chkIDs(y, listw))
+		stop("Check of data and weights ID integrity failed")
+        }
 	labs <- TRUE
 	if (is.logical(labels) && !labels) labs <- FALSE
 	if (is.null(labels) || length(labels) != n)
 		labels <- as.character(attr(listw, "region.id"))
-	wx <- lag.listw(listw, x, zero.policy=zero.policy)
+        if (!is.null(y)) {
+	    wx <- lag.listw(listw, y, zero.policy=zero.policy)
+        } else {
+	    wx <- lag.listw(listw, x, zero.policy=zero.policy)
+        }
         if (anyNA(wx)) warning("no-neighbour observation(s) in moran.plot() - use zero.policy=TRUE")
 	if (is.null(xlab)) xlab <- xname
-	if (is.null(ylab)) ylab <- paste("spatially lagged", xname)
+	if (is.null(ylab)) {
+            if (!is.null(y)) {
+                ylab <- paste("spatially lagged", yname)
+            } else {
+                ylab <- paste("spatially lagged", xname)
+            }
+        }
 	if (plot) plot(x, wx, xlab=xlab, ylab=ylab, ...)
 	if (plot && zero.policy) {
 		n0 <- wx == 0.0

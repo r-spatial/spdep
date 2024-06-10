@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.gpkg"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">col.gal.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/columbus.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu">st_coordinates</span><span class="op">(</span><span class="fu">st_centroid</span><span class="op">(</span><span class="fu">st_geometry</span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="va">coords</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span></span>

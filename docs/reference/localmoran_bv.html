@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
       </span>
     </div>
 
@@ -73,7 +73,7 @@
 
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">localmoran_bv</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">listw</span>, nsim <span class="op">=</span> <span class="fl">199</span>, scale <span class="op">=</span> <span class="cn">TRUE</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span>,</span>
-<span> iseed<span class="op">=</span><span class="fl">1L</span>, no_repeat_in_row<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span> iseed<span class="op">=</span><span class="fl">1L</span>, no_repeat_in_row<span class="op">=</span><span class="cn">FALSE</span>, zero.policy<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -107,6 +107,8 @@
 <dt>no_repeat_in_row</dt>
 <dd><p>default <code>FALSE</code>, if <code>TRUE</code>, sample conditionally in each row without replacements to avoid duplicate values, <a href="https://github.com/r-spatial/spdep/issues/124" class="external-link">https://github.com/r-spatial/spdep/issues/124</a></p></dd>
 
+  <dt>zero.policy</dt>
+<dd><p>default default <code>attr(listw, "zero.policy")</code> as set when <code>listw</code> was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA</p></dd>
 
 </dl></div>
     <div id="value">
@@ -135,14 +137,14 @@ I_i^B= cx_i\Sigma_j{w_{ij}y_j}
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># load columbus data</span></span></span>
-<span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">columbus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/columbus.gpkg"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `columbus' from data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/home/rsb/lib/r_libs/spData/shapes/columbus.shp' using driver `ESRI Shapefile'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `/home/rsb/lib/r_libs/spData/shapes/columbus.gpkg' using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 49 features and 20 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POLYGON</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: 5.874907 ymin: 10.78863 xmax: 11.28742 ymax: 14.74245</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CRS:           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: Undefined Cartesian SRS with unknown unit</span>
 <span class="r-in"><span><span class="va">nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">listw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
@@ -247,8 +249,67 @@ I_i^B= cx_i\Sigma_j{w_{ij}y_j}
 <span class="r-out co"><span class="r-pr">#&gt;</span> [47,]                0.012          0.006</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [48,]                0.544          0.272</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [49,]                0.896          0.448</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"quadr")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         mean    median     pysal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1   Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2    Low-Low   Low-Low   Low-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3    Low-Low   Low-Low   Low-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5   High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6    Low-Low  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7    Low-Low   Low-Low   Low-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8   High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9    Low-Low   Low-Low   Low-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 High-High High-High High-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21  High-Low High-High  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 High-High High-High High-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33 High-High High-High High-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35 High-High High-High High-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43  High-Low  High-Low  High-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44   Low-Low   Low-Low   Low-Low</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48  Low-High  Low-High  Low-High</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49   Low-Low   Low-Low   Low-Low</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "localmoran" "matrix"     "array"     </span>
+<span class="r-in"><span><span class="va">columbus</span><span class="op">$</span><span class="va">hs</span> <span class="op">&lt;-</span> <span class="fu"><a href="hotspotmap.html">hotspot</a></span><span class="op">(</span><span class="va">res</span>, Prname<span class="op">=</span><span class="st">"Pr(folded) Sim"</span>, cutoff<span class="op">=</span><span class="fl">0.05</span>,</span></span>
+<span class="r-in"><span> quadrant.type<span class="op">=</span><span class="st">"pysal"</span>, p.adjust<span class="op">=</span><span class="st">"none"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r-tmap.github.io/tmap/" class="external-link">"tmap"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"hs"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-plt img"><img src="localmoran_bv-1.png" alt="" width="700" height="433"></span>
+<span class="r-in"><span><span class="fu"><a href="moran.plot.html">moran.plot</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">columbus</span><span class="op">$</span><span class="va">CRIME</span>, y<span class="op">=</span><span class="va">columbus</span><span class="op">$</span><span class="va">INC</span>, listw<span class="op">=</span><span class="va">listw</span><span class="op">)</span></span></span>
+<span class="r-plt img"><img src="localmoran_bv-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
   </div>

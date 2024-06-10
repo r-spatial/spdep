@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
       </span>
     </div>
 
@@ -124,25 +124,27 @@ manual <span class="citation">(Kaluzny et al. 1996)</span>.</p>
 <h2 id="getting-the-data-into-r">Getting the data into R<a class="anchor" aria-label="anchor" href="#getting-the-data-into-r"></a>
 </h2>
 <p>We will be using the <strong>spdep</strong> and
-<strong>spreg</strong> packages, here version: spdep, version 1.3-4,
-2024-05-31, the <strong>sf</strong> package and the
+<strong>spreg</strong> packages, here version: spdep, version 1.3-5,
+2024-06-10, the <strong>sf</strong> package and the
 <strong>tmap</strong> package. The data from the sources referred to
 above is documented in the help page for the <code>nc.sids</code> data
 set in <strong>spData</strong>. The actual data, included in a shapefile
 of the county boundaries for North Carolina were made available in the
 <strong>maptools</strong> package <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. These data are known to be geographical
 coordinates (longitude-latitude in decimal degrees) and are assumed to
-use the NAD27 datum.</p>
+use the NAD27 datum. The ESRI Shapefile is deprecated, and was replaced
+here by a GeoPackage, written from reading the original files in
+<strong>spData</strong> 2.3.1:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></span>
-<span><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.shp"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=longlat +datum=NAD27"</span></span>
+<span><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/sids.gpkg"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, quiet<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#st_crs(nc) &lt;- "EPSG:4267"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span><span class="op">)</span></span></code></pre></div>
-<p>The shapefile format presupposes that you have three files with
+<p>The shapefile format presupposed that you had three files with
 extensions <code>.shp</code>, <code>.shx</code>, and <code>.dbf</code>,
 where the first contains the geometry data, the second the spatial
-index, and the third the attribute data. They are required to have the
-same name apart from the extension, and are read here using
+index, and the third the attribute data. They were required to have the
+same name apart from the extension, and were read here using
 <code><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">sf::st_read()</a></code> into the <code>sf</code> object
 <code>nc</code>; the class is defined in <strong>sf</strong>. The
 centroids of the largest polygon in each county are available using the
@@ -150,7 +152,7 @@ centroids of the largest polygon in each county are available using the
 <strong>sfc</strong> POINT object, and can be used to place labels after
 the extraction of the coordinate matrix:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, axes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, label<span class="op">=</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span>, cex<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
 <p><img src="sids_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
@@ -163,7 +165,7 @@ set.</p>
 <pre><code><span><span class="co">##  [1] "CNTY_ID"   "AREA"      "PERIMETER" "CNTY_"     "NAME"      "FIPS"     </span></span>
 <span><span class="co">##  [7] "FIPSNO"    "CRESS_ID"  "BIR74"     "SID74"     "NWBIR74"   "BIR79"    </span></span>
 <span><span class="co">## [13] "SID79"     "NWBIR79"   "east"      "north"     "x"         "y"        </span></span>
-<span><span class="co">## [19] "lon"       "lat"       "L_id"      "M_id"      "geometry"</span></span></code></pre>
+<span><span class="co">## [19] "lon"       "lat"       "L_id"      "M_id"      "geom"</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     CNTY_ID          AREA          PERIMETER         CNTY_     </span></span>
@@ -201,9 +203,9 @@ set.</p>
 <span><span class="co">##  Mean   :  91.46   Mean   :3953   Mean   :-79.51   Mean   :35.62  </span></span>
 <span><span class="co">##  3rd Qu.: 240.03   3rd Qu.:4000   3rd Qu.:-77.87   3rd Qu.:36.05  </span></span>
 <span><span class="co">##  Max.   : 439.65   Max.   :4060   Max.   :-75.67   Max.   :36.52  </span></span>
-<span><span class="co">##       L_id           M_id               geometry  </span></span>
+<span><span class="co">##       L_id           M_id                 geom    </span></span>
 <span><span class="co">##  Min.   :1.00   Min.   :1.00   MULTIPOLYGON :100  </span></span>
-<span><span class="co">##  1st Qu.:1.00   1st Qu.:2.00   epsg:NA      :  0  </span></span>
+<span><span class="co">##  1st Qu.:1.00   1st Qu.:2.00   epsg:4267    :  0  </span></span>
 <span><span class="co">##  Median :2.00   Median :3.00   +proj=long...:  0  </span></span>
 <span><span class="co">##  Mean   :2.12   Mean   :2.67                      </span></span>
 <span><span class="co">##  3rd Qu.:3.00   3rd Qu.:3.25                      </span></span>
