@@ -111,7 +111,13 @@ spdep::poly2nb uses two heuristics, first to find candidate neighbours from inte
 Next, we explore a further possible source of differences in neighbour object reproduction, using the original version of the tract boundaries used in ASDAR, but with some invalid geometries as mentioned earlier:
 
 ```{r, echo=dothis, eval=dothis}
-NY8_sf_old <- st_read(system.file("shapes/NY8_utm18.gpkg", package="spData"), quiet=TRUE)
+if (packageVersion("spData") >= "2.3.2") {
+    NY8_sf_old <- sf::st_read(system.file("shapes/NY8_utm18.gpkg", package="spData"))
+} else {
+    NY8_sf_old <- sf::st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData"))
+    sf::st_crs(NY8_sf_old) <- "EPSG:32618"
+    NY8_sf_old$Cases <- NY8_sf_old$TRACTCAS
+}
 table(st_is_valid(NY8_sf_old))
 ```
 

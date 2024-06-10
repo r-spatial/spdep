@@ -45,7 +45,14 @@ read into R.
 
 ```{r}
 library(spdep)
-NY8 <- as(sf::st_read(system.file("shapes/NY8_utm18.gpkg", package="spData")), "Spatial")
+if (packageVersion("spData") >= "2.3.2") {
+    NY8a <- sf::st_read(system.file("shapes/NY8_utm18.gpkg", package="spData"))
+} else {
+    NY8a <- sf::st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData"))
+    sf::st_crs(NY8a) <- "EPSG:32618"
+    NY8a$Cases <- NY8a$TRACTCAS
+}
+NY8 <- as(NY8a, "Spatial")
 NY_nb <- read.gal(system.file("weights/NY_nb.gal", package="spData"), region.id=as.character(as.integer(row.names(NY8))-1L))
 ```
 
@@ -57,8 +64,8 @@ to the full data set. We retrieve the part of the neighbour list
 in Syracuse using the `subset` method.
 
 ```{r}
-Syracuse <- NY8[NY8$AREANAME == "Syracuse city",]
-Sy0_nb <- subset(NY_nb, NY8$AREANAME == "Syracuse city")
+Syracuse <- NY8[!is.na(NY8$AREANAME) & NY8$AREANAME == "Syracuse city",]
+Sy0_nb <- subset(NY_nb, !is.na(NY8$AREANAME) & NY8$AREANAME == "Syracuse city")
 summary(Sy0_nb)
 ```
 
