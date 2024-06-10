@@ -31,7 +31,7 @@ Interactive Spatial Data Analysis, Harlow: Longman, pp. 300--303.}
 
 \seealso{\code{\link{probmap}}}
 \examples{
-auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
+auckland <- st_read(system.file("shapes/auckland.gpkg", package="spData")[1], quiet=TRUE)
 auckland.nb <- poly2nb(auckland)
 res <- choynowski(auckland$M77_85, 9*auckland$Und5_81)
 resl <- choynowski(auckland$M77_85, 9*auckland$Und5_81, legacy=TRUE)

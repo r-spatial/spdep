@@ -33,7 +33,7 @@ A \code{listw} object with the following members:
  
 \seealso{\code{\link{nb2listw}}, \code{\link{nb2mat}}}
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col005 <- dnearneigh(st_coordinates(st_centroid(st_geometry(columbus),
  of_largest_polygon=TRUE)), 0, 0.5, as.character(columbus$NEIGNO))
 summary(col005)

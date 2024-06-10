@@ -44,20 +44,20 @@ library(spdep)
 
 We will be using the **spdep** and **spreg** packages, here version: `r spdep()[1]`, the **sf** package and the **tmap** package. The data from the sources
 referred to above is documented in the help page for the `nc.sids`
-data set in **spData**. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the **maptools** package [^1]. These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum.
+data set in **spData**. The actual data, included in a shapefile of the county boundaries for North Carolina were made available in the **maptools** package [^1]. These data are known to be geographical coordinates (longitude-latitude in decimal degrees) and are assumed to use the NAD27 datum. The ESRI Shapefile is deprecated, and was replaced here by a GeoPackage, written from reading the original files in **spData** 2.3.1:
 
 ```{r echo=TRUE,eval=TRUE}
 library(spdep)
-nc <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
-st_crs(nc) <- "EPSG:4267"
+nc <- st_read(system.file("shapes/sids.gpkg", package="spData")[1], quiet=TRUE)
+#st_crs(nc) <- "EPSG:4267"
 row.names(nc) <- as.character(nc$FIPSNO)
 ```
 
-The shapefile format presupposes that you have three files with
+The shapefile format presupposed that you had three files with
 extensions `.shp`, `.shx`, and `.dbf`, where the first
 contains the geometry data, the second the spatial index, and the third
-the attribute data. They are required to have the same name apart from
-the extension, and are read here using `sf::st_read()` into the
+the attribute data. They were required to have the same name apart from
+the extension, and were read here using `sf::st_read()` into the
 `sf` object `nc`; the class is defined in **sf**. The centroids of the largest polygon in each county are available
 using the `st_centroid` method from **sf** as an **sfc** POINT object, and can
 be used to place labels after the extraction of the coordinate matrix:

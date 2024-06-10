@@ -42,7 +42,7 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 \seealso{\code{\link{localG}}}
 
 \examples{
-nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+nc.sids <- st_read(system.file("shapes/sids.gpkg", package="spData")[1], quiet=TRUE)
 sidsrate79 <- (1000*nc.sids$SID79)/nc.sids$BIR79
 dists <- c(10, 20, 30, 33, 40, 50, 60, 70, 80, 90, 100)
 ndists <- length(dists)

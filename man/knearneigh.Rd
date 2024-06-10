@@ -32,7 +32,7 @@ A list of class \code{knn}
 \code{\link{knn2nb}}, \code{\link[dbscan]{kNN}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
 col.knn <- knearneigh(coords, k=4)
 plot(st_geometry(columbus), border="grey")

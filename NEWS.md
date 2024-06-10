@@ -1,4 +1,6 @@
-# Version 1.3-4 (development)
+# Version 1.3-5 (development)
+
+* #157 migrate ESRI Shapefile to GPKG files; convert bhicv.shp to GPKG 
 
 * #155 Throw error if `hotspot` despatched on object without a `"quadr"` attribute
 
