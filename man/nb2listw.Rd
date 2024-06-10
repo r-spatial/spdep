@@ -42,7 +42,7 @@ and attributes:
 \seealso{\code{\link{summary.nb}}, \code{\link{read.gal}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- st_coordinates(st_centroid(columbus))
 cards <- card(col.gal.nb)

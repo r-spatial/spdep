@@ -32,7 +32,7 @@ From 1.1-9 with \pkg{sf} 1.0-0, \pkg{s2} is used in bounding box indexing intern
 \seealso{\code{\link{summary.nb}}, \code{\link{card}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 coords <- st_coordinates(st_centroid(st_geometry(columbus)))
 xx <- poly2nb(as(columbus, "Spatial"))
@@ -62,7 +62,7 @@ fg[maxconts] <- "red"
 fg[xx[[maxconts]]] <- "green"
 plot(st_geometry(columbus), col=fg)
 title(main="Region with largest number of contiguities", cex.main=0.6)
-nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+nc.sids <- st_read(system.file("shapes/sids.gpkg", package="spData")[1], quiet=TRUE)
 system.time(xxnb <- poly2nb(nc.sids))
 system.time(xxnb <- poly2nb(as(nc.sids, "Spatial")))
 plot(st_geometry(nc.sids))

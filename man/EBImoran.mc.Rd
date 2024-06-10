@@ -60,7 +60,7 @@ following components:
 \seealso{\code{\link{moran}}, \code{\link{moran.mc}}, \code{\link{EBest}}}
 
 \examples{
-nc.sids <- st_read(system.file("shapes/sids.shp", package="spData")[1], quiet=TRUE)
+nc.sids <- st_read(system.file("shapes/sids.gpkg", package="spData")[1], quiet=TRUE)
 rn <- as.character(nc.sids$FIPS)
 ncCC89_nb <- read.gal(system.file("weights/ncCC89.gal", package="spData")[1],
  region.id=rn)

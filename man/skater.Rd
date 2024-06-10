@@ -72,7 +72,7 @@ skater(edges, data, ncuts, crit, vec.crit, method = c("euclidean",
 \seealso{See Also as \code{\link{mstree}}}
 \examples{
 ### loading data
-bh <- st_read(system.file("etc/shapes/bhicv.shp",
+bh <- st_read(system.file("etc/shapes/bhicv.gpkg",
       package="spdep")[1], quiet=TRUE)
 st_crs(bh) <- "OGC:CRS84"
 ### data standardized 

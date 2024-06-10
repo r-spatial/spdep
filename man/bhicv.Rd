@@ -24,7 +24,7 @@
 %%\format{}
 %%\details{}
 \examples{
-bh <- st_read(system.file("etc/shapes/bhicv.shp",
+bh <- st_read(system.file("etc/shapes/bhicv.gpkg",
       package="spdep")[1])
 }
 \keyword{data}% at least one, from doc/KEYWORDS

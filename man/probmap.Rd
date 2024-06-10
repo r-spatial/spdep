@@ -29,7 +29,7 @@ probmap(n, x, row.names=NULL, alternative="less")
 \seealso{\code{\link{EBest}}, \code{\link{EBlocal}}, \code{\link{ppois}}}
 
 \examples{
-auckland <- st_read(system.file("shapes/auckland.shp", package="spData")[1], quiet=TRUE)
+auckland <- st_read(system.file("shapes/auckland.gpkg", package="spData")[1], quiet=TRUE)
 res <- probmap(auckland$M77_85, 9*auckland$Und5_81)
 rt <- sum(auckland$M77_85)/sum(9*auckland$Und5_81)
 ppois_pmap <- numeric(length(auckland$Und5_81))

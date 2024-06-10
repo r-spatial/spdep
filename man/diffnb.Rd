@@ -21,7 +21,7 @@ A neighbours list with class \code{nb}
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
 rn <- row.names(columbus)
 knn1 <- knearneigh(coords, 1)

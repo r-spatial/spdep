@@ -37,7 +37,7 @@ I_i^B= cx_i\Sigma_j{w_{ij}y_j}
 }
 \examples{
 # load columbus data
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData"))
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData"))
 nb <- poly2nb(columbus)
 listw <- nb2listw(nb)
 set.seed(1)

@@ -103,7 +103,7 @@ The helper functions return an \code{nb} object with a list of integer
 \code{\link{knn2nb}}, \code{\link{card}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 sf_obj <- st_centroid(st_geometry(columbus), of_largest_polygon)
 sp_obj <- as(sf_obj, "Spatial")
 coords <- st_coordinates(sf_obj)
