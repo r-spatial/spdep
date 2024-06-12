@@ -1,5 +1,4 @@
-/* Copyright 2001 by Nicholas Lewin-Koh.
- * interrupt added RSB 2024 */
+/* Copyright 2001 by Nicholas Lewin-Koh. */
 
 #include "spdep.h"
 
@@ -34,7 +33,6 @@ SEXP g_components(SEXP nblst, SEXP cmpnm){
   }
 
   for(i=0; i < nvert; i++){
-    R_CheckUserInterrupt();
     if(INTEGER(visited)[i]==WHITE){ 
       INTEGER(visited)[i]=BLACK;
       if(INTEGER(VECTOR_ELT(nblst,i))[0]==0){
