@@ -1,4 +1,8 @@
-# Version 1.3-5 (development)
+# Version 1.3-6 (development)
+
+* add user interrupt to `n.comp.nb` #160
+
+# Version 1.3-5 (2024-06-10)
 
 * #157 migrate ESRI Shapefile to GPKG files; convert bhicv.shp to GPKG 
 

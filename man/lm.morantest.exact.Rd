@@ -54,7 +54,6 @@ must be one of greater (default), less or two.sided.}
 \examples{
 eire <- st_read(system.file("shapes/eire.gpkg", package="spData")[1])
 row.names(eire) <- as.character(eire$names)
-st_crs(eire) <- "+proj=utm +zone=30 +ellps=airy +units=km"
 eire.nb <- poly2nb(eire)
 e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
 lm.morantest(e.lm, nb2listw(eire.nb))
