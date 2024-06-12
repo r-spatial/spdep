@@ -1,4 +1,8 @@
-# Version 1.3-5 (development)
+# Version 1.3-6 (development)
+
+* #160 handle `n.comp.nb` delay in `print.nb` and elsewhere when the total number of neighbours is large
+
+# Version 1.3-5 (2025-06-10)
 
 * #157 migrate ESRI Shapefile to GPKG files; convert bhicv.shp to GPKG 
 
