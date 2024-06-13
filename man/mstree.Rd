@@ -47,7 +47,6 @@ mstree(nbw, ini = NULL)
 ### loading data
 bh <- st_read(system.file("etc/shapes/bhicv.gpkg",
       package="spdep")[1], quiet=TRUE)
-st_crs(bh) <- "OGC:CRS84"
 ### data padronized
 dpad <- data.frame(scale(as.data.frame(bh)[,5:8]))
 

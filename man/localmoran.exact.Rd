@@ -74,7 +74,6 @@ When the alternative is being tested, a list of left and right M products in att
 \examples{
 eire <- st_read(system.file("shapes/eire.gpkg", package="spData")[1])
 row.names(eire) <- as.character(eire$names)
-st_crs(eire) <- "+proj=utm +zone=30 +ellps=airy +units=km"
 eire.nb <- poly2nb(eire)
 e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
 localmoran.sad(e.lm, nb=eire.nb)
