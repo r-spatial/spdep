@@ -30,9 +30,11 @@ droplinks <- function(nb, drop, sym=TRUE) {
 		nb[[i]] <- 0L
 	}
 	nb <- sym.attr.nb(nb)
-        if (get.SubgraphOption()) {
-            nsg <- n.comp.nb(nb)$nc
-            if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        NE <- n + sum(card(nb))
+        if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+            ncomp <- n.comp.nb(nb)
+            attr(nb, "ncomp") <- ncomp
+            if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
         }
 	nb
 }

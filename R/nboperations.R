@@ -28,9 +28,11 @@ union.nb<-function(nb.obj1, nb.obj2){
   attr(new.nb,"type")<-paste("union(",attr(nb.obj1,"type"),
                              ",",attr(nb.obj2,"type"),")")
   class(new.nb)<-"nb"
-  if (get.SubgraphOption()) {
-    nsg <- n.comp.nb(new.nb)$nc
-    if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+  NE <- length(new.nb) + sum(card(new.nb))
+  if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+    ncomp <- n.comp.nb(new.nb)
+    attr(new.nb, "ncomp") <- ncomp
+    if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
   }
   new.nb
  }
@@ -59,9 +61,11 @@ intersect.nb<-function(nb.obj1, nb.obj2){
   attr(new.nb,"type")<-paste("intersect(",attr(nb.obj1,"type"),
                              ",",attr(nb.obj2,"type"),")")
   class(new.nb)<-"nb"
-  if (get.SubgraphOption()) {
-    nsg <- n.comp.nb(new.nb)$nc
-    if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+  NE <- length(new.nb) + sum(card(new.nb))
+  if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+    ncomp <- n.comp.nb(new.nb)
+    attr(new.nb, "ncomp") <- ncomp
+    if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
   }
   new.nb
 }
@@ -107,9 +111,11 @@ setdiff.nb<-function(nb.obj1, nb.obj2){
   	attr(new.nb,"type")<-paste("setdiff(",attr(nb.obj1,"type"),
                              ",",attr(nb.obj2,"type"),")")
   	class(new.nb)<-"nb"
-        if (get.SubgraphOption()) {
-          nsg <- n.comp.nb(new.nb)$nc
-          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        NE <- length(new.nb) + sum(card(new.nb))
+        if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+          ncomp <- n.comp.nb(new.nb)
+          attr(new.nb, "ncomp") <- ncomp
+          if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
         }
   	new.nb
 }
@@ -134,9 +140,11 @@ complement.nb<-function(nb.obj){
   }
   attr(new.nb,"type")<-paste("complement(",attr(nb.obj,"type"),")")
   class(new.nb)<-"nb"
-  if (get.SubgraphOption()) {
-    nsg <- n.comp.nb(new.nb)$nc
-    if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+  NE <- length(new.nb) + sum(card(new.nb))
+  if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+    ncomp <- n.comp.nb(new.nb)
+    attr(new.nb, "ncomp") <- ncomp
+    if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
   }
   new.nb
  }

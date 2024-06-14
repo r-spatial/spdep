@@ -124,9 +124,11 @@ dnearneigh <- function(x, d1, d2, row.names=NULL, longlat=NULL, bounds=c("GE", "
     attr(z, "nbtype") <- "distance"
     if (symtest) z <- sym.attr.nb(z)
     else attr(z, "sym") <- TRUE
-    if (get.SubgraphOption()) {
-        nsg <- n.comp.nb(z)$nc
-        if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+    NE <- np + sum(card(z))
+    if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+      ncomp <- n.comp.nb(z)
+      attr(z, "ncomp") <- ncomp
+      if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
     }
     z
 }

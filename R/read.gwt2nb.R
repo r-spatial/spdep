@@ -72,9 +72,11 @@ read.gwt2nb <- function(file, region.id=NULL) {
 	attr(res, "call") <- match.call()
 	attr(res, "n") <- n
 	res <- sym.attr.nb(res)
-        if (get.SubgraphOption()) {
-          nsg <- n.comp.nb(res)$nc
-          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        NE <- length(res) + sum(card(res))
+        if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+          ncomp <- n.comp.nb(res)
+          attr(res, "ncomp") <- ncomp
+          if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
         }
 	res
 }

@@ -6,7 +6,11 @@ subset.nb <- function(x, subset, ...) {
     if (!inherits(x, "nb")) stop("not a neighbours list")
     if (!is.logical(subset)) stop("subset not a logical vector")
     n <- length(x)
-    input_nc <- n.comp.nb(x)$nc
+    input_nc <- attr(x, "ncomp")$nc
+    if (is.null(input_nc) && get.SubgraphOption() && 
+        get.SubgraphCeiling() > (length(x) + sum(card(x)))) {
+            input_nc <- n.comp.nb(x)$nc
+    }
     if (n != length(subset))
 	stop("neighours list and subset vector different lengths")
     old.ids <- 1:n
@@ -31,11 +35,17 @@ subset.nb <- function(x, subset, ...) {
     }
     attr(z, "region.id") <- reg.id
     for (i in 1:length(xattrs)) {
-	if (xattrs[i] != "region.id")
+	if (xattrs[i] != "region.id" && xattrs[i] != "ncomp")
 	    attr(z, xattrs[i]) <- attr(x, xattrs[i])
     }
     z <- sym.attr.nb(z)
-    if (input_nc < n.comp.nb(z)$nc) warning("subsetting caused increase in subgraph count")
+    NE <- length(z) + sum(card(z))
+    if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+      ncomp <- n.comp.nb(z)
+      attr(z, "ncomp") <- ncomp
+      if (!is.null(input_nc) && (input_nc < ncomp$nc))
+          warning("subsetting caused increase in subgraph count")
+    }
     z
 }
 
