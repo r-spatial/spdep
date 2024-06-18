@@ -162,9 +162,11 @@ edit.nb <- function(name, coords, polys=NULL, ..., use_region.id=FALSE) {
   if (is.null(icl)) class(nb) <- "nb"
   else class(nb) <- c("nb", icl)
   nb <- sym.attr.nb(nb)
-  if (get.SubgraphOption()) {
-     nsg <- n.comp.nb(nb)$nc
-     if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+  NE <- n + sum(card(nb))
+  if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+    ncomp <- n.comp.nb(nb)
+    attr(z, "ncomp") <- ncomp
+    if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
   }
   nb
 }

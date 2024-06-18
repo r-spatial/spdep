@@ -74,7 +74,6 @@ skater(edges, data, ncuts, crit, vec.crit, method = c("euclidean",
 ### loading data
 bh <- st_read(system.file("etc/shapes/bhicv.gpkg",
       package="spdep")[1], quiet=TRUE)
-st_crs(bh) <- "OGC:CRS84"
 ### data standardized 
 dpad <- data.frame(scale(as.data.frame(bh)[,5:8]))
 

@@ -38,10 +38,12 @@ nblag <- function(neighbours, maxlag)
 		class(lags[[i]]) <- "nb"
 		attr(lags[[i]], "region.id") <- attr(neighbours, "region.id")
 		lags[[i]] <- sym.attr.nb(lags[[i]])
-                if (get.SubgraphOption()) {
-                  nsg <- n.comp.nb(lags[[i]])$nc
-                  if (nsg > 1)
-                    warning("neighbour object ", i, " has ", nsg, " sub-graphs")
+                NE <- length(lags[[i]]) + sum(card(lags[[i]]))
+                if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+                    ncomp <- n.comp.nb(lags[[i]])
+                    attr(lags[[i]], "ncomp") <- ncomp
+                    if (ncomp$nc > 1) warning("lag ", i,
+                        " neighbour object has ", ncomp$nc, " sub-graphs")
                 }
 	}
 	attr(lags, "call") <- match.call()
