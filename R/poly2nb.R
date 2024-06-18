@@ -200,9 +200,11 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 	if (queen) attr(ans, "type") <- "queen"
 	else attr(ans, "type") <- "rook"
 	ans <- sym.attr.nb(ans)
-        if (get.SubgraphOption()) {
-          nsg <- n.comp.nb(ans)$nc
-          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        NE <- n + sum(card(ans))
+        if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+          ncomp <- n.comp.nb(ans)
+          attr(ans, "ncomp") <- ncomp
+          if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
         }
         if (verbose) cat("done:", (proc.time() - .ptime_start)[3], "\n")
         .ptime_start <- proc.time()
