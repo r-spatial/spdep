@@ -60,7 +60,7 @@ poly2nb <- function(pl, row.names=NULL, snap=NULL, queen=TRUE, useC=TRUE,
                     snap <- sqrt(.Machine$double.eps)
                 } else {
                     if (paras$IsGeographic) {
-                        snap <- 1e-7
+                        snap <- 9e-8
                     } else {
                         tenmm <- units::set_units(0.01, "metre")
                         if (grepl("metre", paras$units_gdal)) {
