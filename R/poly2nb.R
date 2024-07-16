@@ -225,6 +225,7 @@ poly2nb <- function(pl, row.names=NULL, snap=NULL, queen=TRUE, useC=TRUE,
 	attr(ans, "call") <- match.call()
 	if (queen) attr(ans, "type") <- "queen"
 	else attr(ans, "type") <- "rook"
+	attr(ans, "snap") <- snap
 	ans <- sym.attr.nb(ans)
         NE <- n + sum(card(ans))
         if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
