@@ -1,12 +1,12 @@
-# Copyright 2001-2021 by Roger Bivand 
+# Copyright 2001-2024 by Roger Bivand 
 #
 #
 # Modified by Micah Altman 2010
 	
 
 
-poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
-	queen=TRUE, useC=TRUE, foundInBox=NULL) {
+poly2nb <- function(pl, row.names=NULL, snap=NULL, queen=TRUE, useC=TRUE,
+        foundInBox=NULL) {
         verbose <- get("verbose", envir = .spdepOptions)
         .ptime_start <- proc.time()
         sf <- NULL
@@ -48,12 +48,38 @@ poly2nb <- function(pl, row.names=NULL, snap=sqrt(.Machine$double.eps),
 			else regid <- row.names
 		}
 	}
-        if (snap < 0) snap <- abs(snap)
-#        if (snap < .Machine$double.eps) {
-#            bsnap <- .Machine$double.eps
-#        } else { 
-#            bsnap <- snap
-#        }
+        if (!is.null(snap)) {
+            stopifnot(is.numeric(snap))
+            stopifnot(is.finite(snap))
+            stopifnot(length(snap) == 1L)
+            if (snap < 0) snap <- abs(snap)
+        } else {
+            if (sf) {
+                paras <- sf::st_crs(pl, parameters=TRUE)
+                if (length(paras) == 0L) {
+                    snap <- sqrt(.Machine$double.eps)
+                } else {
+                    if (paras$IsGeographic) {
+                        snap <- 1e-7
+                    } else {
+                        tenmm <- units::set_units(0.01, "metre")
+                        if (grepl("metre", paras$units_gdal)) {
+                            snap <- as.numeric(tenmm)
+                        } else {
+                            snap0 <- try(units::set_units(tenmm, paras$ud_unit,
+                                mode="standard"), silent=TRUE)
+                            if (inherits(snap0, "try-error")) {
+                                snap <- sqrt(.Machine$double.eps)
+                            } else {
+                                snap <- as.numeric(snap0)
+                            }
+                        }
+                    }
+                }
+            } else {
+                snap <- sqrt(.Machine$double.eps)
+            }
+        }
         vbsnap <- c(-snap, snap)
         if (verbose) cat("handle IDs:", (proc.time() - .ptime_start)[3], "\n")
         .ptime_start <- proc.time()

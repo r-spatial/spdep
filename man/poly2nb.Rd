@@ -5,14 +5,13 @@
 \description{
 The function builds a neighbours list based on regions with contiguous boundaries, that is sharing one or more boundary point. The current function is in part interpreted and may run slowly for many regions or detailed boundaries, but from 0.2-16 should not fail because of lack of memory when single polygons are built of very many border coordinates.}
 \usage{
-poly2nb(pl, row.names = NULL, snap=sqrt(.Machine$double.eps),
- queen=TRUE, useC=TRUE, foundInBox=NULL)
+poly2nb(pl, row.names = NULL, snap=NULL, queen=TRUE, useC=TRUE, foundInBox=NULL)
 }
 
 \arguments{
   \item{pl}{list of polygons of class extending \code{SpatialPolygons}, or an \code{sf} or \code{sfc} object containing non-empty (multi-)polygon objects}
   \item{row.names}{character vector of region ids to be added to the neighbours list as attribute \code{region.id}, default \code{seq(1, nrow(x))}; if \code{pl} has \code{row.names}, they are used instead of the default sequence.}
-  \item{snap}{boundary points less than \code{snap} distance apart are considered to indicate contiguity; used both to find candidate and actual neighbours for planar geometries, but only actual neighbours for spherical geometries, as spherical spatial indexing itself injects some fuzzyness.}
+  \item{snap}{boundary points less than \code{snap} distance apart are considered to indicate contiguity; used both to find candidate and actual neighbours for planar geometries, but only actual neighbours for spherical geometries, as spherical spatial indexing itself injects some fuzzyness. If not set, for all \code{SpatialPolygons} objects, the default is as before \code{sqrt(.Machine$double.eps)}, with this value also used for \code{sf} objects with no coordinate reference system. For \code{sf} objects with a defined coordinate reference system, the default value is \code{1e-7} for geographical coordinates (approximately 10mm), is 10mm where projected coordinates are in metre units, and is converted from 10mm to the same distance in the units of the coordinates. Should the conversion fail, \code{snap} reverts to \code{sqrt(.Machine$double.eps)}.}
   \item{queen}{if TRUE, a single shared boundary point meets the contiguity condition, if FALSE, more than one shared point is required; note that more than one shared boundary point does not necessarily mean a shared boundary line}
   \item{useC}{default TRUE, doing the work loop in C, may be set to false to revert to R code calling two C functions in an \code{n*k} work loop, where \code{k} is the average number of candidate neighbours}
   \item{foundInBox}{default NULL using R code or \code{st_intersects()} to generate candidate neighbours (using \code{snap=} if the geometries are not spherical); if not NULL (for legacy purposes) a list of length \code{(n-1)} with integer vectors of candidate neighbours \code{(j > i)} (as created by the \code{poly_findInBoxGEOS} function in \pkg{rgeos} for clean polygons)}
