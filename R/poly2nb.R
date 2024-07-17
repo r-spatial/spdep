@@ -227,11 +227,15 @@ poly2nb <- function(pl, row.names=NULL, snap=NULL, queen=TRUE, useC=TRUE,
 	else attr(ans, "type") <- "rook"
 	attr(ans, "snap") <- snap
 	ans <- sym.attr.nb(ans)
-        NE <- n + sum(card(ans))
+        cans <- card(ans)
+        if (get.NoNeighbourOption()) {
+            if (any(cans == 0L)) warning("some observations have no neighbours;\nif this seems unexpected, try increasing the snap argument.")
+        }
+        NE <- n + sum(cans)
         if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
           ncomp <- n.comp.nb(ans)
           attr(ans, "ncomp") <- ncomp
-          if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
+          if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs;\nif this sub-graph count seems unexpected, try increasing the snap argument.")
         }
         if (verbose) cat("done:", (proc.time() - .ptime_start)[3], "\n")
         .ptime_start <- proc.time()

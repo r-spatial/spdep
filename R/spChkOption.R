@@ -29,6 +29,17 @@ set.VerboseOption <- function(check) {
 	invisible(res)
 }
 
+get.NoNeighbourOption <- function() {
+	get("report_nb_noneighs", envir = .spdepOptions)
+}
+
+set.NoNeighbourOption <- function(check) {
+	if (!is.logical(check)) stop ("logical argument required")
+	res <- get("report_nb_noneighs", envir = .spdepOptions)
+	assign("report_nb_noneighs", check, envir = .spdepOptions)
+	invisible(res)
+}
+
 get.SubgraphOption <- function() {
 	get("report_nb_subgraphs", envir = .spdepOptions)
 }

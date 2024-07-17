@@ -84,7 +84,8 @@ export(autocov_dist)
 
 export(set.VerboseOption, get.VerboseOption, set.ZeroPolicyOption,
         get.ZeroPolicyOption, get.SubgraphOption, set.SubgraphOption,
-        get.SubgraphCeiling, set.SubgraphCeiling)
+        get.SubgraphCeiling, set.SubgraphCeiling, get.NoNeighbourOption,
+        set.NoNeighbourOption)
 export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
         set.ClusterOption, get.ClusterOption)
 
