@@ -185,3 +185,38 @@ nb2INLA <-function(file, nb)
         }
 }
 
+read.swmdbf2listw <- function(fn, region.id=NULL, style=NULL, zero.policy=NULL) {
+    if (is.null(zero.policy))
+        zero.policy <- get.ZeroPolicyOption()
+    stopifnot(is.logical(zero.policy))
+    if (is.null(style)) {
+        style <- "M"
+    }
+    if (style == "M")
+        warning("style is M (missing); style should be set to a valid value")
+
+    res <- NULL
+
+    if (requireNamespace("foreign", quietly=TRUE)) {
+        df <- try(foreign::read.dbf(fn), silent=TRUE)
+        if (inherits(df, "try-error")) stop(df[1])
+        n <- max(c(df[,2], df[,3]))
+        ids <- 1:n
+        if (!all(df[,2] %in% ids) || !all(df[,3] %in% ids))
+            warning("some IDs missing")
+        df1 <- df[order(df[,2], df[,3]), -1]
+        attr(df1, "n") <- n
+        class(df1) <- c(class(df1), "spatial.neighbour")
+        res0 <- try(sn2listw(df1, style=style, zero.policy=zero.policy),
+            silent=TRUE)
+        if (inherits(res0, "try-error")) stop(res0[1])
+        else res <- res0
+    } else warning("foreign::read.dbf not available")
+
+    if (!inherits(res, "listw")) warning("creation of listw object from SWM DBF file failed")
+    res
+}
+
+read_swm_dbf <- function(fn) {
+    read.swmdbf2listw(fn, style="B")
+}
