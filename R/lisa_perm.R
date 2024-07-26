@@ -63,6 +63,7 @@ run_perm <- function(fun, idx, env, iseed, varlist) {
         oo <- lapply(idx, function(i) fun(i, env))
         out <- do.call("rbind", oo)
     }
+    attr(out, "ncpus") <- ncpus
     out
 }
 
@@ -205,6 +206,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=attr(listw, "zero.p
     }
 
     out <- run_perm(fun=permI_int, idx=1:n, env=env, iseed=iseed, varlist=varlist)
+    ncpus <- attr(out, "ncpus")
 
     if (sample_Ei) res[,2] <- out[,1]
     else  res[,2] <- EIc
@@ -213,7 +215,9 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=attr(listw, "zero.p
     if (alternative == "two.sided") 
         res[,5] <- 2 * pnorm(abs(res[,4]), lower.tail=FALSE)
     else if (alternative == "greater") 
-        res[,5] <- pnorm(res[,4], lower.tail=FALSE)
+        res[,5] <- pnorm(res[,4
+
+], lower.tail=FALSE)
     else res[,5] <- pnorm(res[,4])
 # look-up table
     probs <- probs_lut(stat="I", nsim=nsim, alternative=alternative)
@@ -241,6 +245,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=attr(listw, "zero.p
     if (!is.null(na.act)) attr(res, "na.action") <- na.act
     attr(res, "quadr") <- data.frame(mean=quadr, median=quadr_med, 
         pysal=quadr_ps)
+    attr(res, "ncpus") <- ncpus
     class(res) <- c("localmoran", class(res))
     res
 }
@@ -398,6 +403,7 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=attr(listw, "zero.policy
     }
 
     out <- run_perm(fun=thisfun, idx=1:n, env=env, iseed=iseed, varlist=varlist)
+    ncpus <- attr(out, "ncpus")
 
 # add simulated standard deviate direct output
     res_sim <- (G - out[,1])
@@ -427,6 +433,7 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=attr(listw, "zero.policy
     attr(res, "cluster") <- cut(x, c(-Inf, mean(x), Inf), labels = c("Low", "High"))
     attr(res, "gstari") <- gstari
     attr(res, "call") <- match.call()
+    attr(res, "ncpus") <- ncpus
     class(res) <- "localG"
     res
 }

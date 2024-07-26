@@ -28,7 +28,7 @@ localG_perm(x, listw, nsim=499, zero.policy=attr(listw, "zero.policy"), spChk=NU
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of \code{"two.sided"} (default), \code{"greater"} or \code{"less"}.}
   \item{return_internals}{default \code{TRUE}, unused}
-  \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
+  \item{iseed}{default NULL, used to set the seed; the output will only be reproducible if the count of CPU cores across which computation is distributed is the same}
   \item{fix_i_in_Gstar_permutations}{default \code{TRUE} (fix x at self in permutations for local G-star), set \code{FALSE} to use pre-1.2-8 behaviour}
   \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
 }

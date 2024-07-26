@@ -106,12 +106,14 @@ local_joincount_uni <- function(fx, chosen, listw,
   # commenting out because this should be handled in `probs_lut()`
   # if (alternative == "two.sided") probs <- probs / 2
   p_ranks <- run_perm(permBB_int, index, env, iseed, varlist)
+  ncpus <- attr(p_ranks, "ncpus")
 
   p_res <- rep(NA_real_, length(x))
   p_res[index] <- probs[floor(p_ranks)]
 
   res <- data.frame(obs, p_res)
   colnames(res) <- c("BB", attr(probs, "Prname"))
+  attr(res, "ncpus") <- ncpus
   res
 }
 
