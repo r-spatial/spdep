@@ -16,6 +16,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         stop("regions with no neighbours found")
     ifx <- as.integer(fx)
     k <- length(levels(fx))
+    tifx <- table(ifx)/n
     if (k < 2) stop("must be at least two levels in factor")
     wt <- listw$weights
 
@@ -24,7 +25,8 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     assign("nb", nb, envir = env) # nbs
     assign("lww", wt, envir = env) # weights
     assign("nsim", nsim, envir=env) # sims
-    assign("xi", x, envir = env) # x col
+    assign("xi", ifx, envir = env) # x col
+    assign("tifx", tifx, envir = env) # ifx props
     assign("n", n, envir=env)
     assign("no_repeat_in_row", no_repeat_in_row, envir=env)
     varlist = ls(envir = env)
@@ -39,6 +41,10 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         w_i <- get("lww", envir = env)[[i]] # weights for ith element
         nsim <- get("nsim", envir = env) # no. simulations
         n_i <- get("n", envir=env) - 1L
+        c1_comp_obs_i <- sum(x[nb_i] == xi) + 1
+        c2_prop_level_i <- tifx[xi]
+        c3_crdip1 <- crdi + 1
+        
         no_repeat_in_row <- get("no_repeat_in_row", envir=env)
         # create matrix of replicates
         if (no_repeat_in_row) {
@@ -50,9 +56,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
                 ncol = crdi, nrow = nsim)
         }
 
-        res_i <- x[i] * (sx_i %*% w_i)
-
-        rank(c(res_i, obs[i]))[(nsim + 1)]
+        
 
     }
 
