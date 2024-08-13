@@ -3,6 +3,8 @@
 \alias{read.gwt2nb}
 \alias{write.sn2gwt}
 \alias{read.dat2listw}
+\alias{read.swmdbf2listw}
+\alias{read_swm_dbf}
 \alias{write.sn2dat}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Read and write spatial neighbour files}
@@ -14,22 +16,26 @@ read.gwt2nb(file, region.id=NULL)
 write.sn2gwt(sn, file, shpfile=NULL, ind=NULL, useInd=FALSE, legacy=FALSE)
 read.dat2listw(file)
 write.sn2dat(sn, file)
+read.swmdbf2listw(fn, region.id=NULL, style=NULL, zero.policy=NULL)
+read_swm_dbf(fn)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{file}{name of file with weights data}
+  \item{file, fn}{name of file with weights data}
   \item{region.id}{region IDs}
   \item{sn}{a \code{spatial.neighbour} object}
   \item{shpfile}{character string: if not given Shapefile name taken from GWT file for this dataset}
   \item{ind}{character string: region id indicator field name}
   \item{useInd}{default FALSE, if TRUE, write \code{region.id} attribute ID key tags to output file (use in OpenGeoDa will depend on the shapefile having the field named in the \code{ind} argument matching the exported tags)}
   \item{legacy}{default FALSE; if TRUE, header has single field with number of observations only}
+  \item{style}{default NULL, missing, set to "M" and warning given; if not "M", passed to \code{\link{nb2listw}} to re-build the object}
+  \item{zero.policy}{default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
 }
 \details{
-Attempts to honour the region.id argument given when reading GWT files. If the region IDs given in \code{region.id=} do not match the origins or destinations in the GWT file, an error will be thrown reporting \code{Error: !anyNA(reg*dij) is not TRUE} where '*' may be \sQuote{o} for origins or \sQuote{d} for destinations.
+Attempts to honour the region.id argument given when reading GWT and SWM/DBF files. If the region IDs given in \code{region.id=} do not match the origins or destinations in the GWT file, an error or warning will be thrown, which should be considered carefully. \code{read_swm_dbf} is a simplified interface to \code{read.swmdbf2listw}.
 }
 \value{
-  \code{read.gwt2nb} returns a neighbour "nb" object with the generalised weights stored as a list element called "dlist" of the "GeoDa" attribute.
+  \code{read.gwt2nb} returns a neighbour "nb" object with the generalised weights stored as a list element called "dlist" of the "GeoDa" attribute; \code{read.swmdbf2listw} returns a "listw" object read from a DBF file exported from an ArcGIS SWM object.
 }
 
 \references{Luc Anselin (2003) \emph{GeoDa 0.9 User's Guide}, pp. 80--81, Spatial Analysis Laboratory, Department of Agricultural and Consumer Economics, University of Illinois, Urbana-Champaign, \url{http://geodacenter.github.io/docs/geoda093.pdf}; also \url{http://spatial-econometrics.com/data/contents.html}}
@@ -61,5 +67,19 @@ diffnb(listwmat1$neighbours, COL.nb, verbose=TRUE)
 listwmat2 <- read.dat2listw(system.file("etc/weights/wmat.dat", 
  package="spdep")[1])
 diffnb(listwmat1$neighbours, listwmat2$neighbours, verbose=TRUE)
+nc_sf <- sf::st_read(system.file("gpkg/nc.gpkg", package="sf")[1])
+nc_sf$UniqueID <- 1:nrow(nc_sf)
+fn <- system.file("etc/misc/nc_contiguity_unique_id.dbf", package="spdep")[1]
+nc1 <- read.swmdbf2listw(fn, style="B")
+nc1a <- read.swmdbf2listw(fn, region.id=as.character(nc_sf$UniqueID),
+ style="B")
+all.equal(nc1, nc1a)
+fn <- system.file("etc/misc/nc_contiguity_unique_id_islands.dbf",
+ package="spdep")[1]
+try(nc1i <- read.swmdbf2listw(fn, style="B"))
+nc1i <- read.swmdbf2listw(fn, style="B", zero.policy=TRUE)
+nc1ia <- read.swmdbf2listw(fn, region.id=as.character(nc_sf$UniqueID),
+ style="B", zero.policy=TRUE)
+all.equal(nc1i, nc1ia)
 }
 \keyword{spatial}

@@ -39,8 +39,9 @@ export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb,
 	joincount.test, joincount.mc, joincount.multi, print.jcmulti,
 	knearneigh, knn2nb)
 
-export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests, 
-        lm.RStests, SD.RStests,
+export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt,
+        read.swmdbf2listw, read_swm_dbf, 
+        lm.LMtests, lm.RStests, SD.RStests,
 	lm.morantest, localG, localG_perm, localmoran, localmoran_perm, moran,
 	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
 	nb2listw, nb2listwdist, nb2mat, listw2mat, mat2listw, nbdists, nblag,

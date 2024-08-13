@@ -200,13 +200,24 @@ read.swmdbf2listw <- function(fn, region.id=NULL, style=NULL, zero.policy=NULL) 
     if (requireNamespace("foreign", quietly=TRUE)) {
         df <- try(foreign::read.dbf(fn), silent=TRUE)
         if (inherits(df, "try-error")) stop(df[1])
-        n <- max(c(df[,2], df[,3]))
+        if (is.null(region.id)) {
+            rn <- range(c(df[,2], df[,3]))
+            region.id <- as.character(rn[1]:rn[2])
+            warning("region.id not given, c(MYID, NID) range is ",
+                paste(rn, collapse=":"))
+        }
+        n <- length(region.id)
         ids <- 1:n
+        df[,2] <- match(df[, 2], region.id)
+        if (anyNA(df[,2])) warning("NAs in MYID matching")
+        df[,3] <- match(df[, 3], region.id)
+        if (anyNA(df[,3])) warning("NAs in NID matching")
         if (!all(df[,2] %in% ids) || !all(df[,3] %in% ids))
             warning("some IDs missing")
         df1 <- df[order(df[,2], df[,3]), -1]
         attr(df1, "n") <- n
         class(df1) <- c(class(df1), "spatial.neighbour")
+        attr(df1, "region.id") <- region.id
         res0 <- try(sn2listw(df1, style=style, zero.policy=zero.policy),
             silent=TRUE)
         if (inherits(res0, "try-error")) stop(res0[1])
