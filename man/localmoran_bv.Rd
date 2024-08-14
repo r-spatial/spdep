@@ -36,7 +36,7 @@ I_i^B= cx_i\Sigma_j{w_{ij}y_j}
 }
 }
 \examples{
-# load columbus data
+# load columbus datay
 columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData"))
 nb <- poly2nb(columbus)
 listw <- nb2listw(nb)
@@ -44,8 +44,18 @@ set.seed(1)
 (res <- localmoran_bv(columbus$CRIME, columbus$INC, listw, nsim = 499))
 columbus$hs <- hotspot(res, Prname="Pr(folded) Sim", cutoff=0.05,
  quadrant.type="pysal", p.adjust="none")
+\donttest{
 if (require("tmap", quietly=TRUE)) {
+tmap4 <- packageVersion("tmap") >= "3.99"
+if (tmap4) {
+  tm_shape(columbus) + tm_polygons(fill="hs",
+    fill.scale=tm_scale(values="brewer.set3"),
+    fill.legend=tm_legend(position=tm_pos_in("left", "top"),
+      frame=FALSE, item.r=0), lwd=0.01)
+} else {
   tm_shape(columbus) + tm_fill("hs")
+}
+}
 }
 moran.plot(x=columbus$CRIME, y=columbus$INC, listw=listw)
 }

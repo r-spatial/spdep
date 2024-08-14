@@ -252,8 +252,13 @@ is_tmap
 
 ```{r choymap, echo=TRUE, eval=is_tmap}
 library(tmap)
+tmap4 <- packageVersion("tmap") >= "3.99"
+if (tmap4) {
+  tm_shape(nc) + tm_polygons(fill=c("low", "high"), fill.scale = tm_scale(values="brewer.set1"), fill.legend = tm_legend("p-values", frame=FALSE, item.r = 0), fill.free=FALSE, lwd=0.01) + tm_layout(panel.labels=c("low", "high"))
+} else {
 tm_shape(nc) + tm_fill(c("low", "high"), palette="Set1", title="p-values") +
   tm_facets(free.scales=FALSE) + tm_layout(panel.labels=c("low", "high"))
+}
 ```
 
 For more complicated thematic maps, it may be helpful to use ColorBrewer
@@ -277,7 +282,11 @@ nc$pmap <- pmap$pmap
 
 ```{r, eval=is_tmap, echo=TRUE}
 brks <- c(0,0.001,0.01,0.025,0.05,0.95,0.975,0.99,0.999,1)
+if (tmap4) {
+  tm_shape(nc) + tm_polygons(fill="pmap", fill.scale = tm_scale(values="brewer.rd_bu", midpoint=0.5, breaks=brks), fill.legend = tm_legend(frame=FALSE, item.r = 0, position = tm_pos_out("right", "center")), lwd=0.01) + tm_layout(component.autoscale=FALSE)
+} else {
 tm_shape(nc) + tm_fill("pmap", breaks=brks, midpoint=0.5, palette="RdBu") + tm_layout(legend.outside=TRUE)
+}
 ```
 
 
@@ -308,7 +317,11 @@ nc$stdres <- rstandard(res)
 
 ```{r, eval=is_tmap, echo=TRUE}
 brks <- c(-4, -3, -2, -1.5, -1, -0.5, 0.5, 1, 1.5, 2, 3, 4)
-tm_shape(nc) + tm_fill("stdres", breaks=brks, midpoint=0, palette="RdBu") + tm_layout(legend.outside=TRUE)
+if (tmap4) {
+  tm_shape(nc) + tm_polygons(fill="stdres", fill.scale = tm_scale(values="brewer.rd_bu", midpoint=0.5, breaks=brks), fill.legend = tm_legend(frame=FALSE, item.r = 0, position = tm_pos_out("right", "center")), lwd=0.01) + tm_layout(component.autoscale=FALSE)
+} else {
+  tm_shape(nc) + tm_fill("stdres", breaks=brks, midpoint=0, palette="RdBu") + tm_layout(legend.outside=TRUE)
+}
 ```
 
 The dispersion is equal to `r summary(res)$dispersion`, much greater than unity; we calculate
@@ -350,8 +363,11 @@ nc$EB_loc <- res$est
 ```{r, eval=is_tmap}
 brks <- c(0, 0.25, 0.5, 0.75, 1, 2, 3, 4, 5)
 nc_miss <- st_centroid(st_geometry(nc[card(ncCC89) == 0,]), of_largest_polygon)
+if (tmap4) {
+  tm_shape(nc) + tm_polygons(fill="stdres", fill.scale = tm_scale(values="brewer.rd_bu", midpoint=0.5, breaks=brks), fill.legend = tm_legend(frame=FALSE, item.r = 0, position = tm_pos_out("right", "center")), lwd=0.01) + tm_layout(component.autoscale=FALSE) + tm_shape(nc_miss) + tm_symbols(shape=8, size=0.5)
+} else {
 tm_shape(nc) + tm_fill("EB_loc", breaks=brks, midpoint=1, palette="RdBu") + tm_layout(legend.outside=TRUE) + tm_shape(nc_miss) + tm_symbols(shape=8, size=0.5)
-
+}
 ```
 
 The results are shown in Figure \ref{EBlocal}. Like other relevant
@@ -384,7 +400,11 @@ nboth <- length(table(unclass(nc$both)))
 ``` 
 
 ```{r, eval=is_tmap}
+if (tmap4) {
+  tm_shape(nc) + tm_polygons(fill="both", fill.scale=tm_scale(values="brewer.set1"), fill.legend = tm_legend("rough\nrectangles", frame=FALSE, item.r = 0, position = tm_pos_out("right", "center")), lwd=0.01) + tm_layout(component.autoscale=FALSE)
+} else {
 tm_shape(nc) + tm_fill("both", palette="Set1", title="rough\nrectangles") + tm_layout(legend.outside=TRUE)
+}
 ```
 
 Cressie constructs a transformed SIDS rates variable, 1974–78, for his
@@ -445,8 +465,13 @@ nc$mp_resid <- nc$ft.SID74 - nc$pred
 ```
 
 ```{r, eval=is_tmap}
+if (tmap4) {
+  out1 <- tm_shape(nc) + tm_polygons(fill=c("ft.SID74", "pred"), fill.scale=tm_scale(values="brewer.yl_or_br"), fill.legend=tm_legend(position=tm_pos_out("right", "center"), frame=FALSE, item.r = 0), fill.free=FALSE, lwd=0.01) + tm_layout(panel.labels=c("Observed", "Median polish prediction"))
+  out2 <- tm_shape(nc) + tm_polygons(fill="mp_resid", fill.scale=tm_scale(values="brewer.rd_yl_gn", midpoint=0), fill.legend=tm_legend(position=tm_pos_out("right", "center"), frame=FALSE, item.r = 0), lwd=0.01)
+} else {
 out1 <- tm_shape(nc) + tm_fill(c("ft.SID74", "pred")) + tm_facets(free.scales=FALSE) + tm_layout(panel.labels=c("Observed", "Median polish prediction"))
 out2 <- tm_shape(nc) + tm_fill("mp_resid", midpoint=0) + tm_layout(legend.outside=TRUE)
+}
 tmap_arrange(out1, out2, ncol=1)
 ```
 
