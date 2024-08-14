@@ -69,6 +69,7 @@ diffnb(listwmat1$neighbours, COL.nb, verbose=TRUE)
 listwmat2 <- read.dat2listw(system.file("etc/weights/wmat.dat", 
  package="spdep")[1])
 diffnb(listwmat1$neighbours, listwmat2$neighbours, verbose=TRUE)
+if (require("foreign", quietly=TRUE)) {
 nc_sf <- sf::st_read(system.file("gpkg/nc.gpkg", package="sf")[1])
 nc_sf$UniqueID <- 1:nrow(nc_sf)
 fn <- system.file("etc/misc/nc_contiguity_unique_id.dbf", package="spdep")[1]
@@ -112,5 +113,6 @@ all.equal(cal1a_1n$weights, cal1a_1n_rt$weights, check.attributes=FALSE)
 cal1_1n_rt <- read.swmdbf2listw(file, style="B", zero.policy=TRUE)
 all(isTRUE(all.equal(cal1a_1n$neighbours, cal1_1n_rt$neighbours)))
 all(isTRUE(all.equal(cal1a_1n$weights, cal1_1n_rt$weights)))
+}
 }
 \keyword{spatial}
