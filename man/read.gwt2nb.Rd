@@ -6,6 +6,7 @@
 \alias{read.swmdbf2listw}
 \alias{read_swm_dbf}
 \alias{write.sn2dat}
+\alias{write.sn2DBF}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Read and write spatial neighbour files}
 \description{
@@ -18,11 +19,12 @@ read.dat2listw(file)
 write.sn2dat(sn, file)
 read.swmdbf2listw(fn, region.id=NULL, style=NULL, zero.policy=NULL)
 read_swm_dbf(fn)
+write.sn2DBF(sn, file)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{file, fn}{name of file with weights data}
-  \item{region.id}{region IDs}
+  \item{region.id}{a character vector of region IDs - for ArcGIS SWM DBFs, the values must be character integers (only numbers not starting with zero)}
   \item{sn}{a \code{spatial.neighbour} object}
   \item{shpfile}{character string: if not given Shapefile name taken from GWT file for this dataset}
   \item{ind}{character string: region id indicator field name}
@@ -32,7 +34,7 @@ read_swm_dbf(fn)
   \item{zero.policy}{default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
 }
 \details{
-Attempts to honour the region.id argument given when reading GWT and SWM/DBF files. If the region IDs given in \code{region.id=} do not match the origins or destinations in the GWT file, an error or warning will be thrown, which should be considered carefully. \code{read_swm_dbf} is a simplified interface to \code{read.swmdbf2listw}.
+Attempts to honour the region.id argument given when reading GWT and SWM/DBF files. If the region IDs given in \code{region.id=} do not match the origins or destinations in the GWT file, an error or warning will be thrown, which should be considered carefully. \code{read_swm_dbf} is a simplified interface to \code{read.swmdbf2listw} When no-neighbour observations are present, it is advised that \code{region.id=} be given in \code{read.swmdbf2listw}; while the function should read correctly if the minimum and maximum IDs are present as observations with neighbours without \code{region.id=} set, reading using \code{read.swmdbf2listw} will fail when the minimum or maximum ID observations have no neighbours and \code{region.id=} is not given.
 }
 \value{
   \code{read.gwt2nb} returns a neighbour "nb" object with the generalised weights stored as a list element called "dlist" of the "GeoDa" attribute; \code{read.swmdbf2listw} returns a "listw" object read from a DBF file exported from an ArcGIS SWM object.
@@ -71,6 +73,7 @@ nc_sf <- sf::st_read(system.file("gpkg/nc.gpkg", package="sf")[1])
 nc_sf$UniqueID <- 1:nrow(nc_sf)
 fn <- system.file("etc/misc/nc_contiguity_unique_id.dbf", package="spdep")[1]
 nc1 <- read.swmdbf2listw(fn, style="B")
+nc1
 nc1a <- read.swmdbf2listw(fn, region.id=as.character(nc_sf$UniqueID),
  style="B")
 all.equal(nc1, nc1a)
@@ -80,6 +83,34 @@ try(nc1i <- read.swmdbf2listw(fn, style="B"))
 nc1i <- read.swmdbf2listw(fn, style="B", zero.policy=TRUE)
 nc1ia <- read.swmdbf2listw(fn, region.id=as.character(nc_sf$UniqueID),
  style="B", zero.policy=TRUE)
+nc1ia
 all.equal(nc1i, nc1ia)
+cal <- st_read(system.file("etc/shapes/california.gpkg", package="spdep")[1])
+fn <- system.file("etc/misc/contiguity_myid.dbf", package="spdep")[1]
+cal1 <- read.swmdbf2listw(fn, style="B")
+cal1a <- read.swmdbf2listw(fn, region.id=as.character(cal$MYID), style="B")
+all.equal(cal1, cal1a)
+fn <- system.file("etc/misc/contiguity_unique_id.dbf", package="spdep")[1]
+cal2 <- read.swmdbf2listw(fn, style="B")
+cal2a <- read.swmdbf2listw(fn, region.id=as.character(cal$UniqueID), style="B")
+all.equal(cal2, cal2a)
+fn <- system.file("etc/misc/contiguity_unique_id_islands.dbf", package="spdep")[1]
+try(cal3i <- read.swmdbf2listw(fn, style="B"))
+cal3i <- read.swmdbf2listw(fn, style="B", zero.policy=TRUE)
+cal3ia <- read.swmdbf2listw(fn, region.id=as.character(cal$UniqueID), style="B", zero.policy=TRUE)
+all.equal(cal3i, cal3ia)
+cal1a_1n_nb <- cal1a$neighbours
+cal1a_1n_nb <- droplinks(cal1a_1n_nb, drop=c("158", "180", "215"), sym=TRUE)
+cal1a_1n <- nb2listw(cal1a_1n_nb, style="B", zero.policy=TRUE)
+cal1a_1n_sn <- listw2sn(cal1a_1n)
+file <- tempfile(fileext=".dbf")
+write.sn2DBF(cal1a_1n_sn, file)
+cal1a_1n_rt <- read.swmdbf2listw(file, region.id=as.character(cal$MYID),
+ style="B", zero.policy=TRUE)
+all.equal(cal1a_1n$neighbours, cal1a_1n_rt$neighbours)
+all.equal(cal1a_1n$weights, cal1a_1n_rt$weights, check.attributes=FALSE)
+cal1_1n_rt <- read.swmdbf2listw(file, style="B", zero.policy=TRUE)
+all(isTRUE(all.equal(cal1a_1n$neighbours, cal1_1n_rt$neighbours)))
+all(isTRUE(all.equal(cal1a_1n$weights, cal1_1n_rt$weights)))
 }
 \keyword{spatial}

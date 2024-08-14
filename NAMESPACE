@@ -40,7 +40,7 @@ export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb,
 	knearneigh, knn2nb)
 
 export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt,
-        read.swmdbf2listw, read_swm_dbf, 
+        read.swmdbf2listw, read_swm_dbf, write.sn2DBF,
         lm.LMtests, lm.RStests, SD.RStests,
 	lm.morantest, localG, localG_perm, localmoran, localmoran_perm, moran,
 	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
