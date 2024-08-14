@@ -103,7 +103,7 @@ if (run) {
     attr(C, "pseudo-p")[,6])
 }
 # pseudo-p values probably wrongly folded https://github.com/GeoDaCenter/rgeoda/issues/28
-\dontrun{
+\donttest{
 tmap_ok <- FALSE
 if (require(tmap, quietly=TRUE)) tmap_ok <- TRUE
 if (run) {
@@ -126,16 +126,37 @@ if (run) {
 if (run) {
   g$PC1 <- o$x[, "PC1"]
   brks <- c(min(g$PC1), natural_breaks(k=6, g["PC1"]), max(g$PC1))
-  if (tmap_ok) tm_shape(g) + tm_fill("PC1", breaks=brks, midpoint=0) + 
-    tm_borders() # Fig. 1
-  else pplot(g["PC1"], breaks=brks)
+  if (tmap_ok) {
+    tmap4 <- packageVersion("tmap") >= "3.99"
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="PC1", 
+        fill.scale=tm_scale(values="brewer.rd_yl_gn", breaks=brks,
+        midpoint=0), fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+        frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("PC1", breaks=brks, midpoint=0) + 
+      tm_borders() # Fig. 1
+    }
+  } else {
+    pplot(g["PC1"], breaks=brks)
+  }
 }
 if (run) {
   g$PC2 <- -1*o$x[, "PC2"] # eigenvalue sign arbitrary
   brks <- c(min(g$PC2), natural_breaks(k=6, g["PC2"]), max(g$PC2))
-  if (tmap_ok) tm_shape(g) + tm_fill("PC2", breaks=brks, midpoint=0) + 
-    tm_borders() # Fig. 2
-  else plot(g["PC2"], breaks=brks)
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="PC2", 
+        fill.scale=tm_scale(values="brewer.rd_yl_gn", breaks=brks,
+        midpoint=0), fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+        frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("PC2", breaks=brks, midpoint=0) + 
+      tm_borders() # Fig. 2
+    }
+  } else {
+    plot(g["PC2"], breaks=brks)
+  }
 }
 if (run) {
   w <- queen_weights(g)
@@ -145,9 +166,20 @@ if (run) {
     labels=lisa_labels(lm_PC1)[1:5])
   is.na(g$lm_PC1) <- g$lm_PC1 == "Not significant"
   g$lm_PC1 <- droplevels(g$lm_PC1)
-  if (tmap_ok) tm_shape(g) + tm_fill("lm_PC1", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 3
-  else plot(g["lm_PC1"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lm_PC1",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lm_PC1", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 3
+    }
+  } else {
+    plot(g["lm_PC1"])
+  }
 }
 if (run) {
   set.seed(1)
@@ -156,9 +188,20 @@ if (run) {
   g$lm_PC1_spdep <- q
   is.na(g$lm_PC1_spdep) <- lm_PC1_spdep[,6] > 0.02 # note folded p-values
   g$lm_PC1_spdep <- droplevels(g$lm_PC1_spdep)
-  if (tmap_ok) tm_shape(g) + tm_fill("lm_PC1_spdep", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # rep. Fig. 3
-  else plot(g["lm_PC1_spdep"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lm_PC1_spdep",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lm_PC1_spdep", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # rep. Fig. 3
+    }
+  } else {
+    plot(g["lm_PC1_spdep"])
+  }
 }
 if (run) {
   lg_PC1 <- local_g(w, g["PC1"], significance_cutoff=0.01,
@@ -167,15 +210,37 @@ if (run) {
     labels=lisa_labels(lg_PC1)[0:3])
   is.na(g$lg_PC1) <- g$lg_PC1 == "Not significant"
   g$lg_PC1 <- droplevels(g$lg_PC1)
-  if (tmap_ok) tm_shape(g) + tm_fill("lg_PC1", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 4 (wrong)
-  else plot(g["lg_PC1"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lg_PC1",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lg_PC1", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 4 (wrong)
+    }
+  } else {
+    plot(g["lg_PC1"])
+  }
   g$lg_PC1a <- cut(g$PC1, c(-Inf, mean(g$PC1), Inf), labels=c("Low", "High"))
   is.na(g$lg_PC1a) <- lisa_pvalues(lg_PC1) >= 0.01
   g$lg_PC1a <- droplevels(g$lg_PC1a)
-  if (tmap_ok) tm_shape(g) + tm_fill("lg_PC1", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 4 (guess)
-  else plot(g["lg_PC1"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lg_PC1a",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lg_PC1a", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 4 (guess)
+    }
+  } else {
+    plot(g["lg_PC1"])
+  }
 }
 if (run) {
   lc_PC1 <- local_geary(w, g["PC1"], significance_cutoff=0.01,
@@ -184,9 +249,20 @@ if (run) {
     labels=lisa_labels(lc_PC1)[1:5])
   is.na(g$lc_PC1) <- g$lc_PC1 == "Not significant"
   g$lc_PC1 <- droplevels(g$lc_PC1)
-  if (tmap_ok) tm_shape(g) + tm_fill("lc_PC1", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 5
-  else plot(g["lc_PC1"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lc_PC1",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lc_PC1", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 5
+    }
+  } else {
+    plot(g["lc_PC1"])
+  }
 }
 if (run) {
   set.seed(1)
@@ -209,16 +285,38 @@ if (run) {
   g$lc_PC1_spdep <- attr(lc_PC1_spdep, "cluster")
   is.na(g$lc_PC1_spdep) <- attr(lc_PC1_spdep, "pseudo-p")[,6] > 0.01
   g$lc_PC1_spdep <- droplevels(g$lc_PC1_spdep)
-  if (tmap_ok) tm_shape(g) + tm_fill("lc_PC1_spdep", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # rep. Fig. 5
-  else plot(g["lc_PC1_spdep"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lc_PC1_spdep",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lc_PC1_spdep", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # rep. Fig. 5
+    }
+  } else {
+    plot(g["lc_PC1_spdep"])
+  }
 }
 if (run) {
   g$both_PC1 <- interaction(g$lc_PC1, g$lm_PC1)
   g$both_PC1 <- droplevels(g$both_PC1)
-  if (tmap_ok) tm_shape(g) + tm_fill("both_PC1", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 6
-  else plot(g["both_PC1"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="both_PC1",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("both_PC1", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 6
+    }
+  } else {
+    plot(g["both_PC1"])
+  }
 }
 if (run) {
   lc005_PC1 <- local_geary(w, g["PC1"], significance_cutoff=0.005,
@@ -227,17 +325,38 @@ if (run) {
     labels=lisa_labels(lc005_PC1)[1:5])
   is.na(g$lc005_PC1) <- g$lc005_PC1 == "Not significant"
   g$lc005_PC1 <- droplevels(g$lc005_PC1)
-  if (tmap_ok) tm_shape(g) + tm_fill("lc005_PC1", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 7
-  else plot(g["lc005_PC1"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lc005_PC1",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lc005_PC1", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 7
+    }
+  } else {
+    plot(g["lc005_PC1"])
 }
 if (run) {
   g$lc005_PC1_spdep <- attr(lc_PC1_spdep, "cluster")
   is.na(g$lc005_PC1_spdep) <- attr(lc_PC1_spdep, "pseudo-p")[,6] > 0.005
   g$lc005_PC1_spdep <- droplevels(g$lc005_PC1_spdep)
-  if (tmap_ok) tm_shape(g) + tm_fill("lc005_PC1_spdep", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # rep. Fig. 7
-  else plot(g["lc005_PC1_spdep"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lc005_PC1_spdep",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lc005_PC1_spdep", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # rep. Fig. 7
+    }
+  } else {
+    plot(g["lc005_PC1_spdep"])
+  }
 }
 if (run) {
   lc001_PC1 <- local_geary(w, g["PC1"], significance_cutoff=0.001,
@@ -246,16 +365,39 @@ if (run) {
     labels=lisa_labels(lc001_PC1)[1:5])
   is.na(g$lc001_PC1) <- g$lc001_PC1 == "Not significant"
   g$lc001_PC1 <- droplevels(g$lc001_PC1)
-  if (tmap_ok) tm_shape(g) + tm_fill("lc001_PC1", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 8
-  else plot(g["lc001_PC1"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lc005_PC1",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lc001_PC1", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 8
+    }
+  } else {
+    plot(g["lc001_PC1"])
+  }
+}
 if (run) {
   g$lc001_PC1_spdep <- attr(lc_PC1_spdep, "cluster")
   is.na(g$lc001_PC1_spdep) <- attr(lc_PC1_spdep, "pseudo-p")[,6] > 0.001
   g$lc001_PC1_spdep <- droplevels(g$lc001_PC1_spdep)
-  if (tmap_ok) tm_shape(g) + tm_fill("lc001_PC1_spdep", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # rep. Fig. 8
-  else plot(g["lc001_PC1_spdep"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lc005_PC1_spdep",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lc001_PC1_spdep", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # rep. Fig. 8
+    }
+  } else {
+    plot(g["lc001_PC1_spdep"])
+  }
 }
 }
 if (run) {
@@ -265,9 +407,20 @@ if (run) {
     labels=lisa_labels(lc_PC2)[1:5])
   is.na(g$lc_PC2) <- g$lc_PC2 == "Not significant"
   g$lc_PC2 <- droplevels(g$lc_PC2)
-  if (tmap_ok) tm_shape(g) + tm_fill("lc_PC2", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 9
-  else plot(g["lc_PC2"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lc_PC2",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lc_PC2", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 9
+    }
+  } else {
+    plot(g["lc_PC2"])
+  }
 }
 if (run) {
   lmc_PC <- local_multigeary(w, g[c("PC1","PC2")], significance_cutoff=0.00247,
@@ -279,9 +432,20 @@ if (run) {
   table(interaction((p.adjust(lisa_pvalues(lmc_PC), "fdr") < 0.01), g$lmc_PC))
 }
 if (run) {
-  if (tmap_ok) tm_shape(g) + tm_fill("lmc_PC", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 10
-  else plot(g["lmc_PC"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lmc_PC",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lmc_PC", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 10
+    }
+  } else {
+    plot(g["lmc_PC"])
+  }
 }
 if (run) {
   set.seed(1)
@@ -295,9 +459,20 @@ if (run) {
   g$lmc_PC_spdep <- attr(lmc_PC_spdep, "cluster")
   is.na(g$lmc_PC_spdep) <- p.adjust(attr(lmc_PC_spdep, "pseudo-p")[,6], "fdr") > 0.01
   g$lmc_PC_spdep <- droplevels(g$lmc_PC_spdep)
-  if (tmap_ok) tm_shape(g) + tm_fill("lmc_PC_spdep", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # rep. Fig. 10
-  else plot(g["lmc_PC_spdep"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lmc_PC_spdep",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lmc_PC_spdep", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # rep. Fig. 10
+    }
+  } else {
+    plot(g["lmc_PC_spdep"])
+  }
 }
 if (run) {
   lmc_vars <- local_multigeary(w, st_drop_geometry(g)[, 1:6],
@@ -310,9 +485,20 @@ if (run) {
     g$lmc_vars))
 }
 if (run) {
-  if (tmap_ok) tm_shape(g) + tm_fill("lmc_vars", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # Fig. 11
-  else plot(g["lmc_vars"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lmc_vars",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lmc_vars", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # Fig. 11
+    }
+  } else {
+    plot(g["lmc_vars"])
+  }
 }
 if (run) {
   set.seed(1)
@@ -347,9 +533,20 @@ if (run) {
   g$lmc_vars_spdep <- attr(lmc_vars_spdep1, "cluster")
   is.na(g$lmc_vars_spdep) <- p.adjust(attr(lmc_vars_spdep1, "pseudo-p")[,6], "fdr") > 0.01
   g$lmc_vars_spdep <- droplevels(g$lmc_vars_spdep)
-  if (tmap_ok) tm_shape(g) + tm_fill("lmc_vars_spdep", textNA="Insignificant",
-    colorNA="gray95") + tm_borders() # rep. Fig. 11
-  else plot(g["lmc_vars_spdep"])
+  if (tmap_ok) {
+    if (tmap4) {
+      tm_shape(g) + tm_polygons(fill="lmc_vars_spdep",
+        fill.scale=tm_scale(values="brewer.set3", value.na="gray95",
+          label.na="Insignificant"),
+        fill.legend=tm_legend(position=tm_pos_in("left", "bottom"),
+          frame=FALSE, item.r=0))
+    } else {
+      tm_shape(g) + tm_fill("lmc_vars_spdep", textNA="Insignificant",
+        colorNA="gray95") + tm_borders() # rep. Fig. 11
+    }
+  } else {
+    plot(g["lmc_vars_spdep"])
+  }
 }
 
 }
@@ -378,9 +575,9 @@ attr(C, "pseudo-p")[,6]
 }
 }
 \references{
-{Anselin, L. (1995), Local Indicators of Spatial Association—LISA. Geographical Analysis, 27: 93-115. \doi{10.1111/j.1538-4632.1995.tb00338.x}}
+Anselin, L. (1995), Local Indicators of Spatial Association—LISA. Geographical Analysis, 27: 93-115. \doi{10.1111/j.1538-4632.1995.tb00338.x}
 
-{Anselin, L. (2019), A Local Indicator of Multivariate Spatial Association: Extending Geary's c. Geogr Anal, 51: 133-150. \doi{10.1111/gean.12164}}
+Anselin, L. (2019), A Local Indicator of Multivariate Spatial Association: Extending Gearys c. Geogr Anal, 51: 133-150. \doi{10.1111/gean.12164}
 }
 \author{
 Josiah Parry \email{josiah.parry@gmail.com} and Roger Bivand
