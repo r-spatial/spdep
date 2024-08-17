@@ -9,6 +9,8 @@
 \alias{get.SubgraphOption}
 \alias{set.SubgraphCeiling}
 \alias{get.SubgraphCeiling}
+\alias{set.NoNeighbourOption}
+\alias{get.NoNeighbourOption}
 \alias{set.ZeroPolicyOption}
 \alias{get.ZeroPolicyOption}
 \alias{set.listw_is_CsparseMatrix_Option}
@@ -31,6 +33,8 @@ set.SubgraphOption(check)
 get.SubgraphOption()
 set.SubgraphCeiling(value)
 get.SubgraphCeiling()
+set.NoNeighbourOption(check)
+get.NoNeighbourOption()
 set.listw_is_CsparseMatrix_Option(check)
 get.listw_is_CsparseMatrix_Option()
 }

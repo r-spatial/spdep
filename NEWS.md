@@ -1,5 +1,9 @@
 # Version 1.3-6 (development)
 
+* #162 add option for no-neighbour checking for `poly2nb` - default report whether no-neighbour observations are present
+
+* #162 change the default `snap=` argument to `poly2nb` to 10mm 
+
 * Condition on forthcoming `tmap` 4
 
 * #160 handle `n.comp.nb` delay in `print.nb` and elsewhere when the total number of neighbours is large

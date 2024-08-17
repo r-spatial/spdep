@@ -6,6 +6,7 @@ col_geoms[21] <- st_buffer(col_geoms[21], dist=-0.05)
 st_geometry(columbus) <- col_geoms
 set.SubgraphOption(FALSE)
 expect_false(get.SubgraphOption())
+set.NoNeighbourOption(FALSE)
 expect_silent(nb <- poly2nb(columbus))
 set.SubgraphOption(TRUE)
 expect_true(get.SubgraphOption())
