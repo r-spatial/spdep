@@ -4,7 +4,9 @@
 
 * #162 change the default `snap=` argument to `poly2nb` to 10mm 
 
-* #160 handle `n.comp.nb` delay in `print.nb` and elsewhere when the total number of neighbours is large, add option to cease checking and to set a size threshold for all `nb` object checking functions
+* Condition on forthcoming `tmap` 4
+
+* #160 handle `n.comp.nb` delay in `print.nb` and elsewhere when the total number of neighbours is large
 
 # Version 1.3-5 (2025-06-10)
 
