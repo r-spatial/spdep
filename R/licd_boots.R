@@ -266,7 +266,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             local_jcm_z_WW_sim_rank, local_jcm_all_BB)
         res_i
     }
-    out <- spdep:::run_perm(fun=permLICD_int, idx=1:n, env=env, iseed=iseed,
+    out <- run_perm(fun=permLICD_int, idx=1:n, env=env, iseed=iseed,
         varlist=varlist)
 
     local_comp <- data.frame(ID=1:n, category_i=out[,1], count_like_i=out[,2],
@@ -292,7 +292,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         pval_jcm_obs_WW=pval_jcm_obs_WW, pval_jcm_obs_BW=pval_jcm_obs_BW)
     local_comp_sim <- local_config_sim <- NULL
     if (nsim > 0) {
-        pr_bpnsim <- spdep:::probs_lut("pbinom_like_BW", nsim,
+        pr_bpnsim <- probs_lut("pbinom_like_BW", nsim,
             alternative=con$binomial_punif_alternative)
         local_comp_sim <- data.frame(ID=1:n, rank_sim_count_like_i=out[,18],
             pbinom_like_BW=pr_bpnsim[out[,19]],
@@ -300,9 +300,9 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             pbinom_unlike_BW_alt=pr_bpnsim[out[,21]],
             rank_sim_chi_BW=out[,22], rank_sim_chi_K=out[,23],
             rank_sim_anscombe_BW=out[,24])
-        pr_jcmnsim <- spdep:::probs_lut("jcm_same", nsim,
+        pr_jcmnsim <- probs_lut("jcm_same", nsim,
             alternative=con$jcm_same_punif_alternative)
-        pr_jcmnsim1 <- spdep:::probs_lut("jcm_diff", nsim,
+        pr_jcmnsim1 <- probs_lut("jcm_diff", nsim,
             alternative=con$jcm_diff_punif_alternative)
         pval_jcm_obs_BB_sim <- pr_jcmnsim[out[,26]]
         pval_jcm_obs_BW_sim <- pr_jcmnsim[out[,27]]

@@ -1,5 +1,7 @@
 # Version 1.3-6 (development)
 
+* adding prototype of LICD ESDA function `licd_multi` and `hotspot` method
+
 * Condition on forthcoming `tmap` 4
 
 * #160 handle `n.comp.nb` delay in `print.nb` and elsewhere when the total number of neighbours is large
