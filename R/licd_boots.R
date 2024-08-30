@@ -172,8 +172,8 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             sx_i <- cbind(rep(xi, times=nsim), sx_i)
         
             c1_comp_sim_i <- apply(sx_i, 1,
-               function(y) ifelse(comp_binary, sum(x_nb_i_xi),
-                   sum(w_i_i * x_nb_i_xi) + 1))
+               function(y) ifelse(comp_binary, sum(y == xi),
+                   sum(w_i_i * (y == xi)) + 1))
             c1_comp_sim_i_rank <- rank(c(c1_comp_sim_i,
                 c1_comp_obs_i))[(nsim + 1L)]
             c4_comp_bin_BW_sim_i <- sapply(c1_comp_sim_i, function(y) {
@@ -302,11 +302,19 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             rank_sim_anscombe_BW=out[,24])
         pr_jcmnsim <- spdep:::probs_lut("jcm_same", nsim,
             alternative=con$jcm_same_punif_alternative)
-        pr_jcmnsim1 <- spdep:::probs_lut("jcm_same", nsim,
+        pr_jcmnsim1 <- spdep:::probs_lut("jcm_diff", nsim,
             alternative=con$jcm_diff_punif_alternative)
         pval_jcm_obs_BB_sim <- pr_jcmnsim[out[,26]]
         pval_jcm_obs_BW_sim <- pr_jcmnsim[out[,27]]
         pval_jcm_obs_WW_sim <- pr_jcmnsim1[out[,28]]
+        if (any(sameB)) {
+            pval_jcm_obs_BB_sim[sameB] <- 0
+            pval_jcm_obs_WW_sim[sameB] <- 1
+            pval_jcm_obs_BW_sim[sameB] <- 1
+        }
+        pval_jcm_obs_BB_sim[is.nan(pval_jcm_obs_BB)] <- 1
+        pval_jcm_obs_WW_sim[is.nan(pval_jcm_obs_WW)] <- 1
+        pval_jcm_obs_BW_sim[is.nan(pval_jcm_obs_BW)] <- 1
         
         local_config_sim <- data.frame(ID=1:n, jcm_chi_sim_rank=out[,25],
         pval_jcm_obs_BB_sim=pval_jcm_obs_BB_sim,
