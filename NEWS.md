@@ -2,6 +2,8 @@
 
 * adding prototype of LICD ESDA function `licd_multi` and `hotspot` method
 
+* add `read.swmdbf2listw` #163 for reading DBF files exported from ArcGIS representing SWM objects; note that there will be problems when the observation IDs are not known, see help file
+
 * #162 add option for no-neighbour checking for `poly2nb` - default report whether no-neighbour observations are present
 
 * #162 change the default `snap=` argument to `poly2nb` to 10mm 
@@ -10,7 +12,7 @@
 
 * #160 handle `n.comp.nb` delay in `print.nb` and elsewhere when the total number of neighbours is large
 
-# Version 1.3-5 (2025-06-10)
+# Version 1.3-5 (2024-06-10)
 
 * #157 migrate ESRI Shapefile to GPKG files; convert bhicv.shp to GPKG 
 
