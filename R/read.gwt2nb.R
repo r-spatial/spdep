@@ -156,6 +156,21 @@ write.sn2Arc <- function(sn, file, field=NULL) {
 	close(con)
 }
 
+write.sn2DBF <- function(sn, file) {
+	if(!inherits(sn, "spatial.neighbour")) 
+	    stop("not a spatial.neighbour object")
+	n <- attr(sn, "n")
+	if (n < 1) stop("non-positive number of entities")
+	nms <- as.character(attr(sn, "region.id"))
+	sn[,1] <- as.integer(nms[sn[,1]])
+	sn[,2] <- as.integer(nms[sn[,2]])
+        sn <- cbind(data.frame(Field1=rep(0L, nrow(sn))), sn)
+        if (requireNamespace("foreign", quietly=TRUE)) {
+           foreign::write.dbf(sn, file)
+        } else warning("foreign::read.dbf not available")
+        invisible(sn)
+}
+
 # Copyright 2011 Virgilio Gomez-Rubio
 # a function to export from nb object to a particular file format
 # which is used by INLA when fitting spatial models for lattice data
@@ -185,3 +200,49 @@ nb2INLA <-function(file, nb)
         }
 }
 
+read.swmdbf2listw <- function(fn, region.id=NULL, style=NULL, zero.policy=NULL) {
+    if (is.null(zero.policy))
+        zero.policy <- get.ZeroPolicyOption()
+    stopifnot(is.logical(zero.policy))
+    if (is.null(style)) {
+        style <- "M"
+    }
+    if (style == "M")
+        warning("style is M (missing); style should be set to a valid value")
+
+    res <- NULL
+
+    if (requireNamespace("foreign", quietly=TRUE)) {
+        df <- try(foreign::read.dbf(fn, as.is=TRUE), silent=TRUE)
+        if (inherits(df, "try-error")) stop(df[1])
+        if (is.null(region.id)) {
+            rn <- range(c(df[,2], df[,3]))
+            region.id <- as.character(rn[1]:rn[2])
+            warning("region.id not given, c(MYID, NID) range is ",
+                paste(rn, collapse=":"))
+        }
+        n <- length(region.id)
+        ids <- 1:n
+        df[,2] <- match(df[, 2], region.id)
+        if (anyNA(df[,2])) warning("NAs in MYID matching")
+        df[,3] <- match(df[, 3], region.id)
+        if (anyNA(df[,3])) warning("NAs in NID matching")
+        if (!all(df[,2] %in% ids) || !all(df[,3] %in% ids))
+            warning("some IDs missing")
+        df1 <- df[order(df[,2], df[,3]), -1]
+        attr(df1, "n") <- n
+        class(df1) <- c(class(df1), "spatial.neighbour")
+        attr(df1, "region.id") <- region.id
+        res0 <- try(sn2listw(df1, style=style, zero.policy=zero.policy),
+            silent=TRUE)
+        if (inherits(res0, "try-error")) stop(res0[1])
+        else res <- res0
+    } else warning("foreign::read.dbf not available")
+
+    if (!inherits(res, "listw")) warning("creation of listw object from SWM DBF file failed")
+    res
+}
+
+read_swm_dbf <- function(fn) {
+    read.swmdbf2listw(fn, style="B")
+}

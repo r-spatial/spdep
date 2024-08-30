@@ -40,8 +40,9 @@ export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb,
 	joincount.test, joincount.mc, joincount.multi, print.jcmulti,
 	knearneigh, knn2nb)
 
-export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests, 
-        lm.RStests, SD.RStests,
+export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt,
+        read.swmdbf2listw, read_swm_dbf, write.sn2DBF,
+        lm.LMtests, lm.RStests, SD.RStests,
 	lm.morantest, localG, localG_perm, localmoran, localmoran_perm, moran,
 	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
 	nb2listw, nb2listwdist, nb2mat, listw2mat, mat2listw, nbdists, nblag,
@@ -85,7 +86,8 @@ export(autocov_dist)
 
 export(set.VerboseOption, get.VerboseOption, set.ZeroPolicyOption,
         get.ZeroPolicyOption, get.SubgraphOption, set.SubgraphOption,
-        get.SubgraphCeiling, set.SubgraphCeiling)
+        get.SubgraphCeiling, set.SubgraphCeiling, get.NoNeighbourOption,
+        set.NoNeighbourOption)
 export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
         set.ClusterOption, get.ClusterOption)
 

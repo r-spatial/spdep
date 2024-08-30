@@ -15,6 +15,7 @@ assign("listw_is_CsparseMatrix", FALSE, envir = .spdepOptions)
 assign("cluster", NULL, envir = .spdepOptions)
 assign("report_nb_subgraphs", TRUE, envir = .spdepOptions)
 assign("nb_subgraphs_N+E", 100000L, envir = .spdepOptions)
+assign("report_nb_noneighs", TRUE, envir = .spdepOptions)
 setOldClass(c("listw"))
 
 .onLoad <- function(lib, pkg) {
