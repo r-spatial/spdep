@@ -64,6 +64,8 @@ subset.listw <- function(x, subset, zero.policy=attr(x, "zero.policy"), ...) {
     n <- length(nb)
     if (n != length(subset))
 	stop("neighbours list and subset vector different lengths")
+    if (!is.null(attr(x, "region.id"))) 
+        attr(nb, "region.id") <- attr(x, "region.id")
     subnb <- subset.nb(x=nb, subset=subset)
     if (any(card(subnb) == 0L)) {
         if (!zero.policy) {

@@ -199,6 +199,7 @@ listw2star <- function(listw, ireg, style, n, D, a, zero.policy=attr(listw, "zer
             nb[[jj]] <- ireg
             wts[[jj]] <- iwts[j]
 	}
+        attributes(wts) <- attributes(listw$weights)
     }
     res <- list(style=style, neighbours=nb, weights=wts)
     class(res) <- c("listw", "star")

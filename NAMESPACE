@@ -11,7 +11,8 @@ importFrom(stats, influence.measures, lag, punif, lm, var, integrate,
              aggregate, "coefficients", "fitted", "gaussian",
              "model.frame", "model.matrix", "model.response", "na.fail",
              "na.omit", "naresid", "optimise", "printCoefmat", "resid",
-             "terms", "uniroot", "weighted.residuals", "weights", "median")
+             "terms", "uniroot", "weighted.residuals", "weights", "median",
+             "pbinom")
 
 importFrom(deldir, deldir)
 importFrom(boot, boot)
@@ -92,6 +93,7 @@ export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
 
 export(localmoran_bv, moran_bv,local_joincount_uni, local_joincount_bv)
 
+export(licd_multi)
 
 S3method(print, nb)
 S3method(summary, nb)
@@ -151,3 +153,4 @@ S3method(hotspot, summary.localmoransad)
 S3method(hotspot, data.frame.localmoranex)
 S3method(hotspot, localC)
 S3method(hotspot, localG)
+S3method(hotspot, licd)

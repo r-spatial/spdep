@@ -31,7 +31,7 @@ localmoran_perm(x, listw, nsim=499, zero.policy=attr(listw, "zero.policy"),
   \item{adjust.x}{default FALSE, if TRUE, x values of observations with no neighbours are omitted in the mean of x}
   \item{nsim}{default 499, number of conditonal permutation simulations}
   \item{sample_Ei}{default TRUE; if conditional permutation, use the sample $E_i$ values, or the analytical values, leaving only variances calculated by simulation.}
-  \item{iseed}{default NULL, used to set the seed for possible parallel RNGs}
+  \item{iseed}{default NULL, used to set the seed; the output will only be reproducible if the count of CPU cores across which computation is distributed is the same}
   \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
 }
 
@@ -60,7 +60,7 @@ statistics: an overview. In P. Longley and M. Batty (eds) \emph{Spatial
 analysis: modelling in a GIS environment} (Cambridge: Geoinformation
 International), 261--277; Sokal, R. R, Oden, N. L. and Thomson, B. A. 1998. Local Spatial Autocorrelation in a Biological Model. Geographical Analysis, 30. 331--354; 
 Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 \doi{10.1007/s11749-018-0599-x}; 
-Sauer, J., Oshan, T. M., Rey, S., & Wolf, L. J. 2021. The Importance of Null Hypotheses: Understanding Differences in Local Moran’s under Heteroskedasticity. Geographical Analysis. \doi{doi:10.1111/gean.12304}
+Sauer, J., Oshan, T. M., Rey, S., & Wolf, L. J. 2021. The Importance of Null Hypotheses: Understanding Differences in Local Moran’s under Heteroskedasticity. Geographical Analysis. \doi{10.1111/gean.12304}
 
 Bivand, R. (2022), R Packages for Analyzing Spatial Data: A Comparative Case Study with Areal Data. Geographical Analysis, 54(3), 488-518. \doi{10.1111/gean.12319}
 

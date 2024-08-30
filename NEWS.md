@@ -1,5 +1,7 @@
 # Version 1.3-6 (development)
 
+* adding prototype of LICD ESDA function `licd_multi` and `hotspot` method
+
 * #162 add option for no-neighbour checking for `poly2nb` - default report whether no-neighbour observations are present
 
 * #162 change the default `snap=` argument to `poly2nb` to 10mm 

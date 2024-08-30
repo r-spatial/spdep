@@ -17,7 +17,7 @@ localmoran_bv(x, y, listw, nsim = 199, scale = TRUE, alternative="two.sided",
 \item{scale}{default \code{TRUE}.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less".}
-\item{iseed}{default NULL, used to set the seed for possible parallel RNGs.}
+\item{iseed}{default NULL, used to set the seed; the output will only be reproducible if the count of CPU cores across which computation is distributed is the same.}
 \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
   \item{zero.policy}{default default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
 }

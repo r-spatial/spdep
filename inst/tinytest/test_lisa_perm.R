@@ -20,7 +20,7 @@ expect_silent(no <- system.time(localC_perm(xx, lw, nsim=nsim, iseed=iseed))["el
 expect_silent(no <- system.time(localmoran_bv(x, y, lw, nsim=nsim, iseed=iseed))["elapsed"])
 if (require(parallel, quietly=TRUE)) {
  coresOpt <- get.coresOption()
- nc <- detectCores(logical=FALSE)-1L
+ nc <- max(2L, detectCores(logical=FALSE), na.rm = TRUE)-1L
  nc
  mcOpt <- get.mcOption()
 # set nc to 1L here

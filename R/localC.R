@@ -122,6 +122,7 @@ localC_perm.default <- function(x, listw, nsim = 499, alternative = "two.sided",
     reps <- localC_perm_calc(x, listw, obs, nsim, alternative=alternative,
       zero.policy=zero.policy, iseed=iseed, no_repeat_in_row=no_repeat_in_row)
   }
+  
   if (ncol(xorig) > 1L) {
     cluster <- rep(3L, length(obs))
     cluster[obs <= reps[, 1]] <- 1L
@@ -290,6 +291,7 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
     }
 
     res <- run_perm(fun=permC_int, idx=1:n, env=env, iseed=iseed, varlist=varlist)
+    ncpus <- attr(res, "ncpus")
 
     res[,3] <- (obs - res[,1])/sqrt(res[,2])
     if (alternative == "two.sided")
@@ -305,6 +307,7 @@ localC_perm_calc <- function(x, listw, obs, nsim, alternative="two.sided",
     
     colnames(res) <- c("E.Ci", "Var.Ci", "Z.Ci", Prname,
       paste0(Prname, " Sim"), "Pr(folded) Sim", "Skewness", "Kurtosis")
+    attr(res, "ncpus") <- ncpus
     res
 }
 

@@ -101,6 +101,7 @@ localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
   }
 
   out <- run_perm(fun=permI_bv_int, idx=1:n, env=env, iseed=iseed, varlist=varlist)
+  ncpus <- attr(out, "ncpus")
 
   res <- matrix(nrow=n, ncol=7)
   res[,1] <- obs
@@ -128,6 +129,7 @@ localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
   attr(res, "quadr") <- data.frame(mean=quadr, median=quadr_med, 
     pysal=quadr_ps)
   class(res) <- c("localmoran", class(res))
+  attr(res, "ncpus") <- ncpus
   res
 }
 

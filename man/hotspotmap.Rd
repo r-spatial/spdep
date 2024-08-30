@@ -6,8 +6,9 @@
 \alias{hotspot.data.frame.localmoranex}
 \alias{hotspot.localG}
 \alias{hotspot.localC}
+\alias{hotspot.licd}
 
-\title{Cluster classifications for local indicators of spatial association}
+\title{Cluster Classifications for Local Indicators of Spatial Association and Local Indicators for Categorical Data}
 \usage{
 hotspot(obj, ...)
 
@@ -23,6 +24,8 @@ hotspot(obj, ...)
 \method{hotspot}{localG}(obj, Prname, cutoff=0.005, p.adjust="fdr", droplevels=TRUE, ...)
 
 \method{hotspot}{localC}(obj, Prname, cutoff=0.005, p.adjust="fdr", droplevels=TRUE, ...)
+\method{hotspot}{licd}(obj, type = "both", cutoff = 0.05, p.adjust = "none", 
+ droplevels = TRUE, control = list(), ...)
 }
 \arguments{
 \item{obj}{An object of class \code{localmoran}, \code{localC} or \code{localG}}
@@ -37,17 +40,23 @@ hotspot(obj, ...)
 
 \item{quadrant.type}{Default \code{"mean"}, for \code{"localmoran"} objects only, can be \code{c("mean", "median", "pysal")} to partition the Moran scatterplot; \code{"mean"} partitions on the means of the variable and its spatial lag, \code{"median"} on medians of the variable and its spatial lag, \code{"pysal"} at zero for the centred variable and its spatial lag}
 
+\item{type}{When \code{obj} is of class \code{licd}, default \code{both}, may also be \code{comp} for local composition or \code{config} for local configuration}
+
+\item{control}{When \code{obj} is of class \code{licd}, default \code{binomial_sidak} 2, \code{binomial_overlap} TRUE, \code{jcm_sidak} 3. \code{binomial_overlap}  may be set FALSE to avoid the Binomial probability values summing to more than unity - the tests in Boots (2003, p. 141) do overlap (\code{>=} and \code{<=}), and the Šidák exponents may be set to 1 to prevent by-observation correction for 2 Binomial and 3 Normal probability values per observation}
+
 \item{...}{other arguments passed to methods.}
 
 }
 \description{
- Used to return a factor showing so-called cluster classification for local indicators of spatial association for local Moran's I, local Geary's C (and its multivariate variant) and local Getis-Ord G. This factor vector can be added to a spatial object for mapping.
+ Used to return a factor showing so-called cluster classification for local indicators of spatial association for local Moran's I, local Geary's C (and its multivariate variant) and local Getis-Ord G. This factor vector can be added to a spatial object for mapping. When \code{obj} is of class \code{licd}, a list of up to six factors for measures of local composition (analytical and permutation), local configuration (analytical and permutation), and combined measures, both the interaction of composition and configuration, and a simplified recoding of these.
 
 }
 
 \value{
- A factor showing so-called cluster classification for local indicators of spatial association.
+ A factor showing so-called cluster classification for local indicators of spatial association. When \code{obj} is of class \code{licd}, a list of up to six factors for measures of local composition (analytical and permutation), local configuration (analytical and permutation), and combined measures, both the interaction of composition and configuration, and a simplified recoding of these.
 }
+
+\seealso{\code{\link{licd_multi}}}
 
 \examples{
 orig <- spData::africa.rook.nb
