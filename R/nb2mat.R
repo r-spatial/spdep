@@ -95,11 +95,20 @@ mat2listw <- function(x, row.names=NULL, style=NULL, zero.policy=NULL) {
  	attr(neighbours, "call") <- NA
         attr(neighbours, "sym") <- is.symmetric.nb(neighbours, 
 		verbose=FALSE, force=TRUE)
-        if (any(card(neighbours) == 0L)) {
+        cnb <- card(neighbours)
+        if (any(cnb == 0L)) {
             if (!zero.policy) {
                 warning("no-neighbour observations found, set zero.policy to TRUE;\nthis warning will soon become an error")
             }
         }
+
+        NE <- length(neighbours) + sum(cnb)
+        if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+          ncomp <- n.comp.nb(neighbours)
+          attr(neighbours, "ncomp") <- ncomp
+          if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
+        }
+
 	res <- list(style=style, neighbours=neighbours, weights=weights)
 	class(res) <- c("listw", "nb")
 	attr(res, "region.id") <- attr(neighbours, "region.id")

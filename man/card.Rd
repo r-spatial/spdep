@@ -20,7 +20,7 @@ list.
 \details{\dQuote{nb} objects are stored as lists of integer vectors, where the vectors contain either the indices in the range \code{1:n} for \code{n} as \code{length(nb)} of the neighbours of region \code{i}, or \code{as.integer(0)} to signal no neighbours. The function \code{card(nb)} is used to extract the numbers of neighbours from the \dQuote{nb} object.}
 
 
-\references{Bivand R, Pebesma EJ, Gomez-Rubio V, (2008) \emph{Applied Spatial Data Analysis with R}, Springer, New York, pp. 239-251; Bivand R, Portnov B, (2004) Exploring spatial data analysis techniques using R: the case of observations with no neighbours. In: Anselin L, Florax R, Rey S, (eds.), \emph{Advances in Spatial Econometrics, Methodology, Tools and Applications}. Berlin: Springer-Verlag, pp. 121-142.}
+\references{Bivand R, Pebesma EJ, Gomez-Rubio V, (2008) \emph{Applied Spatial Data Analysis with R}, Springer, New York, pp. 239-251; Bivand R, Portnov B, (2004) Exploring spatial data analysis techniques using R: the case of observations with no neighbours. In: Anselin L, Florax R, Rey S, (eds.), \emph{Advances in Spatial Econometrics, Methodology, Tools and Applications}. Berlin: Springer-Verlag, pp. 121-142, \doi{10.1007/978-3-662-05617-2_6}.}
 
 
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
