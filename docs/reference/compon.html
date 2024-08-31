@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-6</span>
       </span>
     </div>
 
@@ -28,7 +28,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -50,20 +50,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/r-spatial/spdep/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Depth First Search on Neighbor Lists</h1>
-    
+
     <div class="hidden name"><code>compon.Rd</code></div>
     </div>
 
@@ -77,15 +77,18 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>nb.obj</dt>
+    <p></p>
+<dl><dt id="arg-nb-obj">nb.obj<a class="anchor" aria-label="anchor" href="#arg-nb-obj"></a></dt>
 <dd><p>a neighbours list object of class <code>nb</code></p></dd>
 
 </dl></div>
+    <div id="details">
+    <h2>Details</h2>
+    <p>If <code>attr(nb.obj, "sym")</code> is <code>FALSE</code> and <code><a href="https://r.igraph.org/reference/components.html" class="external-link">igraph::components</a></code> is available, the components of the directed graph will be found by a simple breadth-first search; if <code><a href="https://r.igraph.org/reference/components.html" class="external-link">igraph::components</a></code> is not available, the object will be made symmetric (which may be time-consuming with large numbers of neighbours) and the components found by depth-first search. If <code>attr(nb.obj, "sym")</code> is <code>TRUE</code>, the components of the directed graph will be found by depth-first search. The time complexity of algorithms used in native code and through <code><a href="https://r.igraph.org/reference/components.html" class="external-link">igraph::components</a></code> is linear in the sum of the number of nodes and the number of edges in the graph, see <a href="https://github.com/r-spatial/spdep/issues/160" class="external-link">https://github.com/r-spatial/spdep/issues/160</a> for details; very dense neighbour objects will have large numbers of edges.</p>
+    </div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A list of:</p>
+    <p>A list of:</p>
 <dl><dt>nc</dt>
 <dd><p>number of disjoint connected subgraphs</p></dd>
 
@@ -110,6 +113,7 @@
 <span class="r-in"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu">st_coordinates</span><span class="op">(</span><span class="fu">st_centroid</span><span class="op">(</span><span class="fu">st_geometry</span><span class="op">(</span><span class="va">columbus</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="va">coords</span>, col<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">col2</span> <span class="op">&lt;-</span> <span class="fu"><a href="droplinks.html">droplinks</a></span><span class="op">(</span><span class="va">col.gal.nb</span>, <span class="fl">21</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighbour object has 3 sub-graphs</span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">n.comp.nb</span><span class="op">(</span><span class="va">col2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">comp.id</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -119,7 +123,7 @@
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html" class="external-link">points</a></span><span class="op">(</span><span class="va">coords</span>, col<span class="op">=</span><span class="va">res</span><span class="op">$</span><span class="va">comp.id</span>, pch<span class="op">=</span><span class="fl">16</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="compon-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">FALSE</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r.igraph.org/" class="external-link">igraph</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spatialreg/" class="external-link">spatialreg</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://r.igraph.org/" class="external-link">"igraph"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st"><a href="https://github.com/r-spatial/spatialreg/" class="external-link">"spatialreg"</a></span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="va">run</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘igraph’</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
@@ -138,14 +142,10 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span>     set.mcOption</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">B</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col2</span>, style<span class="op">=</span><span class="st">"B"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/graph.adjacency.html" class="external-link">graph.adjacency</a></span><span class="op">(</span><span class="va">B</span>, mode<span class="op">=</span><span class="st">"undirected"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">c1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/clusters.html" class="external-link">clusters</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">g1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/graph_from_adjacency_matrix.html" class="external-link">graph_from_adjacency_matrix</a></span><span class="op">(</span><span class="va">B</span>, mode<span class="op">=</span><span class="st">"undirected"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">c1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/components.html" class="external-link">components</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">c1</span><span class="op">$</span><span class="va">no</span> <span class="op">==</span> <span class="va">res</span><span class="op">$</span><span class="va">nc</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`graph.adjacency()` was deprecated in igraph 2.0.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `graph_from_adjacency_matrix()` instead.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`clusters()` was deprecated in igraph 2.0.0.</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">ℹ</span> Please use `components()` instead.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">c1</span><span class="op">$</span><span class="va">membership</span>, <span class="va">res</span><span class="op">$</span><span class="va">comp.id</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -157,22 +157,81 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span><span class="va">W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col2</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="st">"CsparseMatrix"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">g1W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/graph.adjacency.html" class="external-link">graph.adjacency</a></span><span class="op">(</span><span class="va">W</span>, mode<span class="op">=</span><span class="st">"directed"</span>, weighted<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">c1W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/clusters.html" class="external-link">clusters</a></span><span class="op">(</span><span class="va">g1W</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">g1W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/graph_from_adjacency_matrix.html" class="external-link">graph_from_adjacency_matrix</a></span><span class="op">(</span><span class="va">W</span>, mode<span class="op">=</span><span class="st">"directed"</span>, weighted<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">c1W</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r.igraph.org/reference/components.html" class="external-link">components</a></span><span class="op">(</span><span class="va">g1W</span>, mode<span class="op">=</span><span class="st">"weak"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">c1W</span><span class="op">$</span><span class="va">membership</span>, <span class="va">res</span><span class="op">$</span><span class="va">comp.id</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="co"># \donttest{</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="va">ow</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"warn"</span><span class="op">)</span><span class="op">$</span><span class="va">warn</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"warn"</span><span class="op">=</span><span class="fl">2L</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="co"># Matrix 1.4-2 vulnerability work-around</span></span></span>
-<span class="r-in"><span><span class="va">B1</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="https://r.igraph.org/reference/get.adjacency.html" class="external-link">get.adjacency</a></span><span class="op">(</span><span class="va">g1</span><span class="op">)</span>, silent<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">inherits</a></span><span class="op">(</span><span class="va">B1</span>, <span class="st">"try-error"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
-<span class="r-in"><span><span class="co">#B1 &lt;- get.adjacency(g1)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">B</span>, <span class="va">B1</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">house</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">house</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_as_sf.html" class="external-link">st_as_sf</a></span><span class="op">(</span><span class="va">house</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">k6</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">house</span>, k<span class="op">=</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">k6</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"warn"</span><span class="op">=</span><span class="va">ow</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">k6</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 25357 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 152142 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 0.02366211 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Non-symmetric neighbours list</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">k6</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="card.html">card</a></span><span class="op">(</span><span class="va">k6</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 177499</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># no pre-computed graph components</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">k6</span>, <span class="st">"ncomp"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  NULL</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># raising the subgraph compute ceiling to above |N|+|E| computes and stores the</span></span></span>
+<span class="r-in"><span><span class="co"># object in the neighbour object</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="set.spChkOption.html">set.SubgraphCeiling</a></span><span class="op">(</span><span class="fl">180000L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">k6</span> <span class="op">&lt;-</span> <span class="fu"><a href="knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">house</span>, k<span class="op">=</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">k6</span>, <span class="st">"ncomp"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighbour object has 47 sub-graphs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> List of 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ nc     : num 47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  $ comp.id: num [1:25357] 1 1 1 1 1 1 1 1 1 1 ...</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">k6</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Neighbour list object:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of regions: 25357 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of nonzero links: 152142 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Percentage nonzero weights: 0.02366211 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average number of links: 6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47 disjoint connected subgraphs</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Non-symmetric neighbours list</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">udir</span> <span class="op">&lt;-</span> <span class="fu">n.comp.nb</span><span class="op">(</span><span class="fu"><a href="testnb.html">make.sym.nb</a></span><span class="op">(</span><span class="va">k6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   2.251   0.000   2.260 </span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">dir</span> <span class="op">&lt;-</span> <span class="fu">n.comp.nb</span><span class="op">(</span><span class="va">k6</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.701   0.001   0.705 </span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">udir</span><span class="op">$</span><span class="va">nc</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 47</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">dir</span><span class="op">$</span><span class="va">nc</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 47</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">dir</span>, <span class="va">udir</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -187,15 +246,15 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

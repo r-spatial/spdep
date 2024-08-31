@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-6</span>
       </span>
     </div>
 
@@ -28,7 +28,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -50,20 +50,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/r-spatial/spdep/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Exact local Moran's Ii tests</h1>
-    
+
     <div class="hidden name"><code>localmoran.exact.Rd</code></div>
     </div>
 
@@ -80,82 +80,81 @@
 <span> zero.policy <span class="op">=</span> <span class="cn">NULL</span>, alternative <span class="op">=</span> <span class="st">"two.sided"</span>, spChk <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span> resfun <span class="op">=</span> <span class="va">weighted.residuals</span>, Omega <span class="op">=</span> <span class="cn">NULL</span>, save.Vi <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span> save.M <span class="op">=</span> <span class="cn">FALSE</span>, useTP<span class="op">=</span><span class="cn">FALSE</span>, truncErr<span class="op">=</span><span class="fl">1e-6</span>, zeroTreat<span class="op">=</span><span class="fl">0.1</span><span class="op">)</span></span>
-<span><span class="co"># S3 method for localmoranex</span></span>
+<span><span class="co"># S3 method for class 'localmoranex'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span><span class="op">)</span></span>
-<span><span class="co"># S3 method for localmoranex</span></span>
+<span><span class="co"># S3 method for class 'localmoranex'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">x</span>, row.names<span class="op">=</span><span class="cn">NULL</span>, optional<span class="op">=</span><span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>model</dt>
+    <p></p>
+<dl><dt id="arg-model">model<a class="anchor" aria-label="anchor" href="#arg-model"></a></dt>
 <dd><p>an object of class <code>lm</code> returned by <code>lm</code> (assuming no global spatial autocorrelation), or an object of class <code>sarlm</code> returned by a spatial simultaneous autoregressive model fit (assuming global spatial autocorrelation represented by the model spatial coefficient); weights may be specified in the <code>lm</code> fit, but offsets should not be used</p></dd>
 
-  <dt>select</dt>
+  <dt id="arg-select">select<a class="anchor" aria-label="anchor" href="#arg-select"></a></dt>
 <dd><p>an integer vector of the id. numbers of zones to be tested; if missing, all zones</p></dd>
 
-  <dt>nb</dt>
+  <dt id="arg-nb">nb<a class="anchor" aria-label="anchor" href="#arg-nb"></a></dt>
 <dd><p>a list of neighbours of class <code>nb</code></p></dd>
 
-  <dt>glist</dt>
+  <dt id="arg-glist">glist<a class="anchor" aria-label="anchor" href="#arg-glist"></a></dt>
 <dd><p>a list of general weights corresponding to neighbours</p></dd>
 
-  <dt>style</dt>
+  <dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
 <dd><p>can take values W, B, C, and S</p></dd>
 
-  <dt>zero.policy</dt>
+  <dt id="arg-zero-policy">zero.policy<a class="anchor" aria-label="anchor" href="#arg-zero-policy"></a></dt>
 <dd><p>default NULL, use global option value; if TRUE assign zero to the lagged value of zones without
 neighbours, if FALSE assign NA</p></dd>
 
-  <dt>alternative</dt>
+  <dt id="arg-alternative">alternative<a class="anchor" aria-label="anchor" href="#arg-alternative"></a></dt>
 <dd><p>a character string specifying the alternative hypothesis,
 must be one of greater (default), less or two.sided.</p></dd>
 
-  <dt>spChk</dt>
+  <dt id="arg-spchk">spChk<a class="anchor" aria-label="anchor" href="#arg-spchk"></a></dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
 
-  <dt>resfun</dt>
+  <dt id="arg-resfun">resfun<a class="anchor" aria-label="anchor" href="#arg-resfun"></a></dt>
 <dd><p>default: weighted.residuals; the function to be used to extract residuals from the <code>lm</code> object, may be <code>residuals</code>, <code>weighted.residuals</code>, <code>rstandard</code>, or <code>rstudent</code></p></dd>
 
-  <dt>Omega</dt>
+  <dt id="arg-omega">Omega<a class="anchor" aria-label="anchor" href="#arg-omega"></a></dt>
 <dd><p>A SAR process matrix may be passed in to test an alternative hypothesis, for example <code>Omega &lt;- invIrW(listw, rho=0.1); Omega &lt;- tcrossprod(Omega)</code>, <code><a href="https://rdrr.io/pkg/Matrix/man/chol-methods.html" class="external-link">chol()</a></code> is taken internally</p></dd>
 
-  <dt>save.Vi</dt>
-<dd><p>if TRUE, return the star-shaped weights lists for each zone 
+  <dt id="arg-save-vi">save.Vi<a class="anchor" aria-label="anchor" href="#arg-save-vi"></a></dt>
+<dd><p>if TRUE, return the star-shaped weights lists for each zone
 tested</p></dd>
 
-  <dt>save.M</dt>
+  <dt id="arg-save-m">save.M<a class="anchor" aria-label="anchor" href="#arg-save-m"></a></dt>
 <dd><p>if TRUE, save a list of left and right M products</p></dd>
 
-  <dt>useTP</dt>
+  <dt id="arg-usetp">useTP<a class="anchor" aria-label="anchor" href="#arg-usetp"></a></dt>
 <dd><p>default FALSE, if TRUE, use truncation point in integration rather than upper=Inf, see Tiefelsdorf (2000), eq. 6.7, p.69</p></dd>
 
-  <dt>truncErr</dt>
+  <dt id="arg-truncerr">truncErr<a class="anchor" aria-label="anchor" href="#arg-truncerr"></a></dt>
 <dd><p>when useTP=TRUE, pass truncation error to truncation point function</p></dd>
 
-  <dt>zeroTreat</dt>
+  <dt id="arg-zerotreat">zeroTreat<a class="anchor" aria-label="anchor" href="#arg-zerotreat"></a></dt>
 <dd><p>when useTP=TRUE, pass zero adjustment to truncation point function</p></dd>
 
-  <dt>x</dt>
+  <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>object to be printed</p></dd>
 
-  <dt>row.names</dt>
+  <dt id="arg-row-names">row.names<a class="anchor" aria-label="anchor" href="#arg-row-names"></a></dt>
 <dd><p>ignored argument to <code>as.data.frame.localmoranex</code>;
 row names assigned from localmoranex object</p></dd>
 
-  <dt>optional</dt>
+  <dt id="arg-optional">optional<a class="anchor" aria-label="anchor" href="#arg-optional"></a></dt>
 <dd><p>ignored argument to <code>as.data.frame.localmoranex</code>;
 row names assigned from localmoranex object</p></dd>
 
-  <dt>...</dt>
+  <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>arguments to be passed through</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A list with class <code>localmoranex</code> containing "select" lists, each with
+    <p>A list with class <code>localmoranex</code> containing "select" lists, each with
  class <code>moranex</code> with the following components:</p>
 <dl><dt>statistic</dt>
 <dd><p>the value of the exact standard deviate of global Moran's I.</p></dd>
@@ -195,7 +194,7 @@ row names assigned from localmoranex object</p></dd>
     </div>
     <div id="references">
     <h2>References</h2>
-    <p>Bivand RS, Müller W, Reder M (2009) Power calculations for global and local Moran’s I. Comput Stat Data Anal 53:2859–2872; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716--748 <a href="https://doi.org/10.1007/s11749-018-0599-x" class="external-link">doi:10.1007/s11749-018-0599-x</a></p>
+    <p>Bivand RS, Müller W, Reder M (2009) Power calculations for global and local Moran’s I. Comput Stat Data Anal 53:2859–2872; Bivand RS, Wong DWS 2018 Comparing implementations of global and local indicators of spatial association. TEST, 27(3), 716–748 <a href="https://doi.org/10.1007/s11749-018-0599-x" class="external-link">doi:10.1007/s11749-018-0599-x</a></p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -217,8 +216,6 @@ row names assigned from localmoranex object</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -4.12 ymin: 5768 xmax: 300.82 ymax: 6119.25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Projected CRS: Undefined Cartesian SRS with unknown unit</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">eire</span><span class="op">$</span><span class="va">names</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">st_crs</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"+proj=utm +zone=30 +ellps=airy +units=km"</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>st_crs&lt;- : replacing crs does not reproject data; use st_transform for that</span>
 <span class="r-in"><span><span class="va">eire.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">eire</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">e.lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">OWNCONS</span> <span class="op">~</span> <span class="va">ROADACC</span>, data<span class="op">=</span><span class="va">eire</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="localmoran.sad.html">localmoran.sad</a></span><span class="op">(</span><span class="va">e.lm</span>, nb<span class="op">=</span><span class="va">eire.nb</span><span class="op">)</span></span></span>
@@ -416,15 +413,15 @@ row names assigned from localmoranex object</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

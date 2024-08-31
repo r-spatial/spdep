@@ -12,14 +12,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="Creating Neighbours">
-<meta property="og:description" content="spdep">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -33,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-6</span>
       </span>
     </div>
 
@@ -45,7 +44,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -71,7 +70,7 @@
 <li>
   <a href="https://github.com/r-spatial/spdep/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -82,7 +81,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -133,7 +132,7 @@ file has been created and read into R.</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required package: spData</span></span></code></pre>
 <pre><code><span><span class="co">## Loading required package: sf</span></span></code></pre>
-<pre><code><span><span class="co">## Linking to GEOS 3.12.2, GDAL 3.9.0, PROJ 9.4.1; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.13.0beta1, GDAL 3.9.2, PROJ 9.4.1; sf_use_s2() is TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"spData"</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="st">"2.3.2"</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="va">NY8a</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shapes/NY8_utm18.gpkg"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">)</span></span>
@@ -226,10 +225,12 @@ rook criterion.</p>
 <span>  add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span>, cex<span class="op">=</span><span class="fl">0.6</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in diffnb(Sy0_nb, Sy2_nb, verbose = FALSE): region.id differ; using ids</span></span>
 <span><span class="co">## of first list</span></span></code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## Warning in diffnb(Sy0_nb, Sy2_nb, verbose = FALSE): neighbour object has 44</span></span>
+<span><span class="co">## sub-graphs</span></span></code></pre>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://edzer.github.io/sp/reference/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span>, labels<span class="op">=</span><span class="st">"b)"</span>, cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="nb_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oopar</span><span class="op">)</span></span></code></pre></div>
 <p>a: Queen-style census tract contiguities, Syracuse; b: Rook-style
 contiguity differences shown as thicker lines</p>
@@ -251,7 +252,7 @@ in a GIS by
 <code>snapping' vertices closer than a threshold distance together, removing artefacts -- for example, snapping across a river channel where the correct boundary is the median line but the input polygons stop at the channel banks on each side. The</code>poly2nb()<code>function does have a</code>snap`
 argument, which may also be used when input data possess geometrical
 artefacts.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">spgrass6</span><span class="op">)</span></span>
 <span><span class="fu">writeVECT6</span><span class="op">(</span><span class="va">Syracuse</span>, <span class="st">"SY0"</span><span class="op">)</span></span>
 <span><span class="va">contig</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rsbivand.github.io/rgrass/reference/readVECT.html" class="external-link">vect2neigh</a></span><span class="op">(</span><span class="st">"SY0"</span><span class="op">)</span></span>
@@ -278,7 +279,9 @@ of the polygon by area. It is also possible to use other points, or if
 data are available, construct, for example population-weighted
 centroids. Once representative points are available, the criteria for
 neighbourhood can be extended from just contiguity to include graph
-measures, distance thresholds, and <span class="math inline">\(k\)</span>-nearest neighbours.</p>
+measures, distance thresholds, and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-nearest
+neighbours.</p>
 <p>The most direct graph representation of neighbours is to make a
 Delaunay triangulation of the points, shown in the first panel in the
 figure. The neighbour relationships are defined by the triangulation,
@@ -293,7 +296,7 @@ points, of radius equal to the points’ nearest neighbour distances,
 intersect in two places <span class="citation">(Avis and Horton
 1985)</span>. Functions for graph-based neighbours were kindly
 contributed by Nicholas Lewin-Koh.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">coords</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span></span>
 <span><span class="va">IDs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/row.names.html" class="external-link">row.names</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">Syracuse</span>, <span class="st">"data.frame"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#FIXME library(tripack)</span></span>
@@ -306,10 +309,10 @@ contributed by Nicholas Lewin-Koh.</p>
 <pre><code><span><span class="co">## The following object is masked from 'package:stats':</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##     as.dendrogram</span></span></code></pre>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">Sy6_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">gabrielneigh</a></span><span class="op">(</span><span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">Sy7_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/graphneigh.html">graph2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/graphneigh.html">relativeneigh</a></span><span class="op">(</span><span class="va">coords</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oopar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy4_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
@@ -326,39 +329,45 @@ contributed by Nicholas Lewin-Koh.</p>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy7_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://edzer.github.io/sp/reference/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span>, labels<span class="op">=</span><span class="st">"d)"</span>, cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="nb_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oopar</span><span class="op">)</span></span></code></pre></div>
 <p>a: Delauney triangulation neighbours; b: Sphere of influence
 neighbours (if available); c: Gabriel graph neighbours; d: Relative
 graph neighbours</p>
 <p>Delaunay triangulation neighbours and SOI neighbours are symmetric by
-design – if <span class="math inline">\(i\)</span> is a neighbour of
-<span class="math inline">\(j\)</span>, then <span class="math inline">\(j\)</span> is a neighbour of <span class="math inline">\(i\)</span>. The Gabriel graph is also a subgraph
-of the Delaunay triangulation, retaining a different set of neighbours
-<span class="citation">(Matula and Sokal 1980)</span>. It does not,
-however, guarantee symmetry; the same applies to Relative graph
-neighbours <span class="citation">(Toussaint 1980)</span>. The
-<code><a href="../reference/graphneigh.html">graph2nb()</a></code> function takes a <code>sym</code> argument to
-insert links to restore symmetry, but the graphs then no longer exactly
-fulfil their neighbour criteria. All the graph-based neighbour schemes
-always ensure that all the points will have at least one neighbour.
-Subgraphs of the full triangulation may also have more than one graph
-after trimming. The functions <code><a href="../reference/testnb.html">is.symmetric.nb()</a></code> can be used
-to check for symmetry, with argument <code>force=TRUE</code> if the
-symmetry attribute is to be overridden, and <code><a href="../reference/compon.html">n.comp.nb()</a></code>
-reports the number of graph components and~the components to which
-points belong (after enforcing symmetry, because the algorithm assumes
-that the graph is not directed). When there are more than one graph
-component, the matrix representation of the spatial weights can become
-block-diagonal if observations are appropriately sorted.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+design – if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+is a neighbour of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>,
+then
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>j</mi><annotation encoding="application/x-tex">j</annotation></semantics></math>
+is a neighbour of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>.
+The Gabriel graph is also a subgraph of the Delaunay triangulation,
+retaining a different set of neighbours <span class="citation">(Matula
+and Sokal 1980)</span>. It does not, however, guarantee symmetry; the
+same applies to Relative graph neighbours <span class="citation">(Toussaint 1980)</span>. The <code><a href="../reference/graphneigh.html">graph2nb()</a></code>
+function takes a <code>sym</code> argument to insert links to restore
+symmetry, but the graphs then no longer exactly fulfil their neighbour
+criteria. All the graph-based neighbour schemes always ensure that all
+the points will have at least one neighbour. Subgraphs of the full
+triangulation may also have more than one graph after trimming. The
+functions <code><a href="../reference/testnb.html">is.symmetric.nb()</a></code> can be used to check for
+symmetry, with argument <code>force=TRUE</code> if the symmetry
+attribute is to be overridden, and <code><a href="../reference/compon.html">n.comp.nb()</a></code> reports the
+number of graph components and~the components to which points belong
+(after enforcing symmetry, because the algorithm assumes that the graph
+is not directed). When there are more than one graph component, the
+matrix representation of the spatial weights can become block-diagonal
+if observations are appropriately sorted.</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">nb_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>Triangulation<span class="op">=</span><span class="va">Sy4_nb</span>, Gabriel<span class="op">=</span><span class="va">Sy6_nb</span>,</span>
 <span>  Relative<span class="op">=</span><span class="va">Sy7_nb</span><span class="op">)</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">Sy5_nb</span><span class="op">)</span><span class="op">)</span> <span class="va">nb_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>SOI<span class="op">=</span><span class="va">Sy5_nb</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">x</span>, verbose<span class="op">=</span><span class="cn">FALSE</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Triangulation       Gabriel      Relative           SOI </span></span>
 <span><span class="co">##          TRUE         FALSE         FALSE          TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Triangulation       Gabriel      Relative           SOI </span></span>
 <span><span class="co">##             1             1             1             1</span></span></code></pre>
@@ -366,28 +375,33 @@ block-diagonal if observations are appropriately sorted.</p>
 <div class="section level3">
 <h3 id="distance-based-neighbours">Distance-Based Neighbours<a class="anchor" aria-label="anchor" href="#distance-based-neighbours"></a>
 </h3>
-<p>An alternative method is to choose the <span class="math inline">\(k\)</span> nearest points as neighbours – this
-adapts across the study area, taking account of differences in the
-densities of areal entities. Naturally, in the overwhelming majority of
-cases, it leads to asymmetric neighbours, but will ensure that all areas
-have <span class="math inline">\(k\)</span> neighbours. The
-<code><a href="../reference/knearneigh.html">knearneigh()</a></code> function returns an intermediate form
-converted to an <code>nb</code> object by <code><a href="../reference/knn2nb.html">knn2nb()</a></code>;
-<code><a href="../reference/knearneigh.html">knearneigh()</a></code> can also take a <code>longlat=</code> argument
-to handle geographical coordinates.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Sy8_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
-<span><span class="va">Sy9_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
+<p>An alternative method is to choose the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+nearest points as neighbours – this adapts across the study area, taking
+account of differences in the densities of areal entities. Naturally, in
+the overwhelming majority of cases, it leads to asymmetric neighbours,
+but will ensure that all areas have
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>
+neighbours. The <code><a href="../reference/knearneigh.html">knearneigh()</a></code> function returns an
+intermediate form converted to an <code>nb</code> object by
+<code><a href="../reference/knn2nb.html">knn2nb()</a></code>; <code><a href="../reference/knearneigh.html">knearneigh()</a></code> can also take a
+<code>longlat=</code> argument to handle geographical coordinates.</p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Sy8_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in knn2nb(knearneigh(coords, k = 1), row.names = IDs): neighbour object</span></span>
+<span><span class="co">## has 15 sub-graphs</span></span></code></pre>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Sy9_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">2</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">Sy10_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/knn2nb.html">knn2nb</a></span><span class="op">(</span><span class="fu"><a href="../reference/knearneigh.html">knearneigh</a></span><span class="op">(</span><span class="va">coords</span>, k<span class="op">=</span><span class="fl">4</span><span class="op">)</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">nb_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>k1<span class="op">=</span><span class="va">Sy8_nb</span>, k2<span class="op">=</span><span class="va">Sy9_nb</span>, k4<span class="op">=</span><span class="va">Sy10_nb</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">x</span>, verbose<span class="op">=</span><span class="cn">FALSE</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    k1    k2    k4 </span></span>
 <span><span class="co">## FALSE FALSE FALSE</span></span></code></pre>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## k1 k2 k4 </span></span>
 <span><span class="co">## 15  1  1</span></span></code></pre>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oopar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy8_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
@@ -399,44 +413,59 @@ to handle geographical coordinates.</p>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy10_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://edzer.github.io/sp/reference/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span>, labels<span class="op">=</span><span class="st">"c)"</span>, cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="nb_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oopar</span><span class="op">)</span></span></code></pre></div>
-<p>a: <span class="math inline">\(k=1\)</span> neighbours; b: <span class="math inline">\(k=2\)</span> neighbours; c: <span class="math inline">\(k=4\)</span> neighbours</p>
-<p>The figure shows the neighbour relationships for <span class="math inline">\(k= 1, 2, 4\)</span>, with many components for
-<span class="math inline">\(k=1\)</span>. If need be, <span class="math inline">\(k\)</span>-nearest neighbour objects can be made
-symmetrical using the <code><a href="../reference/testnb.html">make.sym.nb()</a></code> function. The <span class="math inline">\(k=1\)</span> object is also useful in finding the
-minimum distance at which all areas have a distance-based neighbour.
-Using the <code><a href="../reference/nbdists.html">nbdists()</a></code> function, we can calculate a list of
-vectors of distances corresponding to the neighbour object, here for
-first nearest neighbours. The greatest value will be the minimum
-distance needed to make sure that all the areas are linked to at least
-one neighbour. The <code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> function is used to find
-neighbours with an interpoint distance, with arguments <code>d1</code>
-and <code>d2</code> setting the lower and upper distance bounds; it can
-also take a <code>longlat</code> argument to handle geographical
-coordinates.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<p>a:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math>
+neighbours; b:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">k=2</annotation></semantics></math>
+neighbours; c:
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">k=4</annotation></semantics></math>
+neighbours</p>
+<p>The figure shows the neighbour relationships for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn><mo>,</mo><mn>2</mn><mo>,</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">k= 1, 2, 4</annotation></semantics></math>,
+with many components for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math>.
+If need be,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>k</mi><annotation encoding="application/x-tex">k</annotation></semantics></math>-nearest
+neighbour objects can be made symmetrical using the
+<code><a href="../reference/testnb.html">make.sym.nb()</a></code> function. The
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">k=1</annotation></semantics></math>
+object is also useful in finding the minimum distance at which all areas
+have a distance-based neighbour. Using the <code><a href="../reference/nbdists.html">nbdists()</a></code>
+function, we can calculate a list of vectors of distances corresponding
+to the neighbour object, here for first nearest neighbours. The greatest
+value will be the minimum distance needed to make sure that all the
+areas are linked to at least one neighbour. The
+<code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> function is used to find neighbours with an
+interpoint distance, with arguments <code>d1</code> and <code>d2</code>
+setting the lower and upper distance bounds; it can also take a
+<code>longlat</code> argument to handle geographical coordinates.</p>
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dsts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">Sy8_nb</span>, <span class="va">coords</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">dsts</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span></span>
 <span><span class="co">##   395.6   586.9   700.1   760.3   905.9  1544.6</span></span></code></pre>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">max_1nn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">dsts</span><span class="op">)</span></span>
 <span><span class="va">max_1nn</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1544.635</span></span></code></pre>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Sy11_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">coords</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
-<span><span class="va">Sy12_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">coords</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">1</span><span class="op">*</span><span class="va">max_1nn</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Sy11_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">coords</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">0.75</span><span class="op">*</span><span class="va">max_1nn</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in dnearneigh(coords, d1 = 0, d2 = 0.75 * max_1nn, row.names = IDs):</span></span>
+<span><span class="co">## neighbour object has 4 sub-graphs</span></span></code></pre>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Sy12_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">coords</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">1</span><span class="op">*</span><span class="va">max_1nn</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">Sy13_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/dnearneigh.html">dnearneigh</a></span><span class="op">(</span><span class="va">coords</span>, d1<span class="op">=</span><span class="fl">0</span>, d2<span class="op">=</span><span class="fl">1.5</span><span class="op">*</span><span class="va">max_1nn</span>, row.names<span class="op">=</span><span class="va">IDs</span><span class="op">)</span></span>
 <span><span class="va">nb_l</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>d1<span class="op">=</span><span class="va">Sy11_nb</span>, d2<span class="op">=</span><span class="va">Sy12_nb</span>, d3<span class="op">=</span><span class="va">Sy13_nb</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/testnb.html">is.symmetric.nb</a></span><span class="op">(</span><span class="va">x</span>, verbose<span class="op">=</span><span class="cn">FALSE</span>, force<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   d1   d2   d3 </span></span>
 <span><span class="co">## TRUE TRUE TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/compon.html">n.comp.nb</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">$</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## d1 d2 d3 </span></span>
 <span><span class="co">##  4  1  1</span></span></code></pre>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oopar</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span>mfrow<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, mar<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Syracuse</span>, border<span class="op">=</span><span class="st">"grey60"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy11_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
@@ -448,19 +477,22 @@ coordinates.</p>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">Sy13_nb</span>, <span class="va">coords</span>, add<span class="op">=</span><span class="cn">TRUE</span>, pch<span class="op">=</span><span class="st">"."</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://edzer.github.io/sp/reference/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">]</span>, <span class="fu"><a href="https://edzer.github.io/sp/reference/bbox.html" class="external-link">bbox</a></span><span class="op">(</span><span class="va">Syracuse</span><span class="op">)</span><span class="op">[</span><span class="fl">2</span>,<span class="fl">2</span><span class="op">]</span>, labels<span class="op">=</span><span class="st">"c)"</span>, cex<span class="op">=</span><span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <p><img src="nb_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">oopar</span><span class="op">)</span></span></code></pre></div>
 <p>a: Neighbours within 1,158m; b: neighbours within 1,545m; c:
 neighbours within 2,317m</p>
 <p>The figure shows how the numbers of distance-based neighbours
-increase with moderate increases in distance. Moving from <span class="math inline">\(0.75\)</span> times the minimum all-included
-distance, to the all-included distance, and <span class="math inline">\(1.5\)</span> times the minimum all-included
-distance, the numbers of links grow rapidly. This is a major problem
-when some of the first nearest neighbour distances in a study area are
-much larger than others, since to avoid no-neighbour areal entities, the
-distance criterion will need to be set such that many areas have many
-neighbours.</p>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+increase with moderate increases in distance. Moving from
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.75</mn><annotation encoding="application/x-tex">0.75</annotation></semantics></math>
+times the minimum all-included distance, to the all-included distance,
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>1.5</mn><annotation encoding="application/x-tex">1.5</annotation></semantics></math>
+times the minimum all-included distance, the numbers of links grow
+rapidly. This is a major problem when some of the first nearest
+neighbour distances in a study area are much larger than others, since
+to avoid no-neighbour areal entities, the distance criterion will need
+to be set such that many areas have many neighbours.</p>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dS</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.75</span>, <span class="fl">1</span>, <span class="fl">1.5</span><span class="op">)</span><span class="op">*</span><span class="va">max_1nn</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">nb_l</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">Sy13_nb</span><span class="op">)</span><span class="op">)</span></span>
@@ -483,7 +515,7 @@ three different distance limits. In Syracuse, the census tracts are of
 similar areas, but were we to try to use the distance-based neighbour
 criterion on the eight-county study area, the smallest distance securing
 at least one neighbour for every areal entity is over 38km.</p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dsts0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="../reference/nbdists.html">nbdists</a></span><span class="op">(</span><span class="va">NY_nb</span>, <span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">NY8</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">dsts0</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. </span></span>
@@ -509,13 +541,22 @@ autocorrelogram as understood in ecology. In other conventions,
 correlograms are constructed by taking an input list of neighbours as
 the first-order sets, and stepping out across the graph to second-,
 third-, and higher-order neighbours based on the number of links
-traversed, but not permitting cycles, which could risk making <span class="math inline">\(i\)</span> a neighbour of <span class="math inline">\(i\)</span> itself <span class="citation">(O’Sullivan and Unwin 2003)</span>. The
+traversed, but not permitting cycles, which could risk making
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+a neighbour of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+itself <span class="citation">(O’Sullivan and Unwin 2003)</span>. The
 <code><a href="../reference/nblag.html">nblag()</a></code> function takes an existing neighbour list and
 returns a list of lists, from first to <code>maxlag=</code> order
 neighbours.</p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">Sy0_nb_lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nblag.html">nblag</a></span><span class="op">(</span><span class="va">Sy0_nb</span>, maxlag<span class="op">=</span><span class="fl">9</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rspatial.github.io/terra/reference/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">Sy0_nb_lags</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"first"</span>, <span class="st">"second"</span>, <span class="st">"third"</span>, <span class="st">"fourth"</span>, <span class="st">"fifth"</span>, <span class="st">"sixth"</span>, <span class="st">"seventh"</span>, <span class="st">"eighth"</span>, <span class="st">"ninth"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Sy0_nb_lags</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nblag.html">nblag</a></span><span class="op">(</span><span class="va">Sy0_nb</span>, maxlag<span class="op">=</span><span class="fl">9</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in nblag(Sy0_nb, maxlag = 9): lag 6 neighbour object has 7 sub-graphs</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in nblag(Sy0_nb, maxlag = 9): lag 7 neighbour object has 22 sub-graphs</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in nblag(Sy0_nb, maxlag = 9): lag 8 neighbour object has 52 sub-graphs</span></span></code></pre>
+<pre><code><span><span class="co">## Warning in nblag(Sy0_nb, maxlag = 9): lag 9 neighbour object has 63 sub-graphs</span></span></code></pre>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">Sy0_nb_lags</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"first"</span>, <span class="st">"second"</span>, <span class="st">"third"</span>, <span class="st">"fourth"</span>, <span class="st">"fifth"</span>, <span class="st">"sixth"</span>, <span class="st">"seventh"</span>, <span class="st">"eighth"</span>, <span class="st">"ninth"</span><span class="op">)</span></span>
 <span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">Sy0_nb_lags</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">mx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">Sy0_nb_lags</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">Sy0_nb_lags</span><span class="op">)</span></span>
@@ -552,14 +593,14 @@ simulations, because, since all areal entities have equal numbers of
 neighbours, and there are no edges, the structure of the graph is as
 neutral as can be achieved. Neighbours can either be of type rook or
 queen.</p>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7</span>, type<span class="op">=</span><span class="st">"rook"</span>, torus<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Neighbour list object:</span></span>
 <span><span class="co">## Number of regions: 49 </span></span>
 <span><span class="co">## Number of nonzero links: 196 </span></span>
 <span><span class="co">## Percentage nonzero weights: 8.163265 </span></span>
 <span><span class="co">## Average number of links: 4</span></span></code></pre>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cell2nb.html">cell2nb</a></span><span class="op">(</span><span class="fl">7</span>, <span class="fl">7</span>, type<span class="op">=</span><span class="st">"rook"</span>, torus<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Neighbour list object:</span></span>
 <span><span class="co">## Number of regions: 49 </span></span>
@@ -571,12 +612,19 @@ knowledge of the cell size stored in the grid topology to create an
 appropriate list of neighbours, using a tightly bounded distance
 criterion. Neighbour lists of this kind are commonly found in ecological
 assays, such as studies of species richness at a national or continental
-scale. It is also in these settings, with moderately large <span class="math inline">\(n\)</span>, here <span class="math inline">\(n=3\)</span>,103, that the use of a sparse, list
-based representation shows its strength. Handling a <span class="math inline">\(281 \times 281\)</span> matrix for the
-eight-county census tracts is feasible, easy for a <span class="math inline">\(63 \times 63\)</span> matrix for Syracuse census
-tracts, but demanding for a 3,<span class="math inline">\(103 \times
-3\)</span>,103 matrix.</p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+scale. It is also in these settings, with moderately large
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>,
+here
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">n=3</annotation></semantics></math>,103,
+that the use of a sparse, list based representation shows its strength.
+Handling a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>281</mn><mo>×</mo><mn>281</mn></mrow><annotation encoding="application/x-tex">281 \times 281</annotation></semantics></math>
+matrix for the eight-county census tracts is feasible, easy for a
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63</mn><mo>×</mo><mn>63</mn></mrow><annotation encoding="application/x-tex">63 \times 63</annotation></semantics></math>
+matrix for Syracuse census tracts, but demanding for a
+3,<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>103</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">103 \times 3</annotation></semantics></math>,103
+matrix.</p>
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/coordinates.html" class="external-link">coordinates</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://edzer.github.io/sp/reference/gridded-methods.html" class="external-link">gridded</a></span><span class="op">(</span><span class="va">meuse.grid</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">TRUE</span></span>
@@ -588,7 +636,7 @@ tracts, but demanding for a 3,<span class="math inline">\(103 \times
 <span><span class="co">## Number of nonzero links: 12022 </span></span>
 <span><span class="co">## Percentage nonzero weights: 0.1248571 </span></span>
 <span><span class="co">## Average number of links: 3.874315</span></span></code></pre>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">mg_nb</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">##    1    2    3    4 </span></span>
@@ -628,9 +676,7 @@ for Public Health Data</em>. Hoboken, NJ: John Wiley &amp; Sons.
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 
@@ -643,16 +689,16 @@ for Public Health Data</em>. Hoboken, NJ: John Wiley &amp; Sons.
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>

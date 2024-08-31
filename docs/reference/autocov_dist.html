@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-6</span>
       </span>
     </div>
 
@@ -28,7 +28,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -50,20 +50,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/r-spatial/spdep/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Distance-weighted autocovariate</h1>
-    
+
     <div class="hidden name"><code>autocov_dist.Rd</code></div>
     </div>
 
@@ -78,33 +78,32 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>z</dt>
+    <p></p>
+<dl><dt id="arg-z">z<a class="anchor" aria-label="anchor" href="#arg-z"></a></dt>
 <dd><p>the response variable</p></dd>
 
-  <dt>xy</dt>
+  <dt id="arg-xy">xy<a class="anchor" aria-label="anchor" href="#arg-xy"></a></dt>
 <dd><p>a matrix of coordinates or a SpatialPoints, <code>sf</code> or <code>sfc</code> points object</p></dd>
 
-  <dt>nbs</dt>
+  <dt id="arg-nbs">nbs<a class="anchor" aria-label="anchor" href="#arg-nbs"></a></dt>
 <dd><p>neighbourhood radius; default is 1</p></dd>
 
-  <dt>type</dt>
+  <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>the weighting scheme: "one" gives equal weight to all data points in the neighbourhood; "inverse" (the default) weights by inverse distance; "inverse.squared" weights by the square of "inverse"</p></dd>
 
-  <dt>zero.policy</dt>
+  <dt id="arg-zero-policy">zero.policy<a class="anchor" aria-label="anchor" href="#arg-zero-policy"></a></dt>
 <dd><p>default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors</p></dd>
 
-  <dt>style</dt>
+  <dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
 <dd><p>default “B” (changed from “W” 2015-01-27); style can take values “W”, “B”, “C”, “U”, and “S”</p></dd>
 
-  <dt>longlat</dt>
+  <dt id="arg-longlat">longlat<a class="anchor" aria-label="anchor" href="#arg-longlat"></a></dt>
 <dd><p>TRUE if point coordinates are longitude-latitude decimal, in which case distances are measured in kilometers; if xy is a SpatialPoints object, the value is taken from the object itself</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>A numeric vector of autocovariate values</p>
+    <p>A numeric vector of autocovariate values</p>
     </div>
     <div id="note">
     <h2>Note</h2>
@@ -187,15 +186,15 @@ for details.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

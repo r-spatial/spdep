@@ -4,7 +4,7 @@ print and plot helper functions."><!-- mathjax --><script src="https://cdnjs.clo
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -18,7 +18,7 @@ print and plot helper functions."><!-- mathjax --><script src="https://cdnjs.clo
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">spdep</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.3-6</span>
       </span>
     </div>
 
@@ -29,7 +29,7 @@ print and plot helper functions."><!-- mathjax --><script src="https://cdnjs.clo
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -51,20 +51,20 @@ print and plot helper functions."><!-- mathjax --><script src="https://cdnjs.clo
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/r-spatial/spdep/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Spatial correlogram</h1>
-    
+
     <div class="hidden name"><code>sp.correlogram.Rd</code></div>
     </div>
 
@@ -76,55 +76,56 @@ print and plot helper functions.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">sp.correlogram</span><span class="op">(</span><span class="va">neighbours</span>, <span class="va">var</span>, order <span class="op">=</span> <span class="fl">1</span>, method <span class="op">=</span> <span class="st">"corr"</span>,</span>
 <span> style <span class="op">=</span> <span class="st">"W"</span>, randomisation <span class="op">=</span> <span class="cn">TRUE</span>, zero.policy <span class="op">=</span> <span class="cn">NULL</span>, spChk<span class="op">=</span><span class="cn">NULL</span><span class="op">)</span></span>
-<span><span class="co"># S3 method for spcor</span></span>
+<span><span class="co"># S3 method for class 'spcor'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">main</span>, <span class="va">ylab</span>, <span class="va">ylim</span>, <span class="va">...</span><span class="op">)</span></span>
-<span><span class="co"># S3 method for spcor</span></span>
+<span><span class="co"># S3 method for class 'spcor'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, p.adj.method<span class="op">=</span><span class="st">"none"</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>neighbours</dt>
+    <p></p>
+<dl><dt id="arg-neighbours">neighbours<a class="anchor" aria-label="anchor" href="#arg-neighbours"></a></dt>
 <dd><p>an object of class <code>nb</code></p></dd>
 
-  <dt>var</dt>
+  <dt id="arg-var">var<a class="anchor" aria-label="anchor" href="#arg-var"></a></dt>
 <dd><p>a numeric vector</p></dd>
 
-  <dt>order</dt>
+  <dt id="arg-order">order<a class="anchor" aria-label="anchor" href="#arg-order"></a></dt>
 <dd><p>maximum lag order</p></dd>
 
-  <dt>method</dt>
+  <dt id="arg-method">method<a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
 <dd><p>"corr" for correlation, "I" for Moran's I, "C" for Geary's C</p></dd>
 
-  <dt>style</dt>
+  <dt id="arg-style">style<a class="anchor" aria-label="anchor" href="#arg-style"></a></dt>
 <dd><p><code>style</code> can take values W, B, C, and S</p></dd>
 
-  <dt>randomisation</dt>
+  <dt id="arg-randomisation">randomisation<a class="anchor" aria-label="anchor" href="#arg-randomisation"></a></dt>
 <dd><p>variance of I or C calculated under the assumption of randomisation, if FALSE normality</p></dd>
 
-  <dt>zero.policy</dt>
-<dd><p>default NULL, use global option value; if FALSE stop with error for any empty neighbour sets, 
+  <dt id="arg-zero-policy">zero.policy<a class="anchor" aria-label="anchor" href="#arg-zero-policy"></a></dt>
+<dd><p>default NULL, use global option value; if FALSE stop with error for any empty neighbour sets,
 if TRUE permit the weights list to be formed with zero-length weights vectors</p></dd>
 
-  <dt>spChk</dt>
+  <dt id="arg-spchk">spChk<a class="anchor" aria-label="anchor" href="#arg-spchk"></a></dt>
 <dd><p>should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use <code><a href="set.spChkOption.html">get.spChkOption()</a></code></p></dd>
 
-  <dt>x</dt>
+  <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>an object from <code>sp.correlogram()</code> of class <code>spcor</code></p></dd>
 
-  <dt>p.adj.method</dt>
+  <dt id="arg-p-adj-method">p.adj.method<a class="anchor" aria-label="anchor" href="#arg-p-adj-method"></a></dt>
 <dd><p>correction method as in <code>p.adjust</code></p></dd>
 
-  <dt>main</dt>
+  <dt id="arg-main">main<a class="anchor" aria-label="anchor" href="#arg-main"></a></dt>
 <dd><p>an overall title for the plot</p></dd>
 
-  <dt>ylab</dt>
+  <dt id="arg-ylab">ylab<a class="anchor" aria-label="anchor" href="#arg-ylab"></a></dt>
 <dd><p>a title for the y axis</p></dd>
 
-  <dt>ylim</dt>
+  <dt id="arg-ylim">ylim<a class="anchor" aria-label="anchor" href="#arg-ylim"></a></dt>
 <dd><p>the y limits of the plot</p></dd>
 
-  <dt>...</dt>
+  <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>further arguments passed through</p></dd>
 
 </dl></div>
@@ -134,9 +135,7 @@ if TRUE permit the weights list to be formed with zero-length weights vectors</p
     </div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>returns a list of class <code>spcor</code>:</p>
+    <p>returns a list of class <code>spcor</code>:</p>
 <dl><dt>res</dt>
 <dd><p>for "corr" a vector of values; for "I", a matrix of estimates of "I", expectations, and variances</p></dd>
 
@@ -152,10 +151,10 @@ if TRUE permit the weights list to be formed with zero-length weights vectors</p
 </dl></div>
     <div id="references">
     <h2>References</h2>
-    <p>Cliff, A. D., Ord, J. K. 1981 <em>Spatial processes</em>, Pion, pp. 
-118--122, Martin, R. L., Oeppen, J. E. 1975 The identification of regional
+    <p>Cliff, A. D., Ord, J. K. 1981 <em>Spatial processes</em>, Pion, pp.
+118–122, Martin, R. L., Oeppen, J. E. 1975 The identification of regional
 forecasting models using space-time correlation functions, <em>Transactions
-of the Institute of British Geographers</em>, 66, 95--118.</p>
+of the Institute of British Geographers</em>, 66, 95–118.</p>
     </div>
     <div id="author">
     <h2>Author</h2>
@@ -172,11 +171,20 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 <span class="r-in"><span><span class="va">rn</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">FIPS</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">ncCC89_nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="read.gal.html">read.gal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"weights/ncCC89.gal"</span>, package<span class="op">=</span><span class="st">"spData"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span></span>
 <span class="r-in"><span> region.id<span class="op">=</span><span class="va">rn</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighbour object has 3 sub-graphs</span>
 <span class="r-in"><span><span class="va">ft.SID74</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1000</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span><span class="op">/</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span> <span class="op">+</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">SID74</span><span class="op">+</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">tr.SIDS74</span> <span class="op">&lt;-</span> <span class="va">ft.SID74</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">nc.sids</span><span class="op">$</span><span class="va">BIR74</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">cspc</span> <span class="op">&lt;-</span> <span class="fu">sp.correlogram</span><span class="op">(</span><span class="va">ncCC89_nb</span>, <span class="va">tr.SIDS74</span>, order<span class="op">=</span><span class="fl">8</span>, method<span class="op">=</span><span class="st">"corr"</span>,</span></span>
 <span class="r-in"><span> zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 1 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 2 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 3 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 4 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 5 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 6 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 7 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 8 neighbour object has 3 sub-graphs</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">cspc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Spatial correlogram for tr.SIDS74 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> method: Spatial autocorrelation</span>
@@ -188,6 +196,14 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 <span class="r-plt img"><img src="sp.correlogram-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">Ispc</span> <span class="op">&lt;-</span> <span class="fu">sp.correlogram</span><span class="op">(</span><span class="va">ncCC89_nb</span>, <span class="va">tr.SIDS74</span>, order<span class="op">=</span><span class="fl">8</span>, method<span class="op">=</span><span class="st">"I"</span>,</span></span>
 <span class="r-in"><span> zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 1 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 2 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 3 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 4 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 5 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 6 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 7 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 8 neighbour object has 3 sub-graphs</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Ispc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Spatial correlogram for tr.SIDS74 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> method: Moran's I</span>
@@ -220,6 +236,14 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 <span class="r-plt img"><img src="sp.correlogram-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="va">Cspc</span> <span class="op">&lt;-</span> <span class="fu">sp.correlogram</span><span class="op">(</span><span class="va">ncCC89_nb</span>, <span class="va">tr.SIDS74</span>, order<span class="op">=</span><span class="fl">8</span>, method<span class="op">=</span><span class="st">"C"</span>,</span></span>
 <span class="r-in"><span> zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 1 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 2 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 3 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 4 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 5 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 6 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 7 neighbour object has 3 sub-graphs</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>lag 8 neighbour object has 3 sub-graphs</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">Cspc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Spatial correlogram for tr.SIDS74 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> method: Geary's C</span>
@@ -269,15 +293,15 @@ of the Institute of British Geographers</em>, 66, 95--118.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
