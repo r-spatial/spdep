@@ -298,7 +298,7 @@
 <span class="r-in"><span><span class="co">### calculating costs</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">lcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.053   0.000   0.053 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.055   0.000   0.055 </span>
 <span class="r-in"><span><span class="co">### making listw</span></span></span>
 <span class="r-in"><span><span class="va">nb.w</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">lcosts</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">### find a minimum spanning tree</span></span></span>
@@ -306,7 +306,7 @@
 <span class="r-in"><span><span class="co">### three groups with no restriction</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">res1</span> <span class="op">&lt;-</span> <span class="fu">skater</span><span class="op">(</span><span class="va">mst.bh</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span>, <span class="va">dpad</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in if (w$num_obs &lt; 1) {    stop("The weights is not valid.")}:</span> argument is of length zero</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Timing stopped at: 0.001 0 0</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Timing stopped at: 0 0 0</span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">parallel</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">2L</span>, <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span>logical<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">-</span><span class="fl">1L</span></span></span>
 <span class="r-in"><span><span class="co"># set nc to 1L here</span></span></span>
@@ -321,7 +321,7 @@
 <span class="r-in"><span><span class="co">### calculating costs</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="va">plcosts</span> <span class="op">&lt;-</span> <span class="fu"><a href="nbcosts.html">nbcosts</a></span><span class="op">(</span><span class="va">bh.nb</span>, <span class="va">dpad</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.049   0.000   0.050 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.043   0.000   0.044 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="va">lcosts</span>, <span class="va">plcosts</span>, check.attributes<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="co">### making listw</span></span></span>

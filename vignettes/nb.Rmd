@@ -123,11 +123,11 @@ text(bbox(Syracuse)[1,1], bbox(Syracuse)[2,2], labels="a)", cex=0.8)
 plot(Syracuse, border="grey60")
 plot(Sy0_nb, coordinates(Syracuse), add=TRUE, pch=19, cex=0.6)
 plot(diffnb(Sy0_nb, Sy2_nb, verbose=FALSE), coordinates(Syracuse),
-  add=TRUE, pch=".", cex=0.6, lwd=2)
+  add=TRUE, pch=".", cex=0.6, lwd=2, col="orange")
 text(bbox(Syracuse)[1,1], bbox(Syracuse)[2,2], labels="b)", cex=0.8)
 par(oopar)
 ```
-a: Queen-style census tract contiguities, Syracuse; b: Rook-style contiguity differences shown as thicker lines
+a: Queen-style census tract contiguities, Syracuse; b: Rook-style contiguity differences shown as thicker orange lines
 
 If we have access to a GIS such as GRASS or ArcGIS,
 we can export the `SpatialPolygonsDataFrame` object and use
@@ -154,11 +154,15 @@ the input polygons stop at the channel banks on each side. The
 may also be used when input data possess geometrical artefacts.
 
 ```{r, eval=FALSE}
-library(spgrass6)
-writeVECT6(Syracuse, "SY0")
+library(rgrass)
+v <- terra::vect(sf::st_as_sf(Syracuse))
+SG <- terra::rast(terra::ext(v), crs=terra::crs(v))
+pr <- initGRASS("/home/rsb/topics/grass/g840/grass84", tempdir(), SG=SG, override=TRUE)
+write_VECT(v, "SY0", flags=c("o", "overwrite"))
 contig <- vect2neigh("SY0")
-Sy3_nb <- sn2listw(contig)$neighbours
+Sy3_nb <- sn2listw(contig, style="B")$neighbours
 isTRUE(all.equal(Sy3_nb, Sy2_nb, check.attributes=FALSE))
+## [1] TRUE
 ```
 
 

@@ -36,7 +36,7 @@ We'll use the whole NY 8 county set of boundaries, as they challenge the impleme
 
 The version of the New York 8 counties geometries used in ASDAR and included as a shapefile in spdep was converted from the original BNA file using an external utility program to convert to MapInfo format and converted on from there using GDAL 1.4.1 (the OGR BNA driver was not then available; it entered OGR at 1.5.0, release at the end of 2007), and contains invalid geometries. What was found in mid-2007 was that included villages were in/excluded by in-out umbilical cords to the boundary of the enclosing tract, when the underlying BNA file was first converted to MapInfo (holes could not exist then).
 
-Here we will use a GPKG file created as follows (rgdal could also be used with the same output; GDAL here is built with GEOS, so the BNA vector driver will use geometry tests: The BNA driver supports reading of polygons with holes or lakes. It determines what is a hole or a lake only from geometrical analysis (inclusion, non-intersection tests) and ignores completely the notion of polygon winding (whether the polygon edges are described clockwise or counter-clockwise). GDAL must be built with GEOS enabled to make geometry test work.):
+Here we will use a GPKG file created as follows (rgdal could also be used with the same output; GDAL prior to GDAL 3.3 built with GEOS, so the BNA vector driver will use geometry tests: The BNA driver supports reading of polygons with holes or lakes. It determines what is a hole or a lake only from geometrical analysis (inclusion, non-intersection tests) and ignores completely the notion of polygon winding (whether the polygon edges are described clockwise or counter-clockwise). GDAL must be built with GEOS enabled to make geometry test work.):
 
 ```{r, eval=FALSE}
 library(sf)
@@ -108,15 +108,13 @@ spdep::poly2nb uses two heuristics, first to find candidate neighbours from inte
 
 ### Contiguity neighbours from invalid polygons
 
-Next, we explore a further possible source of differences in neighbour object reproduction, using the original version of the tract boundaries used in ASDAR, but with some invalid geometries as mentioned earlier:
+Next, we explore a further possible source of differences in neighbour object reproduction, using the original version of the tract boundaries used in ASDAR, but with some invalid geometries as mentioned earlier (`NY8_utm18.gpkg` was created from the original ESRI Shapefile used in ASDAR):
 
 ```{r, echo=dothis, eval=dothis}
 if (packageVersion("spData") >= "2.3.2") {
     NY8_sf_old <- sf::st_read(system.file("shapes/NY8_utm18.gpkg", package="spData"))
 } else {
-    NY8_sf_old <- sf::st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData"))
-    sf::st_crs(NY8_sf_old) <- "EPSG:32618"
-    NY8_sf_old$Cases <- NY8_sf_old$TRACTCAS
+    NY8_sf_old <- sf::st_read(system.file("shapes/NY8_utm18.shp", package="spData"))
 }
 table(st_is_valid(NY8_sf_old))
 ```
@@ -214,12 +212,12 @@ NY87_nb <- graph2nb(relativeneigh(NY8_ct_sf))
 K-nearest neighbours use the coordinate matrices, and can handle Great Circle distances, but this is not demonstrated here, as the data set used is planar, in which case `dbscan::kNN()` in 2D or 3D building a kd-tree is used:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:reps) NY88_nb_sf <- knn2nb(knearneigh(NY8_ct_sf, k=1)))/reps
+system.time(for (i in 1:reps) suppressWarnings(NY88_nb_sf <- knn2nb(knearneigh(NY8_ct_sf, k=1))))/reps
 ```
 Legacy code may be used omitting the kd-tree:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:reps) NY89_nb_sf <- knn2nb(knearneigh(NY8_ct_sf, k=1, use_kd_tree=FALSE)))/reps
+system.time(for (i in 1:reps) suppressWarnings(NY89_nb_sf <- knn2nb(knearneigh(NY8_ct_sf, k=1, use_kd_tree=FALSE))))/reps
 ```
 
 ### Distance neighbours
@@ -235,12 +233,12 @@ max_1nn <- max(dsts)
 `dnearneigh` can also handle Great Circle distances, but this is not demonstrated here, as the data set used is planar:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:reps) NY810_nb <- dnearneigh(NY8_ct_sf, d1=0, d2=0.75*max_1nn))/reps
+system.time(for (i in 1:reps) suppressWarnings(NY810_nb <- dnearneigh(NY8_ct_sf, d1=0, d2=0.75*max_1nn)))/reps
 ```
 By default, the function uses `dbscan::frNN()` to build a kd-tree in 2D or 3D which is then used to find distance neighbours. For small n, the argument `use_kd_tree=FALSE` may speed up computation a little by reverting to legacy code not building a kd-tree first, but in general the differences are so small that the user will not notice:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:reps) NY811_nb <- dnearneigh(NY8_ct_sf, d1=0, d2=0.75*max_1nn, use_kd_tree=FALSE))/reps
+system.time(for (i in 1:reps) suppressWarnings(NY811_nb <- dnearneigh(NY8_ct_sf, d1=0, d2=0.75*max_1nn, use_kd_tree=FALSE)))/reps
 ```
 
 ## Spherical point-based neighbours
@@ -306,15 +304,15 @@ If we permit **s2** methods to run, without other arguments set, and **s2** > 1.
 
 ```{r, echo=dothis, eval=dothis}
 if (packageVersion("s2") > "1.0.7") {
-  system.time(for (i in 1:(reps/5)) pts_ll3_nb <- dnearneigh(pts_ll, d1=0,
-      d2=0.75*max_1nn_ll))/(reps/5)
+  system.time(for (i in 1:(reps/5)) suppressWarnings(pts_ll3_nb <- dnearneigh(pts_ll, d1=0,
+      d2=0.75*max_1nn_ll)))/(reps/5)
 }
 ```
 
 Alternatively, spherical distances can be used with `dwithin=FALSE` and `s2::s2_closest_edges()`; although running in similar time, `s2::s2_closest_edges()` depends on the additional `k=` argument, which, if mis-set, may miss valid neighbours:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:(reps/5)) pts_ll5_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn_ll, dwithin=FALSE))/(reps/5)
+system.time(for (i in 1:(reps/5)) suppressWarnings(pts_ll5_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn_ll, dwithin=FALSE)))/(reps/5)
 ```
 
 ```{r, echo=dothis, eval=dothis}
@@ -326,16 +324,16 @@ Using `s2::s2_closest_edges()` respects `d1 > 0` without requiring a second pass
 
 ```{r, echo=dothis, eval=dothis}
 if (packageVersion("s2") > "1.0.7") {
-  system.time(for (i in 1:(reps/5)) pts_ll3a_nb <- dnearneigh(pts_ll, d1=5,
-      d2=0.75*max_1nn_ll, dwithin=FALSE))/(reps/5)
+  system.time(for (i in 1:(reps/5)) suppressWarnings(pts_ll3a_nb <- dnearneigh(pts_ll, d1=5,
+      d2=0.75*max_1nn_ll, dwithin=FALSE)))/(reps/5)
 }
 ```
 Using `s2::s2_dwithin_matrix()` requires a second pass, one for the lower bound, another for the upper bound, and a set difference operation to find neighbours in the distance band:
 
 ```{r, echo=dothis, eval=dothis}
 if (packageVersion("s2") > "1.0.7") {
-    system.time(for (i in 1:(reps/5)) pts_ll5a_nb <- dnearneigh(pts_ll, d1=5,
-        d2=0.75*max_1nn_ll))/(reps/5)
+    system.time(for (i in 1:(reps/5)) suppressWarnings(pts_ll5a_nb <- dnearneigh(pts_ll, d1=5,
+        d2=0.75*max_1nn_ll)))/(reps/5)
 }
 ```
 
@@ -346,7 +344,7 @@ if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3a_nb, pts_ll5a_nb, check.at
 Setting `use_s2=FALSE` falls back to the legacy version, which uses symmetry to reduce time:
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:reps) pts_ll6_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn_ll, use_s2=FALSE))/reps
+system.time(for (i in 1:reps) suppressWarnings(pts_ll6_nb <- dnearneigh(pts_ll, d1=0, d2=0.75*max_1nn_ll, use_s2=FALSE)))/reps
 ```
 
 Minor differences may occur between the legacy ellipsoid and **s2** spherical approaches:
@@ -356,7 +354,7 @@ all.equal(pts_ll5_nb, pts_ll6_nb, check.attributes=FALSE)
 ```
 
 ```{r, echo=dothis, eval=dothis}
-system.time(for (i in 1:reps) pts_ll6a_nb <- dnearneigh(pts_ll, d1=5, d2=0.75*max_1nn_ll, use_s2=FALSE))/reps
+system.time(for (i in 1:reps) suppressWarnings(pts_ll6a_nb <- dnearneigh(pts_ll, d1=5, d2=0.75*max_1nn_ll, use_s2=FALSE)))/reps
 ```
 
 ```{r, echo=dothis, eval=dothis}
@@ -374,6 +372,7 @@ st_is_longlat(NY8_sf_ll)
 The timings are a little slower when `st_intersects()` hands off geometry predicates to `s2_intersects_matrix()`, but the results are the same, and because spatial indexing is used, this scales well for larger data sets:
 
 ```{r, echo=dothis, eval=dothis}
+sf_use_s2(TRUE)
 system.time(for (i in 1:reps) NY8_sf_1_nb_ll <- poly2nb(NY8_sf_ll, queen=TRUE, snap=eps))/reps
 ```
 ```{r, echo=dothis, eval=dothis}
