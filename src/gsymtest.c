@@ -12,6 +12,7 @@ SEXP gsymtest(SEXP nb, SEXP glist, SEXP card)
 	SET_VECTOR_ELT(ans, 1, NEW_NUMERIC(1));
 
 	for (i=0; i < n; i++) {
+            R_CheckUserInterrupt();
 	    icard = INTEGER_POINTER(card)[i];
 	    for (j=0; j<icard; j++) {
 		k = INTEGER_POINTER(VECTOR_ELT(nb, i))[j];

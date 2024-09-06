@@ -15,6 +15,7 @@ SEXP listw2sn(SEXP nbs, SEXP wts, SEXP card, SEXP ncard)
 	SET_VECTOR_ELT(ans, 2, NEW_NUMERIC(INTEGER_POINTER(ncard)[0]));
 
 	for (i=0, ii=0; i < n; i++) {
+            R_CheckUserInterrupt();
 	    for (j=0; j < INTEGER_POINTER(card)[i]; j++) {
 		INTEGER_POINTER(VECTOR_ELT(ans, 0))[ii] = i+ROFFSET;
 	        INTEGER_POINTER(VECTOR_ELT(ans, 1))[ii] = 

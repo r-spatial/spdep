@@ -61,7 +61,7 @@ print.nb <- function(x, ...) {
     cat("Average number of links:", mean(c.nb), "\n")
     if(any(c.nb == 0)) cat(length(c.nb[c.nb == 0]), " region", 
         ifelse(length(c.nb[c.nb == 0]) < 2L, "", "s"), " with no links:\n",
-	paste(strwrap(paste(regids[which(c.nb == 0)], collapse=" ")),
+	paste(strwrap(paste(regids[which(c.nb == 0)], collapse=", ")),
         collapse="\n"), "\n", sep="")
     nc <- 0
     if (!is.null(attr(x, "ncomp"))) {

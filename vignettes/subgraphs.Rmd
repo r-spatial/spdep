@@ -1,0 +1,116 @@
+---
+title: "No-neighbour observation and subgraph handling"
+author: "Roger Bivand"
+output:
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
+bibliography: refs.bib
+vignette: >
+  %\VignetteIndexEntry{No-neighbour observation and subgraph handling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+--- 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+The `spdep` package has always been careful about disconnected graphs, especially where the disconnected observations are graph nodes with no neighbours, that is no incoming or outgoing edges. In `nb` neighbour objects, they are encoded as integer vectors of length 1 containing integer `0`, which is an invalid index on $[1, N]$, where $N$ is the observation count. Functions taking neighbour objects as arguments use the `zero.policy` argument to guide how to handle no-neighbour observations. 
+
+`spdep` has also had `n.comp.nb` to find the number of disjoint connected subgraphs in an `nb` object, contributed by Nicholas Lewin-Koh in 2001, showing in addition which observations belong to which subgraph. Obviously, no-neighbour observations are singleton graph nodes, but subgraphs are also troubling for spatial analysis, because there is no connection between the spatial processes in those subgraphs. The ripples in one pond cannot cross into a separate pond if they are not connected.
+
+From `spdep` 1.3-1, steps began to raise awareness of the possibility that neighbour objects might be created that are disconnected in some way, mostly through warnings, and through the computation of subgraph measures by default. This vignette is intended to provide some background to these steps.
+
+
+## No-neighbour observations
+
+From the start, `nb` objects have recorded no-neighbour observations as an integer vector of unit length and value `0`, where neighbours are recorded as ID values between `1` and `N`, where `N` is the observation count. `print` and `summary` methods have always reported the presence of no-neighbour observations, and listed their IDs (or `region.id` values). If an `nb` object contains no-neighbour observations, the user has to decide whether to drop those observations, or if retained, what value to give its weights. The `zero.policy` argument uses zero as the value if TRUE, but if FALSE causes `nb2listw` to fail. The value of `zero.policy` in a call to functions like `nb2listw`, `subset.listw` or `mat2listw` creating `listw` objects representing sparse spatial weights matrices is added to the created object as an attribute, and used subsequently to pass through that choice to other functions. For example, `moran.test` takes the value of this attribute as default for its `zero.policy` argument:
+
+```{r}
+library(spdep)
+args(moran.test)
+```
+
+If observation $i$ has no neighbours, its weights sum $\sum_{j=1}^N w_{ij} = 0$, as $w_{ij} = 0, \forall j$ (see discussion in @bivand+portnov:04). Its eigenvalue will also be zero, with consequences for analytical inference:
+
+```{r}
+eigen(0)$values
+```
+The `adjust.n` argument to measures of spatial autocorrelation is by default TRUE, and subtracts the count of singleton nodes from $N$ in an attempt to acknowledge the reduction in information available.
+
+One way in which no-neighbour observations may occur is when they are islands, and neighbours are defined as polygon features with contiguous boundaries. This is clearly the case in @FRENISTERRANTINO201825, where Capraia and Giglio Isles are singleton nodes. Here we take Westminster constituencies for Wales used in the July 2024 UK general election.
+
+```{r}
+run <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0"
+```
+
+The boundaries are taken from the Ordnance Survey Boundary-Line site, https://osdatahub.os.uk/downloads/open/BoundaryLine, choosing the 2024 Westminster constituencies (https://www.os.uk/opendata/licence), simplified using a tolerance of 50m to reduce object size, and merged with selected voting outcomes for constituencies in Great Britain https://electionresults.parliament.uk/countries/1, (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Here, the subset for Wales is useful as we will see:
+
+```{r, eval=run}
+w50m <- st_read(system.file("etc/shapes/GB_2024_Wales_50m.gpkg.zip", package="spdep"))
+```
+
+
+
+```{r, eval=run}
+(w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50m)
+```
+The two subgraphs are the singleton Ynys Môn and all the other 31 constituencies:
+
+```{r, eval=run}
+attr(nb_W_50m, "ncomp")$comp.id |>table() |> table()
+```
+The left map shows that Ynys Môn can be shown selecting by name, as a black border, and by the zero cardinality of its neighbour set, using `card`, filling the polygon. The right map shows the location of the island, known in English as Anglesey, north-west of the Welsh mainland, and with no neighbour links:
+
+```{r, eval=run}
+ynys_mon <- w50m$Constituency == "Ynys Môn"
+pts <- st_point_on_surface(st_geometry(w50m))
+opar <- par(mfrow=c(1, 2))
+plot(st_geometry(w50m), border="grey75")
+plot(st_geometry(w50m)[ynys_mon], add=TRUE)
+plot(st_geometry(w50m)[card(nb_W_50m) == 0L], add=TRUE, border="transparent", col="wheat1")
+plot(st_geometry(w50m), border="grey75")
+plot(nb_W_50m, pts, add=TRUE)
+par(opar)
+```
+From the maps, we can see that the island is close to two constituencies across the Afon Menai (Menai Strait in English), the three simplified polygons being less than 280m apart, measured between polygon boundaries:
+
+```{r, eval=run}
+dists <- st_distance(w50m[ynys_mon,], w50m[!ynys_mon,])
+sort(dists)
+```
+Using a `snap` distance of 280m, we can join the island to its two obvious proximate neighbours:
+
+```{r, eval=run}
+(nb_W_50m_snap <- poly2nb(w50m, row.names=as.character(w50m$Constituency), snap=280))
+```
+```{r, eval=run}
+plot(st_geometry(w50m), border="grey75")
+plot(nb_W_50m_snap, pts, add=TRUE)
+```
+In this case, increasing `snap` from its default of 10mm (or close equivalents for geometries with known metrics; previously `sqrt(.Machine$double.eps)` `r print(sqrt(.Machine$double.eps))` in all cases) helps. This is not always going to be the case, but here the strait is narrow. If islands are much further offshore, other steps may be required, because a large `snap` distance will draw in extra neighbours for already connected observations. It is also possible that increasing the `snap` distance may fail to link islands if they are not considered candidate neighbours, that is if their extents (bounding boxes), buffered out by the `snap` value, do not intersect.
+
+```{r, eval=run}
+k2 <- knearneigh(pts, k=2)
+k2$nn[which(ynys_mon),]
+```
+
+
+## Subgraphs
+
+```{r, eval=run}
+sc50m <- st_read(system.file("etc/shapes/GB_2024_southcoast_50m.gpkg.zip", package="spdep"))
+```
+
+
+
+## Unintentional disconnected graphs
+
+
+## References

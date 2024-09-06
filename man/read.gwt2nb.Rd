@@ -86,7 +86,8 @@ nc1ia <- read.swmdbf2listw(fn, region.id=as.character(nc_sf$UniqueID),
  style="B", zero.policy=TRUE)
 nc1ia
 all.equal(nc1i, nc1ia)
-cal <- st_read(system.file("etc/shapes/california.gpkg", package="spdep")[1])
+if (as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0") {
+cal <- st_read(system.file("etc/shapes/california.gpkg.zip", package="spdep")[1])
 fn <- system.file("etc/misc/contiguity_myid.dbf", package="spdep")[1]
 cal1 <- read.swmdbf2listw(fn, style="B")
 cal1a <- read.swmdbf2listw(fn, region.id=as.character(cal$MYID), style="B")
@@ -113,6 +114,7 @@ all.equal(cal1a_1n$weights, cal1a_1n_rt$weights, check.attributes=FALSE)
 cal1_1n_rt <- read.swmdbf2listw(file, style="B", zero.policy=TRUE)
 all(isTRUE(all.equal(cal1a_1n$neighbours, cal1_1n_rt$neighbours)))
 all(isTRUE(all.equal(cal1a_1n$weights, cal1_1n_rt$weights)))
+}
 }
 }
 \keyword{spatial}

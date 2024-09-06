@@ -72,7 +72,8 @@ skater(edges, data, ncuts, crit, vec.crit, method = c("euclidean",
 \seealso{See Also as \code{\link{mstree}}}
 \examples{
 ### loading data
-bh <- st_read(system.file("etc/shapes/bhicv.gpkg",
+if (as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0") {
+bh <- st_read(system.file("etc/shapes/bhicv.gpkg.zip",
       package="spdep")[1], quiet=TRUE)
 ### data standardized 
 dpad <- data.frame(scale(as.data.frame(bh)[,5:8]))
@@ -196,6 +197,7 @@ if(!get.mcOption()) {
 }
 all.equal(res1, pres1, check.attributes=FALSE)
 invisible(set.coresOption(coresOpt))
+}
 }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

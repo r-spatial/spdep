@@ -10,6 +10,7 @@ SEXP gearyw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy,
 	PROTECT(ans = NEW_NUMERIC(n)); pc++;
 
 	for (i=0; i < n; i++) {
+            R_CheckUserInterrupt();
 	    if (INTEGER_POINTER(card)[i] == 0) {
 		if (LOGICAL_POINTER(zeropolicy)[0] == TRUE)
 		    NUMERIC_POINTER(ans)[i] = 0;

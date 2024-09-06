@@ -24,7 +24,9 @@
 %%\format{}
 %%\details{}
 \examples{
-bh <- st_read(system.file("etc/shapes/bhicv.gpkg",
+if (as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0") {
+bh <- st_read(system.file("etc/shapes/bhicv.gpkg.zip",
       package="spdep")[1])
+}
 }
 \keyword{data}% at least one, from doc/KEYWORDS

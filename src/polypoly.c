@@ -13,6 +13,7 @@ SEXP polypoly(SEXP p1, SEXP n01, SEXP p2, SEXP n02, SEXP snap)
 	PROTECT(ans = NEW_INTEGER(1)); pc++;
 
 	for (i=0; (i < n1) && (k < 2); i++) {
+                R_CheckUserInterrupt();
 		x1 = NUMERIC_POINTER(p1)[i];
 		y1 = NUMERIC_POINTER(p1)[n1 + i];
 		for (j=0; (j < n2) && (k < 2); j++) {
@@ -191,6 +192,7 @@ int polypolyC(double *px1, double *py1, int n1, double *px2, double *py2,
 	double x1, x2, y1, y2, xd, yd;
 
 	for (i=0; (i < n1) && (k < crit); i++) {
+                R_CheckUserInterrupt();
 		x1 = px1[i];
 		y1 = py1[i];
 		for (j=0; (j < n2) && (k < crit); j++) {
@@ -244,6 +246,7 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
     cNRS = (int *) R_alloc((size_t) nn, sizeof(int));
 
     for (i=0, li=0; i<nn; i++) {
+        R_CheckUserInterrupt();
         card[i] = 0;
         icard[i] = 0;
         bb1[i] = NUMERIC_POINTER(bb)[i];
@@ -255,11 +258,13 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
     }
 
     for (i=0; i<nn; i++) {
+        R_CheckUserInterrupt();
         if (i == 0) cNRS[i] = 0;
         else cNRS[i] = NRS[i-1] + cNRS[i-1];
     }
 
     for (i=0; i<uBound; i++) {
+        R_CheckUserInterrupt();
         is[i] = 0;
         jjs[i] = 0;
     }
@@ -269,6 +274,7 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
 
     for (i=0, jj=0; i<nn; i++) {
         nrsi = NRS[i];
+        R_CheckUserInterrupt();
         for (j=0; j<nrsi; j++) {
             plx[jj] = NUMERIC_POINTER(VECTOR_ELT(pl, i))[j];
             ply[jj] = NUMERIC_POINTER(VECTOR_ELT(pl, i))[j+nrsi];
@@ -278,6 +284,7 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
     }
 
     for (i=0; i<(nn-1); i++) {
+        R_CheckUserInterrupt();
         li = length(VECTOR_ELT(i_findInBox, i));
         nrsi = NRS[i];
         for (j=0; j<li; j++) {
@@ -306,6 +313,7 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
     PROTECT(ans = NEW_LIST(nn)); pc++;
 
     for (i=0; i<nn; i++) {
+        R_CheckUserInterrupt();
         if (card[i] == 0) {
             SET_VECTOR_ELT(ans, i, NEW_INTEGER(1));
             INTEGER_POINTER(VECTOR_ELT(ans, i))[0] = 0;
@@ -328,6 +336,7 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
     }
 
     for (i=0; i<nn; i++) {
+        R_CheckUserInterrupt();
         if ((li = length(VECTOR_ELT(ans, i))) > 1) {
             for (j=0; j<li; j++)
                 icard[j] = INTEGER_POINTER(VECTOR_ELT(ans, i))[j];

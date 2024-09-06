@@ -11,6 +11,7 @@ SEXP symtest(SEXP nb, SEXP card, SEXP verbose)
 
 	fstop = 0;
 	for (i=0; i < n; i++) {
+            R_CheckUserInterrupt();
 	    icard = INTEGER_POINTER(card)[i];
 	    for (j=0; j<icard; j++) {
 		flag = 0;

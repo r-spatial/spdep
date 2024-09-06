@@ -10,6 +10,7 @@ SEXP jcintern(SEXP nb, SEXP weights, SEXP dum, SEXP card) {
 
 	sum1 = 0.0;
 	for (i=0; i < n; i++) {
+            R_CheckUserInterrupt();
 	    sum = 0.0;
 	    if (INTEGER_POINTER(card)[i] > 0) {
 		for (j=0; j<INTEGER_POINTER(card)[i]; j++) {

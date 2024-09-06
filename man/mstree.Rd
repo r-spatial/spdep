@@ -45,7 +45,8 @@ mstree(nbw, ini = NULL)
 %%\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
 \examples{
 ### loading data
-bh <- st_read(system.file("etc/shapes/bhicv.gpkg",
+if (as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0") {
+bh <- st_read(system.file("etc/shapes/bhicv.gpkg.zip",
       package="spdep")[1], quiet=TRUE)
 ### data padronized
 dpad <- data.frame(scale(as.data.frame(bh)[,5:8]))
@@ -69,6 +70,7 @@ par(mar=c(0,0,0,0))
 plot(st_geometry(bh), border=gray(.5))
 plot(mst.bh, st_coordinates(st_centroid(bh)), col=2, 
      cex.lab=.6, cex.circles=0.035, fg="blue", add=TRUE)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
