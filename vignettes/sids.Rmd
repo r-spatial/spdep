@@ -62,7 +62,7 @@ the extension, and were read here using `sf::st_read()` into the
 using the `st_centroid` method from **sf** as an **sfc** POINT object, and can
 be used to place labels after the extraction of the coordinate matrix:
 
-```{r echo=TRUE}
+```{r echo=TRUE,eval=FALSE}
 sf_use_s2(TRUE)
 plot(st_geometry(nc), axes=TRUE)
 text(st_coordinates(st_centroid(st_geometry(nc), of_largest_polygon=TRUE)), label=nc$FIPSNO, cex=0.5)
@@ -172,7 +172,7 @@ gal_file <- system.file("weights/ncCC89.gal", package="spData")[1]
 ncCC89 <- read.gal(gal_file, region.id=nc$FIPSNO)
 ncCC89
 ```
-```{r label=plot-CC89.nb, echo=TRUE}
+```{r label=plot-CC89.nb, echo=TRUE,eval=FALSE}
 plot(st_geometry(nc), border="grey")
 plot(ncCC89, st_centroid(st_geometry(nc), of_largest_polygon), add=TRUE, col="blue")
 ```

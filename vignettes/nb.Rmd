@@ -115,7 +115,7 @@ isTRUE(all.equal(Sy0_nb, Sy2_nb, check.attributes=FALSE))
 run <- require("sp", quiet=TRUE)
 ```
 
-```{r, echo=run}
+```{r, echo=TRUE,eval=FALSE}
 oopar <- par(mfrow=c(1,2), mar=c(3,3,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy0_nb, coordinates(Syracuse), add=TRUE, pch=19, cex=0.6)
@@ -221,7 +221,7 @@ if (require(dbscan, quietly=TRUE)) {
 Sy6_nb <- graph2nb(gabrielneigh(coords), row.names=IDs)
 Sy7_nb <- graph2nb(relativeneigh(coords), row.names=IDs)
 ```
-```{r, echo=run}
+```{r, echo=run,eval=FALSE}
 oopar <- par(mfrow=c(2,2), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy4_nb, coords, add=TRUE, pch=".")
@@ -295,7 +295,7 @@ sapply(nb_l, function(x) is.symmetric.nb(x, verbose=FALSE, force=TRUE))
 sapply(nb_l, function(x) n.comp.nb(x)$nc)
 ```
 
-```{r, echo=run}
+```{r, echo=run,eval=FALSE}
 oopar <- par(mfrow=c(1,3), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy8_nb, coords, add=TRUE, pch=".")
@@ -339,7 +339,7 @@ sapply(nb_l, function(x) is.symmetric.nb(x, verbose=FALSE, force=TRUE))
 sapply(nb_l, function(x) n.comp.nb(x)$nc)
 ```
 
-```{r, echo=run}
+```{r, echo=run,eval=FALSE}
 oopar <- par(mfrow=c(1,3), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy11_nb, coords, add=TRUE, pch=".")

@@ -657,7 +657,7 @@ to general does make a difference.
 print(formatC(res, format="f", digits=4), quote=FALSE)
 ```
 
-```{r results='asis',eval=run,echo=FALSE, fig.cap="Three contrasted spatial weights definitions"}
+```{r results='asis',eval=FALSE,echo=FALSE, fig.cap="Three contrasted spatial weights definitions"}
 pal <- grey.colors(9, 1, 0.5, 2.2)
 oopar <- par(mfrow=c(1,3), mar=c(1,1,3,1)+0.1)
 z <- t(listw2mat(nb_B))
@@ -679,7 +679,7 @@ par(oopar)
 \caption{Three contrasted spatial weights definitions.}
 \label{plot_wts}
 
-```{r results='asis',eval=run,echo=FALSE}
+```{r results='asis',eval=FALSE,echo=FALSE}
 eire_ge1$nb_B <- sapply(nb_B$weights, sum)
 eire_ge1$lw_unstand <- sapply(lw_unstand$weights, sum)
 library(lattice)
