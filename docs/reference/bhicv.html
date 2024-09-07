@@ -44,6 +44,9 @@
     <li>
       <a href="../articles/sids.html">Introduction to the North Carolina SIDS data set (re-revised)</a>
     </li>
+    <li>
+      <a href="../articles/subgraphs.html">No-neighbour observation and subgraph handling</a>
+    </li>
   </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -102,10 +105,12 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">bh</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/bhicv.gpkg"</span>,</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">as.numeric_version</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu">sf_extSoftVersion</span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">"GDAL"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="st">"3.7.0"</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">bh</span> <span class="op">&lt;-</span> <span class="fu">st_read</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/bhicv.gpkg.zip"</span>,</span></span>
 <span class="r-in"><span>      package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `bhicv' from data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/Rtmput1Tax/temp_libpath71c612b87ba64/spdep/etc/shapes/bhicv.gpkg' </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpYdUOF1/temp_libpathbff31ae05681/spdep/etc/shapes/bhicv.gpkg.zip' </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 98 features and 8 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POLYGON</span>

@@ -60,6 +60,9 @@
     <li>
       <a href="../articles/sids.html">Introduction to the North Carolina SIDS data set (re-revised)</a>
     </li>
+    <li>
+      <a href="../articles/subgraphs.html">No-neighbour observation and subgraph handling</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -154,7 +157,6 @@ the extraction of the coordinate matrix:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, axes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/text.html" class="external-link">text</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_coordinates.html" class="external-link">st_coordinates</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, of_largest_polygon<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>, label<span class="op">=</span><span class="va">nc</span><span class="op">$</span><span class="va">FIPSNO</span>, cex<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
 <p>We can examine the names of the columns of the data frame to see what
 it contains — in fact some of the same columns that we will be examining
 below, and some others which will be useful in cleaning the data
@@ -397,12 +399,11 @@ map as a graph shown in Figure :</p>
 <span><span class="co">## Percentage nonzero weights: 3.94 </span></span>
 <span><span class="co">## Average number of links: 3.94 </span></span>
 <span><span class="co">## 2 regions with no links:</span></span>
-<span><span class="co">## 37055 37095</span></span>
+<span><span class="co">## 37055, 37095</span></span>
 <span><span class="co">## 3 disjoint connected subgraphs</span></span></code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">ncCC89</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>, <span class="va">of_largest_polygon</span><span class="op">)</span>, add<span class="op">=</span><span class="cn">TRUE</span>, col<span class="op">=</span><span class="st">"blue"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/plot-CC89.nb-1.png" width="700"></p>
 <p>Printing the neighbour object shows that it is a neighbour list
 object, with a very sparse structure — if displayed as a matrix, only
 3.94% of cells would be filled. Objects of class
