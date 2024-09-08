@@ -1,5 +1,7 @@
 # Version 1.3-6 (development)
 
+* adding vignette desribing recent changes in `poly2nb` from #162, subgraph and no-neighbour (island) handling
+
 * adding prototype of LICD ESDA function `licd_multi` and `hotspot` method
 
 * add `read.swmdbf2listw` #163 for reading DBF files exported from ArcGIS representing SWM objects; note that there will be problems when the observation IDs are not known, see help file
