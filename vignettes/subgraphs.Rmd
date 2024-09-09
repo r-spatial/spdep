@@ -82,9 +82,8 @@ par(opar)
 From the maps, we can see that the island is close to two constituencies across the Afon Menai (Menai Strait in English), the three simplified polygons being less than 280m apart, measured between polygon boundaries:
 
 ```{r, eval=run}
-dists <- st_distance(w50m)
-dym <- dists[ynys_mon,]
-sort(dym)
+dym <- c(st_distance(w50m[ynys_mon,], w50m))
+sort(dym)[1:12]
 ```
 Using a `snap` distance of 280m, we can join the island to its two obvious proximate neighbours:
 
@@ -208,16 +207,15 @@ compared to the lower domain boundary for the remainder of the study area:
 This subgraph may be added to the remainder as shown above:
 
 ```{r, eval=run}
-dists <- st_distance(sc50m)
 iowe <- match(sub2[1], attr(nb_sc_50m, "region.id"))
-ioww <- match(sub2[2], attr(nb_sc_50m, "region.id"))
-diowe <- dists[iowe,]
-sort(diowe)
+diowe <- c(st_distance(sc50m[iowe,], sc50m))
+sort(diowe)[1:12]
 ```
 
 ```{r, eval=run}
-dioww <- dists[ioww,]
-sort(dioww)
+ioww <- match(sub2[2], attr(nb_sc_50m, "region.id"))
+dioww <- c(st_distance(sc50m[ioww,], sc50m))
+sort(dioww)[1:12]
 ```
 
 Using 5km as a cutoff seems prudent, but would not work as a `snap` value. Taking Isle of Wight East first, there are four constituencies with boundaries within 5km:
