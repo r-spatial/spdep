@@ -168,7 +168,7 @@ Here, the subset for Wales is useful as we will see:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/GB_2024_Wales_50m.gpkg.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_Wales_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpIurYf3/temp_libpath61068519b740b/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/Rtmprq0AG5/temp_libpath6568f436245/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 32 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -351,7 +351,7 @@ subsetted to those in England south of London.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sc50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/GB_2024_southcoast_50m.gpkg.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_southcoast_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpIurYf3/temp_libpath61068519b740b/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/Rtmprq0AG5/temp_libpath6568f436245/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 119 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -530,7 +530,8 @@ to the output object as an attribute and applied when the object is used
 for <code>listw</code> object has argument <code>adjust.n</code> TRUE,
 dropping no-neighbour observations from the observation count.</p>
 <p>Other internal options have been introduced to suppress no-neighbour
-and subgraph warnings. The default values are as follows:</p>
+and subgraph warnings when creating <code>nb</code> objects. The default
+values are as follows:</p>
 <div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">get.NoNeighbourOption</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
@@ -624,7 +625,7 @@ re-packaged as a compressed GeoPackage:</p>
 <div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tokyo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/tokyo.gpkg.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `tokyo' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpIurYf3/temp_libpath61068519b740b/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/Rtmprq0AG5/temp_libpath6568f436245/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 262 features and 3 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>

@@ -301,7 +301,7 @@ set.ZeroPolicyOption(FALSE)
 ```
 When a `listw` object is created with `zero.policy` set to `TRUE`, this choice is added to the output object as an attribute and applied when the object is used (unless specifically overridden). Note also above that while there are 32 constituencies, the observation count reported by `spweights.constants` called by the `print` method for `listw` object has argument `adjust.n` TRUE, dropping no-neighbour observations from the observation count.
 
-Other internal options have been introduced to suppress no-neighbour and subgraph warnings. The default values are as follows:
+Other internal options have been introduced to suppress no-neighbour and subgraph warnings when creating `nb` objects. The default values are as follows:
 
 ```{r, eval=run}
 get.NoNeighbourOption()
