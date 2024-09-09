@@ -5,7 +5,7 @@ sp.mantel.mc <- function(var, listw, nsim, type="moran",
         zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", spChk=NULL, return_boot=FALSE) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(var))
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))

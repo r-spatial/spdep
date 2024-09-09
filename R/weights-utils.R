@@ -5,7 +5,7 @@
 is.symmetric.nb <- function(nb, verbose=NULL, force=FALSE)
 {
 	if(!inherits(nb, "nb")) stop("Not neighbours list")
-        if (is.null(verbose)) verbose <- get("verbose", envir = .spdepOptions)
+        if (is.null(verbose)) verbose <- get.VerboseOption()
         stopifnot(is.logical(verbose))
 	nbsym <- attr(nb, "sym")
 	if(!is.null(nbsym)) res <- nbsym

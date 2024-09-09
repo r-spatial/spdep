@@ -80,7 +80,7 @@ print.nb <- function(x, ...) {
 summary.listw <- function(object, coords=NULL, longlat=FALSE, 
 	zero.policy=attr(object, "zero.policy"), scale=1, adjust.n=TRUE, ...) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         if (any(card(object$neighbours) == 0) && !zero.policy)
             stop("regions with no neighbours found, use zero.policy=TRUE")
@@ -106,7 +106,7 @@ print.summary.listw <- function(x, ...) {
 
 print.listw <- function(x, zero.policy=attr(x, "zero.policy"), ...) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         if (any(card(x$neighbours) == 0) && !zero.policy)
             stop("regions with no neighbours found, use zero.policy=TRUE")

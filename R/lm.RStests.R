@@ -17,7 +17,7 @@ lm.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 	if (!inherits(listw, "listw")) stop(paste(listw_name,
 		"is not a listw object"))
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	if (!is.null(na.act) && naSubset) {
 	    subset <- !(1:length(listw$neighbours) %in% na.act)

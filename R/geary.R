@@ -5,7 +5,7 @@
 geary <- function(x, listw, n, n1, S0, zero.policy=attr(listw, "zero.policy"),
         scale=TRUE) { #https://github.com/r-spatial/spdep/issues/151
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(x))
         stopifnot(all(is.finite(x)))
@@ -21,7 +21,7 @@ geary <- function(x, listw, n, n1, S0, zero.policy=attr(listw, "zero.policy"),
 
 geary.intern <- function(x, listw, n, zero.policy=attr(listw, "zero.policy"), type="geary") {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	cardnb <- card(listw$neighbours)
 	if (type == "geary") ft <- TRUE
@@ -39,7 +39,7 @@ geary.test <- function(x, listw, randomisation=TRUE,
     spChk=NULL, adjust.n=TRUE, na.action=na.fail, scale=TRUE) { 
 #https://github.com/r-spatial/spdep/issues/151
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	alternative <- match.arg(alternative, c("less", "greater", "two.sided"))
 	wname <- deparse(substitute(listw))
@@ -115,7 +115,7 @@ geary.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", spChk=NULL, adjust.n=TRUE, return_boot=FALSE,
         na.action=na.fail, scale=TRUE) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         stopifnot(is.vector(x))
 	alternative <- match.arg(alternative, c("less", "greater", "two.sided"))

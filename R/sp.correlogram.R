@@ -9,7 +9,7 @@ sp.correlogram <- function (neighbours, var, order = 1, method = "corr",
     if (any(is.na(var))) 
         stop("no NAs permitted in variable")
     if (is.null(zero.policy))
-        zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        zero.policy <- get.ZeroPolicyOption()
     stopifnot(is.logical(zero.policy))
     if (is.null(spChk)) 
         spChk <- get.spChkOption()

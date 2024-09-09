@@ -2,7 +2,7 @@ nb2listwdist <- function(neighbours, x, type="idw", style="raw", alpha = 1, dmax
 {
   if(!inherits(neighbours, "nb")) stop("Not a neighbours list")
   if (is.null(zero.policy))
-    zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+    zero.policy <- get.ZeroPolicyOption()
   stopifnot(is.logical(zero.policy))
   if (!(type %in% c("idw", "dpd", "exp")))
     stop(paste("type", type, "invalid"))

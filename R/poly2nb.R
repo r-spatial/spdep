@@ -7,7 +7,7 @@
 
 poly2nb <- function(pl, row.names=NULL, snap=NULL, queen=TRUE, useC=TRUE,
         foundInBox=NULL) {
-        verbose <- get("verbose", envir = .spdepOptions)
+        verbose <- get.VerboseOption()
         .ptime_start <- proc.time()
         sf <- NULL
         if (extends(class(pl), "SpatialPolygons")) {

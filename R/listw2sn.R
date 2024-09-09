@@ -25,7 +25,7 @@ sn2listw <- function(sn, style=NULL, zero.policy=NULL, from_mat2listw=FALSE) {
 	if(!inherits(sn, "spatial.neighbour")) 
 	    stop("not a spatial.neighbour object")
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         if (is.null(style)) {
             style <- "M"

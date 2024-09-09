@@ -16,7 +16,7 @@ lee.test <- function(x, y, listw, #randomisation=TRUE,
 	if (!is.numeric(y)) stop(paste(deparse(substitute(y)),
 		"is not a numeric vector"))
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	if (is.null(spChk)) spChk <- get.spChkOption()
 	if (spChk && !chkIDs(x, listw) && !chkIDs(y, listw))

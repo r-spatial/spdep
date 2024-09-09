@@ -3,7 +3,7 @@
 
 lee <- function(x, y, listw, n, S2=NULL, zero.policy=attr(listw, "zero.policy"), NAOK=FALSE) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         n1 <- length(listw$neighbours)
         x <- c(x)

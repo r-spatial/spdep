@@ -8,9 +8,9 @@ localmoran.exact.alt <- function(model, select, nb, glist = NULL, style = "W",
 # class to inherits Jari Oksanen 080603
     if (!inherits(nb, "nb"))
         stop(paste(deparse(substitute(nb)), "not an nb object"))
-        if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
-        stopifnot(is.logical(zero.policy))
+    if (is.null(zero.policy))
+        zero.policy <- get.ZeroPolicyOption()
+    stopifnot(is.logical(zero.policy))
 #    if (class(model) != "lm") 
 #        stop(paste(deparse(substitute(model)), "not an lm object"))
     dmc <- deparse(model$call)

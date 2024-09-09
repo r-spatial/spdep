@@ -1,10 +1,9 @@
-# Copyright 2001-15 by Roger Bivand 
+# Copyright 2001-24 by Roger Bivand 
 #
 
-.spdepOptions <- new.env(FALSE, globalenv())
+.spdepOptions <- new.env(TRUE, globalenv())
 assign("spChkID", FALSE, envir = .spdepOptions)
 assign("zeroPolicy", FALSE, envir = .spdepOptions)
-assign("report_nb_subgraphs", FALSE, envir = .spdepOptions)
 assign("verbose", FALSE, envir = .spdepOptions)
 assign("mc", ifelse(.Platform$OS.type == "windows", FALSE, TRUE),
  envir = .spdepOptions)

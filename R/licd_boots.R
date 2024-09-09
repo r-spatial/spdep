@@ -13,7 +13,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         "is not a factor"))
     if (any(is.na(fx))) stop("NA in factor")
     if (is.null(zero.policy))
-        zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        zero.policy <- get.ZeroPolicyOption()
     stopifnot(is.logical(zero.policy))
     n <- length(listw$neighbours)
     if (n != length(fx)) stop("objects of different length")

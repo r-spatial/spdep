@@ -5,7 +5,7 @@
 nb2mat <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	if(!inherits(neighbours, "nb")) stop("Not a neighbours list")
 	listw <- nb2listw(neighbours, glist=glist, style=style,
@@ -40,7 +40,7 @@ mat2listw <- function(x, row.names=NULL, style=NULL, zero.policy=NULL) {
 	if (any(x < 0)) stop("values in x cannot be negative")
 	if (any(is.na(x))) stop("NA values in x not allowed")
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
     	if (!is.null(row.names)) {
 		if(length(row.names) != n)
             		stop("row.names wrong length")

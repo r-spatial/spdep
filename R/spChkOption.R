@@ -69,7 +69,7 @@ get.VerboseOption <- function() {
 
 set.ZeroPolicyOption <- function(check) {
 	if (!is.logical(check)) stop ("logical argument required")
-	res <- get("zeroPolicy", envir = .spdepOptions)
+	res <- get.ZeroPolicyOption()
 	assign("zeroPolicy", check, envir = .spdepOptions)
 	invisible(res)
 }

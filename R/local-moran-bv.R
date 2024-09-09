@@ -12,7 +12,7 @@ localmoran_bv <- function(x, y, listw, nsim = 199, scale = TRUE,
   if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
     "is not a listw object"))
   if (is.null(zero.policy))
-    zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+    zero.policy <- get.ZeroPolicyOption()
   stopifnot(is.logical(zero.policy))
   n <- length(listw$neighbours)
   if (n != length(x)) stop("Different numbers of observations")

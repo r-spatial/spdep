@@ -94,7 +94,7 @@ localmoran_perm <- function(x, listw, nsim=499L, zero.policy=attr(listw, "zero.p
     if (!inherits(listw, "listw"))
 	stop(paste(deparse(substitute(listw)), "is not a listw object"))
     if (is.null(zero.policy))
-        zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        zero.policy <- get.ZeroPolicyOption()
     stopifnot(is.logical(zero.policy))
     if (!is.null(attr(listw$neighbours, "self.included")) &&
 	attr(listw$neighbours, "self.included"))
@@ -259,7 +259,7 @@ localG_perm <- function(x, listw, nsim=499, zero.policy=attr(listw, "zero.policy
     if (!is.numeric(x))
 	stop(paste(deparse(substitute(x)), "is not a numeric vector"))
     if (is.null(zero.policy))
-        zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        zero.policy <- get.ZeroPolicyOption()
     stopifnot(is.logical(zero.policy))
     stopifnot(is.vector(x))
     if (any(is.na(x))) stop(paste("NA in ", deparse(substitute(x))))

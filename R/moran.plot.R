@@ -6,12 +6,12 @@ moran.plot <- function(x, listw, y=NULL, zero.policy=attr(listw, "zero.policy"),
 {
 	if (!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
 		"is not a listw object"))
-        if (is.null(quiet)) quiet <- !get("verbose", envir = .spdepOptions)
+        if (is.null(quiet)) quiet <- !get.VerboseOption()
         stopifnot(is.vector(x))
         if (!is.null(y)) stopifnot(is.vector(y))
         stopifnot(is.logical(quiet))
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	xname <- deparse(substitute(x))
 	if (!is.numeric(x)) stop(paste(xname, "is not a numeric vector"))

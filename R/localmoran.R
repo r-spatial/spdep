@@ -8,7 +8,7 @@ localmoran <- function(x, listw, zero.policy=attr(listw, "zero.policy"), na.acti
 	if (!inherits(listw, "listw"))
 		stop(paste(deparse(substitute(listw)), "is not a listw object"))
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         alternative <- match.arg(alternative, c("two.sided", "greater", "less"))
 	if (!is.null(attr(listw$neighbours, "self.included")) &&

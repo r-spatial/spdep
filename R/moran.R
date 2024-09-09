@@ -3,7 +3,7 @@
 
 moran <- function(x, listw, n, S0, zero.policy=attr(listw, "zero.policy"), NAOK=FALSE) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	n1 <- length(listw$neighbours)
 	x <- c(x)
@@ -28,7 +28,7 @@ moran.test <- function(x, listw, randomisation=TRUE, zero.policy=attr(listw, "ze
 	xname <- deparse(substitute(x))
 	if (!is.numeric(x)) stop(xname,	" is not a numeric vector")
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	if (is.null(spChk)) spChk <- get.spChkOption()
 	if (spChk && !chkIDs(x, listw))
@@ -102,7 +102,7 @@ moran.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	xname <- deparse(substitute(x))
 	if(!is.numeric(x)) stop(xname, "is not a numeric vector")
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	if(missing(nsim)) stop("nsim must be given")
 	if (is.null(spChk)) spChk <- get.spChkOption()
