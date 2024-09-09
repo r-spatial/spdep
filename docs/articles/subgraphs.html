@@ -199,7 +199,7 @@ Here, the subset for Wales is useful as we will see:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/GB_2024_Wales_50m.gpkg.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_Wales_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpYdUOF1/temp_libpathbff31ae05681/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmprC66Rb/temp_libpath592b71c95cd22/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 32 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -274,8 +274,8 @@ its two obvious proximate neighbours:</p>
 <p><img src="subgraphs_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>In this case, increasing <code>snap</code> from its default of 10mm
 (or close equivalents for geometries with known metrics; previously
-<code>sqrt(.Machine$double.eps)</code> in all cases) helps. The
-symmetric links added are to:</p>
+<code>sqrt(.Machine$double.eps)</code> 1.4901161^{-8} in all cases)
+helps. The symmetric links added are to:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">nb_W_50m_snap</span>, <span class="st">"region.id"</span><span class="op">)</span><span class="op">[</span><span class="va">nb_W_50m_snap</span><span class="op">[[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">ynys_mon</span><span class="op">)</span><span class="op">]</span><span class="op">]</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "Bangor Aberconwy"   "Dwyfor Meirionnydd"</span></span></code></pre>
@@ -387,7 +387,7 @@ subsetted to those in England south of London.</p>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">sc50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/GB_2024_southcoast_50m.gpkg.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_southcoast_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpYdUOF1/temp_libpathbff31ae05681/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmprC66Rb/temp_libpath592b71c95cd22/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 119 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -547,32 +547,173 @@ to handle a <code>from</code> vector argument and a <code>to</code>
 argument taking a list of vectors.</p>
 </div>
 <div class="section level2">
+<h2 id="per-session-control-of-function-behaviour">Per-session control of function behaviour<a class="anchor" aria-label="anchor" href="#per-session-control-of-function-behaviour"></a>
+</h2>
+<p>From very early on, the default value of the <code>zero.policy</code>
+argument to many methods and functions was <code>NULL</code>. If the
+value was <code>NULL</code>, <code>zero.policy</code> would be set from
+<code>get.ZeroPolicyOption</code>:</p>
+<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">get.ZeroPolicyOption</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
+<p>On loading <code>spdep</code>, the internal option is set to
+<code>FALSE</code>, so functions and methods using
+<code>zero.policy</code> need to choose how to handle islands:</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb_W_50m</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Error in nb2listw(nb_W_50m) : </span></span>
+<span><span class="co">##   Empty neighbour sets found (zero.policy: FALSE)</span></span></code></pre>
+<p>In this case, it was shown above how the island may reasonably be
+associated with proximate constituencies on the mainland. If, however,
+the user wishes to override the default,
+<code>set.ZeroPolicyOption</code> may be used to set a different
+per-session default:</p>
+<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">set.ZeroPolicyOption</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">get.ZeroPolicyOption</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb89"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">lw</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">nb_W_50m</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Characteristics of weights list object:</span></span>
+<span><span class="co">## Neighbour list object:</span></span>
+<span><span class="co">## Number of regions: 32 </span></span>
+<span><span class="co">## Number of nonzero links: 136 </span></span>
+<span><span class="co">## Percentage nonzero weights: 13.28125 </span></span>
+<span><span class="co">## Average number of links: 4.25 </span></span>
+<span><span class="co">## 1 region with no links:</span></span>
+<span><span class="co">## Ynys Môn</span></span>
+<span><span class="co">## 2 disjoint connected subgraphs</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Weights style: W </span></span>
+<span><span class="co">## Weights constants summary:</span></span>
+<span><span class="co">##    n  nn S0       S1      S2</span></span>
+<span><span class="co">## W 31 961 31 15.36355 129.051</span></span></code></pre>
+<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">lw</span>, <span class="st">"zero.policy"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">set.ZeroPolicyOption</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<p>When a <code>listw</code> object is created with
+<code>zero.policy</code> set to <code>TRUE</code>, this choice is added
+to the output object as an attribute and applied when the object is used
+(unless specifically overridden). Note also above that while there are
+32 constituencies, the observation count reported by
+<code>spweights.constants</code> called by the <code>print</code> method
+for <code>listw</code> object has argument <code>adjust.n</code> TRUE,
+dropping no-neighbour observations from the observation count.</p>
+<p>Other internal options have been introduced to suppress no-neighbour
+and subgraph warnings. The default values are as follows:</p>
+<div class="sourceCode" id="cb94"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">get.NoNeighbourOption</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb96"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">get.SubgraphOption</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb98"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">get.SubgraphCeiling</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 100000</span></span></code></pre>
+<p><code>get.NoNeighbourOption</code> controls the issuing of warnings
+when <code>nb</code> objects are created with no-neighbour observations;
+<code>get.SubgraphOption</code> works similarly but for warnings issued
+when there is more than one graph component; both are TRUE by default.
+<code>get.SubgraphCeiling</code> sets the integer value of graph nodes
+plus graph edges above which calculating on the graph is considered too
+costly in compute time, the default is 100,000. This corresponds to a
+dense neighbour set with just over 300 nodes (with almost 100000 edges)
+such as that needed to use inverse distance weights, or just over 14,000
+nodes with an average neighbour count of 6.</p>
+<p>The <code>print</code> method for <code>nb</code> objects reports
+no-neighbour and subgraph status anyway, so careful users who always
+examine generated objects may prefer to supress the warnings, but
+warnings seem prudent when users may not examine the objects, or when
+generation is by subsetting of larger objects, for example in the
+creation of training and test data sets. Here the Welsh constituency
+boundaries will be used to show the behaviour of the internal
+options:</p>
+<div class="sourceCode" id="cb100"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">set.NoNeighbourOption</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">w50m</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span>row.names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">w50m</span><span class="op">$</span><span class="va">Constituency</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">nb_W_50mz</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in poly2nb(w50m, row.names = as.character(w50m$Constituency)): neighbour object has 2 sub-graphs;</span></span>
+<span><span class="co">## if this sub-graph count seems unexpected, try increasing the snap argument.</span></span></code></pre>
+<pre><code><span><span class="co">## Neighbour list object:</span></span>
+<span><span class="co">## Number of regions: 32 </span></span>
+<span><span class="co">## Number of nonzero links: 136 </span></span>
+<span><span class="co">## Percentage nonzero weights: 13.28125 </span></span>
+<span><span class="co">## Average number of links: 4.25 </span></span>
+<span><span class="co">## 1 region with no links:</span></span>
+<span><span class="co">## Ynys Môn</span></span>
+<span><span class="co">## 2 disjoint connected subgraphs</span></span></code></pre>
+<p>Turning both off removes the warnings:</p>
+<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">set.SubgraphOption</a></span><span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">w50m</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span>row.names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">w50m</span><span class="op">$</span><span class="va">Constituency</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">nb_W_50my</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Neighbour list object:</span></span>
+<span><span class="co">## Number of regions: 32 </span></span>
+<span><span class="co">## Number of nonzero links: 136 </span></span>
+<span><span class="co">## Percentage nonzero weights: 13.28125 </span></span>
+<span><span class="co">## Average number of links: 4.25 </span></span>
+<span><span class="co">## 1 region with no links:</span></span>
+<span><span class="co">## Ynys Môn</span></span></code></pre>
+<p>When <code>get.SubgraphOption</code> is FALSE, the attribute
+containing the output of <code>n.comp.nb</code> is not added:</p>
+<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">nb_W_50my</span>, <span class="st">"ncomp"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##  NULL</span></span></code></pre>
+<p>The reduction of the ceiling to below node count 32 plus edge count
+136 also supresses the calculation of graph components:</p>
+<div class="sourceCode" id="cb107"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">set.SubgraphOption</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/set.spChkOption.html">set.SubgraphCeiling</a></span><span class="op">(</span><span class="fl">100L</span><span class="op">)</span></span>
+<span><span class="op">(</span><span class="va">w50m</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span>row.names<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="va">w50m</span><span class="op">$</span><span class="va">Constituency</span><span class="op">)</span><span class="op">)</span> <span class="op">-&gt;</span> <span class="va">nb_W_50mx</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Neighbour list object:</span></span>
+<span><span class="co">## Number of regions: 32 </span></span>
+<span><span class="co">## Number of nonzero links: 136 </span></span>
+<span><span class="co">## Percentage nonzero weights: 13.28125 </span></span>
+<span><span class="co">## Average number of links: 4.25 </span></span>
+<span><span class="co">## 1 region with no links:</span></span>
+<span><span class="co">## Ynys Môn</span></span></code></pre>
+<div class="sourceCode" id="cb109"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">nb_W_50mx</span>, <span class="st">"ncomp"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##  NULL</span></span></code></pre>
+<p>Restoring the remaining default values:</p>
+<div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/set.spChkOption.html">set.SubgraphCeiling</a></span><span class="op">(</span><span class="fl">100000L</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/set.spChkOption.html">set.NoNeighbourOption</a></span><span class="op">(</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
 <h2 id="unintentional-disconnected-graphs">Unintentional disconnected graphs<a class="anchor" aria-label="anchor" href="#unintentional-disconnected-graphs"></a>
 </h2>
 <p>Sometimes apparently sensible polygons turn out to be represented in
 such a way that disconnected graphs are generated when extracting
 contiguities. One such case was raised in <a href="https://github.com/r-spatial/spdep/issues/162" class="external-link uri">https://github.com/r-spatial/spdep/issues/162</a>, for
-subdivisions of Tokyo.</p>
-<div class="sourceCode" id="cb82"><pre class="downlit sourceCode r">
+subdivisions of Tokyo. The original data file <code>tokyomet262.*</code>
+from <a href="https://sgsup.asu.edu/sites/default/files/SparcFiles/tokyo_0.zip" class="external-link uri">https://sgsup.asu.edu/sites/default/files/SparcFiles/tokyo_0.zip</a>
+was created some twenty years ago by Tomoki Nakaya and Martin Charlton,
+and some geometry issues were known at the time. A possibility that may
+affect legacy files is projection of geometries on 32-bit platforms, but
+it is not known whether this affected this file. Here it has been
+re-packaged as a compressed GeoPackage:</p>
+<div class="sourceCode" id="cb112"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tokyo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"etc/shapes/tokyo.gpkg.zip"</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `tokyo' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpYdUOF1/temp_libpathbff31ae05681/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmprC66Rb/temp_libpath592b71c95cd22/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
-<span><span class="co">## Simple feature collection with 262 features and 1 field</span></span>
+<span><span class="co">## Simple feature collection with 262 features and 3 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
 <span><span class="co">## Dimension:     XY</span></span>
 <span><span class="co">## Bounding box:  xmin: 266206.6 ymin: -90932.11 xmax: 411400.3 ymax: 37142.75</span></span>
 <span><span class="co">## Projected CRS: Tokyo / Japan Plane Rectangular CS VI</span></span></code></pre>
 <p>After correcting invalid polygons:</p>
-<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_is_valid</a></span><span class="op">(</span><span class="va">tokyo</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] FALSE</span></span></code></pre>
-<div class="sourceCode" id="cb86"><pre class="downlit sourceCode r">
+<pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
+<div class="sourceCode" id="cb116"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tokyo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></span><span class="op">(</span><span class="va">tokyo</span><span class="op">)</span></span></code></pre></div>
 <p>applying <code>poly2nb</code> with the legacy default snap value
 produced numerous singleton observations as well as many
 multiple-observation subgraphs:</p>
-<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb117"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">nb_t0</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">tokyo</span>, snap<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Warning in poly2nb(tokyo, snap = sqrt(.Machine$double.eps)): some observations have no neighbours;</span></span>
 <span><span class="co">## if this seems unexpected, try increasing the snap argument.</span></span></code></pre>
@@ -589,52 +730,52 @@ multiple-observation subgraphs:</p>
 <p>The legacy default <code>snap</code> value when the coordinates are
 measured in metres was 15 nanometres, which effectively assumed that the
 coordinates making up polygon boundaries were identical:</p>
-<div class="sourceCode" id="cb91"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb121"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">units</span><span class="fu">::</span><span class="fu"><a href="https://r-quantities.github.io/units/reference/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fu">units</span><span class="fu">::</span><span class="fu"><a href="https://r-quantities.github.io/units/reference/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">nb_t0</span>, <span class="st">"snap"</span><span class="op">)</span>, <span class="st">"m"</span><span class="op">)</span>, <span class="st">"nm"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 14.90116 [nm]</span></span></code></pre>
 <p>Stepping out a little to 2mm, the lack of contact ceased to be a
 problem.</p>
-<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb123"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">nb_t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">tokyo</span>, snap<span class="op">=</span><span class="fl">0.002</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Neighbour list object:</span></span>
 <span><span class="co">## Number of regions: 262 </span></span>
 <span><span class="co">## Number of nonzero links: 1390 </span></span>
 <span><span class="co">## Percentage nonzero weights: 2.02494 </span></span>
 <span><span class="co">## Average number of links: 5.305344</span></span></code></pre>
-<div class="sourceCode" id="cb95"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb125"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">units</span><span class="fu">::</span><span class="fu"><a href="https://r-quantities.github.io/units/reference/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fu">units</span><span class="fu">::</span><span class="fu"><a href="https://r-quantities.github.io/units/reference/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">nb_t1</span>, <span class="st">"snap"</span><span class="op">)</span>, <span class="st">"m"</span><span class="op">)</span>, <span class="st">"mm"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 2 [mm]</span></span></code></pre>
 <p>On that basis, the default was changed from <code>spdep</code> 1.3-6
 to 10mm for projected polygons, and the snap value used was returned as
 an attribute of the neighbour object:</p>
-<div class="sourceCode" id="cb97"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb127"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">nb_t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">tokyo</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Neighbour list object:</span></span>
 <span><span class="co">## Number of regions: 262 </span></span>
 <span><span class="co">## Number of nonzero links: 1390 </span></span>
 <span><span class="co">## Percentage nonzero weights: 2.02494 </span></span>
 <span><span class="co">## Average number of links: 5.305344</span></span></code></pre>
-<div class="sourceCode" id="cb99"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb129"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">units</span><span class="fu">::</span><span class="fu"><a href="https://r-quantities.github.io/units/reference/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fu">units</span><span class="fu">::</span><span class="fu"><a href="https://r-quantities.github.io/units/reference/units.html" class="external-link">set_units</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">nb_t2</span>, <span class="st">"snap"</span><span class="op">)</span>, <span class="st">"m"</span><span class="op">)</span>, <span class="st">"mm"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## 10 [mm]</span></span></code></pre>
 <p>Where the polygons are represented by geographical (spherical)
 coordinates, the new default from <code>spdep</code> 1.3-6 is set to a
 value mimicking 10mm:</p>
-<div class="sourceCode" id="cb101"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb131"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">nb_t3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">tokyo</span>, <span class="st">"OGC:CRS84"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Neighbour list object:</span></span>
 <span><span class="co">## Number of regions: 262 </span></span>
-<span><span class="co">## Number of nonzero links: 1338 </span></span>
-<span><span class="co">## Percentage nonzero weights: 1.949187 </span></span>
-<span><span class="co">## Average number of links: 5.10687</span></span></code></pre>
+<span><span class="co">## Number of nonzero links: 1336 </span></span>
+<span><span class="co">## Percentage nonzero weights: 1.946274 </span></span>
+<span><span class="co">## Average number of links: 5.099237</span></span></code></pre>
 <p>The default <code>snap</code> value used in <code>poly2nb</code> when
 the polygons are expressed in decimal degrees is:</p>
-<div class="sourceCode" id="cb103"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb133"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">nb_t3</span>, <span class="st">"snap"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 9e-08</span></span></code></pre>
 <p>This was set based on the apparent “size” of 10mm in decimal
 degrees:</p>
-<div class="sourceCode" id="cb105"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb135"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="fl">180</span> <span class="op">*</span> <span class="fl">0.01</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">pi</span> <span class="op">*</span> <span class="fl">6378137</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 8.983153e-08</span></span></code></pre>
 </div>

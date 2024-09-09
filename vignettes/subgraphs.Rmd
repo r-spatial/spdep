@@ -330,7 +330,7 @@ When `get.SubgraphOption` is FALSE, the attribute containing the output of `n.co
 str(attr(nb_W_50my, "ncomp"))
 ```
 
-The reduction of the ceiling to below node count `r length(nb_W_50m)` plus edge count `r sum(card(nb_W_50m))` also supresses the calculation of graph components:
+The reduction of the ceiling to below node count 32 plus edge count 136 also supresses the calculation of graph components:
 
 ```{r, eval=run}
 set.SubgraphOption(TRUE)

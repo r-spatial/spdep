@@ -152,7 +152,7 @@ weights; may be a matrix of class “sparseMatrix”</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> this warning will soon become an error</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighbour object has 8 sub-graphs</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in nb2listw(res$neighbours, glist = res$weights, style = style,  : </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Empty neighbour sets found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Empty neighbour sets found (zero.policy: FALSE)</span>
 <span class="r-in"><span><span class="va">col005.w.b</span> <span class="op">&lt;-</span> <span class="fu">mat2listw</span><span class="op">(</span><span class="va">col005.w.mat</span>, style<span class="op">=</span><span class="st">"W"</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>neighbour object has 8 sub-graphs</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">col005.w.b</span><span class="op">$</span><span class="va">neighbours</span><span class="op">)</span></span></span>
