@@ -90,10 +90,14 @@ meet_criterion <- sum(dioww <= units::set_units(5000, "m"))
 cands <- attr(nb_sc_50m, "region.id")[order(dioww)[1:meet_criterion]]
 nb_sc_50m_iow <- addlinks1(nb_sc_50m_iowe, from = cands[2], to = cands[3:meet_criterion])
 nb_sc_1_2 <- nblag_cumul(nblag(nb_sc_50m_iow, 2))
-licd_obj <- licd_multi(factor(sc50m$Winner), nb2listw(nb_sc_1_2, style="B"))
+lw <- nb2listw(nb_sc_1_2, style="B")
+licd_obj <- licd_multi(factor(sc50m$Winner), lw)
 h_obj <- hotspot(licd_obj)
 sc50m$both <- h_obj$both_recode
 plot(sc50m[, "both"])
+ljc <- local_joincount_uni(factor(sc50m$Winner == "LD"), chosen="TRUE", lw)
+sc50m$LD_pv <- ljc[, 2]
+plot(sc50m[, "LD_pv"], breaks=c(0, 0.025, 0.05, 0.1, 0.5, 1))
 }
 
 \keyword{spatial}
