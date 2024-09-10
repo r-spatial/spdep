@@ -80,6 +80,7 @@ if (GDAL37) {
     target <- unzip(zipfile, files=bn, exdir=td)
     sc50m <- st_read(target)
 }
+sc50m$Winner <- factor(sc50m$Winner, levels=c("Con", "Green", "Lab", "LD"))
 plot(sc50m[,"Winner"], pal=c("#2297E6", "#61D04F", "#DF536B", "#F5C710"))
 nb_sc_50m <- poly2nb(sc50m, row.names=as.character(sc50m$Constituency))
 sub2 <- attr(nb_sc_50m, "region.id")[attr(nb_sc_50m, "ncomp")$comp.id == 2L]
@@ -95,6 +96,6 @@ meet_criterion <- sum(dioww <= units::set_units(5000, "m"))
 cands <- attr(nb_sc_50m, "region.id")[order(dioww)[1:meet_criterion]]
 nb_sc_50m_iow <- addlinks1(nb_sc_50m_iowe, from = cands[2], to = cands[3:meet_criterion])
 nb_sc_1_2 <- nblag_cumul(nblag(nb_sc_50m_iow, 2))
-joincount.multi(factor(sc50m$Winner), nb2listw(nb_sc_1_2, style="B"))
+joincount.multi(sc50m$Winner, nb2listw(nb_sc_1_2, style="B"))
 }
 \keyword{spatial}
