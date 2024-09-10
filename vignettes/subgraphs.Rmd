@@ -59,7 +59,7 @@ if (GDAL37) {
     w50m <- st_read(zipfile)
 } else {
     td <- tempdir()
-    bn <- sub(".zip", "", basename(file))
+    bn <- sub(".zip", "", basename(file), fixed=TRUE)
     target <- unzip(zipfile, files=bn, exdir=td)
     w50m <- st_read(target)
 }
@@ -177,7 +177,7 @@ if (GDAL37) {
     sc50m <- st_read(zipfile)
 } else {
     td <- tempdir()
-    bn <- sub(".zip", "", basename(file))
+    bn <- sub(".zip", "", basename(file), fixed=TRUE)
     target <- unzip(zipfile, files=bn, exdir=td)
     sc50m <- st_read(target)
 }
@@ -375,7 +375,7 @@ if (GDAL37) {
     tokyo <- st_read(zipfile)
 } else {
     td <- tempdir()
-    bn <- sub(".zip", "", basename(file))
+    bn <- sub(".zip", "", basename(file), fixed=TRUE)
     target <- unzip(zipfile, files=bn, exdir=td)
     tokyo <- st_read(target)
 }

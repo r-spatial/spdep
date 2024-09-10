@@ -31,7 +31,7 @@ if (GDAL37) {
     bh <- st_read(zipfile)
 } else {
     td <- tempdir()
-    bn <- sub(".zip", "", basename(file))
+    bn <- sub(".zip", "", basename(file), fixed=TRUE)
     target <- unzip(zipfile, files=bn, exdir=td)
     bh <- st_read(target)
 }
