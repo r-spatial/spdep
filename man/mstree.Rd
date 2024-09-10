@@ -45,9 +45,17 @@ mstree(nbw, ini = NULL)
 %%\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
 \examples{
 ### loading data
-if (as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0") {
-bh <- st_read(system.file("etc/shapes/bhicv.gpkg.zip",
-      package="spdep")[1], quiet=TRUE)
+(GDAL37 <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0")
+file <- "etc/shapes/bhicv.gpkg.zip"
+zipfile <- system.file(file, package="spdep")
+if (GDAL37) {
+    bh <- st_read(zipfile)
+} else {
+    td <- tempdir()
+    bn <- sub(".zip", "", basename(file))
+    target <- unzip(zipfile, files=bn, exdir=td)
+    bh <- st_read(target)
+}
 ### data padronized
 dpad <- data.frame(scale(as.data.frame(bh)[,5:8]))
 
@@ -70,7 +78,7 @@ par(mar=c(0,0,0,0))
 plot(st_geometry(bh), border=gray(.5))
 plot(mst.bh, st_coordinates(st_centroid(bh)), col=2, 
      cex.lab=.6, cex.circles=0.035, fg="blue", add=TRUE)
-}
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

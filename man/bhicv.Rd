@@ -24,9 +24,16 @@
 %%\format{}
 %%\details{}
 \examples{
-if (as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0") {
-bh <- st_read(system.file("etc/shapes/bhicv.gpkg.zip",
-      package="spdep")[1])
+(GDAL37 <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0")
+file <- "etc/shapes/bhicv.gpkg.zip"
+zipfile <- system.file(file, package="spdep")
+if (GDAL37) {
+    bh <- st_read(zipfile)
+} else {
+    td <- tempdir()
+    bn <- sub(".zip", "", basename(file))
+    target <- unzip(zipfile, files=bn, exdir=td)
+    bh <- st_read(target)
 }
 }
 \keyword{data}% at least one, from doc/KEYWORDS

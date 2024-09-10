@@ -44,31 +44,40 @@ eigen(0)$values
 ```
 The `adjust.n` argument to measures of spatial autocorrelation is by default TRUE, and subtracts the count of singleton nodes from $N$ in an attempt to acknowledge the reduction in information available.
 
-This discussion will address problems arising when analysing areal/lattice data, and neighbours are defined as polygon features with contiguous boundaries. One way in which no-neighbour observations may occur is when they are islands. This is clearly the case in @FRENISTERRANTINO201825, where Capraia and Giglio Isles are singleton nodes. Here we take Westminster constituencies for Wales used in the July 2024 UK general election.
+This discussion will address problems arising when analysing areal/lattice data, and neighbours are defined as polygon features with contiguous boundaries. One way in which no-neighbour observations may occur is when they are islands. This is clearly the case in @FRENISTERRANTINO201825, where Capraia and Giglio Isles are singleton nodes. Here we take Westminster constituencies for Wales used in the July 2024 UK general election. If GDAL is at least version 3.7.0, the driver supports compressed GeoPackage files, if not they must be decompressed first.
 
 ```{r}
-run <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0"
+(GDAL37 <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0")
 ```
 
 The boundaries are taken from the Ordnance Survey Boundary-Line site, https://osdatahub.os.uk/downloads/open/BoundaryLine, choosing the 2024 Westminster constituencies (https://www.os.uk/opendata/licence), simplified using a tolerance of 50m to reduce object size, and merged with selected voting outcomes for constituencies in Great Britain https://electionresults.parliament.uk/countries/1, (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Here, the subset for Wales is useful as we will see:
 
-```{r, eval=run}
-w50m <- st_read(system.file("etc/shapes/GB_2024_Wales_50m.gpkg.zip", package="spdep"))
+```{r}
+file <- "etc/shapes/GB_2024_Wales_50m.gpkg.zip"
+zipfile <- system.file(file, package="spdep")
+if (GDAL37) {
+    w50m <- st_read(zipfile)
+} else {
+    td <- tempdir()
+    bn <- sub(".zip", "", basename(file))
+    target <- unzip(zipfile, files=bn, exdir=td)
+    w50m <- st_read(target)
+}
 ```
 
 
 
-```{r, eval=run}
+```{r}
 (w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50m)
 ```
 The two subgraphs are the singleton Ynys Môn and all the other 31 constituencies:
 
-```{r, eval=run}
+```{r}
 attr(nb_W_50m, "ncomp")$comp.id |>table() |> table()
 ```
 The left map shows that Ynys Môn can be shown selecting by name, as a black border, and by the zero cardinality of its neighbour set, using `card`, filling the polygon. The right map shows the location of the island, known in English as Anglesey, north-west of the Welsh mainland, and with no neighbour links:
 
-```{r, eval=run}
+```{r}
 ynys_mon <- w50m$Constituency == "Ynys Môn"
 pts <- st_point_on_surface(st_geometry(w50m))
 opar <- par(mfrow=c(1, 2))
@@ -81,23 +90,23 @@ par(opar)
 ```
 From the maps, we can see that the island is close to two constituencies across the Afon Menai (Menai Strait in English), the three simplified polygons being less than 280m apart, measured between polygon boundaries:
 
-```{r, eval=run}
+```{r}
 dym <- c(st_distance(w50m[ynys_mon,], w50m))
 sort(dym)[1:12]
 ```
 Using a `snap` distance of 280m, we can join the island to its two obvious proximate neighbours:
 
-```{r, eval=run}
+```{r}
 (nb_W_50m_snap <- poly2nb(w50m, row.names=as.character(w50m$Constituency), snap=280))
 ```
-```{r, eval=run}
+```{r}
 plot(st_geometry(w50m), border="grey75")
 plot(nb_W_50m_snap, pts, add=TRUE)
 ```
 
 In this case, increasing `snap` from its default of 10mm (or close equivalents for geometries with known metrics; previously `sqrt(.Machine$double.eps)` `r sqrt(.Machine$double.eps)` in all cases) helps. The symmetric links added are to:
 
-```{r, eval=run}
+```{r}
 attr(nb_W_50m_snap, "region.id")[nb_W_50m_snap[[which(ynys_mon)]]]
 ```
 
@@ -105,27 +114,27 @@ This is not always going to be the case, but here the strait is narrow. If islan
 
 We can also use the distances to pick out those neighbour candidates that meet our criterion of 280m, taking care not to lose the ordering needed to identify the correct observations:
 
-```{r, eval=run}
+```{r}
 (meet_criterion <- sum(dym <= units::set_units(280, "m")))
 ```
 These candidates are the island itself, and the two neighbours across the Menai Strait:
 
-```{r, eval=run}
+```{r}
 (cands <- attr(nb_W_50m, "region.id")[order(dym)[1:meet_criterion]])
 ```
 
 The `addlinks1` function can be used to add both the links from Ynys Môn to its neighbours, and by symmetry from them to Ynys Môn. This approach means that each island should be treated separately (or scripted in sequence), but does not risk adding spurious neighbours in denser parts of the study area.
 
-```{r, eval=run}
+```{r}
 (nb_W_50m_add <- addlinks1(nb_W_50m, from = cands[1], to = cands[2:meet_criterion]))
 ```
 
-```{r, eval=run}
+```{r}
 all.equal(nb_W_50m_add, nb_W_50m_snap, check.attributes=FALSE)
 ```
 Since these constituency observations have areal support, it is not surprising that changing support to points and using $k$-nearest neighbours does not work adequately, because the distance measurements are between the points representing the polygons rather than as above between the areal unit boundaries:
 
-```{r, eval=run}
+```{r}
 k2 <- knn2nb(knearneigh(pts, k=2), row.names=as.character(w50m$Constituency), sym=TRUE)
 attr(k2, "region.id")[k2[[which(ynys_mon)]]]
 ```
@@ -135,19 +144,19 @@ Here, Clwyd North, east of Bangor Aberconwy, is given as a neighbour of Ynys Mô
 
 Subgraphs may be found when no-neighbour observations are present, but also when the graph is split between two blocks of observations with no path from any observation in a block to any in another block, across the low population density constituencies in mid-Wales:
 
-```{r, eval=run}
+```{r}
 (k6 <- knn2nb(knearneigh(pts, k=6), row.names=as.character(w50m$Constituency), sym=TRUE))
 ```
 
 
 
-```{r, eval=run}
+```{r}
 plot(st_geometry(w50m), border="grey75")
 plot(k6, pts, add=TRUE)
 ```
 We can show the block structure by displaying the binary spatial weights matrix:
 
-```{r, eval=run}
+```{r}
 o <- order(attr(k6, "ncomp")$comp.id)
 image(t(nb2mat(k6, style="B")[o, rev(o)]), axes=FALSE, asp=1)
 ```
@@ -156,30 +165,39 @@ This occurs frequently with point support, but may also occur with areal support
 
 From `spdep` 1.3-6, if the `igraph` and `spatialreg` packages are available, `n.comp.nb` uses `igraph::components` to compute the graph components, also using depth-first search. The original implementation is as fast, but for directed (asymmetric) graphs converts first to symmetry, while `igraph::components` can handle directed graphs without such conversion (see https://github.com/r-spatial/spdep/issues/160 for details).
 
-```{r, eval=run}
+```{r}
 (k6a <- knn2nb(knearneigh(pts, k=6), row.names=as.character(w50m$Constituency)))
 ```
 Another case demonstrates how cyclical subgraphs may appear; this is again taken from constituencies in the 2024 UK general election, subsetted to those in England south of London.
 
-```{r, eval=run}
-sc50m <- st_read(system.file("etc/shapes/GB_2024_southcoast_50m.gpkg.zip", package="spdep"))
+```{r}
+file <- "etc/shapes/GB_2024_southcoast_50m.gpkg.zip"
+zipfile <- system.file(file, package="spdep")
+if (GDAL37) {
+    sc50m <- st_read(zipfile)
+} else {
+    td <- tempdir()
+    bn <- sub(".zip", "", basename(file))
+    target <- unzip(zipfile, files=bn, exdir=td)
+    sc50m <- st_read(target)
+}
 ```
-```{r, eval=run}
+```{r}
 (nb_sc_50m <- poly2nb(sc50m, row.names=as.character(sc50m$Constituency)))
 ```
 The second subgraph only has two members, who are each others' only neighbours, known as a cyclical component.
 
-```{r, eval=run}
+```{r}
 nc <- attr(nb_sc_50m, "ncomp")$comp.id
 table(nc)
 ```
 Both constituencies are on the Isle of Wight:
 
-```{r, eval=run}
+```{r}
 (sub2 <- attr(nb_sc_50m, "region.id")[nc == 2L])
 ```
 
-```{r, eval=run}
+```{r}
 pts <- st_point_on_surface(st_geometry(sc50m))
 plot(st_geometry(sc50m), border="grey75")
 plot(st_geometry(sc50m)[nc == 2L], border="orange", lwd=2, add=TRUE)
@@ -189,30 +207,30 @@ plot(nb_sc_50m, pts, add=TRUE)
 
 This has consequences for the eigenvalues of the spatial weights matrix, pointed out by @smirnov+anselin:09 and @bivandetal13. With row-standardised weights, the eigenvalues of this component are:
 
-```{r, eval=run}
+```{r}
 1/range(eigen(cbind(c(0, 1), c(1, 0)))$values)
 1/range(eigen(nb2mat(subset(nb_sc_50m, nc == 2L), style="W"))$values)
 ```
 This "takes over" the lower domain boundary, which for the whole data set is now the same:
 
-```{r, eval=run}
+```{r}
 1/range(eigen(nb2mat(nb_sc_50m, style="W"))$values)
 ```
 
 compared to the lower domain boundary for the remainder of the study area:
 
-```{r, eval=run}
+```{r}
 1/range(eigen(nb2mat(subset(nb_sc_50m, nc == 1L), style="W"))$values)
 ```
 This subgraph may be added to the remainder as shown above:
 
-```{r, eval=run}
+```{r}
 iowe <- match(sub2[1], attr(nb_sc_50m, "region.id"))
 diowe <- c(st_distance(sc50m[iowe,], sc50m))
 sort(diowe)[1:12]
 ```
 
-```{r, eval=run}
+```{r}
 ioww <- match(sub2[2], attr(nb_sc_50m, "region.id"))
 dioww <- c(st_distance(sc50m[ioww,], sc50m))
 sort(dioww)[1:12]
@@ -220,36 +238,36 @@ sort(dioww)[1:12]
 
 Using 5km as a cutoff seems prudent, but would not work as a `snap` value. Taking Isle of Wight East first, there are four constituencies with boundaries within 5km:
 
-```{r, eval=run}
+```{r}
 (meet_criterion <- sum(diowe <= units::set_units(5000, "m")))
 ```
 
 Obviously the contiguous neighbour is among them with zero distance, and needs to be dropped, although `addlinks1` would drop the duplicate:
 
-```{r, eval=run}
+```{r}
 (cands <- attr(nb_sc_50m, "region.id")[order(diowe)[1:meet_criterion]])
 ```
 
-```{r, eval=run}
+```{r}
 (nb_sc_50m_iowe <- addlinks1(nb_sc_50m, from = cands[1], to = cands[3:meet_criterion]))
 ```
 Although all constituencies are now linked, we should see whether using the 5km criterion brings in extra neighbours for Isle of Wight West:
 
-```{r, eval=run}
+```{r}
 (meet_criterion <- sum(dioww <= units::set_units(5000, "m")))
 ```
 It, does, but we need to beware of the sorting order of the zero self-distance and contiguous neighbour distance, where `from` is now in the second position:
 
-```{r, eval=run}
+```{r}
 (cands <- attr(nb_sc_50m, "region.id")[order(dioww)[1:meet_criterion]])
 ```
 This then yields links to the north-west:
 
-```{r, eval=run}
+```{r}
 (nb_sc_50m_iow <- addlinks1(nb_sc_50m_iowe, from = cands[2], to = cands[3:meet_criterion]))
 ```
 
-```{r, eval=run}
+```{r}
 pts <- st_point_on_surface(st_geometry(sc50m))
 plot(st_geometry(sc50m), border="grey75")
 plot(st_geometry(sc50m)[nc == 2L], border="orange", lwd=2, add=TRUE)
@@ -262,24 +280,24 @@ It remains to add a suitable generalisation of `addlinks1` to handle a `from` ve
 
 From very early on, the default value of the `zero.policy` argument to many methods and functions was `NULL`. If the value was `NULL`, `zero.policy` would be set from `get.ZeroPolicyOption`:
 
-```{r, eval=run}
+```{r}
 get.ZeroPolicyOption()
 ```
 
 On loading `spdep`, the internal option is set to `FALSE`, so functions and methods using `zero.policy` need to choose how to handle islands:
 
 
-```{r, eval=run}
+```{r}
 try(nb2listw(nb_W_50m))
 ```
 In this case, it was shown above how the island may reasonably be associated with proximate constituencies on the mainland. If, however, the user wishes to override the default, `set.ZeroPolicyOption` may be used to set a different per-session default:
 
 
-```{r, eval=run}
+```{r}
 set.ZeroPolicyOption(TRUE)
 ```
 
-```{r, eval=run}
+```{r}
 get.ZeroPolicyOption()
 ```
 
@@ -287,23 +305,23 @@ get.ZeroPolicyOption()
 (lw <- nb2listw(nb_W_50m))
 ```
 
-```{r, eval=run, echo=FALSE}
+```{r, echo=FALSE}
 # repeated to overcome CMD build latency
 (lw <- nb2listw(nb_W_50m, zero.policy=get.ZeroPolicyOption()))
 ```
 
-```{r, eval=run}
+```{r}
 attr(lw, "zero.policy")
 ```
 
-```{r, eval=run}
+```{r}
 set.ZeroPolicyOption(FALSE)
 ```
 When a `listw` object is created with `zero.policy` set to `TRUE`, this choice is added to the output object as an attribute and applied when the object is used (unless specifically overridden). Note also above that while there are 32 constituencies, the observation count reported by `spweights.constants` called by the `print` method for `listw` object has argument `adjust.n` TRUE, dropping no-neighbour observations from the observation count.
 
 Other internal options have been introduced to suppress no-neighbour and subgraph warnings when creating `nb` objects. The default values are as follows:
 
-```{r, eval=run}
+```{r}
 get.NoNeighbourOption()
 get.SubgraphOption()
 get.SubgraphCeiling()
@@ -312,36 +330,36 @@ get.SubgraphCeiling()
 
 The `print` method for `nb` objects reports no-neighbour and subgraph status anyway, so careful users who always examine generated objects may prefer to supress the warnings, but warnings seem prudent when users may not examine the objects, or when generation is by subsetting of larger objects, for example in the creation of training and test data sets. Here the Welsh constituency boundaries will be used to show the behaviour of the internal options:
 
-```{r, eval=run}
+```{r}
 set.NoNeighbourOption(FALSE)
 (w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50mz)
 ```
 Turning both off removes the warnings:
 
-```{r, eval=run}
+```{r}
 set.SubgraphOption(FALSE)
 (w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50my)
 ```
 When `get.SubgraphOption` is FALSE, the attribute containing the output of `n.comp.nb` is not added:
 
-```{r, eval=run}
+```{r}
 str(attr(nb_W_50my, "ncomp"))
 ```
 
 The reduction of the ceiling to below node count 32 plus edge count 136 also supresses the calculation of graph components:
 
-```{r, eval=run}
+```{r}
 set.SubgraphOption(TRUE)
 set.SubgraphCeiling(100L)
 (w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50mx)
 ```
 
-```{r, eval=run}
+```{r}
 str(attr(nb_W_50mx, "ncomp"))
 ```
 Restoring the remaining default values:
 
-```{r, eval=run}
+```{r}
 set.SubgraphCeiling(100000L)
 set.NoNeighbourOption(TRUE)
 ```
@@ -350,53 +368,62 @@ set.NoNeighbourOption(TRUE)
 
 Sometimes apparently sensible polygons turn out to be represented in such a way that disconnected graphs are generated when extracting contiguities. One such case was raised in https://github.com/r-spatial/spdep/issues/162, for subdivisions of Tokyo. The original data file `tokyomet262.*` from https://sgsup.asu.edu/sites/default/files/SparcFiles/tokyo_0.zip was created some twenty years ago by Tomoki Nakaya and Martin Charlton, and some geometry issues were known at the time. A possibility that may affect legacy files is projection of geometries on 32-bit platforms, but it is not known whether this affected this file. Here it has been re-packaged as a compressed GeoPackage:
 
-```{r, eval=run}
-tokyo <- st_read(system.file("etc/shapes/tokyo.gpkg.zip", package="spdep"))
+```{r}
+file <- "etc/shapes/tokyo.gpkg.zip"
+zipfile <- system.file(file, package="spdep")
+if (GDAL37) {
+    tokyo <- st_read(zipfile)
+} else {
+    td <- tempdir()
+    bn <- sub(".zip", "", basename(file))
+    target <- unzip(zipfile, files=bn, exdir=td)
+    tokyo <- st_read(target)
+}
 ```
 
 After correcting invalid polygons:
 
-```{r, eval=run}
+```{r}
 all(st_is_valid(tokyo))
 tokyo <- st_make_valid(tokyo)
 ```
 applying `poly2nb` with the legacy default snap value produced numerous singleton observations as well as many multiple-observation subgraphs:
 
-```{r, eval=run}
+```{r}
 (nb_t0 <- poly2nb(tokyo, snap=sqrt(.Machine$double.eps)))
 ```
 The legacy default `snap` value when the coordinates are measured in metres was 15 nanometres, which effectively assumed that the coordinates making up polygon boundaries were identical:
 
-```{r, eval=run}
+```{r}
 units::set_units(units::set_units(attr(nb_t0, "snap"), "m"), "nm")
 ```
 
 Stepping out a little to 2mm, the lack of contact ceased to be a problem.
 
-```{r, eval=run}
+```{r}
 (nb_t1 <- poly2nb(tokyo, snap=0.002))
 ```
 
-```{r, eval=run}
+```{r}
 units::set_units(units::set_units(attr(nb_t1, "snap"), "m"), "mm")
 ```
 On that basis, the default was changed from `spdep` 1.3-6 to 10mm for projected polygons, and the snap value used was returned as an attribute of the neighbour object:
 
-```{r, eval=run}
+```{r}
 (nb_t2 <- poly2nb(tokyo))
 ```
 
-```{r, eval=run}
+```{r}
 units::set_units(units::set_units(attr(nb_t2, "snap"), "m"), "mm")
 ```
 Where the polygons are represented by geographical (spherical) coordinates, the new default from `spdep` 1.3-6 is set to a value mimicking 10mm:
 
-```{r, eval=run}
+```{r}
 (nb_t3 <- poly2nb(st_transform(tokyo, "OGC:CRS84")))
 ```
 The default `snap` value used in `poly2nb` when the polygons are expressed in decimal degrees is:
 
-```{r, eval=run}
+```{r}
 attr(nb_t3, "snap")
 ```
 This was set based on the apparent "size" of 10mm in decimal degrees:
