@@ -1,5 +1,9 @@
 # Version 1.3-6 (development)
 
+* draft version of multivariate `spatialdelta`  with support functions and methods
+
+# Version 1.3-6 (2024-09-13)
+
 * adding vignette desribing recent changes in `poly2nb` from #162, subgraph and no-neighbour (island) handling
 
 * adding prototype of LICD ESDA function `licd_multi` and `hotspot` method

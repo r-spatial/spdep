@@ -12,7 +12,7 @@ importFrom(stats, influence.measures, lag, punif, lm, var, integrate,
              "model.frame", "model.matrix", "model.response", "na.fail",
              "na.omit", "naresid", "optimise", "printCoefmat", "resid",
              "terms", "uniroot", "weighted.residuals", "weights", "median",
-             "pbinom")
+             "pbinom", "coef")
 
 importFrom(deldir, deldir)
 importFrom(boot, boot)
@@ -96,6 +96,11 @@ export(localmoran_bv, moran_bv,local_joincount_uni, local_joincount_bv)
 
 export(licd_multi)
 
+export(spatialdelta, linearised_diffusive_weights, metropolis_hastings_weights,
+        iterative_proportional_fitting_weights, graph_distance_weights)
+export(plot_spatialcoords, plot_moran, plot_spatialscree,
+        factorial_coordinates, plot_factorialcoords, plot_factorialscree)
+
 S3method(print, nb)
 S3method(summary, nb)
 S3method(print, summary.nb)
@@ -155,3 +160,21 @@ S3method(hotspot, data.frame.localmoranex)
 S3method(hotspot, localC)
 S3method(hotspot, localG)
 S3method(hotspot, licd)
+
+S3method(summary, spatialdelta)
+S3method(print, summary.spatialdelta)
+S3method(plot_spatialcoords, default)
+S3method(plot_spatialcoords, spatialdelta)
+S3method(plot_moran, default)
+S3method(plot_moran, spatialdelta)
+S3method(plot_spatialscree, default)
+S3method(plot_spatialscree, spatialdelta)
+S3method(factorial_coordinates, default)
+S3method(factorial_coordinates, spatialdelta)
+S3method(plot_factorialcoords, default)
+S3method(plot_factorialcoords, spatialdelta)
+S3method(plot_factorialscree, default)
+S3method(plot_factorialscree, spatialdelta)
+
+
+
