@@ -68,12 +68,12 @@ spatialdelta <- function(D, w, f, alternative="greater", CF=FALSE) {
     if (CF) {
         cf_out <- cornish_fisher(std_d, skewd, kurtd)
         if (cf_out == 0) CF <- FALSE
-        std_cf <- ifelse(std_d <= 0, std_d + cf_out, std_d - cf_out)
+        std_d <- ifelse(std_d <= 0, std_d + cf_out, std_d - cf_out)
         if (alternative == "two.sided") 
-	    pv_d <- 2 * pnorm(abs(std_cf), lower.tail=FALSE)
+	    pv_d <- 2 * pnorm(abs(std_d), lower.tail=FALSE)
         else if (alternative == "greater")
-            pv_d <- pnorm(std_cf, lower.tail=FALSE)
-        else pv_d <- pnorm(std_cf)
+            pv_d <- pnorm(std_d, lower.tail=FALSE)
+        else pv_d <- pnorm(std_d)
     } else {
         if (alternative == "two.sided") 
 	    pv_d <- 2 * pnorm(abs(std_d), lower.tail=FALSE)
@@ -81,7 +81,8 @@ spatialdelta <- function(D, w, f, alternative="greater", CF=FALSE) {
             pv_d <- pnorm(std_d, lower.tail=FALSE)
         else pv_d <- pnorm(std_d)
     }
-    names(std_d) <- "Bavaud delta statistic standard deviate"
+    names(std_d) <- "Standard deviate"
+    if (CF) names(std_d) <- paste0(names(std_d), " (Cornish-Fisher corrected)")
     vec <- c(d, Ed, Vd, skewd, kurtd)
     names(vec) <- c("delta", "Expectation", "Variance", "Skewness",
         "Excess Kurtosis")
