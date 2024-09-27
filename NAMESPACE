@@ -98,7 +98,7 @@ export(licd_multi)
 
 export(spatialdelta, linearised_diffusive_weights, metropolis_hastings_weights,
         iterative_proportional_fitting_weights, graph_distance_weights)
-export(plot_spatialcoords, plot_moran, plot_spatialscree,
+export(plot_spatialcoords, plot_moran, plot_spatialscree, localdelta,
         factorial_coordinates, plot_factorialcoords, plot_factorialscree)
 
 S3method(print, nb)
@@ -175,6 +175,8 @@ S3method(plot_factorialcoords, default)
 S3method(plot_factorialcoords, spatialdelta)
 S3method(plot_factorialscree, default)
 S3method(plot_factorialscree, spatialdelta)
+S3method(localdelta, default)
+S3method(localdelta, spatialdelta)
 
 
 

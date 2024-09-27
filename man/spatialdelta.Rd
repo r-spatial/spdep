@@ -25,6 +25,9 @@
 \alias{plot_factorialscree}
 \alias{plot_factorialscree.default}
 \alias{plot_factorialscree.spatialdelta}
+\alias{localdelta}
+\alias{localdelta.default}
+\alias{localdelta.spatialdelta}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Weighted Multivariate Spatial Autocorrelation Measures}
 \description{The kernel-based weighted multivariate spatial autocorrelation measure delta proposed in Bavaud (2024) is implemented, together with support functions to create spatial weights matrices from symmetric binary adjacency matrices; summary and display methods are provided.}
@@ -59,6 +62,9 @@ plot_factorialcoords(x, ...)
 plot_factorialscree(x, ...)
 \method{plot_factorialscree}{default}(x, ...)
 \method{plot_factorialscree}{spatialdelta}(x, ...)
+localdelta(x, ...)
+\method{localdelta}{default}(x, ...)
+\method{localdelta}{spatialdelta}(x, names = NULL, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -85,18 +91,19 @@ plot_factorialscree(x, ...)
 \details{In general, the user should choose one of the functions for constructing spatial weights from the symmetric binary, or similar to symmetric - for example row-standardised - adjacency matrix.}
 
 \value{\code{spatialdelta} returns an object with classes \code{"spatialdelta"} and \code{"htest"}. Its \code{print} method treats it as an \code{"htest"} object. Other methods use additional attributes:
-  \item{Vd0}{Variance of delta calculated in another way}
-  \item{Kx}{Multivariate kernel matrix}
-  \item{Kw}{Spatial weights kernel matrix}
+  \item{Kx}{Multivariate kernel matrix eq. 16}
+  \item{Kw}{Spatial weights kernel matrix eq. 21}
   \item{f}{Input observation weights}
   \item{w}{Input spatial weights}
+  \item{B}{symmetric matrix of scalar products eq. 15}
   \item{VI}{Spatial component of delta variance}
   \item{Vx}{Multivariate component of delta variance}
+  \item{Vd0}{Variance of delta calculated in another way eq. 38}
   \item{alphamu}{Spatial component of delta skewness}
   \item{alphalambda}{Multivariate component of delta skewness}
   \item{gammamu}{Spatial component of delta excess kurtosis}
   \item{gammalambda}{Multivariate component of delta excess kurtosis}
-\code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights} and \code{graph_distance_weights} return square spatial weights matrices (the latter two return matrices created by \code{metropolis_hastings_weights} if \pkg{igraph} or \pkg{mipfp} are not available); \code{factorial_coordinates} returns a square factorial matrix. 
+\code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights} and \code{graph_distance_weights} return square spatial weights matrices (the latter two return matrices created by \code{metropolis_hastings_weights} if \pkg{igraph} or \pkg{mipfp} are not available); \code{factorial_coordinates} returns a square factorial matrix; \code{localdelta} returns a vector of local deltas eq. 30. 
 }
 \references{Bavaud, F. (2024), Measuring and Testing Multivariate Spatial Autocorrelation in a Weighted Setting: A Kernel Approach. Geographical Analysis, 56: 573-599. \doi{10.1111/gean.12390}}
 \author{Roger Bivand, \email{Roger.Bivand@nhh.no}}
@@ -156,8 +163,12 @@ par(opar)
 Crime_pers <- scale(gfrance85$Crime_pers)
 funif <- rep(1/length(Crime_pers), length(Crime_pers))
 lw <- nb2listw(gnb, style="W")
-spatialdelta(as.matrix(dist(Crime_pers))^2, listw2mat(lw), funif)$estimate["delta"]
+Crime_pers_delta <- spatialdelta(as.matrix(dist(Crime_pers))^2, listw2mat(lw), funif)
+Crime_pers_delta$estimate["delta"]
+locdelta <- localdelta(Crime_pers_delta, names=gfrance85$Department)
 moran.test(Crime_pers, lw, randomisation=FALSE)$estimate["Moran I statistic"]
+locmoran <- localmoran(c(Crime_pers), lw)[,1]
+all.equal(locmoran, locdelta)
 }
 }
 \keyword{spatial}

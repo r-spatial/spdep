@@ -13,7 +13,6 @@ spatialdelta <- function(D, w, f, alternative="greater", CF=FALSE) {
     E <- diag(f) %*% w
     H <- diag(n) - rep(1, times=n) %*% t(f) # above eq. 15
     B <- -0.5 * (H %*% D %*% t(H)) # eq. 15
-#    di <- (1/Delta_Y)*diag(w %*% B) # eq. 30
     sf <- sqrt(f)
     dsf <- diag(sf)
     dsf1 <- diag(1/sf)
@@ -92,13 +91,14 @@ spatialdelta <- function(D, w, f, alternative="greater", CF=FALSE) {
 	deparse(substitute(w)))
     res <- list(statistic=std_d, p.value=pv_d, estimate=vec,
         alternative=alternative, method=method, data.name=data.name)
-    attr(res, "Vd0") <- Vd0
     attr(res, "Kx") <- Kx
     attr(res, "Kw") <- Kw
     attr(res, "f") <- f
     attr(res, "w") <- w
+    attr(res, "B") <- B
     attr(res, "VI") <- VI
     attr(res, "Vx") <- Vx
+    attr(res, "Vd0") <- Vd0
     attr(res, "alphamu") <- alphamu
     attr(res, "alphalambda") <- alphalambda
     attr(res, "gammamu") <- gammamu
@@ -307,6 +307,26 @@ factorial_coordinates.spatialdelta <- function(x) {
     Kx_eig <- eigen(attr(x, "Kx")) # eq. 18
     dsf1 %*% Kx_eig$vectors %*% diag(sqrt(abs(Kx_eig$values))) # eq. 19
 }
+
+localdelta <- function(x, ...) {
+  UseMethod("localdelta")
+}
+
+localdelta.default <- function(x, ...) {
+  stop("x not a spatialdelta object")
+}
+
+
+localdelta.spatialdelta <- function(x, names=NULL, ...) {
+    stopifnot(inherits(x, "spatialdelta"))
+    Kx_eig <- eigen(attr(x, "Kx")) # eq. 18
+    di <- (1/sum(Kx_eig$values))*diag(attr(x, "w") %*% attr(x, "B")) # eq. 30
+    if (is.null(names)) names <- as.character(1:length(di))
+    stopifnot(length(names) == length(di))
+    names(di) <- names
+    di
+}
+
 
 plot_factorialcoords <- function(x, ...) {
   UseMethod("plot_factorialcoords")
