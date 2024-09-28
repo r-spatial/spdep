@@ -1,5 +1,5 @@
 pandoc: 3.1.3
-pkgdown: 2.1.0
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   CO69: CO69.html
@@ -7,7 +7,7 @@ articles:
   nb: nb.html
   sids: sids.html
   subgraphs: subgraphs.html
-last_built: 2024-09-10T18:24Z
+last_built: 2024-09-28T10:09Z
 urls:
   reference: https://r-spatial.github.io/spdep/reference
   article: https://r-spatial.github.io/spdep/articles

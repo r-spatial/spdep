@@ -99,11 +99,11 @@ nb.w <- nb2listw(bh.nb, lcosts, style="B")
 mst.bh <- mstree(nb.w,5)
 
 ### the mstree plot
-par(mar=c(0,0,0,0))
-plot(st_geometry(bh), border=gray(.5))
-pts <- st_coordinates(st_centroid(bh))
-plot(mst.bh, pts, col=2, 
-     cex.lab=.6, cex.circles=0.035, fg="blue", add=TRUE)
+#par(mar=c(0,0,0,0))
+#plot(st_geometry(bh), border=gray(.5))
+#pts <- st_coordinates(st_centroid(bh))
+#plot(mst.bh, pts, col=2, 
+#     cex.lab=.6, cex.circles=0.035, fg="blue", add=TRUE)
 ### three groups with no restriction
 res1 <- skater(mst.bh[,1:2], dpad, 2)
 
@@ -111,17 +111,17 @@ res1 <- skater(mst.bh[,1:2], dpad, 2)
 table(res1$groups)
 
 ### the skater plot
-opar <- par(mar=c(0,0,0,0))
-plot(res1, pts, cex.circles=0.035, cex.lab=.7)
+#opar <- par(mar=c(0,0,0,0))
+#plot(res1, pts, cex.circles=0.035, cex.lab=.7)
 
 ### the skater plot, using other colors
-plot(res1, pts, cex.circles=0.035, cex.lab=.7,
-     groups.colors=heat.colors(length(res1$ed)))
+#plot(res1, pts, cex.circles=0.035, cex.lab=.7,
+#     groups.colors=heat.colors(length(res1$ed)))
 
 ### the Spatial Polygons plot
-plot(st_geometry(bh), col=heat.colors(length(res1$edg))[res1$groups])
+#plot(st_geometry(bh), col=heat.colors(length(res1$edg))[res1$groups])
 
-par(opar)
+#par(opar)
 ### EXPERT OPTIONS
 
 ### more one partition
