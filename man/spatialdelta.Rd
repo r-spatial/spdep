@@ -168,7 +168,15 @@ Crime_pers_delta$estimate["delta"]
 locdelta <- localdelta(Crime_pers_delta, names=gfrance85$Department)
 moran.test(Crime_pers, lw, randomisation=FALSE)$estimate["Moran I statistic"]
 locmoran <- localmoran(c(Crime_pers), lw)[,1]
-all.equal(locmoran, locdelta)
+all.equal(locmoran, locdelta) 
+all.equal(unname(moral_ldw$estimate["delta"]), # Eq. 30 p. 588
+ sum(fG * localdelta(moral_ldw, names=gfrance85$Department)))
+all.equal(unname(moral_mhw$estimate["delta"]), # Eq. 30 p. 588
+ sum(fG * localdelta(moral_mhw, names=gfrance85$Department)))
+all.equal(unname(moral_ifw$estimate["delta"]), # Eq. 30 p. 588
+ sum(fG * localdelta(moral_ifw, names=gfrance85$Department)))
+all.equal(unname(moral_gdw$estimate["delta"]), # Eq. 30 p. 588
+ sum(fG * localdelta(moral_gdw, names=gfrance85$Department)))
 }
 }
 \keyword{spatial}
