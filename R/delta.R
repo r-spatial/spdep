@@ -199,13 +199,19 @@ graph_distance_weights <- function(A, f) {
 }
 
 cornish_fisher <- function(z, s, k) {
+    s2 <- s^2
+    k8 <- k/8
+    dom <- s2/9 - 4*(k8-(s2/6))*(1-k8-((5*s2)/36)) 
+# amedee-manesmeetal:19 p. 446, eq. 24
     res0 <- (s/6)*((z^2) - 1)
     res1 <- (k/24)*((z^3) - 3*z)
     res2 <- ((s^2)/36)*(2*(z^3) - 5*z)
     res <- res0 + res1 - res2 # eq. 45
-    if ((z > 0 && res > z) || (z <= 0 && res > abs(z))) {
+# amedee-manesmeetal:19 p. 427, eq. 4
+# dasgupta:08 p. 193
+    if (dom > 0) {
         res <- 0
-        warning("correction term set to zero")
+        warning("domain exceeded: correction term set to zero")
     }
     res
 }
