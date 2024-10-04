@@ -3,21 +3,21 @@
 # François Bavaud (2024) Measuring and Testing Multivariate Spatial
 # Autocorrelation in a Weighted Setting: A Kernel Approach,
 # Geographical Analysis (2024) 56, 573-599
-spatialdelta <- function(D, w, f, alternative="greater") {
+spatialdelta <- function(dissimilarity_matrix, adjusted_spatial_weights, regional_weights, alternative="greater") {
     alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
-    n <- length(f)
-    stopifnot(nrow(D) == n)
-    stopifnot(ncol(D) == n)
-    stopifnot(nrow(w) == n)
-    stopifnot(ncol(w) == n)
-    E <- diag(f) %*% w
-    H <- diag(n) - rep(1, times=n) %*% t(f) # above eq. 15
-    B <- -0.5 * (H %*% D %*% t(H)) # eq. 15
-    sf <- sqrt(f)
+    n <- length(regional_weights)
+    stopifnot(nrow(dissimilarity_matrix) == n)
+    stopifnot(ncol(dissimilarity_matrix) == n)
+    stopifnot(nrow(adjusted_spatial_weights) == n)
+    stopifnot(ncol(adjusted_spatial_weights) == n)
+    E <- diag(regional_weights) %*% adjusted_spatial_weights
+    H <- diag(n) - rep(1, times=n) %*% t(regional_weights) # above eq. 15
+    B <- -0.5 * (H %*% dissimilarity_matrix %*% t(H)) # eq. 15
+    sf <- sqrt(regional_weights)
     dsf <- diag(sf)
     dsf1 <- diag(1/sf)
     Kx <- dsf %*% B %*% dsf # eq. 16
-    Kw <- dsf %*% w %*% dsf1 - tcrossprod(sf) # eq. 21
+    Kw <- dsf %*% adjusted_spatial_weights %*% dsf1 - tcrossprod(sf) # eq. 21
     trKx <- sum(diag(Kx))
     trKxKx <- sum(diag(Kx %*% Kx))
     trKwKx <- sum(diag(Kw %*% Kx))
@@ -45,7 +45,7 @@ spatialdelta <- function(D, w, f, alternative="greater") {
     Vd2 <- (n-1)*trKwKw - trKw^2
     Vd3 <- (((n-1)*trKxKx) - trKx^2)/(trKx^2)
     Vd <- Vd1*Vd2*Vd3 # eq. 37 
-    VI <- (2/(n^2 - 1))*(sum(diag(w %*% w)) - 1 -((sum(diag(w)) - 1)^2/(n-1)))
+    VI <- (2/(n^2 - 1))*(sum(diag(adjusted_spatial_weights %*% adjusted_spatial_weights)) - 1 -((sum(diag(adjusted_spatial_weights)) - 1)^2/(n-1)))
     Vx <- ((1/(n-2))*(((n-1)/(trKx^2/trKxKx)) - 1))
     Vd0 <- VI*Vx # eq. 38
     skewd1 <- sqrt((8*(n-2)*(n+1)))/((n-3)*(n+3))
@@ -71,14 +71,14 @@ spatialdelta <- function(D, w, f, alternative="greater") {
     names(vec) <- c("delta", "Expectation", "Variance", "Skewness",
         "Excess Kurtosis")
     method <- "Bavaud delta normal approximation"
-    data.name <- paste(deparse(substitute(D)), "\nweights:",
-	deparse(substitute(w)))
+    data.name <- paste(deparse(substitute(dissimilarity_matrix)), "\nweights:",
+	deparse(substitute(adjusted_spatial_weights)))
     res <- list(statistic=std_d, p.value=pv_d, estimate=vec,
         alternative=alternative, method=method, data.name=data.name)
     attr(res, "Kx") <- Kx
     attr(res, "Kw") <- Kw
-    attr(res, "f") <- f
-    attr(res, "w") <- w
+    attr(res, "regional_weights") <- regional_weights
+    attr(res, "adjusted_spatial_weights") <- adjusted_spatial_weights
     attr(res, "B") <- B
     attr(res, "VI") <- VI
     attr(res, "Vx") <- Vx
@@ -94,7 +94,7 @@ spatialdelta <- function(D, w, f, alternative="greater") {
 
 summary.spatialdelta <- function(object, ...) {
 # Tab. 2
-    n <- length(attr(object, "f"))
+    n <- length(attr(object, "regional_weights"))
     Kx <- attr(object, "Kx")
 # features kernels
     lambdabar <- sum(diag(Kx))/(n - 1)
@@ -126,60 +126,60 @@ print.summary.spatialdelta <- function(x, digits=getOption("digits"), ...) {
     invisible(x)
 }
 
-linearised_diffusive_weights <- function(A, f, t_choice=2) { 
-    n <- length(f)
-    stopifnot(nrow(A) == n)
-    stopifnot(ncol(A) == n)
-    rS <- rowSums(A)
+linearised_diffusive_weights <- function(adjacency_matrix, regional_weights, t_choice=2) { 
+    n <- length(regional_weights)
+    stopifnot(nrow(adjacency_matrix) == n)
+    stopifnot(ncol(adjacency_matrix) == n)
+    rS <- rowSums(adjacency_matrix)
     n <- length(rS)
-    LA <- (diag(rS) - A) # eq. 7
-    dsf <- diag(1/sqrt(f))
+    LA <- (diag(rS) - adjacency_matrix) # eq. 7
+    dsf <- diag(1/sqrt(regional_weights))
     lA <- dsf %*% LA %*% dsf # eq. 7
     if (t_choice == 2) t <- 1/max(eigen(lA)$values) # below eq. 21
-    else if (t_choice == 1) t <- min(f/rS) # below eq. 8
+    else if (t_choice == 1) t <- min(regional_weights/rS) # below eq. 8
     else stop("t_choice 1 or 2")
-    res <- diag(n) - t*(diag(1/f) %*% (diag(rS) - A)) # eq. 8
+    res <- diag(n) - t*(diag(1/regional_weights) %*% (diag(rS) - adjacency_matrix)) # eq. 8
 }
 
-metropolis_hastings_weights <- function(A, f) {
-    n <- length(f)
-    stopifnot(nrow(A) == n)
-    stopifnot(ncol(A) == n)
-    rS <- rowSums(A)
-    P <- diag(1/rS) %*% A
-    fP <- diag(f) %*% P
+metropolis_hastings_weights <- function(adjacency_matrix, regional_weights) {
+    n <- length(regional_weights)
+    stopifnot(nrow(adjacency_matrix) == n)
+    stopifnot(ncol(adjacency_matrix) == n)
+    rS <- rowSums(adjacency_matrix)
+    P <- diag(1/rS) %*% adjacency_matrix
+    fP <- diag(regional_weights) %*% P
     G <- pmin(fP, t(fP))
-    E <- diag(f - rowSums(G)) + G
-    diag(1/f) %*% E
+    E <- diag(regional_weights - rowSums(G)) + G
+    diag(1/regional_weights) %*% E
 }
 
-iterative_proportional_fitting_weights <- function(A, f, g=0.001, iter=1000, tol=1e-10, tol.margins=1e-10, print=FALSE) {
-    n <- length(f)
-    stopifnot(nrow(A) == n)
-    stopifnot(ncol(A) == n)
+iterative_proportional_fitting_weights <- function(adjacency_matrix, regional_weights, g=0.001, iter=1000, tol=1e-10, tol.margins=1e-10, print=FALSE) {
+    n <- length(regional_weights)
+    stopifnot(nrow(adjacency_matrix) == n)
+    stopifnot(ncol(adjacency_matrix) == n)
     if (!requireNamespace("mipfp", quietly=TRUE)) {
         warning("The mipfp package is required for this method,\n returning Metropolis-Hastings weights")
-        return(metropolis_hastings_weights(A, f))
+        return(metropolis_hastings_weights(adjacency_matrix, regional_weights))
     }
-    res <- mipfp::Ipfp(seed=(A+g), target.list=list(1, 2),
-        target.data=list(f, f), iter=iter, tol=tol, tol.margins=tol.margins,
+    res <- mipfp::Ipfp(seed=(adjacency_matrix+g), target.list=list(1, 2),
+        target.data=list(regional_weights, regional_weights), iter=iter, tol=tol, tol.margins=tol.margins,
         print=print)
-    diag(1/f) %*% res$x.hat
+    diag(1/regional_weights) %*% res$x.hat
 }
 
-graph_distance_weights <- function(A, f) {
-    n <- length(f)
-    stopifnot(nrow(A) == n)
-    stopifnot(ncol(A) == n)
+graph_distance_weights <- function(adjacency_matrix, regional_weights) {
+    n <- length(regional_weights)
+    stopifnot(nrow(adjacency_matrix) == n)
+    stopifnot(ncol(adjacency_matrix) == n)
     if (!requireNamespace("igraph", quietly=TRUE)) {
         warning("The igraph package is required for this method,\n returning Metropolis-Hastings weights")
-        return(metropolis_hastings_weights(A, f))
+        return(metropolis_hastings_weights(adjacency_matrix, regional_weights))
     }
-    D <- igraph::distances(igraph::graph_from_adjacency_matrix(A))
-    H <- diag(n) - rep(1, times=n) %*% t(f) # above eq. 15
+    D <- igraph::distances(igraph::graph_from_adjacency_matrix(adjacency_matrix))
+    H <- diag(n) - rep(1, times=n) %*% t(regional_weights) # above eq. 15
     B <- -0.5 * (H %*% D %*% t(H)) # eq. 15
     c1 <- -1/min(c(B))
-    (1 + (c1*B)) %*% diag(f) # eq. 33
+    (1 + (c1*B)) %*% diag(regional_weights) # eq. 33
 }
 
 cornish_fisher <- function(x, ...) {
@@ -237,10 +237,10 @@ plot_spatialcoords.spatialdelta <- function(x, cols=c(1L, 2L), mult=c(1, 1),
     cols <- as.integer(cols)
     stopifnot(length(cols) == 2L)
     stopifnot(length(mult) == 2L)
-    f <- attr(x, "f")
-    if (is.null(names)) names <- as.character(1:length(f))
-    stopifnot(length(names) == length(f))
-    dsf1 <- diag(1/sqrt(f))
+    regional_weights <- attr(x, "regional_weights")
+    if (is.null(names)) names <- as.character(1:length(regional_weights))
+    stopifnot(length(names) == length(regional_weights))
+    dsf1 <- diag(1/sqrt(regional_weights))
     Kw <- attr(x, "Kw")
 # Fig. 4
     power <- as.integer(power)
@@ -260,10 +260,10 @@ plot_spatialcoords.spatialdelta <- function(x, cols=c(1L, 2L), mult=c(1, 1),
         ylab=paste0("spatial coordinate ", cols[2]), ...)
     if (is.null(fmult)) {
         rX <- diff(range(X))
-        rf <- diff(range(f))
+        rf <- diff(range(regional_weights))
         fmult <- (0.02*rX)/rf
     }
-    mf <- f*fmult
+    mf <- regional_weights*fmult
     symbols(X, Y, circles=mf, bg=bg, add=TRUE, inches=FALSE)
     text(X, Y, names, pos=pos, cex=cex)
     abline(h=0, v=0, lty=2)
@@ -281,12 +281,12 @@ plot_moran.default <- function(x, y, ...) {
 plot_moran.spatialdelta <- function(x, y, fmult=NULL, names=NULL, bg=1,
     pos=3, cex=0.6, ...) {
 # Fig. 3 (+ fig. 2)
-    f <- attr(x, "f")
-    if (is.null(names)) names <- as.character(1:length(f))
-    stopifnot(length(names) == length(f))
+    regional_weights <- attr(x, "regional_weights")
+    if (is.null(names)) names <- as.character(1:length(regional_weights))
+    stopifnot(length(names) == length(regional_weights))
     stopifnot(is.numeric(y))
-    stopifnot(length(y) == length(f))
-    lw <- mat2listw(attr(x, "w"),  style="B", row.names=names)
+    stopifnot(length(y) == length(regional_weights))
+    lw <- mat2listw(attr(x, "adjusted_spatial_weights"),  style="B", row.names=names)
     ly <- lag.listw(lw, y)
     a <- lm(ly ~ y)
     yn <- deparse(substitute(y))
@@ -295,10 +295,10 @@ plot_moran.spatialdelta <- function(x, y, fmult=NULL, names=NULL, bg=1,
         ylab=paste0("lagged ", yn), ...)
     if (is.null(fmult)) {
         rX <- diff(range(y))
-        rf <- diff(range(f))
+        rf <- diff(range(regional_weights))
         fmult <- (0.02*rX)/rf
     }
-    mf <- f*fmult
+    mf <- regional_weights*fmult
     symbols(y, ly, circles=mf, bg=bg, add=TRUE, inches=FALSE)
     text(y, ly, names, pos=pos, cex=cex)
     abline(a=a)
@@ -316,7 +316,7 @@ factorial_coordinates.default <- function(x) {
 factorial_coordinates.spatialdelta <- function(x) {
 # Fig. 2
     stopifnot(inherits(x, "spatialdelta"))
-    dsf1 <- diag(1/sqrt(attr(x, "f")))
+    dsf1 <- diag(1/sqrt(attr(x, "regional_weights")))
     Kx_eig <- eigen(attr(x, "Kx")) # eq. 18
     dsf1 %*% Kx_eig$vectors %*% diag(sqrt(abs(Kx_eig$values))) # eq. 19
 }
@@ -333,7 +333,7 @@ localdelta.default <- function(x, ...) {
 localdelta.spatialdelta <- function(x, names=NULL, ...) {
     stopifnot(inherits(x, "spatialdelta"))
     Kx_eig <- eigen(attr(x, "Kx")) # eq. 18
-    di <- (1/sum(Kx_eig$values))*diag(attr(x, "w") %*% attr(x, "B")) # eq. 30
+    di <- (1/sum(Kx_eig$values))*diag(attr(x, "adjusted_spatial_weights") %*% attr(x, "B")) # eq. 30
     if (is.null(names)) names <- as.character(1:length(di))
     stopifnot(length(names) == length(di))
     names(di) <- names
@@ -356,9 +356,9 @@ plot_factorialcoords.spatialdelta <- function(x, cols=c(1L, 2L),
     cols <- as.integer(cols)
     stopifnot(length(cols) == 2L)
     stopifnot(length(mult) == 2L)
-    f <- attr(x, "f")
-    if (is.null(names)) names <- as.character(1:length(f))
-    stopifnot(length(names) == length(f))
+    regional_weights <- attr(x, "regional_weights")
+    if (is.null(names)) names <- as.character(1:length(regional_weights))
+    stopifnot(length(names) == length(regional_weights))
     x_tilde <- factorial_coordinates(x)
     stopifnot(all(cols <= ncol(x_tilde)))
     X <- mult[1]*x_tilde[, cols[1]]
@@ -367,10 +367,10 @@ plot_factorialcoords.spatialdelta <- function(x, cols=c(1L, 2L),
         ylab=paste0("factorial coordinate ", cols[2]))
     if (is.null(fmult)) {
         rX <- diff(range(Re(X)))
-        rf <- diff(range(f))
+        rf <- diff(range(regional_weights))
         fmult <- (0.02*rX)/rf
     }
-    mf <- f*fmult
+    mf <- regional_weights*fmult
     symbols(X, Y, circles=mf, bg=bg, add=TRUE, inches=FALSE)
     text(X, Y, names, pos=pos, cex=cex)
     abline(h=0, v=0, lty=2)
@@ -389,7 +389,7 @@ plot_spatialscree.default <- function(x, ...) {
 
 plot_spatialscree.spatialdelta <- function(x, ...) {
 # Fig. 8
-    e <- sort(Re(eigen(attr(x, "w"), only.values=TRUE)$values),
+    e <- sort(Re(eigen(attr(x, "adjusted_spatial_weights"), only.values=TRUE)$values),
         decreasing=TRUE)
     plot(e, type="n", ylab="Eigenvalues", xlab="", ...)
     zero <- rep(0, length(e))

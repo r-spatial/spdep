@@ -35,14 +35,15 @@
 \title{Weighted Multivariate Spatial Autocorrelation Measures}
 \description{The kernel-based weighted multivariate spatial autocorrelation measure delta proposed in Bavaud (2024) is implemented, together with support functions to create spatial weights matrices from symmetric binary adjacency matrices; summary and display methods are provided.}
 \usage{
-spatialdelta(D, w, f, alternative = "greater")
+spatialdelta(dissimilarity_matrix, adjusted_spatial_weights, regional_weights,
+ alternative = "greater")
 \method{summary}{spatialdelta}(object, ...)
 \method{print}{summary.spatialdelta}(x, digits=getOption("digits"), ...)
-linearised_diffusive_weights(A, f, t_choice = 2)
-metropolis_hastings_weights(A, f)
-iterative_proportional_fitting_weights(A, f, g=0.001, iter=1000, tol=1e-10,
- tol.margins=1e-10, print=FALSE)
-graph_distance_weights(A, f)
+linearised_diffusive_weights(adjacency_matrix, regional_weights, t_choice = 2)
+metropolis_hastings_weights(adjacency_matrix, regional_weights)
+iterative_proportional_fitting_weights(adjacency_matrix, regional_weights,
+ g=0.001, iter=1000, tol=1e-10, tol.margins=1e-10, print=FALSE)
+graph_distance_weights(adjacency_matrix, regional_weights)
 plot_spatialcoords(x, ...)
 \method{plot_spatialcoords}{default}(x, ...)
 \method{plot_spatialcoords}{spatialdelta}(x, cols = c(1L, 2L),
@@ -74,13 +75,13 @@ cornish_fisher(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{D}{\code{D} is a square matrix of dissimilarities between (possibly multivariate) observations}
-  \item{w}{\code{w} is a square matrix of spatial weights as returned by construction functions \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights}, \code{graph_distance_weights} or similar}
-  \item{f}{\code{f} are weights reflecting the contribution of each observation to the (possibly multivariate) data set, they may be uniform}
+  \item{dissimilarity_matrix}{\code{dissimilarity_matrix} is a square matrix of dissimilarities between (possibly multivariate) observations}
+  \item{adjusted_spatial_weights}{\code{adjusted_spatial_weights} is a square matrix of spatial weights as returned by construction functions \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights}, \code{graph_distance_weights} or similar}
+  \item{regional_weights}{\code{regional_weights} are weights reflecting the contribution of each observation to the (possibly multivariate) data set, they may be uniform}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided"}
   \item{object, x}{\code{object}, \code{x} are objects returned by \code{spatialdelta} of class \code{"spatialdelta"}}
   \item{digits}{default \code{getOption("digits")}, or a non-null value specifying the minimum number of significant digits to be printed in values}
-  \item{A}{\code{A} is a symmetric binary adjacency matrix}
+  \item{adjacency_matrix}{\code{adjacency_matrix} is a symmetric binary adjacency matrix}
   \item{t_choice}{default 2, the inverse of the largest eigenvalue of the adjusted Laplacian adjacency matrix (t2, Bavaud 2024, page 583), otherwise 1 (t1, page 579)}
   \item{g}{default 0.001, (Bavaud 2024, page 579, 589), a small quantity to lift binary adjacency matrix above zero}
   \item{iter, tol, tol.margins, print}{arguments passed to \code{\link[mipfp]{Ipfp}}}
@@ -88,7 +89,7 @@ cornish_fisher(x, ...)
   \item{cols}{integer vector of length 2, default \code{c(1L, 2L)}, giving the two columns of the regional or factorial coordinates to plot}
   \item{mult}{numeric vector of length 2, default \code{c(1, 1)}, to scale or reverse axes as signs are not given to be the same for different eigenproblem implementations}
   \item{power}{integer vector of length 1, default 1; if higher, use a powered kernel}
-  \item{fmult}{default \code{NULL} for automatic scaling of the circle symbols expressing the observation weights \code{f} in the plot as \code{(0.02*diff(range(X)))/diff(range(f))} where \code{X} is the first vector of coordinates; may be set manually to a numeric value}
+  \item{fmult}{default \code{NULL} for automatic scaling of the circle symbols expressing the observation weights \code{f} in the plot as \code{(0.02*diff(range(X)))/diff(range(regional_weights))} where \code{X} is the first vector of coordinates; may be set manually to a numeric value}
   \item{names}{default \code{NULL} yielding integer index values, if a character vector is given, the coordinates will be annotated with those strings rather than indices}
   \item{bg, pos, cex}{arguments passed to graphics functions or methods}
   \item{...}{other arguments passed to other functions or methods}
@@ -98,8 +99,8 @@ cornish_fisher(x, ...)
 \value{\code{spatialdelta} returns an object with classes \code{"spatialdelta"} and \code{"htest"}. Its \code{print} method treats it as an \code{"htest"} object. Other methods use additional attributes:
   \item{Kx}{Multivariate kernel matrix eq. 16}
   \item{Kw}{Spatial weights kernel matrix eq. 21}
-  \item{f}{Input observation weights}
-  \item{w}{Input spatial weights}
+  \item{regional_weights}{Input observation weights}
+  \item{adjusted_spatial_weights}{Input spatial adjusted_spatial_weightseights}
   \item{B}{symmetric matrix of scalar products eq. 15}
   \item{VI}{Spatial component of delta variance}
   \item{Vx}{Multivariate component of delta variance}
@@ -141,15 +142,15 @@ Dmoral <- as.matrix(dist(moral))^2
 fG <- gfrance85$Pop1831/sum(gfrance85$Pop1831)
 gnb <- poly2nb(gfrance85, row.names=gfrance85$Department)
 frG <- nb2mat(gnb, style="B")
-ldwG <- linearised_diffusive_weights(frG, fG)
-mhwG <- metropolis_hastings_weights(frG, fG)
-ifwG <- iterative_proportional_fitting_weights(frG, fG)
-gdwG <- graph_distance_weights(frG, fG)
-(moral_ldw <- spatialdelta(Dmoral, ldwG, fG))
+ldwG <- linearised_diffusive_weights(adjacency_matrix=frG, regional_weights=fG)
+mhwG <- metropolis_hastings_weights(adjacency_matrix=frG, regional_weights=fG)
+ifwG <- iterative_proportional_fitting_weights(adjacency_matrix=frG, regional_weights=fG)
+gdwG <- graph_distance_weights(adjacency_matrix=frG, regional_weights=fG)
+(moral_ldw <- spatialdelta(Dmoral, ldwG, regional_weights=fG))
 (cornish_fisher(moral_ldw))
-moral_mhw <- spatialdelta(Dmoral, mhwG, fG)
-moral_ifw <- spatialdelta(Dmoral, ifwG, fG)
-moral_gdw <- spatialdelta(Dmoral, gdwG, fG)
+moral_mhw <- spatialdelta(Dmoral, mhwG, regional_weights=fG)
+moral_ifw <- spatialdelta(Dmoral, ifwG, regional_weights=fG)
+moral_gdw <- spatialdelta(Dmoral, gdwG, regional_weights=fG)
 opar <- par(mfrow=c(1, 4))
 plot_spatialcoords(moral_ldw, cols=c(2,1), mult=c(-1, -1),
  names=gfrance85$Department, main="Linearised Diffusive", asp=1)
