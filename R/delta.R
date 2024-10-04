@@ -3,7 +3,7 @@
 # François Bavaud (2024) Measuring and Testing Multivariate Spatial
 # Autocorrelation in a Weighted Setting: A Kernel Approach,
 # Geographical Analysis (2024) 56, 573-599
-spatialdelta <- function(D, w, f, alternative="greater", CF=FALSE) {
+spatialdelta <- function(D, w, f, alternative="greater") {
     alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
     n <- length(f)
     stopifnot(nrow(D) == n)
@@ -60,33 +60,17 @@ spatialdelta <- function(D, w, f, alternative="greater", CF=FALSE) {
         (4*n^2 - 8*n + 52)*(gammamu + gammalambda)
     kurtd3 <- (4*(5*n^3 - 57*n^2 + 25*n + 169)/((n-2)*(n-1)))
     kurtd <- kurtd1 * (kurtd2 - kurtd3) # eq. 40
-    if (!is.finite(kurtd)) CF <- FALSE
     std_d <- (d-Ed)/sqrt(Vd) # eq. 41
-    
-
-    if (CF) {
-        cf_out <- cornish_fisher(std_d, skewd, kurtd)
-        if (cf_out == 0) CF <- FALSE
-        std_d <- ifelse(std_d <= 0, std_d + cf_out, std_d - cf_out)
-        if (alternative == "two.sided") 
-	    pv_d <- 2 * pnorm(abs(std_d), lower.tail=FALSE)
-        else if (alternative == "greater")
-            pv_d <- pnorm(std_d, lower.tail=FALSE)
-        else pv_d <- pnorm(std_d)
-    } else {
-        if (alternative == "two.sided") 
-	    pv_d <- 2 * pnorm(abs(std_d), lower.tail=FALSE)
-        else if (alternative == "greater")
-            pv_d <- pnorm(std_d, lower.tail=FALSE)
-        else pv_d <- pnorm(std_d)
-    }
+    if (alternative == "two.sided") 
+        pv_d <- 2 * pnorm(abs(std_d), lower.tail=FALSE)
+    else if (alternative == "greater")
+        pv_d <- pnorm(std_d, lower.tail=FALSE)
+    else pv_d <- pnorm(std_d)
     names(std_d) <- "Standard deviate"
-    if (CF) names(std_d) <- paste0(names(std_d), " (Cornish-Fisher corrected)")
     vec <- c(d, Ed, Vd, skewd, kurtd)
     names(vec) <- c("delta", "Expectation", "Variance", "Skewness",
         "Excess Kurtosis")
-    method <- ifelse(CF, "Bavaud delta under the Cornish-Fisher correction",
-        "Bavaud delta normal approximation")
+    method <- "Bavaud delta normal approximation"
     data.name <- paste(deparse(substitute(D)), "\nweights:",
 	deparse(substitute(w)))
     res <- list(statistic=std_d, p.value=pv_d, estimate=vec,
@@ -198,22 +182,45 @@ graph_distance_weights <- function(A, f) {
     (1 + (c1*B)) %*% diag(f) # eq. 33
 }
 
-cornish_fisher <- function(z, s, k) {
+cornish_fisher <- function(x, ...) {
+  UseMethod("cornish_fisher")
+}
+
+cornish_fisher.default <- function(x, ...) {
+  stop("x not a spatialdelta object")
+}
+
+cornish_fisher.spatialdelta <- function(x, ...) {
+    s <- unname(x$estimate[4])
+    k <- unname(x$estimate[5])
     s2 <- s^2
     k8 <- k/8
     dom <- s2/9 - 4*(k8-(s2/6))*(1-k8-((5*s2)/36)) 
 # amedee-manesmeetal:19 p. 446, eq. 24
+    if (dom > 0) {
+        warning("domain exceeded: object returned unaltered")
+        return(x)
+    }
+    z <- unname(x$statistic)
     res0 <- (s/6)*((z^2) - 1)
     res1 <- (k/24)*((z^3) - 3*z)
     res2 <- ((s^2)/36)*(2*(z^3) - 5*z)
     res <- res0 + res1 - res2 # eq. 45
 # amedee-manesmeetal:19 p. 427, eq. 4
 # dasgupta:08 p. 193
-    if (dom > 0) {
-        res <- 0
-        warning("domain exceeded: correction term set to zero")
-    }
-    res
+    alternative <- x$alternative
+    std_d <- ifelse(z <= 0, z + res, z - res)
+    if (alternative == "two.sided") 
+        pv_d <- 2 * pnorm(abs(std_d), lower.tail=FALSE)
+    else if (alternative == "greater")
+        pv_d <- pnorm(std_d, lower.tail=FALSE)
+    else pv_d <- pnorm(std_d)
+    x$statistic <- std_d
+    x$p.value <- pv_d
+    names(x$statistic) <- paste0(names(x$statistic),
+        " (Cornish-Fisher corrected)")
+    x$method <- "Bavaud delta under the Cornish-Fisher correction"
+    x
 }
 
 plot_spatialcoords <- function(x, ...) {

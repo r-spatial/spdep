@@ -28,11 +28,14 @@
 \alias{localdelta}
 \alias{localdelta.default}
 \alias{localdelta.spatialdelta}
+\alias{cornish_fisher}
+\alias{cornish_fisher.default}
+\alias{cornish_fisher.spatialdelta}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Weighted Multivariate Spatial Autocorrelation Measures}
 \description{The kernel-based weighted multivariate spatial autocorrelation measure delta proposed in Bavaud (2024) is implemented, together with support functions to create spatial weights matrices from symmetric binary adjacency matrices; summary and display methods are provided.}
 \usage{
-spatialdelta(D, w, f, alternative = "greater", CF = FALSE)
+spatialdelta(D, w, f, alternative = "greater")
 \method{summary}{spatialdelta}(object, ...)
 \method{print}{summary.spatialdelta}(x, digits=getOption("digits"), ...)
 linearised_diffusive_weights(A, f, t_choice = 2)
@@ -65,6 +68,9 @@ plot_factorialscree(x, ...)
 localdelta(x, ...)
 \method{localdelta}{default}(x, ...)
 \method{localdelta}{spatialdelta}(x, names = NULL, ...)
+cornish_fisher(x, ...)
+\method{cornish_fisher}{default}(x, ...)
+\method{cornish_fisher}{spatialdelta}(x, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -72,7 +78,6 @@ localdelta(x, ...)
   \item{w}{\code{w} is a square matrix of spatial weights as returned by construction functions \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights}, \code{graph_distance_weights} or similar}
   \item{f}{\code{f} are weights reflecting the contribution of each observation to the (possibly multivariate) data set, they may be uniform}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided"}
-  \item{CF}{default \code{FALSE}; if \code{TRUE}, use a Cornish-Fisher correction to the standard deviate}
   \item{object, x}{\code{object}, \code{x} are objects returned by \code{spatialdelta} of class \code{"spatialdelta"}}
   \item{digits}{default \code{getOption("digits")}, or a non-null value specifying the minimum number of significant digits to be printed in values}
   \item{A}{\code{A} is a symmetric binary adjacency matrix}
@@ -88,7 +93,7 @@ localdelta(x, ...)
   \item{bg, pos, cex}{arguments passed to graphics functions or methods}
   \item{...}{other arguments passed to other functions or methods}
 }
-\details{In general, the user should choose one of the functions for constructing spatial weights from the symmetric binary, or similar to symmetric - for example row-standardised - adjacency matrix.}
+\details{In general, the user should choose one of the functions for constructing spatial weights from the symmetric binary, or similar to symmetric - for example row-standardised - adjacency matrix. The \code{cornish_fisher} method updates the standard deviate and p-value if the pair of skewness and excess kurtosis estimates are within the required domain.}
 
 \value{\code{spatialdelta} returns an object with classes \code{"spatialdelta"} and \code{"htest"}. Its \code{print} method treats it as an \code{"htest"} object. Other methods use additional attributes:
   \item{Kx}{Multivariate kernel matrix eq. 16}
@@ -140,10 +145,11 @@ ldwG <- linearised_diffusive_weights(frG, fG)
 mhwG <- metropolis_hastings_weights(frG, fG)
 ifwG <- iterative_proportional_fitting_weights(frG, fG)
 gdwG <- graph_distance_weights(frG, fG)
-moral_ldw <- spatialdelta(Dmoral, ldwG, fG, CF=FALSE)
-moral_mhw <- spatialdelta(Dmoral, mhwG, fG, CF=FALSE)
-moral_ifw <- spatialdelta(Dmoral, ifwG, fG, CF=FALSE)
-moral_gdw <- spatialdelta(Dmoral, gdwG, fG, CF=FALSE)
+(moral_ldw <- spatialdelta(Dmoral, ldwG, fG))
+(cornish_fisher(moral_ldw))
+moral_mhw <- spatialdelta(Dmoral, mhwG, fG)
+moral_ifw <- spatialdelta(Dmoral, ifwG, fG)
+moral_gdw <- spatialdelta(Dmoral, gdwG, fG)
 opar <- par(mfrow=c(1, 4))
 plot_spatialcoords(moral_ldw, cols=c(2,1), mult=c(-1, -1),
  names=gfrance85$Department, main="Linearised Diffusive", asp=1)
