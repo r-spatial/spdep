@@ -25,8 +25,10 @@ listw2mat <- function(listw) {
 	for (i in 1:n)
 	    if (cardnb[i] > 0)
 		res[i, listw$neighbours[[i]]] <- listw$weights[[i]]
-	if (!is.null(attr(listw, "region.id")))
-		row.names(res) <- attr(listw, "region.id")
+	if (!is.null(attr(listw, "region.id"))) {
+		rownames(res) <- attr(listw, "region.id")
+		colnames(res) <- rownames(res)
+        }
 	res
 }
 

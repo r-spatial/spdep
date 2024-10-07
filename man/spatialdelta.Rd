@@ -47,12 +47,12 @@ graph_distance_weights(adjacency_matrix, regional_weights)
 plot_spatialcoords(x, ...)
 \method{plot_spatialcoords}{default}(x, ...)
 \method{plot_spatialcoords}{spatialdelta}(x, cols = c(1L, 2L),
- mult = c(1, 1), power = 1L, fmult = NULL, names = NULL, bg = 1,
+ mult = c(1, 1), power = 1L, fmult = NULL, names = attr(x, "rnames"), bg = 1,
  pos = 3, cex = 0.6, ...)
 plot_moran(x, y, ...)
 \method{plot_moran}{default}(x, y, ...)
-\method{plot_moran}{spatialdelta}(x, y, fmult = NULL, names = NULL, bg = 1,
- pos = 3, cex = 0.6, ...)
+\method{plot_moran}{spatialdelta}(x, y, fmult = NULL, names = attr(x, "rnames"),
+ bg = 1, pos = 3, cex = 0.6, ...)
 plot_spatialscree(x, ...)
 \method{plot_spatialscree}{default}(x, ...)
 \method{plot_spatialscree}{spatialdelta}(x, ...)
@@ -62,13 +62,14 @@ factorial_coordinates(x)
 plot_factorialcoords(x, ...)
 \method{plot_factorialcoords}{default}(x, ...)
 \method{plot_factorialcoords}{spatialdelta}(x, cols = c(1L, 2L),
- mult = c(1, 1), fmult = NULL, names = NULL, bg = 1, pos = 3, cex = 0.6, ...)
+ mult = c(1, 1), fmult = NULL, names = attr(x, "rnames"), bg = 1, pos = 3,
+ cex = 0.6, ...)
 plot_factorialscree(x, ...)
 \method{plot_factorialscree}{default}(x, ...)
 \method{plot_factorialscree}{spatialdelta}(x, ...)
 localdelta(x, ...)
 \method{localdelta}{default}(x, ...)
-\method{localdelta}{spatialdelta}(x, names = NULL, ...)
+\method{localdelta}{spatialdelta}(x, names = attr(x, "rnames"), ...)
 cornish_fisher(x, ...)
 \method{cornish_fisher}{default}(x, ...)
 \method{cornish_fisher}{spatialdelta}(x, ...)
@@ -90,7 +91,7 @@ cornish_fisher(x, ...)
   \item{mult}{numeric vector of length 2, default \code{c(1, 1)}, to scale or reverse axes as signs are not given to be the same for different eigenproblem implementations}
   \item{power}{integer vector of length 1, default 1; if higher, use a powered kernel}
   \item{fmult}{default \code{NULL} for automatic scaling of the circle symbols expressing the observation weights \code{f} in the plot as \code{(0.02*diff(range(X)))/diff(range(regional_weights))} where \code{X} is the first vector of coordinates; may be set manually to a numeric value}
-  \item{names}{default \code{NULL} yielding integer index values, if a character vector is given, the coordinates will be annotated with those strings rather than indices}
+  \item{names}{default \code{attr(x, "rnames")}, the coordinates will be annotated with these strings passed through from the \code{"region.id"} attribute of the \code{"nb"} object used to create the \code{adjusted_spatial_weights} matrix from the \code{"adjacency_matrix"} object as row and column names}
   \item{bg, pos, cex}{arguments passed to graphics functions or methods}
   \item{...}{other arguments passed to other functions or methods}
 }
@@ -109,6 +110,7 @@ cornish_fisher(x, ...)
   \item{alphalambda}{Multivariate component of delta skewness}
   \item{gammamu}{Spatial component of delta excess kurtosis}
   \item{gammalambda}{Multivariate component of delta excess kurtosis}
+  \item{rnames}{Region names passed through from row/column names of \code{adjusted_spatial_weights}, from the \code{"region.id"} attribute of the \code{"nb"} object used to create the \code{adjusted_spatial_weights} matrix from the \code{"adjacency_matrix"} object}
 \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights} and \code{graph_distance_weights} return square spatial weights matrices (the latter two return matrices created by \code{metropolis_hastings_weights} if \pkg{igraph} or \pkg{mipfp} are not available); \code{factorial_coordinates} returns a square factorial matrix; \code{localdelta} returns a vector of local deltas eq. 30. 
 }
 \references{Bavaud, F. (2024), Measuring and Testing Multivariate Spatial Autocorrelation in a Weighted Setting: A Kernel Approach. Geographical Analysis, 56: 573-599. \doi{10.1111/gean.12390}}
@@ -119,7 +121,8 @@ cornish_fisher(x, ...)
 \examples{
 toy_f <- c(0.4, 0.1, 0.3, 0.2)
 toy_xa <- c(4, 9, 1, 1)
-toy_nba <- structure(list(c(2L, 3L, 4L), c(1L), c(1L, 4L), c(1L, 3L)), class="nb")
+toy_nba <- structure(list(c(2L, 3L, 4L), c(1L), c(1L, 4L), c(1L, 3L)),
+ class="nb", region.id=as.character(1:4))
 toy_gla <- list(c(0.25, 0.5, 0.25), c(1), c(2/3, 1/3), c(0.5, 0.5))
 toy_wa <- spdep::nb2mat(toy_nba, glist=toy_gla, style="W")
 spatialdelta(as.matrix(dist(toy_xa))^2, toy_wa, toy_f, alternative="two.sided")
@@ -129,7 +132,8 @@ toy_nbb <- spdep::include.self(toy_nba)
 toy_wb <- spdep::nb2mat(toy_nbb, glist=toy_glb, style="W")
 spatialdelta(as.matrix(dist(toy_xb))^2, toy_wb, toy_f, alternative="two.sided")
 toy_xc <- c(3, 3, 1, 1)
-toy_nbc <- structure(list(c(3L, 4L), c(3L, 4L), c(1L, 2L), c(1L, 2L)), class="nb")
+toy_nbc <- structure(list(c(3L, 4L), c(3L, 4L), c(1L, 2L), c(1L, 2L)),
+ class="nb", region.id=as.character(1:4))
 toy_glc <- list(c(0.6, 0.4), c(0.6, 0.4), c(0.8, 0.2), c(0.8, 0.2))
 toy_wc <- spdep::nb2mat(toy_nbc, glist=toy_glc, style="W")
 spatialdelta(as.matrix(dist(toy_xc))^2, toy_wc, toy_f, alternative="two.sided")
@@ -152,14 +156,10 @@ moral_mhw <- spatialdelta(Dmoral, mhwG, regional_weights=fG)
 moral_ifw <- spatialdelta(Dmoral, ifwG, regional_weights=fG)
 moral_gdw <- spatialdelta(Dmoral, gdwG, regional_weights=fG)
 opar <- par(mfrow=c(1, 4))
-plot_spatialcoords(moral_ldw, cols=c(2,1), mult=c(-1, -1),
- names=gfrance85$Department, main="Linearised Diffusive", asp=1)
-plot_spatialcoords(moral_mhw, cols=c(2,1), mult=c(1, 1),
- names=gfrance85$Department, main="Metropolis-Hastings", asp=1)
-plot_spatialcoords(moral_ifw, cols=c(2,1), mult=c(1, 1),
- names=gfrance85$Department, main="Iterative fitting", asp=1)
-plot_spatialcoords(moral_gdw, cols=c(2,1), mult=c(1, 1),
- names=gfrance85$Department, main="Graph distance", asp=1)
+plot_spatialcoords(moral_ldw, cols=c(2,1), mult=c(-1, -1), main="Linearised Diffusive", asp=1)
+plot_spatialcoords(moral_mhw, cols=c(2,1), mult=c(1, 1), main="Metropolis-Hastings", asp=1)
+plot_spatialcoords(moral_ifw, cols=c(2,1), mult=c(1, 1), main="Iterative fitting", asp=1)
+plot_spatialcoords(moral_gdw, cols=c(2,1), mult=c(1, 1), main="Graph distance", asp=1)
 par(opar)
 opar <- par(mfrow=c(1, 4))
 plot_spatialscree(moral_ldw, main="linearised diffusive")
@@ -172,18 +172,18 @@ funif <- rep(1/length(Crime_pers), length(Crime_pers))
 lw <- nb2listw(gnb, style="W")
 Crime_pers_delta <- spatialdelta(as.matrix(dist(Crime_pers))^2, listw2mat(lw), funif)
 Crime_pers_delta$estimate["delta"]
-locdelta <- localdelta(Crime_pers_delta, names=gfrance85$Department)
+locdelta <- localdelta(Crime_pers_delta)
 moran.test(Crime_pers, lw, randomisation=FALSE)$estimate["Moran I statistic"]
 locmoran <- localmoran(c(Crime_pers), lw)[,1]
 all.equal(locmoran, locdelta) 
 all.equal(unname(moral_ldw$estimate["delta"]), # Eq. 30 p. 588
- sum(fG * localdelta(moral_ldw, names=gfrance85$Department)))
+ sum(fG * localdelta(moral_ldw)))
 all.equal(unname(moral_mhw$estimate["delta"]), # Eq. 30 p. 588
- sum(fG * localdelta(moral_mhw, names=gfrance85$Department)))
+ sum(fG * localdelta(moral_mhw)))
 all.equal(unname(moral_ifw$estimate["delta"]), # Eq. 30 p. 588
- sum(fG * localdelta(moral_ifw, names=gfrance85$Department)))
+ sum(fG * localdelta(moral_ifw)))
 all.equal(unname(moral_gdw$estimate["delta"]), # Eq. 30 p. 588
- sum(fG * localdelta(moral_gdw, names=gfrance85$Department)))
+ sum(fG * localdelta(moral_gdw)))
 }
 }
 \keyword{spatial}
