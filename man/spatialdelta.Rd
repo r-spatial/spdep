@@ -124,20 +124,20 @@ toy_xa <- c(4, 9, 1, 1)
 toy_nba <- structure(list(c(2L, 3L, 4L), c(1L), c(1L, 4L), c(1L, 3L)),
  class="nb", region.id=as.character(1:4))
 toy_gla <- list(c(0.25, 0.5, 0.25), c(1), c(2/3, 1/3), c(0.5, 0.5))
-toy_wa <- spdep::nb2mat(toy_nba, glist=toy_gla, style="W")
+toy_wa <- nb2mat(toy_nba, glist=toy_gla, style="W")
 spatialdelta(dissimilarity_matrix=as.matrix(dist(toy_xa))^2,
  adjusted_spatial_weights=toy_wa, regional_weights=toy_f, alternative="two.sided")
 toy_xb <- toy_xa
 toy_glb <- list(c(0.5, 0.125, 0.25, 0.125), c(0.5, 0.5), c(1/3, 0.5, 1/6), c(0.25, 0.25, 0.5))
-toy_nbb <- spdep::include.self(toy_nba)
-toy_wb <- spdep::nb2mat(toy_nbb, glist=toy_glb, style="W")
+toy_nbb <- include.self(toy_nba)
+toy_wb <- nb2mat(toy_nbb, glist=toy_glb, style="W")
 spatialdelta(dissimilarity_matrix=as.matrix(dist(toy_xb))^2,
  adjusted_spatial_weights=toy_wb, regional_weights=toy_f, alternative="two.sided")
 toy_xc <- c(3, 3, 1, 1)
 toy_nbc <- structure(list(c(3L, 4L), c(3L, 4L), c(1L, 2L), c(1L, 2L)),
  class="nb", region.id=as.character(1:4))
 toy_glc <- list(c(0.6, 0.4), c(0.6, 0.4), c(0.8, 0.2), c(0.8, 0.2))
-toy_wc <- spdep::nb2mat(toy_nbc, glist=toy_glc, style="W")
+toy_wc <- nb2mat(toy_nbc, glist=toy_glc, style="W")
 spatialdelta(dissimilarity_matrix=as.matrix(dist(toy_xc))^2,
  adjusted_spatial_weights=toy_wc, regional_weights=toy_f, alternative="two.sided")
 \donttest{
