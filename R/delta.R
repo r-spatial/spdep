@@ -12,8 +12,8 @@ spatialdelta <- function(dissimilarity_matrix, adjusted_spatial_weights,
         else stop("regional_weights must be provided")
     }
     stopifnot(all(is.finite(regional_weights)))
-    stopifnot(all(regional_weights > 0))
-    if (sum(regional_weights) != 1) {
+    stopifnot(all(regional_weights > 0)) # page 576
+    if (sum(regional_weights) != 1) { # page 576
         regional_weights <- regional_weights/sum(regional_weights)
         warning("regional_weights changed to sum to unity")
     }
