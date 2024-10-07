@@ -145,7 +145,7 @@ print.summary.spatialdelta <- function(x, digits=getOption("digits"), ...) {
 
 linearised_diffusive_weights <- function(adjacency_matrix, regional_weights, t_choice=2) { 
     stopifnot(all(is.finite(regional_weights)))
-    stopifnot(all(regional_weights) > 0)
+    stopifnot(all(regional_weights > 0))
     if (sum(regional_weights) != 1) {
         regional_weights <- regional_weights/sum(regional_weights)
         warning("regional_weights changed to sum to unity")
@@ -175,7 +175,7 @@ linearised_diffusive_weights <- function(adjacency_matrix, regional_weights, t_c
 
 metropolis_hastings_weights <- function(adjacency_matrix, regional_weights) {
     stopifnot(all(is.finite(regional_weights)))
-    stopifnot(all(regional_weights) > 0)
+    stopifnot(all(regional_weights > 0))
     if (sum(regional_weights) != 1) {
         regional_weights <- regional_weights/sum(regional_weights)
         warning("regional_weights changed to sum to unity")
@@ -201,7 +201,7 @@ metropolis_hastings_weights <- function(adjacency_matrix, regional_weights) {
 
 iterative_proportional_fitting_weights <- function(adjacency_matrix, regional_weights, g=0.001, iter=1000, tol=1e-10, tol.margins=1e-10, print=FALSE) {
     stopifnot(all(is.finite(regional_weights)))
-    stopifnot(all(regional_weights) > 0)
+    stopifnot(all(regional_weights > 0))
     if (sum(regional_weights) != 1) {
         regional_weights <- regional_weights/sum(regional_weights)
         warning("regional_weights changed to sum to unity")
@@ -229,7 +229,7 @@ iterative_proportional_fitting_weights <- function(adjacency_matrix, regional_we
 
 graph_distance_weights <- function(adjacency_matrix, regional_weights) {
     stopifnot(all(is.finite(regional_weights)))
-    stopifnot(all(regional_weights) > 0)
+    stopifnot(all(regional_weights > 0))
     if (sum(regional_weights) != 1) {
         regional_weights <- regional_weights/sum(regional_weights)
         warning("regional_weights changed to sum to unity")
