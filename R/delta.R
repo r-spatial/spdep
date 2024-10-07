@@ -3,8 +3,20 @@
 # François Bavaud (2024) Measuring and Testing Multivariate Spatial
 # Autocorrelation in a Weighted Setting: A Kernel Approach,
 # Geographical Analysis (2024) 56, 573-599
-spatialdelta <- function(dissimilarity_matrix, adjusted_spatial_weights, regional_weights, alternative="greater") {
+spatialdelta <- function(dissimilarity_matrix, adjusted_spatial_weights,
+ regional_weights=NULL, alternative="greater") {
     alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
+    if (is.null(regional_weights)) {
+        if (inherits(adjusted_spatial_weights, "adjusted_spatial_weights"))
+            regional_weights <- attr(adjusted_spatial_weights, "regional_weights")
+        else stop("regional_weights must be provided")
+    }
+    stopifnot(all(is.finite(regional_weights)))
+    stopifnot(all(regional_weights) > 0)
+    if (sum(regional_weights) != 1) {
+        regional_weights <- regional_weights/sum(regional_weights)
+        warning("regional_weights changed to sum to unity")
+    }
     n <- length(regional_weights)
     stopifnot(nrow(dissimilarity_matrix) == n)
     stopifnot(ncol(dissimilarity_matrix) == n)
@@ -132,6 +144,12 @@ print.summary.spatialdelta <- function(x, digits=getOption("digits"), ...) {
 }
 
 linearised_diffusive_weights <- function(adjacency_matrix, regional_weights, t_choice=2) { 
+    stopifnot(all(is.finite(regional_weights)))
+    stopifnot(all(regional_weights) > 0)
+    if (sum(regional_weights) != 1) {
+        regional_weights <- regional_weights/sum(regional_weights)
+        warning("regional_weights changed to sum to unity")
+    }
     n <- length(regional_weights)
     stopifnot(nrow(adjacency_matrix) == n)
     stopifnot(ncol(adjacency_matrix) == n)
@@ -150,10 +168,18 @@ linearised_diffusive_weights <- function(adjacency_matrix, regional_weights, t_c
         (diag(rS) - adjacency_matrix)) # eq. 8
     rownames(res) <- rnames
     colnames(res) <- rnames
+    attr(res, "regional_weights") <- regional_weights
+    class(res) <- c("adjusted_spatial_weights", class(res))
     res
 }
 
 metropolis_hastings_weights <- function(adjacency_matrix, regional_weights) {
+    stopifnot(all(is.finite(regional_weights)))
+    stopifnot(all(regional_weights) > 0)
+    if (sum(regional_weights) != 1) {
+        regional_weights <- regional_weights/sum(regional_weights)
+        warning("regional_weights changed to sum to unity")
+    }
     n <- length(regional_weights)
     stopifnot(nrow(adjacency_matrix) == n)
     stopifnot(ncol(adjacency_matrix) == n)
@@ -168,10 +194,18 @@ metropolis_hastings_weights <- function(adjacency_matrix, regional_weights) {
     res <- diag(1/regional_weights) %*% E
     rownames(res) <- rnames
     colnames(res) <- rnames
+    attr(res, "regional_weights") <- regional_weights
+    class(res) <- c("adjusted_spatial_weights", class(res))
     res
 }
 
 iterative_proportional_fitting_weights <- function(adjacency_matrix, regional_weights, g=0.001, iter=1000, tol=1e-10, tol.margins=1e-10, print=FALSE) {
+    stopifnot(all(is.finite(regional_weights)))
+    stopifnot(all(regional_weights) > 0)
+    if (sum(regional_weights) != 1) {
+        regional_weights <- regional_weights/sum(regional_weights)
+        warning("regional_weights changed to sum to unity")
+    }
     n <- length(regional_weights)
     stopifnot(nrow(adjacency_matrix) == n)
     stopifnot(ncol(adjacency_matrix) == n)
@@ -188,10 +222,18 @@ iterative_proportional_fitting_weights <- function(adjacency_matrix, regional_we
     res <- diag(1/regional_weights) %*% res0$x.hat
     rownames(res) <- rnames
     colnames(res) <- rnames
+    attr(res, "regional_weights") <- regional_weights
+    class(res) <- c("adjusted_spatial_weights", class(res))
     res
 }
 
 graph_distance_weights <- function(adjacency_matrix, regional_weights) {
+    stopifnot(all(is.finite(regional_weights)))
+    stopifnot(all(regional_weights) > 0)
+    if (sum(regional_weights) != 1) {
+        regional_weights <- regional_weights/sum(regional_weights)
+        warning("regional_weights changed to sum to unity")
+    }
     n <- length(regional_weights)
     stopifnot(nrow(adjacency_matrix) == n)
     stopifnot(ncol(adjacency_matrix) == n)
@@ -209,6 +251,8 @@ graph_distance_weights <- function(adjacency_matrix, regional_weights) {
     res <- (1 + (c1*B)) %*% diag(regional_weights) # eq. 33
     rownames(res) <- rnames
     colnames(res) <- rnames
+    attr(res, "regional_weights") <- regional_weights
+    class(res) <- c("adjusted_spatial_weights", class(res))
     res
 }
 

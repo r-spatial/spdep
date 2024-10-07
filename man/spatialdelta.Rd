@@ -35,8 +35,8 @@
 \title{Weighted Multivariate Spatial Autocorrelation Measures}
 \description{The kernel-based weighted multivariate spatial autocorrelation measure delta proposed in Bavaud (2024) is implemented, together with support functions to create spatial weights matrices from symmetric binary adjacency matrices; summary and display methods are provided.}
 \usage{
-spatialdelta(dissimilarity_matrix, adjusted_spatial_weights, regional_weights,
- alternative = "greater")
+spatialdelta(dissimilarity_matrix, adjusted_spatial_weights,
+ regional_weights=NULL, alternative = "greater")
 \method{summary}{spatialdelta}(object, ...)
 \method{print}{summary.spatialdelta}(x, digits=getOption("digits"), ...)
 linearised_diffusive_weights(adjacency_matrix, regional_weights, t_choice = 2)
@@ -77,8 +77,8 @@ cornish_fisher(x, ...)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dissimilarity_matrix}{\code{dissimilarity_matrix} is a square matrix of dissimilarities between (possibly multivariate) observations}
-  \item{adjusted_spatial_weights}{\code{adjusted_spatial_weights} is a square matrix of spatial weights as returned by construction functions \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights}, \code{graph_distance_weights} or similar}
-  \item{regional_weights}{\code{regional_weights} are weights reflecting the contribution of each observation to the (possibly multivariate) data set, they may be uniform}
+  \item{adjusted_spatial_weights}{\code{adjusted_spatial_weights} is a square matrix of spatial weights as returned by construction functions \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights}, \code{graph_distance_weights} or similar; only the named construction functions pass regional_weights through to \code{spatialdelta}, so for matrices constructed in other ways, this argument is required}
+  \item{regional_weights}{default NULL, \code{regional_weights} are weights reflecting the contribution of each observation to the (possibly multivariate) data set, they may be uniform, but none can be zero, and they must sum to unity; if \code{adjusted_spatial_weights} is an \code{"adjusted_spatial_weights"} object created by \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights} or \code{graph_distance_weights}, \code{regional_weights} is passed as an attribute}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided"}
   \item{object, x}{\code{object}, \code{x} are objects returned by \code{spatialdelta} of class \code{"spatialdelta"}}
   \item{digits}{default \code{getOption("digits")}, or a non-null value specifying the minimum number of significant digits to be printed in values}
@@ -125,18 +125,21 @@ toy_nba <- structure(list(c(2L, 3L, 4L), c(1L), c(1L, 4L), c(1L, 3L)),
  class="nb", region.id=as.character(1:4))
 toy_gla <- list(c(0.25, 0.5, 0.25), c(1), c(2/3, 1/3), c(0.5, 0.5))
 toy_wa <- spdep::nb2mat(toy_nba, glist=toy_gla, style="W")
-spatialdelta(as.matrix(dist(toy_xa))^2, toy_wa, toy_f, alternative="two.sided")
+spatialdelta(dissimilarity_matrix=as.matrix(dist(toy_xa))^2,
+ adjusted_spatial_weights=toy_wa, regional_weights=toy_f, alternative="two.sided")
 toy_xb <- toy_xa
 toy_glb <- list(c(0.5, 0.125, 0.25, 0.125), c(0.5, 0.5), c(1/3, 0.5, 1/6), c(0.25, 0.25, 0.5))
 toy_nbb <- spdep::include.self(toy_nba)
 toy_wb <- spdep::nb2mat(toy_nbb, glist=toy_glb, style="W")
-spatialdelta(as.matrix(dist(toy_xb))^2, toy_wb, toy_f, alternative="two.sided")
+spatialdelta(dissimilarity_matrix=as.matrix(dist(toy_xb))^2,
+ adjusted_spatial_weights=toy_wb, regional_weights=toy_f, alternative="two.sided")
 toy_xc <- c(3, 3, 1, 1)
 toy_nbc <- structure(list(c(3L, 4L), c(3L, 4L), c(1L, 2L), c(1L, 2L)),
  class="nb", region.id=as.character(1:4))
 toy_glc <- list(c(0.6, 0.4), c(0.6, 0.4), c(0.8, 0.2), c(0.8, 0.2))
 toy_wc <- spdep::nb2mat(toy_nbc, glist=toy_glc, style="W")
-spatialdelta(as.matrix(dist(toy_xc))^2, toy_wc, toy_f, alternative="two.sided")
+spatialdelta(dissimilarity_matrix=as.matrix(dist(toy_xc))^2,
+ adjusted_spatial_weights=toy_wc, regional_weights=toy_f, alternative="two.sided")
 \donttest{
 library(Guerry)
 data(gfrance85)
@@ -150,11 +153,11 @@ ldwG <- linearised_diffusive_weights(adjacency_matrix=frG, regional_weights=fG)
 mhwG <- metropolis_hastings_weights(adjacency_matrix=frG, regional_weights=fG)
 ifwG <- iterative_proportional_fitting_weights(adjacency_matrix=frG, regional_weights=fG)
 gdwG <- graph_distance_weights(adjacency_matrix=frG, regional_weights=fG)
-(moral_ldw <- spatialdelta(Dmoral, ldwG, regional_weights=fG))
+(moral_ldw <- spatialdelta(dissimilarity_matrix=Dmoral, adjusted_spatial_weights=ldwG))
 (cornish_fisher(moral_ldw))
-moral_mhw <- spatialdelta(Dmoral, mhwG, regional_weights=fG)
-moral_ifw <- spatialdelta(Dmoral, ifwG, regional_weights=fG)
-moral_gdw <- spatialdelta(Dmoral, gdwG, regional_weights=fG)
+moral_mhw <- spatialdelta(dissimilarity_matrix=Dmoral, adjusted_spatial_weights=mhwG)
+moral_ifw <- spatialdelta(dissimilarity_matrix=Dmoral, adjusted_spatial_weights=ifwG)
+moral_gdw <- spatialdelta(dissimilarity_matrix=Dmoral, adjusted_spatial_weights=gdwG)
 opar <- par(mfrow=c(1, 4))
 plot_spatialcoords(moral_ldw, cols=c(2,1), mult=c(-1, -1), main="Linearised Diffusive", asp=1)
 plot_spatialcoords(moral_mhw, cols=c(2,1), mult=c(1, 1), main="Metropolis-Hastings", asp=1)
@@ -170,7 +173,8 @@ par(opar)
 Crime_pers <- scale(gfrance85$Crime_pers)
 funif <- rep(1/length(Crime_pers), length(Crime_pers))
 lw <- nb2listw(gnb, style="W")
-Crime_pers_delta <- spatialdelta(as.matrix(dist(Crime_pers))^2, listw2mat(lw), funif)
+Crime_pers_delta <- spatialdelta(dissimilarity_matrix=as.matrix(dist(Crime_pers))^2,
+ adjusted_spatial_weights=listw2mat(lw), regional_weights=funif)
 Crime_pers_delta$estimate["delta"]
 locdelta <- localdelta(Crime_pers_delta)
 moran.test(Crime_pers, lw, randomisation=FALSE)$estimate["Moran I statistic"]
