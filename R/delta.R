@@ -256,6 +256,11 @@ graph_distance_weights <- function(adjacency_matrix, regional_weights) {
     res
 }
 
+as.matrix.adjusted_spatial_weights <- function(x, ...) {
+    class(x) <- c("matrix", "array")
+    x
+}
+
 cornish_fisher <- function(x, ...) {
   UseMethod("cornish_fisher")
 }

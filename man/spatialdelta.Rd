@@ -6,6 +6,7 @@
 \alias{metropolis_hastings_weights}
 \alias{iterative_proportional_fitting_weights}
 \alias{graph_distance_weights}
+\alias{as.matrix.adjusted_spatial_weights}
 \alias{plot_spatialcoords}
 \alias{plot_spatialcoords.default}
 \alias{plot_spatialcoords.spatialdelta}
@@ -44,6 +45,7 @@ metropolis_hastings_weights(adjacency_matrix, regional_weights)
 iterative_proportional_fitting_weights(adjacency_matrix, regional_weights,
  g=0.001, iter=1000, tol=1e-10, tol.margins=1e-10, print=FALSE)
 graph_distance_weights(adjacency_matrix, regional_weights)
+\method{as.matrix}{adjusted_spatial_weights}(x, ...)
 plot_spatialcoords(x, ...)
 \method{plot_spatialcoords}{default}(x, ...)
 \method{plot_spatialcoords}{spatialdelta}(x, cols = c(1L, 2L),
@@ -80,7 +82,7 @@ cornish_fisher(x, ...)
   \item{adjusted_spatial_weights}{\code{adjusted_spatial_weights} is a square matrix of spatial weights as returned by construction functions \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights}, \code{graph_distance_weights} or similar; only the named construction functions pass regional_weights through to \code{spatialdelta}, so for matrices constructed in other ways, this argument is required}
   \item{regional_weights}{default NULL, \code{regional_weights} are weights reflecting the contribution of each observation to the (possibly multivariate) data set, they may be uniform, but none can be zero, and they must sum to unity; if \code{adjusted_spatial_weights} is an \code{"adjusted_spatial_weights"} object created by \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights} or \code{graph_distance_weights}, \code{regional_weights} is passed as an attribute}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided"}
-  \item{object, x}{\code{object}, \code{x} are objects returned by \code{spatialdelta} of class \code{"spatialdelta"}}
+  \item{object, x}{\code{object}, \code{x} are objects returned by \code{spatialdelta} of class \code{"spatialdelta"}, or of class \code{"adjusted_spatial_weights"}}
   \item{digits}{default \code{getOption("digits")}, or a non-null value specifying the minimum number of significant digits to be printed in values}
   \item{adjacency_matrix}{\code{adjacency_matrix} is a symmetric binary adjacency matrix}
   \item{t_choice}{default 2, the inverse of the largest eigenvalue of the adjusted Laplacian adjacency matrix (t2, Bavaud 2024, page 583), otherwise 1 (t1, page 579)}

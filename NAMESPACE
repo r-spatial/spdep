@@ -180,6 +180,6 @@ S3method(localdelta, default)
 S3method(localdelta, spatialdelta)
 S3method(cornish_fisher, default)
 S3method(cornish_fisher, spatialdelta)
-
+S3method(as.matrix, adjusted_spatial_weights)
 
 
