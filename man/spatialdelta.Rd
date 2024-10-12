@@ -44,7 +44,7 @@ linearised_diffusive_weights(adjacency_matrix, regional_weights, t_choice = 2)
 metropolis_hastings_weights(adjacency_matrix, regional_weights)
 iterative_proportional_fitting_weights(adjacency_matrix, regional_weights,
  g=0.001, iter=1000, tol=1e-10, tol.margins=1e-10, print=FALSE)
-graph_distance_weights(adjacency_matrix, regional_weights)
+graph_distance_weights(adjacency_matrix, regional_weights, c=NULL)
 \method{as.matrix}{adjusted_spatial_weights}(x, ...)
 plot_spatialcoords(x, ...)
 \method{plot_spatialcoords}{default}(x, ...)
@@ -88,6 +88,7 @@ cornish_fisher(x, ...)
   \item{t_choice}{default 2, the inverse of the largest eigenvalue of the adjusted Laplacian adjacency matrix (t2, Bavaud 2024, page 583), otherwise 1 (t1, page 579)}
   \item{g}{default 0.001, (Bavaud 2024, page 579, 589), a small quantity to lift binary adjacency matrix above zero}
   \item{iter, tol, tol.margins, print}{arguments passed to \code{\link[mipfp]{Ipfp}}}
+  \item{c}{default NULL, a coefficient greater than zero and less than or equal to -1/min(B) where B is the matrix of scalar products associated with the distance matrix; if not given, -1/min(B) is used}
   \item{y}{a numeric vector from which to create a Moran plot}
   \item{cols}{integer vector of length 2, default \code{c(1L, 2L)}, giving the two columns of the regional or factorial coordinates to plot}
   \item{mult}{numeric vector of length 2, default \code{c(1, 1)}, to scale or reverse axes as signs are not given to be the same for different eigenproblem implementations}

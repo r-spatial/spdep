@@ -168,6 +168,7 @@ linearised_diffusive_weights <- function(adjacency_matrix, regional_weights, t_c
         (diag(rS) - adjacency_matrix)) # eq. 8
     rownames(res) <- rnames
     colnames(res) <- rnames
+    attr(res, "t") <- t
     attr(res, "regional_weights") <- regional_weights
     class(res) <- c("adjusted_spatial_weights", class(res))
     res
@@ -222,12 +223,13 @@ iterative_proportional_fitting_weights <- function(adjacency_matrix, regional_we
     res <- diag(1/regional_weights) %*% res0$x.hat
     rownames(res) <- rnames
     colnames(res) <- rnames
+    attr(res, "g") <- g
     attr(res, "regional_weights") <- regional_weights
     class(res) <- c("adjusted_spatial_weights", class(res))
     res
 }
 
-graph_distance_weights <- function(adjacency_matrix, regional_weights) {
+graph_distance_weights <- function(adjacency_matrix, regional_weights, c=NULL) {
     stopifnot(all(is.finite(regional_weights)))
     stopifnot(all(regional_weights > 0))
     if (sum(regional_weights) != 1) {
@@ -248,7 +250,11 @@ graph_distance_weights <- function(adjacency_matrix, regional_weights) {
     H <- diag(n) - rep(1, times=n) %*% t(regional_weights) # above eq. 15
     B <- -0.5 * (H %*% D %*% t(H)) # eq. 15
     c1 <- -1/min(c(B))
-    res <- (1 + (c1*B)) %*% diag(regional_weights) # eq. 33
+    if (is.null(c)) c <- c1
+    else {
+        if (c <= 0 || c > c1) stop("c out of range")
+    }
+    res <- (1 + (c*B)) %*% diag(regional_weights) # eq. 33
     rownames(res) <- rnames
     colnames(res) <- rnames
     attr(res, "regional_weights") <- regional_weights
