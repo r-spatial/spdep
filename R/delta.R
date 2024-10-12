@@ -472,14 +472,14 @@ plot_spatialscree.default <- function(x, ...) {
 }
 
 
-plot_spatialscree.spatialdelta <- function(x, ...) {
+plot_spatialscree.spatialdelta <- function(x, lwd=2, ...) {
 # Fig. 8
     e <- sort(Re(eigen(attr(x, "adjusted_spatial_weights"), only.values=TRUE)$values),
         decreasing=TRUE)
     plot(e, type="n", ylab="Eigenvalues", xlab="", ...)
     zero <- rep(0, length(e))
     n <- 1:length(e)
-    segments(n, e, n, zero, lwd=2)
+    segments(n, e, n, zero, lwd=lwd)
     invisible(e)
 }
 

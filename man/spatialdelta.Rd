@@ -57,7 +57,7 @@ plot_moran(x, y, ...)
  bg = 1, pos = 3, cex = 0.6, ...)
 plot_spatialscree(x, ...)
 \method{plot_spatialscree}{default}(x, ...)
-\method{plot_spatialscree}{spatialdelta}(x, ...)
+\method{plot_spatialscree}{spatialdelta}(x, lwd=2, ...)
 factorial_coordinates(x)
 \method{factorial_coordinates}{default}(x)
 \method{factorial_coordinates}{spatialdelta}(x)
@@ -95,7 +95,7 @@ cornish_fisher(x, ...)
   \item{power}{integer vector of length 1, default 1; if higher, use a powered kernel}
   \item{fmult}{default \code{NULL} for automatic scaling of the circle symbols expressing the observation weights \code{f} in the plot as \code{(0.02*diff(range(X)))/diff(range(regional_weights))} where \code{X} is the first vector of coordinates; may be set manually to a numeric value}
   \item{names}{default \code{attr(x, "rnames")}, the coordinates will be annotated with these strings passed through from the \code{"region.id"} attribute of the \code{"nb"} object used to create the \code{adjusted_spatial_weights} matrix from the \code{"adjacency_matrix"} object as row and column names}
-  \item{bg, pos, cex}{arguments passed to graphics functions or methods}
+  \item{bg, pos, cex, lwd}{arguments passed to graphics functions or methods}
   \item{...}{other arguments passed to other functions or methods}
 }
 \details{In general, the user should choose one of the functions for constructing spatial weights from the symmetric binary, or similar to symmetric - for example row-standardised - adjacency matrix. The \code{cornish_fisher} method updates the standard deviate and p-value if the pair of skewness and excess kurtosis estimates are within the required domain.}
