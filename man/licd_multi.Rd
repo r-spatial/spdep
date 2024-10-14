@@ -18,8 +18,8 @@ licd_multi(fx, listw, zero.policy = attr(listw, "zero.policy"), adjust.n = TRUE,
   \item{nsim}{default 0, number of conditonal permutation simulations}
   \item{iseed}{default NULL, used to set the seed; the output will only be reproducible if the count of CPU cores across which computation is distributed is the same}
   \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
-  \item{control}{comp_binary=TRUE, binomial_punif_alternative="greater",
-        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="greater"}
+  \item{control}{comp_binary=\code{TRUE}, binomial_punif_alternative=\code{"greater"},
+        jcm_same_punif_alternative=\code{"less"}, jcm_diff_punif_alternative=\code{"greater"},        rank_ties.method=\code{"min"}}
 }
 \details{The original code may be found at \doi{10.5281/zenodo.4283766}}
 
