@@ -2,7 +2,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     adjust.n=TRUE, nsim = 0L, iseed = NULL, no_repeat_in_row=FALSE,
     control=list()) {
     con <- list(comp_binary=TRUE, binomial_punif_alternative="greater",
-        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="greater",        rank_ties.method="min")
+        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="greater",        rank_ties.method="min", unique_ceiling=1/3)
     nmsC <- names(con)
     con[(namc <- names(control))] <- control
     if (length(noNms <- namc[!namc %in% nmsC])) 
@@ -44,6 +44,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     assign("almost.1", almost.1, envir=env)
     assign("comp_binary", con$comp_binary, envir=env)
     assign("ties.method", con$rank_ties.method, envir=env)
+    assign("unique_ceiling", nsim*con$unique_ceiling, envir=env)
     varlist = ls(envir = env)
 
     permLICD_int <- function(i, env) {
@@ -65,7 +66,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         lk <- get("lk", envir=env)
         comp_binary <- get("comp_binary", envir=env)
         ties.method <- get("ties.method", envir=env)
-
+        unique_ceiling <- get("unique_ceiling", envir=env)
         local_jcm_BW <- function(xi, sn, wc) {
             xi <- factor(as.numeric(!xi)+1, levels=c(1L, 2L),
                 labels=c("1", "2"))
@@ -173,58 +174,105 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
 
             sx_i <- cbind(rep(xi, times=nsim), sx_i)
             u_sx_i <- unique(sx_i)
-            reps <- integer(nrow(u_sx_i))
-            len_reps <- length(reps)
-            for (i in seq(along=reps))
+            len_reps <- nrow(u_sx_i)
+            do_reps <- FALSE
+            if (len_reps < unique_ceiling) do_reps <- TRUE
+            if (do_reps) {
+                reps <- integer(len_reps)
+                for (i in seq(along=reps))
                 reps[i] <- sum(apply(sx_i, 1, function(x) all(x == u_sx_i[i,])))
-        
-            u_c1_comp_sim_i <- apply(u_sx_i, 1,
-               function(y) ifelse(comp_binary, sum(y == xi),
-                   sum(w_i_i * (y == xi)) + 1))
-            c1_comp_sim_i <- rep(u_c1_comp_sim_i, times=reps)
+            }
+
+            if (do_reps) {
+                u_c1_comp_sim_i <- apply(u_sx_i, 1,
+                    function(y) ifelse(comp_binary, sum(y == xi),
+                        sum(w_i_i * (y == xi)) + 1))
+                c1_comp_sim_i <- rep(u_c1_comp_sim_i, times=reps)
+            } else {
+                c1_comp_sim_i <- apply(sx_i, 1,
+                    function(y) ifelse(comp_binary, sum(y == xi),
+                        sum(w_i_i * (y == xi)) + 1))
+            }
             c1_comp_sim_i_rank <- rank(c(c1_comp_sim_i,
                 c1_comp_obs_i), ties.method=ties.method)[(nsim + 1L)]
 
-            u_c4_comp_bin_BW_sim_i <- sapply(u_c1_comp_sim_i, function(y) {
-                pbinom(y, c3_crdip1, c2_prop_level_i, lower.tail=TRUE)
-            })
-            c4_comp_bin_BW_sim_i <- rep(u_c4_comp_bin_BW_sim_i, times=reps)
+            if (do_reps) {
+                u_c4_comp_bin_BW_sim_i <- sapply(u_c1_comp_sim_i, function(y) {
+                    pbinom(y, c3_crdip1, c2_prop_level_i, lower.tail=TRUE)
+                })
+                c4_comp_bin_BW_sim_i <- rep(u_c4_comp_bin_BW_sim_i, times=reps)
+            } else {
+                c4_comp_bin_BW_sim_i <- sapply(c1_comp_sim_i, function(y) {
+                    pbinom(y, c3_crdip1, c2_prop_level_i, lower.tail=TRUE)
+                })
+            }
             c4_comp_bin_BW_sim_i_rank <- rank(c(c4_comp_bin_BW_sim_i,
                 c4_comp_bin_BW_i), ties.method=ties.method)[(nsim + 1L)]
 
-            u_c5_comp_bin_BW_sim_i <- sapply(u_c1_comp_sim_i, function(y) {
-                pbinom(y, c3_crdip1, c2_prop_level_i, lower.tail=FALSE)
-            })
-            c5_comp_bin_BW_sim_i <- rep(u_c5_comp_bin_BW_sim_i, times=reps)
+            if (do_reps) {
+                u_c5_comp_bin_BW_sim_i <- sapply(u_c1_comp_sim_i, function(y) {
+                    pbinom(y, c3_crdip1, c2_prop_level_i, lower.tail=FALSE)
+                })
+                c5_comp_bin_BW_sim_i <- rep(u_c5_comp_bin_BW_sim_i, times=reps)
+            } else {
+                c5_comp_bin_BW_sim_i <- sapply(c1_comp_sim_i, function(y) {
+                    pbinom(y, c3_crdip1, c2_prop_level_i, lower.tail=FALSE)
+                })
+            }
             c5_comp_bin_BW_sim_i_rank <- rank(c(c5_comp_bin_BW_sim_i,
                 c5_comp_bin_BW_i), ties.method=ties.method)[(nsim + 1L)]
 
-            u_c5a_comp_bin_BW_sim_i <- sapply(u_c1_comp_sim_i, function(y) {
-                pbinom(y-1, c3_crdip1, c2_prop_level_i, lower.tail=FALSE)
-            })
-            c5a_comp_bin_BW_sim_i <- rep(u_c5a_comp_bin_BW_sim_i, times=reps)
+            if (do_reps) {
+                u_c5a_comp_bin_BW_sim_i <- sapply(u_c1_comp_sim_i, function(y) {
+                    pbinom(y-1, c3_crdip1, c2_prop_level_i, lower.tail=FALSE)
+                })
+                c5a_comp_bin_BW_sim_i <- rep(u_c5a_comp_bin_BW_sim_i, times=reps)
+            } else {
+                c5a_comp_bin_BW_sim_i <- sapply(c1_comp_sim_i, function(y) {
+                    pbinom(y-1, c3_crdip1, c2_prop_level_i, lower.tail=FALSE)
+                })
+            }
             c5a_comp_bin_BW_sim_i_rank <- rank(c(c5a_comp_bin_BW_sim_i,
                 c5a_comp_bin_BW_i), ties.method=ties.method)[(nsim + 1L)]
 
-            u_c6_comp_chi_BW_sim_i <- sapply(u_c1_comp_sim_i, function(y) {
-                local_chi(c(y, c3_crdip1-y), E_BW)
-            })
-            c6_comp_chi_BW_sim_i <- rep(u_c6_comp_chi_BW_sim_i, times=reps)
+            if (do_reps) {
+                u_c6_comp_chi_BW_sim_i <- sapply(u_c1_comp_sim_i, function(y) {
+                    local_chi(c(y, c3_crdip1-y), E_BW)
+                })
+                c6_comp_chi_BW_sim_i <- rep(u_c6_comp_chi_BW_sim_i, times=reps)
+            } else {
+                c6_comp_chi_BW_sim_i <- sapply(c1_comp_sim_i, function(y) {
+                    local_chi(c(y, c3_crdip1-y), E_BW)
+                })
+            }
             c6_comp_chi_BW_sim_i_rank <- rank(c(c6_comp_chi_BW_sim_i,
                 c6_comp_chi_BW_i), ties.method=ties.method)[(nsim + 1L)]
 
-            u_c7_comp_chi_K_sim_i <- apply(u_sx_i, 1, function(y) {
-                O_k <- table(factor(y, levels=1:k))
-                local_chi(O_k, E_k)
-            })
-            c7_comp_chi_K_sim_i <- rep(u_c7_comp_chi_K_sim_i, times=reps)
+            if (do_reps) {
+                u_c7_comp_chi_K_sim_i <- apply(u_sx_i, 1, function(y) {
+                    O_k <- table(factor(y, levels=1:k))
+                    local_chi(O_k, E_k)
+                })
+                c7_comp_chi_K_sim_i <- rep(u_c7_comp_chi_K_sim_i, times=reps)
+            } else {
+                c7_comp_chi_K_sim_i <- apply(sx_i, 1, function(y) {
+                    O_k <- table(factor(y, levels=1:k))
+                    local_chi(O_k, E_k)
+                })
+            }
             c7_comp_chi_K_sim_i_rank <- rank(c(c7_comp_chi_K_sim_i,
                 c7_comp_chi_K_i), ties.method=ties.method)[(nsim + 1L)]
 
-            u_c8_comp_ans_BW_sim_i <- sapply(u_c1_comp_sim_i, function(s) {
-                local_anscombe(s, c3_crdip1)
-            })
-            c8_comp_ans_BW_sim_i <- rep(u_c8_comp_ans_BW_sim_i, times=reps)
+            if (do_reps) {
+                u_c8_comp_ans_BW_sim_i <- sapply(u_c1_comp_sim_i, function(s) {
+                    local_anscombe(s, c3_crdip1)
+                })
+                c8_comp_ans_BW_sim_i <- rep(u_c8_comp_ans_BW_sim_i, times=reps)
+            } else {
+                c8_comp_ans_BW_sim_i <- sapply(c1_comp_sim_i, function(s) {
+                    local_anscombe(s, c3_crdip1)
+                })
+            }
             c8_comp_ans_BW_sim_i_rank <- rank(c(c8_comp_ans_BW_sim_i,
                 c8_comp_ans_BW_i), ties.method=ties.method)[(nsim + 1L)]
 
@@ -246,27 +294,47 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
                 i_here:crdi])
 
             u_sx_i_i <- unique(sx_i_i)
-            reps_i <- integer(nrow(u_sx_i_i))
-            len_reps_i <- length(reps_i)
-            for (i in seq(along=reps_i))
-                reps_i[i] <- sum(apply(sx_i_i, 1, function(x) all(x == u_sx_i_i[i,])))
+            len_reps_i <- nrow(u_sx_i_i)
+            do_reps_i <- FALSE
+            if (len_reps_i < unique_ceiling) do_reps_i <- TRUE
+            if (do_reps_i) {
+                reps_i <- integer(len_reps_i)
+                len_reps_i <- length(reps_i)
+                for (i in seq(along=reps_i)) reps_i[i] <- sum(apply(sx_i_i, 1,
+                    function(x) all(x == u_sx_i_i[i,])))
+            }
 
-            u_local_jcm_sim <- apply(u_sx_i_i, 1, function(y) {
-                local_jcm_BW(y, sn, wc)
-            }, simplify=FALSE)
 
-            u_local_jcm_chi_BW_sim <- sapply(u_local_jcm_sim, "[[", 1)
-            local_jcm_chi_BW_sim <- rep(u_local_jcm_chi_BW_sim, times=reps_i)
+            if (do_reps_i) {
+                u_local_jcm_sim <- apply(u_sx_i_i, 1, function(y) {
+                    local_jcm_BW(y, sn, wc)
+                }, simplify=FALSE)
+                u_local_jcm_chi_BW_sim <- sapply(u_local_jcm_sim, "[[", 1)
+                local_jcm_chi_BW_sim <- rep(u_local_jcm_chi_BW_sim, times=reps_i)
+            } else {
+                local_jcm_sim <- apply(sx_i_i, 1, function(y) {
+                    local_jcm_BW(y, sn, wc)
+                }, simplify=FALSE)
+                local_jcm_chi_BW_sim <- sapply(local_jcm_sim, "[[", 1)
+            }
             local_jcm_chi_BW_sim_rank <- rank(c(local_jcm_chi_BW_sim,
-                almost.1 * local_jcm_obs_chi_BW), ties.method=ties.method)[(nsim + 1L)]
+                local_jcm_obs_chi_BW), ties.method=ties.method)[(nsim + 1L)]
 
-            u_zs <- t(sapply(u_local_jcm_sim, function(y) {
-                (y[[2]] - y[[3]]) / sqrt(y[[4]])
-            }))
-
-            zs1 <- rep(u_zs[,1], times=reps_i)
-            zs2 <- rep(u_zs[,2], times=reps_i)
-            zs3 <- rep(u_zs[,3], times=reps_i)
+            if (do_reps_i) {
+                u_zs <- t(sapply(u_local_jcm_sim, function(y) {
+                    (y[[2]] - y[[3]]) / sqrt(y[[4]])
+                }))
+                zs1 <- rep(u_zs[,1], times=reps_i)
+                zs2 <- rep(u_zs[,2], times=reps_i)
+                zs3 <- rep(u_zs[,3], times=reps_i)
+            } else {
+                zs <- t(sapply(local_jcm_sim, function(y) {
+                    (y[[2]] - y[[3]]) / sqrt(y[[4]])
+                }))
+                zs1 <- zs[,1]
+                zs2 <- zs[,2]
+                zs3 <- zs[,3]
+            }
             local_jcm_z_BB_sim_rank <- rank(c(zs1,
                 local_jcm_obs_z_BB), ties.method=ties.method)[(nsim + 1L)]
             local_jcm_z_WW_sim_rank <- rank(c(zs2,
