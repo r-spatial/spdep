@@ -71,7 +71,7 @@ localG <- function(x, listw, zero.policy=attr(listw, "zero.policy"), spChk=NULL,
         colnames(ints) <- c(paste(c("", "E(", "V(", "Z("), Gi_str,
             c("", ")", ")", ")"), sep=""), Prname)
         attr(res, "internals") <- ints
-        attr(res, "cluster") <- cut(x, c(-Inf, mean(x), Inf),
+        attr(res, "cluster") <- cut(res, c(-Inf, 0, Inf),
             labels = c("Low", "High"))
         attr(res, "gstari") <- gstari
 	attr(res, "call") <- match.call()
