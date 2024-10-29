@@ -230,7 +230,7 @@ read.swmdbf2listw <- function(fn, region.id=NULL, style=NULL, zero.policy=NULL) 
 					)
 				}
         if (is.null(region.id)) {
-            rn <- range(c(df[,2], df[,3]))
+            rn <- range(c(as.numeric(df[,2]), as.numeric(df[,3])))
             region.id <- as.character(rn[1]:rn[2])
             warning("region.id not given, c(MYID, NID) range is ",
                 paste(rn, collapse=":"))
