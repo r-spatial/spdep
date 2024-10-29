@@ -207,6 +207,7 @@ read.swmdbf2listw <- function(fn, region.id=NULL, style=NULL, zero.policy=NULL) 
     if (is.null(style)) {
         style <- "M"
     }
+	
     if (style == "M")
         warning("style is M (missing); style should be set to a valid value")
 
