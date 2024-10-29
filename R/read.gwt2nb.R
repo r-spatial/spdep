@@ -285,7 +285,8 @@ write.swmdbf <- function(listw, file, ind, region.id = attr(listw, "region.id"))
   # flatten the weights
   weight <- unlist(listw$weights)
   # construct a data frame from the flattened structure
-  res <- data.frame(from, to, weight)
+	# note that the columns _must_ be integers for the ArcGIS Pro tool to work
+  res <- data.frame(as.integer(from), as.integer(to), weight)
 
   # give appropriate column names. The first column must be 
   # the unique ID column
