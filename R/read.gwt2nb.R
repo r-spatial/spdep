@@ -215,6 +215,19 @@ read.swmdbf2listw <- function(fn, region.id=NULL, style=NULL, zero.policy=NULL) 
     if (requireNamespace("foreign", quietly=TRUE)) {
         df <- try(foreign::read.dbf(fn, as.is=TRUE), silent=TRUE)
         if (inherits(df, "try-error")) stop(df[1])
+				# a SWM table that is _imported_ into ArcGIS Pro does not use the
+			  # leading empty `Field1`. If it is not present, add it for this
+			  # function to continue as anticipated
+				dbf_names <- colnames(df)
+				nb_idx <- which(dbf_names == "NID")
+				# ensure that `NID` is provided
+				if (length(nb_idx) == 0) stop("Field `NID` not found in provided .dbf")
+				if (nb_idx == 2L) {
+					df <- cbind(
+						Field1 = rep(0, nrow(df)),
+						df
+					)
+				}
         if (is.null(region.id)) {
             rn <- range(c(df[,2], df[,3]))
             region.id <- as.character(rn[1]:rn[2])
@@ -245,4 +258,41 @@ read.swmdbf2listw <- function(fn, region.id=NULL, style=NULL, zero.policy=NULL) 
 
 read_swm_dbf <- function(fn) {
     read.swmdbf2listw(fn, style="B")
+}
+
+write.swmdbf <- function(listw, file, ind, region.id = attr(listw, "region.id")) {
+  stopifnot(
+    "`ind` must be a character scalar" = is.character(ind),
+    "`ind` must be a character scalar" = length(ind) == 1,
+    "`listw` must be a `listw` spatial weights matrix" = inherits(listw, "listw"),
+		"package foreign is required to write to dbf" = requireNamespace("foreign")
+  )
+
+  n <- length(listw$neighbours)
+
+  # Unsure if it is possible to not have region.id in current state 
+  # of spdep, including in the event.
+  if (is.null(region.id)) {
+    warning("`region.id` not supplied. Using row positions.")
+    region.id <- as.character(1:n)
+  }
+
+  # create indices from indices to match length of neighbors
+  from <- region.id[rep.int(1:n, card(listw$neighbours))]
+  # flatten the neighbor ids
+  to <- region.id[unlist(listw$neighbours)]
+  # flatten the weights
+  weight <- unlist(listw$weights)
+  # construct a data frame from the flattened structure
+  res <- data.frame(from, to, weight)
+
+  # give appropriate column names. The first column must be 
+  # the unique ID column
+  colnames(res) <- c(ind, "NID", "WEIGHT")
+  foreign::write.dbf(res, file)
+  invisible(res)
+}
+
+write_swm_dbf <- function(listw, file, ind, region.id = attr(listw, "region.id")) {
+	write.swmdbf(listw, file, ind, region.id)
 }
