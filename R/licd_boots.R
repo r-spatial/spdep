@@ -37,7 +37,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     timings <- list()
     .ptime_start <- proc.time()
     con <- list(comp_binary=TRUE, binomial_punif_alternative="greater",
-        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="less",        rank_ties.method="min", unique_ceiling=1/3, check_reps=FALSE,
+        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="greater",        rank_ties.method="min", unique_ceiling=1/3, check_reps=FALSE,
         pysal_rank=FALSE, pysal_sim_obs="GE", xtras=FALSE)
     nmsC <- names(con)
     con[(namc <- names(control))] <- control
@@ -493,22 +493,22 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             alternative=con$jcm_same_punif_alternative)
         pr_jcmnsim1 <- probs_lut("jcm_diff", nsim,
             alternative=con$jcm_diff_punif_alternative)
-        pval_jcm_obs_BB_sim <- pr_jcmnsim[out[,26]]
-        pval_jcm_obs_BW_sim <- pr_jcmnsim[out[,27]]
-        pval_jcm_obs_WW_sim <- pr_jcmnsim1[out[,28]]
+        pval_jcm_obs_BB <- pr_jcmnsim[out[,26]]
+        pval_jcm_obs_BW <- pr_jcmnsim[out[,27]]
+        pval_jcm_obs_WW <- pr_jcmnsim1[out[,28]]
         if (any(sameB)) {
-            pval_jcm_obs_BB_sim[sameB] <- 0
-            pval_jcm_obs_WW_sim[sameB] <- 1
-            pval_jcm_obs_BW_sim[sameB] <- 1
+            pval_jcm_obs_BB[sameB] <- 0
+            pval_jcm_obs_WW[sameB] <- 1
+            pval_jcm_obs_BW[sameB] <- 1
         }
-        pval_jcm_obs_BB_sim[is.nan(pval_jcm_obs_BB)] <- 1
-        pval_jcm_obs_WW_sim[is.nan(pval_jcm_obs_WW)] <- 1
-        pval_jcm_obs_BW_sim[is.nan(pval_jcm_obs_BW)] <- 1
+        pval_jcm_obs_BB[is.nan(pval_jcm_obs_BB)] <- 1
+        pval_jcm_obs_WW[is.nan(pval_jcm_obs_WW)] <- 1
+        pval_jcm_obs_BW[is.nan(pval_jcm_obs_BW)] <- 1
         
         local_config_sim <- data.frame(ID=1:n, jcm_chi_sim_rank=out[,25],
-        pval_jcm_obs_BB_sim=pval_jcm_obs_BB_sim,
-        pval_jcm_obs_BW_sim=pval_jcm_obs_BW_sim,
-        pval_jcm_obs_WW_sim=pval_jcm_obs_WW_sim)
+        pval_jcm_obs_BB=pval_jcm_obs_BB,
+        pval_jcm_obs_BW=pval_jcm_obs_BW,
+        pval_jcm_obs_WW=pval_jcm_obs_WW)
     }
 
     colnames(out) <- c("category_i", "count_like_i", "prop_i", "count_nbs_i",
@@ -591,9 +591,9 @@ hotspot.licd <- function(obj, type="both", cutoff=0.05, p.adjust="none",
         local_config <- factor(local_config)
         local_config_sim <- NULL
         if (attr(obj, "nsim") > 0) {
-            BB <- obj$local_config_sim$pval_jcm_obs_BB_sim
-            WW <- obj$local_config_sim$pval_jcm_obs_WW_sim
-            BW <- obj$local_config_sim$pval_jcm_obs_BW_sim
+            BB <- obj$local_config_sim$pval_jcm_obs_BB
+            WW <- obj$local_config_sim$pval_jcm_obs_WW
+            BW <- obj$local_config_sim$pval_jcm_obs_BW
             BB <- p.adjust(BB, p.adjust)
             WW <- p.adjust(WW, p.adjust)
             BW <- p.adjust(BW, p.adjust)
