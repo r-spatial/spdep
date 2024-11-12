@@ -37,7 +37,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     timings <- list()
     .ptime_start <- proc.time()
     con <- list(comp_binary=TRUE, binomial_punif_alternative="greater",
-        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="less",        rank_ties.method="min", unique_ceiling=1/3, check_reps=FALSE,
+        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="greater",        rank_ties.method="min", unique_ceiling=1/3, check_reps=FALSE,
         pysal_rank=FALSE, pysal_sim_obs="GE", xtras=FALSE)
     nmsC <- names(con)
     con[(namc <- names(control))] <- control
@@ -491,7 +491,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             rank_sim_anscombe_BW=out[,24])
         pr_jcmnsim <- probs_lut("jcm_same", nsim,
             alternative=con$jcm_same_punif_alternative)
-        pr_jcmnsim1 <- probs_lut("jcm_diff", nsim,
+        pr_jcmnsim1 <- probs_lut("jcm_same", nsim,
             alternative=con$jcm_diff_punif_alternative)
         pval_jcm_obs_BB <- pr_jcmnsim[out[,26]]
         pval_jcm_obs_BW <- pr_jcmnsim1[out[,27]]
