@@ -38,13 +38,28 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     .ptime_start <- proc.time()
     con <- list(comp_binary=TRUE, binomial_punif_alternative="greater",
         jcm_same_punif_alternative="less", jcm_diff_punif_alternative="greater",        rank_ties.method="min", unique_ceiling=1/3, check_reps=FALSE,
-        pysal_rank=FALSE, pysal_sim_obs="GE", xtras=FALSE,
-        set_NA_jcm_probs=TRUE, set_allB_jcm_probs=TRUE)
+        pysal_rank=FALSE, pysal_sim_obs="GT", na.last="keep", xtras=FALSE)
     nmsC <- names(con)
     con[(namc <- names(control))] <- control
     if (length(noNms <- namc[!namc %in% nmsC])) 
         warning("unknown names in control: ", paste(noNms, collapse = ", "))
-     if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
+    if (length(con$rank_ties.method) != 1L) stop("control rank_ties.method invalid")
+    if (!is.character(con$rank_ties.method))
+        stop("control rank_ties.method invalid")
+    if (is.na(match(con$rank_ties.method, 
+         c("average", "first", "last", "random", "max", "min")))) {
+         stop("control rank_ties.method string invalid: ", con$rank_ties.method)
+    }
+    if (length(con$na.last) != 1L) stop("control na.last invalid")
+    if (!is.na(con$na.last)) {
+        if (is.character(con$na.last)) {
+            if (is.na(match(con$na.last, "keep")))
+                stop("control na.last string invalid: ", con$na.last)
+        } else if (!is.logical(con$na.last)) {
+            stop("control na.last invalid")
+        }
+    }
+    if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
         "is not a listw object"))
     if(!is.factor(fx)) stop(paste(deparse(substitute(fx)),
         "is not a factor"))
@@ -68,25 +83,44 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
 
     if (con$pysal_rank) {
         if (con$pysal_sim_obs == "GE") {
-# esda/crand.py line 328
+# esda/crand.py line 328 modified to handle sampling exceptions
+# now matches ties.method="min", na.last="keep"
             local_rank <- function(sims, obs, ties.method, nsim) {
-                if (is.finite(obs)) ret <- sum(sims >= obs)+1
-                else ret <- NA_real_
+                if (!is.finite(obs)) ret <- NA_real_
+                else ret <- sum(sims <= obs, na.rm=TRUE)+1
                 ret
             }
         } else if (con$pysal_sim_obs == "GT") {
             local_rank <- function(sims, obs, ties.method, nsim) {
-                if (is.finite(obs)) ret <- sum(sims > obs)+1
-                else ret <- NA_real_
-                ret            }
+                if (!is.finite(obs)) ret <- NA_real_
+                else ret <- sum(sims < obs, na.rm=TRUE)+1
+                ret
+            }
         } else stop("pysal_sim_obs given", con$pysal_sim_obs, "must be GE or GT")
     } else {
-        local_rank <- function(sims, obs, ties.method, nsim) {
-            if (is.finite(obs)) ret <- as.numeric(rank(c(sims, obs), 
-                ties.method=ties.method)[(nsim + 1L)])
-            else ret <- NA_real_
-            ret
-        }
+        if (!is.na(con$na.last) && is.logical(con$na.last) && con$na.last) {
+            local_rank <- function(sims, obs, ties.method, nsim) {
+                as.numeric(rank(c(sims, obs), 
+                na.last=TRUE, ties.method=ties.method)[(nsim + 1L)])
+            }
+        } else if (!is.na(con$na.last) && is.logical(con$na.last) && 
+            !con$na.last) {
+            local_rank <- function(sims, obs, ties.method, nsim) {
+                as.numeric(rank(c(sims, obs), 
+                na.last=FALSE, ties.method=ties.method)[(nsim + 1L)])
+            }
+        } else if (is.na(con$na.last)) {
+            local_rank <- function(sims, obs, ties.method, nsim) {
+                as.numeric(rank(c(sims, obs), 
+                na.last=NA, ties.method=ties.method)[(nsim + 1L)])
+            }
+        } else if (!is.na(con$na.last) && is.character(con$na.last) && 
+            con$na.last == "keep") {
+            local_rank <- function(sims, obs, ties.method, nsim) {
+                as.numeric(rank(c(sims, obs), 
+                na.last="keep", ties.method=ties.method)[(nsim + 1L)])
+            }
+        } else stop('na.last given', con$na.last, 'must be valid')
     }
 
     env <- new.env()
@@ -200,8 +234,10 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         local_jcm_obs_count_BB <- local_jcm_obs[[2]][1]
         local_jcm_obs_count_WW <- local_jcm_obs[[2]][2]
         local_jcm_obs_count_BW <- local_jcm_obs[[2]][3]
-        zs <- (local_jcm_obs[[2]] - local_jcm_obs[[3]]) / 
-            sqrt(local_jcm_obs[[4]])
+        vs <- local_jcm_obs[[4]]
+        vs_non_pos <- any(vs <=  0)
+        Oi_Ei_zero <- all(local_jcm_obs[[2]]-local_jcm_obs[[3]] == 0)
+        zs <- (local_jcm_obs[[2]] - local_jcm_obs[[3]]) / sqrt(vs)
         local_jcm_obs_z_BB <- zs[1]
         local_jcm_obs_z_WW <- zs[2]
         local_jcm_obs_z_BW <- zs[3]
@@ -434,7 +470,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             c8_comp_ans_BW_sim_i_rank <- local_jcm_chi_BW_sim_rank <- 
             local_jcm_z_BB_sim_rank <- local_jcm_z_BW_sim_rank <- 
             local_jcm_z_WW_sim_rank <- len_reps <- 
-            len_reps_i <- NA_real_
+            len_reps_i <- vs_non_pos <- Oi_Ei_zero <- NA_real_
         }
         tcompi <- as.numeric(timingsi[["compi"]][1])
         tconfigi <- as.numeric(timingsi[["configi"]][1])
@@ -452,7 +488,8 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             c8_comp_ans_BW_sim_i_rank, local_jcm_chi_BW_sim_rank,
             local_jcm_z_BB_sim_rank, local_jcm_z_BW_sim_rank,
             local_jcm_z_WW_sim_rank, local_jcm_all_BB, as.numeric(len_reps), 
-            as.numeric(len_reps_i), tcompi, tconfigi)
+            as.numeric(len_reps_i), tcompi, tconfigi, as.numeric(vs_non_pos),
+            as.numeric(Oi_Ei_zero))
         res_i
     }
     timings[["set_up"]] <- proc.time() - .ptime_start
@@ -473,19 +510,15 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     pval_jcm_obs_BB <- pnorm(out[,15], lower.tail=FALSE)
     pval_jcm_obs_WW <- pnorm(out[,16], lower.tail=FALSE)
     pval_jcm_obs_BW <- pnorm(out[,17], lower.tail=TRUE)
-    if (con$set_allB_jcm_probs) {
-        sameB <- as.logical(out[,29])
-        if (any(sameB)) {
-            pval_jcm_obs_BB[sameB] <- 0
-            pval_jcm_obs_WW[sameB] <- 1
-            pval_jcm_obs_BW[sameB] <- 1
-        }
+    sameB <- as.logical(out[,29])
+    if (any(sameB)) {
+        pval_jcm_obs_BB[sameB] <- 0
+        pval_jcm_obs_WW[sameB] <- 1
+        pval_jcm_obs_BW[sameB] <- 1
     }
-    if (con$set_NA_jcm_probs) {
-        pval_jcm_obs_BB[is.na(pval_jcm_obs_BB)] <- 1
-        pval_jcm_obs_WW[is.na(pval_jcm_obs_WW)] <- 1
-        pval_jcm_obs_BW[is.na(pval_jcm_obs_BW)] <- 1
-    }
+    pval_jcm_obs_BB[!is.finite(pval_jcm_obs_BB)] <- 1
+    pval_jcm_obs_WW[!is.finite(pval_jcm_obs_WW)] <- 1
+    pval_jcm_obs_BW[!is.finite(pval_jcm_obs_BW)] <- 1
     local_config <- data.frame(ID=1:n, jcm_chi_obs=out[,11],
         jcm_count_BB_obs=out[,12], jcm_count_BW_obs=out[,13],
         jcm_count_WW_obs=out[,14], pval_jcm_obs_BB=pval_jcm_obs_BB,
@@ -505,23 +538,19 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         pr_jcmnsim1 <- probs_lut("jcm_same", nsim,
             alternative=con$jcm_diff_punif_alternative)
         rnk <- out[,26]
-        pval_jcm_obs_BB <- ifelse(!is.finite(rnk), pr_jcmnsim[rnk], NA_real_)
+        pval_jcm_obs_BB <- ifelse(is.finite(rnk), pr_jcmnsim[rnk], NA_real_)
         rnk <- out[,27]
-        pval_jcm_obs_BW <- ifelse(!is.finite(rnk), pr_jcmnsim1[rnk], NA_real_)
+        pval_jcm_obs_BW <- ifelse(is.finite(rnk), pr_jcmnsim1[rnk], NA_real_)
         rnk <- out[,28]
-        pval_jcm_obs_WW <- ifelse(!is.finite(rnk), pr_jcmnsim[rnk], NA_real_)
-        if (con$set_allB_jcm_probs) {
-            if (any(sameB)) {
-                pval_jcm_obs_BB[sameB] <- 0
-                pval_jcm_obs_WW[sameB] <- 1
-                pval_jcm_obs_BW[sameB] <- 1
-            }
+        pval_jcm_obs_WW <- ifelse(is.finite(rnk), pr_jcmnsim[rnk], NA_real_)
+        if (any(sameB)) {
+            pval_jcm_obs_BB[sameB] <- 0
+            pval_jcm_obs_WW[sameB] <- 1
+            pval_jcm_obs_BW[sameB] <- 1
         }
-        if (con$set_NA_jcm_probs) {
-            pval_jcm_obs_BB[is.nan(pval_jcm_obs_BB)] <- 1
-            pval_jcm_obs_WW[is.nan(pval_jcm_obs_WW)] <- 1
-            pval_jcm_obs_BW[is.nan(pval_jcm_obs_BW)] <- 1
-        }
+        pval_jcm_obs_BB[is.nan(pval_jcm_obs_BB)] <- 1
+        pval_jcm_obs_WW[is.nan(pval_jcm_obs_WW)] <- 1
+        pval_jcm_obs_BW[is.nan(pval_jcm_obs_BW)] <- 1
         local_config_sim <- data.frame(ID=1:n, jcm_chi_sim_rank=out[,25],
         pval_jcm_obs_BB=pval_jcm_obs_BB,
         pval_jcm_obs_BW=pval_jcm_obs_BW,
@@ -538,7 +567,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         "rank_sim_chi_BW", "rank_sim_chi_K", "rank_sim_anscombe_BW",
         "jcm_chi_sim_rank", "jcm_z_BB_sim_rank", "jcm_z_BW_sim_rank",
         "jcm_z_WW_sim_rank", "local_jcm_all_BB", "len_reps", "len_reps_i",
-        "tcompi", "tconfigi")
+        "tcompi", "tconfigi", "vs_non_pos", "Oi_Ei_zero")
 
     timings[["postprocessing"]] <- proc.time() - .ptime_start
     res <- list(local_comp=local_comp, local_config=local_config, local_comp_sim=local_comp_sim, local_config_sim=local_config_sim)
