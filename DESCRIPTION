@@ -46,7 +46,7 @@ Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"),
 	person("Danlin", "Yu", role = "ctb"))
 Depends: R (>= 3.3.0), methods, spData (>= 2.3.1), sf 
 Imports: stats, deldir, boot (>= 1.3-1), graphics, utils, grDevices, units, s2, e1071, sp (>= 1.0)
-Suggests: spatialreg (>= 1.2-1), Matrix, parallel, dbscan, RColorBrewer, lattice, xtable, foreign, igraph, RSpectra, knitr, classInt, tmap, spam, ggplot2, rmarkdown, tinytest, rgeoda
+Suggests: spatialreg (>= 1.2-1), Matrix, parallel, dbscan, RColorBrewer, lattice, xtable, foreign, igraph, RSpectra, knitr, classInt, tmap, spam, ggplot2, rmarkdown, tinytest
 URL: https://github.com/r-spatial/spdep/, https://r-spatial.github.io/spdep/
 BugReports: https://github.com/r-spatial/spdep/issues/
 Description: A collection of functions to create spatial weights matrix
