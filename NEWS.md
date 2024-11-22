@@ -1,6 +1,6 @@
 # Version 1.3-6 (development)
 
-* adding vignette desribing recent changes in `poly2nb` from #162, subgraph and no-neighbour (island) handling
+* adding vignette describing recent changes in `poly2nb` from #162, subgraph and no-neighbour (island) handling
 
 * adding prototype of LICD ESDA function `licd_multi` and `hotspot` method
 
