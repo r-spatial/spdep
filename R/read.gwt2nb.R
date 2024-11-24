@@ -296,7 +296,7 @@ write.swmdbf <- function(listw, file, ind, region.id = attr(listw, "region.id"))
       ofrom <- as.integer(round(from))
       from <- as.integer(from)
       if (any(from != ofrom)) stop("from double indices could not be coerced to integer")
-    } else stop("from indices invalid: " smf)
+    } else stop("from indices invalid: ", smf)
   }
   smt <- storage.mode(to)
   if (smt != "integer") {
@@ -307,7 +307,7 @@ write.swmdbf <- function(listw, file, ind, region.id = attr(listw, "region.id"))
       oto <- as.integer(round(to)
       to <- as.integer(to)
       if (any(to != oto)) stop("to double indices could not be coerced to integer")
-    } else stop("to indices invalid: " smt)
+    } else stop("to indices invalid: ", smt)
   }
   
   res <- data.frame(from, to, weight)
