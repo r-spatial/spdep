@@ -1,4 +1,11 @@
-# Version 1.3-6 (development)
+# Version 1.3-7.1 (development)
+
+* add `write.swmdbf` #171 to complement #163
+
+* modify defaults for `licd_multi`
+
+# Version 1.3-6 (2024-09-13)
+
 
 * adding vignette describing recent changes in `poly2nb` from #162, subgraph and no-neighbour (island) handling
 

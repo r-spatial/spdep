@@ -164,11 +164,12 @@ write.sn2DBF <- function(sn, file) {
   nms <- as.character(attr(sn, "region.id"))
   sn[,1] <- as.integer(nms[sn[,1]])
   sn[,2] <- as.integer(nms[sn[,2]])
-        sn <- cbind(data.frame(Field1=rep(0L, nrow(sn))), sn)
-        if (requireNamespace("foreign", quietly=TRUE)) {
-           foreign::write.dbf(sn, file)
-        } else warning("foreign::read.dbf not available")
-        invisible(sn)
+  names(sn)[1:2] <- c("ID", "NID")
+  sn <- cbind(data.frame(Field1=rep(0L, nrow(sn))), sn)
+  if (requireNamespace("foreign", quietly=TRUE)) {
+    foreign::write.dbf(sn, file)
+  } else warning("foreign::read.dbf not available")
+  invisible(sn)
 }
 
 # Copyright 2011 Virgilio Gomez-Rubio
