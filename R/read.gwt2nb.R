@@ -304,7 +304,7 @@ write.swmdbf <- function(listw, file, ind, region.id = attr(listw, "region.id"))
       to <- as.integer(to)
       if (anyNA(to)) stop("to character indices could not be coerced to integer")
     } else if (smt == "double") {
-      oto <- as.integer(round(to)
+      oto <- as.integer(round(to))
       to <- as.integer(to)
       if (any(to != oto)) stop("to double indices could not be coerced to integer")
     } else stop("to indices invalid: ", smt)
