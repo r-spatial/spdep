@@ -5,6 +5,8 @@
 \alias{read.dat2listw}
 \alias{read.swmdbf2listw}
 \alias{read_swm_dbf}
+\alias{write.swmdbf}
+\alias{write_swm_dbf}
 \alias{write.sn2dat}
 \alias{write.sn2DBF}
 %- Also NEED an '\alias' for EACH other topic documented here.
@@ -19,12 +21,15 @@ read.dat2listw(file)
 write.sn2dat(sn, file)
 read.swmdbf2listw(fn, region.id=NULL, style=NULL, zero.policy=NULL)
 read_swm_dbf(fn)
+write.swmdbf(listw, file, ind, region.id = attr(listw, "region.id"))
+write_swm_dbf(listw, file, ind, region.id = attr(listw, "region.id"))
 write.sn2DBF(sn, file)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{file, fn}{name of file with weights data}
   \item{region.id}{a character vector of region IDs - for ArcGIS SWM DBFs, the values must be character integers (only numbers not starting with zero)}
+  \item{listw}{a \code{listw} object}
   \item{sn}{a \code{spatial.neighbour} object}
   \item{shpfile}{character string: if not given Shapefile name taken from GWT file for this dataset}
   \item{ind}{character string: region id indicator field name}
