@@ -286,11 +286,35 @@ write.swmdbf <- function(listw, file, ind, region.id = attr(listw, "region.id"))
   weight <- unlist(listw$weights)
   # construct a data frame from the flattened structure
   # note that the columns _must_ be integers for the ArcGIS Pro tool to work
-  res <- data.frame(as.integer(from), as.integer(to), weight)
+  # RSB 241124
+  smf <- storage.mode(from)
+  if (smf != "integer") {
+    if (smf == "character") {
+      from <- as.integer(from)
+      if (anyNA(from)) stop("from character indices could not be coerced to integer")
+    } else if (smf == "double") {
+      ofrom <- as.integer(round(from))
+      from <- as.integer(from)
+      if (any(from != ofrom)) stop("from double indices could not be coerced to integer")
+    } else stop("from indices invalid: " smf)
+  }
+  smt <- storage.mode(to)
+  if (smt != "integer") {
+    if (smt == "character") {
+      to <- as.integer(to)
+      if (anyNA(to)) stop("to character indices could not be coerced to integer")
+    } else if (smt == "double") {
+      oto <- as.integer(round(to)
+      to <- as.integer(to)
+      if (any(to != oto)) stop("to double indices could not be coerced to integer")
+    } else stop("to indices invalid: " smt)
+  }
+  
+  res <- data.frame(from, to, weight)
 
   # give appropriate column names. The first column must be 
   # the unique ID column
-  colnames(res) <- c(ind, "NID", "WEIGHT")
+  names(res) <- c(ind, "NID", "WEIGHT")
   foreign::write.dbf(res, file)
   invisible(res)
 }
