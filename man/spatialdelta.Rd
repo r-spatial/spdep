@@ -144,7 +144,7 @@ toy_wc <- nb2mat(toy_nbc, glist=toy_glc, style="W")
 spatialdelta(dissimilarity_matrix=as.matrix(dist(toy_xc))^2,
  adjusted_spatial_weights=toy_wc, regional_weights=toy_f, alternative="two.sided")
 \donttest{
-library(Guerry)
+if (require(Guerry, quietly=TRUE)) {
 data(gfrance85)
 gfrance85 <- st_as_sf(gfrance85)
 moral <- scale(st_drop_geometry(gfrance85)[, 7:12])
@@ -191,6 +191,7 @@ all.equal(unname(moral_ifw$estimate["delta"]), # Eq. 30 p. 588
  sum(fG * localdelta(moral_ifw)))
 all.equal(unname(moral_gdw$estimate["delta"]), # Eq. 30 p. 588
  sum(fG * localdelta(moral_gdw)))
+}
 }
 }
 \keyword{spatial}
