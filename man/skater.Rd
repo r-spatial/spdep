@@ -84,19 +84,24 @@ if (GDAL37) {
     bh <- st_read(target)
 }
 ### data standardized 
+dim(bh)
 dpad <- data.frame(scale(as.data.frame(bh)[,5:8]))
 
 ### neighboorhod list
 bh.nb <- poly2nb(bh)
+bh.nb
 
 ### calculating costs
 lcosts <- nbcosts(bh.nb, dpad)
+head(lcosts)
 
 ### making listw
 nb.w <- nb2listw(bh.nb, lcosts, style="B")
+nb.w
 
 ### find a minimum spanning tree
 mst.bh <- mstree(nb.w,5)
+str(mst.bh)
 
 ### the mstree plot
 par(mar=c(0,0,0,0))
@@ -121,7 +126,7 @@ plot(res1, pts, cex.circles=0.035, cex.lab=.7,
 ### the Spatial Polygons plot
 plot(st_geometry(bh), col=heat.colors(length(res1$edg))[res1$groups])
 
-par(opar)
+#par(opar)
 ### EXPERT OPTIONS
 
 ### more one partition

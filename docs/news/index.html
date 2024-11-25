@@ -41,7 +41,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.3-6" id="version-13-6-development">Version 1.3-6 (development)<a class="anchor" aria-label="anchor" href="#version-13-6-development"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.3-6" id="version-13-6-development">Version 1.3-6 (development)<a class="anchor" aria-label="anchor" href="#version-13-6-development"></a></h2><p class="text-muted">CRAN release: 2024-09-13</p>
 <ul><li><p>adding vignette desribing recent changes in <code>poly2nb</code> from <a href="https://github.com/r-spatial/spdep/issues/162" class="external-link">#162</a>, subgraph and no-neighbour (island) handling</p></li>
 <li><p>adding prototype of LICD ESDA function <code>licd_multi</code> and <code>hotspot</code> method</p></li>
 <li><p>add <code>read.swmdbf2listw</code> <a href="https://github.com/r-spatial/spdep/issues/163" class="external-link">#163</a> for reading DBF files exported from ArcGIS representing SWM objects; note that there will be problems when the observation IDs are not known, see help file</p></li>
@@ -154,9 +154,9 @@
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.1-11" id="version-11-11-2021-09-07">Version 1.1-11 (2021-09-07)<a class="anchor" aria-label="anchor" href="#version-11-11-2021-09-07"></a></h2><p class="text-muted">CRAN release: 2021-09-07</p>
-<ul><li><p><code><a href="../reference/knearneigh.html">knearneigh()</a></code> and <code><a href="../reference/nbdists.html">nbdists()</a></code>; added prototype adaptation to <strong>s2</strong> for unprojected coordinates, used if <code><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2()</a></code> is <code>TRUE</code> which became the default for <strong>sf</strong> 1.0.0 <a href="https://github.com/r-spatial/s2/issues/125" class="external-link uri">https://github.com/r-spatial/s2/issues/125</a>. These are activated by default.</p></li>
-<li><p><code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> can choose the prototype <strong>s2</strong> approach if <code><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2()</a></code> is <code>TRUE</code> and <code>use_s2=TRUE</code> for unprojected coordinates; from <a href="https://github.com/r-spatial/s2/issues/125" class="external-link uri">https://github.com/r-spatial/s2/issues/125</a> it seems that distance thresholds at present use brute-force rather than spatial indexing. Use is not activated by default.</p></li>
-<li><p><code><a href="../reference/poly2nb.html">poly2nb()</a></code> now uses <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">sf::st_intersects()</a></code> to find candidate neighbours unless <code>findInBounds=</code> is not NULL. With spatial indexing, this is very fast and scales well for large data sets. If <code><a href="https://r-spatial.github.io/sf/reference/s2.html" class="external-link">sf_use_s2()</a></code> is <code>TRUE</code>, <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">sf::st_intersects()</a></code> passes the geometries to <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_intersects_matrix()</a></code>, which also uses spatial indexing and is very fast, scaling well for large data sets.</p></li>
+<ul><li><p><code><a href="../reference/knearneigh.html">knearneigh()</a></code> and <code><a href="../reference/nbdists.html">nbdists()</a></code>; added prototype adaptation to <strong>s2</strong> for unprojected coordinates, used if <code>sf_use_s2()</code> is <code>TRUE</code> which became the default for <strong>sf</strong> 1.0.0 <a href="https://github.com/r-spatial/s2/issues/125" class="external-link uri">https://github.com/r-spatial/s2/issues/125</a>. These are activated by default.</p></li>
+<li><p><code><a href="../reference/dnearneigh.html">dnearneigh()</a></code> can choose the prototype <strong>s2</strong> approach if <code>sf_use_s2()</code> is <code>TRUE</code> and <code>use_s2=TRUE</code> for unprojected coordinates; from <a href="https://github.com/r-spatial/s2/issues/125" class="external-link uri">https://github.com/r-spatial/s2/issues/125</a> it seems that distance thresholds at present use brute-force rather than spatial indexing. Use is not activated by default.</p></li>
+<li><p><code><a href="../reference/poly2nb.html">poly2nb()</a></code> now uses <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">sf::st_intersects()</a></code> to find candidate neighbours unless <code>findInBounds=</code> is not NULL. With spatial indexing, this is very fast and scales well for large data sets. If <code>sf_use_s2()</code> is <code>TRUE</code>, <code><a href="https://r-spatial.github.io/sf/reference/geos_binary_pred.html" class="external-link">sf::st_intersects()</a></code> passes the geometries to <code><a href="https://r-spatial.github.io/s2/reference/s2_closest_feature.html" class="external-link">s2::s2_intersects_matrix()</a></code>, which also uses spatial indexing and is very fast, scaling well for large data sets.</p></li>
 <li><p><code><a href="../reference/localmoran.html">localmoran()</a></code> and <code><a href="../reference/localmoran.html">localmoran_perm()</a></code> return cluster quadrants in an attribute for three splits, zeros, means and medians on the variable of interest and its spatial lag.</p></li>
 <li><p><code><a href="../reference/localmoran.html">localmoran_perm()</a></code> returns the skewness and kurtosis of the permutation samples.</p></li>
 </ul></div>
@@ -199,7 +199,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer></div>

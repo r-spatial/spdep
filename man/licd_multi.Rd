@@ -18,8 +18,7 @@ licd_multi(fx, listw, zero.policy = attr(listw, "zero.policy"), adjust.n = TRUE,
   \item{nsim}{default 0, number of conditonal permutation simulations}
   \item{iseed}{default NULL, used to set the seed; the output will only be reproducible if the count of CPU cores across which computation is distributed is the same}
   \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
-  \item{control}{comp_binary=TRUE, binomial_punif_alternative="greater",
-        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="greater"}
+  \item{control}{comp_binary=\code{TRUE} default TRUE, ignoring other weights styles than binary for composition measures, binomial_punif_alternative=\code{"greater"}, jcm_same_punif_alternative=\code{"less"}, jcm_diff_punif_alternative=\code{"greater"}, rank_ties.method=\code{"min"} default "min", na.last=\code{"keep"} leading to rank NA being returned if the observed joincount variance is non-positive; if TRUE joincount NAs are ranked highest when using rank, for others see ?rank, check_reps=\code{FALSE}, unique_ceiling=1/3 used if check_reps TRUE, check_reps=FALSE if TRUE, check and report how many unique draws are made among the nsim draws, and if the number of unique draws is less than unique_ceiling, compute measures only for unique draws and copy out to replicated draws, pysal_rank=\code{FALSE} use rank with rank_ties.method and na.last; if TRUE, use pysal-style ranking to find the rank of sum(sims <= obs, na.rm=TRUE)+1 for pysal_sim_obs "GE", sum(sims < obs, na.rm=TRUE)+1 for the count of observed greater than "GT" the simulated values, pysal_sim_obs="GT" may also be "GE", xtras=\code{FALSE} if TRUE return calculated compostion values of BW chi-squared, k-colour chi-squared, and BW Anscombe}
 }
 \details{The original code may be found at \doi{10.5281/zenodo.4283766}}
 
@@ -29,7 +28,7 @@ licd_multi(fx, listw, zero.policy = attr(listw, "zero.policy"), adjust.n = TRUE,
     pbinom_unlike_BW, pbinom_unlike_BW_alt, chi_BW_i, chi_K_i, anscombe_BW}
   \item{local_config}{data.frame object with LICD local configuration columns: ID, jcm_chi_obs, jcm_count_BB_obs, jcm_count_BW_obs, jcm_count_WW_obs, pval_jcm_obs_BB, pval_jcm_obs_WW, pval_jcm_obs_BW}
   \item{local_comp_sim}{data.frame object with permutation-based LICD local composition columns: ID, pbinom_like_BW, pbinom_unlike_BW, pbinom_unlike_BW_alt, rank_sim_chi_BW, rank_sim_chi_K, rank_sim_anscombe}
-  \item{local_config_sim}{data.frame object with permutation-based LICD local configuration columns: ID, jcm_chi_sim_rank, pval_jcm_obs_BB_sim, pval_jcm_obs_BW_sim, pval_jcm_obs_WW_sim}
+  \item{local_config_sim}{data.frame object with permutation-based LICD local configuration columns: ID, jcm_chi_sim_rank, pval_jcm_obs_BB, pval_jcm_obs_BW, pval_jcm_obs_WW}
 }
 \references{
 Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 20; 

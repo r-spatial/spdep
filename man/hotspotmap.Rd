@@ -34,7 +34,7 @@ hotspot(obj, ...)
 
 \item{cutoff}{Default 0.005, the probability value cutoff larger than which the observation is not found \dQuote{interesting}}
 
-\item{p.adjust}{Default \code{"fdr"}, the \code{p.adjust()} methood used, one of \code{c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")}}
+\item{p.adjust}{Default \code{"fdr"}, the \code{p.adjust()} method used, one of \code{c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none")}}
 
 \item{droplevels}{Default \code{TRUE}, should empty levels of the input cluster factor be dropped}
 
