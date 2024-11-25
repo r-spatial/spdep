@@ -8,8 +8,8 @@
 <title>“The Problem of Spatial Autocorrelation:” forty years on • spdep</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="“The Problem of Spatial Autocorrelation:” forty years on">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -338,9 +338,9 @@ County boundaries and contiguities
 for 25 Irish counties reported by <span class="citation">Cliff and Ord
 (1969)</span>, after Dublin is omitted. Reproducing the inverse distance
 component
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msubsup><annotation encoding="application/x-tex">d_{ij}^{-1}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><annotation encoding="application/x-tex">d_{ij}^{-1}</annotation></semantics></math>
 of the generalised weights
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow><mrow><mo>−</mo><mn>1</mn></mrow></msubsup><msub><mi>β</mi><mrow><mi>i</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msub></mrow><annotation encoding="application/x-tex">d_{ij}^{-1} \beta_{i(j)}</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><msub><mi>β</mi><mrow><mi>i</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msub></mrow><annotation encoding="application/x-tex">d_{ij}^{-1} \beta_{i(j)}</annotation></semantics></math>
 is eased by the statement in <span class="citation">Cliff and Ord (1973,
 55)</span> that the points chosen to represent the counties were their
 “geographic centres,” so not very different from the centroids yielded
@@ -548,7 +548,7 @@ weights objects, and two different values of the
 <span><span class="va">Prop_stdR</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">vars</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">eire_ge1</span><span class="op">[[</span><span class="va">x</span><span class="op">]</span><span class="op">]</span>, listw<span class="op">=</span><span class="va">lw_std</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.116   0.000   0.117</span></span></code></pre>
+<span><span class="co">##   0.135   0.000   0.135</span></span></code></pre>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranN"</span>, <span class="st">"MoranR"</span>, <span class="st">"GearyN"</span>, <span class="st">"GearyR"</span>, <span class="st">"Prop_unstdN"</span>, <span class="st">"Prop_unstdR"</span>, <span class="st">"Prop_stdN"</span>, <span class="st">"Prop_stdR"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span>
@@ -634,9 +634,9 @@ in the first two columns. If we write a function implementing equations
 <p>where crucially the inner summation is over
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mi>…</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">i+1 \ldots n</annotation></semantics></math>,
 not
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>…</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">1 \ldots n</annotation></semantics></math>,
-we can reproduce the values of the measure shown in the original Table
-5:</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>…</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">1 \ldots
+n</annotation></semantics></math>, we can reproduce the values of the
+measure shown in the original Table 5:</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oMoranf</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">nb</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">x</span>, scale<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
@@ -780,7 +780,7 @@ objects:</p>
 <span><span class="va">Prop_stdSad</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lm_objs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/lm.morantest.sad.html">lm.morantest.sad</a></span><span class="op">(</span><span class="va">x</span>, listw<span class="op">=</span><span class="va">lw_std</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.064   0.000   0.064</span></span></code></pre>
+<span><span class="co">##   0.089   0.000   0.090</span></span></code></pre>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranSad"</span>, <span class="st">"Prop_unstdSad"</span>, <span class="st">"Prop_stdSad"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span></code></pre></div>
@@ -843,7 +843,7 @@ acceptable.</p>
 <span><span class="va">Prop_stdEx</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lm_objs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/lm.morantest.exact.html">lm.morantest.exact</a></span><span class="op">(</span><span class="va">x</span>, listw<span class="op">=</span><span class="va">lw_std</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.079   0.000   0.080</span></span></code></pre>
+<span><span class="co">##   0.110   0.000   0.111</span></span></code></pre>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranEx"</span>, <span class="st">"Prop_unstdEx"</span>, <span class="st">"Prop_stdEx"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span></code></pre></div>
@@ -960,7 +960,7 @@ be kept in mind in analyses of data sets of this size and shape.</p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-bivandetal:09" class="csl-entry">
 Bivand, R. S., W. Müller, and M. Reder. 2009. <span>“Power Calculations
 for Global and Local <span>M</span>oran’s

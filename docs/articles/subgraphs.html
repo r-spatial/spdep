@@ -8,8 +8,8 @@
 <title>No-neighbour observation and subgraph handling • spdep</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="No-neighbour observation and subgraph handling">
 </head>
 <body>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -93,8 +93,8 @@ for symmetric neighbours, showing in addition which observations belong
 to which subgraph. Obviously, no-neighbour observations are singleton
 graph nodes, but subgraphs are also troubling for spatial analysis,
 because there is no connection between the spatial processes in those
-subgraphs. The ripples in one pond cannot cross into a separate pond if
-they are not connected.</p>
+subgraphs. <strong>The ripples in one pond cannot cross into a separate
+pond if they are not connected</strong>.</p>
 <p>From <code>spdep</code> 1.3-1, steps began to raise awareness of the
 possibility that neighbour objects might be created that are
 disconnected in some way, mostly through warnings, and through the
@@ -126,7 +126,7 @@ attribute as default for its <code>zero.policy</code> argument:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required package: spData</span></span></code></pre>
 <pre><code><span><span class="co">## Loading required package: sf</span></span></code></pre>
-<pre><code><span><span class="co">## Linking to GEOS 3.13.0, GDAL 3.9.2, PROJ 9.5.0; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.13.0, GDAL 3.10.0, PROJ 9.5.0; sf_use_s2() is TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">moran.test</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## function (x, listw, randomisation = TRUE, zero.policy = attr(listw, </span></span>
@@ -179,7 +179,7 @@ Here, the subset for Wales is useful as we will see:</p>
 <span>    <span class="va">w50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_Wales_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpqhccSk/temp_libpath108a2257736002/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmpU5PYkS/temp_libpath7d32c14223754/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 32 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -371,7 +371,7 @@ subsetted to those in England south of London.</p>
 <span>    <span class="va">sc50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_southcoast_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpqhccSk/temp_libpath108a2257736002/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmpU5PYkS/temp_libpath7d32c14223754/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 119 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -654,7 +654,7 @@ re-packaged as a compressed GeoPackage:</p>
 <span>    <span class="va">tokyo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `tokyo' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpqhccSk/temp_libpath108a2257736002/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmpU5PYkS/temp_libpath7d32c14223754/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 262 features and 3 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -739,7 +739,7 @@ degrees:</p>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
 </h2>
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-bivandetal13" class="csl-entry">
 Bivand, Roger, Jan Hauke, and Tomasz Kossowski. 2013. <span>“Computing
 the <span>J</span>acobian in <span>G</span>aussian Spatial
