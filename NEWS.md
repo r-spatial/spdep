@@ -1,4 +1,6 @@
-# Version 1.3-7.1 (development)
+# Version 1.3-7 (development)
+
+* (temporarily) remove **rgeoda** references until it is successfully re-submitted to CRAN
 
 * add `write.swmdbf` #171 to complement #163
 
