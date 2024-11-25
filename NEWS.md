@@ -2,7 +2,7 @@
 
 * draft version of multivariate `spatialdelta`  with support functions and methods
 
-# Version 1.3-7 (development)
+# Version 1.3-7 (2024-11-25)
 
 * (temporarily) remove **rgeoda** references until it is successfully re-submitted to CRAN
 
