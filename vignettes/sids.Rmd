@@ -84,16 +84,12 @@ library(sf)
 nc_sf <- st_read(system.file("shape/nc.shp", package="sf"),
                  quiet=TRUE)
 st_crs(nc_sf)
-nc <- st_read(system.file("shapes/sids.shp",
+nc <- st_read(system.file("shapes/sids.gpkg",
                  package="spData"), quiet=TRUE)
 st_crs(nc)
 ```
 
-As the actual CRS is unknown, **spData** reports missing, although it may very well be `+proj=longlat +datum=NAD27`
-
-```{r echo=TRUE,eval=TRUE}
-st_crs(nc) <- "+proj=longlat +datum=NAD27"
-```
+As the actual CRS was unknown, the GeoPackage **spData** version has been updated to `"EPSG:4267"`.
 
 Next, are the geometries the same? `sf::st_equals` returns a logical matrix, so we'll check that the diagonal values are all `TRUE`, and that only those values are `TRUE` by summing and recalling that `n` is `100`:
 
