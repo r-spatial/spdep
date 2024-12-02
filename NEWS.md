@@ -1,5 +1,6 @@
 # Version 1.3-8 (development)
 
+* Remove remaining `spData` ESRI shapefile use
 
 # Version 1.3-7 (2024-11-25)
 
