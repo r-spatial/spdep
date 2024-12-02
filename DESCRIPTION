@@ -76,18 +76,15 @@ Description: A collection of functions to create spatial weights matrix
   in linear models are provided ('Anselin et al'. 1996)
   <doi:10.1016/0166-0462(95)02111-6>, as are 'Rao' score tests for hypothesised
   spatial 'Durbin' models based on linear models ('Koley' and 'Bera' 2023)
-<<<<<<< HEAD
   <doi:10.1080/17421772.2023.2256810>. Additions in 2024 include Local
   Indicators for Categorical Data based on 'Carrer' et al. (2021)
   <doi:10.1016/j.jas.2020.105306> and 'Bivand' et al. (2017)
   <doi:10.1016/j.spasta.2017.03.003>; also Weighted Multivariate Spatial
   Autocorrelation Measures ('Bavaud' 2024) <doi:10.1111/gean.12390>.
-=======
   <doi:10.1080/17421772.2023.2256810>. A local indicators for categorical data
   (LICD) implementation based on 'Carrer et al.' (2021) 
   <doi:10.1016/j.jas.2020.105306> and 'Bivand et al.' (2017) 
   <doi:10.1016/j.spasta.2017.03.003> was added in 1.3-7.
->>>>>>> main
   From 'spdep' and 'spatialreg' versions >= 1.2-1, the model fitting functions
   previously present in this package are defunct in 'spdep' and may be found
   in 'spatialreg'.
