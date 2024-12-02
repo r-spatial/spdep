@@ -9,7 +9,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-7</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -199,7 +199,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.86422915 0.38817470 0.23425755 1.26191610 1.34455327 1.80707481</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># \dontrun{</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rstudio.github.io/reticulate/" class="external-link">reticulate</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rstudio.github.io/reticulate/reference/use_python.html" class="external-link">use_python</a></span><span class="op">(</span><span class="st">"/usr/bin/python"</span>, required <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">gp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/reticulate/reference/import.html" class="external-link">import</a></span><span class="op">(</span><span class="st">"geopandas"</span><span class="op">)</span></span></span>
@@ -210,7 +210,6 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span><span class="va">esda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/reticulate/reference/import.html" class="external-link">import</a></span><span class="op">(</span><span class="st">"esda"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lM</span> <span class="op">&lt;-</span> <span class="va">esda</span><span class="op">$</span><span class="fu">Moran_Local</span><span class="op">(</span><span class="va">x</span>, <span class="va">w</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="localmoran.html">localmoran</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, mlvar<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">lM</span><span class="op">$</span><span class="va">Is</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="co"># confirm x and w the same</span></span></span>
 <span class="r-in"><span><span class="va">lC</span> <span class="op">&lt;-</span> <span class="va">esda</span><span class="op">$</span><span class="fu">Geary_Local</span><span class="op">(</span>connectivity<span class="op">=</span><span class="va">w</span><span class="op">)</span><span class="op">$</span><span class="fu">fit</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># np$std missing ddof=1</span></span></span>
@@ -219,16 +218,10 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span><span class="co"># lC components probably wrongly ordered https://github.com/pysal/esda/issues/192</span></span></span>
 <span class="r-in"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/match.html" class="external-link">match</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">D0</span>, <span class="fl">6</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">lC</span><span class="op">$</span><span class="va">localG</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">lC</span><span class="op">$</span><span class="va">localG</span><span class="op">)</span><span class="op">[</span><span class="va">o</span><span class="op">]</span>, <span class="va">D0</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="co"># simulation order not retained</span></span></span>
 <span class="r-in"><span><span class="va">lC</span><span class="op">$</span><span class="va">p_sim</span><span class="op">[</span><span class="va">o</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.258 0.448 0.123 0.019 0.123 0.021 0.294 0.439 0.155 0.001 0.127 0.131</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.149 0.256 0.456 0.191 0.111 0.293 0.001 0.037 0.027 0.098 0.059 0.279</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 0.150 0.028 0.114 0.277 0.484 0.001 0.067 0.099 0.091 0.243 0.299 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.301 0.488 0.307 0.209 0.248 0.269</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">C</span>, <span class="st">"pseudo-p"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">6</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
