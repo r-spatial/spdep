@@ -1,6 +1,13 @@
-# Version 1.3-8.1 (development)
+# Version 1.3-9.1 (development)
 
 * draft version of multivariate `spatialdelta`  with support functions and methods
+
+# Version 1.3-9 (development)
+
+
+# Version 1.3-8 (2024-12-02)
+
+* Remove remaining `spData` ESRI shapefile use
 
 # Version 1.3-7 (2024-11-25)
 

@@ -55,7 +55,7 @@ if (require(ggplot2, quietly=TRUE)) {
     geom_text(data=mp[mp$is_inf,], aes(x=x, y=wx, label=labels, vjust=1.5)) +
     xlab(xname) + ylab(paste0("Spatially lagged ", xname))
 }
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData"))
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData"))
 nb <- poly2nb(columbus)
 listw <- nb2listw(nb)
 moran.plot(x=columbus$CRIME, y=columbus$INC, listw=listw)
