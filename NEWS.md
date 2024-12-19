@@ -1,5 +1,6 @@
 # Version 1.3-9 (development)
 
+* re-instate **rgeoda** references
 
 # Version 1.3-8 (2024-12-02)
 
