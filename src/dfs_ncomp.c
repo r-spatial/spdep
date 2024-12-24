@@ -11,7 +11,7 @@ void dfs(SEXP nblst, SEXP cmpnm, SEXP visited, int curcmp, int nodeid){
 
   INTEGER(cmpnm)[nodeid]=curcmp;
   INTEGER(visited)[nodeid]=BLACK;
-  n=length(VECTOR_ELT(nblst,nodeid));
+  n=Rf_length(VECTOR_ELT(nblst,nodeid));
 
   for(i=0;i<n;i++){
     if(INTEGER(visited)[(INTEGER(VECTOR_ELT(nblst,nodeid))[i]-1)]==WHITE){ 
@@ -26,8 +26,8 @@ SEXP g_components(SEXP nblst, SEXP cmpnm){
   int i, curcmp=1, nvert;
   SEXP visited;
   
-  nvert=length(nblst);
-  PROTECT(visited=allocVector(INTSXP,nvert));
+  nvert=Rf_length(nblst);
+  PROTECT(visited=Rf_allocVector(INTSXP,nvert));
   
   for(i=0; i < nvert; i++){
     INTEGER(visited)[i]=WHITE;

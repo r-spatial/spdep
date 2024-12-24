@@ -3,7 +3,7 @@
 #include "spdep.h"
 
 SEXP jcintern(SEXP nb, SEXP weights, SEXP dum, SEXP card) {
-	int i, j, k, n=length(card), pc=0;
+	int i, j, k, n=Rf_length(card), pc=0;
 	double sum, sum1, wt;
 	SEXP ans;
 	PROTECT(ans = NEW_NUMERIC(1)); pc++;

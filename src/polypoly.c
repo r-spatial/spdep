@@ -68,109 +68,6 @@ SEXP spOverlap(SEXP bbbi, SEXP bbbj) {
 	return(ans);
 }
 
-/* SEXP poly_loop(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
-    SEXP dsnap, SEXP criterion, SEXP scale) {
-
-    int nn = INTEGER_POINTER(n)[0];
-    int crit = INTEGER_POINTER(criterion)[0];
-    int Scale = INTEGER_POINTER(scale)[0];
-    int uBound = nn*Scale;
-    int i, j, jj, k, li, pc = 0;
-    int ii = 0;
-    int *card, *icard, *is, *jjs;
-
-    SEXP bbi, bbj, jhit, khit, ans, pli, plj, nrsi, nrsj;
-
-    int xx, yy, zz, ww;
-
-    card = (int *) R_alloc((size_t) nn, sizeof(int));
-    icard = (int *) R_alloc((size_t) nn, sizeof(int));
-    is = (int *) R_alloc((size_t) uBound, sizeof(int));
-    jjs = (int *) R_alloc((size_t) uBound, sizeof(int));
-
-    for (i=0; i<nn; i++) {
-        card[i] = 0;
-        icard[i] = 0;
-   
-    }
-    for (i=0; i<uBound; i++) {
-        is[i] = 0;
-        jjs[i] = 0;
-    }
-
-    PROTECT(bbi = NEW_NUMERIC(4)); pc++;
-    PROTECT(bbj = NEW_NUMERIC(4)); pc++;
-    PROTECT(jhit = NEW_INTEGER(1)); pc++;
-    PROTECT(khit = NEW_INTEGER(1)); pc++;
-    PROTECT(nrsi = NEW_INTEGER(1)); pc++;
-    PROTECT(nrsj = NEW_INTEGER(1)); pc++;
-
-    for (i=0; i<(nn-1); i++) {
-        li = length(VECTOR_ELT(i_findInBox, i));
-        INTEGER_POINTER(nrsi)[0] = INTEGER_POINTER(nrs)[i];
-        for (k=0; k<4; k++) 
-            NUMERIC_POINTER(bbi)[k] = NUMERIC_POINTER(bb)[i+(k*nn)];
-        for (j=0; j<li; j++) {
-            jj = INTEGER_POINTER(VECTOR_ELT(i_findInBox, i))[j] - ROFFSET;
-            for (k=0; k<4; k++) 
-                NUMERIC_POINTER(bbj)[k] = NUMERIC_POINTER(bb)[jj+(k*nn)];
-            jhit = spOverlap(bbi, bbj);
-            if (INTEGER_POINTER(jhit)[0] > 0) {
-                INTEGER_POINTER(khit)[0] = 0;
-                INTEGER_POINTER(nrsj)[0] = INTEGER_POINTER(nrs)[jj];
-                if (INTEGER_POINTER(nrsi)[0]*INTEGER_POINTER(nrsj)[0] > 0){
-                    khit = polypoly(VECTOR_ELT(pl, i), nrsi, VECTOR_ELT(pl, jj),
-                        nrsj, dsnap);
-                }
-                if (INTEGER_POINTER(khit)[0] > crit) {
-                    card[i]++;
-                    card[jj]++;
-                    is[ii] = i;
-                    jjs[ii] = jj;
-                    ii++;
-                    if (ii == uBound) error("memory error, scale problem");
-                }
-            }
-        }
-    }
-
-    PROTECT(ans = NEW_LIST(nn)); pc++;
-
-    for (i=0; i<nn; i++) {
-        if (card[i] == 0) {
-            SET_VECTOR_ELT(ans, i, NEW_INTEGER(1));
-            INTEGER_POINTER(VECTOR_ELT(ans, i))[0] = 0;
-        } else {
-            SET_VECTOR_ELT(ans, i, NEW_INTEGER(card[i]));
-        }
-    }
-
-    for (i=0; i<ii; i++) {
-        xx = is[i];
-        yy = jjs[i];
-        zz = icard[yy];
-        ww = icard[xx];
-        if (zz == card[yy]) error("memory error, overflow");
-        if (ww == card[xx]) error("memory error, overflow");
-        INTEGER_POINTER(VECTOR_ELT(ans, yy))[zz] = xx + ROFFSET;
-        INTEGER_POINTER(VECTOR_ELT(ans, xx))[ww] = yy + ROFFSET;
-        icard[yy]++;
-        icard[xx]++;
-    }
-
-    for (i=0; i<nn; i++) {
-        if ((li = length(VECTOR_ELT(ans, i))) > 1) {
-            for (j=0; j<li; j++)
-                icard[j] = INTEGER_POINTER(VECTOR_ELT(ans, i))[j];
-            R_isort(icard, li);
-            for (j=0; j<li; j++)
-                INTEGER_POINTER(VECTOR_ELT(ans, i))[j] = icard[j];
-        }
-    }
-
-    UNPROTECT(pc);
-    return(ans);
-} */
 
 
 int spOverlapC(double bbi1, double bbi2, double bbi3, double bbi4, double bbj1, double bbj2, double bbj3, double bbj4) {
@@ -279,13 +176,12 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
             plx[jj] = NUMERIC_POINTER(VECTOR_ELT(pl, i))[j];
             ply[jj] = NUMERIC_POINTER(VECTOR_ELT(pl, i))[j+nrsi];
             jj++;
-/*            if (i < (nn-1) && jj == li) error("polygon memory overflow");*/
         }
     }
 
     for (i=0; i<(nn-1); i++) {
         R_CheckUserInterrupt();
-        li = length(VECTOR_ELT(i_findInBox, i));
+        li = Rf_length(VECTOR_ELT(i_findInBox, i));
         nrsi = NRS[i];
         for (j=0; j<li; j++) {
             jj = INTEGER_POINTER(VECTOR_ELT(i_findInBox, i))[j] - ROFFSET;
@@ -304,7 +200,6 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
                     is[ii] = i;
                     jjs[ii] = jj;
                     ii++;
-/*                    if (ii == uBound) error("memory error, scale problem");*/
                 }
             }
         }
@@ -327,8 +222,6 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
         yy = jjs[i];
         zz = icard[yy];
         ww = icard[xx];
-/*        if (zz == card[yy]) error("memory error, overflow");
-        if (ww == card[xx]) error("memory error, overflow");*/
         INTEGER_POINTER(VECTOR_ELT(ans, yy))[zz] = xx + ROFFSET;
         INTEGER_POINTER(VECTOR_ELT(ans, xx))[ww] = yy + ROFFSET;
         icard[yy]++;
@@ -337,7 +230,7 @@ SEXP poly_loop2(SEXP n, SEXP i_findInBox, SEXP bb, SEXP pl, SEXP nrs,
 
     for (i=0; i<nn; i++) {
         R_CheckUserInterrupt();
-        if ((li = length(VECTOR_ELT(ans, i))) > 1) {
+        if ((li = Rf_length(VECTOR_ELT(ans, i))) > 1) {
             for (j=0; j<li; j++)
                 icard[j] = INTEGER_POINTER(VECTOR_ELT(ans, i))[j];
             R_isort(icard, li);

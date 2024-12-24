@@ -4,7 +4,7 @@
 
 SEXP lagw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy,
    SEXP naok) {
-	int i, j, k, n=length(card), pc=0, naOK=LOGICAL_POINTER(naok)[0],
+	int i, j, k, n=Rf_length(card), pc=0, naOK=LOGICAL_POINTER(naok)[0],
             nas;
 	double sum, wt, tmp;
 	SEXP ans;
@@ -13,7 +13,7 @@ SEXP lagw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy,
         if (naOK == FALSE) {
             for (i=0; i < n; i++) 
                 if (!R_FINITE(NUMERIC_POINTER(x)[i]))
-                    error("Variable contains non-finite values");
+                    Rf_error("Variable contains non-finite values");
         }
 
 	for (i=0; i < n; i++) {
@@ -29,7 +29,7 @@ SEXP lagw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy,
                 nas = 0;
 		for (j=0; j<INTEGER_POINTER(card)[i]; j++) {
 		    k = INTEGER_POINTER(VECTOR_ELT(nb, i))[j];
-                    if (k > n || k <= 0) error("weights index out of range");
+                    if (k > n || k <= 0) Rf_error("weights index out of range");
 		    wt = NUMERIC_POINTER(VECTOR_ELT(weights, i))[j];
 		    tmp = NUMERIC_POINTER(x)[k-ROFFSET];
 		    if (R_FINITE(tmp)) sum += tmp * wt;

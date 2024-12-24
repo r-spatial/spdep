@@ -4,7 +4,7 @@
 
 SEXP gearyw(SEXP nb, SEXP weights, SEXP x, SEXP card, SEXP zeropolicy,
 	SEXP ftype) {
-	int i, j, k, n=length(card), pc=0;
+	int i, j, k, n=Rf_length(card), pc=0;
 	double sum, wt, diff, xi, res;
 	SEXP ans;
 	PROTECT(ans = NEW_NUMERIC(n)); pc++;
