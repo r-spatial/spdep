@@ -12,7 +12,7 @@ SEXP perm_no_replace(SEXP nsim0, SEXP n0, SEXP crdi0) {
     int n = INTEGER_POINTER(n0)[0];
     int crdi = INTEGER_POINTER(crdi0)[0];
     GetRNGstate();
-    PROTECT(y = allocVector(INTSXP, crdi*nsim));
+    PROTECT(y = Rf_allocVector(INTSXP, crdi*nsim));
     for (int k = 0; k < nsim; k++) {
         yk = draw_no_replace(n, crdi);
         for (int i = 0; i < crdi; i++) {
@@ -33,7 +33,7 @@ SEXP perm_no_replace(SEXP nsim0, SEXP n0, SEXP crdi0) {
 
 SEXP draw_no_replace(int n, int crdi) {
     SEXP y;
-    PROTECT(y = allocVector(INTSXP, crdi));
+    PROTECT(y = Rf_allocVector(INTSXP, crdi));
     int *iy = INTEGER(y);
     int *x = (int *)R_alloc(n, sizeof(int));
     for (int i = 0; i < n; i++) x[i] = i;

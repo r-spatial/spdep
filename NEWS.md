@@ -4,6 +4,8 @@
 
 # Version 1.3-9 (development)
 
+* convert `error` to `Rf_error` in `src/ml_sse.c` to accommodate R_NO_REMAP
+
 * re-instate **rgeoda** references
 
 # Version 1.3-8 (2024-12-02)

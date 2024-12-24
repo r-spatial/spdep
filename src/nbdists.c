@@ -16,14 +16,14 @@ SEXP nbdists(SEXP nb, SEXP x, SEXP np, SEXP dim, SEXP lonlat)
 
 	SET_VECTOR_ELT(ans, 0, NEW_LIST(n));
 	d = INTEGER_POINTER(dim)[0];
-	if (d > 2) error("Only 2D coordinates allowed");
+	if (d > 2) Rf_error("Only 2D coordinates allowed");
 	PROTECT(class = NEW_CHARACTER(1)); pc++;
 	SET_STRING_ELT(class, 0, COPY_TO_USER_STRING("nbdist"));
-	setAttrib(VECTOR_ELT(ans, 0), R_ClassSymbol, class);
+	Rf_setAttrib(VECTOR_ELT(ans, 0), R_ClassSymbol, class);
 
 	for (i=0; i < n; i++) {
                 R_CheckUserInterrupt();
-		k = length(VECTOR_ELT(nb, i));
+		k = Rf_length(VECTOR_ELT(nb, i));
 /*		if (k == 1 && INTEGER_POINTER(VECTOR_ELT(nb, i))[0] == 0) {
 			SET_VECTOR_ELT(VECTOR_ELT(ans, 0), i,
 				NEW_NUMERIC(1));
@@ -34,7 +34,7 @@ SEXP nbdists(SEXP nb, SEXP x, SEXP np, SEXP dim, SEXP lonlat)
                 if (k > 0) 
                     first_value = INTEGER_POINTER(VECTOR_ELT(nb, i))[0];
                 else
-                    error("zero length neighbour vector");
+                    Rf_error("zero length neighbour vector");
 
 		if (first_value > 0) {
 			SET_VECTOR_ELT(VECTOR_ELT(ans, 0), i,

@@ -4,7 +4,7 @@
 
 SEXP symtest(SEXP nb, SEXP card, SEXP verbose)
 {
-	int i, icard, j, k, k1, flag, fstop, n=length(nb), pc=0;
+	int i, icard, j, k, k1, flag, fstop, n=Rf_length(nb), pc=0;
 	SEXP ans;
 	PROTECT(ans = NEW_LOGICAL(1)); pc++;
 	LOGICAL_POINTER(ans)[0] = TRUE;

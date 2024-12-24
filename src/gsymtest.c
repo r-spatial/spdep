@@ -4,7 +4,7 @@
 
 SEXP gsymtest(SEXP nb, SEXP glist, SEXP card)
 {
-	int i, icard, j, k, k1, n=length(nb), pc=0, l=TRUE;
+	int i, icard, j, k, k1, n=Rf_length(nb), pc=0, l=TRUE;
 	double g, g0, d=0.0, d1=0.0;
 	SEXP ans;
 	PROTECT(ans = NEW_LIST(2)); pc++;
