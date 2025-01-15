@@ -39,9 +39,9 @@ diffnb <- function(x, y, verbose=NULL, legacy=TRUE) {
 				ids[i], "in relation to id:", ids[res[[i]]], "\n")
 		}
 	}
-	class(res) <- "nb"
 	attr(res, "region.id") <- attr(x, "region.id")
 	attr(res, "call") <- match.call()
+	class(res) <- "nb"
 	res <- sym.attr.nb(res)
         NE <- n + sum(card(res))
         if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
