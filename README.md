@@ -1,7 +1,9 @@
-# spdep
-
-[![Actions Status](https://github.com/r-spatial/spdep/workflows/R-CMD-check/badge.svg)](https://github.com/r-spatial/spdep/actions)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/r-spatial/spdep/actions/workflows/check-standard.yaml/badge.svg)](https://github.com/r-spatial/spdep/actions/workflows/check-standard.yaml)
 [![CRAN](http://www.r-pkg.org/badges/version/spdep)](https://cran.r-project.org/package=spdep)
+<!-- badges: end -->
+
+# spdep
 
 ### Spatial Dependence: Weighting Schemes and Statistics
 
