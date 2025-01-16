@@ -1,6 +1,8 @@
 # Version 1.3-9 (development)
 
-* convert `error` to `Rf_error` in `src/ml_sse.c` to accommodate R_NO_REMAP
+* revisit `diffnb` and set operations like `union.nb` and `setdiff.nb` following up #175; `diffnb` largely rewritten and should no longer generate deformed output; set operations modified to match base functions actions
+
+* convert `error` to `Rf_error`, `length` to `Rf_length` etc. to accommodate `R_NO_REMAP`, see https://github.com/r-spatial/spdep/commit/b61f6b17be09383c94b45e912f9213735aa62212 for R 4.5
 
 * re-instate **rgeoda** references
 
