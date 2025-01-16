@@ -1,4 +1,4 @@
-% Copyright 2001 by Nicholas Lewin-Koh
+% Copyright 2001, 2025 by Nicholas Lewin-Koh and Roger Bivand
 \name{nb.set.operations}
 \alias{intersect.nb}
 \alias{union.nb}
@@ -6,7 +6,7 @@
 \alias{complement.nb}
 \title{Set operations on neighborhood objects}
 \description{
- Set operations on neighbors list objects
+ Performs set operations on neighbors list objects union, intersection, (asymmetric!) difference and complement; note that from 1.3-9, \code{setdiff.nb} behaves like \code{\link[base]{setdiff}}, where the ordering of the objects being compared matters - (asymmetric!) difference.
 }
 \usage{
 intersect.nb(nb.obj1,nb.obj2)
@@ -26,11 +26,11 @@ complement.nb(nb.obj)
 \details{
   These functions perform set operations on each element of a
   neighborlist. The arguments must be neighbor lists created from the
-  same coordinates, and the region.id attributes must be identical. 
+  same spatial objects, checked by the region.id attributes being required
+  to be identical. 
 }
 \value{
- \item{nb.obj}{A new neighborlist created from the set operations on the
-               input neighbor list(s)} 
+A new neighborlist created from the set operations on the input neighbor list(s)
 }
 
 \author{Nicholas Lewin-Koh \email{nikko@hailmail.net}}
