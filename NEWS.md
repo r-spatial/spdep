@@ -1,4 +1,4 @@
-# Version 1.3-9.1 (development)
+# Version 1.3-10.1 (development)
 
 * draft version of multivariate `spatialdelta`  with support functions and methods
 
