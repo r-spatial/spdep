@@ -1,5 +1,8 @@
 # Version 1.3-10 (development)
 
+* disambiguate which `skater` in examples to satisfy `pkgdown`, which used `rgeoda::skater`; other patches to examples to satisfy `pkgdown`
+
+* use `inherits` in `skater`
 
 # Version 1.3-9 (2025-01-16)
 
