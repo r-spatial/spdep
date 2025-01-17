@@ -2,7 +2,13 @@
 
 * draft version of multivariate `spatialdelta`  with support functions and methods
 
-# Version 1.3-9 (development)
+# Version 1.3-10 (development)
+
+* disambiguate which `skater` in examples to satisfy `pkgdown`, which used `rgeoda::skater`; other patches to examples to satisfy `pkgdown`
+
+* use `inherits` in `skater`
+
+# Version 1.3-9 (2025-01-16)
 
 * revisit `diffnb` and set operations like `union.nb` and `setdiff.nb` following up #175; `diffnb` largely rewritten and should no longer generate deformed output; set operations modified to match base functions actions
 

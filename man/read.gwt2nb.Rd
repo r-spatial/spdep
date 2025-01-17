@@ -74,15 +74,21 @@ diffnb(listwmat1$neighbours, COL.nb, verbose=TRUE)
 listwmat2 <- read.dat2listw(system.file("etc/weights/wmat.dat", 
  package="spdep")[1])
 diffnb(listwmat1$neighbours, listwmat2$neighbours, verbose=TRUE)
-if (require("foreign", quietly=TRUE)) {
+run <- FALSE
+if (require("foreign", quietly=TRUE)) run <- TRUE
+if (run) {
 nc_sf <- sf::st_read(system.file("gpkg/nc.gpkg", package="sf")[1])
 nc_sf$UniqueID <- 1:nrow(nc_sf)
 fn <- system.file("etc/misc/nc_contiguity_unique_id.dbf", package="spdep")[1]
 nc1 <- read.swmdbf2listw(fn, style="B")
 nc1
+}
+if (run) {
 nc1a <- read.swmdbf2listw(fn, region.id=as.character(nc_sf$UniqueID),
  style="B")
 all.equal(nc1, nc1a)
+}
+if (run) {
 fn <- system.file("etc/misc/nc_contiguity_unique_id_islands.dbf",
  package="spdep")[1]
 try(nc1i <- read.swmdbf2listw(fn, style="B"))
@@ -90,7 +96,11 @@ nc1i <- read.swmdbf2listw(fn, style="B", zero.policy=TRUE)
 nc1ia <- read.swmdbf2listw(fn, region.id=as.character(nc_sf$UniqueID),
  style="B", zero.policy=TRUE)
 nc1ia
+}
+if (run) {
 all.equal(nc1i, nc1ia)
+}
+if (run) {
 (GDAL37 <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0")
 file <- "etc/shapes/california.gpkg.zip"
 zipfile <- system.file(file, package="spdep")
@@ -106,15 +116,21 @@ fn <- system.file("etc/misc/contiguity_myid.dbf", package="spdep")[1]
 cal1 <- read.swmdbf2listw(fn, style="B")
 cal1a <- read.swmdbf2listw(fn, region.id=as.character(cal$MYID), style="B")
 all.equal(cal1, cal1a)
+}
+if (run) {
 fn <- system.file("etc/misc/contiguity_unique_id.dbf", package="spdep")[1]
 cal2 <- read.swmdbf2listw(fn, style="B")
 cal2a <- read.swmdbf2listw(fn, region.id=as.character(cal$UniqueID), style="B")
 all.equal(cal2, cal2a)
+}
+if (run) {
 fn <- system.file("etc/misc/contiguity_unique_id_islands.dbf", package="spdep")[1]
 try(cal3i <- read.swmdbf2listw(fn, style="B"))
 cal3i <- read.swmdbf2listw(fn, style="B", zero.policy=TRUE)
 cal3ia <- read.swmdbf2listw(fn, region.id=as.character(cal$UniqueID), style="B", zero.policy=TRUE)
 all.equal(cal3i, cal3ia)
+}
+if (run) {
 cal1a_1n_nb <- cal1a$neighbours
 cal1a_1n_nb <- droplinks(cal1a_1n_nb, drop=c("158", "180", "215"), sym=TRUE)
 cal1a_1n <- nb2listw(cal1a_1n_nb, style="B", zero.policy=TRUE)
@@ -124,11 +140,16 @@ write.sn2DBF(cal1a_1n_sn, file)
 cal1a_1n_rt <- read.swmdbf2listw(file, region.id=as.character(cal$MYID),
  style="B", zero.policy=TRUE)
 all.equal(cal1a_1n$neighbours, cal1a_1n_rt$neighbours)
+}
+if (run) {
 all.equal(cal1a_1n$weights, cal1a_1n_rt$weights, check.attributes=FALSE)
+}
+if (run) {
 cal1_1n_rt <- read.swmdbf2listw(file, style="B", zero.policy=TRUE)
 all(isTRUE(all.equal(cal1a_1n$neighbours, cal1_1n_rt$neighbours)))
+}
+if (run) {
 all(isTRUE(all.equal(cal1a_1n$weights, cal1_1n_rt$weights)))
-
 }
 }
 \keyword{spatial}
