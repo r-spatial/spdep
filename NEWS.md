@@ -1,4 +1,7 @@
-# Version 1.3-9 (development)
+# Version 1.3-10 (development)
+
+
+# Version 1.3-9 (2025-01-16)
 
 * revisit `diffnb` and set operations like `union.nb` and `setdiff.nb` following up #175; `diffnb` largely rewritten and should no longer generate deformed output; set operations modified to match base functions actions
 
