@@ -77,7 +77,6 @@ crime <- COL.OLD$CRIME
 is.na(crime) <- sample(1:length(crime), 10)
 res <- try(moran.test(crime, nb2listw(COL.nb, style="W"),
  na.action=na.fail))
-res
 moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
  na.action=na.omit)
 moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,

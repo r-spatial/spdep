@@ -66,7 +66,6 @@ crime <- COL.OLD$CRIME
 is.na(crime) <- sample(1:length(crime), 10)
 res <- try(globalG.test(crime, nb2listw(COL.nb, style="B"),
  na.action=na.fail))
-res
 globalG.test(crime, nb2listw(COL.nb, style="B"), zero.policy=TRUE,
  na.action=na.omit)
 globalG.test(crime, nb2listw(COL.nb, style="B"), zero.policy=TRUE,

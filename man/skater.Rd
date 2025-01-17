@@ -109,8 +109,9 @@ plot(st_geometry(bh), border=gray(.5))
 pts <- st_coordinates(st_centroid(bh))
 plot(mst.bh, pts, col=2, 
      cex.lab=.6, cex.circles=0.035, fg="blue", add=TRUE)
+
 ### three groups with no restriction
-res1 <- skater(mst.bh[,1:2], dpad, 2)
+res1 <- spdep::skater(edges=mst.bh[,1:2], data=dpad, ncuts=2)
 
 ### groups size
 table(res1$groups)
@@ -130,7 +131,7 @@ plot(st_geometry(bh), col=heat.colors(length(res1$edg))[res1$groups])
 ### EXPERT OPTIONS
 
 ### more one partition
-res1b <- skater(res1, dpad, 1)
+res1b <- spdep::skater(res1, dpad, 1)
 
 ### length groups frequency
 table(res1$groups)
@@ -138,38 +139,38 @@ table(res1$groups)
 table(res1b$groups)
 
 ### thee groups with minimum population 
-res2 <- skater(mst.bh[,1:2], dpad, 2, 200000, bh$Pop)
+res2 <- spdep::skater(mst.bh[,1:2], dpad, 2, 200000, bh$Pop)
 table(res2$groups)
 
 ### thee groups with minimun number of areas
-res3 <- skater(mst.bh[,1:2], dpad, 2, 3, rep(1,nrow(bh)))
+res3 <- spdep::skater(mst.bh[,1:2], dpad, 2, 3, rep(1,nrow(bh)))
 table(res3$groups)
 
 ### thee groups with minimun and maximun number of areas
-res4 <- skater(mst.bh[,1:2], dpad, 2, c(20,50), rep(1,nrow(bh)))
+res4 <- spdep::skater(mst.bh[,1:2], dpad, 2, c(20,50), rep(1,nrow(bh)))
 table(res4$groups)
 
 ### if I want to get groups with 20 to 40 elements
-res5 <- skater(mst.bh[,1:2], dpad, 2,
+res5 <- spdep::skater(mst.bh[,1:2], dpad, 2,
    c(20,40), rep(1,nrow(bh))) ## DON'T MAKE DIVISIONS 
 table(res5$groups)
 
 ### In this MST don't have groups with this restrictions
 ### In this case, first I do one division
 ### with the minimun criteria
-res5a <- skater(mst.bh[,1:2], dpad, 1, 20, rep(1,nrow(bh))) 
+res5a <- spdep::skater(mst.bh[,1:2], dpad, 1, 20, rep(1,nrow(bh))) 
 table(res5a$groups)
 
 ### and do more one division with the full criteria
-res5b <- skater(res5a, dpad, 1, c(20, 40), rep(1,nrow(bh)))
+res5b <- spdep::skater(res5a, dpad, 1, c(20, 40), rep(1,nrow(bh)))
 table(res5b$groups)
 
 ### and do more one division with the full criteria
-res5c <- skater(res5b, dpad, 1, c(20, 40), rep(1,nrow(bh)))
+res5c <- spdep::skater(res5b, dpad, 1, c(20, 40), rep(1,nrow(bh)))
 table(res5c$groups)
 
 ### It don't have another divison with this criteria
-res5d <- skater(res5c, dpad, 1, c(20, 40), rep(1,nrow(bh)))
+res5d <- spdep::skater(res5c, dpad, 1, c(20, 40), rep(1,nrow(bh)))
 table(res5d$groups)
 
 \dontrun{
@@ -183,7 +184,7 @@ nb.w <- nb2listw(bh.nb, lcosts, style="B")
 ### find a minimum spanning tree
 mst.bh <- mstree(nb.w,5)
 ### three groups with no restriction
-system.time(res1 <- skater(mst.bh[,1:2], dpad, 2))
+system.time(res1 <- spdep::skater(mst.bh[,1:2], dpad, 2))
 library(parallel)
 nc <- max(2L, detectCores(logical=FALSE), na.rm = TRUE)-1L
 # set nc to 1L here
@@ -203,7 +204,7 @@ pnb.w <- nb2listw(bh.nb, plcosts, style="B")
 ### find a minimum spanning tree
 pmst.bh <- mstree(pnb.w,5)
 ### three groups with no restriction
-system.time(pres1 <- skater(pmst.bh[,1:2], dpad, 2))
+system.time(pres1 <- spdep::skater(pmst.bh[,1:2], dpad, 2))
 if(!get.mcOption()) {
   set.ClusterOption(NULL)
   stopCluster(cl)
