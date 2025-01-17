@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-8</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-9</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -126,7 +126,7 @@ attribute as default for its <code>zero.policy</code> argument:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required package: spData</span></span></code></pre>
 <pre><code><span><span class="co">## Loading required package: sf</span></span></code></pre>
-<pre><code><span><span class="co">## Linking to GEOS 3.13.0, GDAL 3.10.0, PROJ 9.5.1; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.13.0, GDAL 3.10.1, PROJ 9.5.1; sf_use_s2() is TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">moran.test</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## function (x, listw, randomisation = TRUE, zero.policy = attr(listw, </span></span>
@@ -163,7 +163,7 @@ compressed GeoPackage files, if not they must be decompressed first.</p>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>The boundaries are taken from the Ordnance Survey Boundary-Line site,
 <a href="https://osdatahub.os.uk/downloads/open/BoundaryLine" class="external-link uri">https://osdatahub.os.uk/downloads/open/BoundaryLine</a>,
-choosing the 2024 Westminster constituencies (<a href="https://www.os.uk/opendata/licence" class="external-link uri">https://www.os.uk/opendata/licence</a>), simplified using a
+choosing the 2024 Westminster constituencies, simplified using a
 tolerance of 50m to reduce object size, and merged with selected voting
 outcomes for constituencies in Great Britain <a href="https://electionresults.parliament.uk/countries/1" class="external-link uri">https://electionresults.parliament.uk/countries/1</a>, (<a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" class="external-link uri">https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/</a>).
 Here, the subset for Wales is useful as we will see:</p>
@@ -179,7 +179,7 @@ Here, the subset for Wales is useful as we will see:</p>
 <span>    <span class="va">w50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_Wales_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpXVTJuL/temp_libpath3b356d487bad39/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmpnMR8ea/temp_libpath38282dc95fed/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 32 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -371,7 +371,7 @@ subsetted to those in England south of London.</p>
 <span>    <span class="va">sc50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_southcoast_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpXVTJuL/temp_libpath3b356d487bad39/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmpnMR8ea/temp_libpath38282dc95fed/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 119 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -654,7 +654,7 @@ re-packaged as a compressed GeoPackage:</p>
 <span>    <span class="va">tokyo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `tokyo' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpXVTJuL/temp_libpath3b356d487bad39/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/RtmpnMR8ea/temp_libpath38282dc95fed/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 262 features and 3 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>

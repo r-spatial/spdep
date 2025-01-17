@@ -50,7 +50,7 @@ This discussion will address problems arising when analysing areal/lattice data,
 (GDAL37 <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0")
 ```
 
-The boundaries are taken from the Ordnance Survey Boundary-Line site, https://osdatahub.os.uk/downloads/open/BoundaryLine, choosing the 2024 Westminster constituencies (https://www.os.uk/opendata/licence), simplified using a tolerance of 50m to reduce object size, and merged with selected voting outcomes for constituencies in Great Britain https://electionresults.parliament.uk/countries/1, (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Here, the subset for Wales is useful as we will see:
+The boundaries are taken from the Ordnance Survey Boundary-Line site, https://osdatahub.os.uk/downloads/open/BoundaryLine, choosing the 2024 Westminster constituencies, simplified using a tolerance of 50m to reduce object size, and merged with selected voting outcomes for constituencies in Great Britain https://electionresults.parliament.uk/countries/1, (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Here, the subset for Wales is useful as we will see:
 
 ```{r}
 file <- "etc/shapes/GB_2024_Wales_50m.gpkg.zip"

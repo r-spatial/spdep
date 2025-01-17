@@ -189,8 +189,8 @@ The missing link is between Clare and Kerry, perhaps by the
 Tarbert–Killimer ferry, but the counties are not contiguous, as Figure
 \[plot\_nb\] shows:
 
-```{r echo=TRUE,eval=run}
-xx <- diffnb(nb, lw_unstand$neighbours, verbose=TRUE)
+```{r echo=TRUE,eval=run,warning=FALSE}
+xx <- diffnb(nb, lw_unstand$neighbours, legacy=TRUE, verbose=TRUE)
 ```
 ```{r echo=TRUE,eval=FALSE,results='hide'}
 plot(eire_ge1, border="grey60")

@@ -15,8 +15,8 @@ n.comp.nb <- function(nb.obj){
   }
   if (!igraph) {
     if (!nb.sym) nb.obj <- make.sym.nb(nb.obj)
-    comp <- rep(0,length(nb.obj))
-    comp <- .Call("g_components", nb.obj, as.integer(comp), PACKAGE="spdep")
+    comp0 <- rep(0,length(nb.obj))
+    comp <- .Call("g_components", nb.obj, as.integer(comp0), PACKAGE="spdep")
     answ <- list(nc=length(unique(comp)), comp.id=comp)
   } else {
     stopifnot(requireNamespace("igraph", quietly=TRUE))
