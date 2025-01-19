@@ -18,7 +18,7 @@ SEXP nbdists(SEXP nb, SEXP x, SEXP np, SEXP dim, SEXP lonlat)
 	d = INTEGER_POINTER(dim)[0];
 	if (d > 2) Rf_error("Only 2D coordinates allowed");
 	PROTECT(class = NEW_CHARACTER(1)); pc++;
-	SET_STRING_ELT(class, 0, COPY_TO_USER_STRING("nbdist"));
+	SET_STRING_ELT(class, 0, Rf_mkChar("nbdist"));
 	Rf_setAttrib(VECTOR_ELT(ans, 0), R_ClassSymbol, class);
 
 	for (i=0; i < n; i++) {
