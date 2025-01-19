@@ -7,7 +7,7 @@
 #define WHITE 0
 
 void dfs(SEXP nblst, SEXP cmpnm, SEXP visited, int curcmp, int nodeid){
-  int n,i,nvert;
+  int n,i;
 
   if (nodeid < 0 || nodeid >= Rf_length(nblst))
     Rf_error("n.comp.nb: recursive nodeid out of bounds\ninstall spatialreg and igraph to avoid legacy issue");
