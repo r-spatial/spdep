@@ -1,3 +1,10 @@
+# Version 1.3-11.1 (development)
+
+* draft version of multivariate `spatialdelta`  with support functions and methods
+
+# Version 1.3-11 (development)
+
+
 # Version 1.3-10 (development)
 
 * `R_NO_REMAP` problem with R < 4.4.1 fixed by replacing `COPY_TO_USER_STRING` by `Rf_mkChar`, because include/Rdefines.h before revision 86416 set `COPY_TO_USER_STRING` as `mkChar` which is not defined as `Rf_mkChar` when `R_NO_REMAP` is defined, #176, thanks to Edzer Pebesma
