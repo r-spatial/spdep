@@ -1,10 +1,16 @@
-# Version 1.3-9.1 (development)
+# Version 1.3-10 (development)
 
-* draft version of multivariate `spatialdelta`  with support functions and methods
+* `R_NO_REMAP` problem with R < 4.4.1 fixed by replacing `COPY_TO_USER_STRING` by `Rf_mkChar`, because include/Rdefines.h before revision 86416 set `COPY_TO_USER_STRING` as `mkChar` which is not defined as `Rf_mkChar` when `R_NO_REMAP` is defined, #176, thanks to Edzer Pebesma
 
-# Version 1.3-9 (development)
+* disambiguate which `skater` in examples to satisfy `pkgdown`, which used `rgeoda::skater`; other patches to examples to satisfy `pkgdown`
 
-* convert `error` to `Rf_error` in `src/ml_sse.c` to accommodate R_NO_REMAP
+* use `inherits` in `skater`
+
+# Version 1.3-9 (2025-01-16)
+
+* revisit `diffnb` and set operations like `union.nb` and `setdiff.nb` following up #175; `diffnb` largely rewritten and should no longer generate deformed output; set operations modified to match base functions actions
+
+* convert `error` to `Rf_error`, `length` to `Rf_length` etc. to accommodate `R_NO_REMAP`, see https://github.com/r-spatial/spdep/commit/b61f6b17be09383c94b45e912f9213735aa62212 for R 4.5
 
 * re-instate **rgeoda** references
 

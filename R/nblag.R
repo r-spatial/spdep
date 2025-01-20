@@ -74,7 +74,9 @@ nblag_cumul <- function (nblags) {
     attr(lags, "region.id") <- attr(nblags[[1]], "region.id")
     attr(lags, "call") <- match.call()
     class(lags) <- "nb"
-    if (get.SubgraphOption()) {
+    lags <- sym.attr.nb(lags)
+    NE <- length(lags) + sum(card(lags))
+    if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
         nsg <- n.comp.nb(lags)$nc
         if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
     }

@@ -38,7 +38,7 @@ nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 		attr(vlist, "glistsym") <- is.symmetric.glist(neighbours, glist)
 	}
 	attr(vlist, as.character(style)) <- TRUE
-	if (zero.policy) {
+	if (zero.policy && (style == "C" || style == "U" || style == "minmax")) {
 		eff.n <- n - length(which(cardnb == 0))
 		if (eff.n < 1) stop("No valid observations")
 	} else eff.n <- n

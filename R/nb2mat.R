@@ -1,4 +1,4 @@
-# Copyright 2001-10 by Roger Bivand, Markus Reder and Werner Mueller, 2015 Martin Gubri
+# Copyright 2001-10, 2025 by Roger Bivand, Markus Reder and Werner Mueller, 2015 Martin Gubri
 #
 
 
@@ -68,7 +68,9 @@ mat2listw <- function(x, row.names=NULL, style=NULL, zero.policy=NULL) {
             p <- slot(xC, "p")
             dp <- diff(p)
             rp <- rep(seq_along(dp), dp)
-            df0 <- data.frame(from=i, to=rp, weights=slot(xC, "x"))
+# coerce weights to numeric #175
+            df0 <- data.frame(from=i, to=rp, weights=as.numeric(slot(xC, "x")))
+	    df0 <- df0[df0$weights > 0,]
             o <- order(df0$from, df0$to)
             df <- df0[o,]
             class(df) <- c(class(df), "spatial.neighbour")

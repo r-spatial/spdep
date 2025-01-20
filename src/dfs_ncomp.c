@@ -9,6 +9,10 @@
 void dfs(SEXP nblst, SEXP cmpnm, SEXP visited, int curcmp, int nodeid){
   int n,i;
 
+  if (nodeid < 0 || nodeid >= Rf_length(nblst))
+    Rf_error("n.comp.nb: recursive nodeid out of bounds\ninstall spatialreg and igraph to avoid legacy issue");
+  
+
   INTEGER(cmpnm)[nodeid]=curcmp;
   INTEGER(visited)[nodeid]=BLACK;
   n=Rf_length(VECTOR_ELT(nblst,nodeid));

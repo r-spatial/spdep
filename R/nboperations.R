@@ -25,9 +25,9 @@ union.nb<-function(nb.obj1, nb.obj2){
     }
   }
   attr(new.nb,"region.id")<-attr(nb.obj1,"region.id")
-  attr(new.nb,"type")<-paste("union(",attr(nb.obj1,"type"),
-                             ",",attr(nb.obj2,"type"),")")
+  attr(new.nb, "call") <- match.call()
   class(new.nb)<-"nb"
+  new.nb <- sym.attr.nb(new.nb)
   NE <- length(new.nb) + sum(card(new.nb))
   if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
     ncomp <- n.comp.nb(new.nb)
@@ -58,9 +58,9 @@ intersect.nb<-function(nb.obj1, nb.obj2){
     } else new.nb[[i]] <- 0L
   }
   attr(new.nb,"region.id")<-attr(nb.obj1,"region.id")
-  attr(new.nb,"type")<-paste("intersect(",attr(nb.obj1,"type"),
-                             ",",attr(nb.obj2,"type"),")")
+  attr(new.nb, "call") <- match.call()
   class(new.nb)<-"nb"
+  new.nb <- sym.attr.nb(new.nb)
   NE <- length(new.nb) + sum(card(new.nb))
   if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
     ncomp <- n.comp.nb(new.nb)
@@ -87,30 +87,22 @@ setdiff.nb<-function(nb.obj1, nb.obj2){
       			if (card2[i] == 0) new.nb[[i]] <- 0L
       			else new.nb[[i]] <- nb.obj2[[i]]
     		} else {
-      			if (card2[i] == 0) new.nb[[i]] <- nb.obj1[[i]]
-      			else {
-            			if (card2[i] == 0)
-                			new.nb[[i]] <- nb.obj1[[i]]
-            			else {
-                			if (card1[i] >= card2[i]) {
-                  				a <- nb.obj1[[i]]
-                  				b <- nb.obj2[[i]]
-                			} else {
-                  				b <- nb.obj1[[i]]
-                  				a <- nb.obj2[[i]]
-                			}
-                			res <- sort(setdiff(a, b))
-			                if(length(res) == 0L) 
-					    new.nb[[i]] <- 0L
-                			else new.nb[[i]] <- res
-	    			}
-        		}
+            		if (card2[i] == 0)
+                		new.nb[[i]] <- nb.obj1[[i]]
+            		else {
+                  		a <- nb.obj1[[i]]
+                  		b <- nb.obj2[[i]]
+                		res <- sort(setdiff(a, b))
+# changes to give a one-sided setdiff as base (a, b) != (b, a)
+			        if(length(res) == 0L) new.nb[[i]] <- 0L
+                		else new.nb[[i]] <- res
+	    		}
     		}
   	}
   	attr(new.nb,"region.id")<-attr(nb.obj1,"region.id")
-  	attr(new.nb,"type")<-paste("setdiff(",attr(nb.obj1,"type"),
-                             ",",attr(nb.obj2,"type"),")")
+	attr(new.nb, "call") <- match.call()
   	class(new.nb)<-"nb"
+	new.nb <- sym.attr.nb(new.nb)
         NE <- length(new.nb) + sum(card(new.nb))
         if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
           ncomp <- n.comp.nb(new.nb)
@@ -138,8 +130,10 @@ complement.nb<-function(nb.obj){
       else new.nb[[i]] <- res
     }
   }
-  attr(new.nb,"type")<-paste("complement(",attr(nb.obj,"type"),")")
+  attr(new.nb,"region.id")<-attr(nb.obj,"region.id")
+  attr(new.nb, "call") <- match.call()
   class(new.nb)<-"nb"
+  new.nb <- sym.attr.nb(new.nb)
   NE <- length(new.nb) + sum(card(new.nb))
   if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
     ncomp <- n.comp.nb(new.nb)
