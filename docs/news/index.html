@@ -42,7 +42,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3-10" id="version-13-10-development">Version 1.3-10 (development)<a class="anchor" aria-label="anchor" href="#version-13-10-development"></a></h2>
-</div>
+<ul><li><p><code>R_NO_REMAP</code> problem with R &lt; 4.4.1 fixed by replacing <code>COPY_TO_USER_STRING</code> by <code>Rf_mkChar</code>, because include/Rdefines.h before revision 86416 set <code>COPY_TO_USER_STRING</code> as <code>mkChar</code> which is not defined as <code>Rf_mkChar</code> when <code>R_NO_REMAP</code> is defined, <a href="https://github.com/r-spatial/spdep/issues/176" class="external-link">#176</a>, thanks to Edzer Pebesma</p></li>
+<li><p>disambiguate which <code>skater</code> in examples to satisfy <code>pkgdown</code>, which used <code><a href="https://geodacenter.github.io/rgeoda/reference/skater.html" class="external-link">rgeoda::skater</a></code>; other patches to examples to satisfy <code>pkgdown</code></p></li>
+<li><p>use <code>inherits</code> in <code>skater</code></p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.3-9" id="version-13-9-2025-01-16">Version 1.3-9 (2025-01-16)<a class="anchor" aria-label="anchor" href="#version-13-9-2025-01-16"></a></h2><p class="text-muted">CRAN release: 2025-01-16</p>
 <ul><li><p>revisit <code>diffnb</code> and set operations like <code>union.nb</code> and <code>setdiff.nb</code> following up <a href="https://github.com/r-spatial/spdep/issues/175" class="external-link">#175</a>; <code>diffnb</code> largely rewritten and should no longer generate deformed output; set operations modified to match base functions actions</p></li>
