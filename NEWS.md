@@ -4,8 +4,9 @@
 
 # Version 1.3-11 (development)
 
+* remove |> in vignette to avoid R >= 4.1 dependency https://stat.ethz.ch/pipermail/r-devel/2025-January/083768.html
 
-# Version 1.3-10 (development)
+# Version 1.3-10 (2025-01-20)
 
 * `R_NO_REMAP` problem with R < 4.4.1 fixed by replacing `COPY_TO_USER_STRING` by `Rf_mkChar`, because include/Rdefines.h before revision 86416 set `COPY_TO_USER_STRING` as `mkChar` which is not defined as `Rf_mkChar` when `R_NO_REMAP` is defined, #176, thanks to Edzer Pebesma
 

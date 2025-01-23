@@ -68,12 +68,12 @@ if (GDAL37) {
 
 
 ```{r}
-(w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50m)
+(nb_W_50m <- poly2nb(w50m, row.names=as.character(w50m$Constituency)))
 ```
 The two subgraphs are the singleton Ynys Môn and all the other 31 constituencies:
 
 ```{r}
-attr(nb_W_50m, "ncomp")$comp.id |>table() |> table()
+table(table(attr(nb_W_50m, "ncomp")$comp.id))
 ```
 The left map shows that Ynys Môn can be shown selecting by name, as a black border, and by the zero cardinality of its neighbour set, using `card`, filling the polygon. The right map shows the location of the island, known in English as Anglesey, north-west of the Welsh mainland, and with no neighbour links:
 
@@ -332,13 +332,13 @@ The `print` method for `nb` objects reports no-neighbour and subgraph status any
 
 ```{r}
 set.NoNeighbourOption(FALSE)
-(w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50mz)
+(nb_W_50mz <- poly2nb(w50m, row.names=as.character(w50m$Constituency)))
 ```
 Turning both off removes the warnings:
 
 ```{r}
 set.SubgraphOption(FALSE)
-(w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50my)
+(nb_W_50my <- poly2nb(w50m, row.names=as.character(w50m$Constituency)))
 ```
 When `get.SubgraphOption` is FALSE, the attribute containing the output of `n.comp.nb` is not added:
 
@@ -351,7 +351,7 @@ The reduction of the ceiling to below node count 32 plus edge count 136 also sup
 ```{r}
 set.SubgraphOption(TRUE)
 set.SubgraphCeiling(100L)
-(w50m |> poly2nb(row.names=as.character(w50m$Constituency)) -> nb_W_50mx)
+(nb_W_50mx <- poly2nb(w50m, row.names=as.character(w50m$Constituency)))
 ```
 
 ```{r}
