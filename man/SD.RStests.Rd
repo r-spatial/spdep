@@ -31,7 +31,7 @@ A list of class \code{LMtestlist} of \code{htest} objects, each with:
   \item{data.name}{a character string giving the name(s) of the data.}
 }
 \references{
-Malabika Koley and Anil K. Bera (2024) To use, or not to use the spatial Durbin model? – that is the question, Spatial Economic Analysis, 19:1, 30-56, \doi{10.1080/17421772.2023.2256810}; Malabika Koley (2024) Specification Testing under General Nesting Spatial Model (Appendix C), \url{https://sites.google.com/view/malabikakoley/research}.
+Malabika Koley and Anil K. Bera (2024) To use, or not to use the spatial Durbin model? – that is the question, Spatial Economic Analysis, 19:1, 30-56, \doi{10.1080/17421772.2023.2256810}; Malabika Koley (2024) Specification testing of spatial econometric models, Ph.D. dissertation, University of Illinois at Urbana-Champaign, pp. 78-118, 148-156; \url{https://hdl.handle.net/2142/124329}.
 }
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}, Malabika Koley and Anil K. Bera}
 \note{
