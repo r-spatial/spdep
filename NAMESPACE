@@ -43,7 +43,7 @@ export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb,
 
 export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt,
         read.swmdbf2listw, read_swm_dbf, write.swmdbf, write_swm_dbf, write.sn2DBF,
-        lm.LMtests, lm.RStests, SD.RStests,
+        lm.LMtests, lm.RStests,
 	lm.morantest, localG, localG_perm, localmoran, localmoran_perm, moran,
 	moran.test, moran.mc, moran.plot, localmoran.sad, lm.morantest.sad,
 	nb2listw, nb2listwdist, nb2mat, listw2mat, mat2listw, nbdists, nblag,
@@ -59,6 +59,8 @@ export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt,
 	summary.localmoransad, print.summary.localmoransad, print.moransad,
 	summary.moransad, print.summary.moransad, print.spcor, plot.spcor,
         remove.self)
+
+export(have_factor_preds_mf, warn_factor_preds, SD.RStests)
 
 export(write.sn2dat, read.dat2listw, nb2blocknb, p.adjustSP,
 	is.symmetric.glist, nb2lines, listw2lines, df2sn,
@@ -95,6 +97,7 @@ export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
 export(localmoran_bv, moran_bv,local_joincount_uni, local_joincount_bv)
 
 export(licd_multi)
+
 
 S3method(print, nb)
 S3method(summary, nb)

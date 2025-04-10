@@ -1,5 +1,7 @@
 \name{SD.RStests}
 \alias{SD.RStests}
+\alias{have_factor_preds_mf}
+\alias{warn_factor_preds}
 
 \title{
 Rao's score and adjusted Rao's score tests of linear hypotheses for spatial Durbin and spatial Durbin error models
@@ -10,6 +12,8 @@ Rao's score and adjusted Rao's score tests of linear hypotheses applied to a fit
 \usage{
 SD.RStests(model, listw, zero.policy = attr(listw, "zero.policy"), test = "SDM",
  Durbin = TRUE)
+have_factor_preds_mf(mf)
+warn_factor_preds(x)
 }
 
 \arguments{
@@ -20,6 +24,8 @@ expected to be row-standardised (W-style)}
 neighbours, if FALSE assign NA}
   \item{test}{test=\dQuote{SDM} computes the SDM tests, a character vector of tests requested chosen from SDM_RSlag, SDM_adjRSlag, SDM_RSWX, SDM_adjRSWX, SDM_Joint, test=\dQuote{SDEM} computes the SDEM tests, a character vector of tests requested chosen from SDEM_RSerr, SDEM_RSWX, SDEM_Joint; test=\dQuote{all} computes all the tests}
   \item{Durbin}{default TRUE for Durbin models including WX; if TRUE, full spatial Durbin model; if a formula object, the subset of explanatory variables to lag}
+  \item{mf}{\code{model.frame} object}
+  \item{x}{object created by \code{have_factor_preds_mf}}
 }
 
 \value{
@@ -45,7 +51,10 @@ The results in the example below agree with those in Table 3, p. 22 in Koley and
 columbus <- sf::st_read(system.file("shapes/columbus.gpkg", package="spData")[1])
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 col.listw <- nb2listw(col.gal.nb, style="W")
-lm_obj <- lm(CRIME ~ INC + HOVAL, data=columbus)
+columbus$fEW <- factor(columbus$EW)
+columbus$fDISCBD <- ordered(cut(columbus$DISCBD, c(0, 1.5, 3, 4.5, 6)))
+f <- formula(CRIME ~ INC + HOVAL + fDISCBD*fEW)
+lm_obj <- lm(f, data=columbus)
 summary(lm.RStests(lm_obj, col.listw, test="all"))
 res <- SD.RStests(lm_obj, col.listw, test="SDM")
 summary(res)
