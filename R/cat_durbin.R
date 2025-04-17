@@ -14,12 +14,35 @@ have_factor_preds_mf <- function(mf) {
         names(xlevels) <- factnames
         attr(have_factor_preds, "xlevels") <- xlevels 
         attr(have_factor_preds, "factnames") <- factnames
+        pred_contrasts <- character(length(factnames))
+        pred_ordered <- logical(length(factnames))
+        for (pred in seq(along=factnames)) {
+            contr <- C(mf[[factnames[pred]]])
+            pred_contrasts[pred] <- attr(contr, "contrasts")
+            pred_ordered[pred] <- names(attr(contr, "contrasts")) == "ordered"
+        }
+        names(pred_contrasts) <- names(pred_ordered) <- factnames
+        attr(have_factor_preds, "pred_contrasts") <- pred_contrasts
+        attr(have_factor_preds, "pred_ordered") <- pred_ordered
     }
     have_factor_preds
 }
 
 warn_factor_preds <- function(x) {
-    warning("use of spatially lagged factors (categorical variables)\n", 
+    plural <- length(attr(x, "factnames")) > 1L
+    warning("use of spatially lagged ", ifelse(plural, "factors", "factor"),
+        " (categorical ", ifelse(plural, "variables", "variable"), "\n", 
         paste(attr(x, "factnames"), collapse=", "),
         "\nis not well-understood")
+    pred_ordered <- attr(x, "pred_ordered")
+    if (any(pred_ordered)) {
+        pred_contrasts <- attr(x, "pred_contrasts")
+        ordered <- which(pred_ordered)
+        plural <- length(ordered) > 1L
+        warning("In addition ", ifelse(plural, "variables", "variable"), ":\n",
+            paste(names(pred_ordered)[ordered], collapse=", "), 
+            "\n", ifelse(plural, "are", "is"), 
+            " ordered (ordinal) with contrasts:\n",
+            paste(pred_contrasts[ordered], collapse=", "))
+    }
 }

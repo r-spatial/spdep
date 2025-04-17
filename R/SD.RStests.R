@@ -5,8 +5,9 @@ is.formula <- function(x){
    inherits(x,"formula")
 }
 
-create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
+create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL, have_factor_preds=FALSE) {
         if (isTRUE(Durbin)) {
+            if (have_factor_preds) warn_factor_preds(have_factor_preds)
             n <- NROW(X)
 	    m <- NCOL(X)
 	    # check if there are enough regressors
@@ -43,6 +44,9 @@ create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
             }
             dmf <- lm(Durbin, data1, na.action=na.fail, 
 	        method="model.frame")
+	    formula_durbin_factors <- have_factor_preds_mf(dmf)
+            if (formula_durbin_factors) 
+                warn_factor_preds(formula_durbin_factors)
 #	    dmf <- lm(Durbin, data, na.action=na.action, 
 #	         method="model.frame")
             X0 <- try(model.matrix(Durbin, dmf), silent=TRUE)
@@ -106,14 +110,19 @@ SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 		warning("Spatial weights matrix not row standardized")
 
         if (is.formula(Durbin)) {
-            dt <- try(eval(model$call[["data"]]), silent=TRUE)
+            dt <- try(as.data.frame(model$model), silent=TRUE)
+#            dt <- try(eval(model$call[["data"]]), silent=TRUE)
             if (inherits(dt, "try-error") || !is.data.frame(dt))
-                stop("data object used to fit linear model not available for formula Durbin")
+                stop("model.frame object used to fit linear model not available for formula Durbin")
+
         }
 
-	y <- model.response(model.frame(model))
-	X <- model.matrix(terms(model), model.frame(model))
-        X0 <- create_X0(X=X, listw=listw, Durbin=Durbin, data=dt, na.act=na.act)
+	mf <- model.frame(model)
+        y <- model.response(mf)
+	X <- model.matrix(terms(model), mf)
+        have_factor_preds <- have_factor_preds_mf(mf)
+        X0 <- create_X0(X=X, listw=listw, Durbin=Durbin, data=dt, na.act=na.act,
+            have_factor_preds=have_factor_preds)
 	yhat <- as.vector(fitted(model))
 	p <- model$rank
 	p1 <- 1:p
