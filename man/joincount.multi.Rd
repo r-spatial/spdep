@@ -69,7 +69,8 @@ cat("replicates Upton & Fingleton table 3.6 (p. 168)\n")
 joincount.multi(hopkins4.f, nb2listw(hopkins.queen.nb, style="B"))
 cat("replicates Upton & Fingleton table 3.7 (p. 169)\n")
 }
-GDAL37 <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0"
+GDAL37 <- numeric_version(unname(sf_extSoftVersion()["GDAL"]), strict=FALSE)
+(GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
 file <- "etc/shapes/GB_2024_southcoast_50m.gpkg.zip"
 zipfile <- system.file(file, package="spdep")
 if (GDAL37) {

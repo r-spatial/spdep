@@ -63,7 +63,8 @@ str(h_obj)
 table(h_obj$both_recode)
 columbus$both <- h_obj$both_recode
 plot(columbus[, "both"])
-GDAL37 <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0"
+GDAL37 <- numeric_version(unname(sf_extSoftVersion()["GDAL"]), strict=FALSE)
+(GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
 file <- "etc/shapes/GB_2024_southcoast_50m.gpkg.zip"
 zipfile <- system.file(file, package="spdep")
 if (GDAL37) {

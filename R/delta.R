@@ -317,7 +317,8 @@ plot_spatialcoords.default <- function(x, ...) {
 }
 
 plot_spatialcoords.spatialdelta <- function(x, cols=c(1L, 2L), mult=c(1, 1),
-    power=1L, fmult=NULL, names=attr(x, "rnames"), bg=1, pos=3, cex=0.6, ...) {
+    power=1L, fmult=NULL, names=attr(x, "rnames"), bg=1, pos=3, cex=0.6,
+    largest=NULL, ...) {
 # Fig. 1
     cols <- as.integer(cols)
     stopifnot(length(cols) == 2L)
@@ -349,6 +350,17 @@ plot_spatialcoords.spatialdelta <- function(x, cols=c(1L, 2L), mult=c(1, 1),
         fmult <- (0.02*rX)/rf
     }
     mf <- regional_weights*fmult
+    if (!is.null(largest)) {
+        stopifnot(is.integer(largest))
+        stopifnot(length(largest) == 1L)
+        stopifnot(largest > 0L)
+        stopifnot(largest <= length(mf))
+        o <- order(mf, decreasing=TRUE)
+        names1 <- character(length(names))
+        for (i in seq(along=names1)) 
+            names1[i] <- ifelse(o[i] <= largest, names[i], "")
+        names <- names1
+    }
     symbols(X, Y, circles=mf, bg=bg, add=TRUE, inches=FALSE)
     text(X, Y, names, pos=pos, cex=cex)
     abline(h=0, v=0, lty=2)
@@ -364,7 +376,7 @@ plot_moran.default <- function(x, y, ...) {
 }
 
 plot_moran.spatialdelta <- function(x, y, fmult=NULL, names=attr(x, "rnames"),
-    bg=1, pos=3, cex=0.6, ...) {
+    bg=1, pos=3, cex=0.6, largest=NULL, ...) {
 # Fig. 3 (+ fig. 2)
     regional_weights <- attr(x, "regional_weights")
     if (is.null(names)) names <- as.character(1:length(regional_weights))
@@ -384,6 +396,17 @@ plot_moran.spatialdelta <- function(x, y, fmult=NULL, names=attr(x, "rnames"),
         fmult <- (0.02*rX)/rf
     }
     mf <- regional_weights*fmult
+    if (!is.null(largest)) {
+        stopifnot(is.integer(largest))
+        stopifnot(length(largest) == 1L)
+        stopifnot(largest > 0L)
+        stopifnot(largest <= length(mf))
+        o <- order(mf, decreasing=TRUE)
+        names1 <- character(length(names))
+        for (i in seq(along=names1)) 
+            names1[i] <- ifelse(o[i] <= largest, names[i], "")
+        names <- names1
+    }
     symbols(y, ly, circles=mf, bg=bg, add=TRUE, inches=FALSE)
     text(y, ly, names, pos=pos, cex=cex)
     abline(a=a)
@@ -436,7 +459,8 @@ plot_factorialcoords.default <- function(x, ...) {
 
 
 plot_factorialcoords.spatialdelta <- function(x, cols=c(1L, 2L),
-    mult=c(1, 1), fmult=NULL, names=attr(x, "rnames"), bg=1, pos=3, cex=0.6, ...) {
+    mult=c(1, 1), fmult=NULL, names=attr(x, "rnames"), bg=1, pos=3, cex=0.6,
+    largest=NULL, ...) {
 # Fig. 5 left, not right
     cols <- as.integer(cols)
     stopifnot(length(cols) == 2L)
@@ -456,6 +480,17 @@ plot_factorialcoords.spatialdelta <- function(x, cols=c(1L, 2L),
         fmult <- (0.02*rX)/rf
     }
     mf <- regional_weights*fmult
+    if (!is.null(largest)) {
+        stopifnot(is.integer(largest))
+        stopifnot(length(largest) == 1L)
+        stopifnot(largest > 0L)
+        stopifnot(largest <= length(mf))
+        o <- order(mf, decreasing=TRUE)
+        names1 <- character(length(names))
+        for (i in seq(along=names1)) 
+            names1[i] <- ifelse(o[i] <= largest, names[i], "")
+        names <- names1
+    }
     symbols(X, Y, circles=mf, bg=bg, add=TRUE, inches=FALSE)
     text(X, Y, names, pos=pos, cex=cex)
     abline(h=0, v=0, lty=2)
