@@ -1,5 +1,7 @@
 # Version 1.3-11 (development)
 
+* introduce warnings for factors (categorical variables) in Durbin models (`SD.RStests`)
+
 * remove |> in vignette to avoid R >= 4.1 dependency https://stat.ethz.ch/pipermail/r-devel/2025-January/083768.html
 
 * update reference to Koley (2024) in man/SD.RStests.Rd

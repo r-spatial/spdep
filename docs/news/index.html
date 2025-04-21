@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-11</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,13 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.3-10" id="version-13-10-development">Version 1.3-10 (development)<a class="anchor" aria-label="anchor" href="#version-13-10-development"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.3-11" id="version-13-11-development">Version 1.3-11 (development)<a class="anchor" aria-label="anchor" href="#version-13-11-development"></a></h2>
+<ul><li><p>introduce warnings for factors (categorical variables) in Durbin models (<code>SD.RStests</code>)</p></li>
+<li><p>remove |&gt; in vignette to avoid R &gt;= 4.1 dependency <a href="https://stat.ethz.ch/pipermail/r-devel/2025-January/083768.html" class="external-link uri">https://stat.ethz.ch/pipermail/r-devel/2025-January/083768.html</a></p></li>
+<li><p>update reference to Koley (2024) in man/SD.RStests.Rd</p></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.3-10" id="version-13-10-2025-01-20">Version 1.3-10 (2025-01-20)<a class="anchor" aria-label="anchor" href="#version-13-10-2025-01-20"></a></h2><p class="text-muted">CRAN release: 2025-01-20</p>
 <ul><li><p><code>R_NO_REMAP</code> problem with R &lt; 4.4.1 fixed by replacing <code>COPY_TO_USER_STRING</code> by <code>Rf_mkChar</code>, because include/Rdefines.h before revision 86416 set <code>COPY_TO_USER_STRING</code> as <code>mkChar</code> which is not defined as <code>Rf_mkChar</code> when <code>R_NO_REMAP</code> is defined, <a href="https://github.com/r-spatial/spdep/issues/176" class="external-link">#176</a>, thanks to Edzer Pebesma</p></li>
 <li><p>disambiguate which <code>skater</code> in examples to satisfy <code>pkgdown</code>, which used <code><a href="https://geodacenter.github.io/rgeoda/reference/skater.html" class="external-link">rgeoda::skater</a></code>; other patches to examples to satisfy <code>pkgdown</code></p></li>
 <li><p>use <code>inherits</code> in <code>skater</code></p></li>
