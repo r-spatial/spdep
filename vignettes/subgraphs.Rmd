@@ -47,7 +47,8 @@ The `adjust.n` argument to measures of spatial autocorrelation is by default TRU
 This discussion will address problems arising when analysing areal/lattice data, and neighbours are defined as polygon features with contiguous boundaries. One way in which no-neighbour observations may occur is when they are islands. This is clearly the case in @FRENISTERRANTINO201825, where Capraia and Giglio Isles are singleton nodes. Here we take Westminster constituencies for Wales used in the July 2024 UK general election. If GDAL is at least version 3.7.0, the driver supports compressed GeoPackage files, if not they must be decompressed first.
 
 ```{r}
-(GDAL37 <- as.numeric_version(unname(sf_extSoftVersion()["GDAL"])) >= "3.7.0")
+GDAL37 <- numeric_version(unname(sf::sf_extSoftVersion()["GDAL"]), strict=FALSE)
+(GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
 ```
 
 The boundaries are taken from the Ordnance Survey Boundary-Line site, https://osdatahub.os.uk/downloads/open/BoundaryLine, choosing the 2024 Westminster constituencies, simplified using a tolerance of 50m to reduce object size, and merged with selected voting outcomes for constituencies in Great Britain https://electionresults.parliament.uk/countries/1, (https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Here, the subset for Wales is useful as we will see:

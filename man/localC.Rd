@@ -138,7 +138,7 @@ if (run) {
       tm_borders() # Fig. 1
     }
   } else {
-    pplot(g["PC1"], breaks=brks)
+    plot(g["PC1"], breaks=brks)
   }
 }
 if (run) {
