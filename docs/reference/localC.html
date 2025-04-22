@@ -412,7 +412,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span>    alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.318   0.003   0.322 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.320   0.013   0.334 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">parallel</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>    <span class="va">ncpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">2L</span>, <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span>logical<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">-</span><span class="fl">1L</span></span></span>
@@ -669,7 +669,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span>    nsim<span class="op">=</span><span class="fl">9999</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.526   0.013   0.540 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.534   0.001   0.536 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_values.html" class="external-link">lisa_values</a></span><span class="op">(</span><span class="va">lmc_vars</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">lmc_vars_spdep</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -745,10 +745,10 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="co"># simulation order not retained</span></span></span>
 <span class="r-in"><span><span class="va">lC</span><span class="op">$</span><span class="va">p_sim</span><span class="op">[</span><span class="va">o</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.259 0.459 0.112 0.029 0.131 0.029 0.295 0.413 0.156 0.001 0.132 0.119</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.170 0.235 0.468 0.185 0.108 0.291 0.001 0.026 0.036 0.101 0.054 0.281</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 0.149 0.035 0.105 0.283 0.463 0.001 0.051 0.092 0.084 0.221 0.328 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.301 0.485 0.313 0.211 0.239 0.288</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.240 0.443 0.109 0.029 0.124 0.021 0.299 0.436 0.148 0.001 0.114 0.109</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.175 0.218 0.465 0.191 0.096 0.278 0.001 0.034 0.034 0.094 0.063 0.262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 0.159 0.027 0.089 0.263 0.482 0.001 0.066 0.109 0.089 0.233 0.289 0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.275 0.467 0.321 0.200 0.240 0.265</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">C</span>, <span class="st">"pseudo-p"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">6</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.408 0.374 0.144 0.056 0.010 0.284 0.032 0.264 0.186 0.004 0.150 0.224</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.022 0.150 0.438 0.084 0.126 0.184 0.002 0.238 0.126 0.100 0.068 0.372</span>
