@@ -21,7 +21,7 @@ dependent variable, &amp;#8220;adjRSlag&amp;#8221; the other way round), and a p
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-11</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-12</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -132,6 +132,7 @@ term. Tests for a missing spatially lagged dependent variable test
 that \(\rho = 0\), tests for spatial autocorrelation of
 the error \(\mathbf{u}\) test whether \(\lambda = 0\). \(\mathbf{W}\) is a spatial weights matrix; for the tests used
 here they are identical.</p>
+<p>If factors or ordered factors are among explanatory variables in the regression, the coding of the contrasts affects the outcomes of significance tests.</p>
     </div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -227,6 +228,53 @@ Model, <a href="https://sites.google.com/view/malabikakoley/research" class="ext
 <span class="r-out co"><span class="r-pr">#&gt;</span>              statistic parameter p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GNM_adjRSerr   0.10933         1  0.7409</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> GNM_adjRSlag   0.61580         1  0.4326</span>
+<span class="r-in"><span><span class="va">run</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="st">"codingMatrices"</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">fEW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">EW</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">fDISCBD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">DISCBD</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.5</span>, <span class="fl">3</span>, <span class="fl">4.5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="va">INC</span> <span class="op">+</span> <span class="va">HOVAL</span> <span class="op">+</span> <span class="va">fDISCBD</span><span class="op">*</span><span class="va">fEW</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># default codings</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">lm.RStests</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">f</span>, data<span class="op">=</span><span class="va">COL.OLD</span>, contrasts<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fDISCBD<span class="op">=</span><span class="st">"contr.poly"</span>, fEW<span class="op">=</span><span class="st">"contr.treatment"</span><span class="op">)</span><span class="op">)</span>, <span class="va">lw</span>, test<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"adjRSerr"</span>, <span class="st">"adjRSlag"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score (a.k.a Lagrange multiplier) diagnostics for spatial</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	dependence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model: lm(formula = f, data = COL.OLD, contrasts = list(fDISCBD =</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "contr.poly", fEW = "contr.treatment"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> test weights: lw</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          statistic parameter p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSerr   0.98727         1  0.3204</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSlag   1.14732         1  0.2841</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># use codingMatrices::code_diff for ordered factor</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">lm.RStests</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">f</span>, data<span class="op">=</span><span class="va">COL.OLD</span>, contrasts<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fDISCBD<span class="op">=</span><span class="st">"code_diff"</span>, fEW<span class="op">=</span><span class="st">"contr.treatment"</span><span class="op">)</span><span class="op">)</span>, <span class="va">lw</span>, test<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"adjRSerr"</span>, <span class="st">"adjRSlag"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score (a.k.a Lagrange multiplier) diagnostics for spatial</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	dependence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model: lm(formula = f, data = COL.OLD, contrasts = list(fDISCBD =</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "code_diff", fEW = "contr.treatment"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> test weights: lw</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          statistic parameter p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSerr   0.03415         1  0.8534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSlag  -0.01572         1  1.0000</span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># use codingMatrices::code_control for both</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">lm.RStests</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">f</span>, data<span class="op">=</span><span class="va">COL.OLD</span>, contrasts<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fDISCBD<span class="op">=</span><span class="st">"code_control"</span>, fEW<span class="op">=</span><span class="st">"code_control"</span><span class="op">)</span><span class="op">)</span>, <span class="va">lw</span>, test<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"adjRSerr"</span>, <span class="st">"adjRSlag"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score (a.k.a Lagrange multiplier) diagnostics for spatial</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 	dependence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> model: lm(formula = f, data = COL.OLD, contrasts = list(fDISCBD =</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> "code_control", fEW = "code_control"))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> test weights: lw</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           statistic parameter p.value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSerr  0.0383759         1  0.8447</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSlag -0.0062517         1  1.0000</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -238,7 +286,7 @@ Model, <a href="https://sites.google.com/view/malabikakoley/research" class="ext
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>
