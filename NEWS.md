@@ -1,4 +1,8 @@
-# Version 1.3-11 (development)
+# Version 1.3-12 (development)
+
+* Add note on changes to output from tests for error autocorrelation if contrast codings are set to non-default values
+
+# Version 1.3-11 (2025-04-24)
 
 * introduce warnings for factors (categorical variables) in Durbin models (`SD.RStests`)
 
