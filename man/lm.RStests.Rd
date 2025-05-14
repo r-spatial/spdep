@@ -100,15 +100,18 @@ COL.OLD$fDISCBD <- ordered(cut(COL.OLD$DISCBD, c(0, 1.5, 3, 4.5, 6)))
 f <- formula(CRIME ~ INC + HOVAL + fDISCBD*fEW)
 lw <- nb2listw(COL.nb, style="W")
 # default codings
-summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="contr.poly", fEW="contr.treatment")), lw, test=c("adjRSerr", "adjRSlag")))
+summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="contr.poly", fEW="contr.treatment")),
+ lw, test=c("adjRSerr", "adjRSlag")))
 }
 if (run) {
 # use codingMatrices::code_diff for ordered factor
-summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_diff", fEW="contr.treatment")), lw, test=c("adjRSerr", "adjRSlag")))
+summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_diff", fEW="contr.treatment")),
+ lw, test=c("adjRSerr", "adjRSlag")))
 }
 if (run) {
 # use codingMatrices::code_control for both
-summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_control", fEW="code_control")), lw, test=c("adjRSerr", "adjRSlag")))
+summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_control", fEW="code_control")),
+ lw, test=c("adjRSerr", "adjRSlag")))
 }
 }
 \keyword{spatial}

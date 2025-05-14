@@ -70,7 +70,8 @@ lm.morantest(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_diff", fEW="contr.
 }
 if (run) {
 # use stats::contr.treatment for both factors
-lm.morantest(lm(f, data=COL.OLD, contrasts=list(fDISCBD="contr.treatment", fEW="contr.treatment")), lw)
+lm.morantest(lm(f, data=COL.OLD, contrasts=list(fDISCBD="contr.treatment", fEW="contr.treatment")),
+ lw)
 }
 if (run) {
 # use codingMatrices::code_control for factor

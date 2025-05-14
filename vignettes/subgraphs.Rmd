@@ -367,7 +367,7 @@ set.NoNeighbourOption(TRUE)
 
 ## Unintentional disconnected graphs
 
-Sometimes apparently sensible polygons turn out to be represented in such a way that disconnected graphs are generated when extracting contiguities. One such case was raised in https://github.com/r-spatial/spdep/issues/162, for subdivisions of Tokyo. The original data file `tokyomet262.*` from https://sgsup.asu.edu/sites/default/files/SparcFiles/tokyo_0.zip was created some twenty years ago by Tomoki Nakaya and Martin Charlton, and some geometry issues were known at the time. A possibility that may affect legacy files is projection of geometries on 32-bit platforms, but it is not known whether this affected this file. Here it has been re-packaged as a compressed GeoPackage:
+Sometimes apparently sensible polygons turn out to be represented in such a way that disconnected graphs are generated when extracting contiguities. One such case was raised in https://github.com/r-spatial/spdep/issues/162, for subdivisions of Tokyo. The original data file `tokyomet262.*` from https://sgsup.asu.edu/sites/g/files/litvpz426/files/SparcFiles/tokyo_0.zip was created some twenty years ago by Tomoki Nakaya and Martin Charlton, and some geometry issues were known at the time. A possibility that may affect legacy files is projection of geometries on 32-bit platforms, but it is not known whether this affected this file. Here it has been re-packaged as a compressed GeoPackage:
 
 ```{r}
 file <- "etc/shapes/tokyo.gpkg.zip"
