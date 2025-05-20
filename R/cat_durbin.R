@@ -31,7 +31,7 @@ have_factor_preds_mf <- function(mf) {
 warn_factor_preds <- function(x) {
     plural <- length(attr(x, "factnames")) > 1L
     warning("use of spatially lagged ", ifelse(plural, "factors", "factor"),
-        " (categorical ", ifelse(plural, "variables", "variable"), "\n", 
+        " (categorical ", ifelse(plural, "variables", "variable"), ")\n", 
         paste(attr(x, "factnames"), collapse=", "),
         "\nis not well-understood")
     pred_ordered <- attr(x, "pred_ordered")

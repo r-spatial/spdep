@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-10</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-12</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -164,9 +164,9 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local_comp_sim  : NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ local_config_sim: NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "timings")=List of 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ set_up        : 'proc_time' Named num [1:5] 0 0 0.001 0 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ set_up        : 'proc_time' Named num [1:5] 0 0 0 0 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ processing    : 'proc_time' Named num [1:5] 0.097 0 0.096 0 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ processing    : 'proc_time' Named num [1:5] 0.089 0 0.09 0 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..$ postprocessing: 'proc_time' Named num [1:5] 0.001 0 0.001 0 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...</span>
@@ -209,7 +209,9 @@
 <span class="r-in"><span><span class="va">columbus</span><span class="op">$</span><span class="va">both</span> <span class="op">&lt;-</span> <span class="va">h_obj</span><span class="op">$</span><span class="va">both_recode</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">[</span>, <span class="st">"both"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="licd_multi-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span><span class="va">GDAL37</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">as.numeric_version</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf_extSoftVersion.html" class="external-link">sf_extSoftVersion</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">"GDAL"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="st">"3.7.0"</span></span></span>
+<span class="r-in"><span><span class="va">GDAL37</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric_version.html" class="external-link">numeric_version</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sf_extSoftVersion.html" class="external-link">sf_extSoftVersion</a></span><span class="op">(</span><span class="op">)</span><span class="op">[</span><span class="st">"GDAL"</span><span class="op">]</span><span class="op">)</span>, strict<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">GDAL37</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">GDAL37</span><span class="op">)</span>, <span class="cn">FALSE</span>, <span class="va">GDAL37</span> <span class="op">&gt;=</span> <span class="st">"3.7.0"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="va">file</span> <span class="op">&lt;-</span> <span class="st">"etc/shapes/GB_2024_southcoast_50m.gpkg.zip"</span></span></span>
 <span class="r-in"><span><span class="va">zipfile</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="va">file</span>, package<span class="op">=</span><span class="st">"spdep"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">GDAL37</span><span class="op">)</span> <span class="op">{</span></span></span>
@@ -221,7 +223,7 @@
 <span class="r-in"><span>    <span class="va">sc50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Reading layer `GB_2024_southcoast_50m' from data source </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/RtmpZkHRLu/temp_libpatha5ac513c34d83/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   `/tmp/Rtmp8nltTc/temp_libpath3e0f162c58ef7/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   using driver `GPKG'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 119 features and 19 fields</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: MULTIPOLYGON</span>
@@ -268,7 +270,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
 </div>
 
     </footer></div>

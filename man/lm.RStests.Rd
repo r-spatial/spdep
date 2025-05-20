@@ -60,6 +60,8 @@ that \eqn{\rho = 0}{rho = 0}, tests for spatial autocorrelation of
 the error \eqn{\mathbf{u}}{u} test whether \eqn{\lambda = 0}{lambda =
 0}. \eqn{\mathbf{W}}{W} is a spatial weights matrix; for the tests used
 here they are identical.
+
+If factors or ordered factors are among explanatory variables in the regression, the coding of the contrasts affects the outcomes of significance tests.
 }
 
 \value{
@@ -90,6 +92,26 @@ summary(res)
 if (require("spatialreg", quietly=TRUE)) {
   oldcrime.slx <- lmSLX(CRIME ~ HOVAL + INC, data = COL.OLD, listw=lw)
   summary(lm.RStests(oldcrime.slx, listw=lw, test=c("adjRSerr", "adjRSlag")))
+}
+run <- require("codingMatrices", quietly=TRUE)
+if (run) {
+COL.OLD$fEW <- factor(COL.OLD$EW)
+COL.OLD$fDISCBD <- ordered(cut(COL.OLD$DISCBD, c(0, 1.5, 3, 4.5, 6)))
+f <- formula(CRIME ~ INC + HOVAL + fDISCBD*fEW)
+lw <- nb2listw(COL.nb, style="W")
+# default codings
+summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="contr.poly", fEW="contr.treatment")),
+ lw, test=c("adjRSerr", "adjRSlag")))
+}
+if (run) {
+# use codingMatrices::code_diff for ordered factor
+summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_diff", fEW="contr.treatment")),
+ lw, test=c("adjRSerr", "adjRSlag")))
+}
+if (run) {
+# use codingMatrices::code_control for both
+summary(lm.RStests(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_control", fEW="code_control")),
+ lw, test=c("adjRSerr", "adjRSlag")))
 }
 }
 \keyword{spatial}

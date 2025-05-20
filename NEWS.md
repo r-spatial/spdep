@@ -1,8 +1,13 @@
-# Version 1.3-11.1 (development)
+# Version 1.3-12.1 (development)
 
 * draft version of multivariate `spatialdelta`  with support functions and methods
 
-# Version 1.3-11 (development)
+* Add note on changes to output from tests for error autocorrelation if contrast codings are set to non-default values
+
+# Version 1.3-11 (2025-04-24)
+
+* introduce warnings for factors (categorical variables) in Durbin models (`SD.RStests`)
+>>>>>>> main
 
 * remove |> in vignette to avoid R >= 4.1 dependency https://stat.ethz.ch/pipermail/r-devel/2025-January/083768.html
 

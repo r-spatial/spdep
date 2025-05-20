@@ -45,7 +45,7 @@ mstree(nbw, ini = NULL)
 %%\seealso{ ~~objects to See Also as \code{\link{help}}, ~~~ }
 \examples{
 ### loading data
-GDAL37 <- numeric_version(unname(sf_extSoftVersion()["GDAL"]), strict=FALSE)
+GDAL37 <- numeric_version(unname(sf::sf_extSoftVersion()["GDAL"]), strict=FALSE)
 (GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
 file <- "etc/shapes/bhicv.gpkg.zip"
 zipfile <- system.file(file, package="spdep")

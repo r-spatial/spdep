@@ -33,6 +33,10 @@ variance under the method assumption.}
 \references{Cliff, A. D., Ord, J. K. 1981 Spatial processes, Pion, p. 203, }
 \author{Roger Bivand \email{Roger.Bivand@nhh.no}}
 
+\details{
+If factors or ordered factors are among explanatory variables in the regression, the coding of the contrasts affects the outcomes of significance tests.
+}
+
 \seealso{\code{\link{lm.LMtests}}, \code{\link{lm}}}
 
 \examples{
@@ -51,5 +55,31 @@ lm.morantest(oldcrime.wlm, nb2listw(COL.nb, style="W"),
  resfun=weighted.residuals)
 lm.morantest(oldcrime.wlm, nb2listw(COL.nb, style="W"),
  resfun=rstudent)
+run <- require("codingMatrices", quietly=TRUE)
+if (run) {
+COL.OLD$fEW <- factor(COL.OLD$EW)
+COL.OLD$fDISCBD <- ordered(cut(COL.OLD$DISCBD, c(0, 1.5, 3, 4.5, 6)))
+f <- formula(CRIME ~ INC + HOVAL + fDISCBD*fEW)
+lw <- nb2listw(COL.nb, style="W")
+# default codings
+lm.morantest(lm(f, data=COL.OLD, contrasts=list(fDISCBD="contr.poly", fEW="contr.treatment")), lw)
+}
+if (run) {
+# use codingMatrices::code_diff for ordered factor
+lm.morantest(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_diff", fEW="contr.treatment")), lw)
+}
+if (run) {
+# use stats::contr.treatment for both factors
+lm.morantest(lm(f, data=COL.OLD, contrasts=list(fDISCBD="contr.treatment", fEW="contr.treatment")),
+ lw)
+}
+if (run) {
+# use codingMatrices::code_control for factor
+lm.morantest(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_diff", fEW="code_control")), lw)
+}
+if (run) {
+# use codingMatrices::code_control for both
+lm.morantest(lm(f, data=COL.OLD, contrasts=list(fDISCBD="code_control", fEW="code_control")), lw)
+}
 }
 \keyword{spatial}
