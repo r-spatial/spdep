@@ -37,14 +37,15 @@ warn_factor_preds <- function(x) {
         paste(attr(x, "factnames"), collapse=", "),
         "\nis not well-understood")
     pred_ordered <- attr(x, "pred_ordered")
-    if (any(pred_ordered)) {
-        pred_contrasts <- attr(x, "pred_contrasts")
-        ordered <- which(pred_ordered)
+    pred_contrasts <- attr(x, "pred_contrasts")
+    if (any(pred_ordered & !is.na(pred_contrasts) &
+        pred_contrasts == "contr.poly")) {
+        ordered <- which(pred_ordered & !is.na(pred_contrasts) &
+            pred_contrasts == "contr.poly")
         plural <- length(ordered) > 1L
         warning("In addition ", ifelse(plural, "variables", "variable"), ":\n",
             paste(names(pred_ordered)[ordered], collapse=", "), 
             "\n", ifelse(plural, "are", "is"), 
-            " ordered (ordinal) with contrasts:\n",
-            paste(pred_contrasts[ordered], collapse=", "))
+            " ordered (ordinal) with polynomial contrasts.")
     }
 }

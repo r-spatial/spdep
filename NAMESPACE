@@ -12,7 +12,7 @@ importFrom(stats, influence.measures, lag, punif, lm, var, integrate,
              "model.frame", "model.matrix", "model.response", "na.fail",
              "na.omit", "naresid", "optimise", "printCoefmat", "resid",
              "terms", "uniroot", "weighted.residuals", "weights", "median",
-             "pbinom", "coef", "C")
+             "pbinom", "coef", "C", "contrasts")
 
 importFrom(deldir, deldir)
 importFrom(boot, boot)
