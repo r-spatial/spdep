@@ -9,6 +9,7 @@ globalG.test <- function(x, listw, zero.policy=attr(listw, "zero.policy"),
         if (is.null(zero.policy))
             zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
+	stopifnot(length(zero.policy) == 1L)
         stopifnot(is.vector(x))
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
 	wname <- deparse(substitute(listw))
@@ -17,6 +18,7 @@ globalG.test <- function(x, listw, zero.policy=attr(listw, "zero.policy"),
           warning("Binary weights recommended (especially for distance bands)")
         xname <- deparse(substitute(x))
 	if(!is.numeric(x)) stop(xname, " is not a numeric vector")
+	stopifnot(length(na.action) == 1L)
 	if (deparse(substitute(na.action)) == "na.pass")
 	    stop("na.pass not permitted")
 	x <- na.action(x)
@@ -30,6 +32,7 @@ globalG.test <- function(x, listw, zero.policy=attr(listw, "zero.policy"),
 	n <- length(listw$neighbours)
 	if (n != length(x)) stop("Different numbers of observations")
 	if (is.null(spChk)) spChk <- get.spChkOption()
+	stopifnot(length(spChk) == 1L)
 	if (spChk && !chkIDs(x, listw))
 		stop("Check of data and weights ID integrity failed")
 

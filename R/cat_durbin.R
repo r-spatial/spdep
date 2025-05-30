@@ -17,11 +17,12 @@ have_factor_preds_mf <- function(mf) {
         pred_contrasts <- character(length(factnames))
         pred_ordered <- logical(length(factnames))
         for (pred in seq(along=factnames)) {
+            code <- attr(mf[[factnames[pred]]], "contrasts")
             contr <- C(mf[[factnames[pred]]])
-            pred_contrasts[pred] <- attr(contr, "contrasts")
-            if (pred_contrasts[pred] == "contr.poly" &&
-                colnames(contrasts(mf[[factnames[pred]]]))[1] != ".L")
-                pred_contrasts[pred] <- as.character(NA)
+            if (is.null(code)) {
+                code <- attr(contr, "contrasts")
+            }
+            pred_contrasts[pred] <- code
             pred_ordered[pred] <- names(attr(contr, "contrasts")) == "ordered"
         }
         names(pred_contrasts) <- names(pred_ordered) <- factnames
