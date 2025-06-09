@@ -9,7 +9,7 @@ Because the spatial lags of categorical variables are poorly understood, from ve
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-12</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-13</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,7 +134,7 @@ neighbours, if FALSE assign NA</p></dd>
 <span class="r-in"><span><span class="va">col.listw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">col.gal.nb</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">columbus</span><span class="op">$</span><span class="va">fEW</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">EW</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">columbus</span><span class="op">$</span><span class="va">fDISCBD</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cut.html" class="external-link">cut</a></span><span class="op">(</span><span class="va">columbus</span><span class="op">$</span><span class="va">DISCBD</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1.5</span>, <span class="fl">3</span>, <span class="fl">4.5</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="va">INC</span> <span class="op">+</span> <span class="va">HOVAL</span> <span class="op">+</span> <span class="va">fDISCBD</span><span class="op">*</span><span class="va">fEW</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></span><span class="op">(</span><span class="va">CRIME</span> <span class="op">~</span> <span class="va">INC</span> <span class="op">+</span> <span class="va">HOVAL</span> <span class="op">+</span> <span class="va">fDISCBD</span> <span class="op">+</span> <span class="va">fEW</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">lm_obj</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">f</span>, data<span class="op">=</span><span class="va">columbus</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu"><a href="lm.RStests.html">lm.RStests</a></span><span class="op">(</span><span class="va">lm_obj</span>, <span class="va">col.listw</span>, test<span class="op">=</span><span class="st">"all"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score (a.k.a Lagrange multiplier) diagnostics for spatial</span>
@@ -144,31 +144,32 @@ neighbours, if FALSE assign NA</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> test weights: col.listw</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          statistic parameter p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> RSerr     0.163267         1  0.6862</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> RSlag     0.021092         1  0.8845</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSerr  0.831452         1  0.3619</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSlag  0.689277         1  0.4064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SARMA     0.852544         2  0.6529</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> RSerr     0.047443         1  0.8276</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> RSlag     0.718623         1  0.3966</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSerr  0.721842         1  0.3955</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> adjRSlag  1.393021         1  0.2379</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SARMA     1.440465         2  0.4866</span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">SD.RStests</span><span class="op">(</span><span class="va">lm_obj</span>, <span class="va">col.listw</span>, test<span class="op">=</span><span class="st">"SDM"</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>use of spatially lagged factors (categorical variables)</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> fDISCBD, fEW</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> is not well-understood</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>In addition variable:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> fDISCBD</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> is ordered (ordinal) with contrasts:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> contr.poly</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> is ordered (ordinal) with polynomial contrasts.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score test spatial Durbin diagnostics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> model: lm(formula = f, data = columbus)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: col.listw</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              statistic parameter p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSlag     0.021092         1  0.8845</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSlag  0.163267         1  0.6862</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSWX     11.804388         9  0.2246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSWX  11.946563         9  0.2163</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_Joint    11.967655        10  0.2872</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              statistic parameter p.value  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSlag     0.718623         1 0.39660  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSlag  0.047443         1 0.82757  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSWX     12.904287         6 0.04458 *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSWX  12.233108         6 0.05697 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_Joint    12.951730         7 0.07329 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">SDM_Joint</span><span class="op">$</span><span class="va">statistic</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">SDM_RSlag</span><span class="op">$</span><span class="va">statistic</span> <span class="op">+</span> <span class="va">res</span><span class="op">$</span><span class="va">SDM_adjRSWX</span><span class="op">$</span><span class="va">statistic</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
@@ -181,18 +182,19 @@ neighbours, if FALSE assign NA</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> is not well-understood</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>In addition variable:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> fDISCBD</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> is ordered (ordinal) with contrasts:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> contr.poly</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> is ordered (ordinal) with polynomial contrasts.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score test spatial Durbin diagnostics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> model: lm(formula = f, data = columbus)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: col.listw</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            statistic parameter p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSerr   0.16327         1  0.6862</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSWX   11.80439         9  0.2246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_Joint  11.96765        10  0.2872</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            statistic parameter p.value  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSerr  0.047443         1 0.82757  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSWX  12.904287         6 0.04458 *</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_Joint 12.951730         7 0.07329 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.equal.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">SDEM_Joint</span><span class="op">$</span><span class="va">statistic</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/unname.html" class="external-link">unname</a></span><span class="op">(</span><span class="va">res</span><span class="op">$</span><span class="va">SDEM_RSerr</span><span class="op">$</span><span class="va">statistic</span> <span class="op">+</span> <span class="va">res</span><span class="op">$</span><span class="va">SDEM_RSWX</span><span class="op">$</span><span class="va">statistic</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
@@ -203,22 +205,23 @@ neighbours, if FALSE assign NA</p></dd>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> is not well-understood</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>In addition variable:</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> fDISCBD</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> is ordered (ordinal) with contrasts:</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> contr.poly</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> is ordered (ordinal) with polynomial contrasts.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score test spatial Durbin diagnostics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> model: lm(formula = f, data = columbus)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(col.gal.nb, style = "C")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              statistic parameter p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSlag      0.73504         1  0.3913</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSlag   0.19451         1  0.6592</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSWX      11.11186        10  0.3489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSWX   10.57132        10  0.3919</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_Joint     11.30636        11  0.4180</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSerr     0.19451         1  0.6592</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSWX     11.11186        10  0.3489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_Joint    11.30636        11  0.4180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               statistic parameter p.value  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSlag     1.3907611         1 0.23828  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSlag  0.0030013         1 0.95631  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSWX     12.2469692         7 0.09272 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSWX  10.8592093         7 0.14488  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_Joint    12.2499705         8 0.14039  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSerr    0.0030013         1 0.95631  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSWX    12.2469692         7 0.09272 .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_Joint   12.2499705         8 0.14039  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">SD.RStests</span><span class="op">(</span><span class="va">lm_obj</span>, <span class="va">col.listw</span>, test<span class="op">=</span><span class="st">"all"</span>, Durbin<span class="op">=</span> <span class="op">~</span> <span class="va">INC</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 	Rao's score test spatial Durbin diagnostics</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
@@ -227,14 +230,14 @@ neighbours, if FALSE assign NA</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Durbin: ~ INC</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              statistic parameter p.value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSlag    0.0210916         1  0.8845</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSlag 0.0046891         1  0.9454</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSWX     0.0344804         1  0.8527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSWX  0.0180779         1  0.8930</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_Joint    0.0391696         2  0.9806</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSerr   0.1632670         1  0.6862</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSWX    0.0344804         1  0.8527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_Joint   0.1977475         2  0.9059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSlag     0.718623         1  0.3966</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSlag  0.269636         1  0.6036</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSWX      0.726478         1  0.3940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_adjRSWX   0.277492         1  0.5984</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDM_Joint     0.996114         2  0.6077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSerr    0.047443         1  0.8276</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_RSWX     0.726478         1  0.3940</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SDEM_Joint    0.773922         2  0.6791</span>
 <span class="r-in"><span><span class="va">lm_obj0</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">CRIME</span><span class="op">)</span><span class="op">)</span> <span class="op">~</span> <span class="fl">0</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">INC</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">HOVAL</span><span class="op">)</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span> data<span class="op">=</span><span class="va">columbus</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="fu">SD.RStests</span><span class="op">(</span><span class="va">lm_obj0</span>, <span class="va">col.listw</span>, test<span class="op">=</span><span class="st">"all"</span><span class="op">)</span><span class="op">)</span></span></span>
@@ -286,7 +289,7 @@ neighbours, if FALSE assign NA</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>
