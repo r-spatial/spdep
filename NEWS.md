@@ -1,4 +1,6 @@
-# Version 1.3-13 (development)
+# Version 1.4-1 (development)
+
+# Version 1-3-13 (2025-06-10)
 
 * Adds Bavaud's multivariate `spatialdelta`  with support functions and methods
 

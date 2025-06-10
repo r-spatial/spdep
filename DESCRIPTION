@@ -59,7 +59,7 @@ Description: A collection of functions to create spatial weights matrix
   general cross product statistic, Empirical Bayes estimates and
   'Assunção/Reis' (1999) <doi:10.1002/(SICI)1097-0258(19990830)18:16%3C2147::AID-SIM179%3E3.0.CO;2-I> Index, 'Getis/Ord' G ('Getis' and 'Ord' 1992)
   <doi:10.1111/j.1538-4632.1992.tb00261.x> and multicoloured
-  join count statistics, 'APLE' ('Li 'et al.' )
+  join count statistics, 'APLE' ('Li et al.' )
   <doi:10.1111/j.1538-4632.2007.00708.x>, local 'Moran's I', 'Gearys C' 
   ('Anselin' 1995) <doi:10.1111/j.1538-4632.1995.tb00338.x> and
   'Getis/Ord' G ('Ord' and 'Getis' 1995)
@@ -77,8 +77,8 @@ Description: A collection of functions to create spatial weights matrix
   <doi:10.1016/0166-0462(95)02111-6>, as are 'Rao' score tests for hypothesised
   spatial 'Durbin' models based on linear models ('Koley' and 'Bera' 2023)
   <doi:10.1080/17421772.2023.2256810>. Additions in 2024 include Local
-  Indicators for Categorical Data based on 'Carrer' et al. (2021)
-  <doi:10.1016/j.jas.2020.105306> and 'Bivand' et al. (2017)
+  Indicators for Categorical Data based on 'Carrer et al.' (2021)
+  <doi:10.1016/j.jas.2020.105306> and 'Bivand et al.' (2017)
   <doi:10.1016/j.spasta.2017.03.003>; also Weighted Multivariate Spatial
   Autocorrelation Measures ('Bavaud' 2024) <doi:10.1111/gean.12390>.
   <doi:10.1080/17421772.2023.2256810>. A local indicators for categorical data
