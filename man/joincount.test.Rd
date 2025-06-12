@@ -18,7 +18,7 @@ joincount.test(fx, listw, zero.policy=attr(listw, "zero.policy"), alternative="g
 \method{print}{jclist}(x, ...)
 }
 \arguments{
-  \item{fx}{a factor of the same length as the neighbours and weights objects in listw}
+  \item{fx}{a factor of the same length as the neighbours and weights objects in listw; use of an ordered factor is not well understood}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".}

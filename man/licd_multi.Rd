@@ -11,7 +11,7 @@ licd_multi(fx, listw, zero.policy = attr(listw, "zero.policy"), adjust.n = TRUE,
 }
 
 \arguments{
-  \item{fx}{a factor with two or more categories, of the same length as the neighbours and weights objects in listw}
+  \item{fx}{a factor with two or more categories, of the same length as the neighbours and weights objects in listw; use of an ordered factor is not well understood}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted}

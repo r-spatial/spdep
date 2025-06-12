@@ -11,7 +11,7 @@ joincount.mc(fx, listw, nsim, zero.policy=attr(listw, "zero.policy"),
  alternative="greater", spChk=NULL)
 }
 \arguments{
-  \item{fx}{a factor of the same length as the neighbours and weights objects in listw}
+  \item{fx}{a factor of the same length as the neighbours and weights objects in listw; use of an ordered factor is not well understood}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{nsim}{number of permutations}
   \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}

@@ -64,6 +64,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     if(!is.factor(fx)) stop(paste(deparse(substitute(fx)),
         "is not a factor"))
     if (any(is.na(fx))) stop("NA in factor")
+    if (inherits(fx, "ordered")) warning("use of joincount tests on ordinal variables is not well understood")
     if (is.null(zero.policy))
         zero.policy <- get.ZeroPolicyOption()
     stopifnot(is.logical(zero.policy))

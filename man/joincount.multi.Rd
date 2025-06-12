@@ -13,7 +13,7 @@ joincount.multi(fx, listw, zero.policy = attr(listw, "zero.policy"),
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{fx}{a factor of the same length as the neighbours and weights objects in listw}
+  \item{fx}{a factor of the same length as the neighbours and weights objects in listw; use of an ordered factor is not well understood}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{adjust.n}{default TRUE, if FALSE the number of observations is not adjusted for no-neighbour observations, if TRUE, the number of observations is adjusted consistently (up to and including spdep 0.3-28 the adjustment was inconsistent - thanks to Tomoki NAKAYA for a careful bug report)}

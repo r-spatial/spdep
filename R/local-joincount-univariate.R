@@ -18,6 +18,7 @@ local_joincount_uni <- function(fx, chosen, listw,
   stopifnot(
     "`fx` must have exactly two levels" = length(levels(fx)) == 2
   )
+  if (inherits(fx, "ordered")) warning("use of joincount tests on ordinal variables is not well understood")
 
   # check chosen value
   stopifnot(is.character(chosen))

@@ -13,7 +13,7 @@ local_joincount_uni(
 )
 }
 \arguments{
-\item{fx}{a binary variable either numeric or logical}
+\item{fx}{a factor with two levels; use of an ordered factor is not well understood.}
 
 \item{chosen}{a scalar character containing the level of \code{fx} that should be considered the observed value (1).}
 
