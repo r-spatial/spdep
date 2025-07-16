@@ -10,7 +10,7 @@
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="“The Problem of Spatial Autocorrelation:” forty years on">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="../deps/MathJax-3.2.2/tex-chtml.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="“The Problem of Spatial Autocorrelation:” forty years on">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.3-13</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,8 +34,8 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/CO69.html">“The Problem of Spatial Autocorrelation:” forty years on</a></li>
-    <li><a class="dropdown-item" href="../articles/nb_sf.html">Creating Neighbours using sf objects</a></li>
     <li><a class="dropdown-item" href="../articles/nb.html">Creating Neighbours</a></li>
+    <li><a class="dropdown-item" href="../articles/nb_sf.html">Creating Neighbours using sf objects</a></li>
     <li><a class="dropdown-item" href="../articles/sids.html">Introduction to the North Carolina SIDS data set (re-revised)</a></li>
     <li><a class="dropdown-item" href="../articles/subgraphs.html">No-neighbour observation and subgraph handling</a></li>
   </ul>
@@ -171,16 +171,14 @@ purposes, they let us reproduce Table 3, p. 42:</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/methods/as.html" class="external-link">as</a></span><span class="op">(</span><span class="va">eire_ge1</span>, <span class="st">"data.frame"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">13</span>,<span class="fl">16</span>,<span class="fl">18</span>,<span class="fl">19</span><span class="op">)</span><span class="op">]</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu">kurtosis</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## pagval2_10  cowspacre  pigspacre sheeppacre </span></span>
 <span><span class="co">##      2.883      2.799      2.212      2.421</span></span></code></pre>
-<p>Using the tabulated value of
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>23.6</mn><annotation encoding="application/x-tex">23.6</annotation></semantics></math>
-for the percentage of agricultural holdings above 50 in 1950 in
-Waterford, the skewness and kurtosis cannot be reproduced, but by
-comparison with the <span><code>irishdata</code></span> dataset in , it
-turns out that the value should rather be
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>26.6</mn><annotation encoding="application/x-tex">26.6</annotation></semantics></math>,
-which yields the tabulated skewness and kurtosis values.</p>
+<p>Using the tabulated value of <span class="math inline">\(23.6\)</span> for the percentage of agricultural
+holdings above 50 in 1950 in Waterford, the skewness and kurtosis cannot
+be reproduced, but by comparison with the
+<span><code>irishdata</code></span> dataset in , it turns out that the
+value should rather be <span class="math inline">\(26.6\)</span>, which
+yields the tabulated skewness and kurtosis values.</p>
 <p>Before going on, the variables considered are presented in Table
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>v</mi><mi>a</mi><mi>r</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">vars</annotation></semantics></math>.</p>
+<span class="math display">\[vars\]</span>.</p>
 <table class="table">
 <caption>Description of variables in the Geary data set.<span data-label="vars"></span>
 </caption>
@@ -299,13 +297,8 @@ spatial neighbours:</p>
 <span><span class="co">##    n  nn     S0         S1        S2</span></span>
 <span><span class="co">## B 25 625 0.8476 0.01871808 0.1229232</span></span></code></pre>
 <p>Note that the values of S0, S1, and S2 correspond closely with those
-given on page 42 of the paper,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.84688672</mn><annotation encoding="application/x-tex">0.84688672</annotation></semantics></math>,
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.01869986</mn><annotation encoding="application/x-tex">0.01869986</annotation></semantics></math>
-and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>0.12267319</mn><annotation encoding="application/x-tex">0.12267319</annotation></semantics></math>.
-The discrepancies appear to be due to rounding in the printed table of
-weights.</p>
+given on page 42 of the paper, <span class="math inline">\(0.84688672\)</span>, <span class="math inline">\(0.01869986\)</span> and <span class="math inline">\(0.12267319\)</span>. The discrepancies appear to
+be due to rounding in the printed table of weights.</p>
 <p>The contiguous neighbours represented in this object ought to match
 those found using <span><code>poly2nb</code></span>. However, we see
 that the reproduced contiguities have a smaller link count:</p>
@@ -319,8 +312,7 @@ that the reproduced contiguities have a smaller link count:</p>
 <span><span class="co">## Average number of links: 4.32</span></span></code></pre>
 <p>The missing link is between Clare and Kerry, perhaps by the
 Tarbert–Killimer ferry, but the counties are not contiguous, as Figure
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>l</mi><mi>o</mi><mi>t</mi><mi>_</mi><mi>n</mi><mi>b</mi></mrow><annotation encoding="application/x-tex">plot\_nb</annotation></semantics></math>
-shows:</p>
+<span class="math display">\[plot\_nb\]</span> shows:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">xx</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/diffnb.html">diffnb</a></span><span class="op">(</span><span class="va">nb</span>, <span class="va">lw_unstand</span><span class="op">$</span><span class="va">neighbours</span>, legacy<span class="op">=</span><span class="cn">TRUE</span>, verbose<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Neighbour difference for region id: Clare in relation to id: Kerry </span></span>
@@ -337,37 +329,34 @@ County boundaries and contiguities
 <p>An attempt has also been made to reproduce the generalised weights
 for 25 Irish counties reported by <span class="citation">Cliff and Ord
 (1969)</span>, after Dublin is omitted. Reproducing the inverse distance
-component
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msubsup><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><annotation encoding="application/x-tex">d_{ij}^{-1}</annotation></semantics></math>
-of the generalised weights
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi>d</mi><mrow><mi>i</mi><mi>j</mi></mrow><mrow><mi>−</mi><mn>1</mn></mrow></msubsup><msub><mi>β</mi><mrow><mi>i</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msub></mrow><annotation encoding="application/x-tex">d_{ij}^{-1} \beta_{i(j)}</annotation></semantics></math>
-is eased by the statement in <span class="citation">Cliff and Ord (1973,
-55)</span> that the points chosen to represent the counties were their
-“geographic centres,” so not very different from the centroids yielded
-by applying a chosen computational geometry function. The distance
-metric is not given, and may have been in kilometers or miles — both
-were tried, but the results were not sensitive to the difference as it
-applies equally across the weights; miles are used here. Computing the
-proportion of shared distance measure
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>β</mi><mrow><mi>i</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>j</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></msub><annotation encoding="application/x-tex">\beta_{i(j)}</annotation></semantics></math>
-is harder, because it requires the availability of the full topology of
-the input polygons. <span class="citation">Roger S. Bivand, Pebesma, and
-Gómez-Rubio (2008, 244)</span> show how to employ the
-<span><code>vect2neigh</code></span> function (written by Markus
-Neteler) in the package when using GRASS GIS vector handling to create a
-full topology from spaghetti vector data and to extract border segment
-lengths; a similar approach also is mentioned there using ArcGIS
-coverages for the same purpose. GRASS was used to create the topology,
-and next the proportion of shared distance measure was calculated.</p>
+component <span class="math inline">\(d_{ij}^{-1}\)</span> of the
+generalised weights <span class="math inline">\(d_{ij}^{-1}
+\beta_{i(j)}\)</span> is eased by the statement in <span class="citation">Cliff and Ord (1973, 55)</span> that the points chosen
+to represent the counties were their “geographic centres,” so not very
+different from the centroids yielded by applying a chosen computational
+geometry function. The distance metric is not given, and may have been
+in kilometers or miles — both were tried, but the results were not
+sensitive to the difference as it applies equally across the weights;
+miles are used here. Computing the proportion of shared distance measure
+<span class="math inline">\(\beta_{i(j)}\)</span> is harder, because it
+requires the availability of the full topology of the input polygons.
+<span class="citation">Roger S. Bivand, Pebesma, and Gómez-Rubio (2008,
+244)</span> show how to employ the <span><code>vect2neigh</code></span>
+function (written by Markus Neteler) in the package when using GRASS GIS
+vector handling to create a full topology from spaghetti vector data and
+to extract border segment lengths; a similar approach also is mentioned
+there using ArcGIS coverages for the same purpose. GRASS was used to
+create the topology, and next the proportion of shared distance measure
+was calculated.</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/" class="external-link">terra</a></span><span class="op">)</span></span>
 <span><span class="va">v_eire_ge1</span> <span class="op">&lt;-</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/vect.html" class="external-link">vect</a></span><span class="op">(</span><span class="va">eire_ge1</span><span class="op">)</span></span>
 <span><span class="va">SG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/rasterize.html" class="external-link">rasterize</a></span><span class="op">(</span><span class="va">v_eire_ge1</span>, <span class="fu"><a href="https://rspatial.github.io/terra/reference/rast.html" class="external-link">rast</a></span><span class="op">(</span>nrows<span class="op">=</span><span class="fl">70</span>, ncols<span class="op">=</span><span class="fl">50</span>, extent<span class="op">=</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/ext.html" class="external-link">ext</a></span><span class="op">(</span><span class="va">v_eire_ge1</span><span class="op">)</span><span class="op">)</span>, field<span class="op">=</span><span class="st">"county"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://osgeo.github.io/rgrass/" class="external-link">rgrass</a></span><span class="op">)</span></span>
 <span><span class="va">grass_home</span> <span class="op">&lt;-</span> <span class="st">"/home/rsb/topics/grass/g820/grass82"</span></span>
-<span><span class="fu"><a href="https://osgeo.github.io/rgrass/reference/initGRASS.html" class="external-link">initGRASS</a></span><span class="op">(</span><span class="va">grass_home</span>, home<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, SG<span class="op">=</span><span class="va">SG</span>, override<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://osgeo.github.io/rgrass/reference/read_VECT.html" class="external-link">write_VECT</a></span><span class="op">(</span><span class="va">v_eire_ge1</span>, <span class="st">"eire"</span>, flags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"o"</span>, <span class="st">"overwrite"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://osgeo.github.io/rgrass/reference/read_VECT.html" class="external-link">vect2neigh</a></span><span class="op">(</span><span class="st">"eire"</span>, ID<span class="op">=</span><span class="st">"serlet"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">initGRASS</span><span class="op">(</span><span class="va">grass_home</span>, home<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir</a></span><span class="op">(</span><span class="op">)</span>, SG<span class="op">=</span><span class="va">SG</span>, override<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu">write_VECT</span><span class="op">(</span><span class="va">v_eire_ge1</span>, <span class="st">"eire"</span>, flags<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"o"</span>, <span class="st">"overwrite"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">vect2neigh</span><span class="op">(</span><span class="st">"eire"</span>, ID<span class="op">=</span><span class="st">"serlet"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span><span class="op">$</span><span class="va">length</span> <span class="op">&lt;-</span> <span class="va">res</span><span class="op">$</span><span class="va">length</span><span class="op">*</span><span class="fl">1000</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">"external"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">res</span>, <span class="st">"external"</span><span class="op">)</span><span class="op">*</span><span class="fl">1000</span></span>
@@ -514,20 +503,19 @@ rounding in the weights values displayed in the paper (p. 54):</p>
 <span><span class="co">##    n  nn S0       S1       S2</span></span>
 <span><span class="co">## W 25 625 25 15.84089 103.6197</span></span></code></pre>
 <p>The standard representation of the measures is:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>=</mo><mfrac><mi>n</mi><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow></mfrac><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>j</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">I = \frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}}
-\frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(x_i-\bar{x})(x_j-\bar{x})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}</annotation></semantics></math></p>
-<p>for Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
-— in the paper termed the proposed statistic, and for Geary’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>C</mi><annotation encoding="application/x-tex">C</annotation></semantics></math>:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>C</mi><mo>=</mo><mfrac><mrow><mo stretchy="true" form="prefix">(</mo><mi>n</mi><mo>−</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mn>2</mn><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub></mrow></mfrac><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><msub><mi>x</mi><mi>j</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">C = \frac{(n-1)}{2\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}}
-\frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(x_i-x_j)^2}{\sum_{i=1}^{n}(x_i - \bar{x})^2}</annotation></semantics></math></p>
-<p>where
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mi>i</mi></msub><mo>,</mo><mi>i</mi><mo>=</mo><mn>1</mn><mo>,</mo><mi>…</mi><mo>,</mo><mi>n</mi></mrow><annotation encoding="application/x-tex">x_i, i=1, \ldots, n</annotation></semantics></math>
-are
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-observations on the numeric variable of interest, and
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><annotation encoding="application/x-tex">w_{ij}</annotation></semantics></math>
+<p><span class="math display">\[I =
+\frac{n}{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}}
+\frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(x_i-\bar{x})(x_j-\bar{x})}{\sum_{i=1}^{n}(x_i
+- \bar{x})^2}\]</span></p>
+<p>for Moran’s <span class="math inline">\(I\)</span> — in the paper
+termed the proposed statistic, and for Geary’s <span class="math inline">\(C\)</span>:</p>
+<p><span class="math display">\[C =
+\frac{(n-1)}{2\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}}
+\frac{\sum_{i=1}^{n}\sum_{j=1}^{n}w_{ij}(x_i-x_j)^2}{\sum_{i=1}^{n}(x_i
+- \bar{x})^2}\]</span></p>
+<p>where <span class="math inline">\(x_i, i=1, \ldots, n\)</span> are
+<span class="math inline">\(n\)</span> observations on the numeric
+variable of interest, and <span class="math inline">\(w_{ij}\)</span>
 are the spatial weights. In order to reproduce the standard deviates
 given in the paper, it is sufficient to apply
 <span><code>moran.test</code></span> to the variables with three
@@ -548,7 +536,7 @@ weights objects, and two different values of the
 <span><span class="va">Prop_stdR</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">vars</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/moran.test.html">moran.test</a></span><span class="op">(</span><span class="va">eire_ge1</span><span class="op">[[</span><span class="va">x</span><span class="op">]</span><span class="op">]</span>, listw<span class="op">=</span><span class="va">lw_std</span>, randomisation<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.135   0.000   0.137</span></span></code></pre>
+<span><span class="co">##    0.03    0.00    0.11</span></span></code></pre>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranN"</span>, <span class="st">"MoranR"</span>, <span class="st">"GearyN"</span>, <span class="st">"GearyR"</span>, <span class="st">"Prop_unstdN"</span>, <span class="st">"Prop_unstdR"</span>, <span class="st">"Prop_stdN"</span>, <span class="st">"Prop_stdR"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span>
@@ -626,17 +614,14 @@ calculated above:</p>
 <span><span class="co">## retailpcap    0.3734  0.1202  0.5267 0.1413  0.3959  0.1515  0.4066 0.1498 </span></span>
 <span><span class="co">## psinglem30_34 0.2828  0.1207  0.6465 0.1385  0.3697  0.1520  0.3583 0.1503</span></span></code></pre>
 <p>The values are as follows, and match the original with the exception
-of those for the initial version of Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
-in the first two columns. If we write a function implementing equations
-3 and 4:</p>
-<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mi>i</mi><mo>+</mo><mn>1</mn></mrow><mi>n</mi></munderover><msub><mi>w</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>j</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>−</mo><mover><mi>x</mi><mo accent="true">‾</mo></mover><mo stretchy="true" form="postfix">)</mo></mrow><mn>2</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">I = \frac{\sum_{i=1}^{n}\sum_{j=i+1}^{n}w_{ij}(x_i-\bar{x})(x_j-\bar{x})}{\sum_{i=1}^{n}(x_i - \bar{x})^2}</annotation></semantics></math></p>
-<p>where crucially the inner summation is over
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>i</mi><mo>+</mo><mn>1</mn><mi>…</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">i+1 \ldots n</annotation></semantics></math>,
-not
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>…</mi><mi>n</mi></mrow><annotation encoding="application/x-tex">1 \ldots
-n</annotation></semantics></math>, we can reproduce the values of the
-measure shown in the original Table 5:</p>
+of those for the initial version of Moran’s <span class="math inline">\(I\)</span> in the first two columns. If we write a
+function implementing equations 3 and 4:</p>
+<p><span class="math display">\[I =
+\frac{\sum_{i=1}^{n}\sum_{j=i+1}^{n}w_{ij}(x_i-\bar{x})(x_j-\bar{x})}{\sum_{i=1}^{n}(x_i
+- \bar{x})^2}\]</span></p>
+<p>where crucially the inner summation is over <span class="math inline">\(i+1 \ldots n\)</span>, not <span class="math inline">\(1 \ldots
+n\)</span>, we can reproduce the values of the measure shown in the
+original Table 5:</p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">oMoranf</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">nb</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">z</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">x</span>, scale<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
@@ -703,9 +688,8 @@ question.</p>
 <span><span class="va">nsim</span> <span class="op">&lt;-</span> <span class="fl">4999</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1234</span><span class="op">)</span></span></code></pre></div>
 <p>First let us define a function <span><code>MoranI.boot</code></span>
-just to return the value of Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
-for variable <span><code>var</code></span> and permutation index
+just to return the value of Moran’s <span class="math inline">\(I\)</span> for variable
+<span><code>var</code></span> and permutation index
 <span><code>i</code></span>, and a function
 <span><code>Nsim</code></span> to generate random samples from the
 variable of interest assuming Normality. To make it easier to process
@@ -733,12 +717,11 @@ a lot of time.</p>
 deviates under Normality and randomisation, and see that in fact the
 differences are not at all large, as expressed by the median absolute
 difference between the tables. We can also see that inferences based on
-a one-sided
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>α</mi><mo>=</mo><mn>0.05</mn></mrow><annotation encoding="application/x-tex">\alpha=0.05</annotation></semantics></math>
-cut-off are the same for the analytical and bootstrap approaches. This
-indicates that we can, in general, rely on the analytical standard
-deviates, and that bootstrap methods will not help if assumptions
-underlying the measures are not met.</p>
+a one-sided <span class="math inline">\(\alpha=0.05\)</span> cut-off are
+the same for the analytical and bootstrap approaches. This indicates
+that we can, in general, rely on the analytical standard deviates, and
+that bootstrap methods will not help if assumptions underlying the
+measures are not met.</p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/formatc.html" class="external-link">formatC</a></span><span class="op">(</span><span class="va">res</span>, format<span class="op">=</span><span class="st">"f"</span>, digits<span class="op">=</span><span class="fl">4</span><span class="op">)</span>, quote<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    pagval2_10 ln_pagval2_10   pagval10_50     pagval50p     cowspacre  ln_cowspacre </span></span>
@@ -761,17 +744,12 @@ in its tails; one possibility is to use a Saddlepoint approximation to
 find an equivalent to the analytical or bootstrap-based standard deviate
 for inference <span class="citation">(Tiefelsdorf 2002)</span>. The
 Saddlepoint approximation requires the eigenvalues of the weights matrix
-and iterative root-finding for global Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>,
-while for local Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>i</mi></msub><annotation encoding="application/x-tex">I_i</annotation></semantics></math>,
-analytical forms are known. Even with this computational burden, the
-Saddlepoint approximation for global Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>
-runs quite quickly. First we need to fit null linear models (only
-including an intercept) to the variables, then apply
-<span><code>lm.morantest.sad</code></span> to the fitted model
-objects:</p>
+and iterative root-finding for global Moran’s <span class="math inline">\(I\)</span>, while for local Moran’s <span class="math inline">\(I_i\)</span>, analytical forms are known. Even
+with this computational burden, the Saddlepoint approximation for global
+Moran’s <span class="math inline">\(I\)</span> runs quite quickly. First
+we need to fit null linear models (only including an intercept) to the
+variables, then apply <span><code>lm.morantest.sad</code></span> to the
+fitted model objects:</p>
 <div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">lm_objs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">vars</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/formula.html" class="external-link">formula</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"~1"</span><span class="op">)</span><span class="op">)</span>, data<span class="op">=</span><span class="va">eire_ge1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span></span>
@@ -780,7 +758,7 @@ objects:</p>
 <span><span class="va">Prop_stdSad</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lm_objs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/lm.morantest.sad.html">lm.morantest.sad</a></span><span class="op">(</span><span class="va">x</span>, listw<span class="op">=</span><span class="va">lw_std</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.090   0.000   0.091</span></span></code></pre>
+<span><span class="co">##    0.05    0.02    0.08</span></span></code></pre>
 <div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranSad"</span>, <span class="st">"Prop_unstdSad"</span>, <span class="st">"Prop_stdSad"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span></code></pre></div>
@@ -788,19 +766,11 @@ objects:</p>
 larger than those reached using the Saddlepoint approximation when
 measured by median absolute deviation, the differences do not lead to
 different inferences at this chosen cut-off. This reflects the fact that
-the shape of the distribution is very sensitive to small
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>,
-but for moderate
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>
-and global Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>,
-the effects are seen only further out in the tails. The consequences for
-local Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>i</mi></msub><annotation encoding="application/x-tex">I_i</annotation></semantics></math>
-are much stronger, because the clique of neighbours of each observation
-is typically very small. It is perhaps of interest that the differences
-are much smaller for the case of general weights than for unstandardised
-binary weights.</p>
+the shape of the distribution is very sensitive to small <span class="math inline">\(n\)</span>, but for moderate <span class="math inline">\(n\)</span> and global Moran’s <span class="math inline">\(I\)</span>, the effects are seen only further out
+in the tails. The consequences for local Moran’s <span class="math inline">\(I_i\)</span> are much stronger, because the clique
+of neighbours of each observation is typically very small. It is perhaps
+of interest that the differences are much smaller for the case of
+general weights than for unstandardised binary weights.</p>
 <div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/formatc.html" class="external-link">formatC</a></span><span class="op">(</span><span class="va">res</span>, format<span class="op">=</span><span class="st">"f"</span>, digits<span class="op">=</span><span class="fl">4</span><span class="op">)</span>, quote<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##               MoranSad Prop_unstdSad Prop_stdSad</span></span>
@@ -829,13 +799,11 @@ binary weights.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="op">(</span><span class="va">res</span> <span class="op">&gt;=</span> <span class="va">alpha_0.05</span><span class="op">)</span> <span class="op">==</span> <span class="op">(</span><span class="va">ores</span><span class="op">[</span>,<span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">5</span><span class="op">)</span><span class="op">]</span> <span class="op">&gt;=</span> <span class="va">alpha_0.05</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] TRUE</span></span></code></pre>
 <p>In addition we could choose to use the exact distribution of Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>,
-as described by <span class="citation">Tiefelsdorf (2000)</span>; its
-implementation is covered in <span class="citation">R. S. Bivand,
-Müller, and Reder (2009)</span>. The global case also needs the
-eigenvalues of the weights matrix, and the solution of a numerical
-integration function, but for these cases, the timings are quite
-acceptable.</p>
+<span class="math inline">\(I\)</span>, as described by <span class="citation">Tiefelsdorf (2000)</span>; its implementation is
+covered in <span class="citation">R. S. Bivand, Müller, and Reder
+(2009)</span>. The global case also needs the eigenvalues of the weights
+matrix, and the solution of a numerical integration function, but for
+these cases, the timings are quite acceptable.</p>
 <div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.time.html" class="external-link">system.time</a></span><span class="op">(</span><span class="op">{</span> </span>
 <span><span class="va">MoranEx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lm_objs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/lm.morantest.exact.html">lm.morantest.exact</a></span><span class="op">(</span><span class="va">x</span>, listw<span class="op">=</span><span class="va">nb_B</span><span class="op">)</span><span class="op">)</span></span>
@@ -843,7 +811,7 @@ acceptable.</p>
 <span><span class="va">Prop_stdEx</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">lm_objs</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="../reference/lm.morantest.exact.html">lm.morantest.exact</a></span><span class="op">(</span><span class="va">x</span>, listw<span class="op">=</span><span class="va">lw_std</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    user  system elapsed </span></span>
-<span><span class="co">##   0.105   0.000   0.104</span></span></code></pre>
+<span><span class="co">##    0.05    0.01    0.15</span></span></code></pre>
 <div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"MoranEx"</span>, <span class="st">"Prop_unstdEx"</span>, <span class="st">"Prop_stdEx"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/get.html" class="external-link">get</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>, <span class="st">"[["</span>, <span class="st">"statistic"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">vars</span></span></code></pre></div>
@@ -881,11 +849,9 @@ the analytical standard deviates calculated under Normality.</p>
 the challenge in <span class="citation">Cliff and Ord (1969, 31)</span>,
 to try to give the statistic a bounded fixed range. Their APLE measure
 is intended to approximate the spatial dependence parameter of a
-simultaneous autoregressive model better than Moran’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math>,
-and re-scales the measure by a function of the eigenvalues of the
-spatial weights matrix. APLE requires the use of row standardised
-weights.</p>
+simultaneous autoregressive model better than Moran’s <span class="math inline">\(I\)</span>, and re-scales the measure by a
+function of the eigenvalues of the spatial weights matrix. APLE requires
+the use of row standardised weights.</p>
 <div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">vars_scaled</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">vars</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rspatial.github.io/terra/reference/scale.html" class="external-link">scale</a></span><span class="op">(</span><span class="va">eire_ge1</span><span class="op">[[</span><span class="va">x</span><span class="op">]</span><span class="op">]</span>, scale<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">nb_W</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">lw_unstand</span><span class="op">$</span><span class="va">neighbours</span>, style<span class="op">=</span><span class="st">"W"</span><span class="op">)</span></span>
@@ -909,39 +875,18 @@ definition, while for others, the change in the definition from binary
 to general does make a difference.</p>
 <div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/formatc.html" class="external-link">formatC</a></span><span class="op">(</span><span class="va">res</span>, format<span class="op">=</span><span class="st">"f"</span>, digits<span class="op">=</span><span class="fl">4</span><span class="op">)</span>, quote<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##               APLE W APLE Gstd</span></span>
-<span><span class="co">## pagval2_10    0.7702 0.6628   </span></span>
-<span><span class="co">## ln_pagval2_10 0.7615 0.6655   </span></span>
-<span><span class="co">## pagval10_50   0.3954 0.3446   </span></span>
-<span><span class="co">## pagval50p     0.7519 0.7313   </span></span>
-<span><span class="co">## cowspacre     0.8329 0.7408   </span></span>
-<span><span class="co">## ln_cowspacre  0.8148 0.7487   </span></span>
-<span><span class="co">## ocattlepacre  0.1468 0.4092   </span></span>
-<span><span class="co">## pigspacre     0.6227 0.6205   </span></span>
-<span><span class="co">## ln_pigspacre  0.5582 0.5887   </span></span>
-<span><span class="co">## sheeppacre    0.1594 0.2841   </span></span>
-<span><span class="co">## ln_sheeppacre 0.2046 0.4550   </span></span>
-<span><span class="co">## townvillp     0.3442 0.2644   </span></span>
-<span><span class="co">## carspcap      0.7140 0.6166   </span></span>
-<span><span class="co">## radiopcap     0.0083 0.1376   </span></span>
-<span><span class="co">## retailpcap    0.6376 0.5307   </span></span>
-<span><span class="co">## psinglem30_34 0.4094 0.4889</span></span></code></pre>
 </div>
 <div class="section level2">
-<h2 id="odds-and-ends-ldots">Odds and ends
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>…</mi><annotation encoding="application/x-tex">\ldots</annotation></semantics></math><a class="anchor" aria-label="anchor" href="#odds-and-ends-ldots"></a>
+<h2 id="odds-and-ends-ldots">Odds and ends <span class="math inline">\(\ldots\)</span><a class="anchor" aria-label="anchor" href="#odds-and-ends-ldots"></a>
 </h2>
 <p>The differences found in the case of a few variables in inference
 using the original binary weights, and the general weights proposed by
 <span class="citation">Cliff and Ord (1969)</span> are necessarily
-related to the the weights thenselves. Figures
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>l</mi><mi>o</mi><mi>t</mi><mi>_</mi><mi>w</mi><mi>t</mi><mi>s</mi></mrow><annotation encoding="application/x-tex">plot\_wts</annotation></semantics></math>
-and
-<math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mi>l</mi><mi>o</mi><mi>t</mi><mi>_</mi><mi>m</mi><mi>a</mi><mi>p</mi></mrow><annotation encoding="application/x-tex">plot\_map</annotation></semantics></math>
-show the values of the weights in sparse matrix form, and the sums of
-weights by county where these sums are not identical by design. In the
-case of binary weights, the matrix entries are equal, but the sums
-up-weight counties with many neighbours.</p>
+related to the the weights thenselves. Figures <span class="math display">\[plot\_wts\]</span> and <span class="math display">\[plot\_map\]</span> show the values of the weights
+in sparse matrix form, and the sums of weights by county where these
+sums are not identical by design. In the case of binary weights, the
+matrix entries are equal, but the sums up-weight counties with many
+neighbours.</p>
 <p>General weights up-weight counties that are close to each other, have
 more neighbours, and share larger boundary proportions (an asymmetric
 relationship). There is a further impact of using boundary proportions,
@@ -950,12 +895,11 @@ thus boosting the weights between edge counties and their neighbours,
 even if there are few of them. Standardised general weights up-weight
 further up-weight counties with few neighbours, chiefly those on the
 edges of the study area.</p>
-<p>With a small data set, here with
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>=</mo><mn>25</mn></mrow><annotation encoding="application/x-tex">n=25</annotation></semantics></math>,
-it is very possible that edge and other configuration effects are
-relatively strong, and may impact inference in different ways. The issue
-of egde effects has not really been satisfactorily resolved, and should
-be kept in mind in analyses of data sets of this size and shape.</p>
+<p>With a small data set, here with <span class="math inline">\(n=25\)</span>, it is very possible that edge and
+other configuration effects are relatively strong, and may impact
+inference in different ways. The issue of egde effects has not really
+been satisfactorily resolved, and should be kept in mind in analyses of
+data sets of this size and shape.</p>
 </div>
 <div class="section level2 unnumbered">
 <h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
@@ -963,9 +907,8 @@ be kept in mind in analyses of data sets of this size and shape.</p>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-bivandetal:09" class="csl-entry">
 Bivand, R. S., W. Müller, and M. Reder. 2009. <span>“Power Calculations
-for Global and Local <span>M</span>oran’s
-<span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math></span>.”</span>
-<em>Computational Statistics and Data Analysis</em> 53: 2859–72.
+for Global and Local <span>M</span>oran’s <span><span class="math inline">\(I\)</span></span>.”</span> <em>Computational
+Statistics and Data Analysis</em> 53: 2859–72.
 </div>
 <div id="ref-bivandetal:08" class="csl-entry">
 Bivand, Roger S., Edzer J. Pebesma, and Virgilio Gómez-Rubio. 2008.
@@ -1002,16 +945,13 @@ Phenomena.”</span> <em>Biometrika</em> 37: 17–23.
 <div id="ref-tiefelsdorf:00" class="csl-entry">
 Tiefelsdorf, M. 2000. <em>Modelling Spatial Processes: The
 Identification and Analysis of Spatial Relationships in Regression
-Residuals by Means of <span>Moran</span>’s
-<span><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>I</mi><annotation encoding="application/x-tex">I</annotation></semantics></math></span></em>.
-Berlin: Springer.
+Residuals by Means of <span>Moran</span>’s <span><span class="math inline">\(I\)</span></span></em>. Berlin: Springer.
 </div>
 <div id="ref-tiefelsdorf:02" class="csl-entry">
 ———. 2002. <span>“The Saddlepoint Approximation of <span>Moran</span>’s
-<span>I</span> and Local <span>Moran</span>’s
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>I</mi><mi>i</mi></msub><annotation encoding="application/x-tex">{I}_i</annotation></semantics></math>
-Reference Distributions and Their Numerical Evaluation.”</span>
-<em>Geographical Analysis</em> 34: 187–206.
+<span>I</span> and Local <span>Moran</span>’s <span class="math inline">\({I}_i\)</span> Reference Distributions and Their
+Numerical Evaluation.”</span> <em>Geographical Analysis</em> 34:
+187–206.
 </div>
 </div>
 </div>
@@ -1027,7 +967,7 @@ Reference Distributions and Their Numerical Evaluation.”</span>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
 </div>
 
     </footer>
