@@ -71,7 +71,7 @@ create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL, have_factor
         X0
 }
 
-SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="SDM", Durbin=TRUE) {
+SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="SDM", Durbin=TRUE, data=NULL) {
 
 	if (inherits(model, "lm")) na.act <- model$na.action
 	else na.act <- attr(model, "na.action")
@@ -110,18 +110,14 @@ SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 		warning("Spatial weights matrix not row standardized")
 
         if (is.formula(Durbin)) {
-            dt <- try(as.data.frame(model$model), silent=TRUE)
-#            dt <- try(eval(model$call[["data"]]), silent=TRUE)
-            if (inherits(dt, "try-error") || !is.data.frame(dt))
-                stop("model.frame object used to fit linear model not available for formula Durbin")
-
+            if (is.null(data)) stop("Original data object from lm() call required for formula Durbin terms")
         }
 
 	mf <- model.frame(model)
         y <- model.response(mf)
 	X <- model.matrix(terms(model), mf)
         have_factor_preds <- have_factor_preds_mf(mf)
-        X0 <- create_X0(X=X, listw=listw, Durbin=Durbin, data=dt, na.act=na.act,
+        X0 <- create_X0(X=X, listw=listw, Durbin=Durbin, data=data, na.act=na.act,
             have_factor_preds=have_factor_preds)
 	yhat <- as.vector(fitted(model))
 	p <- model$rank

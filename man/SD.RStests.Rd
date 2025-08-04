@@ -13,7 +13,7 @@ Because the spatial lags of categorical variables are poorly understood, from ve
 }
 \usage{
 SD.RStests(model, listw, zero.policy = attr(listw, "zero.policy"), test = "SDM",
- Durbin = TRUE)
+ Durbin = TRUE, data = NULL)
 have_factor_preds_mf(mf)
 warn_factor_preds(x)
 }
@@ -26,6 +26,7 @@ expected to be row-standardised (W-style)}
 neighbours, if FALSE assign NA}
   \item{test}{test=\dQuote{SDM} computes the SDM tests, a character vector of tests requested chosen from SDM_RSlag, SDM_adjRSlag, SDM_RSWX, SDM_adjRSWX, SDM_Joint, test=\dQuote{SDEM} computes the SDEM tests, a character vector of tests requested chosen from SDEM_RSerr, SDEM_RSWX, SDEM_Joint; test=\dQuote{all} computes all the tests}
   \item{Durbin}{default TRUE for Durbin models including WX; if TRUE, full spatial Durbin model; if a formula object, the subset of explanatory variables to lag}
+  \item{data}{original data object from lm() call, required if \code{Durbin} is a formula object, because the model frame must be regenerated from the original input data}
   \item{mf}{\code{model.frame} object}
   \item{x}{object created by \code{have_factor_preds_mf}}
 }
@@ -55,7 +56,7 @@ col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 col.listw <- nb2listw(col.gal.nb, style="W")
 columbus$fEW <- factor(columbus$EW)
 columbus$fDISCBD <- ordered(cut(columbus$DISCBD, c(0, 1.5, 3, 4.5, 6)))
-f <- formula(CRIME ~ INC + HOVAL + fDISCBD + fEW)
+f <- formula(log(CRIME) ~ INC + HOVAL + fDISCBD + fEW)
 lm_obj <- lm(f, data=columbus)
 summary(lm.RStests(lm_obj, col.listw, test="all"))
 res <- SD.RStests(lm_obj, col.listw, test="SDM")
@@ -69,7 +70,7 @@ summary(res)
 all.equal(unname(res$SDEM_Joint$statistic),
  unname(res$SDEM_RSerr$statistic + res$SDEM_RSWX$statistic))
 summary(SD.RStests(lm_obj, nb2listw(col.gal.nb, style="C"), test="all"))
-summary(SD.RStests(lm_obj, col.listw, test="all", Durbin= ~ INC))
+summary(SD.RStests(lm_obj, col.listw, test="all", Durbin= ~ INC, data=columbus))
 lm_obj0 <- lm(I(scale(CRIME)) ~ 0 + I(scale(INC)) + I(scale(HOVAL)),
  data=columbus)
 summary(SD.RStests(lm_obj0, col.listw, test="all"))
