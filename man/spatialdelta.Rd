@@ -117,7 +117,7 @@ cornish_fisher(x, ...)
   \item{rnames}{Region names passed through from row/column names of \code{adjusted_spatial_weights}, from the \code{"region.id"} attribute of the \code{"nb"} object used to create the \code{adjusted_spatial_weights} matrix from the \code{"adjacency_matrix"} object}
 \code{linearised_diffusive_weights}, \code{metropolis_hastings_weights}, \code{iterative_proportional_fitting_weights} and \code{graph_distance_weights} return square spatial weights matrices (the latter two return matrices created by \code{metropolis_hastings_weights} if \pkg{igraph} or \pkg{mipfp} are not available); \code{factorial_coordinates} returns a square factorial matrix; \code{localdelta} returns a vector of local deltas eq. 30. 
 }
-\references{Bavaud, F. (2024), Measuring and Testing Multivariate Spatial Autocorrelation in a Weighted Setting: A Kernel Approach. Geographical Analysis, 56: 573-599. \doi{10.1111/gean.12390}}
+\references{Bavaud, F. (2024), Measuring and Testing Multivariate Spatial Autocorrelation in a Weighted Setting: A Kernel Approach. Geographical Analysis, 56: 573-599. \doi{10.1111/gean.12390}; Bivand, R. (2025) Implementing a weighted measure of multivariate spatial autocorrelation, Cahiers Du Centre De Linguistique Et Des Sciences Du Langage, (69), 19-35, \doi{10.26034/la.cdclsl.2025.8343}}
 \author{Roger Bivand, \email{Roger.Bivand@nhh.no}}
 \note{The input adjacency matrix should be symmetric, and not have sub-graphs or islands - it should be possible to step across graph edges from any observation to any other.}
 
