@@ -38,7 +38,7 @@ than half of the time.
 \details{
 The local join count statistic requires a binary weights list which can be generated with \code{nb2listw(nb, style = "B")}. Additionally, ensure that the binary variable of interest is rarely occurring in no more than half of observations.
 
-P-values are estimated using a conditional permutation approach. This creates a reference distribution from which the observed statistic is compared. For more see \href{https://geodacenter.github.io/glossary.html#ppvalue}{Geoda Glossary}.
+P-values are estimated using a conditional permutation approach. This creates a reference distribution from which the observed statistic is compared. For more see \href{https://raw.githubusercontent.com/GeoDaCenter/GeoDaCenter.github.io/refs/heads/update-1.22/glossary.html#ppvalue}{Geoda Glossary}.
 }
 \examples{
 data(oldcol)
