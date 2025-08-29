@@ -1,5 +1,7 @@
 # Version 1.4-1 (development)
 
+* add data argument to `SD.RStests` for formula Durbin case
+
 # Version 1-3-13 (2025-06-10)
 
 * Adds Bavaud's multivariate `spatialdelta`  with support functions and methods
