@@ -1,4 +1,6 @@
-# Version 1.4-1 (development)
+# Version 1.4-2 (development)
+
+# Version 1.4-1 (2025-08-31)
 
 * add data argument to `SD.RStests` for formula Durbin case
 

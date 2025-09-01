@@ -1,6 +1,6 @@
 Package: spdep
-Version: 1.4-1
-Date: 2025-08-25
+Version: 1.4-2
+Date: 2025-09-01
 Title: Spatial Dependence: Weighting Schemes, Statistics
 Encoding: UTF-8
 Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), 
@@ -85,7 +85,7 @@ Description: A collection of functions to create spatial weights matrix
   (LICD) implementation based on 'Carrer et al.' (2021) 
   <doi:10.1016/j.jas.2020.105306> and 'Bivand et al.' (2017) 
   <doi:10.1016/j.spasta.2017.03.003> was added in 1.3-7. Multivariate
-  'spatialdelta' ('Bavaud' 2024) <doi:10.1111/gean.12390> was added in 1.3-13 ('Bivand' 2025 <doi:10.26034/la.cdclsl.2025.8343>.
+  'spatialdelta' ('Bavaud' 2024) <doi:10.1111/gean.12390> was added in 1.3-13 ('Bivand' 2025 <doi:10.26034/la.cdclsl.2025.8343>).
   From 'spdep' and 'spatialreg' versions >= 1.2-1, the model fitting functions
   previously present in this package are defunct in 'spdep' and may be found
   in 'spatialreg'.
