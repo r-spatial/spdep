@@ -190,8 +190,9 @@ SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 		method <- "Rao's score test spatial Durbin diagnostics"
                 Durf <- ""
                 if (is.formula(Durbin))
-                    Durf <- paste0("Durbin: ", paste(as.character(Durbin),
-                    collapse=" "), "\n")
+                    Durf <- paste0("Durbin: ", 
+                        paste(as.character(Durbin)[c(1, 3)], collapse=" "),
+                        "\n")
 		data.name <- paste("\n", paste(strwrap(paste("model: ",
 		    gsub("[ ]+", " ", paste(deparse(model$call), 
 		    sep="", collapse="")))), collapse="\n"),

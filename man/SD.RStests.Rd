@@ -9,7 +9,7 @@ Rao's score and adjusted Rao's score tests of linear hypotheses for spatial Durb
 \description{
 Rao's score and adjusted Rao's score tests of linear hypotheses applied to a fitted linear model to examine whether either the spatially lagged dependent variable \code{lag} or the spatially lagged independent variable(s) \code{WX} should be included in the model, or both (SDM). Adjusted tests are provided for \code{lag} and \code{WX} adapting to the presence of the other, and a joint test for both. The joint test is equal to the unadjusted of one plus the adjusted of the other. In addition, draft tests are added from Koley (2024, section 6) for spatial Durbin error models to examine whether either the spatially lagged error \code{err} or the spatially lagged independent variable(s) \code{WX} should be included in the model, or both (SDEM); because of orthogonality, no adjusted tests are required.
 
-Because the spatial lags of categorical variables are poorly understood, from version 1.3-11 warnings are given when categorical variables are included in the Durbin term.
+Because the spatial lags of categorical variables are poorly understood, from version 1.3-11 warnings are given when categorical variables are included in the Durbin term. A discussion can be found at \url{https://github.com/rsbivand/eqc25_talk}.
 }
 \usage{
 SD.RStests(model, listw, zero.policy = attr(listw, "zero.policy"), test = "SDM",
