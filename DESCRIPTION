@@ -1,11 +1,11 @@
 Package: spdep
 Version: 1.4-2
-Date: 2025-09-01
+Date: 2025-09-23
 Title: Spatial Dependence: Weighting Schemes, Statistics
 Encoding: UTF-8
 Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), 
            email = "Roger.Bivand@nhh.no",
-           comment=c(ORCID="0000-0003-2392-6140")),
+           comment=c(ORCID="0000-0003-2392-6140", ROR="04v53s997")),
 	person("Micah", "Altman", role = "ctb"),
 	person("Luc", "Anselin", role = "ctb"),
 	person("Renato", "Assunção", role = "ctb"),
