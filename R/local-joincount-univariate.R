@@ -96,7 +96,9 @@ local_joincount_uni <- function(fx, chosen, listw,
     # return p-value ranks these will calculate p-value
     # uses look up table approach rather than counting
     # no. observations in each tail
-    rank(c(res_i, obs[i]))[(nsim + 1)]
+    out <- as.integer(rank(c(res_i, obs[i]), ties.method="random")[(nsim + 1)])
+    larger <- as.integer(sum(res_i >= obs[i]))
+    c(out, larger)
 
   }
 
@@ -110,10 +112,17 @@ local_joincount_uni <- function(fx, chosen, listw,
   ncpus <- attr(p_ranks, "ncpus")
 
   p_res <- rep(NA_real_, length(x))
-  p_res[index] <- probs[floor(p_ranks)]
+  p_res[index] <- probs[floor(p_ranks[, 1])]
+  ranks <- rep(NA_integer_, length(x))
+  ranks[index] <- p_ranks[, 1]
+  p_pysal <- rep(NA_real_, length(x))
+  larger <- p_ranks[, 2]
+  low_extreme <- (nsim - larger) < larger
+  larger[low_extreme] <- nsim - larger[low_extreme]
+  p_pysal[index] <- (larger + 1.0) / (nsim + 1.0)
 
-  res <- data.frame(obs, p_res)
-  colnames(res) <- c("BB", attr(probs, "Prname"))
+  res <- data.frame(obs, p_res, ranks, p_pysal)
+  colnames(res) <- c("BB", attr(probs, "Prname"), "sim_rank", "p_sim_pysal")
   attr(res, "ncpus") <- ncpus
   res
 }
