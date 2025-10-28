@@ -9,6 +9,7 @@
 # p-values are only reported for those where xi = 1L and have at least 1 neighbor with one xj == 1L value
 local_joincount_uni <- function(fx, chosen, listw,
                                 alternative = "two.sided",
+                                ties.method = "average",
                                 nsim = 199,
                                 iseed = NULL,
                                 no_repeat_in_row=FALSE) {
@@ -24,7 +25,9 @@ local_joincount_uni <- function(fx, chosen, listw,
   stopifnot(is.character(chosen))
   stopifnot("`chosen` value is not a level of `fx`" = chosen %in% levels(fx))
 
-
+  alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
+  ties.method <- match.arg(ties.method, c("average", "first", "last", 
+    "random", "max", "min"))
   # retrieve weights and neighbors
   nb <- listw[["neighbours"]]
   wt <- listw[["weights"]]
@@ -65,6 +68,7 @@ local_joincount_uni <- function(fx, chosen, listw,
   assign("xi", x, envir = env) # x col
   assign("obs", obs, envir = env) # observed values
   assign("n", length(obs), envir=env)
+  assign("ties.method", ties.method, envir=env)
   assign("no_repeat_in_row", no_repeat_in_row, envir=env)
   varlist = ls(envir = env)
 
@@ -77,6 +81,7 @@ local_joincount_uni <- function(fx, chosen, listw,
     nsim <- get("nsim", envir = env) # no. simulations
     obs <- get("obs", envir = env) # observed values
     n_i <- get("n", envir=env) - 1L
+    ties.method <- get("ties.method", envir=env)
     no_repeat_in_row <- get("no_repeat_in_row", envir=env)
     # create matrix of replicates
     if (no_repeat_in_row) {
@@ -96,9 +101,10 @@ local_joincount_uni <- function(fx, chosen, listw,
     # return p-value ranks these will calculate p-value
     # uses look up table approach rather than counting
     # no. observations in each tail
-    out <- as.integer(rank(c(res_i, obs[i]), ties.method="random")[(nsim + 1)])
-    larger <- as.integer(sum(res_i >= obs[i]))
-    c(out, larger)
+    obs_rank <- as.integer(rank(c(res_i, obs[i]), ties.method=ties.method)[(nsim + 1)])
+    largereq <- as.integer(sum(res_i >= obs[i]))
+    larger <- as.integer(sum(res_i > obs[i]))
+    c(obs_rank, largereq, larger)
 
   }
 
@@ -116,14 +122,19 @@ local_joincount_uni <- function(fx, chosen, listw,
   ranks <- rep(NA_integer_, length(x))
   ranks[index] <- p_ranks[, 1]
   p_pysal <- rep(NA_real_, length(x))
-  larger <- p_ranks[, 2]
-  low_extreme <- (nsim - larger) < larger
-  larger[low_extreme] <- nsim - larger[low_extreme]
-  p_pysal[index] <- (larger + 1.0) / (nsim + 1.0)
+  larger <- rep(NA_integer_, length(x))
+  larger[index] <- p_ranks[, 3]
+  largereq <- rep(NA_integer_, length(x))
+  largereq[index] <- p_ranks[, 2]
+  low_extreme <- (nsim - largereq[index]) < largereq[index]
+  largereq[index][low_extreme] <- nsim - largereq[index][low_extreme]
+  p_pysal[index] <- (largereq[index] + 1.0) / (nsim + 1.0)
 
-  res <- data.frame(obs, p_res, ranks, p_pysal)
-  colnames(res) <- c("BB", attr(probs, "Prname"), "sim_rank", "p_sim_pysal")
+  res <- data.frame(obs, p_res, ranks, p_pysal, largereq, larger)
+  names(res) <- c("BB", attr(probs, "Prname"), "sim_rank", "p_sim_pysal",
+    "largereq", "larger")
   attr(res, "ncpus") <- ncpus
+  attr(res, "probs") <- probs
   res
 }
 
