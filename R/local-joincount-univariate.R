@@ -121,20 +121,26 @@ local_joincount_uni <- function(fx, chosen, listw,
   p_res[index] <- probs[floor(p_ranks[, 1])]
   ranks <- rep(NA_integer_, length(x))
   ranks[index] <- p_ranks[, 1]
-  p_pysal <- rep(NA_real_, length(x))
   larger <- rep(NA_integer_, length(x))
   larger[index] <- p_ranks[, 3]
+  low_extreme <- (nsim - larger[index]) < larger[index]
+  larger[index][low_extreme] <- nsim - larger[index][low_extreme]
+  p_pysal_gt <- rep(NA_real_, length(x))
+  p_pysal_gt[index] <- (larger[index] + 1.0) / (nsim + 1.0)
   largereq <- rep(NA_integer_, length(x))
   largereq[index] <- p_ranks[, 2]
   low_extreme <- (nsim - largereq[index]) < largereq[index]
   largereq[index][low_extreme] <- nsim - largereq[index][low_extreme]
-  p_pysal[index] <- (largereq[index] + 1.0) / (nsim + 1.0)
+  p_pysal_ge <- rep(NA_real_, length(x))
+  p_pysal_ge[index] <- (largereq[index] + 1.0) / (nsim + 1.0)
 
-  res <- data.frame(obs, p_res, ranks, p_pysal, largereq, larger)
-  names(res) <- c("BB", attr(probs, "Prname"), "sim_rank", "p_sim_pysal",
-    "largereq", "larger")
+  res <- data.frame(obs, p_res, ranks, p_pysal_ge, p_pysal_gt, 
+    largereq, larger)
+  names(res) <- c("BB", attr(probs, "Prname"), "sim_rank", "p_sim_pysal_ge",
+    "p_sim_pysal_gt", "largereq", "larger")
   attr(res, "ncpus") <- ncpus
   attr(res, "probs") <- probs
+  attr(res, "ties.method") <- ties.method
   res
 }
 
