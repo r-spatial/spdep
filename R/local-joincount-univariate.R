@@ -139,6 +139,7 @@ local_joincount_uni <- function(fx, chosen, listw,
   names(res) <- c("BB", attr(probs, "Prname"), "sim_rank", "p_sim_pysal_ge",
     "p_sim_pysal_gt", "largereq", "larger")
   attr(res, "ncpus") <- ncpus
+  attr(res, "nsim") <- nsim
   attr(res, "probs") <- probs
   attr(res, "ties.method") <- ties.method
   res
