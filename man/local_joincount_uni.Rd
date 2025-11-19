@@ -50,9 +50,11 @@ data(oldcol)
 fx <- as.factor(ifelse(COL.OLD$CRIME < 35, "low-crime", "high-crime"))
 listw <- nb2listw(COL.nb, style = "B")
 set.seed(1)
-res_min <- local_joincount_uni(fx, chosen = "high-crime", listw, nsim=999, alternative="two.sided", ties.method="min")
+res_min <- local_joincount_uni(fx, chosen = "high-crime", listw, nsim=999,
+ alternative="two.sided", ties.method="min")
 cor(res_min[,2], res_min$p_sim_pysal_ge, use="complete.obs")
-res_max <- local_joincount_uni(fx, chosen = "high-crime", listw, nsim=999, alternative="two.sided", ties.method="max")
+res_max <- local_joincount_uni(fx, chosen = "high-crime", listw, nsim=999,
+ alternative="two.sided", ties.method="max")
 cor(res_max[,2], res_max$p_sim_pysal_gt, use="complete.obs")
 }
 
