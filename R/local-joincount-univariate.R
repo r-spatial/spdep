@@ -9,9 +9,9 @@
 # p-values are only reported for those where xi = 1L and have at least 1 neighbor with one xj == 1L value
 local_joincount_uni <- function(fx, chosen, listw,
                                 alternative = "two.sided",
-                                ties.method = "average",
                                 nsim = 199,
                                 iseed = NULL,
+                                ties.method = "average",
                                 no_repeat_in_row=FALSE) {
 
   # check that fx is a factor with 2 levels

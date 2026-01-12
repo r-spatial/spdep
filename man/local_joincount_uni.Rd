@@ -7,9 +7,9 @@ local_joincount_uni(
   chosen,
   listw,
   alternative = "two.sided",
-  ties.method = "average",
   nsim = 199,
   iseed = NULL,
+  ties.method = "average",
   no_repeat_in_row=FALSE
 )
 }
@@ -22,11 +22,11 @@ local_joincount_uni(
 
 \item{alternative}{default \code{"greater"}. One of \code{"less"} or \code{"greater"}.}
 
-\item{ties.method}{default \code{"average"} passed through to \code{rank}, can take values accepted by \code{rank}: \code{c("average", "first", "last", "random", "max", "min")}, see \code{\link{rank}}}
-
 \item{nsim}{the number of conditional permutation simulations}
 
 \item{iseed}{default NULL, used to set the seed; the output will only be reproducible if the count of CPU cores across which computation is distributed is the same}
+
+\item{ties.method}{default \code{"average"} passed through to \code{rank}, can take values accepted by \code{rank}: \code{c("average", "first", "last", "random", "max", "min")}, see \code{\link{rank}}}
 
 \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
 
