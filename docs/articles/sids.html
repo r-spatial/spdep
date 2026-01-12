@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -101,8 +101,8 @@ manual <span class="citation">(Kaluzny et al. 1996)</span>.</p>
 <h2 id="getting-the-data-into-r">Getting the data into R<a class="anchor" aria-label="anchor" href="#getting-the-data-into-r"></a>
 </h2>
 <p>We will be using the <strong>spdep</strong> and
-<strong>spreg</strong> packages, here version: spdep, version 1.4-1,
-2025-08-25, the <strong>sf</strong> package and the
+<strong>spreg</strong> packages, here version: spdep, version 1.4-2,
+2026-01-12, the <strong>sf</strong> package and the
 <strong>tmap</strong> package. The data from the sources referred to
 above is documented in the help page for the <code>nc.sids</code> data
 set in <strong>spData</strong>. The actual data, included in a shapefile
@@ -478,7 +478,7 @@ intervals.</p>
 <span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span>, palette<span class="op">=</span><span class="st">"Set1"</span>, title<span class="op">=</span><span class="st">"p-values"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_facets.html" class="external-link">tm_facets</a></span><span class="op">(</span>free.scales<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>panel.labels<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"low"</span>, <span class="st">"high"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/choymap-1.png" width="700"></p>
+<p><img src="sids_files/figure-html/choymap-1.png" class="r-plt" alt="" width="700"></p>
 <p>For more complicated thematic maps, it may be helpful to use
 ColorBrewer (<a href="https://colorbrewer2.org" class="external-link uri">https://colorbrewer2.org</a>) colour palettes. Here we use
 palettes accessed through <strong>tmap</strong>, available in R in the
@@ -504,7 +504,7 @@ we can see.</p>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"pmap"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">0.5</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<p><img src="sids_files/figure-html/unnamed-chunk-20-1.png" class="r-plt" alt="" width="700"></p>
 <p>Marilia Carvalho (personal communication) and Virgilio Gómez Rubio
 <span class="citation">(Gómez-Rubio, Ferrándiz-Ferragud, and
 López-Quílez 2005)</span> have pointed to the unusual shape of the
@@ -516,7 +516,7 @@ expected, suggesting perhaps overdispersion, that is that the ratio of
 the variance and mean is larger than unity.</p>
 <div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">nc</span><span class="op">$</span><span class="va">pmap</span>, main<span class="op">=</span><span class="st">""</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/poishist-1.png" width="700"></p>
+<p><img src="sids_files/figure-html/poishist-1.png" class="r-plt" alt="" width="700"></p>
 <p>One ad-hoc way to assess the impact of the possible failure of our
 assumption that the counts follow the Poisson distribution is to
 estimate the dispersion by fitting a generalized linear model of the
@@ -533,7 +533,7 @@ associates):</p>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"stdres"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">0</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="sids_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="700"></p>
 <p>The dispersion is equal to 2.2786188, much greater than unity; we
 calculate the corrected probability map values by taking the
 standardised residuals of the model, taking the size of the dispersion
@@ -576,7 +576,7 @@ GeoDa, but uses the <span class="citation">Bailey and Gatrell
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"EB_loc"</span>, breaks<span class="op">=</span><span class="va">brks</span>, midpoint<span class="op">=</span><span class="fl">1</span>, palette<span class="op">=</span><span class="st">"RdBu"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc_miss</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_symbols.html" class="external-link">tm_symbols</a></span><span class="op">(</span>shape<span class="op">=</span><span class="fl">8</span>, size<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="sids_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="700"></p>
 <p>The results are shown in Figure <span class="math inline">\(\ref{EBlocal}\)</span>. Like other relevant
 functions in <strong>spdep</strong>,<code><a href="../reference/EBlocal.html">EBlocal()</a></code> takes a
 <code>zero.policy</code> argument to allow missing values to be passed
@@ -619,7 +619,7 @@ rectangles before proceeding further.</p>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
 <span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"both"</span>, palette<span class="op">=</span><span class="st">"Set1"</span>, title<span class="op">=</span><span class="st">"rough\nrectangles"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="sids_files/figure-html/unnamed-chunk-27-1.png" class="r-plt" alt="" width="700"></p>
 <p>Cressie constructs a transformed SIDS rates variable, 1974–78, for
 his analyses (with co-workers). We can replicate his stem-and-leaf
 figure on p. 396 in the book, taken from <span class="citation">Cressie
@@ -711,7 +711,7 @@ fitted value will be the same for counties in the same grid cell:</p>
 <span><span class="va">out2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_shape.html" class="external-link">tm_shape</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_polygons.html" class="external-link">tm_fill</a></span><span class="op">(</span><span class="st">"mp_resid"</span>, midpoint<span class="op">=</span><span class="fl">0</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tm_layout.html" class="external-link">tm_layout</a></span><span class="op">(</span>legend.outside<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://r-tmap.github.io/tmap/reference/tmap_arrange.html" class="external-link">tmap_arrange</a></span><span class="op">(</span><span class="va">out1</span>, <span class="va">out2</span>, ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="sids_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p><img src="sids_files/figure-html/unnamed-chunk-32-1.png" class="r-plt" alt="" width="700"></p>
 <p>The figure shows the median polish smoothing results as three maps,
 the observed Freeman-Tukey transformed SIDS rates, the fitted smoothed
 values, and the residuals. In addition, a plot for the median polish
@@ -791,7 +791,7 @@ Rare Events.”</span> <em>Biometrics</em> 39: 193–205.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

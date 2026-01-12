@@ -1,0 +1,95 @@
+# Read a GAL lattice file into a neighbours list
+
+The function `read.gal()` reads a GAL lattice file into a neighbours
+list for spatial analysis. It will read old and new style (GeoDa) GAL
+files. The function `read.geoda` is a helper file for reading comma
+separated value data files, calling
+[`read.csv()`](https://rdrr.io/r/utils/read.table.html).
+
+## Usage
+
+``` r
+read.gal(file, region.id=NULL, override.id=FALSE)
+read.geoda(file, row.names=NULL, skip=0)
+```
+
+## Arguments
+
+- file:
+
+  name of file with GAL lattice data
+
+- region.id:
+
+  region IDs in specified order to coerse neighbours list order and
+  numbering to that of the region.id
+
+- override.id:
+
+  override any given (or NULL) region.id, collecting region.id numbering
+  and order from the GAL file.
+
+- row.names:
+
+  as in row.names in
+  [`read.csv()`](https://rdrr.io/r/utils/read.table.html), typically a
+  character string naming the column of the file to be used
+
+- skip:
+
+  skip number of lines, as in
+  [`read.csv()`](https://rdrr.io/r/utils/read.table.html)
+
+## Details
+
+Luc Anselin (2003): Spatial Analysis Laboratory, Department of
+Agricultural and Consumer Economics, University of Illinois,
+Urbana-Champaign, now dead link:
+http://www.csiss.org/gispopsci/workshops/2011/PSU/readings/W15_Anselin2007.pdf;
+Luc Anselin (2003) *GeoDa 0.9 User's Guide*, pp. 80–81, Spatial Analysis
+Laboratory, Department of Agricultural and Consumer Economics,
+University of Illinois, Urbana-Champaign,
+<http://geodacenter.github.io/docs/geoda093.pdf>; GAL - Geographical
+Algorithms Library, University of Newcastle
+
+## Value
+
+The function `read.gal()` returns an object of class `nb` with a list of
+integer vectors containing neighbour region number ids. The function
+`read.geoda` returns a data frame, and issues a warning if the returned
+object has only one column.
+
+## Author
+
+Roger Bivand <Roger.Bivand@nhh.no>
+
+## Note
+
+Example data originally downloaded from now dead link:
+http://sal.agecon.uiuc.edu/weights/zips/us48.zip
+
+## See also
+
+[`summary.nb`](https://r-spatial.github.io/spdep/reference/summary.nb.md)
+
+## Examples
+
+``` r
+us48.fipsno <- read.geoda(system.file("etc/weights/us48.txt",
+ package="spdep")[1])
+us48.q <- read.gal(system.file("etc/weights/us48_q.GAL", package="spdep")[1],
+ us48.fipsno$Fipsno)
+us48.r <- read.gal(system.file("etc/weights/us48_rk.GAL", package="spdep")[1],
+ us48.fipsno$Fipsno)
+data(state)
+if (as.numeric(paste(version$major, version$minor, sep="")) < 19) {
+ m50.48 <- match(us48.fipsno$"State.name", state.name)
+} else {
+ m50.48 <- match(us48.fipsno$"State_name", state.name)
+}
+plot(us48.q, as.matrix(as.data.frame(state.center))[m50.48,])
+plot(diffnb(us48.r, us48.q),
+ as.matrix(as.data.frame(state.center))[m50.48,], add=TRUE, col="red")
+#> Warning: neighbour object has 46 sub-graphs
+title(main="Differences between rook and queen criteria imported neighbours lists")
+```

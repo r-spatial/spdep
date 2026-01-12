@@ -26,7 +26,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -130,7 +130,7 @@ attribute as default for its <code>zero.policy</code> argument:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-spatial/spdep/" class="external-link">spdep</a></span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## Loading required package: spData</span></span></code></pre>
 <pre><code><span><span class="co">## Loading required package: sf</span></span></code></pre>
-<pre><code><span><span class="co">## Linking to GEOS 3.14.0, GDAL 3.11.3, PROJ 9.6.2; sf_use_s2() is TRUE</span></span></code></pre>
+<pre><code><span><span class="co">## Linking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/args.html" class="external-link">args</a></span><span class="op">(</span><span class="va">moran.test</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## function (x, listw, randomisation = TRUE, zero.policy = attr(listw, </span></span>
@@ -180,7 +180,7 @@ Here, the subset for Wales is useful as we will see:</p>
 <span>    <span class="va">w50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_Wales_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpuT1Yaw/temp_libpath4c15c12438acc/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/Rtmp6xgijc/temp_libpath8c3932b2ce99/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 32 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -222,7 +222,7 @@ mainland, and with no neighbour links:</p>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">w50m</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="../reference/card.html">card</a></span><span class="op">(</span><span class="va">nb_W_50m</span><span class="op">)</span> <span class="op">==</span> <span class="fl">0L</span><span class="op">]</span>, add<span class="op">=</span><span class="cn">TRUE</span>, border<span class="op">=</span><span class="st">"transparent"</span>, col<span class="op">=</span><span class="st">"wheat1"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">w50m</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey75"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_W_50m</span>, <span class="va">pts</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="subgraphs_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="subgraphs_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="700"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/par.html" class="external-link">par</a></span><span class="op">(</span><span class="va">opar</span><span class="op">)</span></span></code></pre></div>
 <p>From the maps, we can see that the island is close to two
@@ -247,7 +247,7 @@ its two obvious proximate neighbours:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">w50m</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey75"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_W_50m_snap</span>, <span class="va">pts</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="subgraphs_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="subgraphs_files/figure-html/unnamed-chunk-10-1.png" class="r-plt" alt="" width="700"></p>
 <p>In this case, increasing <code>snap</code> from its default of 10mm
 (or close equivalents for geometries with known metrics; previously
 <code>sqrt(.Machine$double.eps)</code> 1.4901161^{-8} in all cases)
@@ -325,13 +325,13 @@ the low population density constituencies in mid-Wales:</p>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">w50m</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey75"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">k6</span>, <span class="va">pts</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="subgraphs_files/figure-html/unnamed-chunk-18-1.png" width="700">
+<p><img src="subgraphs_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="700">
 We can show the block structure by displaying the binary spatial weights
 matrix:</p>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">o</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">k6</span>, <span class="st">"ncomp"</span><span class="op">)</span><span class="op">$</span><span class="va">comp.id</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/image.html" class="external-link">image</a></span><span class="op">(</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/transpose.html" class="external-link">t</a></span><span class="op">(</span><span class="fu"><a href="../reference/nb2mat.html">nb2mat</a></span><span class="op">(</span><span class="va">k6</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span><span class="op">[</span><span class="va">o</span>, <span class="fu"><a href="https://rspatial.github.io/terra/reference/flip.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">o</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, axes<span class="op">=</span><span class="cn">FALSE</span>, asp<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="subgraphs_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="subgraphs_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" alt="" width="700"></p>
 <p>This occurs frequently with point support, but may also occur with
 areal support, as <span class="citation">Freni-Sterrantino, Ventrucci,
 and Rue (2018)</span> find for the eight municipalities on the island of
@@ -370,7 +370,7 @@ subsetted to those in England south of London.</p>
 <span>    <span class="va">sc50m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `GB_2024_southcoast_50m' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpuT1Yaw/temp_libpath4c15c12438acc/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/Rtmp6xgijc/temp_libpath8c3932b2ce99/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 119 features and 19 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -404,7 +404,7 @@ neighbours, known as a cyclical component.</p>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">sc50m</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey75"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">sc50m</span><span class="op">)</span><span class="op">[</span><span class="va">nc</span> <span class="op">==</span> <span class="fl">2L</span><span class="op">]</span>, border<span class="op">=</span><span class="st">"orange"</span>, lwd<span class="op">=</span><span class="fl">2</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_sc_50m</span>, <span class="va">pts</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="subgraphs_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="subgraphs_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="700"></p>
 <p>This has consequences for the eigenvalues of the spatial weights
 matrix, pointed out by <span class="citation">Smirnov and Anselin
 (2009)</span> and <span class="citation">Bivand, Hauke, and Kossowski
@@ -487,7 +487,7 @@ is now in the second position:</p>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">sc50m</span><span class="op">)</span>, border<span class="op">=</span><span class="st">"grey75"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_geometry</a></span><span class="op">(</span><span class="va">sc50m</span><span class="op">)</span><span class="op">[</span><span class="va">nc</span> <span class="op">==</span> <span class="fl">2L</span><span class="op">]</span>, border<span class="op">=</span><span class="st">"orange"</span>, lwd<span class="op">=</span><span class="fl">2</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rspatial.github.io/terra/reference/plot.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">nb_sc_50m_iow</span>, <span class="va">pts</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="subgraphs_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<p><img src="subgraphs_files/figure-html/unnamed-chunk-37-1.png" class="r-plt" alt="" width="700"></p>
 <p>It remains to add a suitable generalisation of <code>addlinks1</code>
 to handle a <code>from</code> vector argument and a <code>to</code>
 argument taking a list of vectors.</p>
@@ -653,7 +653,7 @@ re-packaged as a compressed GeoPackage:</p>
 <span>    <span class="va">tokyo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="va">target</span><span class="op">)</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <pre><code><span><span class="co">## Reading layer `tokyo' from data source </span></span>
-<span><span class="co">##   `/tmp/RtmpuT1Yaw/temp_libpath4c15c12438acc/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
+<span><span class="co">##   `/tmp/Rtmp6xgijc/temp_libpath8c3932b2ce99/spdep/etc/shapes/tokyo.gpkg.zip' </span></span>
 <span><span class="co">##   using driver `GPKG'</span></span>
 <span><span class="co">## Simple feature collection with 262 features and 3 fields</span></span>
 <span><span class="co">## Geometry type: MULTIPOLYGON</span></span>
@@ -778,7 +778,7 @@ Lattice.”</span> <em>Computational Statistics &amp; Data Analysis</em>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

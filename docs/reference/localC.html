@@ -15,7 +15,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -418,7 +418,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span>    alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.309   0.011   0.321 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.320   0.014   0.335 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">parallel</span>, quietly<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>    <span class="va">ncpus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">2L</span>, <span class="fu"><a href="https://rdrr.io/r/parallel/detectCores.html" class="external-link">detectCores</a></span><span class="op">(</span>logical<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">-</span><span class="fl">1L</span></span></span>
@@ -605,7 +605,8 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="st">"lmc_PC"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The visual variable "fill" of the layer "polygons" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The visual variable `fill` of the layer "polygons" contains a unique value.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Therefore a categorical scale is applied (tm_scale_categorical).</span>
 <span class="r-plt img"><img src="localC-11.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
@@ -636,7 +637,8 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="st">"lmc_PC_spdep"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The visual variable "fill" of the layer "polygons" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The visual variable `fill` of the layer "polygons" contains a unique value.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Therefore a categorical scale is applied (tm_scale_categorical).</span>
 <span class="r-plt img"><img src="localC-12.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="va">lmc_vars</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/local_multigeary.html" class="external-link">local_multigeary</a></span><span class="op">(</span><span class="va">w</span>, <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_geometry.html" class="external-link">st_drop_geometry</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>,</span></span>
@@ -667,7 +669,8 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="st">"lmc_vars"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The visual variable "fill" of the layer "polygons" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The visual variable `fill` of the layer "polygons" contains a unique value.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Therefore a categorical scale is applied (tm_scale_categorical).</span>
 <span class="r-plt img"><img src="localC-13.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
@@ -675,7 +678,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span>    nsim<span class="op">=</span><span class="fl">9999</span>, alternative<span class="op">=</span><span class="st">"two.sided"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.548   0.002   0.552 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.560   0.000   0.563 </span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="va">run</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/pkg/Matrix/man/all.equal-methods.html" class="external-link">all.equal</a></span><span class="op">(</span><span class="fu"><a href="https://geodacenter.github.io/rgeoda/reference/lisa_values.html" class="external-link">lisa_values</a></span><span class="op">(</span><span class="va">lmc_vars</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">lmc_vars_spdep</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
@@ -724,7 +727,8 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">g</span><span class="op">[</span><span class="st">"lmc_vars_spdep"</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="op">}</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> The visual variable "fill" of the layer "polygons" contains a unique value. Therefore a categorical scale is applied (tm_scale_categorical).</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The visual variable `fill` of the layer "polygons" contains a unique value.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Therefore a categorical scale is applied (tm_scale_categorical).</span>
 <span class="r-plt img"><img src="localC-14.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
@@ -751,10 +755,10 @@ Inference for the Local Geary is based on a permutation approach which compares 
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
 <span class="r-in"><span><span class="co"># simulation order not retained</span></span></span>
 <span class="r-in"><span><span class="va">lC</span><span class="op">$</span><span class="va">p_sim</span><span class="op">[</span><span class="va">o</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.267 0.487 0.101 0.016 0.122 0.028 0.298 0.410 0.138 0.001 0.117 0.109</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.160 0.214 0.455 0.198 0.092 0.309 0.001 0.028 0.027 0.081 0.050 0.264</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 0.157 0.023 0.114 0.265 0.463 0.001 0.069 0.099 0.083 0.217 0.303 0.001</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.288 0.492 0.342 0.202 0.233 0.255</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.256 0.444 0.101 0.016 0.112 0.024 0.286 0.432 0.148 0.001 0.140 0.123</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.163 0.230 0.473 0.194 0.104 0.287 0.001 0.027 0.031 0.090 0.056 0.262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] 0.140 0.022 0.109 0.266 0.474 0.001 0.071 0.101 0.089 0.233 0.318 0.001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37] 0.295 0.485 0.299 0.213 0.234 0.252</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">C</span>, <span class="st">"pseudo-p"</span><span class="op">)</span><span class="op">[</span>,<span class="fl">6</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.408 0.374 0.144 0.056 0.010 0.284 0.032 0.264 0.186 0.004 0.150 0.224</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.022 0.150 0.438 0.084 0.126 0.184 0.002 0.238 0.126 0.100 0.068 0.372</span>
@@ -772,7 +776,7 @@ Inference for the Local Geary is based on a permutation approach which compares 
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -15,7 +15,7 @@ than half of the time."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,6 +63,7 @@ than half of the time.</p>
 <span>  alternative <span class="op">=</span> <span class="st">"two.sided"</span>,</span>
 <span>  nsim <span class="op">=</span> <span class="fl">199</span>,</span>
 <span>  iseed <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ties.method <span class="op">=</span> <span class="st">"average"</span>,</span>
 <span>  no_repeat_in_row<span class="op">=</span><span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -95,6 +96,10 @@ than half of the time.</p>
 <dd><p>default NULL, used to set the seed; the output will only be reproducible if the count of CPU cores across which computation is distributed is the same</p></dd>
 
 
+<dt id="arg-ties-method">ties.method<a class="anchor" aria-label="anchor" href="#arg-ties-method"></a></dt>
+<dd><p>default <code>"average"</code> passed through to <code>rank</code>, can take values accepted by <code>rank</code>: <code>c("average", "first", "last", "random", "max", "min")</code>, see <code><a href="https://rdrr.io/r/base/rank.html" class="external-link">rank</a></code></p></dd>
+
+
 <dt id="arg-no-repeat-in-row">no_repeat_in_row<a class="anchor" aria-label="anchor" href="#arg-no-repeat-in-row"></a></dt>
 <dd><p>default <code>FALSE</code>, if <code>TRUE</code>, sample conditionally in each row without replacements to avoid duplicate values, <a href="https://github.com/r-spatial/spdep/issues/124" class="external-link">https://github.com/r-spatial/spdep/issues/124</a></p></dd>
 
@@ -102,12 +107,13 @@ than half of the time.</p>
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a <code>data.frame</code> with two columns <code>BB</code> and <code>Pr()</code> and number of rows equal to the length of <code>x</code>.</p>
+    <p>a <code>data.frame</code> with six columns <code>BB</code> (observed BB - neighbour same as focus), <code>Pr()</code> (pseudo-p from punif rank), <code>sim_rank</code> (simulation rank with current ties.method), <code>p_sim_pysal_ge</code> (pseudo-p fromPySAL esda, greater than or equal to observed BB), <code>p_sim_pysal_gt</code> (pseudo-p fromPySAL esda, greater than observed BB), <code>largereq</code> (count of simulated values greater than or equal to observed BB) after folding, <code>olarger</code> (count of simulated values greater than observed BB) before folding, <code>olargereq</code> (count of simulated values greater than or equal to observed BB) before folding,and number of rows equal to the length of <code>x</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>The local join count statistic requires a binary weights list which can be generated with <code>nb2listw(nb, style = "B")</code>. Additionally, ensure that the binary variable of interest is rarely occurring in no more than half of observations.</p>
-<p>P-values are estimated using a conditional permutation approach. This creates a reference distribution from which the observed statistic is compared.</p>
+<p>P-values are estimated using a conditional permutation approach. This creates a reference distribution from which the observed statistic is compared. For more see <a href="https://raw.githubusercontent.com/GeoDaCenter/GeoDaCenter.github.io/refs/heads/update-1.22/glossary.html#ppvalue" class="external-link">Geoda Glossary</a>.</p>
+<p>The pseudo-p-values returned by freestanding Geoda and PySAL esda correspond to <code>"res_min$p_sim_pysal_ge"</code> and ranked pseudo-p-values with <code>tied.method="min"</code>  (equivalently <code>"last"</code>; <code>"res_min$p_sim_pysal_gt"</code> corresponds to ranked pseudo-p-values with <code>tied.method="max"</code> (equivalently <code>"first"</code>).</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -124,57 +130,14 @@ than half of the time.</p>
 <span class="r-in"><span><span class="va">fx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">COL.OLD</span><span class="op">$</span><span class="va">CRIME</span> <span class="op">&lt;</span> <span class="fl">35</span>, <span class="st">"low-crime"</span>, <span class="st">"high-crime"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">listw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style <span class="op">=</span> <span class="st">"B"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">(</span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">local_joincount_uni</span><span class="op">(</span><span class="va">fx</span>, chosen <span class="op">=</span> <span class="st">"high-crime"</span>, <span class="va">listw</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    BB Pr(z != E(BBi))</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1   0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   4            0.50</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4   0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6   0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   4            0.89</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8   0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   5            0.11</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  3            0.55</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21  2            0.84</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22  3            0.30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23  4            0.61</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24  5            0.12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29  3            0.98</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30  5            0.09</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31  8            0.01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32  7            0.02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33  6            0.02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34  5            0.04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35  7            0.03</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36  8            0.02</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37  6            0.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38  5            0.04</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39  3            0.44</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40  5            0.14</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41  3            0.13</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42  5            0.05</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43  2            0.63</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48  0              NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49  0              NA</span>
+<span class="r-in"><span><span class="va">res_min</span> <span class="op">&lt;-</span> <span class="fu">local_joincount_uni</span><span class="op">(</span><span class="va">fx</span>, chosen <span class="op">=</span> <span class="st">"high-crime"</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">999</span>,</span></span>
+<span class="r-in"><span> alternative<span class="op">=</span><span class="st">"two.sided"</span>, ties.method<span class="op">=</span><span class="st">"min"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">res_min</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, <span class="va">res_min</span><span class="op">$</span><span class="va">p_sim_pysal_ge</span>, use<span class="op">=</span><span class="st">"complete.obs"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
+<span class="r-in"><span><span class="va">res_max</span> <span class="op">&lt;-</span> <span class="fu">local_joincount_uni</span><span class="op">(</span><span class="va">fx</span>, chosen <span class="op">=</span> <span class="st">"high-crime"</span>, <span class="va">listw</span>, nsim<span class="op">=</span><span class="fl">999</span>,</span></span>
+<span class="r-in"><span> alternative<span class="op">=</span><span class="st">"two.sided"</span>, ties.method<span class="op">=</span><span class="st">"max"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">res_max</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>, <span class="va">res_max</span><span class="op">$</span><span class="va">p_sim_pysal_gt</span>, use<span class="op">=</span><span class="st">"complete.obs"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -186,7 +149,7 @@ than half of the time.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

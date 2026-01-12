@@ -6,8 +6,8 @@
     }
   };
 </script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Rao's score and adjusted Rao's score tests of linear hypotheses for spatial Durbin and spatial Durbin error models — SD.RStests"><meta name="description" content="Rao's score and adjusted Rao's score tests of linear hypotheses applied to a fitted linear model to examine whether either the spatially lagged dependent variable lag or the spatially lagged independent variable(s) WX should be included in the model, or both (SDM). Adjusted tests are provided for lag and WX adapting to the presence of the other, and a joint test for both. The joint test is equal to the unadjusted of one plus the adjusted of the other. In addition, draft tests are added from Koley (2024, section 6) for spatial Durbin error models to examine whether either the spatially lagged error err or the spatially lagged independent variable(s) WX should be included in the model, or both (SDEM); because of orthogonality, no adjusted tests are required.
-Because the spatial lags of categorical variables are poorly understood, from version 1.3-11 warnings are given when categorical variables are included in the Durbin term."><meta property="og:description" content="Rao's score and adjusted Rao's score tests of linear hypotheses applied to a fitted linear model to examine whether either the spatially lagged dependent variable lag or the spatially lagged independent variable(s) WX should be included in the model, or both (SDM). Adjusted tests are provided for lag and WX adapting to the presence of the other, and a joint test for both. The joint test is equal to the unadjusted of one plus the adjusted of the other. In addition, draft tests are added from Koley (2024, section 6) for spatial Durbin error models to examine whether either the spatially lagged error err or the spatially lagged independent variable(s) WX should be included in the model, or both (SDEM); because of orthogonality, no adjusted tests are required.
-Because the spatial lags of categorical variables are poorly understood, from version 1.3-11 warnings are given when categorical variables are included in the Durbin term."></head><body>
+Because the spatial lags of categorical variables are poorly understood, from version 1.3-11 warnings are given when categorical variables are included in the Durbin term. A discussion can be found at https://github.com/rsbivand/eqc25_talk."><meta property="og:description" content="Rao's score and adjusted Rao's score tests of linear hypotheses applied to a fitted linear model to examine whether either the spatially lagged dependent variable lag or the spatially lagged independent variable(s) WX should be included in the model, or both (SDM). Adjusted tests are provided for lag and WX adapting to the presence of the other, and a joint test for both. The joint test is equal to the unadjusted of one plus the adjusted of the other. In addition, draft tests are added from Koley (2024, section 6) for spatial Durbin error models to examine whether either the spatially lagged error err or the spatially lagged independent variable(s) WX should be included in the model, or both (SDEM); because of orthogonality, no adjusted tests are required.
+Because the spatial lags of categorical variables are poorly understood, from version 1.3-11 warnings are given when categorical variables are included in the Durbin term. A discussion can be found at https://github.com/rsbivand/eqc25_talk."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +15,7 @@ Because the spatial lags of categorical variables are poorly understood, from ve
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@ Because the spatial lags of categorical variables are poorly understood, from ve
 
     <div class="ref-description section level2">
     <p>Rao's score and adjusted Rao's score tests of linear hypotheses applied to a fitted linear model to examine whether either the spatially lagged dependent variable <code>lag</code> or the spatially lagged independent variable(s) <code>WX</code> should be included in the model, or both (SDM). Adjusted tests are provided for <code>lag</code> and <code>WX</code> adapting to the presence of the other, and a joint test for both. The joint test is equal to the unadjusted of one plus the adjusted of the other. In addition, draft tests are added from Koley (2024, section 6) for spatial Durbin error models to examine whether either the spatially lagged error <code>err</code> or the spatially lagged independent variable(s) <code>WX</code> should be included in the model, or both (SDEM); because of orthogonality, no adjusted tests are required.</p>
-<p>Because the spatial lags of categorical variables are poorly understood, from version 1.3-11 warnings are given when categorical variables are included in the Durbin term.</p>
+<p>Because the spatial lags of categorical variables are poorly understood, from version 1.3-11 warnings are given when categorical variables are included in the Durbin term. A discussion can be found at <a href="https://github.com/rsbivand/eqc25_talk" class="external-link">https://github.com/rsbivand/eqc25_talk</a>.</p>
     </div>
 
     <div class="section level2">
@@ -232,7 +232,7 @@ neighbours, if FALSE assign NA</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> model: lm(formula = f, data = columbus)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: col.listw</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Durbin: ~ INC</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Durbin: ~ NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              statistic parameter p.value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> SDM_RSlag     1.827463         1  0.1764</span>
@@ -294,7 +294,7 @@ neighbours, if FALSE assign NA</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
