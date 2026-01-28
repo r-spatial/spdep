@@ -32,7 +32,7 @@ local_joincount_uni(
 
 }
 \value{
-a \code{data.frame} with six columns \code{BB} (observed BB - neighbour same as focus), \code{Pr()} (pseudo-p from punif rank), \code{sim_rank} (simulation rank with current ties.method), \code{p_sim_pysal_ge} (pseudo-p fromPySAL esda, greater than or equal to observed BB), \code{p_sim_pysal_gt} (pseudo-p fromPySAL esda, greater than observed BB), \code{largereq} (count of simulated values greater than or equal to observed BB) after folding, \code{olarger} (count of simulated values greater than observed BB) before folding, \code{olargereq} (count of simulated values greater than or equal to observed BB) before folding,and number of rows equal to the length of \code{x}.
+a \code{data.frame}  with class \dQuote{local-jc-uni} with six columns \code{BB} (observed BB - neighbour same as focus), \code{Pr()} (pseudo-p from punif rank), \code{sim_rank} (simulation rank with current ties.method), \code{p_sim_pysal_ge} (pseudo-p fromPySAL esda, greater than or equal to observed BB), \code{p_sim_pysal_gt} (pseudo-p fromPySAL esda, greater than observed BB), \code{largereq} (count of simulated values greater than or equal to observed BB) after folding, \code{olarger} (count of simulated values greater than observed BB) before folding, \code{olargereq} (count of simulated values greater than or equal to observed BB) before folding,and number of rows equal to the length of \code{x}.
 }
 \description{
 The univariate local join count statistic is used to identify clusters of rarely occurring binary variables. The binary variable of interest should occur less

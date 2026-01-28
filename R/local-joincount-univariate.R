@@ -140,12 +140,23 @@ local_joincount_uni <- function(fx, chosen, listw,
     largereq, larger, olargereq, olarger)
   names(res) <- c("BB", attr(probs, "Prname"), "sim_rank", "p_sim_pysal_ge",
     "p_sim_pysal_gt", "largereq", "larger", "olargereq", "olarger")
+  class(res) <- c("local_jc_uni", class(res))
   attr(res, "ncpus") <- ncpus
   attr(res, "nsim") <- nsim
   attr(res, "probs") <- probs
+  attr(res, "chosen") <- chosen
   attr(res, "ties.method") <- ties.method
   res
 }
 
-
+hotspot.local_jc_uni <- function(obj, cutoff=0.05, p.adjust="none", ...) {
+    pv <- obj[,2]
+    pv <- p.adjust(pv, p.adjust)
+    local_uni_sim <- rep("No cluster", length(pv))
+    crit <- pv < cutoff
+    crit[is.na(crit)] <- FALSE
+    local_uni_sim[crit] <- paste0("Cluster:", attr(obj, "chosen"))
+    local_uni_sim <- factor(local_uni_sim)
+    local_uni_sim
+}
 

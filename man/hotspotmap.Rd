@@ -7,6 +7,7 @@
 \alias{hotspot.localG}
 \alias{hotspot.localC}
 \alias{hotspot.licd}
+\alias{hotspot.local_jc_uni}
 
 \title{Cluster Classifications for Local Indicators of Spatial Association and Local Indicators for Categorical Data}
 \usage{
@@ -26,6 +27,7 @@ hotspot(obj, ...)
 \method{hotspot}{localC}(obj, Prname, cutoff=0.005, p.adjust="fdr", droplevels=TRUE, ...)
 \method{hotspot}{licd}(obj, type = "both", cutoff = 0.05, p.adjust = "none", 
  droplevels = TRUE, control = list(), ...)
+\method{hotspot}{local_jc_uni}(obj, cutoff=0.05, p.adjust="none", ...)
 }
 \arguments{
 \item{obj}{An object of class \code{localmoran}, \code{localC} or \code{localG}}
@@ -40,7 +42,7 @@ hotspot(obj, ...)
 
 \item{quadrant.type}{Default \code{"mean"}, for \code{"localmoran"} objects only, can be \code{c("mean", "median", "pysal")} to partition the Moran scatterplot; \code{"mean"} partitions on the means of the variable and its spatial lag, \code{"median"} on medians of the variable and its spatial lag, \code{"pysal"} at zero for the centred variable and its spatial lag}
 
-\item{type}{When \code{obj} is of class \code{licd}, default \code{both}, may also be \code{comp} for local composition or \code{config} for local configuration}
+\item{type}{When \code{obj} is of class \code{licd}, default \code{both}, may also be \code{comp} for local composition or \code{config} for local configuration; if \code{uni} replicates local univariate joincount}
 
 \item{control}{When \code{obj} is of class \code{licd}, default \code{binomial_sidak} 2, \code{binomial_overlap} TRUE, \code{jcm_sidak} 3. \code{binomial_overlap}  may be set FALSE to avoid the Binomial probability values summing to more than unity - the tests in Boots (2003, p. 141) do overlap (\code{>=} and \code{<=}), and the Šidák exponents may be set to 1 to prevent by-observation correction for 2 Binomial and 3 Normal probability values per observation}
 

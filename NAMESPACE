@@ -163,6 +163,7 @@ S3method(hotspot, data.frame.localmoranex)
 S3method(hotspot, localC)
 S3method(hotspot, localG)
 S3method(hotspot, licd)
+S3method(hotspot, local_jc_uni)
 
 S3method(summary, spatialdelta)
 S3method(print, summary.spatialdelta)

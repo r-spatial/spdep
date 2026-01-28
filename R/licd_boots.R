@@ -37,7 +37,10 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     timings <- list()
     .ptime_start <- proc.time()
     con <- list(comp_binary=TRUE, binomial_punif_alternative="greater",
-        jcm_same_punif_alternative="less", jcm_diff_punif_alternative="greater",        rank_ties.method="min", unique_ceiling=1/3, check_reps=FALSE,
+        jcm_same_punif_alternative="less",
+        jcm_diff_punif_alternative="greater",
+        uni_jc_same_punif_alternative="two.sided",
+        rank_ties.method="min", unique_ceiling=1/3, check_reps=FALSE,
         pysal_rank=FALSE, pysal_sim_obs="GT", na.last="keep", xtras=FALSE)
     nmsC <- names(con)
     con[(namc <- names(control))] <- control
@@ -74,6 +77,9 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     crd <- card(nb)
     if (any(crd == 0L) && !zero.policy)
         stop("regions with no neighbours found - zero.policy not supported")
+    uni_jcs <- apply(model.matrix(~ fx - 1), 2, function(x) {
+        x * lag.listw(listw, x, zero.policy=zero.policy)})
+    flat_uni_jcs <- apply(uni_jcs, 1, sum)
     ifx <- as.integer(fx)
     k <- length(levels(fx))
     tifx <- table(ifx)/n
@@ -144,6 +150,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     assign("check_reps", con$check_reps, envir=env)
     assign("xtras", con$xtras, envir=env)
     assign("local_rank", local_rank, envir=env)
+    assign("obs_uni", flat_uni_jcs, envir=env)
 #    assign("local_jcm_BW", local_jcm_BW, envir=env)
 #    assign("local_chi", local_chi, envir=env)
 #    assign("local_anscombe", local_anscombe, envir=env)
@@ -174,11 +181,12 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         check_reps <- get("check_reps", envir=env)
         xtras <- get("xtras", envir=env)
         local_rank <- get("local_rank", envir=env)
+        obs_uni_i <- get("obs_uni", envir=env)[i]
 #        local_jcm_BW <- get("local_jcm_BW", envir=env)
 #        local_chi <- get("local_chi", envir=env)
 #        local_anscombe <- get("local_anscombe", envir=env)
 
-        if (crdi == 0L) return(rep(NA_real_, 31))
+        if (crdi == 0L) return(rep(NA_real_, 36))
 
         x_nb_i <- c(xi, x[nb_i])
         x_nb_i_xi <- x_nb_i == xi
@@ -211,8 +219,10 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         sub_i <- sort(c(i, nb_i))
         sub_i <- 1:n %in% sub_i
         sub_xi0 <- x[sub_i] == xi
-        i_here <- which(i %in% which(sub_i))
+        i_here <- which(which(sub_i) %in% i)
         listw_subi <- spdep::subset.listw(listw, sub_i)
+        only_i_jc <- as.numeric(sub_xi0)[i_here] * spdep::lag.listw(listw_subi,
+                as.numeric(sub_xi0), zero.policy=zero.policy)[i_here]
  	sn <- spdep::listw2sn(listw_subi)
 	wc <- spdep::spweights.constants(listw_subi, zero.policy=zero.policy, 
 		adjust.n=adjust.n)
@@ -257,6 +267,16 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
                 sx_i <- matrix(sample(x_i, size = crdi * nsim, replace = TRUE),
                     ncol = crdi, nrow = nsim)
             }
+
+            if (xtras) {
+                sx_i_bin <- (sx_i == xi)
+                uni_sims <- c(sx_i_bin %*% w_i)
+                uni_sims_obs_rank <- local_rank(uni_sims, obs_uni_i,
+                    ties.method=ties.method, nsim)
+            } else {
+               uni_sims_obs_rank <- NA_real_
+            }
+
 
             sx_i <- cbind(rep(xi, times=nsim), sx_i)
             do_reps <- FALSE
@@ -471,7 +491,8 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             c8_comp_ans_BW_sim_i_rank <- local_jcm_chi_BW_sim_rank <- 
             local_jcm_z_BB_sim_rank <- local_jcm_z_BW_sim_rank <- 
             local_jcm_z_WW_sim_rank <- len_reps <- 
-            len_reps_i <- vs_non_pos <- Oi_Ei_zero <- NA_real_
+            len_reps_i <- vs_non_pos <- Oi_Ei_zero <-
+            uni_sims_obs_rank <- NA_real_
         }
         tcompi <- as.numeric(timingsi[["compi"]][1])
         tconfigi <- as.numeric(timingsi[["configi"]][1])
@@ -490,7 +511,7 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
             local_jcm_z_BB_sim_rank, local_jcm_z_BW_sim_rank,
             local_jcm_z_WW_sim_rank, local_jcm_all_BB, as.numeric(len_reps), 
             as.numeric(len_reps_i), tcompi, tconfigi, as.numeric(vs_non_pos),
-            as.numeric(Oi_Ei_zero))
+            as.numeric(Oi_Ei_zero), only_i_jc, uni_sims_obs_rank)
         res_i
     }
     timings[["set_up"]] <- proc.time() - .ptime_start
@@ -500,6 +521,20 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     out <- run_perm(fun=permLICD_int, idx=1:n, env=env, iseed=iseed,
         varlist=varlist)
     invisible(set.SubgraphOption(inputSGO))
+
+    colnames(out) <- c("category_i", "count_like_i", "prop_i", "count_nbs_i",
+        "bin_like_BW", "bin_unlike_BW", "bin_unlike_BW_alt", "chi_BW_i",
+        "chi_K_i", "anscombe_BW", "jcm_chi_obs", "jcm_count_BB_obs", 
+        "jcm_count_BW_obs", "jcm_count_WW_obs", "local_jcm_obs_z_BB",
+        "local_jcm_obs_z_WW", "local_jcm_obs_z_BW",
+        "rank_sim_count_like_i", "rank_sim_bin_like_BW",
+        "rank_sim_bin_unlike_BW", "rank_sim_bin_unlike_BW_alt",
+        "rank_sim_chi_BW", "rank_sim_chi_K", "rank_sim_anscombe_BW",
+        "jcm_chi_sim_rank", "jcm_z_BB_sim_rank", "jcm_z_BW_sim_rank",
+        "jcm_z_WW_sim_rank", "local_jcm_all_BB", "len_reps", "len_reps_i",
+        "tcompi", "tconfigi", "vs_non_pos", "Oi_Ei_zero", "only_i_jc",
+        "uni_sims_obs_rank")
+
     timings[["processing"]] <- proc.time() - .ptime_start
     .ptime_start <- proc.time()
 
@@ -523,8 +558,9 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
     local_config <- data.frame(ID=1:n, jcm_chi_obs=out[,11],
         jcm_count_BB_obs=out[,12], jcm_count_BW_obs=out[,13],
         jcm_count_WW_obs=out[,14], pval_jcm_obs_BB=pval_jcm_obs_BB,
-        pval_jcm_obs_WW=pval_jcm_obs_WW, pval_jcm_obs_BW=pval_jcm_obs_BW)
-    local_comp_sim <- local_config_sim <- NULL
+        pval_jcm_obs_WW=pval_jcm_obs_WW, pval_jcm_obs_BW=pval_jcm_obs_BW,
+        only_i_jc=out[,36])
+    local_comp_sim <- local_config_sim <- local_uni_sim <- NULL
     if (nsim > 0) {
         pr_bpnsim <- probs_lut("pbinom_like_BW", nsim,
             alternative=con$binomial_punif_alternative)
@@ -556,27 +592,27 @@ licd_multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
         pval_jcm_obs_BB=pval_jcm_obs_BB,
         pval_jcm_obs_BW=pval_jcm_obs_BW,
         pval_jcm_obs_WW=pval_jcm_obs_WW)
+        if (con$xtras) {
+            stopifnot("uni_sims_obs_rank" %in% colnames(out))
+            uni_sim_BB <- out[,37]
+            pr_uni_sim <- probs_lut("uni_same", nsim,
+                alternative=con$uni_jc_same_punif_alternative)
+            pr_uni_sim_BB <- pr_uni_sim[floor(uni_sim_BB)]
+            local_uni_sim <- data.frame(1:n, flat_uni_jcs, uni_sim_BB,
+                pr_uni_sim_BB, fx)
+            names(local_uni_sim) <- c("ID", "obs", "rank",
+                attr(pr_uni_sim, "Prname"), "fx")
+        }
     }
 
-    colnames(out) <- c("category_i", "count_like_i", "prop_i", "count_nbs_i",
-        "bin_like_BW", "bin_unlike_BW", "bin_unlike_BW_alt", "chi_BW_i",
-        "chi_K_i", "anscombe_BW", "jcm_chi_obs", "jcm_count_BB_obs", 
-        "jcm_count_BW_obs", "jcm_count_WW_obs", "local_jcm_obs_z_BB",
-        "local_jcm_obs_z_WW", "local_jcm_obs_z_BW",
-        "rank_sim_count_like_i", "rank_sim_bin_like_BW",
-        "rank_sim_bin_unlike_BW", "rank_sim_bin_unlike_BW_alt",
-        "rank_sim_chi_BW", "rank_sim_chi_K", "rank_sim_anscombe_BW",
-        "jcm_chi_sim_rank", "jcm_z_BB_sim_rank", "jcm_z_BW_sim_rank",
-        "jcm_z_WW_sim_rank", "local_jcm_all_BB", "len_reps", "len_reps_i",
-        "tcompi", "tconfigi", "vs_non_pos", "Oi_Ei_zero")
-
     timings[["postprocessing"]] <- proc.time() - .ptime_start
-    res <- list(local_comp=local_comp, local_config=local_config, local_comp_sim=local_comp_sim, local_config_sim=local_config_sim)
+    res <- list(local_comp=local_comp, local_config=local_config, local_comp_sim=local_comp_sim, local_config_sim=local_config_sim, local_uni_sim=local_uni_sim)
     attr(res, "timings") <- timings
     attr(res, "out") <- out
     attr(res, "ncpus") <- attr(out, "ncpus")
     attr(res, "nsim") <- nsim
     attr(res, "con") <- con
+    attr(res, "uni_jcs") <- uni_jcs
     class(res) <- c("licd", class(res))
     res
 }
@@ -588,11 +624,16 @@ hotspot.licd <- function(obj, type="both", cutoff=0.05, p.adjust="none",
     con[(namc <- names(control))] <- control
     if (length(noNms <- namc[!namc %in% nmsC])) 
         warning("unknown names in control: ", paste(noNms, collapse = ", "))
-    comp <- config <- FALSE
-    type <- match.arg(type, c("both", "comp", "config"))
+    comp <- config <- uni <- FALSE
+    type <- match.arg(type, c("both", "comp", "config", "uni"))
     if (type == "both") comp <- config <- TRUE
     else if (type == "comp") comp <- TRUE
-    else config = TRUE
+    else if (type == "config") config <- TRUE
+    else uni <- TRUE
+    if (uni) {
+        if (is.null(obj$local_uni_sim))
+            stop("no local joincount uni output in licd object")
+    }
     binom_sc <- 1-(1-cutoff)^(1/con$binomial_sidak)
     jcm_sc <- 1-(1-cutoff)^(1/con$jcm_sidak)
     local_comp <- NULL
@@ -658,6 +699,16 @@ hotspot.licd <- function(obj, type="both", cutoff=0.05, p.adjust="none",
             local_config_sim <- factor(local_config_sim)
         }
     }
+    local_uni_sim <- NULL
+    if (uni) {
+        pv <- obj$local_uni_sim[,4]
+        pv <- p.adjust(pv, p.adjust)
+        local_uni_sim <- rep("No cluster", length(pv))
+        local_uni_sim[pv < cutoff] <- paste("Cluster:",
+            obj$local_uni_sim$fx[pv < cutoff], sep="")
+        local_uni_sim <- factor(local_uni_sim)
+        
+    }
     both <- NULL
     both_sim <- NULL
     both_recode <- NULL
@@ -684,6 +735,7 @@ hotspot.licd <- function(obj, type="both", cutoff=0.05, p.adjust="none",
     }
     list(ID=obj$local_comp$ID, local_comp=local_comp,
         local_comp_sim=local_comp_sim, local_config=local_config,
-        local_config_sim=local_config_sim, both=both, both_sim=both_sim,
-        both_recode=both_recode, both_recode_sim=both_recode_sim)
+        local_config_sim=local_config_sim, local_uni_sim=local_uni_sim, 
+        both=both, both_sim=both_sim, both_recode=both_recode,
+        both_recode_sim=both_recode_sim)
 }

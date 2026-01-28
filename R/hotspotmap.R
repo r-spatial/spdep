@@ -3,7 +3,7 @@ hotspot <- function(obj, ...) {
 }
 
 hotspot.default <- function(obj, ...) {
-  stop("obj not a localmoran, localG or localC object")
+  stop("obj not a localmoran, localG, localC, licd or local_jc_uni object")
 }
 
 hotspot.localmoran <- function(obj, Prname, cutoff=0.005, quadrant.type="mean", p.adjust="fdr", droplevels=TRUE, ...) {
