@@ -152,10 +152,11 @@ local_joincount_uni <- function(fx, chosen, listw,
 hotspot.local_jc_uni <- function(obj, cutoff=0.05, p.adjust="none", ...) {
     pv <- obj[,2]
     pv <- p.adjust(pv, p.adjust)
-    local_uni_sim <- rep("No cluster", length(pv))
+    local_uni_sim <- rep(as.character(NA), length(pv))
     crit <- pv < cutoff
     crit[is.na(crit)] <- FALSE
-    local_uni_sim[crit] <- paste0("Cluster:", attr(obj, "chosen"))
+    local_uni_sim[crit] <- paste0("Cluster:", attr(obj, "chosen"),
+        ":", as.character(cutoff))
     local_uni_sim <- factor(local_uni_sim)
     local_uni_sim
 }
