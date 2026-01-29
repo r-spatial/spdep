@@ -153,7 +153,8 @@ hotspot.local_jc_uni <- function(obj, cutoff=0.05, p.adjust="none", ...) {
     pv <- obj[,2]
     pv <- p.adjust(pv, p.adjust)
     local_uni_sim <- rep(as.character(NA), length(pv))
-    crit <- pv < cutoff
+    crit <- pv <= cutoff
+    local_uni_sim[is.na(crit)] <- paste0("Not ", attr(obj, "chosen"))
     crit[is.na(crit)] <- FALSE
     local_uni_sim[crit] <- paste0("Cluster:", attr(obj, "chosen"),
         ":", as.character(cutoff))
