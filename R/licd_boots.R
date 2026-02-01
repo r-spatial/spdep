@@ -705,7 +705,7 @@ hotspot.licd <- function(obj, type="both", cutoff=0.05, p.adjust="none",
         pv <- p.adjust(pv, p.adjust)
         local_uni_sim <- rep(as.character(NA), length(pv))
         local_uni_sim[pv <= cutoff] <- paste("Cluster:",
-            obj$local_uni_sim$fx[pv < cutoff], ":",
+            obj$local_uni_sim$fx[pv <= cutoff], ":",
             as.character(cutoff), sep="")
         local_uni_sim <- factor(local_uni_sim)
         
