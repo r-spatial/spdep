@@ -36,6 +36,8 @@ hotspot(obj, Prname, cutoff=0.005, p.adjust="fdr", droplevels=TRUE, ...)
 # S3 method for class 'licd'
 hotspot(obj, type = "both", cutoff = 0.05, p.adjust = "none", 
  droplevels = TRUE, control = list(), ...)
+# S3 method for class 'local_jc_uni'
+hotspot(obj, cutoff=0.05, p.adjust="none", ...)
 ```
 
 ## Arguments
@@ -77,7 +79,8 @@ hotspot(obj, type = "both", cutoff = 0.05, p.adjust = "none",
 - type:
 
   When `obj` is of class `licd`, default `both`, may also be `comp` for
-  local composition or `config` for local configuration
+  local composition or `config` for local configuration; if `uni`
+  replicates local univariate joincount
 
 - control:
 

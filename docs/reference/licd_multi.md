@@ -59,7 +59,8 @@ licd_multi(fx, listw, zero.policy = attr(listw, "zero.policy"), adjust.n = TRUE,
   binary for composition measures,
   binomial_punif_alternative=`"greater"`,
   jcm_same_punif_alternative=`"less"`,
-  jcm_diff_punif_alternative=`"greater"`, rank_ties.method=`"min"`
+  jcm_diff_punif_alternative=`"greater"`,
+  uni_jc_same_punif_alternative=`"two.sided"`, rank_ties.method=`"min"`
   default "min", na.last=`"keep"` leading to rank NA being returned if
   the observed joincount variance is non-positive; if TRUE joincount NAs
   are ranked highest when using rank, for others see ?rank,
@@ -73,7 +74,8 @@ licd_multi(fx, listw, zero.policy = attr(listw, "zero.policy"), adjust.n = TRUE,
   sum(sims \< obs, na.rm=TRUE)+1 for the count of observed greater than
   "GT" the simulated values, pysal_sim_obs="GT" may also be "GE",
   xtras=`FALSE` if TRUE return calculated compostion values of BW
-  chi-squared, k-colour chi-squared, and BW Anscombe
+  chi-squared, k-colour chi-squared, BW Anscombe, and emulates local
+  univariate joincount (requires conditional permutation)
 
 ## Details
 
@@ -92,7 +94,7 @@ The original code may be found at
 
   data.frame object with LICD local configuration columns: ID,
   jcm_chi_obs, jcm_count_BB_obs, jcm_count_BW_obs, jcm_count_WW_obs,
-  pval_jcm_obs_BB, pval_jcm_obs_WW, pval_jcm_obs_BW
+  pval_jcm_obs_BB, pval_jcm_obs_WW, pval_jcm_obs_BW, only_i_jc
 
 - local_comp_sim:
 
@@ -170,7 +172,7 @@ HICRIME <- cut(columbus$CRIME, breaks=c(0,35,80), labels=c("low","high"))
 lw <- nb2listw(nblag_cumul(nblag(nb, 2)), style="B")
 obj <- licd_multi(HICRIME, lw)
 str(obj)
-#> List of 4
+#> List of 5
 #>  $ local_comp      :'data.frame':    49 obs. of  11 variables:
 #>   ..$ ID                  : int [1:49] 1 2 3 4 5 6 7 8 9 10 ...
 #>   ..$ category_i          : num [1:49] 1 1 1 1 2 1 1 2 1 1 ...
@@ -183,7 +185,7 @@ str(obj)
 #>   ..$ chi_BW_i            : num [1:49] NA NA NA NA NA NA NA NA NA NA ...
 #>   ..$ chi_K_i             : num [1:49] NA NA NA NA NA NA NA NA NA NA ...
 #>   ..$ anscombe_BW         : num [1:49] NA NA NA NA NA NA NA NA NA NA ...
-#>  $ local_config    :'data.frame':    49 obs. of  8 variables:
+#>  $ local_config    :'data.frame':    49 obs. of  9 variables:
 #>   ..$ ID              : int [1:49] 1 2 3 4 5 6 7 8 9 10 ...
 #>   ..$ jcm_chi_obs     : num [1:49] 0 0.0625 0.625 2.7468 14.1889 ...
 #>   ..$ jcm_count_BB_obs: num [1:49] 6 6 11 12 55 15 1 27 30 25 ...
@@ -192,43 +194,51 @@ str(obj)
 #>   ..$ pval_jcm_obs_BB : num [1:49] 1 0.207108 0.70232 0.820405 0.000214 ...
 #>   ..$ pval_jcm_obs_WW : num [1:49] 1 0.3946 0.0981 0.0243 0.7839 ...
 #>   ..$ pval_jcm_obs_BW : num [1:49] 1.00 1.75e-01 2.08e-01 5.10e-02 3.52e-06 ...
+#>   ..$ only_i_jc       : num [1:49] 3 3 5 6 11 6 1 7 9 7 ...
 #>  $ local_comp_sim  : NULL
 #>  $ local_config_sim: NULL
+#>  $ local_uni_sim   : NULL
 #>  - attr(*, "timings")=List of 3
-#>   ..$ set_up        : 'proc_time' Named num [1:5] 0 0 0 0 0
+#>   ..$ set_up        : 'proc_time' Named num [1:5] 0.001 0 0.001 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
-#>   ..$ processing    : 'proc_time' Named num [1:5] 0.1 0 0.102 0 0
+#>   ..$ processing    : 'proc_time' Named num [1:5] 0.092 0 0.092 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
 #>   ..$ postprocessing: 'proc_time' Named num [1:5] 0.001 0 0.001 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
-#>  - attr(*, "out")= num [1:49, 1:35] 1 1 1 1 2 1 1 2 1 1 ...
+#>  - attr(*, "out")= num [1:49, 1:37] 1 1 1 1 2 1 1 2 1 1 ...
 #>   ..- attr(*, "ncpus")= int 1
 #>   ..- attr(*, "dimnames")=List of 2
 #>   .. ..$ : NULL
-#>   .. ..$ : chr [1:35] "category_i" "count_like_i" "prop_i" "count_nbs_i" ...
+#>   .. ..$ : chr [1:37] "category_i" "count_like_i" "prop_i" "count_nbs_i" ...
 #>  - attr(*, "ncpus")= int 1
 #>  - attr(*, "nsim")= int 0
-#>  - attr(*, "con")=List of 11
-#>   ..$ comp_binary               : logi TRUE
-#>   ..$ binomial_punif_alternative: chr "greater"
-#>   ..$ jcm_same_punif_alternative: chr "less"
-#>   ..$ jcm_diff_punif_alternative: chr "greater"
-#>   ..$ rank_ties.method          : chr "min"
-#>   ..$ unique_ceiling            : num 0.333
-#>   ..$ check_reps                : logi FALSE
-#>   ..$ pysal_rank                : logi FALSE
-#>   ..$ pysal_sim_obs             : chr "GT"
-#>   ..$ na.last                   : chr "keep"
-#>   ..$ xtras                     : logi FALSE
+#>  - attr(*, "con")=List of 12
+#>   ..$ comp_binary                  : logi TRUE
+#>   ..$ binomial_punif_alternative   : chr "greater"
+#>   ..$ jcm_same_punif_alternative   : chr "less"
+#>   ..$ jcm_diff_punif_alternative   : chr "greater"
+#>   ..$ uni_jc_same_punif_alternative: chr "two.sided"
+#>   ..$ rank_ties.method             : chr "min"
+#>   ..$ unique_ceiling               : num 0.333
+#>   ..$ check_reps                   : logi FALSE
+#>   ..$ pysal_rank                   : logi FALSE
+#>   ..$ pysal_sim_obs                : chr "GT"
+#>   ..$ na.last                      : chr "keep"
+#>   ..$ xtras                        : logi FALSE
+#>  - attr(*, "uni_jcs")= num [1:49, 1:2] 3 3 5 6 0 6 1 0 9 7 ...
+#>   ..- attr(*, "dimnames")=List of 2
+#>   .. ..$ : chr [1:49] "1" "2" "3" "4" ...
+#>   .. ..$ : chr [1:2] "fxlow" "fxhigh"
 #>  - attr(*, "class")= chr [1:2] "licd" "list"
 h_obj <- hotspot(obj)
 str(h_obj)
-#> List of 9
+#> List of 10
 #>  $ ID              : int [1:49] 1 2 3 4 5 6 7 8 9 10 ...
 #>  $ local_comp      : Factor w/ 2 levels "Cluster","Dispersed": 2 2 2 2 2 2 2 2 2 2 ...
 #>  $ local_comp_sim  : NULL
 #>  $ local_config    : Factor w/ 3 levels "Cluster","Dispersed",..: 3 3 3 3 2 3 3 2 3 3 ...
 #>  $ local_config_sim: NULL
+#>  $ local_uni_sim   : NULL
 #>  $ both            : Factor w/ 6 levels "Cluster.Cluster",..: 6 6 6 6 4 6 6 4 6 6 ...
 #>  $ both_sim        : NULL
 #>  $ both_recode     : Factor w/ 4 levels "Clump","Cluster",..: 4 4 4 4 3 4 4 3 4 4 ...
@@ -254,7 +264,7 @@ if (GDAL37) {
     sc50m <- st_read(target)
 }
 #> Reading layer `GB_2024_southcoast_50m' from data source 
-#>   `/tmp/Rtmp6xgijc/temp_libpath8c3932b2ce99/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
+#>   `/tmp/RtmpEjBomy/temp_libpath486f623f1b6ee/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
 #>   using driver `GPKG'
 #> Simple feature collection with 119 features and 19 fields
 #> Geometry type: MULTIPOLYGON

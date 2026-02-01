@@ -236,7 +236,7 @@ gck1b <- knn2nb(knearneigh(xy1, k=1))
 #> Warning: neighbour object has 11 sub-graphs
 system.time(o <- nbdists(gck1b, xy1))
 #>    user  system elapsed 
-#>   0.006   0.000   0.007 
+#>   0.006   0.000   0.006 
 (all.linked <- max(unlist(o)))
 #> [1] 522.4464
 # use s2 brute-force dwithin_matrix approach for s2 <= 1.0.7
@@ -265,7 +265,7 @@ if (packageVersion("s2") > "1.0.7") {
 }
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.009   0.001   0.011 
+#>    0.01    0.00    0.01 
 if (packageVersion("s2") > "1.0.7") {
 system.time(gc.nb.dwithin <- dnearneigh(xy1, 0, all.linked, use_s2=TRUE, dwithin=TRUE))
 }
@@ -314,7 +314,7 @@ summary(gc.nb.closest, xy1, scale=0.5)
 system.time(gc.nb.legacy <- dnearneigh(xy1, 0, all.linked, use_s2=FALSE))
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.006   0.000   0.006 
+#>   0.006   0.000   0.005 
 summary(gc.nb, xy1, scale=0.5)
 #> Neighbour list object:
 #> Number of regions: 48 

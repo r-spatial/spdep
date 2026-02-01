@@ -64,16 +64,16 @@ local_joincount_uni(
 
 ## Value
 
-a `data.frame` with six columns `BB` (observed BB - neighbour same as
-focus), `Pr()` (pseudo-p from punif rank), `sim_rank` (simulation rank
-with current ties.method), `p_sim_pysal_ge` (pseudo-p fromPySAL esda,
-greater than or equal to observed BB), `p_sim_pysal_gt` (pseudo-p
-fromPySAL esda, greater than observed BB), `largereq` (count of
-simulated values greater than or equal to observed BB) after folding,
-`olarger` (count of simulated values greater than observed BB) before
-folding, `olargereq` (count of simulated values greater than or equal to
-observed BB) before folding,and number of rows equal to the length of
-`x`.
+a `data.frame` with class “local-jc-uni” with six columns `BB` (observed
+BB - neighbour same as focus), `Pr()` (pseudo-p from punif rank),
+`sim_rank` (simulation rank with current ties.method), `p_sim_pysal_ge`
+(pseudo-p fromPySAL esda, greater than or equal to observed BB),
+`p_sim_pysal_gt` (pseudo-p fromPySAL esda, greater than observed BB),
+`largereq` (count of simulated values greater than or equal to observed
+BB) after folding, `olarger` (count of simulated values greater than
+observed BB) before folding, `olargereq` (count of simulated values
+greater than or equal to observed BB) before folding,and number of rows
+equal to the length of `x`.
 
 ## Details
 

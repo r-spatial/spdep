@@ -21,7 +21,7 @@ functions in the spatial statistics module user’s manual (Kaluzny et al.
 ## Getting the data into R
 
 We will be using the **spdep** and **spreg** packages, here version:
-spdep, version 1.4-2, 2026-01-12, the **sf** package and the **tmap**
+spdep, version 1.4-2, 2026-01-28, the **sf** package and the **tmap**
 package. The data from the sources referred to above is documented in
 the help page for the `nc.sids` data set in **spData**. The actual data,
 included in a shapefile of the county boundaries for North Carolina were
