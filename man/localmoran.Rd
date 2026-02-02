@@ -6,9 +6,7 @@
 \description{
  The local spatial statistic Moran's I is calculated for each zone based on the
 spatial weights object used. The values returned include a Z-value, and may be
-used as a diagnostic tool. The statistic is:
-\deqn{I_i = \frac{(x_i-\bar{x})}{{\sum_{k=1}^{n}(x_k-\bar{x})^2}/(n-1)}{\sum_{j=1}^{n}w_{ij}(x_j-\bar{x})}},
-and its expectation and variance were given in Anselin (1995), but those from Sokal et al. (1998) are implemented here.
+used as a diagnostic tool. The statistic and its expectation and variance were given in Anselin (1995), but those from Sokal et al. (1998) are implemented here.
 }
 \usage{
 localmoran(x, listw, zero.policy=attr(listw, "zero.policy"), na.action=na.fail,

@@ -163,10 +163,10 @@ title(main="Region with largest number of contiguities", cex.main=0.6)
 nc.sids <- st_read(system.file("shapes/sids.gpkg", package="spData")[1], quiet=TRUE)
 system.time(xxnb <- poly2nb(nc.sids))
 #>    user  system elapsed 
-#>   0.045   0.000   0.044 
+#>   0.038   0.001   0.039 
 system.time(xxnb <- poly2nb(as(nc.sids, "Spatial")))
 #>    user  system elapsed 
-#>   0.058   0.000   0.058 
+#>   0.054   0.000   0.053 
 plot(st_geometry(nc.sids))
 plot(xxnb, st_coordinates(st_centroid(nc.sids)), add=TRUE, col="blue")
 #> Warning: st_centroid assumes attributes are constant over geometries

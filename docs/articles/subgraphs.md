@@ -118,7 +118,7 @@ if (GDAL37) {
 ```
 
     ## Reading layer `GB_2024_Wales_50m' from data source 
-    ##   `/tmp/RtmpEjBomy/temp_libpath486f623f1b6ee/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' 
+    ##   `/tmp/RtmpQKm1wz/temp_libpath49fd0226abe4b/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' 
     ##   using driver `GPKG'
     ## Simple feature collection with 32 features and 19 fields
     ## Geometry type: MULTIPOLYGON
@@ -379,7 +379,7 @@ if (GDAL37) {
 ```
 
     ## Reading layer `GB_2024_southcoast_50m' from data source 
-    ##   `/tmp/RtmpEjBomy/temp_libpath486f623f1b6ee/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
+    ##   `/tmp/RtmpQKm1wz/temp_libpath49fd0226abe4b/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
     ##   using driver `GPKG'
     ## Simple feature collection with 119 features and 19 fields
     ## Geometry type: MULTIPOLYGON
@@ -775,7 +775,7 @@ if (GDAL37) {
 ```
 
     ## Reading layer `tokyo' from data source 
-    ##   `/tmp/RtmpEjBomy/temp_libpath486f623f1b6ee/spdep/etc/shapes/tokyo.gpkg.zip' 
+    ##   `/tmp/RtmpQKm1wz/temp_libpath49fd0226abe4b/spdep/etc/shapes/tokyo.gpkg.zip' 
     ##   using driver `GPKG'
     ## Simple feature collection with 262 features and 3 fields
     ## Geometry type: MULTIPOLYGON

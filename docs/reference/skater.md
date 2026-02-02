@@ -126,7 +126,7 @@ if (GDAL37) {
     bh <- st_read(target)
 }
 #> Reading layer `bhicv' from data source 
-#>   `/tmp/RtmpEjBomy/temp_libpath486f623f1b6ee/spdep/etc/shapes/bhicv.gpkg.zip' 
+#>   `/tmp/RtmpQKm1wz/temp_libpath49fd0226abe4b/spdep/etc/shapes/bhicv.gpkg.zip' 
 #>   using driver `GPKG'
 #> Simple feature collection with 98 features and 8 fields
 #> Geometry type: POLYGON
@@ -305,7 +305,7 @@ dpad <- data.frame(scale(boston.c[,c(7:10)]))
 ### calculating costs
 system.time(lcosts <- nbcosts(bh.nb, dpad))
 #>    user  system elapsed 
-#>   0.051   0.000   0.052 
+#>   0.047   0.000   0.047 
 ### making listw
 nb.w <- nb2listw(bh.nb, lcosts, style="B")
 ### find a minimum spanning tree
@@ -313,7 +313,7 @@ mst.bh <- mstree(nb.w,5)
 ### three groups with no restriction
 system.time(res1 <- spdep::skater(mst.bh[,1:2], dpad, 2))
 #>    user  system elapsed 
-#>   1.964   0.170   2.160 
+#>   1.820   0.046   1.875 
 library(parallel)
 nc <- max(2L, detectCores(logical=FALSE), na.rm = TRUE)-1L
 # set nc to 1L here
@@ -338,7 +338,7 @@ pmst.bh <- mstree(pnb.w,5)
 ### three groups with no restriction
 system.time(pres1 <- spdep::skater(pmst.bh[,1:2], dpad, 2))
 #>    user  system elapsed 
-#>   1.878   0.038   1.924 
+#>   1.829   0.075   1.912 
 if(!get.mcOption()) {
   set.ClusterOption(NULL)
   stopCluster(cl)

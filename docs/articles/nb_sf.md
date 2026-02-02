@@ -162,7 +162,7 @@ system.time(for(i in 1:reps) NY8_sf_1_nb <- poly2nb(NY8_sf, queen=TRUE, snap=eps
 ```
 
     ##    user  system elapsed 
-    ##  0.1814  0.0094  0.1926
+    ##  0.1772  0.0071  0.1849
 
 Using spatial indices to check intersection of polygons is much faster
 than the legacy method in poly2nb. From **spdep** 1.1-7, use is made of
@@ -407,7 +407,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY88_nb_sf <- knn2nb(knearneigh(N
 ```
 
     ##    user  system elapsed 
-    ##  0.0239  0.0007  0.0248
+    ##  0.0221  0.0011  0.0233
 
 Legacy code may be used omitting the kd-tree:
 
@@ -416,7 +416,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY89_nb_sf <- knn2nb(knearneigh(N
 ```
 
     ##    user  system elapsed 
-    ##  0.0234  0.0012  0.0248
+    ##  0.0228  0.0009  0.0238
 
 #### Distance neighbours
 
@@ -443,7 +443,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY810_nb <- dnearneigh(NY8_ct_sf,
 ```
 
     ##    user  system elapsed 
-    ##  0.0393  0.0013  0.0408
+    ##  0.0368  0.0017  0.0387
 
 By default, the function uses
 [`dbscan::frNN()`](https://rdrr.io/pkg/dbscan/man/frNN.html) to build a
@@ -457,7 +457,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY811_nb <- dnearneigh(NY8_ct_sf,
 ```
 
     ##    user  system elapsed 
-    ##  0.0235  0.0014  0.0250
+    ##  0.0228  0.0014  0.0244
 
 ### Spherical point-based neighbours
 
@@ -498,7 +498,7 @@ system.time(for (i in 1:reps) pts_ll1_nb <- knn2nb(knearneigh(pts_ll, k=6)))/rep
 ```
 
     ##    user  system elapsed 
-    ##  0.0331  0.0000  0.0333
+    ##  0.0321  0.0001  0.0323
 
 For this smaller data set, the legacy approach without spatial indexing
 is adequate, but slows down as the number of observations increases:
@@ -514,7 +514,7 @@ system.time(for (i in 1:reps) pts_ll2_nb <- knn2nb(knearneigh(pts_ll, k=6)))/rep
 ```
 
     ##    user  system elapsed 
-    ##  0.0208  0.0000  0.0209
+    ##  0.0202  0.0000  0.0203
 
 The WGS84 ellipsoid Great Circle distances differ a very little from the
 **s2** spherical distances, yielding output that here diverges for two
@@ -600,7 +600,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##  0.0495  0.0000  0.0500
+    ##   0.048   0.000   0.048
 
 Alternatively, spherical distances can be used with `dwithin=FALSE` and
 [`s2::s2_closest_edges()`](https://r-spatial.github.io/s2/reference/s2_closest_feature.html);
@@ -614,7 +614,7 @@ system.time(for (i in 1:(reps/5)) suppressWarnings(pts_ll5_nb <- dnearneigh(pts_
 ```
 
     ##    user  system elapsed 
-    ##  0.0380  0.0000  0.0385
+    ##  0.0370  0.0005  0.0375
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3_nb, pts_ll5_nb, check.attributes=FALSE)
@@ -636,7 +636,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##   0.038   0.000   0.038
+    ##  0.0370  0.0000  0.0365
 
 Using
 [`s2::s2_dwithin_matrix()`](https://r-spatial.github.io/s2/reference/s2_closest_feature.html)
@@ -652,7 +652,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##   0.084   0.000   0.084
+    ##  0.0780  0.0000  0.0785
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3a_nb, pts_ll5a_nb, check.attributes=FALSE)
@@ -668,7 +668,7 @@ system.time(for (i in 1:reps) suppressWarnings(pts_ll6_nb <- dnearneigh(pts_ll, 
 ```
 
     ##    user  system elapsed 
-    ##  0.0132  0.0000  0.0133
+    ##   0.013   0.000   0.013
 
 Minor differences may occur between the legacy ellipsoid and **s2**
 spherical approaches:
@@ -705,7 +705,7 @@ system.time(for (i in 1:reps) suppressWarnings(pts_ll6a_nb <- dnearneigh(pts_ll,
 ```
 
     ##    user  system elapsed 
-    ##  0.0129  0.0001  0.0131
+    ##  0.0127  0.0000  0.0128
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll5a_nb, pts_ll6a_nb, check.attributes=FALSE)
@@ -766,7 +766,7 @@ system.time(for (i in 1:reps) NY8_sf_1_nb_ll <- poly2nb(NY8_sf_ll, queen=TRUE, s
 ```
 
     ##    user  system elapsed 
-    ##  0.1595  0.0023  0.1623
+    ##  0.1562  0.0022  0.1589
 
 ``` r
 all.equal(NY8_sf_1_nb, NY8_sf_1_nb_ll, check.attributes=FALSE)

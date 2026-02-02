@@ -2,11 +2,9 @@
 
 The local spatial statistic Moran's I is calculated for each zone based
 on the spatial weights object used. The values returned include a
-Z-value, and may be used as a diagnostic tool. The statistic is: \$\$I_i
-=
-\frac{(x_i-\bar{x})}{{\sum\_{k=1}^{n}(x_k-\bar{x})^2}/(n-1)}{\sum\_{j=1}^{n}w\_{ij}(x_j-\bar{x})}\$\$,
-and its expectation and variance were given in Anselin (1995), but those
-from Sokal et al. (1998) are implemented here.
+Z-value, and may be used as a diagnostic tool. The statistic and its
+expectation and variance were given in Anselin (1995), but those from
+Sokal et al. (1998) are implemented here.
 
 ## Usage
 
