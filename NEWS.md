@@ -1,6 +1,8 @@
 # Version 1.4-2 (development)
 
-* robustness checks on `licd_multi`
+* robustness checks on `licd_multi`, update `hotspot` method for `licd_multi` output
+
+* add `hotspot` method for `local_joincount_uni`
 
 # Version 1.4-1 (2025-08-31)
 

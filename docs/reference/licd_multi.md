@@ -201,9 +201,9 @@ str(obj)
 #>  - attr(*, "timings")=List of 3
 #>   ..$ set_up        : 'proc_time' Named num [1:5] 0.001 0 0.001 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
-#>   ..$ processing    : 'proc_time' Named num [1:5] 0.091 0 0.092 0 0
+#>   ..$ processing    : 'proc_time' Named num [1:5] 0.095 0 0.095 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
-#>   ..$ postprocessing: 'proc_time' Named num [1:5] 0 0 0.001 0 0
+#>   ..$ postprocessing: 'proc_time' Named num [1:5] 0.001 0 0.001 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
 #>  - attr(*, "out")= num [1:49, 1:37] 1 1 1 1 2 1 1 2 1 1 ...
 #>   ..- attr(*, "ncpus")= int 1
@@ -264,7 +264,7 @@ if (GDAL37) {
     sc50m <- st_read(target)
 }
 #> Reading layer `GB_2024_southcoast_50m' from data source 
-#>   `/tmp/RtmpQKm1wz/temp_libpath49fd0226abe4b/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
+#>   `/tmp/RtmpOTi8Y0/temp_libpath27d726bf5b2e8/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
 #>   using driver `GPKG'
 #> Simple feature collection with 119 features and 19 fields
 #> Geometry type: MULTIPOLYGON

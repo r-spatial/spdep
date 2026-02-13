@@ -1,6 +1,6 @@
 Package: spdep
 Version: 1.4-2
-Date: 2026-01-28
+Date: 2026-02-13
 Title: Spatial Dependence: Weighting Schemes, Statistics
 Encoding: UTF-8
 Authors@R: c(person("Roger", "Bivand", role = c("cre", "aut"), 

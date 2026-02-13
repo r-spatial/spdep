@@ -152,7 +152,7 @@ old_use_s2 <- sf_use_s2()
 sf_use_s2(TRUE)
 system.time(gck4a.nb <- knn2nb(knearneigh(xy1, k=4)))
 #>    user  system elapsed 
-#>    0.01    0.00    0.01 
+#>   0.011   0.000   0.011 
 summary(gck4a.nb, xy1, scale=0.5)
 #> Neighbour list object:
 #> Number of regions: 48 

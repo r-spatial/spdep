@@ -52,7 +52,7 @@ library(spdep)
 
     ## Loading required package: sf
 
-    ## Linking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE
+    ## Linking to GEOS 3.14.1, GDAL 3.12.2, PROJ 9.7.1; sf_use_s2() is TRUE
 
 ``` r
 args(moran.test)
@@ -118,7 +118,7 @@ if (GDAL37) {
 ```
 
     ## Reading layer `GB_2024_Wales_50m' from data source 
-    ##   `/tmp/RtmpQKm1wz/temp_libpath49fd0226abe4b/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' 
+    ##   `/tmp/RtmpOTi8Y0/temp_libpath27d726bf5b2e8/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' 
     ##   using driver `GPKG'
     ## Simple feature collection with 32 features and 19 fields
     ## Geometry type: MULTIPOLYGON
@@ -379,7 +379,7 @@ if (GDAL37) {
 ```
 
     ## Reading layer `GB_2024_southcoast_50m' from data source 
-    ##   `/tmp/RtmpQKm1wz/temp_libpath49fd0226abe4b/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
+    ##   `/tmp/RtmpOTi8Y0/temp_libpath27d726bf5b2e8/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
     ##   using driver `GPKG'
     ## Simple feature collection with 119 features and 19 fields
     ## Geometry type: MULTIPOLYGON
@@ -775,7 +775,7 @@ if (GDAL37) {
 ```
 
     ## Reading layer `tokyo' from data source 
-    ##   `/tmp/RtmpQKm1wz/temp_libpath49fd0226abe4b/spdep/etc/shapes/tokyo.gpkg.zip' 
+    ##   `/tmp/RtmpOTi8Y0/temp_libpath27d726bf5b2e8/spdep/etc/shapes/tokyo.gpkg.zip' 
     ##   using driver `GPKG'
     ## Simple feature collection with 262 features and 3 fields
     ## Geometry type: MULTIPOLYGON

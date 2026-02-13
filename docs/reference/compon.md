@@ -162,12 +162,12 @@ if (run) {
 system.time(udir <- n.comp.nb(make.sym.nb(k6)))
 }
 #>    user  system elapsed 
-#>   1.731   0.000   1.737 
+#>   1.976   0.002   1.988 
 if (run) {
 system.time(dir <- n.comp.nb(k6))
 }
 #>    user  system elapsed 
-#>   0.208   0.000   0.209 
+#>   0.196   0.001   0.197 
 if (run) {
 udir$nc
 }
