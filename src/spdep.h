@@ -6,6 +6,9 @@
 #ifndef R_NO_REMAP
 # define R_NO_REMAP
 #endif
+#ifndef NO_LEGACY_NONAPI /* https://stat.ethz.ch/pipermail/r-devel/2026-April/084481.html */
+# define NO_LEGACY_NONAPI
+#endif
 #include <R.h>
 #include <Rmath.h>
 #include <Rdefines.h>
