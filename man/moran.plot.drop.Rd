@@ -7,34 +7,33 @@
 A version of the Moran scatterplot (see \code{\link{moran.plot}}) supplemented by lines indicating \emph{p} values for visual inspection of statistical significance.
 }
 \usage{
-moran.plot.drop(x, listw, locmoran, cv = 2.58,
-  significant = TRUE, plain = FALSE, zero.policy = FALSE,
-  xlab = NULL, ylab = NULL, plot = TRUE, return_df = TRUE,
-  spChk = NULL, labels = NULL)
+moran.plot.drop(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
+  significant = TRUE, xlab = NULL, ylab = NULL, return_df = TRUE,
+  spChk = NULL, labels = NULL), zero.policy=attr(listw, "zero.policy")
 }
 
 \arguments{
   \item{x}{a numerical vector holding the attribute of interest}
   \item{listw}{a \code{listw} spatial weights object}
   \item{locmoran}{a fitted object of type localmoran}
-  \item{cv}{default 2.58; the desired critical value assuming approximate normality of standardised local Moran's \emph{I} values}
-  \item{significant}{default TRUE; a parameter indicating whether to display plot distances of significant (default) or non-significant observations}
-  \item{plain}{default FALSE; a plain Moran scatterplot is displayed if TRUE}
-  \item{zero.policy}{default NULL; use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
+  \item{alpha}{default 0.05; the desired significance level regarding local Moran's \emph{I} values}
+  \item{adjusted_p}{default NULL; a vector of \emph{p} values adjusted to account for multiple testing as is returned by \code{\link{p.adjustSP}}; standard normal distribution is used to determine critical values, if NULL}
+  \item{significant}{default TRUE; a parameter indicating whether to display plot critical value distances of significant (default) or non-significant observations}
   \item{xlab}{label for x axis}
   \item{ylab}{label for y axis}
-  \item{plot}{default TRUE; if FALSE, plotting is suppressed}
   \item{return_df}{default TRUE; invisibly return a data.frame object, if FALSE do not return anything}
   \item{spChk}{should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE, default NULL to use \code{get.spChkOption()}}
-  \item{labels}{default NULL; no labels are plotted by default; character labels for points are assigned to significant observations if provided, region IDs are used if set to TRUE}
+  \item{labels}{default NULL; no labels are plotted by default; region IDs are used as labels of significant observations if set to TRUE}
+  \item{zero.policy}{default option stored in the listw object; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
 }
 
 \details{
-The Moran drop plot is a version of the Moran scatterplot supplemented by indications of \emph{p} values. The standard Moran scatterplot provides indirect information about the effect size (distance from the trend line), but not about the level of confidence to determine whether the effects shown might be more than just random outcomes. The Moran drop plot marks significant points in red (positive) and blue (negative spatial autocorrelation) and adds so-called drop lines connecting the significant observations to the scatterplot positions of their associated critical values. The coordinates of the latter are determined under the assumption of an approximate standard normality of the z-scores of the local Moran's \emph{I} values. The longer the lines, the higher the associated \emph{p} values. The visualisation thus enables visual inspection of statistical significance while maintaining the relationship to both attribute value ranges and scatterplot quadrants. It is also possible to invert the visualised relationship and display the distances of non-significant observations to their corresponding critical values (if significant is set to FALSE).
+The Moran drop plot is a version of the Moran scatterplot supplemented by visual indications of \emph{p} values. The standard Moran scatterplot provides indirect information about the effect size but not about the level of confidence to determine whether the effects shown might be more than just random outcomes. The Moran drop plot marks significant points in red (positive) and blue (negative spatial autocorrelation) and adds so-called drop lines connecting the significant observations to the scatterplot positions of their associated critical values. The coordinates of the latter are determined either under the assumption of approximate standard normality of the z-scores of the local Moran's \emph{I} values, or based on \emph{p}-values provided through \code{adjusted_p}. The longer the lines, the lower the associated \emph{p} values. The visualisation thus enables visual inspection of statistical significance while maintaining the relationship to both attribute value ranges and scatterplot quadrants. It is also possible to invert the visualised relationship and display the distances of non-significant observations to their corresponding critical values (if significant is set to FALSE).
 }
 
 \value{
 When return_df is TRUE, a data frame object with the following members is returned:
+  \item{region.id}{the region ids}
   \item{z}{the standardised attribute values}
   \item{wz}{the standardised spatially lagged attribute values}
   \item{b}{the y-coordinates of the critical values}
@@ -50,9 +49,9 @@ When return_df is TRUE, a data frame object with the following members is return
 \examples{
 # Boston example (CMEDV; owner-occupied housing in USD)
 data(boston)
-boston.tr <- sf::st_read(system.file("shapes/boston_tracts.shp", package="spData")[1])
+boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.drop(boston.c$CMEDV, boston.listw, localmoran(boston.c$CMEDV, boston.listw), 2.58,
-  zero.policy = TRUE, significant = TRUE, plain = FALSE, labels = FALSE, plot = TRUE)
+moran.plot.drop(boston.c$CMEDV, boston.listw, localmoran(boston.c$CMEDV, boston.listw), 0.01,
+  significant = TRUE, labels = NULL)
 }
