@@ -33,34 +33,34 @@ moran.plot.seismogram <- function(x, listw, locmoran, alpha = 0.05, adjusted_p =
     xlab <- xname
   if (is.null(ylab)) 
     ylab <- paste("spatially lagged", xname)
-  Z <- as.vector(scale(x, scale = F))
-  WZ <- lag.listw(listw, Z, zero.policy = zero.policy)
-  if (anyNA(WZ)) warning("no-neighbour observation(s) found - use zero.policy=TRUE")
+
+  WX <- lag.listw(listw, scale(x, scale = F), zero.policy = zero.policy)
+  if (anyNA(WX)) warning("no-neighbour observation(s) found - use zero.policy=TRUE")
   if(usePadj)
     cv <- min(abs(locmoran[(which(adjusted_p <= alpha/2)),4]))
   else
-    cv <- qnorm(1 - alpha, lower.tail = FALSE)
-  b <- ((cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(Z) / (Z - mean(Z))
-  b2 <- ((-cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(Z) / (Z - mean(Z))
-  b[which((Z < 0 & WZ > mean(WZ)) | (Z > 0 & WZ < mean(WZ)))] <- b2[which((Z < 0 & WZ > mean(WZ)) | (Z > 0 & WZ < mean(WZ)))]
+    cv <- abs(qnorm(1 - alpha, lower.tail = FALSE))
+  b <- ((cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(x) / (x - mean(x))
+  b2 <- ((-cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(x) / (x - mean(x))
+  b[which((x < mean(x) & WX > mean(WX)) | (x > mean(x) & WX < mean(WX)))] <- b2[which((x < mean(x) & WX > mean(WX)) | (x > mean(x) & WX < mean(WX)))]
   
-  x_q1 <- Z[which(Z > 0 & WZ > mean(WZ))]
-  y_q1 <- WZ[which(Z > 0 & WZ > mean(WZ))]
-  b_q1 <- b[which(Z > 0 & WZ > mean(WZ))]
-  x_q2 <- Z[which(Z > 0 & WZ < mean(WZ))]
-  y_q2 <- WZ[which(Z > 0 & WZ < mean(WZ))]
-  b_q2 <- b[which(Z > 0 & WZ < mean(WZ))]
-  x_q3 <- Z[which(Z < 0 & WZ < mean(WZ))]
-  y_q3 <- WZ[which(Z < 0 & WZ < mean(WZ))]
-  b_q3 <- b[which(Z < 0 & WZ < mean(WZ))]
-  x_q4 <- Z[which(Z < 0 & WZ > mean(WZ))]
-  y_q4 <- WZ[which(Z < 0 & WZ > mean(WZ))]
-  b_q4 <- b[which(Z < 0 & WZ > mean(WZ))]
+  x_q1 <- x[which(x > mean(x) & WX > mean(WX))]
+  y_q1 <- WX[which(x > mean(x) & WX > mean(WX))]
+  b_q1 <- b[which(x > mean(x) & WX > mean(WX))]
+  x_q2 <- x[which(x > mean(x) & WX < mean(WX))]
+  y_q2 <- WX[which(x > mean(x) & WX < mean(WX))]
+  b_q2 <- b[which(x > mean(x) & WX < mean(WX))]
+  x_q3 <- x[which(x < mean(x) & WX < mean(WX))]
+  y_q3 <- WX[which(x < mean(x) & WX < mean(WX))]
+  b_q3 <- b[which(x < mean(x) & WX < mean(WX))]
+  x_q4 <- x[which(x < mean(x) & WX > mean(WX))]
+  y_q4 <- WX[which(x < mean(x) & WX > mean(WX))]
+  b_q4 <- b[which(x < mean(x) & WX > mean(WX))]
 
-  lw.lm <- lm(WZ ~ Z)
-  plot(Z, WZ, xlab="X_centred", ylab="WX", pch = 20, cex = 0.33, col = "gray70", xlim = c(min(Z),max(Z)), ylim = c(min(WZ, b),max(WZ, b)))
-  abline(h = mean(WZ), lty = "dashed", col = "grey30")
-  abline(v = 0, lty = "dashed", col = "grey30")
+  lw.lm <- lm(WX ~ x)
+  plot(x, WX, xlab="X", ylab="WX", pch = 20, cex = 0.5, col = "gray70", xlim = c(min(x),max(x)), ylim = c(min(WX, b),max(WX, b)))
+  abline(h = mean(WX), lty = "dashed", col = "grey30")
+  abline(v = mean(x), lty = "dashed", col = "grey30")
   abline(lw.lm, lty = "dotted", col = "grey40")
     
   df_q1 <- data.frame(x_q1, b_q1)
@@ -85,7 +85,7 @@ moran.plot.seismogram <- function(x, listw, locmoran, alpha = 0.05, adjusted_p =
     lines(c(df_q4$x_q4[i], df_q4$x_q4[i+1]), c(df_q4$b_q4[i], df_q4$b_q4[i+1]), type = "l", col = "royalblue")
 
   if(return_df) {
-    res <- data.frame(z = Z, wz = WZ, b = b)
+    res <- data.frame(x = x, WX = WX, b = b)
     invisible(res)
   }
 }
