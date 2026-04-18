@@ -38,7 +38,7 @@ Sonea, A. and Westerholt, R. (2021): Geographic and temporal access to basic ban
   
 \examples{
 \donttest{
-boston.tr <- sf::st_read(system.file("shapes/boston_tracts.shp", package="spData")[1])
+boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg", package="spData")[1])
 boston.tr_utm <- st_transform(boston.tr, 32619) #26786
 
 boston_listw1 <- nb2listwdist(dnearneigh(st_centroid(boston.tr_utm), 1, 2000),

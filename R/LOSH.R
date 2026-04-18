@@ -1,6 +1,6 @@
 LOSH <- function(x, listw, a = 2, var_hi = TRUE, zero.policy = attr(listw, "zero.policy"), na.action = na.fail, spChk = NULL) {
   if (is.null(zero.policy)) 
-    zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+    zero.policy <- get.ZeroPolicyOption()
   stopifnot(is.logical(zero.policy))
   n <- length(listw$neighbours)
   #a <- 2    ## "a" could be any other positive value, but the chi-square-based inference is then no longer possible

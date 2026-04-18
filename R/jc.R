@@ -18,7 +18,7 @@ joincount.test <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
 	alternative="greater", sampling="nonfree",  
 	spChk=NULL, adjust.n=TRUE) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
 	sampling <- match.arg(sampling, c("nonfree", "free"))
@@ -27,6 +27,7 @@ joincount.test <- function(fx, listw, zero.policy=attr(listw, "zero.policy"),
 	if (!is.factor(fx)) stop(paste(deparse(substitute(x)),
 		"is not a factor"))
 	if (any(is.na(fx))) stop("NA in factor")
+        if (inherits(fx, "ordered")) warning("use of joincount tests on ordinal variables is not well understood")
 	n <- length(listw$neighbours)
 	if (n != length(fx)) stop("objects of different length")
 	cards <- card(listw$neighbours)
@@ -113,12 +114,13 @@ joincount.mc <- function(fx, listw, nsim, zero.policy=attr(listw, "zero.policy")
 	if(!inherits(listw, "listw")) stop(paste(deparse(substitute(listw)),
 		"is not a listw object"))
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	if(!is.factor(fx)) stop(paste(deparse(substitute(fx)),
 		"is not a factor"))
 	if(missing(nsim)) stop("nsim must be given")
 	if (any(is.na(fx))) stop("NA in factor")
+        if (inherits(fx, "ordered")) warning("use of joincount tests on ordinal variables is not well understood")
 	n <- length(listw$neighbours)
 	if (n != length(fx)) stop("objects of different length")
 	cards <- card(listw$neighbours)
@@ -191,8 +193,9 @@ joincount.multi <- function(fx, listw, zero.policy=attr(listw, "zero.policy"), #
 	if(!is.factor(fx)) stop(paste(deparse(substitute(fx)),
 		"is not a factor"))
 	if (any(is.na(fx))) stop("NA in factor")
+        if (inherits(fx, "ordered")) warning("use of joincount tests on ordinal variables is not well understood")
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	n <- length(listw$neighbours)
 	if (n != length(fx)) stop("objects of different length")

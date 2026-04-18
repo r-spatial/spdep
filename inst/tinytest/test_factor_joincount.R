@@ -1,0 +1,20 @@
+library(spdep)
+data(oldcol)
+lw <- nb2listw(COL.nb)
+COL.OLD$fDISCBD <- factor(cut(COL.OLD$DISCBD, c(0, 1.5, 3, 4.5, 6)))
+expect_silent(o <- joincount.test(COL.OLD$fDISCBD, lw))
+expect_silent(o <- joincount.mc(COL.OLD$fDISCBD, lw, nsim=500))
+expect_silent(o <- joincount.multi(COL.OLD$fDISCBD, lw))
+expect_silent(o <- licd_multi(COL.OLD$fDISCBD, lw))
+COL.OLD$fDISCBD <- ordered(cut(COL.OLD$DISCBD, c(0, 1.5, 3, 4.5, 6)))
+expect_warning(o <- joincount.test(COL.OLD$fDISCBD, lw))
+expect_warning(o <- joincount.mc(COL.OLD$fDISCBD, lw, nsim=500))
+expect_warning(o <- joincount.multi(COL.OLD$fDISCBD, lw))
+expect_warning(o <- licd_multi(COL.OLD$fDISCBD, lw))
+if (require("codingMatrices", quietly=TRUE)) {
+contrasts(COL.OLD$fDISCBD) <- "code_diff"
+expect_warning(o <- joincount.test(COL.OLD$fDISCBD, lw))
+expect_warning(o <- joincount.mc(COL.OLD$fDISCBD, lw, nsim=500))
+expect_warning(o <- joincount.multi(COL.OLD$fDISCBD, lw))
+expect_warning(o <- licd_multi(COL.OLD$fDISCBD, lw))
+}

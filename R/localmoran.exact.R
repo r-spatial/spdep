@@ -9,7 +9,7 @@ localmoran.exact <- function(model, select, nb, glist = NULL, style = "W",
   if (!inherits(nb, "nb"))
         stop(paste(deparse(substitute(nb)), "not an nb object"))
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
     n <- length(nb)
     u <- resfun(model)

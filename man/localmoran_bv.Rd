@@ -3,7 +3,7 @@
 \title{Compute the Local Bivariate Moran's I Statistic}
 \usage{
 localmoran_bv(x, y, listw, nsim = 199, scale = TRUE, alternative="two.sided",
- iseed=1L, no_repeat_in_row=FALSE)
+ iseed=1L, no_repeat_in_row=FALSE, zero.policy=attr(listw, "zero.policy"))
 }
 \arguments{
 \item{x}{a numeric vector of same length as \code{y}.}
@@ -17,9 +17,9 @@ localmoran_bv(x, y, listw, nsim = 199, scale = TRUE, alternative="two.sided",
 \item{scale}{default \code{TRUE}.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "two.sided", or "less".}
-\item{iseed}{default NULL, used to set the seed for possible parallel RNGs.}
+\item{iseed}{default NULL, used to set the seed; the output will only be reproducible if the count of CPU cores across which computation is distributed is the same.}
 \item{no_repeat_in_row}{default \code{FALSE}, if \code{TRUE}, sample conditionally in each row without replacements to avoid duplicate values, \url{https://github.com/r-spatial/spdep/issues/124}}
-
+  \item{zero.policy}{default default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
 }
 \value{
 a \code{data.frame} containing two columns \code{Ib} and \code{p_sim} containing the local bivariate Moran's I and simulated p-values respectively.
@@ -36,12 +36,28 @@ I_i^B= cx_i\Sigma_j{w_{ij}y_j}
 }
 }
 \examples{
-# load columbus data
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData"))
+# load columbus datay
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData"))
 nb <- poly2nb(columbus)
 listw <- nb2listw(nb)
 set.seed(1)
 (res <- localmoran_bv(columbus$CRIME, columbus$INC, listw, nsim = 499))
+columbus$hs <- hotspot(res, Prname="Pr(folded) Sim", cutoff=0.05,
+ quadrant.type="pysal", p.adjust="none")
+\donttest{
+if (require("tmap", quietly=TRUE)) {
+tmap4 <- packageVersion("tmap") >= "3.99"
+if (tmap4) {
+  tm_shape(columbus) + tm_polygons(fill="hs",
+    fill.scale=tm_scale(values="brewer.set3"),
+    fill.legend=tm_legend(position=tm_pos_in("left", "top"),
+      frame=FALSE, item.r=0), lwd=0.01)
+} else {
+  tm_shape(columbus) + tm_fill("hs")
+}
+}
+}
+moran.plot(x=columbus$CRIME, y=columbus$INC, listw=listw)
 }
 \references{
 Anselin, Luc, Ibnu Syabri, and Oleg Smirnov. 2002. “Visualizing Multivariate Spatial Correlation with Dynamically Linked Windows.” In New Tools for Spatial Data Analysis: Proceedings of the Specialist Meeting, edited by Luc Anselin and Sergio Rey. University of California, Santa Barbara: Center for Spatially Integrated Social Science (CSISS).

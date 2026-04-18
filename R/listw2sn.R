@@ -25,7 +25,7 @@ sn2listw <- function(sn, style=NULL, zero.policy=NULL, from_mat2listw=FALSE) {
 	if(!inherits(sn, "spatial.neighbour")) 
 	    stop("not a spatial.neighbour object")
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         if (is.null(style)) {
             style <- "M"
@@ -69,10 +69,18 @@ sn2listw <- function(sn, style=NULL, zero.policy=NULL, from_mat2listw=FALSE) {
             if (!from_mat2listw) {
                 if (!zero.policy) {
                     stop("no-neighbour observations found, set zero.policy to TRUE")
+                } else {
+                    warning("no-neighbour observations found, set zero.policy to TRUE;\nthis warning will soon become an error")
                 }
-            } else {
-                warning("no-neighbour observations found, set zero.policy to TRUE;\nthis warning will soon become an error")
             }
+        }
+	attr(res$neighbours, "region.id") <- region.id
+	res$neighbours <- sym.attr.nb(res$neighbours)
+        NE <- n + sum(card(res$neighbours))
+        if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+          ncomp <- n.comp.nb(res$neighbours)
+          attr(res$neighbours, "ncomp") <- ncomp
+          if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
         }
 	if (!(is.null(attr(sn, "GeoDa"))))
 		attr(res, "GeoDa") <- attr(sn, "GeoDa")

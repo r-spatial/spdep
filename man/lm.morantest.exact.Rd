@@ -36,8 +36,7 @@ must be one of greater (default), less or two.sided.}
 }
 \value{
   A list of class \code{moranex} with the following components:
-  \item{statistic}{the value of the saddlepoint approximation of the
- standard deviate of global Moran's I.}
+  \item{statistic}{the value of the exact standard deviate of global Moran's I.}
   \item{p.value}{the p-value of the test.}
   \item{estimate}{the value of the observed global Moran's I.}
   \item{method}{a character string giving the method used.}
@@ -53,9 +52,8 @@ must be one of greater (default), less or two.sided.}
 
 \seealso{\code{\link{lm.morantest.sad}}}
 \examples{
-eire <- st_read(system.file("shapes/eire.shp", package="spData")[1])
+eire <- st_read(system.file("shapes/eire.gpkg", package="spData")[1])
 row.names(eire) <- as.character(eire$names)
-st_crs(eire) <- "+proj=utm +zone=30 +ellps=airy +units=km"
 eire.nb <- poly2nb(eire)
 e.lm <- lm(OWNCONS ~ ROADACC, data=eire)
 lm.morantest(e.lm, nb2listw(eire.nb))

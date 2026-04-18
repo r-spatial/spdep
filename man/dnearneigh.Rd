@@ -32,7 +32,7 @@ for neighbours satisfying the distance criteria. See \code{\link{card}} for deta
 \seealso{\code{\link{knearneigh}}, \code{\link{card}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 coords <- st_centroid(st_geometry(columbus), of_largest_polygon=TRUE)
 rn <- row.names(columbus)
 k1 <- knn2nb(knearneigh(coords))

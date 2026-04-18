@@ -107,10 +107,12 @@ mat2nb <- function(x, row.names=NULL) {
  	attr(neighbours, "call") <- NA
         attr(neighbours, "sym") <- is.symmetric.nb(neighbours, 
 		verbose=FALSE, force=TRUE)
-        if (get.SubgraphOption()) {
-          nsg <- n.comp.nb(neighbours)$nc
-          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
-        }
+        NE <- length(neighbours) + sum(card(neighbours))
+        if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+            ncomp <- n.comp.nb(neighbours)
+            attr(neighbours, "ncomp") <- ncomp
+            if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
+        } 
         neighbours
 }
 

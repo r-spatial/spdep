@@ -6,7 +6,7 @@ EBImoran <- function (z, listw, nn, S0, zero.policy = attr(listw, "zero.policy")
 {
 #default subtract_mean_in_numerator=TRUE 160219 RA
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
     stopifnot(is.vector(z))
     zm <- mean(z)
@@ -24,7 +24,7 @@ EBImoran.mc <- function (n, x, listw, nsim, zero.policy = attr(listw, "zero.poli
 #default subtract_mean_in_numerator=TRUE 160219 RA
     message("The default for subtract_mean_in_numerator set TRUE from February 2016")
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
     alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
     if (!inherits(listw, "listw")) 
@@ -198,7 +198,7 @@ EBest <- function(n, x, family="poisson") {
 EBlocal <- function(ri, ni, nb, zero.policy = NULL,
     spChk = NULL, geoda = FALSE) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 # class to inherits Jari Oksanen 080603
     if (!inherits(nb, "nb")) 

@@ -1,6 +1,14 @@
-/* Copyright 2010-2021 by Roger S. Bivand. */
+/* Copyright 2010-2024 by Roger S. Bivand. */
 
-#define USE_FC_LEN_T
+#ifndef USE_FC_LEN_T
+# define USE_FC_LEN_T
+#endif
+#ifndef R_NO_REMAP
+# define R_NO_REMAP
+#endif
+#ifndef NO_LEGACY_NONAPI /* https://stat.ethz.ch/pipermail/r-devel/2026-April/084481.html */
+# define NO_LEGACY_NONAPI
+#endif
 #include <R.h>
 #include <Rmath.h>
 #include <Rdefines.h>

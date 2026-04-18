@@ -64,9 +64,11 @@ read.gal <- function(file, region.id=NULL, override.id=FALSE)
 	attr(res1, "gal") <- TRUE
 	attr(res1, "call") <- TRUE
 	res1 <- sym.attr.nb(res1)
-        if (get.SubgraphOption()) {
-          nsg <- n.comp.nb(res1)$nc
-          if (nsg > 1) warning("neighbour object has ", nsg, " sub-graphs")
+        NE <- length(res1) + sum(card(res1))
+        if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+          ncomp <- n.comp.nb(res1)
+          attr(res1, "ncomp") <- ncomp
+          if (ncomp$nc > 1) warning("neighbour object has ", ncomp$nc, " sub-graphs")
         }
 	res1
 }

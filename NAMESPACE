@@ -11,7 +11,8 @@ importFrom(stats, influence.measures, lag, punif, lm, var, integrate,
              aggregate, "coefficients", "fitted", "gaussian",
              "model.frame", "model.matrix", "model.response", "na.fail",
              "na.omit", "naresid", "optimise", "printCoefmat", "resid",
-             "terms", "uniroot", "weighted.residuals", "weights", "median")
+             "terms", "uniroot", "weighted.residuals", "weights", "median",
+             "pbinom", "coef", "C", "contrasts")
 
 importFrom(deldir, deldir)
 importFrom(boot, boot)
@@ -33,14 +34,16 @@ exportMethods(coerce)
 
 export(EBImoran.mc, probmap, choynowski, EBest, EBlocal)
 
-export(airdist, card, cell2nb, vi2mrc, n.comp.nb, diffnb, dnearneigh, droplinks)
+export(airdist, card, cell2nb, vi2mrc, n.comp.nb, diffnb, dnearneigh, droplinks,
+	addlinks1)
 
 export(gabrielneigh, geary.test, geary, geary.mc, globalG.test, graph2nb,
 	joincount.test, joincount.mc, joincount.multi, print.jcmulti,
 	knearneigh, knn2nb)
 
-export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests, 
-        lm.RStests, SD.RStests,
+export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt,
+        read.swmdbf2listw, read_swm_dbf, write.swmdbf, write_swm_dbf, write.sn2DBF,
+        lm.LMtests, lm.RStests,
 	lm.morantest, localG, localG_perm, localmoran, localmoran_perm, moran,
 	moran.test, moran.mc, moran.plot, moran.plot.drop, moran.plot.seismogram,
 	localmoran.sad, lm.morantest.sad, nb2listw, nb2listwdist, nb2mat,
@@ -57,6 +60,8 @@ export(listw2sn, sn2listw, read.gwt2nb,	write.sn2gwt, lm.LMtests,
 	summary.localmoransad, print.summary.localmoransad, print.moransad,
 	summary.moransad, print.summary.moransad, print.spcor, plot.spcor,
         remove.self)
+
+export(have_factor_preds_mf, warn_factor_preds, SD.RStests)
 
 export(write.sn2dat, read.dat2listw, nb2blocknb, p.adjustSP,
 	is.symmetric.glist, nb2lines, listw2lines, df2sn,
@@ -84,12 +89,21 @@ export(grid2nb)
 export(autocov_dist)
 
 export(set.VerboseOption, get.VerboseOption, set.ZeroPolicyOption,
-        get.ZeroPolicyOption, get.SubgraphOption, set.SubgraphOption)
+        get.ZeroPolicyOption, get.SubgraphOption, set.SubgraphOption,
+        get.SubgraphCeiling, set.SubgraphCeiling, get.NoNeighbourOption,
+        set.NoNeighbourOption)
 export(set.mcOption, get.mcOption, set.coresOption, get.coresOption,
         set.ClusterOption, get.ClusterOption)
 
 export(localmoran_bv, moran_bv,local_joincount_uni, local_joincount_bv)
 
+export(licd_multi)
+
+export(spatialdelta, linearised_diffusive_weights, metropolis_hastings_weights,
+        iterative_proportional_fitting_weights, graph_distance_weights)
+export(plot_spatialcoords, plot_moran, plot_spatialscree, localdelta,
+        factorial_coordinates, plot_factorialcoords, plot_factorialscree,
+        cornish_fisher)
 
 S3method(print, nb)
 S3method(summary, nb)
@@ -149,3 +163,27 @@ S3method(hotspot, summary.localmoransad)
 S3method(hotspot, data.frame.localmoranex)
 S3method(hotspot, localC)
 S3method(hotspot, localG)
+S3method(hotspot, licd)
+S3method(hotspot, local_jc_uni)
+
+S3method(summary, spatialdelta)
+S3method(print, summary.spatialdelta)
+S3method(plot_spatialcoords, default)
+S3method(plot_spatialcoords, spatialdelta)
+S3method(plot_moran, default)
+S3method(plot_moran, spatialdelta)
+S3method(plot_spatialscree, default)
+S3method(plot_spatialscree, spatialdelta)
+S3method(factorial_coordinates, default)
+S3method(factorial_coordinates, spatialdelta)
+S3method(plot_factorialcoords, default)
+S3method(plot_factorialcoords, spatialdelta)
+S3method(plot_factorialscree, default)
+S3method(plot_factorialscree, spatialdelta)
+S3method(localdelta, default)
+S3method(localdelta, spatialdelta)
+S3method(cornish_fisher, default)
+S3method(cornish_fisher, spatialdelta)
+S3method(as.matrix, adjusted_spatial_weights)
+
+

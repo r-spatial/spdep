@@ -18,7 +18,7 @@ joincount.test(fx, listw, zero.policy=attr(listw, "zero.policy"), alternative="g
 \method{print}{jclist}(x, ...)
 }
 \arguments{
-  \item{fx}{a factor of the same length as the neighbours and weights objects in listw}
+  \item{fx}{a factor of the same length as the neighbours and weights objects in listw; use of an ordered factor is not well understood}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}
   \item{zero.policy}{default \code{attr(listw, "zero.policy")} as set when \code{listw} was created, if attribute not set, use global option value; if TRUE assign zero to the lagged value of zones without neighbours, if FALSE assign NA}
   \item{alternative}{a character string specifying the alternative hypothesis, must be one of "greater" (default), "less" or "two.sided".}
@@ -62,7 +62,7 @@ print(is.symmetric.nb(COL.k4.nb))
 joincount.test(HICRIME, nb2listw(COL.k4.nb, style="B"))
 cat("Note non-symmetric weights matrix - use listw2U()\n")
 joincount.test(HICRIME, listw2U(nb2listw(COL.k4.nb, style="B")))
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 HICRIME <- cut(columbus$CRIME, breaks=c(0,35,80), labels=c("low","high"))
 (nb <- poly2nb(columbus))
 lw <- nb2listw(nb, style="B")

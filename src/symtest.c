@@ -4,13 +4,14 @@
 
 SEXP symtest(SEXP nb, SEXP card, SEXP verbose)
 {
-	int i, icard, j, k, k1, flag, fstop, n=length(nb), pc=0;
+	int i, icard, j, k, k1, flag, fstop, n=Rf_length(nb), pc=0;
 	SEXP ans;
 	PROTECT(ans = NEW_LOGICAL(1)); pc++;
 	LOGICAL_POINTER(ans)[0] = TRUE;
 
 	fstop = 0;
 	for (i=0; i < n; i++) {
+            R_CheckUserInterrupt();
 	    icard = INTEGER_POINTER(card)[i];
 	    for (j=0; j<icard; j++) {
 		flag = 0;

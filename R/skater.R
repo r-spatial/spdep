@@ -2,7 +2,7 @@ skater <- function(edges, data, ncuts, crit, vec.crit,
                    method=c("euclidean", "maximum", "manhattan",
                      "canberra", "binary", "minkowski",
                      "mahalanobis"), p=2, cov, inverted=FALSE) {
-  if (any(class(edges)=="skater")) {
+  if (inherits(edges, "skater")) {
     res <- edges
     n <- length(res$groups)
   }

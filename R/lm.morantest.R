@@ -4,7 +4,7 @@
 lm.morantest <- function(model, listw, zero.policy=attr(listw, "zero.policy"), 
 	    alternative = "greater", spChk=NULL, resfun=weighted.residuals,		    naSubset=TRUE) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
 	listw_name <- deparse(substitute(listw))

@@ -1,0 +1,18 @@
+library(spdep)
+data(boston, package="spData")
+lw <- nb2listw(boston.soi)
+x <- boston.c$NOX
+sT <- geary.test(x, listw=lw, scale=TRUE)
+sF <- geary.test(x, listw=lw, scale=FALSE)
+expect_equal(sT, sF)
+nsim <- 499L
+set.seed(12345)
+sT <- geary.mc(x, listw=lw, nsim=nsim, scale=TRUE)
+set.seed(12345)
+sF <- geary.mc(x, listw=lw, nsim=nsim, scale=FALSE)
+expect_equal(sT, sF)
+set.seed(12345)
+sT <- geary.mc(x, listw=lw, nsim=nsim, return_boot=TRUE, scale=TRUE)
+set.seed(12345)
+sF <- geary.mc(x, listw=lw, nsim=nsim, return_boot=TRUE, scale=FALSE)
+expect_equal(sT$t, sF$t)

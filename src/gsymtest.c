@@ -4,7 +4,7 @@
 
 SEXP gsymtest(SEXP nb, SEXP glist, SEXP card)
 {
-	int i, icard, j, k, k1, n=length(nb), pc=0, l=TRUE;
+	int i, icard, j, k, k1, n=Rf_length(nb), pc=0, l=TRUE;
 	double g, g0, d=0.0, d1=0.0;
 	SEXP ans;
 	PROTECT(ans = NEW_LIST(2)); pc++;
@@ -12,6 +12,7 @@ SEXP gsymtest(SEXP nb, SEXP glist, SEXP card)
 	SET_VECTOR_ELT(ans, 1, NEW_NUMERIC(1));
 
 	for (i=0; i < n; i++) {
+            R_CheckUserInterrupt();
 	    icard = INTEGER_POINTER(card)[i];
 	    for (j=0; j<icard; j++) {
 		k = INTEGER_POINTER(VECTOR_ELT(nb, i))[j];

@@ -4,16 +4,16 @@
 nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 {
 	if(!inherits(neighbours, "nb")) stop("Not a neighbours list")
-        if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+        if (is.null(zero.policy)) {
+            zero.policy <- get.ZeroPolicyOption()
+        }
         stopifnot(is.logical(zero.policy))
 	if (!(style %in% c("W", "B", "C", "S", "U", "minmax")))
 		stop(paste("Style", style, "invalid"))
 	n <- length(neighbours)
 	if (n < 1) stop("non-positive number of entities")
 	cardnb <- card(neighbours)
-	if (!zero.policy)
-		if (any(cardnb == 0)) stop("Empty neighbour sets found")
+	if (!zero.policy && any(cardnb == 0)) stop("Empty neighbour sets found (zero.policy: ", zero.policy, ")")
 	vlist <- vector(mode="list", length=n)
 	if (is.null(glist)) {
 		glist <- vector(mode="list", length=n)
@@ -38,7 +38,7 @@ nb2listw <- function(neighbours, glist=NULL, style="W", zero.policy=NULL)
 		attr(vlist, "glistsym") <- is.symmetric.glist(neighbours, glist)
 	}
 	attr(vlist, as.character(style)) <- TRUE
-	if (zero.policy) {
+	if (zero.policy && (style == "C" || style == "U" || style == "minmax")) {
 		eff.n <- n - length(which(cardnb == 0))
 		if (eff.n < 1) stop("No valid observations")
 	} else eff.n <- n

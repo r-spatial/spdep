@@ -7,6 +7,10 @@
 \alias{get.VerboseOption}
 \alias{set.SubgraphOption}
 \alias{get.SubgraphOption}
+\alias{set.SubgraphCeiling}
+\alias{get.SubgraphCeiling}
+\alias{set.NoNeighbourOption}
+\alias{get.NoNeighbourOption}
 \alias{set.ZeroPolicyOption}
 \alias{get.ZeroPolicyOption}
 \alias{set.listw_is_CsparseMatrix_Option}
@@ -27,12 +31,17 @@ set.ZeroPolicyOption(check)
 get.ZeroPolicyOption()
 set.SubgraphOption(check)
 get.SubgraphOption()
+set.SubgraphCeiling(value)
+get.SubgraphCeiling()
+set.NoNeighbourOption(check)
+get.NoNeighbourOption()
 set.listw_is_CsparseMatrix_Option(check)
 get.listw_is_CsparseMatrix_Option()
 }
 %- maybe also `usage' for other objects documented here.
 \arguments{
   \item{check}{a logical value, TRUE or FALSE}
+  \item{value}{an integer value, initialised as 100000L, the sum of the numbers of nodes and edges in the neighbour graph}
   \item{x}{a vector the same length, or a two-dimensional array, or data frame with the same number of rows as the neighbours list in listw}
   \item{listw}{a \code{listw} object or \code{nb} object inheriting from "nb"}
   \item{var}{a character string or integer value for the column to be selected}
@@ -63,17 +72,13 @@ chkIDs(COL.OLD, nb2listw(COL.nb))
 chkIDs(columbus, nb2listw(col.gal.nb))
 chkIDs(columbus, nb2listw(COL.nb))
 tmp <- try(moran.test(spNamedVec("CRIME", COL.OLD), nb2listw(COL.nb)))
-print(tmp)
 tmp <- try(moran.test(spNamedVec("CRIME", columbus), nb2listw(col.gal.nb)))
-print(tmp)
 tmp <- try(moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb)))
-print(tmp)
 set.spChkOption(FALSE)
 get.spChkOption()
 moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb))
 tmp <- try(moran.test(spNamedVec("CRIME", columbus), nb2listw(COL.nb),
  spChk=TRUE), silent=TRUE)
-print(tmp)
 set.spChkOption(oldChk)
 get.spChkOption()
 }

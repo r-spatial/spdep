@@ -11,7 +11,7 @@ lee.mc <- function(x, y, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	if(!is.numeric(x) | !is.numeric(y)) stop(paste(deparse(substitute(x)),
 		"is not a numeric vector"))
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	if(missing(nsim)) stop("nsim must be given")
 	if (is.null(spChk)) spChk <- get.spChkOption()

@@ -1,10 +1,10 @@
-# Copyright 2003-2015 by Roger Bivand 
+# Copyright 2003-2024 by Roger Bivand 
 
 set.listw_is_CsparseMatrix_Option <- function(check) {
 	if (!is.logical(check)) stop ("logical argument required")
 	res <- get("listw_is_CsparseMatrix", envir = .spdepOptions)
 	assign("listw_is_CsparseMatrix", check, envir = .spdepOptions)
-	res
+	invisible(res)
 }
 
 get.listw_is_CsparseMatrix_Option <- function() {
@@ -15,7 +15,7 @@ set.spChkOption <- function(check) {
 	if (!is.logical(check)) stop ("logical argument required")
 	res <- get("spChkID", envir = .spdepOptions)
 	assign("spChkID", check, envir = .spdepOptions)
-	res
+	invisible(res)
 }
 
 get.spChkOption <- function() {
@@ -26,7 +26,18 @@ set.VerboseOption <- function(check) {
 	if (!is.logical(check)) stop ("logical argument required")
 	res <- get("verbose", envir = .spdepOptions)
 	assign("verbose", check, envir = .spdepOptions)
-	res
+	invisible(res)
+}
+
+get.NoNeighbourOption <- function() {
+	get("report_nb_noneighs", envir = .spdepOptions)
+}
+
+set.NoNeighbourOption <- function(check) {
+	if (!is.logical(check)) stop ("logical argument required")
+	res <- get("report_nb_noneighs", envir = .spdepOptions)
+	assign("report_nb_noneighs", check, envir = .spdepOptions)
+	invisible(res)
 }
 
 get.SubgraphOption <- function() {
@@ -37,8 +48,20 @@ set.SubgraphOption <- function(check) {
 	if (!is.logical(check)) stop ("logical argument required")
 	res <- get("report_nb_subgraphs", envir = .spdepOptions)
 	assign("report_nb_subgraphs", check, envir = .spdepOptions)
-	res
+	invisible(res)
 }
+
+get.SubgraphCeiling <- function() {
+	get("nb_subgraphs_N+E", envir = .spdepOptions)
+}
+
+set.SubgraphCeiling <- function(value) {
+	if (!is.integer(value)) stop ("integer argument required")
+	res <- get("nb_subgraphs_N+E", envir = .spdepOptions)
+	assign("nb_subgraphs_N+E", value, envir = .spdepOptions)
+	invisible(res)
+}
+
 
 get.VerboseOption <- function() {
 	get("verbose", envir = .spdepOptions)
@@ -46,9 +69,9 @@ get.VerboseOption <- function() {
 
 set.ZeroPolicyOption <- function(check) {
 	if (!is.logical(check)) stop ("logical argument required")
-	res <- get("zeroPolicy", envir = .spdepOptions)
+	res <- get.ZeroPolicyOption()
 	assign("zeroPolicy", check, envir = .spdepOptions)
-	res
+	invisible(res)
 }
 
 get.ZeroPolicyOption <- function() {
@@ -76,7 +99,7 @@ set.mcOption <- function(value) {
         } else {
 	    assign("mc", value, envir = .spdepOptions)
         }
-	res
+	invisible(res)
 }
 
 get.mcOption  <- function() {
@@ -93,7 +116,7 @@ set.coresOption <- function(value) {
             stopifnot(!is.na(value))
 	    assign("cores", value, envir = .spdepOptions)
         }
-	res
+	invisible(res)
 }
 
 get.coresOption  <- function() {

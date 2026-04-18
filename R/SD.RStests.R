@@ -5,8 +5,9 @@ is.formula <- function(x){
    inherits(x,"formula")
 }
 
-create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
+create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL, have_factor_preds=FALSE) {
         if (isTRUE(Durbin)) {
+            if (have_factor_preds) warn_factor_preds(have_factor_preds)
             n <- NROW(X)
 	    m <- NCOL(X)
 	    # check if there are enough regressors
@@ -43,6 +44,9 @@ create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
             }
             dmf <- lm(Durbin, data1, na.action=na.fail, 
 	        method="model.frame")
+	    formula_durbin_factors <- have_factor_preds_mf(dmf)
+            if (formula_durbin_factors) 
+                warn_factor_preds(formula_durbin_factors)
 #	    dmf <- lm(Durbin, data, na.action=na.action, 
 #	         method="model.frame")
             X0 <- try(model.matrix(Durbin, dmf), silent=TRUE)
@@ -67,7 +71,7 @@ create_X0 <- function(X, listw, Durbin=TRUE, data=NULL, na.act=NULL) {
         X0
 }
 
-SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="SDM", Durbin=TRUE) {
+SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), test="SDM", Durbin=TRUE, data=NULL) {
 
 	if (inherits(model, "lm")) na.act <- model$na.action
 	else na.act <- attr(model, "na.action")
@@ -88,7 +92,7 @@ SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 	if (!inherits(listw, "listw")) stop(paste(listw_name,
 		"is not a listw object"))
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
 	if (!is.null(na.act)) {
 	    subset <- !(1:length(listw$neighbours) %in% na.act)
@@ -106,14 +110,15 @@ SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 		warning("Spatial weights matrix not row standardized")
 
         if (is.formula(Durbin)) {
-            dt <- try(eval(model$call[["data"]]), silent=TRUE)
-            if (inherits(dt, "try-error") || !is.data.frame(dt))
-                stop("data object used to fit linear model not available for formula Durbin")
+            if (is.null(data)) stop("Original data object from lm() call required for formula Durbin terms")
         }
 
-	y <- model.response(model.frame(model))
-	X <- model.matrix(terms(model), model.frame(model))
-        X0 <- create_X0(X=X, listw=listw, Durbin=Durbin, data=dt, na.act=na.act)
+	mf <- model.frame(model)
+        y <- model.response(mf)
+	X <- model.matrix(terms(model), mf)
+        have_factor_preds <- have_factor_preds_mf(mf)
+        X0 <- create_X0(X=X, listw=listw, Durbin=Durbin, data=data, na.act=na.act,
+            have_factor_preds=have_factor_preds)
 	yhat <- as.vector(fitted(model))
 	p <- model$rank
 	p1 <- 1:p
@@ -185,8 +190,9 @@ SD.RStests <- function(model, listw, zero.policy=attr(listw, "zero.policy"), tes
 		method <- "Rao's score test spatial Durbin diagnostics"
                 Durf <- ""
                 if (is.formula(Durbin))
-                    Durf <- paste0("Durbin: ", paste(as.character(Durbin),
-                    collapse=" "), "\n")
+                    Durf <- paste0("Durbin: ", 
+                        paste(as.character(Durbin)[c(1, 3)], collapse=" "),
+                        "\n")
 		data.name <- paste("\n", paste(strwrap(paste("model: ",
 		    gsub("[ ]+", " ", paste(deparse(model$call), 
 		    sep="", collapse="")))), collapse="\n"),

@@ -17,8 +17,8 @@ SEXP dnearneigh1(SEXP din1, SEXP din2, SEXP pnte, SEXP test, SEXP cands)
     SEXP idx;
     dn0 = NUMERIC_POINTER(din1)[0];
     dn = NUMERIC_POINTER(din2)[0];
-    dn0_equal = LOGICAL_POINTER(getAttrib(din1, install("equal")))[0];
-    dn_equal = LOGICAL_POINTER(getAttrib(din2, install("equal")))[0];
+    dn0_equal = LOGICAL_POINTER(Rf_getAttrib(din1, Rf_install("equal")))[0];
+    dn_equal = LOGICAL_POINTER(Rf_getAttrib(din2, Rf_install("equal")))[0];
     nte = INTEGER_POINTER(pnte)[0];
     PROTECT(ans = NEW_LIST(nte)); pc++;
 
@@ -39,7 +39,7 @@ SEXP dnearneigh1(SEXP din1, SEXP din2, SEXP pnte, SEXP test, SEXP cands)
 		pos[kn] = jidx;
 		if (++kn == nte - 1 && jidx == nte) {
 			Rprintf("%d %d %d\n", kn, nte, j);
-		    error("position array overrun");
+		    Rf_error("position array overrun");
 		}
 	    }
 	}
@@ -68,8 +68,8 @@ dnearneigh(SEXP din1, SEXP din2, SEXP pnte, SEXP p, SEXP test, SEXP lonlat)
     
     dn0 = NUMERIC_POINTER(din1)[0];
     dn = NUMERIC_POINTER(din2)[0];
-    dn0_equal = LOGICAL_POINTER(getAttrib(din1, install("equal")))[0];
-    dn_equal = LOGICAL_POINTER(getAttrib(din2, install("equal")))[0];
+    dn0_equal = LOGICAL_POINTER(Rf_getAttrib(din1, Rf_install("equal")))[0];
+    dn_equal = LOGICAL_POINTER(Rf_getAttrib(din2, Rf_install("equal")))[0];
     nte = INTEGER_POINTER(pnte)[0];
     ll = INTEGER_POINTER(lonlat)[0];
     PROTECT(ans = NEW_LIST(nte)); pc++;
@@ -94,7 +94,7 @@ dnearneigh(SEXP din1, SEXP din2, SEXP pnte, SEXP p, SEXP test, SEXP lonlat)
 		pos[kn] = j;
 		if (++kn == nte - 1 && j == nte) {
 			Rprintf("%d %d %d\n", kn, nte, j);
-		    error("position array overrun");
+		    Rf_error("position array overrun");
 		}
 	    }
 	}

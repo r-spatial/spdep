@@ -77,13 +77,12 @@ crime <- COL.OLD$CRIME
 is.na(crime) <- sample(1:length(crime), 10)
 res <- try(moran.test(crime, nb2listw(COL.nb, style="W"),
  na.action=na.fail))
-res
 moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
  na.action=na.omit)
 moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
  na.action=na.exclude)
 moran.test(crime, nb2listw(COL.nb, style="W"), na.action=na.pass)
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col_geoms <- st_geometry(columbus)
 col_geoms[1] <- st_buffer(col_geoms[1], dist=-0.05)
 st_geometry(columbus) <- col_geoms

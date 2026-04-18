@@ -11,6 +11,7 @@ local_joincount_uni <- function(fx, chosen, listw,
                                 alternative = "two.sided",
                                 nsim = 199,
                                 iseed = NULL,
+                                ties.method = "average",
                                 no_repeat_in_row=FALSE) {
 
   # check that fx is a factor with 2 levels
@@ -18,12 +19,15 @@ local_joincount_uni <- function(fx, chosen, listw,
   stopifnot(
     "`fx` must have exactly two levels" = length(levels(fx)) == 2
   )
+  if (inherits(fx, "ordered")) warning("use of joincount tests on ordinal variables is not well understood")
 
   # check chosen value
   stopifnot(is.character(chosen))
   stopifnot("`chosen` value is not a level of `fx`" = chosen %in% levels(fx))
 
-
+  alternative <- match.arg(alternative, c("greater", "less", "two.sided"))
+  ties.method <- match.arg(ties.method, c("average", "first", "last", 
+    "random", "max", "min"))
   # retrieve weights and neighbors
   nb <- listw[["neighbours"]]
   wt <- listw[["weights"]]
@@ -64,6 +68,7 @@ local_joincount_uni <- function(fx, chosen, listw,
   assign("xi", x, envir = env) # x col
   assign("obs", obs, envir = env) # observed values
   assign("n", length(obs), envir=env)
+  assign("ties.method", ties.method, envir=env)
   assign("no_repeat_in_row", no_repeat_in_row, envir=env)
   varlist = ls(envir = env)
 
@@ -76,6 +81,7 @@ local_joincount_uni <- function(fx, chosen, listw,
     nsim <- get("nsim", envir = env) # no. simulations
     obs <- get("obs", envir = env) # observed values
     n_i <- get("n", envir=env) - 1L
+    ties.method <- get("ties.method", envir=env)
     no_repeat_in_row <- get("no_repeat_in_row", envir=env)
     # create matrix of replicates
     if (no_repeat_in_row) {
@@ -95,7 +101,10 @@ local_joincount_uni <- function(fx, chosen, listw,
     # return p-value ranks these will calculate p-value
     # uses look up table approach rather than counting
     # no. observations in each tail
-    rank(c(res_i, obs[i]))[(nsim + 1)]
+    obs_rank <- as.integer(rank(c(res_i, obs[i]), ties.method=ties.method)[(nsim + 1)])
+    largereq <- as.integer(sum(res_i >= obs[i]))
+    larger <- as.integer(sum(res_i > obs[i]))
+    c(obs_rank, largereq, larger)
 
   }
 
@@ -106,14 +115,50 @@ local_joincount_uni <- function(fx, chosen, listw,
   # commenting out because this should be handled in `probs_lut()`
   # if (alternative == "two.sided") probs <- probs / 2
   p_ranks <- run_perm(permBB_int, index, env, iseed, varlist)
+  ncpus <- attr(p_ranks, "ncpus")
 
   p_res <- rep(NA_real_, length(x))
-  p_res[index] <- probs[floor(p_ranks)]
+  p_res[index] <- probs[floor(p_ranks[, 1])]
+  ranks <- rep(NA_integer_, length(x))
+  ranks[index] <- p_ranks[, 1]
+  larger <- rep(NA_integer_, length(x))
+  larger[index] <- p_ranks[, 3]
+  olarger <- larger
+  low_extreme <- (nsim - larger[index]) < larger[index]
+  larger[index][low_extreme] <- nsim - larger[index][low_extreme]
+  p_pysal_gt <- rep(NA_real_, length(x))
+  p_pysal_gt[index] <- (larger[index] + 1.0) / (nsim + 1.0)
+  largereq <- rep(NA_integer_, length(x))
+  largereq[index] <- p_ranks[, 2]
+  olargereq <- largereq
+  low_extreme <- (nsim - largereq[index]) < largereq[index]
+  largereq[index][low_extreme] <- nsim - largereq[index][low_extreme]
+  p_pysal_ge <- rep(NA_real_, length(x))
+  p_pysal_ge[index] <- (largereq[index] + 1.0) / (nsim + 1.0)
 
-  res <- data.frame(obs, p_res)
-  colnames(res) <- c("BB", attr(probs, "Prname"))
+  res <- data.frame(obs, p_res, ranks, p_pysal_ge, p_pysal_gt, 
+    largereq, larger, olargereq, olarger)
+  names(res) <- c("BB", attr(probs, "Prname"), "sim_rank", "p_sim_pysal_ge",
+    "p_sim_pysal_gt", "largereq", "larger", "olargereq", "olarger")
+  class(res) <- c("local_jc_uni", class(res))
+  attr(res, "ncpus") <- ncpus
+  attr(res, "nsim") <- nsim
+  attr(res, "probs") <- probs
+  attr(res, "chosen") <- chosen
+  attr(res, "ties.method") <- ties.method
   res
 }
 
-
+hotspot.local_jc_uni <- function(obj, cutoff=0.05, p.adjust="none", ...) {
+    pv <- obj[,2]
+    pv <- p.adjust(pv, p.adjust)
+    local_uni_sim <- rep(as.character(NA), length(pv))
+    crit <- pv <= cutoff
+    local_uni_sim[is.na(crit)] <- paste0("Not ", attr(obj, "chosen"))
+    crit[is.na(crit)] <- FALSE
+    local_uni_sim[crit] <- paste0("Cluster:", attr(obj, "chosen"),
+        ":", as.character(cutoff))
+    local_uni_sim <- factor(local_uni_sim)
+    local_uni_sim
+}
 

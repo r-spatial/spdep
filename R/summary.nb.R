@@ -53,17 +53,25 @@ print.nb <- function(x, ...) {
     n.nb <- length(nb)
     regids <- attr(nb, "region.id")
     if(is.null(regids)) regids <- as.character(1:n.nb)
+    s.c.nb <- sum(c.nb)
     cat("Neighbour list object:\n")
     cat("Number of regions:", n.nb, "\n")
-    cat("Number of nonzero links:", sum(c.nb), "\n")
+    cat("Number of nonzero links:", s.c.nb, "\n")
     cat("Percentage nonzero weights:", (100*sum(c.nb))/(n.nb^2), "\n")
     cat("Average number of links:", mean(c.nb), "\n")
     if(any(c.nb == 0)) cat(length(c.nb[c.nb == 0]), " region", 
         ifelse(length(c.nb[c.nb == 0]) < 2L, "", "s"), " with no links:\n",
-	paste(strwrap(paste(regids[which(c.nb == 0)], collapse=" ")),
+	paste(strwrap(paste(regids[which(c.nb == 0)], collapse=", ")),
         collapse="\n"), "\n", sep="")
-    comp <- n.comp.nb(x)
-    if (comp$nc > 1) cat(comp$nc, " disjoint connected subgraphs\n", sep="")
+    nc <- 0
+    if (!is.null(attr(x, "ncomp"))) {
+        nc <- attr(x, "ncomp")$nc
+    } else {
+        if (get.SubgraphOption() && get.SubgraphCeiling() > s.c.nb+n.nb) {
+            nc <- n.comp.nb(x)$nc
+        }
+    }
+    if (nc > 1) cat(nc, " disjoint connected subgraphs\n", sep="")
     res <- is.symmetric.nb(nb, verbose=FALSE)
     if (!res) cat("Non-symmetric neighbours list\n")
     invisible(x)
@@ -72,7 +80,7 @@ print.nb <- function(x, ...) {
 summary.listw <- function(object, coords=NULL, longlat=FALSE, 
 	zero.policy=attr(object, "zero.policy"), scale=1, adjust.n=TRUE, ...) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         if (any(card(object$neighbours) == 0) && !zero.policy)
             stop("regions with no neighbours found, use zero.policy=TRUE")
@@ -98,7 +106,7 @@ print.summary.listw <- function(x, ...) {
 
 print.listw <- function(x, zero.policy=attr(x, "zero.policy"), ...) {
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
         if (any(card(x$neighbours) == 0) && !zero.policy)
             stop("regions with no neighbours found, use zero.policy=TRUE")

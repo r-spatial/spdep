@@ -45,7 +45,14 @@ read into R.
 
 ```{r}
 library(spdep)
-NY8 <- as(sf::st_read(system.file("shapes/NY8_utm18.shp", package="spData")), "Spatial")
+if (packageVersion("spData") >= "2.3.2") {
+    NY8a <- sf::st_read(system.file("shapes/NY8_utm18.gpkg", package="spData"))
+} else {
+    NY8a <- sf::st_read(system.file("shapes/NY8_bna_utm18.gpkg", package="spData"))
+    sf::st_crs(NY8a) <- "EPSG:32618"
+    NY8a$Cases <- NY8a$TRACTCAS
+}
+NY8 <- as(NY8a, "Spatial")
 NY_nb <- read.gal(system.file("weights/NY_nb.gal", package="spData"), region.id=as.character(as.integer(row.names(NY8))-1L))
 ```
 
@@ -57,8 +64,8 @@ to the full data set. We retrieve the part of the neighbour list
 in Syracuse using the `subset` method.
 
 ```{r}
-Syracuse <- NY8[NY8$AREANAME == "Syracuse city",]
-Sy0_nb <- subset(NY_nb, NY8$AREANAME == "Syracuse city")
+Syracuse <- NY8[!is.na(NY8$AREANAME) & NY8$AREANAME == "Syracuse city",]
+Sy0_nb <- subset(NY_nb, !is.na(NY8$AREANAME) & NY8$AREANAME == "Syracuse city")
 summary(Sy0_nb)
 ```
 
@@ -108,7 +115,7 @@ isTRUE(all.equal(Sy0_nb, Sy2_nb, check.attributes=FALSE))
 run <- require("sp", quiet=TRUE)
 ```
 
-```{r, echo=run}
+```{r, echo=TRUE,eval=FALSE}
 oopar <- par(mfrow=c(1,2), mar=c(3,3,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy0_nb, coordinates(Syracuse), add=TRUE, pch=19, cex=0.6)
@@ -116,11 +123,11 @@ text(bbox(Syracuse)[1,1], bbox(Syracuse)[2,2], labels="a)", cex=0.8)
 plot(Syracuse, border="grey60")
 plot(Sy0_nb, coordinates(Syracuse), add=TRUE, pch=19, cex=0.6)
 plot(diffnb(Sy0_nb, Sy2_nb, verbose=FALSE), coordinates(Syracuse),
-  add=TRUE, pch=".", cex=0.6, lwd=2)
+  add=TRUE, pch=".", cex=0.6, lwd=2, col="orange")
 text(bbox(Syracuse)[1,1], bbox(Syracuse)[2,2], labels="b)", cex=0.8)
 par(oopar)
 ```
-a: Queen-style census tract contiguities, Syracuse; b: Rook-style contiguity differences shown as thicker lines
+a: Queen-style census tract contiguities, Syracuse; b: Rook-style contiguity differences shown as thicker orange lines
 
 If we have access to a GIS such as GRASS or ArcGIS,
 we can export the `SpatialPolygonsDataFrame` object and use
@@ -147,11 +154,15 @@ the input polygons stop at the channel banks on each side. The
 may also be used when input data possess geometrical artefacts.
 
 ```{r, eval=FALSE}
-library(spgrass6)
-writeVECT6(Syracuse, "SY0")
+library(rgrass)
+v <- terra::vect(sf::st_as_sf(Syracuse))
+SG <- terra::rast(terra::ext(v), crs=terra::crs(v))
+pr <- initGRASS("/home/rsb/topics/grass/g840/grass84", tempdir(), SG=SG, override=TRUE)
+write_VECT(v, "SY0", flags=c("o", "overwrite"))
 contig <- vect2neigh("SY0")
-Sy3_nb <- sn2listw(contig)$neighbours
+Sy3_nb <- sn2listw(contig, style="B")$neighbours
 isTRUE(all.equal(Sy3_nb, Sy2_nb, check.attributes=FALSE))
+## [1] TRUE
 ```
 
 
@@ -210,7 +221,7 @@ if (require(dbscan, quietly=TRUE)) {
 Sy6_nb <- graph2nb(gabrielneigh(coords), row.names=IDs)
 Sy7_nb <- graph2nb(relativeneigh(coords), row.names=IDs)
 ```
-```{r, echo=run}
+```{r, echo=run,eval=FALSE}
 oopar <- par(mfrow=c(2,2), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy4_nb, coords, add=TRUE, pch=".")
@@ -284,7 +295,7 @@ sapply(nb_l, function(x) is.symmetric.nb(x, verbose=FALSE, force=TRUE))
 sapply(nb_l, function(x) n.comp.nb(x)$nc)
 ```
 
-```{r, echo=run}
+```{r, echo=run,eval=FALSE}
 oopar <- par(mfrow=c(1,3), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy8_nb, coords, add=TRUE, pch=".")
@@ -328,7 +339,7 @@ sapply(nb_l, function(x) is.symmetric.nb(x, verbose=FALSE, force=TRUE))
 sapply(nb_l, function(x) n.comp.nb(x)$nc)
 ```
 
-```{r, echo=run}
+```{r, echo=run,eval=FALSE}
 oopar <- par(mfrow=c(1,3), mar=c(1,1,1,1)+0.1)
 plot(Syracuse, border="grey60")
 plot(Sy11_nb, coords, add=TRUE, pch=".")

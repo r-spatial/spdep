@@ -31,7 +31,7 @@ The function returns an object of class \code{nb} with the edited list of intege
 
 \examples{
 \dontrun{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 class(columbus)
 if (FALSE) nnb1 <- edit.nb(col.gal.nb, polys=as(columbus, "Spatial"))
 }

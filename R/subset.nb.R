@@ -6,7 +6,11 @@ subset.nb <- function(x, subset, ...) {
     if (!inherits(x, "nb")) stop("not a neighbours list")
     if (!is.logical(subset)) stop("subset not a logical vector")
     n <- length(x)
-    input_nc <- n.comp.nb(x)$nc
+    input_nc <- attr(x, "ncomp")$nc
+    if (is.null(input_nc) && get.SubgraphOption() && 
+        get.SubgraphCeiling() > (length(x) + sum(card(x)))) {
+            input_nc <- n.comp.nb(x)$nc
+    }
     if (n != length(subset))
 	stop("neighours list and subset vector different lengths")
     old.ids <- 1:n
@@ -31,11 +35,17 @@ subset.nb <- function(x, subset, ...) {
     }
     attr(z, "region.id") <- reg.id
     for (i in 1:length(xattrs)) {
-	if (xattrs[i] != "region.id")
+	if (xattrs[i] != "region.id" && xattrs[i] != "ncomp")
 	    attr(z, xattrs[i]) <- attr(x, xattrs[i])
     }
     z <- sym.attr.nb(z)
-    if (input_nc < n.comp.nb(z)$nc) warning("subsetting caused increase in subgraph count")
+    NE <- length(z) + sum(card(z))
+    if (get.SubgraphOption() && get.SubgraphCeiling() > NE) {
+      ncomp <- n.comp.nb(z)
+      attr(z, "ncomp") <- ncomp
+      if (!is.null(input_nc) && (input_nc < ncomp$nc))
+          warning("subsetting caused increase in subgraph count")
+    }
     z
 }
 
@@ -43,7 +53,7 @@ subset.nb <- function(x, subset, ...) {
 subset.listw <- function(x, subset, zero.policy=attr(x, "zero.policy"), ...) {
     if (!inherits(x, "listw")) stop("not a weights list")
         if (is.null(zero.policy))
-            zero.policy <- get("zeroPolicy", envir = .spdepOptions)
+            zero.policy <- get.ZeroPolicyOption()
         stopifnot(is.logical(zero.policy))
     if (!is.logical(subset)) stop("subset not a logical vector")
     nb <- x$neighbours
@@ -54,6 +64,8 @@ subset.listw <- function(x, subset, zero.policy=attr(x, "zero.policy"), ...) {
     n <- length(nb)
     if (n != length(subset))
 	stop("neighbours list and subset vector different lengths")
+    if (!is.null(attr(x, "region.id"))) 
+        attr(nb, "region.id") <- attr(x, "region.id")
     subnb <- subset.nb(x=nb, subset=subset)
     if (any(card(subnb) == 0L)) {
         if (!zero.policy) {

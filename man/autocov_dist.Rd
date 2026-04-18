@@ -35,7 +35,7 @@ for details.}
 
 \seealso{\code{\link{nb2listw}}}
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 #xy <- cbind(columbus$X, columbus$Y)
 xy <- st_coordinates(st_centroid(st_geometry(columbus),
  of_largest_polygon=TRUE))

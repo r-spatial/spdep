@@ -40,7 +40,7 @@ df2sn(df, i="i", i_ID="i_ID", j="j", wt="wt")
 \seealso{\code{\link{sn2listw}}}
 
 \examples{
-columbus <- st_read(system.file("shapes/columbus.shp", package="spData")[1], quiet=TRUE)
+columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 res <- listw2lines(nb2listw(col.gal.nb), st_geometry(columbus))
 summary(res)

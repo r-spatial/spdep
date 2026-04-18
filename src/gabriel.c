@@ -43,7 +43,7 @@ void compute_gabriel(int *no_nodes, int *g1, int *g2, int *nogab,
 	     }
 /* bug Dan Putler 090121 */
 	   if ((no_gab+1) > *ngaballoc) 
-		error("number of neighbours overrun - increase nnmult");
+		Rf_error("number of neighbours overrun - increase nnmult");
 	   if(l==*no_nodes)
 	     {
 	       g1[no_gab]=i+1; g2[no_gab++]=j+1;
