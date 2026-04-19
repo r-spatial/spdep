@@ -9,7 +9,7 @@ A version of the Moran scatterplot (see \code{\link{moran.plot}}) supplemented b
 \usage{
 moran.plot.drop(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   significant = TRUE, xlab = NULL, ylab = NULL, return_df = TRUE,
-  spChk = NULL, labels = NULL), zero.policy=attr(listw, "zero.policy")
+  spChk = NULL, labels = NULL, zero.policy=attr(listw, "zero.policy"))
 }
 
 \arguments{
