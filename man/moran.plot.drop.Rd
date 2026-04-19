@@ -22,7 +22,7 @@ moran.plot.drop(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   \item{xlab}{default NULL; an optional label for the x-axis}
   \item{ylab}{default NULL; an optional label for the y-axis}
   \item{return_df}{default TRUE; invisibly return a data.frame object, if FALSE do not return anything}
-  \item{spChk}{default NULL to use \code{get.spChkOption()}; should the data vector names be checked against the spatial objects for identity integrity, TRUE, or FALSE}
+  \item{spChk}{default NULL to use \code{get.spChkOption()}; should the locmoran names be checked against the listw spatial objects for identity integrity, TRUE, or FALSE}
   \item{labels}{default NULL; no labels are plotted by default; region IDs from the \code{listw} object are used as labels of significant observations if set to TRUE; custom labels are used if a character vector is provided}
   \item{zero.policy}{default option stored in the listw object; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
 }
