@@ -28,7 +28,7 @@ moran.plot.drop <- function(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   }
   if (is.null(spChk)) 
     spChk <- get.spChkOption()
-  if (spChk && !chkIDs(x, listw)) 
+  if (spChk && !chkIDs(locmoran, listw)) 
     stop("Check of data and weights ID integrity failed")
   labs <- TRUE
   if (is.logical(labels)) {
