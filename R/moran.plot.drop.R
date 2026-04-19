@@ -31,14 +31,23 @@ moran.plot.drop <- function(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   if (spChk && !chkIDs(x, listw)) 
     stop("Check of data and weights ID integrity failed")
   labs <- TRUE
-  if (is.logical(labels) && !labels) 
-    labs <- FALSE
-  if (is.null(labels) || length(labels) != n) 
+  if (is.logical(labels)) {
+    if(!labels)
+      labs <- FALSE
     labels <- as.character(attr(listw, "region.id"))
+  } else if (!is.logical(labels) && !is.null(labels)) {
+    if(length(labels) != n) {
+      warning("Length of the labels vector does not match number of regions. region.id from the listw object is used instead.")
+      labels <- as.character(attr(listw, "region.id"))
+    }
+  } else if (is.null(labels)) {
+    labs <- FALSE
+    labels <- as.character(attr(listw, "region.id"))
+  }
   if (is.null(xlab))
     xlab <- xname
   if (is.null(ylab)) 
-    ylab <- paste("spatially lagged", xname)
+    ylab <- paste("spatially lagged centred", xname)
   
   WX <- lag.listw(listw, scale(x, scale = F), zero.policy = zero.policy)
   if (anyNA(WX)) warning("no-neighbour observation(s) found - use zero.policy=TRUE")
@@ -84,7 +93,7 @@ moran.plot.drop <- function(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   }
   
   lw.lm <- lm(WX ~ x)
-  plot(x, WX, xlab="X", ylab="WX", pch = 20, cex = 0.5, col = "gray70", xlim = c(min(x),max(x)), ylim = c(min(WX, b),max(WX, b)))
+  plot(x, WX, xlab=xlab, ylab=ylab, pch = 20, cex = 0.5, col = "gray70", xlim = c(min(x),max(x)), ylim = c(min(WX, b),max(WX, b)))
   abline(h = mean(WX), lty = "dashed", col = "grey30")
   abline(v = mean(x), lty = "dashed", col = "grey30")
   abline(lw.lm, lty = "dotted", col = "grey40")
@@ -118,7 +127,7 @@ moran.plot.drop <- function(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   }
   
   if(return_df) {
-    res <- data.frame(region.id = labels, x = x, WX = WX, b = b, line_lengths = abs(WX - b))
+    res <- data.frame(labels = labels, x = x, WX = WX, b = b, line_lengths = abs(WX - b))
     invisible(res)
   }
 }
