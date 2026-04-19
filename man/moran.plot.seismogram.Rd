@@ -8,7 +8,7 @@ A variant of the Moran scatterplot (see \code{\link{moran.plot}}) supplemented b
 }
 \usage{
 moran.plot.seismogram(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
-  xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL, zero.policy = FALSE)
+  xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL, zero.policy = attr(listw, "zero.policy"))
 }
 
 \arguments{
@@ -21,7 +21,7 @@ moran.plot.seismogram(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   \item{ylab}{default NULL; an optional label for the y-axis}
   \item{return_df}{default TRUE; invisibly return a data.frame object, if FALSE do not return anything}
   \item{spChk}{default NULL to use \code{get.spChkOption()}; should the locmoran names be checked against the listw spatial objects for identity integrity, TRUE, or FALSE}
-  \item{zero.policy}{default NULL; use global option value; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
+  \item{zero.policy}{default option stored in the listw object; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
 }
 
 \details{
