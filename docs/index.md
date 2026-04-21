@@ -38,7 +38,9 @@ for categorical data (LICD) implementation based on Carrer et al. (2021)
 (<https://doi.org/10.1016/j.spasta.2017.03.003>) was added in 1.3-7.
 Multivariate spatialdelta (Bavaud 2024)
 (<https://doi.org/10.1111/gean.12390>) was added in 1.3-13 (Bivand 2025,
-<https://doi.org/10.26034/la.cdclsl.2025.8343>).
+<https://doi.org/10.26034/la.cdclsl.2025.8343>). ‘Moran’ scatterplot
+enhancements were contributed by René Westerholt in 1.4-3
+(<https://doi.org/10.5281/zenodo.10897792>).
 
 **sfdep** (<https://cran.r-project.org/package=sfdep>) provides a piped
 interface to **spdep**.

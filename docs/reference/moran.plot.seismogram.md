@@ -10,7 +10,8 @@ visual inspection of potential spatial weights misspecifiation.
 
 ``` r
 moran.plot.seismogram(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
-  xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL, zero.policy = attr(listw, "zero.policy"))
+  xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL,
+  zero.policy = attr(listw, "zero.policy"))
 ```
 
 ## Arguments
@@ -112,7 +113,8 @@ is returned:
 Westerholt, R. (2024): Extending the Moran scatterplot by indications of
 critical values and *p*-values: introducing the Moran seismogram and the
 drop plot. Proceedings of the 32nd Annual GIS Research UK Conference
-(GISRUK), Leeds, UK. <https://doi.org/10.5281/zenodo.10897792>
+(GISRUK), Leeds, UK.
+[doi:10.5281/zenodo.10897792](https://doi.org/10.5281/zenodo.10897792)
 
 ## Author
 
@@ -137,5 +139,6 @@ boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg", package="spDat
 #> Geodetic CRS:  NAD27
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.seismogram(boston.c$CMEDV, boston.listw, localmoran(boston.c$CMEDV, boston.listw), 0.01, zero.policy = TRUE)
+moran.plot.seismogram(boston.c$CMEDV, boston.listw,
+ localmoran(boston.c$CMEDV, boston.listw), 0.01, zero.policy = TRUE)
 ```

@@ -1,6 +1,12 @@
 # Changelog
 
-## Version 1.4-2 (development)
+## Version 1.4-3 (development)
+
+- Moran scatterplot enhancements were contributed by René Westerholt
+
+- add `NO_LEGACY_NONAP`
+
+## Version 1.4-2 (2026-02-13)
 
 CRAN release: 2026-02-13
 

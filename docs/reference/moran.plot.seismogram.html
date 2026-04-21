@@ -54,7 +54,8 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">moran.plot.seismogram</span><span class="op">(</span><span class="va">x</span>, <span class="va">listw</span>, <span class="va">locmoran</span>, alpha <span class="op">=</span> <span class="fl">0.05</span>, adjusted_p <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  xlab <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="cn">NULL</span>, return_df <span class="op">=</span> <span class="cn">TRUE</span>, spChk <span class="op">=</span> <span class="cn">NULL</span>, zero.policy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  xlab <span class="op">=</span> <span class="cn">NULL</span>, ylab <span class="op">=</span> <span class="cn">NULL</span>, return_df <span class="op">=</span> <span class="cn">TRUE</span>, spChk <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  zero.policy <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">listw</span>, <span class="st">"zero.policy"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -113,7 +114,7 @@
 </dl></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Westerholt, R. (2024): Extending the Moran scatterplot by indications of critical values and <em>p</em>-values: introducing the Moran seismogram and the drop plot. Proceedings of the 32nd Annual GIS Research UK Conference (GISRUK), Leeds, UK. <a href="https://doi.org/10.5281/zenodo.10897792" class="external-link">https://doi.org/10.5281/zenodo.10897792</a></p>
+    <p>Westerholt, R. (2024): Extending the Moran scatterplot by indications of critical values and <em>p</em>-values: introducing the Moran seismogram and the drop plot. Proceedings of the 32nd Annual GIS Research UK Conference (GISRUK), Leeds, UK. <a href="https://doi.org/10.5281/zenodo.10897792" class="external-link">doi:10.5281/zenodo.10897792</a></p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -138,7 +139,8 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  NAD27</span>
 <span class="r-in"><span><span class="va">boston.nb</span> <span class="op">&lt;-</span> <span class="fu"><a href="poly2nb.html">poly2nb</a></span><span class="op">(</span><span class="va">boston.tr</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">boston.listw</span> <span class="op">&lt;-</span> <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">boston.nb</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">moran.plot.seismogram</span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="va">boston.listw</span>, <span class="fu"><a href="localmoran.html">localmoran</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="va">boston.listw</span><span class="op">)</span>, <span class="fl">0.01</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">moran.plot.seismogram</span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="va">boston.listw</span>,</span></span>
+<span class="r-in"><span> <span class="fu"><a href="localmoran.html">localmoran</a></span><span class="op">(</span><span class="va">boston.c</span><span class="op">$</span><span class="va">CMEDV</span>, <span class="va">boston.listw</span><span class="op">)</span>, <span class="fl">0.01</span>, zero.policy <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="moran.plot.seismogram-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>

@@ -51,7 +51,7 @@ if (GDAL37) {
     target <- unzip(zipfile, files=bn, exdir=td)
     bh <- st_read(target)
 }
-#> Reading layer `bhicv' from data source `/tmp/RtmpydsLKY/bhicv.gpkg' using driver `GPKG'
+#> Reading layer `bhicv' from data source `/tmp/RtmpdZ48NN/bhicv.gpkg' using driver `GPKG'
 #> Simple feature collection with 98 features and 8 fields
 #> Geometry type: POLYGON
 #> Dimension:     XY

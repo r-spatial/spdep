@@ -8,7 +8,8 @@ A variant of the Moran scatterplot (see \code{\link{moran.plot}}) supplemented b
 }
 \usage{
 moran.plot.seismogram(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
-  xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL, zero.policy = attr(listw, "zero.policy"))
+  xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL,
+  zero.policy = attr(listw, "zero.policy"))
 }
 
 \arguments{
@@ -36,7 +37,7 @@ When return_df is TRUE, a data frame object with the following members is return
   \item{b}{the y-coordinates (i.e. hypothetical spatial lags) of the critical values given x}
 }
 
-\references{Westerholt, R. (2024): Extending the Moran scatterplot by indications of critical values and \emph{p}-values: introducing the Moran seismogram and the drop plot. Proceedings of the 32nd Annual GIS Research UK Conference (GISRUK), Leeds, UK. \url{https://doi.org/10.5281/zenodo.10897792}}
+\references{Westerholt, R. (2024): Extending the Moran scatterplot by indications of critical values and \emph{p}-values: introducing the Moran seismogram and the drop plot. Proceedings of the 32nd Annual GIS Research UK Conference (GISRUK), Leeds, UK. \doi{10.5281/zenodo.10897792}}
 
 \author{Rene Westerholt \email{rene.westerholt@tu-dortmund.de}}
 
@@ -48,5 +49,6 @@ data(boston)
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.seismogram(boston.c$CMEDV, boston.listw, localmoran(boston.c$CMEDV, boston.listw), 0.01, zero.policy = TRUE)
+moran.plot.seismogram(boston.c$CMEDV, boston.listw,
+ localmoran(boston.c$CMEDV, boston.listw), 0.01, zero.policy = TRUE)
 }
