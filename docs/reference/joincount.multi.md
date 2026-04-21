@@ -216,7 +216,7 @@ cat("replicates Upton & Fingleton table 3.7 (p. 169)\n")
 # }
 GDAL37 <- numeric_version(unname(sf::sf_extSoftVersion()["GDAL"]), strict=FALSE)
 (GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
-#> [1] TRUE
+#> [1] FALSE
 file <- "etc/shapes/GB_2024_southcoast_50m.gpkg.zip"
 zipfile <- system.file(file, package="spdep")
 if (GDAL37) {
@@ -228,8 +228,7 @@ if (GDAL37) {
     sc50m <- st_read(target)
 }
 #> Reading layer `GB_2024_southcoast_50m' from data source 
-#>   `/tmp/RtmpOTi8Y0/temp_libpath27d726bf5b2e8/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
-#>   using driver `GPKG'
+#>   `/tmp/RtmpydsLKY/GB_2024_southcoast_50m.gpkg' using driver `GPKG'
 #> Simple feature collection with 119 features and 19 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY

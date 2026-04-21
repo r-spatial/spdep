@@ -158,7 +158,7 @@ sim1
 #> alternative hypothesis: two.sided
 #> sample estimates:
 #> mean of permutations   sd of permutations 
-#>            98.680448             9.119544 
+#>            98.852997             8.934135 
 #> 
 plot(sim1)
 

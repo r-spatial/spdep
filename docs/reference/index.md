@@ -210,6 +210,12 @@
 - [`moran.plot()`](https://r-spatial.github.io/spdep/reference/moran.plot.md)
   : Moran scatterplot
 
+- [`moran.plot.drop()`](https://r-spatial.github.io/spdep/reference/moran.plot.drop.md)
+  : Moran drop plot
+
+- [`moran.plot.seismogram()`](https://r-spatial.github.io/spdep/reference/moran.plot.seismogram.md)
+  : Moran seismogram
+
 - [`moran.test()`](https://r-spatial.github.io/spdep/reference/moran.test.md)
   : Moran's I test for spatial autocorrelation
 

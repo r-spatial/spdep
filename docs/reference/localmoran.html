@@ -17,7 +17,7 @@ used as a diagnostic tool. The statistic and its expectation and variance were g
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -383,57 +383,57 @@ Sauer, J., Oshan, T. M., Rey, S., &amp; Wolf, L. J. 2021. The Importance of Null
 <span class="r-in"><span><span class="va">totcon</span> <span class="op">&lt;-</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">totcon</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">totcon</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">totcon</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1363 1421   NA   NA 5246  811  299  358  895 4751 1878  933  347 1130  241</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  604 1015  998 2122 1090  848  618   NA  423  980 3087 2273 3134 1142  824</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1363 1421 1861 2355 5246  811  299  358  895 4751 1878  933  347 1130  241</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  604 1015  998 2122 1090  848   NA   NA  423  980 3087 2273 3134   NA  824</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [31] 2881   NA  604 1528 1554   NA  792  795 1266 1875  147  363</span>
 <span class="r-in"><span><span class="va">resI.na</span> <span class="op">&lt;-</span> <span class="fu">localmoran</span><span class="op">(</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.exclude</span>,</span></span>
 <span class="r-in"><span> zero.policy<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">resI.na</span>, <span class="st">"na.action"</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="st">"exclude"</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resI.na</span><span class="op">[</span><span class="va">oid</span>,<span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span> <span class="kw">else</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">resI.na</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                                Ii     E.Ii  Var.Ii   Z.Ii Pr.z....E.Ii..</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                0.37105 -2.7e-02 9.6e-01  0.406        0.68494</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MALI                      0.44799 -2.4e-02 1.2e-01  1.341        0.17986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SENEGAL                   0.25571 -4.0e-03 3.4e-02  1.418        0.15618</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BENIN                     0.19536 -2.9e-03 2.4e-02  1.272        0.20348</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MAURITANIA                0.20397 -6.5e-03 7.5e-02  0.767        0.44324</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NIGER                     0.39719 -2.1e-02 1.1e-01  1.257        0.20865</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IVORY COAST                    NA       NA      NA     NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GUINEA                    0.18960 -2.6e-03 2.2e-02  1.292        0.19628</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BURKINA FASO              0.50165 -2.2e-02 1.4e-01  1.397        0.16235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> LIBERIA                   0.19068 -3.2e-03 5.7e-02  0.814        0.41584</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SIERRA LEONE              0.26508 -1.9e-02 3.3e-01  0.493        0.62170</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GHANA                     0.16227 -1.6e-03 2.9e-02  0.959        0.33762</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TOGO                      0.21902 -5.7e-03 6.6e-02  0.876        0.38087</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CAMEROON                  0.25806 -1.2e-02 7.9e-02  0.959        0.33744</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NIGERIA                   0.11801 -1.2e-03 1.0e-02  1.187        0.23527</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> GABON                     0.20388 -6.2e-03 1.1e-01  0.630        0.52856</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CENTRAL AFRICAN REPUBLIC -0.41241 -1.2e-02 7.7e-02 -1.448        0.14772</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CHAD                     -0.04424 -4.7e-03 3.1e-02 -0.226        0.82148</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> CONGO                     0.01460 -1.1e-03 9.1e-03  0.164        0.86947</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ZAIRE                     0.85429 -6.2e-02 2.2e-01  1.976        0.04820</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ANGOLA                    0.09680 -5.3e-04 6.2e-03  1.236        0.21649</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> UGANDA                    2.50702 -6.5e-02 5.2e-01  3.578        0.00035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> KENYA                     1.08291 -1.7e-02 1.1e-01  3.308        0.00094</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TANZANIA                  0.61571 -4.8e-02 2.4e-01  1.350        0.17690</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BURUNDI                  -0.93318 -1.2e-02 2.2e-01 -1.973        0.04845</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> RWANDA                         NA       NA      NA     NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SOMALIA                   0.40246 -1.2e-02 2.1e-01  0.901        0.36766</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ETHIOPIA                  0.64672 -5.4e-03 6.3e-02  2.598        0.00937</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ZAMBIA                    0.05293 -7.2e-04 3.2e-03  0.955        0.33980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ZIMBABWE                 -0.00139 -6.9e-03 5.8e-02  0.023        0.98173</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MALAWI                         NA       NA      NA     NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MOZAMBIQUE               -0.03566 -7.0e-03 4.5e-02 -0.135        0.89292</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SOUTH AFRICA             -0.17136 -5.4e-03 2.3e-02 -1.084        0.27841</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> LESOTHO                  -0.38478 -2.1e-02 7.7e-01 -0.415        0.67835</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> BOTSWANA                 -0.00306 -2.2e-04 2.6e-03 -0.056        0.95534</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SWAZILAND                 0.03234 -3.1e-02 5.5e-01  0.086        0.93130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> MOROCCO                        NA       NA      NA     NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> ALGERIA                  -0.02619 -5.8e-05 4.9e-04 -1.182        0.23702</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TUNISIA                  -0.00022 -6.4e-07 2.4e-05 -0.045        0.96423</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> LIBYA                          NA       NA      NA     NA             NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                     2.75689 -2.4e-01 8.0e-01  3.353        0.00080</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                     9.90940 -3.2e-01 8.0e+00  3.617        0.00030</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                               Ii     E.Ii  Var.Ii    Z.Ii Pr.z....E.Ii..</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> THE GAMBIA                0.4488 -3.0e-02 1.1e+00  0.4637        0.64288</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MALI                      0.5280 -2.7e-02 1.4e-01  1.4933        0.13535</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SENEGAL                   0.3170 -5.2e-03 4.4e-02  1.5348        0.12484</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BENIN                     0.2500 -4.0e-03 3.3e-02  1.3888        0.16490</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MAURITANIA                0.1432 -8.1e-03 6.8e-02  0.5804        0.56166</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NIGER                     0.2995 -2.4e-02 1.0e-01  1.0078        0.31356</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IVORY COAST                   NA       NA      NA      NA             NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GUINEA                    0.2441 -3.7e-03 3.1e-02  1.4092        0.15878</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BURKINA FASO              0.5836 -2.5e-02 1.6e-01  1.5330        0.12527</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> LIBERIA                   0.2439 -4.3e-03 7.7e-02  0.8943        0.37119</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SIERRA LEONE              0.3315 -2.1e-02 3.7e-01  0.5763        0.56438</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GHANA                     0.2163 -2.5e-03 4.4e-02  1.0387        0.29895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> TOGO                      0.2739 -7.2e-03 8.3e-02  0.9773        0.32842</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CAMEROON                  0.3019 -1.4e-02 1.6e-01  0.7796        0.43562</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NIGERIA                   0.1647 -1.9e-03 1.6e-02  1.3040        0.19224</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> GABON                     0.3801 -7.8e-03 2.9e-01  0.7266        0.46748</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CENTRAL AFRICAN REPUBLIC      NA       NA      NA      NA             NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CHAD                     -0.1636 -6.1e-03 4.0e-02 -0.7927        0.42794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> CONGO                         NA       NA      NA      NA             NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ZAIRE                     1.2047 -5.7e-02 2.8e-01  2.3710        0.01774</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ANGOLA                    0.0514 -1.8e-04 2.1e-03  1.1263        0.26003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> UGANDA                    2.3069 -6.0e-02 4.8e-01  3.4258        0.00061</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> KENYA                     0.9529 -1.5e-02 9.4e-02  3.1495        0.00164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> TANZANIA                  0.5116 -4.3e-02 2.2e-01  1.1836        0.23655</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BURUNDI                  -0.9639 -1.4e-02 2.5e-01 -1.8826        0.05976</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> RWANDA                        NA       NA      NA      NA             NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SOMALIA                   0.3296 -9.8e-03 1.7e-01  0.8119        0.41682</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ETHIOPIA                  0.5355 -4.1e-03 4.7e-02  2.4809        0.01310</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ZAMBIA                    0.0278 -2.9e-04 1.3e-03  0.7808        0.43490</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ZIMBABWE                  0.0303 -8.5e-03 7.1e-02  0.1451        0.88460</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MALAWI                        NA       NA      NA      NA             NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MOZAMBIQUE               -0.0075 -8.6e-03 5.6e-02  0.0048        0.99614</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SOUTH AFRICA             -0.1695 -4.0e-03 1.8e-02 -1.2480        0.21205</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> LESOTHO                  -0.3533 -2.4e-02 8.6e-01 -0.3545        0.72297</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BOTSWANA                  0.0034 -5.9e-04 6.9e-03  0.0481        0.96160</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SWAZILAND                 0.0978 -3.5e-02 6.0e-01  0.1710        0.86422</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MOROCCO                  -0.1018 -3.8e-03 6.8e-02 -0.3768        0.70630</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ALGERIA                   0.0027 -4.0e-06 2.1e-05  0.5890        0.55586</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> TUNISIA                  -0.0244 -1.1e-04 1.9e-03 -0.5525        0.58060</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> LIBYA                     0.6229 -1.8e-02 9.1e-02  2.1182        0.03416</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> SUDAN                     3.1302 -2.3e-01 7.7e-01  3.8213        0.00013</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> EGYPT                     6.0449 -3.0e-01 3.8e+00  3.2606        0.00111</span>
 <span class="r-in"><span><span class="va">resG</span> <span class="op">&lt;-</span> <span class="fu"><a href="localG.html">localG</a></span><span class="op">(</span><span class="va">afcon</span><span class="op">$</span><span class="va">totcon</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="fu"><a href="include.self.html">include.self</a></span><span class="op">(</span><span class="va">paper.nb</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">resG</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span>, row.names<span class="op">=</span><span class="va">afcon</span><span class="op">$</span><span class="va">name</span><span class="op">[</span><span class="va">oid</span><span class="op">]</span><span class="op">)</span>, digits<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          resG.oid.</span>

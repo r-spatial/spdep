@@ -264,13 +264,13 @@ geary.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
 #> 
 #> data:  crime 
 #> weights: nb2listw(COL.nb, style = "W") 
-#> omitted: 3, 4, 10, 13, 21, 23, 27, 29, 31, 38  
+#> omitted: 3, 4, 10, 20, 21, 23, 27, 29, 31, 38  
 #> 
-#> Geary C statistic standard deviate = 4.1449, p-value = 1.7e-05
+#> Geary C statistic standard deviate = 4.2726, p-value = 9.661e-06
 #> alternative hypothesis: Expectation greater than statistic
 #> sample estimates:
 #> Geary C statistic       Expectation          Variance 
-#>        0.46652084        1.00000000        0.01656579 
+#>        0.45199742        1.00000000        0.01645071 
 #> 
 geary.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
  na.action=na.exclude)
@@ -279,13 +279,13 @@ geary.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
 #> 
 #> data:  crime 
 #> weights: nb2listw(COL.nb, style = "W") 
-#> omitted: 3, 4, 10, 13, 21, 23, 27, 29, 31, 38  
+#> omitted: 3, 4, 10, 20, 21, 23, 27, 29, 31, 38  
 #> 
-#> Geary C statistic standard deviate = 4.1449, p-value = 1.7e-05
+#> Geary C statistic standard deviate = 4.2726, p-value = 9.661e-06
 #> alternative hypothesis: Expectation greater than statistic
 #> sample estimates:
 #> Geary C statistic       Expectation          Variance 
-#>        0.46652084        1.00000000        0.01656579 
+#>        0.45199742        1.00000000        0.01645071 
 #> 
 try(geary.test(crime, nb2listw(COL.nb, style="W"), na.action=na.pass))
 #> Error in geary.test(crime, nb2listw(COL.nb, style = "W"), na.action = na.pass) : 

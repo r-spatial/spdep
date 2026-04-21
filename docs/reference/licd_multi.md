@@ -199,9 +199,9 @@ str(obj)
 #>  $ local_config_sim: NULL
 #>  $ local_uni_sim   : NULL
 #>  - attr(*, "timings")=List of 3
-#>   ..$ set_up        : 'proc_time' Named num [1:5] 0.001 0 0.001 0 0
+#>   ..$ set_up        : 'proc_time' Named num [1:5] 0.001 0 0 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
-#>   ..$ processing    : 'proc_time' Named num [1:5] 0.095 0 0.095 0 0
+#>   ..$ processing    : 'proc_time' Named num [1:5] 0.093 0 0.094 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
 #>   ..$ postprocessing: 'proc_time' Named num [1:5] 0.001 0 0.001 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
@@ -252,7 +252,7 @@ plot(columbus[, "both"])
 
 GDAL37 <- numeric_version(unname(sf::sf_extSoftVersion()["GDAL"]), strict=FALSE)
 (GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
-#> [1] TRUE
+#> [1] FALSE
 file <- "etc/shapes/GB_2024_southcoast_50m.gpkg.zip"
 zipfile <- system.file(file, package="spdep")
 if (GDAL37) {
@@ -264,8 +264,7 @@ if (GDAL37) {
     sc50m <- st_read(target)
 }
 #> Reading layer `GB_2024_southcoast_50m' from data source 
-#>   `/tmp/RtmpOTi8Y0/temp_libpath27d726bf5b2e8/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
-#>   using driver `GPKG'
+#>   `/tmp/RtmpydsLKY/GB_2024_southcoast_50m.gpkg' using driver `GPKG'
 #> Simple feature collection with 119 features and 19 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY

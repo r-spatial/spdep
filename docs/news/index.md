@@ -2,6 +2,8 @@
 
 ## Version 1.4-2 (development)
 
+CRAN release: 2026-02-13
+
 - robustness checks on `licd_multi`, update `hotspot` method for
   `licd_multi` output
 

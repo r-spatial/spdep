@@ -114,7 +114,7 @@ See Also as
 ### loading data
 GDAL37 <- numeric_version(unname(sf::sf_extSoftVersion()["GDAL"]), strict=FALSE)
 (GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
-#> [1] TRUE
+#> [1] FALSE
 file <- "etc/shapes/bhicv.gpkg.zip"
 zipfile <- system.file(file, package="spdep")
 if (GDAL37) {
@@ -125,9 +125,7 @@ if (GDAL37) {
     target <- unzip(zipfile, files=bn, exdir=td)
     bh <- st_read(target)
 }
-#> Reading layer `bhicv' from data source 
-#>   `/tmp/RtmpOTi8Y0/temp_libpath27d726bf5b2e8/spdep/etc/shapes/bhicv.gpkg.zip' 
-#>   using driver `GPKG'
+#> Reading layer `bhicv' from data source `/tmp/RtmpydsLKY/bhicv.gpkg' using driver `GPKG'
 #> Simple feature collection with 98 features and 8 fields
 #> Geometry type: POLYGON
 #> Dimension:     XY
@@ -305,7 +303,7 @@ dpad <- data.frame(scale(boston.c[,c(7:10)]))
 ### calculating costs
 system.time(lcosts <- nbcosts(bh.nb, dpad))
 #>    user  system elapsed 
-#>   0.052   0.001   0.054 
+#>   0.051   0.000   0.051 
 ### making listw
 nb.w <- nb2listw(bh.nb, lcosts, style="B")
 ### find a minimum spanning tree
@@ -313,7 +311,7 @@ mst.bh <- mstree(nb.w,5)
 ### three groups with no restriction
 system.time(res1 <- spdep::skater(mst.bh[,1:2], dpad, 2))
 #>    user  system elapsed 
-#>   2.607   0.214   2.856 
+#>   1.890   0.063   1.964 
 library(parallel)
 nc <- max(2L, detectCores(logical=FALSE), na.rm = TRUE)-1L
 # set nc to 1L here
@@ -328,7 +326,7 @@ if(!get.mcOption()) {
 ### calculating costs
 system.time(plcosts <- nbcosts(bh.nb, dpad))
 #>    user  system elapsed 
-#>   0.056   0.000   0.056 
+#>    0.05    0.00    0.05 
 all.equal(lcosts, plcosts, check.attributes=FALSE)
 #> [1] TRUE
 ### making listw
@@ -338,7 +336,7 @@ pmst.bh <- mstree(pnb.w,5)
 ### three groups with no restriction
 system.time(pres1 <- spdep::skater(pmst.bh[,1:2], dpad, 2))
 #>    user  system elapsed 
-#>   2.124   0.079   2.215 
+#>   1.895   0.137   2.044 
 if(!get.mcOption()) {
   set.ClusterOption(NULL)
   stopCluster(cl)

@@ -50,7 +50,7 @@ moran.plot(x, listw, y=NULL, zero.policy=attr(listw, "zero.policy"), spChk=NULL,
 
 - ylab:
 
-  label for x axis
+  label for y axis
 
 - quiet:
 

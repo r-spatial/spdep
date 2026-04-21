@@ -277,9 +277,7 @@ cal1 <- read.swmdbf2listw(fn, style="B")
 cal1a <- read.swmdbf2listw(fn, region.id=as.character(cal$MYID), style="B")
 all.equal(cal1, cal1a)
 }
-#> Reading layer `california' from data source 
-#>   `/tmp/RtmpOTi8Y0/temp_libpath27d726bf5b2e8/spdep/etc/shapes/california.gpkg.zip' 
-#>   using driver `GPKG'
+#> Reading layer `california' from data source `/tmp/RtmpydsLKY/california.gpkg' using driver `GPKG'
 #> Simple feature collection with 58 features and 2 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY

@@ -108,12 +108,12 @@ joincount.mc(HICRIME, nb2listw(COL.nb, style="B"), nsim=99, alternative="two.sid
 #> weights: nb2listw(COL.nb, style = "B") 
 #> number of simulations + 1: 100 
 #> 
-#> Join-count statistic for low = 34, rank of observed statistic = 89.5,
-#> p-value = 0.21
+#> Join-count statistic for low = 34, rank of observed statistic = 88.5,
+#> p-value = 0.23
 #> alternative hypothesis: two.sided
 #> sample estimates:
 #>     mean of simulation variance of simulation 
-#>               28.92929               17.78066 
+#>               28.96970               18.19295 
 #> 
 #> 
 #>  Monte-Carlo simulation of join-count statistic
@@ -127,7 +127,7 @@ joincount.mc(HICRIME, nb2listw(COL.nb, style="B"), nsim=99, alternative="two.sid
 #> alternative hypothesis: two.sided
 #> sample estimates:
 #>     mean of simulation variance of simulation 
-#>               26.86869               20.11523 
+#>               26.83838               20.13688 
 #> 
 joincount.test(HICRIME, nb2listw(COL.nb, style="B"), alternative="two.sided")
 #> 

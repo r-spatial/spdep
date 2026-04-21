@@ -80,6 +80,6 @@ is.na(crime) <- sample(1:length(crime), 10)
 str(moran(crime, col.W, length(COL.nb), Szero(col.W), NAOK=TRUE))
 #> Warning: NAs in lagged values
 #> List of 2
-#>  $ I: num 0.283
-#>  $ K: num 2.67
+#>  $ I: num 0.142
+#>  $ K: num 2.82
 ```

@@ -126,9 +126,9 @@ if (dothis) sf_extSoftVersion()
 ```
 
     ##           GEOS           GDAL         proj.4 GDAL_with_GEOS     USE_PROJ_H 
-    ##       "3.14.1"       "3.12.2"        "9.7.1"         "true"         "true" 
+    ##       "3.14.1"  "3.13.0beta1"        "9.9.0"         "true"         "true" 
     ##           PROJ 
-    ##        "9.7.1"
+    ##        "9.9.0"
 
 Let us read the GPKG file with valid geometries in to ‘sf’ and ‘sp’
 objects:
@@ -162,7 +162,7 @@ system.time(for(i in 1:reps) NY8_sf_1_nb <- poly2nb(NY8_sf, queen=TRUE, snap=eps
 ```
 
     ##    user  system elapsed 
-    ##  0.1895  0.0100  0.2003
+    ##  0.1838  0.0095  0.1942
 
 Using spatial indices to check intersection of polygons is much faster
 than the legacy method in poly2nb. From **spdep** 1.1-7, use is made of
@@ -407,7 +407,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY88_nb_sf <- knn2nb(knearneigh(N
 ```
 
     ##    user  system elapsed 
-    ##  0.0252  0.0012  0.0266
+    ##  0.0235  0.0011  0.0246
 
 Legacy code may be used omitting the kd-tree:
 
@@ -416,7 +416,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY89_nb_sf <- knn2nb(knearneigh(N
 ```
 
     ##    user  system elapsed 
-    ##  0.0248  0.0015  0.0264
+    ##   0.024   0.001   0.025
 
 #### Distance neighbours
 
@@ -443,7 +443,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY810_nb <- dnearneigh(NY8_ct_sf,
 ```
 
     ##    user  system elapsed 
-    ##  0.0417  0.0015  0.0433
+    ##  0.0397  0.0008  0.0407
 
 By default, the function uses
 [`dbscan::frNN()`](https://rdrr.io/pkg/dbscan/man/frNN.html) to build a
@@ -457,7 +457,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY811_nb <- dnearneigh(NY8_ct_sf,
 ```
 
     ##    user  system elapsed 
-    ##  0.0251  0.0015  0.0267
+    ##  0.0245  0.0013  0.0259
 
 ### Spherical point-based neighbours
 
@@ -498,7 +498,7 @@ system.time(for (i in 1:reps) pts_ll1_nb <- knn2nb(knearneigh(pts_ll, k=6)))/rep
 ```
 
     ##    user  system elapsed 
-    ##  0.0344  0.0002  0.0347
+    ##  0.0332  0.0002  0.0335
 
 For this smaller data set, the legacy approach without spatial indexing
 is adequate, but slows down as the number of observations increases:
@@ -514,7 +514,7 @@ system.time(for (i in 1:reps) pts_ll2_nb <- knn2nb(knearneigh(pts_ll, k=6)))/rep
 ```
 
     ##    user  system elapsed 
-    ##   0.022   0.000   0.022
+    ##  0.0210  0.0000  0.0211
 
 The WGS84 ellipsoid Great Circle distances differ a very little from the
 **s2** spherical distances, yielding output that here diverges for two
@@ -600,7 +600,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##  0.0520  0.0000  0.0525
+    ##   0.049   0.000   0.049
 
 Alternatively, spherical distances can be used with `dwithin=FALSE` and
 [`s2::s2_closest_edges()`](https://r-spatial.github.io/s2/reference/s2_closest_feature.html);
@@ -614,7 +614,7 @@ system.time(for (i in 1:(reps/5)) suppressWarnings(pts_ll5_nb <- dnearneigh(pts_
 ```
 
     ##    user  system elapsed 
-    ##   0.041   0.000   0.041
+    ##  0.0385  0.0000  0.0385
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3_nb, pts_ll5_nb, check.attributes=FALSE)
@@ -636,7 +636,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##  0.0380  0.0005  0.0385
+    ##  0.0370  0.0005  0.0380
 
 Using
 [`s2::s2_dwithin_matrix()`](https://r-spatial.github.io/s2/reference/s2_closest_feature.html)
@@ -652,7 +652,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##  0.0850  0.0000  0.0855
+    ##    0.08    0.00    0.08
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3a_nb, pts_ll5a_nb, check.attributes=FALSE)
@@ -668,7 +668,7 @@ system.time(for (i in 1:reps) suppressWarnings(pts_ll6_nb <- dnearneigh(pts_ll, 
 ```
 
     ##    user  system elapsed 
-    ##  0.0141  0.0001  0.0143
+    ##  0.0133  0.0000  0.0134
 
 Minor differences may occur between the legacy ellipsoid and **s2**
 spherical approaches:
@@ -705,7 +705,7 @@ system.time(for (i in 1:reps) suppressWarnings(pts_ll6a_nb <- dnearneigh(pts_ll,
 ```
 
     ##    user  system elapsed 
-    ##  0.0138  0.0000  0.0139
+    ##  0.0129  0.0000  0.0130
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll5a_nb, pts_ll6a_nb, check.attributes=FALSE)
@@ -766,7 +766,7 @@ system.time(for (i in 1:reps) NY8_sf_1_nb_ll <- poly2nb(NY8_sf_ll, queen=TRUE, s
 ```
 
     ##    user  system elapsed 
-    ##  0.1659  0.0024  0.1689
+    ##  0.1619  0.0015  0.1641
 
 ``` r
 all.equal(NY8_sf_1_nb, NY8_sf_1_nb_ll, check.attributes=FALSE)

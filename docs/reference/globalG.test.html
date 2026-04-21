@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">spdep</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.4-3</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -193,14 +193,14 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "B") </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 2, 3, 5, 6, 7, 10, 12, 30, 32, 42 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 2, 3, 5, 6, 7, 10, 13, 30, 39, 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n reduced by no-neighbour observations </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> standard deviate = 2.2378, p-value = 0.01262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> standard deviate = 3.8084, p-value = 6.993e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Global G statistic        Expectation           Variance </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1.207385e-01       1.038407e-01       5.701826e-05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1.441233e-01       1.123755e-01       6.949287e-05 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, zero.policy<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span> na.action<span class="op">=</span><span class="va">na.exclude</span><span class="op">)</span></span></span>
@@ -210,14 +210,14 @@ p. 276; Bivand RS, Wong DWS 2018 Comparing implementations of global and local i
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data:  crime </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> weights: nb2listw(COL.nb, style = "B") </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 2, 3, 5, 6, 7, 10, 12, 30, 32, 42 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omitted: 2, 3, 5, 6, 7, 10, 13, 30, 39, 49 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> n reduced by no-neighbour observations </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> standard deviate = 2.2378, p-value = 0.01262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> standard deviate = 3.8084, p-value = 6.993e-05</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> alternative hypothesis: greater</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sample estimates:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Global G statistic        Expectation           Variance </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       1.207385e-01       1.038407e-01       5.701826e-05 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1.441233e-01       1.123755e-01       6.949287e-05 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">globalG.test</span><span class="op">(</span><span class="va">crime</span>, <span class="fu"><a href="nb2listw.html">nb2listw</a></span><span class="op">(</span><span class="va">COL.nb</span>, style<span class="op">=</span><span class="st">"B"</span><span class="op">)</span>, na.action<span class="op">=</span><span class="va">na.pass</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Error in globalG.test(crime, nb2listw(COL.nb, style = "B"), na.action = na.pass) : </span>

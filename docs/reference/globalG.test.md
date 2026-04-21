@@ -179,14 +179,14 @@ globalG.test(crime, nb2listw(COL.nb, style="B"), zero.policy=TRUE,
 #> 
 #> data:  crime 
 #> weights: nb2listw(COL.nb, style = "B") 
-#> omitted: 2, 3, 5, 6, 7, 10, 12, 30, 32, 42 
+#> omitted: 2, 3, 5, 6, 7, 10, 13, 30, 39, 49 
 #> n reduced by no-neighbour observations 
 #> 
-#> standard deviate = 2.2378, p-value = 0.01262
+#> standard deviate = 3.8084, p-value = 6.993e-05
 #> alternative hypothesis: greater
 #> sample estimates:
 #> Global G statistic        Expectation           Variance 
-#>       1.207385e-01       1.038407e-01       5.701826e-05 
+#>       1.441233e-01       1.123755e-01       6.949287e-05 
 #> 
 globalG.test(crime, nb2listw(COL.nb, style="B"), zero.policy=TRUE,
  na.action=na.exclude)
@@ -196,14 +196,14 @@ globalG.test(crime, nb2listw(COL.nb, style="B"), zero.policy=TRUE,
 #> 
 #> data:  crime 
 #> weights: nb2listw(COL.nb, style = "B") 
-#> omitted: 2, 3, 5, 6, 7, 10, 12, 30, 32, 42 
+#> omitted: 2, 3, 5, 6, 7, 10, 13, 30, 39, 49 
 #> n reduced by no-neighbour observations 
 #> 
-#> standard deviate = 2.2378, p-value = 0.01262
+#> standard deviate = 3.8084, p-value = 6.993e-05
 #> alternative hypothesis: greater
 #> sample estimates:
 #> Global G statistic        Expectation           Variance 
-#>       1.207385e-01       1.038407e-01       5.701826e-05 
+#>       1.441233e-01       1.123755e-01       6.949287e-05 
 #> 
 try(globalG.test(crime, nb2listw(COL.nb, style="B"), na.action=na.pass))
 #> Error in globalG.test(crime, nb2listw(COL.nb, style = "B"), na.action = na.pass) : 

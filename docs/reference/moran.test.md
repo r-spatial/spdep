@@ -320,14 +320,14 @@ moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
 #> 
 #> data:  crime  
 #> weights: nb2listw(COL.nb, style = "W") 
-#> omitted: 7, 10, 12, 14, 18, 26, 28, 41, 42, 49 
+#> omitted: 7, 10, 12, 13, 14, 18, 26, 41, 42, 47 
 #> n reduced by no-neighbour observations  
 #> 
-#> Moran I statistic standard deviate = 4.327, p-value = 7.558e-06
+#> Moran I statistic standard deviate = 3.9826, p-value = 3.408e-05
 #> alternative hypothesis: greater
 #> sample estimates:
 #> Moran I statistic       Expectation          Variance 
-#>        0.47702353       -0.02702703        0.01356988 
+#>        0.43709247       -0.02702703        0.01358066 
 #> 
 moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
  na.action=na.exclude)
@@ -337,14 +337,14 @@ moran.test(crime, nb2listw(COL.nb, style="W"), zero.policy=TRUE,
 #> 
 #> data:  crime  
 #> weights: nb2listw(COL.nb, style = "W") 
-#> omitted: 7, 10, 12, 14, 18, 26, 28, 41, 42, 49 
+#> omitted: 7, 10, 12, 13, 14, 18, 26, 41, 42, 47 
 #> n reduced by no-neighbour observations  
 #> 
-#> Moran I statistic standard deviate = 4.327, p-value = 7.558e-06
+#> Moran I statistic standard deviate = 3.9826, p-value = 3.408e-05
 #> alternative hypothesis: greater
 #> sample estimates:
 #> Moran I statistic       Expectation          Variance 
-#>        0.47702353       -0.02702703        0.01356988 
+#>        0.43709247       -0.02702703        0.01358066 
 #> 
 moran.test(crime, nb2listw(COL.nb, style="W"), na.action=na.pass)
 #> Warning: NAs in lagged values
@@ -354,11 +354,11 @@ moran.test(crime, nb2listw(COL.nb, style="W"), na.action=na.pass)
 #> data:  crime  
 #> weights: nb2listw(COL.nb, style = "W")    
 #> 
-#> Moran I statistic standard deviate = 2.5935, p-value = 0.00475
+#> Moran I statistic standard deviate = 2.4925, p-value = 0.006342
 #> alternative hypothesis: greater
 #> sample estimates:
 #> Moran I statistic       Expectation          Variance 
-#>       0.222432832      -0.020833333       0.008798241 
+#>       0.212782897      -0.020833333       0.008784908 
 #> 
 columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], quiet=TRUE)
 col_geoms <- st_geometry(columbus)

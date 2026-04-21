@@ -133,7 +133,7 @@ René Westerholt <rene.westerholt@tu-dortmund.de>
 #>  Min.   :0.03438   Min.   :13.85   Min.   :2.982e-02   Min.   :0.009901  
 #>  1st Qu.:0.23838   1st Qu.:24.71   1st Qu.:7.011e+00   1st Qu.:0.079208  
 #>  Median :0.66689   Median :35.90   Median :5.211e+01   Median :0.653465  
-#>  Mean   :1.06592   Mean   :34.88   Mean   :1.519e+02   Mean   :0.552031  
+#>  Mean   :1.06592   Mean   :34.88   Mean   :1.519e+02   Mean   :0.552233  
 #>  3rd Qu.:1.59680   3rd Qu.:45.39   3rd Qu.:1.051e+02   3rd Qu.:0.900990  
 #>  Max.   :4.68765   Max.   :54.91   Max.   :2.455e+03   Max.   :0.990099  
     resLOSH_cs <- LOSH.cs(columbus$CRIME, nb2listw(col.gal.nb))
