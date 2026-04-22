@@ -9,13 +9,15 @@ A version of the Moran scatterplot (see \code{\link{moran.plot}}) supplemented b
 \usage{
 moran.plot.drop(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   significant = TRUE, xlab = NULL, ylab = NULL, return_df = TRUE,
-  spChk = NULL, labels = NULL, zero.policy=attr(listw, "zero.policy"))
+  spChk = NULL, labels = NULL, zero.policy=attr(listw, "zero.policy"),
+  na.action =  na.fail, conditional = TRUE, alternative = "two.sided",
+  mlvar = TRUE, adjust.x = FALSE, quadrant.type = "mean")
 }
 
 \arguments{
   \item{x}{a numerical vector holding the attribute of interest}
   \item{listw}{a \code{listw} spatial weights object}
-  \item{locmoran}{a fitted object of type \code{localmoran}}
+  \item{locmoran}{a fitted object of class \code{localmoran}; if NULL, computed internally}
   \item{alpha}{default 0.05; the desired significance level regarding local Moran's \emph{I}}
   \item{adjusted_p}{default NULL; an optional vector of \emph{p} values adjusted to account for multiple testing as is returned by \code{\link{p.adjustSP}}; if NULL, standard normal approximation is used to determine critical values}
   \item{significant}{default TRUE; a parameter indicating whether to display critical value distances of significant (default) or non-significant observations}
@@ -25,6 +27,12 @@ moran.plot.drop(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   \item{spChk}{default NULL to use \code{get.spChkOption()}; should the locmoran names be checked against the listw spatial objects for identity integrity, TRUE, or FALSE}
   \item{labels}{default NULL; no labels are plotted by default; region IDs from the \code{listw} object are used as labels of significant observations if set to TRUE; custom labels are used if a character vector is provided}
   \item{zero.policy}{default option stored in the listw object; if FALSE stop with error for any empty neighbour sets, if TRUE permit the weights list to be formed with zero-length weights vectors}
+  \item{na.action}{a function (default \code{na.fail}), can also be \code{na.omit} or \code{na.exclude} - in these cases the weights list will be subsetted to remove NAs in the data. It may be necessary to set zero.policy to TRUE because this subsetting may create no-neighbour observations. Note that only weights lists created without using the glist argument to \code{nb2listw} may be subsetted. If \code{na.pass} is used, zero is substituted for NA values in calculating the spatial lag. (Note that na.exclude will only work properly starting from R 1.9.0, na.omit and na.exclude assign the wrong classes in 1.8.*)}
+  \item{conditional}{default TRUE: expectation and variance are calculated using the conditional randomization null (Sokal 1998 Eqs. A7 & A8). Elaboration of these changes available in Sauer et al. (2021). If FALSE: expectation and variance are calculated using the total randomization null (Sokal 1998 Eqs. A3 & A4).}
+  \item{alternative}{a character string specifying the alternative hypothesis, must be one of greater, less or two.sided (default).}
+  \item{mlvar}{default TRUE: values of local Moran's I are reported using the variance of the variable of interest (sum of squared deviances over n), but can be reported as the sample variance, dividing by (n-1) instead; both are used in other implementations.}
+  \item{adjust.x}{default FALSE, if TRUE, x values of observations with no neighbours are omitted in the mean of x}
+  \item{quadrant.type}{Default \code{"mean"}, for \code{"localmoran"} objects only, can be \code{c("mean", "median", "pysal")} to partition the Moran scatterplot; \code{"mean"} partitions on the means of the variable and its spatial lag, \code{"median"} on medians of the variable and its spatial lag, \code{"pysal"} at zero for the centred variable and its spatial lag}
 }
 
 \details{
@@ -44,7 +52,7 @@ When return_df is TRUE, a data frame object with the following members is return
 
 \author{Rene Westerholt \email{rene.westerholt@tu-dortmund.de}}
 
-\seealso{\code{\link{moran.plot}}}
+\seealso{\code{\link{moran.plot}}, \code{\link{localmoran}}, \code{\link{hotspot.localmoran}}}
 
 \examples{
 # Boston example (CMEDV; owner-occupied housing in USD)
@@ -52,6 +60,7 @@ data(boston)
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.drop(boston.c$CMEDV, boston.listw, localmoran(boston.c$CMEDV, boston.listw), 0.01,
+moran.plot.drop(boston.c$CMEDV, boston.listw,
+ locmoran=localmoran(boston.c$CMEDV, boston.listw), alpha=0.01,
   significant = TRUE, labels = NULL)
 }

@@ -1,22 +1,31 @@
-moran.plot.drop <- function(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL, significant = TRUE, xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL, labels = NULL, zero.policy=attr(listw, "zero.policy")) {
+moran.plot.drop <- function(x, listw, locmoran=NULL, alpha = 0.05, adjusted_p = NULL, significant = TRUE, xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL, labels = NULL, zero.policy=attr(listw, "zero.policy"),
+ na.action=na.fail, conditional=TRUE, alternative = "two.sided", mlvar=TRUE,
+ adjust.x=FALSE, quadrant.type="mean") {
   if (!inherits(listw, "listw")) 
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
+  intlocmoran <- FALSE
+  if (is.null(locmoran)) {
+    intlocmoran <- TRUE
+    locmoran <- localmoran(x=x, listw=listw,
+      zero.policy=zero.policy, na.action=na.action, conditional=conditional, 
+      alternative=alternative, mlvar=mlvar, adjust.x=adjust.x)
+  }
   if (!inherits(locmoran, "localmoran")) 
     stop(paste(deparse(substitute(locmoran)), "is not a localmoran object"))
-  stopifnot(is.vector(x))
+  if (!intlocmoran) stopifnot(is.vector(x))
   stopifnot(is.logical(significant))
   stopifnot(is.logical(return_df))
   stopifnot(is.numeric(alpha))
-  if (is.null(zero.policy))
+  if (!intlocmoran) if (is.null(zero.policy))
     zero.policy <- get.ZeroPolicyOption()
-  stopifnot(is.logical(zero.policy))
+    if (!intlocmoran) stopifnot(is.logical(zero.policy))
   xname <- deparse(substitute(x))
-  if (!is.numeric(x)) 
-    stop(paste(xname, "is not a numeric vector"))
-  if (anyNA(x)) 
+    if (!intlocmoran) if (!is.numeric(x)) 
+      stop(paste(xname, "is not a numeric vector"))
+  if (!intlocmoran) if (anyNA(x)) 
     stop("NA in X")
   n <- length(listw$neighbours)
-  if (n != length(x)) 
+  if (!intlocmoran) if (n != length(x)) 
     stop("objects of different length")
   usePadj <- FALSE
   if (!is.null(adjusted_p)) {
@@ -26,9 +35,9 @@ moran.plot.drop <- function(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
       stop("NA in vector of adjusted p values")
     usePadj <- TRUE
   }
-  if (is.null(spChk)) 
+  if (!intlocmoran) if (is.null(spChk)) 
     spChk <- get.spChkOption()
-  if (spChk && !chkIDs(locmoran, listw)) 
+  if (!intlocmoran) if (spChk && !chkIDs(locmoran, listw)) 
     stop("Check of data and weights ID integrity failed")
   labs <- TRUE
   if (is.logical(labels)) {
@@ -49,47 +58,66 @@ moran.plot.drop <- function(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   if (is.null(ylab)) 
     ylab <- paste("spatially lagged centred", xname)
   
-  WX <- lag.listw(listw, scale(x, scale = F), zero.policy = zero.policy)
+  if (intlocmoran) {
+    WX <- attr(locmoran, "xlz")$lz
+  } else {
+    WX <- lag.listw(listw, scale(x, scale = FALSE), zero.policy = zero.policy)
+  }
   if (anyNA(WX)) warning("no-neighbour observation(s) found - use zero.policy=TRUE")
   if(usePadj)
     cv <- min(abs(locmoran[(which(adjusted_p <= alpha/2)), 4]))
   else
     cv <- abs(qnorm(1 - alpha, lower.tail = FALSE))
 
+  if (intlocmoran) {
+    quadrant.type <- match.arg(quadrant.type, c("mean", "median", "pysal"))
+    if (is.null(attr(locmoran, "quadr"))) stop("object has no quadr attribute")
+    quadr <- attr(locmoran, "quadr")[[quadrant.type]]
+    HH <- quadr == "High-High"
+    HL <- quadr == "High-Low"
+    LH <- quadr == "Low-High"
+    LL <- quadr == "Low-Low"
+  } else {
+    HH <- x > mean(x) & WX > mean(WX)
+    HL <- x > mean(x) & WX < mean(WX)
+    LL <- x < mean(x) & WX < mean(WX)
+    LH <- x < mean(x) & WX > mean(WX)
+  }
+
   b <- ((cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(x) / (x - mean(x))
   b2 <- ((-cv * sqrt(locmoran[, 3])) + locmoran[, 2]) * var(x) / (x - mean(x))
-  b[which((x < mean(x) & WX > mean(WX)) | (x > mean(x) & WX < mean(WX)))] <- b2[which((x < mean(x) & WX > mean(WX)) | (x > mean(x) & WX < mean(WX)))]
+  b[which((LH) | (HL))] <- b2[which((LH) | (HL))]
   
   if(significant) {
-    x_q1 <- x[which(x > mean(x) & WX > mean(WX) & locmoran[, 4] >= cv)]
-    y_q1 <- WX[which(x > mean(x) & WX > mean(WX) & locmoran[, 4] >= cv)]
-    b_q1 <- b[which(x > mean(x) & WX > mean(WX) & locmoran[, 4] >= cv)]
-    labels_q1 <- labels[which(x > mean(x) & WX > mean(WX) & locmoran[, 4] >= cv)]
-    x_q2 <- x[which(x > mean(x) & WX < mean(WX) & locmoran[, 4] <= (-1) * cv)]
-    y_q2 <- WX[which(x > mean(x) & WX < mean(WX) & locmoran[, 4] <= (-1) * cv)]
-    b_q2 <- b[which(x > mean(x) & WX < mean(WX) & locmoran[, 4] <= (-1) * cv)]
-    labels_q2 <- labels[which(x > mean(x) & WX < mean(WX) & locmoran[, 4] <= (-1) * cv)]
-    x_q3 <- x[which(x < mean(x) & WX < mean(WX) & locmoran[, 4] >= cv)]
-    y_q3 <- WX[which(x < mean(x) & WX < mean(WX) & locmoran[, 4] >= cv)]
-    b_q3 <- b[which(x < mean(x) & WX < mean(WX) & locmoran[, 4] >= cv)]
-    labels_q3 <- labels[which(x < mean(x) & WX < mean(WX) & locmoran[, 4] >= cv)]
-    x_q4 <- x[which(x < mean(x) & WX > mean(WX) & locmoran[, 4] <= (-1) * cv)]
-    y_q4 <- WX[which(x < mean(x) & WX > mean(WX) & locmoran[, 4] <= (-1) * cv)]
-    b_q4 <- b[which(x < mean(x) & WX > mean(WX) & locmoran[, 4] <= (-1) * cv)]
-    labels_q4 <- labels[which(x < mean(x) & WX > mean(WX) & locmoran[, 4] <= (-1) * cv)]
+    x_q1 <- x[which(HH & locmoran[, 4] >= cv)] #HH
+    y_q1 <- WX[which(HH & locmoran[, 4] >= cv)]
+    b_q1 <- b[which(HH & locmoran[, 4] >= cv)]
+    labels_q1 <- labels[which(HH & locmoran[, 4] >= cv)]
+    x_q2 <- x[which(HL & locmoran[, 4] <= (-1) * cv)] #HL
+    y_q2 <- WX[which(HL & locmoran[, 4] <= (-1) * cv)]
+    b_q2 <- b[which(HL & locmoran[, 4] <= (-1) * cv)]
+    labels_q2 <- labels[which(HL & locmoran[, 4] <= (-1) * cv)]
+    x_q3 <- x[which(LL & locmoran[, 4] >= cv)] #LL
+    y_q3 <- WX[which(LL & locmoran[, 4] >= cv)]
+    b_q3 <- b[which(LL & locmoran[, 4] >= cv)]
+    labels_q3 <- labels[which(LL & locmoran[, 4] >= cv)]
+    x_q4 <- x[which(LH & locmoran[, 4] <= (-1) * cv)] #LH
+    y_q4 <- WX[which(LH & locmoran[, 4] <= (-1) * cv)]
+    b_q4 <- b[which(LH & locmoran[, 4] <= (-1) * cv)]
+    labels_q4 <- labels[which(LH & locmoran[, 4] <= (-1) * cv)]
   } else {
-    x_q1 <- x[which(x > mean(x) & WX > mean(WX) & locmoran[, 4] < cv)]
-    y_q1 <- WX[which(x > mean(x) & WX > mean(WX) & locmoran[, 4] < cv)]
-    b_q1 <- b[which(x > mean(x) & WX > mean(WX) & locmoran[, 4] < cv)]
-    x_q2 <- x[which(x > mean(x) & WX < mean(WX) & locmoran[, 4] > (-1) * cv)]
-    y_q2 <- WX[which(x > mean(x) & WX < mean(WX) & locmoran[, 4] > (-1) * cv)]
-    b_q2 <- b[which(x > mean(x) & WX < mean(WX) & locmoran[, 4] > (-1) * cv)]
-    x_q3 <- x[which(x < mean(x) & WX < mean(WX) & locmoran[, 4] < cv)]
-    y_q3 <- WX[which(x < mean(x) & WX < mean(WX) & locmoran[, 4] < cv)]
-    b_q3 <- b[which(x < mean(x) & WX < mean(WX) & locmoran[, 4] < cv)]
-    x_q4 <- x[which(x < mean(x) & WX > mean(WX) & locmoran[, 4] > (-1) * cv)]
-    y_q4 <- WX[which(x < mean(x) & WX > mean(WX) & locmoran[, 4] > (-1) * cv)]
-    b_q4 <- b[which(x < mean(x) & WX > mean(WX) & locmoran[, 4] > (-1) * cv)]
+    x_q1 <- x[which(HH & locmoran[, 4] < cv)] #HH
+    y_q1 <- WX[which(HH & locmoran[, 4] < cv)]
+    b_q1 <- b[which(HH & locmoran[, 4] < cv)]
+    x_q2 <- x[which(HL & locmoran[, 4] > (-1) * cv)] #HL
+    y_q2 <- WX[which(HL & locmoran[, 4] > (-1) * cv)]
+    b_q2 <- b[which(HL & locmoran[, 4] > (-1) * cv)]
+    x_q3 <- x[which(LL & locmoran[, 4] < cv)] #LL
+    y_q3 <- WX[which(LL & locmoran[, 4] < cv)]
+    b_q3 <- b[which(LL & locmoran[, 4] < cv)]
+    x_q4 <- x[which(LH & locmoran[, 4] > (-1) * cv)] #LH
+    y_q4 <- WX[which(LH & locmoran[, 4] > (-1) * cv)]
+    b_q4 <- b[which(LH & locmoran[, 4] > (-1) * cv)]
   }
   
   lw.lm <- lm(WX ~ x)
@@ -128,6 +156,7 @@ moran.plot.drop <- function(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   
   if(return_df) {
     res <- data.frame(labels = labels, x = x, WX = WX, b = b, line_lengths = abs(WX - b))
+    attr(res, "plot_objs") <- list(df_q1=data.frame(x_q1, y_q1, b_q1), df_q2=data.frame(x_q2, y_q2, b_q2), df_q3=data.frame(x_q3, y_q3, b_q3), df_q4=data.frame(x_q4, y_q4, b_q4))
     invisible(res)
   }
 }

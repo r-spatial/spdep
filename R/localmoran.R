@@ -1,9 +1,9 @@
 # Copyright 2001-18 by Roger Bivand, 2021 Jeff Sauer and Levi Wolf (conditional code)
 #
 
-localmoran <- function(x, listw, zero.policy=attr(listw, "zero.policy"), na.action=na.fail,
-        conditional=TRUE, alternative = "two.sided",
-        mlvar=TRUE, spChk=NULL, adjust.x=FALSE) {
+localmoran <- function(x, listw, zero.policy=attr(listw, "zero.policy"),
+ na.action=na.fail, conditional=TRUE, alternative = "two.sided", mlvar=TRUE,
+ spChk=NULL, adjust.x=FALSE) {
         stopifnot(is.vector(x))
 	if (!inherits(listw, "listw"))
 		stop(paste(deparse(substitute(listw)), "is not a listw object"))
@@ -125,6 +125,7 @@ localmoran <- function(x, listw, zero.policy=attr(listw, "zero.policy"), na.acti
 	class(res) <- c("localmoran", class(res))
         attr(res, "quadr") <- data.frame(mean=quadr, median=quadr_med,
             pysal=quadr_ps)
+        attr(res, "xlz") <- data.frame(x=x, lz=lz)
 	res
 }
 
