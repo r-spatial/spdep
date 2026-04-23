@@ -3,6 +3,7 @@ moran.plot.drop <- function(x, listw, locmoran=NULL, alpha = 0.05, adjusted_p = 
  adjust.x=FALSE, quadrant.type="mean") {
   if (!inherits(listw, "listw")) 
     stop(paste(deparse(substitute(listw)), "is not a listw object"))
+  if (missing(locmoran)) locmoran <- NULL
   intlocmoran <- FALSE
   if (is.null(locmoran)) {
     intlocmoran <- TRUE
@@ -67,7 +68,7 @@ moran.plot.drop <- function(x, listw, locmoran=NULL, alpha = 0.05, adjusted_p = 
   if(usePadj)
     cv <- min(abs(locmoran[(which(adjusted_p <= alpha/2)), 4]))
   else
-    cv <- abs(qnorm(1 - alpha, lower.tail = FALSE))
+    cv <- qnorm(alpha/2, lower.tail = FALSE)
 
   if (intlocmoran) {
     quadrant.type <- match.arg(quadrant.type, c("mean", "median", "pysal"))

@@ -10,6 +10,9 @@ b <- moran.plot.drop(boston.c$CMEDV, boston.listw,
  locmoran=NULL, alpha=0.01,
  significant = TRUE, labels = NULL, return_df=TRUE)
 expect_true(isTRUE(all.equal(a, b)))
+bm <- moran.plot.drop(boston.c$CMEDV, boston.listw,
+ alpha=0.01, significant = TRUE, labels = NULL, return_df=TRUE)
+expect_true(isTRUE(all.equal(a, bm)))
 a1 <- moran.plot.drop(boston.c$CMEDV, boston.listw,
  locmoran=localmoran(boston.c$CMEDV, boston.listw), alpha=0.01,
  significant = FALSE, labels = NULL, return_df=TRUE)
@@ -23,3 +26,7 @@ c <- moran.plot.seismogram(boston.c$CMEDV, boston.listw,
 d <- moran.plot.seismogram(boston.c$CMEDV, boston.listw,
  locmoran=NULL, alpha=0.01, zero.policy = TRUE, return_df=TRUE)
 expect_true(isTRUE(all.equal(c, d)))
+dm <- moran.plot.seismogram(boston.c$CMEDV, boston.listw,
+ alpha=0.01, zero.policy = TRUE, return_df=TRUE)
+expect_true(isTRUE(all.equal(c, dm)))
+

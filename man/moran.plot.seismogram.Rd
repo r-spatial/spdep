@@ -17,8 +17,8 @@ moran.plot.seismogram(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
 \arguments{
   \item{x}{a numerical vector holding the attribute of interest}
   \item{listw}{a \code{listw} spatial weights object}
-  \item{locmoran}{a fitted object of class localmoran; if NULL, computed internally}
-  \item{alpha}{default 0.05; the desired significance level regarding local Moran's \emph{I}}
+  \item{locmoran}{(may be omitted, computed internally) a fitted object of class localmoran; if NULL, computed internally}
+  \item{alpha}{default 0.05; the desired two-sided significance level regarding local Moran's \emph{I}}
   \item{adjusted_p}{default NULL; an optional vector of \emph{p} values adjusted to account for multiple testing as is returned by \code{\link{p.adjustSP}}; if NULL, standard normal approximation is used to determine critical values}
   \item{xlab}{default NULL; an optional label for the x-axis}
   \item{ylab}{default NULL; an optional label for the y-axis}
@@ -56,7 +56,6 @@ data(boston)
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.seismogram(boston.c$CMEDV, boston.listw,
- locmoran=localmoran(boston.c$CMEDV, boston.listw), alpha=0.01,
+moran.plot.seismogram(boston.c$CMEDV, boston.listw, alpha = 0.01,
  zero.policy = TRUE)
 }
