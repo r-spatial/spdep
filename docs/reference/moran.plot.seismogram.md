@@ -11,7 +11,9 @@ visual inspection of potential spatial weights misspecifiation.
 ``` r
 moran.plot.seismogram(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   xlab = NULL, ylab = NULL, return_df = TRUE, spChk = NULL,
-  zero.policy = attr(listw, "zero.policy"))
+  zero.policy = attr(listw, "zero.policy"), na.action = na.fail,
+  conditional = TRUE, alternative = "two.sided", mlvar = TRUE,
+  adjust.x = FALSE, quadrant.type = "mean")
 ```
 
 ## Arguments
@@ -26,12 +28,13 @@ moran.plot.seismogram(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
 
 - locmoran:
 
-  a fitted object of type localmoran
+  (may be omitted, computed internally) a fitted object of class
+  localmoran; if NULL, computed internally
 
 - alpha:
 
-  default 0.05; the desired significance level regarding local Moran's
-  *I*
+  default 0.05; the desired two-sided significance level regarding local
+  Moran's *I*
 
 - adjusted_p:
 
@@ -66,6 +69,51 @@ moran.plot.seismogram(x, listw, locmoran, alpha = 0.05, adjusted_p = NULL,
   default option stored in the listw object; if FALSE stop with error
   for any empty neighbour sets, if TRUE permit the weights list to be
   formed with zero-length weights vectors
+
+- na.action:
+
+  a function (default `na.fail`), can also be `na.omit` or
+  `na.exclude` - in these cases the weights list will be subsetted to
+  remove NAs in the data. It may be necessary to set zero.policy to TRUE
+  because this subsetting may create no-neighbour observations. Note
+  that only weights lists created without using the glist argument to
+  `nb2listw` may be subsetted. If `na.pass` is used, zero is substituted
+  for NA values in calculating the spatial lag. (Note that na.exclude
+  will only work properly starting from R 1.9.0, na.omit and na.exclude
+  assign the wrong classes in 1.8.\*)
+
+- conditional:
+
+  default TRUE: expectation and variance are calculated using the
+  conditional randomization null (Sokal 1998 Eqs. A7 & A8). Elaboration
+  of these changes available in Sauer et al. (2021). If FALSE:
+  expectation and variance are calculated using the total randomization
+  null (Sokal 1998 Eqs. A3 & A4).
+
+- alternative:
+
+  a character string specifying the alternative hypothesis, must be one
+  of greater, less or two.sided (default).
+
+- mlvar:
+
+  default TRUE: values of local Moran's I are reported using the
+  variance of the variable of interest (sum of squared deviances over
+  n), but can be reported as the sample variance, dividing by (n-1)
+  instead; both are used in other implementations.
+
+- adjust.x:
+
+  default FALSE, if TRUE, x values of observations with no neighbours
+  are omitted in the mean of x
+
+- quadrant.type:
+
+  Default `"mean"`, for `"localmoran"` objects only, can be
+  `c("mean", "median", "pysal")` to partition the Moran scatterplot;
+  `"mean"` partitions on the means of the variable and its spatial lag,
+  `"median"` on medians of the variable and its spatial lag, `"pysal"`
+  at zero for the centred variable and its spatial lag
 
 ## Details
 
@@ -122,7 +170,9 @@ Rene Westerholt <rene.westerholt@tu-dortmund.de>
 
 ## See also
 
-[`moran.plot`](https://r-spatial.github.io/spdep/reference/moran.plot.md)
+[`moran.plot`](https://r-spatial.github.io/spdep/reference/moran.plot.md),
+[`localmoran`](https://r-spatial.github.io/spdep/reference/localmoran.md),
+[`hotspot.localmoran`](https://r-spatial.github.io/spdep/reference/hotspotmap.md)
 
 ## Examples
 
@@ -139,6 +189,6 @@ boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg", package="spDat
 #> Geodetic CRS:  NAD27
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.seismogram(boston.c$CMEDV, boston.listw,
- localmoran(boston.c$CMEDV, boston.listw), 0.01, zero.policy = TRUE)
+moran.plot.seismogram(boston.c$CMEDV, boston.listw, alpha = 0.01,
+ zero.policy = TRUE)
 ```

@@ -201,7 +201,7 @@ str(obj)
 #>  - attr(*, "timings")=List of 3
 #>   ..$ set_up        : 'proc_time' Named num [1:5] 0.001 0 0 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
-#>   ..$ processing    : 'proc_time' Named num [1:5] 0.094 0 0.095 0 0
+#>   ..$ processing    : 'proc_time' Named num [1:5] 0.098 0 0.099 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
 #>   ..$ postprocessing: 'proc_time' Named num [1:5] 0.001 0 0.001 0 0
 #>   .. ..- attr(*, "names")= chr [1:5] "user.self" "sys.self" "elapsed" "user.child" ...
@@ -264,7 +264,7 @@ if (GDAL37) {
     sc50m <- st_read(target)
 }
 #> Reading layer `GB_2024_southcoast_50m' from data source 
-#>   `/tmp/RtmpdZ48NN/GB_2024_southcoast_50m.gpkg' using driver `GPKG'
+#>   `/tmp/RtmplB8w26/GB_2024_southcoast_50m.gpkg' using driver `GPKG'
 #> Simple feature collection with 119 features and 19 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY

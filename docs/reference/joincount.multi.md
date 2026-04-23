@@ -228,7 +228,7 @@ if (GDAL37) {
     sc50m <- st_read(target)
 }
 #> Reading layer `GB_2024_southcoast_50m' from data source 
-#>   `/tmp/RtmpdZ48NN/GB_2024_southcoast_50m.gpkg' using driver `GPKG'
+#>   `/tmp/RtmplB8w26/GB_2024_southcoast_50m.gpkg' using driver `GPKG'
 #> Simple feature collection with 119 features and 19 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY
