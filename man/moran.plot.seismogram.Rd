@@ -52,10 +52,9 @@ When return_df is TRUE, a data frame object with the following members is return
 
 \examples{
 # Boston example (CMEDV; owner-occupied housing in USD)
-data(boston)
 boston.tr <- sf::st_read(system.file("shapes/boston_tracts.gpkg", package="spData")[1])
 boston.nb <- poly2nb(boston.tr)
 boston.listw <- nb2listw(boston.nb)
-moran.plot.seismogram(boston.c$CMEDV, boston.listw, alpha = 0.01,
+moran.plot.seismogram(boston.tr$CMEDV, boston.listw, alpha = 0.01,
  zero.policy = TRUE)
 }
