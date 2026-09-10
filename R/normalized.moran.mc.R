@@ -58,7 +58,7 @@ normalized.moran.mc <- function(x, listw, nsim, zero.policy = attr(listw, "zero.
       var <- var[i]
       return(normalized.moran(x = var, ...))
     }
-    p_setup <- spdep:::parallel_setup(NULL)
+    p_setup <- parallel_setup(NULL)
     parallel <- p_setup$parallel
     ncpus <- p_setup$ncpus
     cl <- p_setup$cl
