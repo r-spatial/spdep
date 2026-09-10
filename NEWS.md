@@ -4,6 +4,8 @@
 
 * add `NO_LEGACY_NONAP`
 
+* add `normalized.moran.test` and `normalized.moran.mc` to compute the I_6 normalized Moran's I index and perform the associated tests by Tillé et al. (2026)
+
 # Version 1.4-2 (2026-02-13)
 
 * robustness checks on `licd_multi`, update `hotspot` method for `licd_multi` output

@@ -105,6 +105,10 @@ export(plot_spatialcoords, plot_moran, plot_spatialscree, localdelta,
         factorial_coordinates, plot_factorialcoords, plot_factorialscree,
         cornish_fisher)
 
+export(normalized.moran)
+export(normalized.moran.mc)
+export(normalized.moran.test)
+
 S3method(print, nb)
 S3method(summary, nb)
 S3method(print, summary.nb)

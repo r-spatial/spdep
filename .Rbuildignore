@@ -7,3 +7,5 @@ README.md
 .github
 .git
 _pkgdown.yml
+^.*\.Rproj$
+^\.Rproj\.user$
