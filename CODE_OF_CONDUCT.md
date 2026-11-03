@@ -12,9 +12,6 @@ We are committed to fostering an environment that respects and promotes the dign
 
 While acknowledging differences in social norms, we all strive to meet our community's expectations for positive behavior. We also understand that our words and actions may be interpreted differently than we intend based on culture, background, or native language.
 
-
-No contributions using any form of artificial intelligence or large language model output are accepted in any form. LLM-based issues will always be close without review.
-
 With these considerations in mind, we agree to behave mindfully toward each other and act in ways that center our shared values, including:
 
 1. Respecting the **purpose of our community**, our activities, and our ways of gathering.
@@ -39,6 +36,8 @@ We agree to restrict the following behaviors in our community. Instances, threat
 7. Behaving in other ways that **threaten the well-being** of our community.
 
 ### Other Restrictions
+
+No contributions using any form of artificial intelligence or large language model output are accepted in any form. LLM-based issues will always be closed without review.
 
 1. **No AI/LLM** Any use of artificial intelligence or large language models in any contributions, such as issues or pull requests.
 2. **Misleading identity.** Impersonating someone else for any reason, or pretending to be someone else to evade enforcement actions.
