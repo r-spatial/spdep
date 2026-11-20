@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://r-spatial.github.io/spdep/404.html</loc></url>
+<url><loc>https://r-spatial.github.io/spdep/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://r-spatial.github.io/spdep/articles/CO69.html</loc></url>
 <url><loc>https://r-spatial.github.io/spdep/articles/index.html</loc></url>
 <url><loc>https://r-spatial.github.io/spdep/articles/nb.html</loc></url>
@@ -84,6 +85,9 @@
 <url><loc>https://r-spatial.github.io/spdep/reference/nbdists.html</loc></url>
 <url><loc>https://r-spatial.github.io/spdep/reference/nblag.html</loc></url>
 <url><loc>https://r-spatial.github.io/spdep/reference/nboperations.html</loc></url>
+<url><loc>https://r-spatial.github.io/spdep/reference/normalized.moran.html</loc></url>
+<url><loc>https://r-spatial.github.io/spdep/reference/normalized.moran.mc.html</loc></url>
+<url><loc>https://r-spatial.github.io/spdep/reference/normalized.moran.test.html</loc></url>
 <url><loc>https://r-spatial.github.io/spdep/reference/p.adjustSP.html</loc></url>
 <url><loc>https://r-spatial.github.io/spdep/reference/plot.mst.html</loc></url>
 <url><loc>https://r-spatial.github.io/spdep/reference/plot.nb.html</loc></url>

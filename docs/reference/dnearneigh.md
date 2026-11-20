@@ -65,8 +65,8 @@ dnearneigh(x, d1, d2, row.names = NULL, longlat = NULL, bounds=c("GE", "LE"),
 - use_kd_tree:
 
   default TRUE, if TRUE, use dbscan
-  [`frNN`](https://rdrr.io/pkg/dbscan/man/frNN.html) if available
-  (permitting 3D distances).
+  [`frNN`](https://michael.hahsler.net/dbscan/reference/frNN.html) if
+  available (permitting 3D distances).
 
 - symtest:
 
@@ -243,7 +243,7 @@ system.time(o <- nbdists(gck1b, xy1))
 system.time(gc.nb.dwithin <- dnearneigh(xy1, 0, all.linked, use_s2=TRUE, dwithin=TRUE))
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.011   0.001   0.012 
+#>   0.013   0.000   0.013 
 summary(gc.nb, xy1, scale=0.5)
 #> Neighbour list object:
 #> Number of regions: 48 
@@ -265,13 +265,13 @@ if (packageVersion("s2") > "1.0.7") {
 }
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.010   0.000   0.011 
+#>   0.011   0.000   0.011 
 if (packageVersion("s2") > "1.0.7") {
 system.time(gc.nb.dwithin <- dnearneigh(xy1, 0, all.linked, use_s2=TRUE, dwithin=TRUE))
 }
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.012   0.000   0.012 
+#>   0.013   0.000   0.013 
 if (packageVersion("s2") > "1.0.7") {
 summary(gc.nb.dwithin, xy1, scale=0.5)
 }
@@ -314,7 +314,7 @@ summary(gc.nb.closest, xy1, scale=0.5)
 system.time(gc.nb.legacy <- dnearneigh(xy1, 0, all.linked, use_s2=FALSE))
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.007   0.000   0.006 
+#>   0.006   0.000   0.006 
 summary(gc.nb, xy1, scale=0.5)
 #> Neighbour list object:
 #> Number of regions: 48 

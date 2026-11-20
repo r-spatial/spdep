@@ -82,7 +82,7 @@ Roger Bivand <Roger.Bivand@nhh.no>
 [`knn`](https://rdrr.io/pkg/class/man/knn.html),
 [`dnearneigh`](https://r-spatial.github.io/spdep/reference/dnearneigh.md),
 [`knn2nb`](https://r-spatial.github.io/spdep/reference/knn2nb.md),
-[`kNN`](https://rdrr.io/pkg/dbscan/man/kNN.html)
+[`kNN`](https://michael.hahsler.net/dbscan/reference/kNN.html)
 
 ## Examples
 
@@ -152,7 +152,7 @@ old_use_s2 <- sf_use_s2()
 sf_use_s2(TRUE)
 system.time(gck4a.nb <- knn2nb(knearneigh(xy1, k=4)))
 #>    user  system elapsed 
-#>   0.011   0.000   0.011 
+#>   0.011   0.000   0.010 
 summary(gck4a.nb, xy1, scale=0.5)
 #> Neighbour list object:
 #> Number of regions: 48 
@@ -172,7 +172,7 @@ sf_use_s2(FALSE)
 #> Spherical geometry (s2) switched off
 system.time(gck4a.nb <- knn2nb(knearneigh(xy1, k=4)))
 #>    user  system elapsed 
-#>   0.007   0.000   0.006 
+#>   0.006   0.000   0.007 
 summary(gck4a.nb, xy1, scale=0.5)
 #> Neighbour list object:
 #> Number of regions: 48 

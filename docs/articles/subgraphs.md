@@ -52,7 +52,7 @@ library(spdep)
 
     ## Loading required package: sf
 
-    ## Linking to GEOS 3.14.1, GDAL 3.13.0beta1, PROJ 9.9.0; sf_use_s2() is TRUE
+    ## Linking to GEOS 3.15.0, GDAL 3.13.3, PROJ 9.9.0; sf_use_s2() is TRUE
 
 ``` r
 args(moran.test)
@@ -93,7 +93,7 @@ GDAL37 <- numeric_version(unname(sf::sf_extSoftVersion()["GDAL"]), strict=FALSE)
 (GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
 ```
 
-    ## [1] FALSE
+    ## [1] TRUE
 
 The boundaries are taken from the Ordnance Survey Boundary-Line site,
 <https://osdatahub.os.uk/downloads/open/BoundaryLine>, choosing the 2024
@@ -118,7 +118,8 @@ if (GDAL37) {
 ```
 
     ## Reading layer `GB_2024_Wales_50m' from data source 
-    ##   `/tmp/Rtmpy0McM6/GB_2024_Wales_50m.gpkg' using driver `GPKG'
+    ##   `/tmp/RtmplCSFTs/temp_libpath3214367cc040f/spdep/etc/shapes/GB_2024_Wales_50m.gpkg.zip' 
+    ##   using driver `GPKG'
     ## Simple feature collection with 32 features and 19 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
@@ -378,7 +379,8 @@ if (GDAL37) {
 ```
 
     ## Reading layer `GB_2024_southcoast_50m' from data source 
-    ##   `/tmp/Rtmpy0McM6/GB_2024_southcoast_50m.gpkg' using driver `GPKG'
+    ##   `/tmp/RtmplCSFTs/temp_libpath3214367cc040f/spdep/etc/shapes/GB_2024_southcoast_50m.gpkg.zip' 
+    ##   using driver `GPKG'
     ## Simple feature collection with 119 features and 19 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY
@@ -772,7 +774,9 @@ if (GDAL37) {
 }
 ```
 
-    ## Reading layer `tokyo' from data source `/tmp/Rtmpy0McM6/tokyo.gpkg' using driver `GPKG'
+    ## Reading layer `tokyo' from data source 
+    ##   `/tmp/RtmplCSFTs/temp_libpath3214367cc040f/spdep/etc/shapes/tokyo.gpkg.zip' 
+    ##   using driver `GPKG'
     ## Simple feature collection with 262 features and 3 fields
     ## Geometry type: MULTIPOLYGON
     ## Dimension:     XY

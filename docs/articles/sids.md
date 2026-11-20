@@ -21,7 +21,7 @@ functions in the spatial statistics module user’s manual (Kaluzny et al.
 ## Getting the data into R
 
 We will be using the **spdep** and **spreg** packages, here version:
-spdep, version 1.4-3, 2026-04-12, the **sf** package and the **tmap**
+spdep, version 1.4-3, 2026-11-20, the **sf** package and the **tmap**
 package. The data from the sources referred to above is documented in
 the help page for the `nc.sids` data set in **spData**. The actual data,
 included in a shapefile of the county boundaries for North Carolina were
@@ -72,48 +72,48 @@ names(nc)
 summary(nc)
 ```
 
-    ##     CNTY_ID          AREA          PERIMETER         CNTY_     
-    ##  Min.   :1825   Min.   :0.0420   Min.   :0.999   Min.   :1825  
-    ##  1st Qu.:1902   1st Qu.:0.0910   1st Qu.:1.324   1st Qu.:1902  
-    ##  Median :1982   Median :0.1205   Median :1.609   Median :1982  
-    ##  Mean   :1986   Mean   :0.1263   Mean   :1.673   Mean   :1986  
-    ##  3rd Qu.:2067   3rd Qu.:0.1542   3rd Qu.:1.859   3rd Qu.:2067  
-    ##  Max.   :2241   Max.   :0.2410   Max.   :3.640   Max.   :2241  
-    ##      NAME               FIPS               FIPSNO         CRESS_ID     
-    ##  Length:100         Length:100         Min.   :37001   Min.   :  1.00  
-    ##  Class :character   Class :character   1st Qu.:37050   1st Qu.: 25.75  
-    ##  Mode  :character   Mode  :character   Median :37100   Median : 50.50  
-    ##                                        Mean   :37100   Mean   : 50.50  
-    ##                                        3rd Qu.:37150   3rd Qu.: 75.25  
-    ##                                        Max.   :37199   Max.   :100.00  
-    ##      BIR74           SID74          NWBIR74           BIR79      
-    ##  Min.   :  248   Min.   : 0.00   Min.   :   1.0   Min.   :  319  
-    ##  1st Qu.: 1077   1st Qu.: 2.00   1st Qu.: 190.0   1st Qu.: 1336  
-    ##  Median : 2180   Median : 4.00   Median : 697.5   Median : 2636  
-    ##  Mean   : 3300   Mean   : 6.67   Mean   :1051.0   Mean   : 4224  
-    ##  3rd Qu.: 3936   3rd Qu.: 8.25   3rd Qu.:1168.5   3rd Qu.: 4889  
-    ##  Max.   :21588   Max.   :44.00   Max.   :8027.0   Max.   :30757  
-    ##      SID79          NWBIR79             east           north      
-    ##  Min.   : 0.00   Min.   :    3.0   Min.   : 19.0   Min.   :  6.0  
-    ##  1st Qu.: 2.00   1st Qu.:  250.5   1st Qu.:178.8   1st Qu.: 97.0  
-    ##  Median : 5.00   Median :  874.5   Median :285.0   Median :125.5  
-    ##  Mean   : 8.36   Mean   : 1352.8   Mean   :271.3   Mean   :122.1  
-    ##  3rd Qu.:10.25   3rd Qu.: 1406.8   3rd Qu.:361.2   3rd Qu.:151.5  
-    ##  Max.   :57.00   Max.   :11631.0   Max.   :482.0   Max.   :182.0  
-    ##        x                 y             lon              lat       
-    ##  Min.   :-328.04   Min.   :3757   Min.   :-84.08   Min.   :33.92  
-    ##  1st Qu.: -60.55   1st Qu.:3920   1st Qu.:-81.20   1st Qu.:35.26  
-    ##  Median : 114.38   Median :3963   Median :-79.26   Median :35.68  
-    ##  Mean   :  91.46   Mean   :3953   Mean   :-79.51   Mean   :35.62  
-    ##  3rd Qu.: 240.03   3rd Qu.:4000   3rd Qu.:-77.87   3rd Qu.:36.05  
-    ##  Max.   : 439.65   Max.   :4060   Max.   :-75.67   Max.   :36.52  
-    ##       L_id           M_id                 geom    
-    ##  Min.   :1.00   Min.   :1.00   MULTIPOLYGON :100  
-    ##  1st Qu.:1.00   1st Qu.:2.00   epsg:4267    :  0  
-    ##  Median :2.00   Median :3.00   +proj=long...:  0  
-    ##  Mean   :2.12   Mean   :2.67                      
-    ##  3rd Qu.:3.00   3rd Qu.:3.25                      
-    ##  Max.   :4.00   Max.   :4.00
+    ##     CNTY_ID          AREA          PERIMETER         CNTY_             NAME    
+    ##  Min.   :1825   Min.   :0.0420   Min.   :0.999   Min.   :1825   Length   :100  
+    ##  1st Qu.:1902   1st Qu.:0.0910   1st Qu.:1.324   1st Qu.:1902   N.unique :100  
+    ##  Median :1982   Median :0.1205   Median :1.609   Median :1982   N.blank  :  0  
+    ##  Mean   :1986   Mean   :0.1263   Mean   :1.673   Mean   :1986   Min.nchar:  3  
+    ##  3rd Qu.:2067   3rd Qu.:0.1542   3rd Qu.:1.859   3rd Qu.:2067   Max.nchar: 12  
+    ##  Max.   :2241   Max.   :0.2410   Max.   :3.640   Max.   :2241                  
+    ##         FIPS         FIPSNO         CRESS_ID          BIR74      
+    ##  Length   :100   Min.   :37001   Min.   :  1.00   Min.   :  248  
+    ##  N.unique :100   1st Qu.:37050   1st Qu.: 25.75   1st Qu.: 1077  
+    ##  N.blank  :  0   Median :37100   Median : 50.50   Median : 2180  
+    ##  Min.nchar:  5   Mean   :37100   Mean   : 50.50   Mean   : 3300  
+    ##  Max.nchar:  5   3rd Qu.:37150   3rd Qu.: 75.25   3rd Qu.: 3936  
+    ##                  Max.   :37199   Max.   :100.00   Max.   :21588  
+    ##      SID74          NWBIR74           BIR79           SID79      
+    ##  Min.   : 0.00   Min.   :   1.0   Min.   :  319   Min.   : 0.00  
+    ##  1st Qu.: 2.00   1st Qu.: 190.0   1st Qu.: 1336   1st Qu.: 2.00  
+    ##  Median : 4.00   Median : 697.5   Median : 2636   Median : 5.00  
+    ##  Mean   : 6.67   Mean   :1051.0   Mean   : 4224   Mean   : 8.36  
+    ##  3rd Qu.: 8.25   3rd Qu.:1168.5   3rd Qu.: 4889   3rd Qu.:10.25  
+    ##  Max.   :44.00   Max.   :8027.0   Max.   :30757   Max.   :57.00  
+    ##     NWBIR79             east           north             x          
+    ##  Min.   :    3.0   Min.   : 19.0   Min.   :  6.0   Min.   :-328.04  
+    ##  1st Qu.:  250.5   1st Qu.:178.8   1st Qu.: 97.0   1st Qu.: -60.55  
+    ##  Median :  874.5   Median :285.0   Median :125.5   Median : 114.38  
+    ##  Mean   : 1352.8   Mean   :271.3   Mean   :122.1   Mean   :  91.46  
+    ##  3rd Qu.: 1406.8   3rd Qu.:361.2   3rd Qu.:151.5   3rd Qu.: 240.03  
+    ##  Max.   :11631.0   Max.   :482.0   Max.   :182.0   Max.   : 439.65  
+    ##        y             lon              lat             L_id           M_id     
+    ##  Min.   :3757   Min.   :-84.08   Min.   :33.92   Min.   :1.00   Min.   :1.00  
+    ##  1st Qu.:3920   1st Qu.:-81.20   1st Qu.:35.26   1st Qu.:1.00   1st Qu.:2.00  
+    ##  Median :3963   Median :-79.26   Median :35.68   Median :2.00   Median :3.00  
+    ##  Mean   :3953   Mean   :-79.51   Mean   :35.62   Mean   :2.12   Mean   :2.67  
+    ##  3rd Qu.:4000   3rd Qu.:-77.87   3rd Qu.:36.05   3rd Qu.:3.00   3rd Qu.:3.25  
+    ##  Max.   :4060   Max.   :-75.67   Max.   :36.52   Max.   :4.00   Max.   :4.00  
+    ##             geom    
+    ##  MULTIPOLYGON :100  
+    ##  epsg:4267    :  0  
+    ##  +proj=long...:  0  
+    ##                     
+    ##                     
+    ## 
 
 Let’s check the different versions of the data against each other -
 **sf** and **spData** have NC SIDS files, as does GeoDa Center in two
@@ -168,7 +168,9 @@ st_crs(nc)
     ##             ANGLEUNIT["degree",0.0174532925199433]],
     ##     USAGE[
     ##         SCOPE["Geodesy."],
-    ##         AREA["North and central America: Antigua and Barbuda - onshore. Bahamas - onshore plus offshore over internal continental shelf only. Belize - onshore. British Virgin Islands - onshore. Canada onshore - Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan and Yukon - plus offshore east coast west of 44°W and north of 40°N. Cuba - onshore and offshore. El Salvador - onshore. Guatemala - onshore. Honduras - onshore. Panama - onshore. Puerto Rico - onshore. Mexico - onshore plus offshore east coast. Nicaragua - onshore. United States (USA) onshore and offshore - Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware, Florida, Georgia, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana, Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina, North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina, South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia, Wisconsin and Wyoming - plus offshore . US Virgin Islands - onshore."],
+    ##         AREA["North and central America: Antigua and Barbuda - onshore. Bahamas - onshore plus offshore over internal continental shelf only. Belize - onshore. British Virgin Islands - onshore. Canada onshore - Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan and Yukon - plus offshore east coast west of 44°W and north of 40°N. Cuba - onshore and offshore. El Salvador - onshore. Guatemala - onshore. Honduras - onshore. Panama - onshore. Puerto Rico - onshore. Mexico - onshore plus offshore east coast. Nicaragua - onshore. United States (USA) - Alaska and 
+    ## 
+    ## onshore and offshore. US Virgin Islands - onshore."],
     ##         BBOX[7.15,167.65,83.17,-43.99]],
     ##     ID["EPSG",4267],
     ##     REMARK["Note: this CRS includes longitudes which are POSITIVE EAST. Replaced by NAD27(76) (code 4608) in Ontario, CGQ77 (code 4609) in Quebec, Mexican Datum of 1993 (code 4483) in Mexico, NAD83 (code 4269) in Canada (excl. Ontario & Quebec) & USA."]]

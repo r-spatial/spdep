@@ -40,7 +40,7 @@ A shape polygon object with seven variables:
 ``` r
 GDAL37 <- numeric_version(unname(sf::sf_extSoftVersion()["GDAL"]), strict=FALSE)
 (GDAL37 <- ifelse(is.na(GDAL37), FALSE, GDAL37 >= "3.7.0"))
-#> [1] FALSE
+#> [1] TRUE
 file <- "etc/shapes/bhicv.gpkg.zip"
 zipfile <- system.file(file, package="spdep")
 if (GDAL37) {
@@ -51,7 +51,9 @@ if (GDAL37) {
     target <- unzip(zipfile, files=bn, exdir=td)
     bh <- st_read(target)
 }
-#> Reading layer `bhicv' from data source `/tmp/RtmpdZ48NN/bhicv.gpkg' using driver `GPKG'
+#> Reading layer `bhicv' from data source 
+#>   `/tmp/RtmplCSFTs/temp_libpath3214367cc040f/spdep/etc/shapes/bhicv.gpkg.zip' 
+#>   using driver `GPKG'
 #> Simple feature collection with 98 features and 8 fields
 #> Geometry type: POLYGON
 #> Dimension:     XY

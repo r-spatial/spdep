@@ -36,7 +36,7 @@ library(spdep)
 
     ## Loading required package: sf
 
-    ## Linking to GEOS 3.14.1, GDAL 3.13.0beta1, PROJ 9.9.0; sf_use_s2() is TRUE
+    ## Linking to GEOS 3.15.0, GDAL 3.13.3, PROJ 9.9.0; sf_use_s2() is TRUE
 
 ``` r
 if (packageVersion("spData") >= "2.3.2") {

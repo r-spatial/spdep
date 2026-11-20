@@ -237,6 +237,9 @@ if (run) {
 # \donttest{
 tmap_ok <- FALSE
 if (require(tmap, quietly=TRUE)) tmap_ok <- TRUE
+#> Registered S3 method overwritten by 'stars':
+#>   method                  from
+#>   st_interpolate_aw.stars sf  
 if (run) {
   # doi: 10.1111/gean.12164
   guerry_path <- system.file("extdata", "Guerry.shp", package = "rgeoda")
@@ -422,7 +425,7 @@ if (run) {
     alternative="two.sided"))
 }
 #>    user  system elapsed 
-#>   0.324   0.011   0.336 
+#>   0.298   0.011   0.311 
 if (run) {
   if (require(parallel, quietly=TRUE)) {
     ncpus <- max(2L, detectCores(logical=FALSE), na.rm = TRUE)-1L
@@ -609,7 +612,7 @@ if (run) {
     plot(g["lmc_PC"])
   }
 }
-#> The visual variable `fill` of the layer "polygons" contains a unique value.
+#> The map variable `fill` of the layer "polygons" contains a unique value.
 #> Therefore a categorical scale is applied (tm_scale_categorical).
 
 if (run) {
@@ -641,7 +644,7 @@ if (run) {
     plot(g["lmc_PC_spdep"])
   }
 }
-#> The visual variable `fill` of the layer "polygons" contains a unique value.
+#> The map variable `fill` of the layer "polygons" contains a unique value.
 #> Therefore a categorical scale is applied (tm_scale_categorical).
 
 if (run) {
@@ -673,7 +676,7 @@ if (run) {
     plot(g["lmc_vars"])
   }
 }
-#> The visual variable `fill` of the layer "polygons" contains a unique value.
+#> The map variable `fill` of the layer "polygons" contains a unique value.
 #> Therefore a categorical scale is applied (tm_scale_categorical).
 
 if (run) {
@@ -682,7 +685,7 @@ if (run) {
     nsim=9999, alternative="two.sided"))
 }
 #>    user  system elapsed 
-#>   0.580   0.002   0.584 
+#>   0.582   0.000   0.585 
 if (run) {
   all.equal(lisa_values(lmc_vars), c(lmc_vars_spdep))
 }
@@ -731,7 +734,7 @@ if (run) {
     plot(g["lmc_vars_spdep"])
   }
 }
-#> The visual variable `fill` of the layer "polygons" contains a unique value.
+#> The map variable `fill` of the layer "polygons" contains a unique value.
 #> Therefore a categorical scale is applied (tm_scale_categorical).
 
 # }
@@ -759,10 +762,10 @@ all.equal(c(lC$localG)[o], D0)
 #> [1] TRUE
 # simulation order not retained
 lC$p_sim[o]
-#>  [1] 0.269 0.484 0.110 0.016 0.103 0.018 0.336 0.399 0.126 0.001 0.123 0.125
-#> [13] 0.186 0.244 0.479 0.208 0.105 0.316 0.001 0.036 0.033 0.078 0.071 0.277
-#> [25] 0.177 0.021 0.098 0.256 0.449 0.001 0.064 0.089 0.071 0.218 0.322 0.001
-#> [37] 0.321 0.484 0.328 0.191 0.215 0.266
+#>  [1] 0.265 0.452 0.105 0.020 0.130 0.030 0.306 0.427 0.156 0.001 0.130 0.112
+#> [13] 0.159 0.229 0.485 0.201 0.084 0.297 0.001 0.028 0.035 0.101 0.045 0.294
+#> [25] 0.155 0.027 0.107 0.275 0.473 0.001 0.073 0.089 0.100 0.214 0.335 0.001
+#> [37] 0.293 0.494 0.323 0.218 0.229 0.261
 attr(C, "pseudo-p")[,6]
 #>  [1] 0.408 0.374 0.144 0.056 0.010 0.284 0.032 0.264 0.186 0.004 0.150 0.224
 #> [13] 0.022 0.150 0.438 0.084 0.126 0.184 0.002 0.238 0.126 0.100 0.068 0.372

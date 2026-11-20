@@ -126,7 +126,7 @@ if (dothis) sf_extSoftVersion()
 ```
 
     ##           GEOS           GDAL         proj.4 GDAL_with_GEOS     USE_PROJ_H 
-    ##       "3.14.1"  "3.13.0beta1"        "9.9.0"         "true"         "true" 
+    ##       "3.15.0"       "3.13.3"        "9.9.0"         "true"         "true" 
     ##           PROJ 
     ##        "9.9.0"
 
@@ -162,7 +162,7 @@ system.time(for(i in 1:reps) NY8_sf_1_nb <- poly2nb(NY8_sf, queen=TRUE, snap=eps
 ```
 
     ##    user  system elapsed 
-    ##  0.1911  0.0090  0.2009
+    ##  0.1841  0.0086  0.1934
 
 Using spatial indices to check intersection of polygons is much faster
 than the legacy method in poly2nb. From **spdep** 1.1-7, use is made of
@@ -399,15 +399,15 @@ NY87_nb <- graph2nb(relativeneigh(NY8_ct_sf))
 K-nearest neighbours use the coordinate matrices, and can handle Great
 Circle distances, but this is not demonstrated here, as the data set
 used is planar, in which case
-[`dbscan::kNN()`](https://rdrr.io/pkg/dbscan/man/kNN.html) in 2D or 3D
-building a kd-tree is used:
+[`dbscan::kNN()`](https://michael.hahsler.net/dbscan/reference/kNN.html)
+in 2D or 3D building a kd-tree is used:
 
 ``` r
 system.time(for (i in 1:reps) suppressWarnings(NY88_nb_sf <- knn2nb(knearneigh(NY8_ct_sf, k=1))))/reps
 ```
 
     ##    user  system elapsed 
-    ##  0.0243  0.0011  0.0255
+    ##  0.0242  0.0020  0.0264
 
 Legacy code may be used omitting the kd-tree:
 
@@ -416,7 +416,7 @@ system.time(for (i in 1:reps) suppressWarnings(NY89_nb_sf <- knn2nb(knearneigh(N
 ```
 
     ##    user  system elapsed 
-    ##  0.0243  0.0012  0.0256
+    ##  0.0243  0.0018  0.0261
 
 #### Distance neighbours
 
@@ -443,21 +443,22 @@ system.time(for (i in 1:reps) suppressWarnings(NY810_nb <- dnearneigh(NY8_ct_sf,
 ```
 
     ##    user  system elapsed 
-    ##  0.0401  0.0012  0.0414
+    ##  0.0396  0.0015  0.0412
 
 By default, the function uses
-[`dbscan::frNN()`](https://rdrr.io/pkg/dbscan/man/frNN.html) to build a
-kd-tree in 2D or 3D which is then used to find distance neighbours. For
-small n, the argument `use_kd_tree=FALSE` may speed up computation a
-little by reverting to legacy code not building a kd-tree first, but in
-general the differences are so small that the user will not notice:
+[`dbscan::frNN()`](https://michael.hahsler.net/dbscan/reference/frNN.html)
+to build a kd-tree in 2D or 3D which is then used to find distance
+neighbours. For small n, the argument `use_kd_tree=FALSE` may speed up
+computation a little by reverting to legacy code not building a kd-tree
+first, but in general the differences are so small that the user will
+not notice:
 
 ``` r
 system.time(for (i in 1:reps) suppressWarnings(NY811_nb <- dnearneigh(NY8_ct_sf, d1=0, d2=0.75*max_1nn, use_kd_tree=FALSE)))/reps
 ```
 
     ##    user  system elapsed 
-    ##  0.0243  0.0014  0.0258
+    ##  0.0257  0.0012  0.0270
 
 ### Spherical point-based neighbours
 
@@ -498,7 +499,7 @@ system.time(for (i in 1:reps) pts_ll1_nb <- knn2nb(knearneigh(pts_ll, k=6)))/rep
 ```
 
     ##    user  system elapsed 
-    ##  0.0353  0.0002  0.0357
+    ##  0.0321  0.0000  0.0321
 
 For this smaller data set, the legacy approach without spatial indexing
 is adequate, but slows down as the number of observations increases:
@@ -514,7 +515,7 @@ system.time(for (i in 1:reps) pts_ll2_nb <- knn2nb(knearneigh(pts_ll, k=6)))/rep
 ```
 
     ##    user  system elapsed 
-    ##  0.0218  0.0001  0.0219
+    ##  0.0209  0.0000  0.0210
 
 The WGS84 ellipsoid Great Circle distances differ a very little from the
 **s2** spherical distances, yielding output that here diverges for two
@@ -600,7 +601,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##  0.0495  0.0000  0.0500
+    ##  0.0505  0.0000  0.0505
 
 Alternatively, spherical distances can be used with `dwithin=FALSE` and
 [`s2::s2_closest_edges()`](https://r-spatial.github.io/s2/reference/s2_closest_feature.html);
@@ -614,7 +615,7 @@ system.time(for (i in 1:(reps/5)) suppressWarnings(pts_ll5_nb <- dnearneigh(pts_
 ```
 
     ##    user  system elapsed 
-    ##  0.0390  0.0000  0.0395
+    ##  0.0375  0.0005  0.0380
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3_nb, pts_ll5_nb, check.attributes=FALSE)
@@ -636,7 +637,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##  0.0380  0.0000  0.0385
+    ##   0.037   0.000   0.037
 
 Using
 [`s2::s2_dwithin_matrix()`](https://r-spatial.github.io/s2/reference/s2_closest_feature.html)
@@ -652,7 +653,7 @@ if (packageVersion("s2") > "1.0.7") {
 ```
 
     ##    user  system elapsed 
-    ##  0.0805  0.0000  0.0805
+    ##  0.0830  0.0000  0.0835
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll3a_nb, pts_ll5a_nb, check.attributes=FALSE)
@@ -668,7 +669,7 @@ system.time(for (i in 1:reps) suppressWarnings(pts_ll6_nb <- dnearneigh(pts_ll, 
 ```
 
     ##    user  system elapsed 
-    ##  0.0136  0.0000  0.0136
+    ##  0.0144  0.0000  0.0144
 
 Minor differences may occur between the legacy ellipsoid and **s2**
 spherical approaches:
@@ -705,7 +706,7 @@ system.time(for (i in 1:reps) suppressWarnings(pts_ll6a_nb <- dnearneigh(pts_ll,
 ```
 
     ##    user  system elapsed 
-    ##  0.0134  0.0002  0.0136
+    ##  0.0141  0.0000  0.0142
 
 ``` r
 if (packageVersion("s2") > "1.0.7") all.equal(pts_ll5a_nb, pts_ll6a_nb, check.attributes=FALSE)
@@ -766,7 +767,7 @@ system.time(for (i in 1:reps) NY8_sf_1_nb_ll <- poly2nb(NY8_sf_ll, queen=TRUE, s
 ```
 
     ##    user  system elapsed 
-    ##  0.1669  0.0024  0.1699
+    ##  0.1579  0.0019  0.1603
 
 ``` r
 all.equal(NY8_sf_1_nb, NY8_sf_1_nb_ll, check.attributes=FALSE)

@@ -13,8 +13,8 @@
     }
   };
 </script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to the North Carolina SIDS data set (re-revised)">
 </head>
@@ -102,7 +102,7 @@ manual <span class="citation">(Kaluzny et al. 1996)</span>.</p>
 </h2>
 <p>We will be using the <strong>spdep</strong> and
 <strong>spreg</strong> packages, here version: spdep, version 1.4-3,
-2026-04-12, the <strong>sf</strong> package and the
+2026-11-20, the <strong>sf</strong> package and the
 <strong>tmap</strong> package. The data from the sources referred to
 above is documented in the help page for the <code>nc.sids</code> data
 set in <strong>spData</strong>. The actual data, included in a shapefile
@@ -146,48 +146,48 @@ set.</p>
 <span><span class="co">## [19] "lon"       "lat"       "L_id"      "M_id"      "geom"</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rspatial.github.io/terra/reference/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">##     CNTY_ID          AREA          PERIMETER         CNTY_     </span></span>
-<span><span class="co">##  Min.   :1825   Min.   :0.0420   Min.   :0.999   Min.   :1825  </span></span>
-<span><span class="co">##  1st Qu.:1902   1st Qu.:0.0910   1st Qu.:1.324   1st Qu.:1902  </span></span>
-<span><span class="co">##  Median :1982   Median :0.1205   Median :1.609   Median :1982  </span></span>
-<span><span class="co">##  Mean   :1986   Mean   :0.1263   Mean   :1.673   Mean   :1986  </span></span>
-<span><span class="co">##  3rd Qu.:2067   3rd Qu.:0.1542   3rd Qu.:1.859   3rd Qu.:2067  </span></span>
-<span><span class="co">##  Max.   :2241   Max.   :0.2410   Max.   :3.640   Max.   :2241  </span></span>
-<span><span class="co">##      NAME               FIPS               FIPSNO         CRESS_ID     </span></span>
-<span><span class="co">##  Length:100         Length:100         Min.   :37001   Min.   :  1.00  </span></span>
-<span><span class="co">##  Class :character   Class :character   1st Qu.:37050   1st Qu.: 25.75  </span></span>
-<span><span class="co">##  Mode  :character   Mode  :character   Median :37100   Median : 50.50  </span></span>
-<span><span class="co">##                                        Mean   :37100   Mean   : 50.50  </span></span>
-<span><span class="co">##                                        3rd Qu.:37150   3rd Qu.: 75.25  </span></span>
-<span><span class="co">##                                        Max.   :37199   Max.   :100.00  </span></span>
-<span><span class="co">##      BIR74           SID74          NWBIR74           BIR79      </span></span>
-<span><span class="co">##  Min.   :  248   Min.   : 0.00   Min.   :   1.0   Min.   :  319  </span></span>
-<span><span class="co">##  1st Qu.: 1077   1st Qu.: 2.00   1st Qu.: 190.0   1st Qu.: 1336  </span></span>
-<span><span class="co">##  Median : 2180   Median : 4.00   Median : 697.5   Median : 2636  </span></span>
-<span><span class="co">##  Mean   : 3300   Mean   : 6.67   Mean   :1051.0   Mean   : 4224  </span></span>
-<span><span class="co">##  3rd Qu.: 3936   3rd Qu.: 8.25   3rd Qu.:1168.5   3rd Qu.: 4889  </span></span>
-<span><span class="co">##  Max.   :21588   Max.   :44.00   Max.   :8027.0   Max.   :30757  </span></span>
-<span><span class="co">##      SID79          NWBIR79             east           north      </span></span>
-<span><span class="co">##  Min.   : 0.00   Min.   :    3.0   Min.   : 19.0   Min.   :  6.0  </span></span>
-<span><span class="co">##  1st Qu.: 2.00   1st Qu.:  250.5   1st Qu.:178.8   1st Qu.: 97.0  </span></span>
-<span><span class="co">##  Median : 5.00   Median :  874.5   Median :285.0   Median :125.5  </span></span>
-<span><span class="co">##  Mean   : 8.36   Mean   : 1352.8   Mean   :271.3   Mean   :122.1  </span></span>
-<span><span class="co">##  3rd Qu.:10.25   3rd Qu.: 1406.8   3rd Qu.:361.2   3rd Qu.:151.5  </span></span>
-<span><span class="co">##  Max.   :57.00   Max.   :11631.0   Max.   :482.0   Max.   :182.0  </span></span>
-<span><span class="co">##        x                 y             lon              lat       </span></span>
-<span><span class="co">##  Min.   :-328.04   Min.   :3757   Min.   :-84.08   Min.   :33.92  </span></span>
-<span><span class="co">##  1st Qu.: -60.55   1st Qu.:3920   1st Qu.:-81.20   1st Qu.:35.26  </span></span>
-<span><span class="co">##  Median : 114.38   Median :3963   Median :-79.26   Median :35.68  </span></span>
-<span><span class="co">##  Mean   :  91.46   Mean   :3953   Mean   :-79.51   Mean   :35.62  </span></span>
-<span><span class="co">##  3rd Qu.: 240.03   3rd Qu.:4000   3rd Qu.:-77.87   3rd Qu.:36.05  </span></span>
-<span><span class="co">##  Max.   : 439.65   Max.   :4060   Max.   :-75.67   Max.   :36.52  </span></span>
-<span><span class="co">##       L_id           M_id                 geom    </span></span>
-<span><span class="co">##  Min.   :1.00   Min.   :1.00   MULTIPOLYGON :100  </span></span>
-<span><span class="co">##  1st Qu.:1.00   1st Qu.:2.00   epsg:4267    :  0  </span></span>
-<span><span class="co">##  Median :2.00   Median :3.00   +proj=long...:  0  </span></span>
-<span><span class="co">##  Mean   :2.12   Mean   :2.67                      </span></span>
-<span><span class="co">##  3rd Qu.:3.00   3rd Qu.:3.25                      </span></span>
-<span><span class="co">##  Max.   :4.00   Max.   :4.00</span></span></code></pre>
+<pre><code><span><span class="co">##     CNTY_ID          AREA          PERIMETER         CNTY_             NAME    </span></span>
+<span><span class="co">##  Min.   :1825   Min.   :0.0420   Min.   :0.999   Min.   :1825   Length   :100  </span></span>
+<span><span class="co">##  1st Qu.:1902   1st Qu.:0.0910   1st Qu.:1.324   1st Qu.:1902   N.unique :100  </span></span>
+<span><span class="co">##  Median :1982   Median :0.1205   Median :1.609   Median :1982   N.blank  :  0  </span></span>
+<span><span class="co">##  Mean   :1986   Mean   :0.1263   Mean   :1.673   Mean   :1986   Min.nchar:  3  </span></span>
+<span><span class="co">##  3rd Qu.:2067   3rd Qu.:0.1542   3rd Qu.:1.859   3rd Qu.:2067   Max.nchar: 12  </span></span>
+<span><span class="co">##  Max.   :2241   Max.   :0.2410   Max.   :3.640   Max.   :2241                  </span></span>
+<span><span class="co">##         FIPS         FIPSNO         CRESS_ID          BIR74      </span></span>
+<span><span class="co">##  Length   :100   Min.   :37001   Min.   :  1.00   Min.   :  248  </span></span>
+<span><span class="co">##  N.unique :100   1st Qu.:37050   1st Qu.: 25.75   1st Qu.: 1077  </span></span>
+<span><span class="co">##  N.blank  :  0   Median :37100   Median : 50.50   Median : 2180  </span></span>
+<span><span class="co">##  Min.nchar:  5   Mean   :37100   Mean   : 50.50   Mean   : 3300  </span></span>
+<span><span class="co">##  Max.nchar:  5   3rd Qu.:37150   3rd Qu.: 75.25   3rd Qu.: 3936  </span></span>
+<span><span class="co">##                  Max.   :37199   Max.   :100.00   Max.   :21588  </span></span>
+<span><span class="co">##      SID74          NWBIR74           BIR79           SID79      </span></span>
+<span><span class="co">##  Min.   : 0.00   Min.   :   1.0   Min.   :  319   Min.   : 0.00  </span></span>
+<span><span class="co">##  1st Qu.: 2.00   1st Qu.: 190.0   1st Qu.: 1336   1st Qu.: 2.00  </span></span>
+<span><span class="co">##  Median : 4.00   Median : 697.5   Median : 2636   Median : 5.00  </span></span>
+<span><span class="co">##  Mean   : 6.67   Mean   :1051.0   Mean   : 4224   Mean   : 8.36  </span></span>
+<span><span class="co">##  3rd Qu.: 8.25   3rd Qu.:1168.5   3rd Qu.: 4889   3rd Qu.:10.25  </span></span>
+<span><span class="co">##  Max.   :44.00   Max.   :8027.0   Max.   :30757   Max.   :57.00  </span></span>
+<span><span class="co">##     NWBIR79             east           north             x          </span></span>
+<span><span class="co">##  Min.   :    3.0   Min.   : 19.0   Min.   :  6.0   Min.   :-328.04  </span></span>
+<span><span class="co">##  1st Qu.:  250.5   1st Qu.:178.8   1st Qu.: 97.0   1st Qu.: -60.55  </span></span>
+<span><span class="co">##  Median :  874.5   Median :285.0   Median :125.5   Median : 114.38  </span></span>
+<span><span class="co">##  Mean   : 1352.8   Mean   :271.3   Mean   :122.1   Mean   :  91.46  </span></span>
+<span><span class="co">##  3rd Qu.: 1406.8   3rd Qu.:361.2   3rd Qu.:151.5   3rd Qu.: 240.03  </span></span>
+<span><span class="co">##  Max.   :11631.0   Max.   :482.0   Max.   :182.0   Max.   : 439.65  </span></span>
+<span><span class="co">##        y             lon              lat             L_id           M_id     </span></span>
+<span><span class="co">##  Min.   :3757   Min.   :-84.08   Min.   :33.92   Min.   :1.00   Min.   :1.00  </span></span>
+<span><span class="co">##  1st Qu.:3920   1st Qu.:-81.20   1st Qu.:35.26   1st Qu.:1.00   1st Qu.:2.00  </span></span>
+<span><span class="co">##  Median :3963   Median :-79.26   Median :35.68   Median :2.00   Median :3.00  </span></span>
+<span><span class="co">##  Mean   :3953   Mean   :-79.51   Mean   :35.62   Mean   :2.12   Mean   :2.67  </span></span>
+<span><span class="co">##  3rd Qu.:4000   3rd Qu.:-77.87   3rd Qu.:36.05   3rd Qu.:3.00   3rd Qu.:3.25  </span></span>
+<span><span class="co">##  Max.   :4060   Max.   :-75.67   Max.   :36.52   Max.   :4.00   Max.   :4.00  </span></span>
+<span><span class="co">##             geom    </span></span>
+<span><span class="co">##  MULTIPOLYGON :100  </span></span>
+<span><span class="co">##  epsg:4267    :  0  </span></span>
+<span><span class="co">##  +proj=long...:  0  </span></span>
+<span><span class="co">##                     </span></span>
+<span><span class="co">##                     </span></span>
+<span><span class="co">## </span></span></code></pre>
 <p>Let’s check the different versions of the data against each other -
 <strong>sf</strong> and <strong>spData</strong> have NC SIDS files, as
 does GeoDa Center in two forms:</p>
@@ -235,7 +235,9 @@ does GeoDa Center in two forms:</p>
 <span><span class="co">##             ANGLEUNIT["degree",0.0174532925199433]],</span></span>
 <span><span class="co">##     USAGE[</span></span>
 <span><span class="co">##         SCOPE["Geodesy."],</span></span>
-<span><span class="co">##         AREA["North and central America: Antigua and Barbuda - onshore. Bahamas - onshore plus offshore over internal continental shelf only. Belize - onshore. British Virgin Islands - onshore. Canada onshore - Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan and Yukon - plus offshore east coast west of 44°W and north of 40°N. Cuba - onshore and offshore. El Salvador - onshore. Guatemala - onshore. Honduras - onshore. Panama - onshore. Puerto Rico - onshore. Mexico - onshore plus offshore east coast. Nicaragua - onshore. United States (USA) onshore and offshore - Alabama, Alaska, Arizona, Arkansas, California, Colorado, Connecticut, Delaware, Florida, Georgia, Idaho, Illinois, Indiana, Iowa, Kansas, Kentucky, Louisiana, Maine, Maryland, Massachusetts, Michigan, Minnesota, Mississippi, Missouri, Montana, Nebraska, Nevada, New Hampshire, New Jersey, New Mexico, New York, North Carolina, North Dakota, Ohio, Oklahoma, Oregon, Pennsylvania, Rhode Island, South Carolina, South Dakota, Tennessee, Texas, Utah, Vermont, Virginia, Washington, West Virginia, Wisconsin and Wyoming - plus offshore . US Virgin Islands - onshore."],</span></span>
+<span><span class="co">##         AREA["North and central America: Antigua and Barbuda - onshore. Bahamas - onshore plus offshore over internal continental shelf only. Belize - onshore. British Virgin Islands - onshore. Canada onshore - Alberta, British Columbia, Manitoba, New Brunswick, Newfoundland and Labrador, Northwest Territories, Nova Scotia, Nunavut, Ontario, Prince Edward Island, Quebec, Saskatchewan and Yukon - plus offshore east coast west of 44°W and north of 40°N. Cuba - onshore and offshore. El Salvador - onshore. Guatemala - onshore. Honduras - onshore. Panama - onshore. Puerto Rico - onshore. Mexico - onshore plus offshore east coast. Nicaragua - onshore. United States (USA) - Alaska and </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## onshore and offshore. US Virgin Islands - onshore."],</span></span>
 <span><span class="co">##         BBOX[7.15,167.65,83.17,-43.99]],</span></span>
 <span><span class="co">##     ID["EPSG",4267],</span></span>
 <span><span class="co">##     REMARK["Note: this CRS includes longitudes which are POSITIVE EAST. Replaced by NAD27(76) (code 4608) in Ontario, CGQ77 (code 4609) in Quebec, Mexican Datum of 1993 (code 4483) in Mexico, NAD83 (code 4269) in Canada (excl. Ontario &amp; Quebec) &amp; USA."]]</span></span></code></pre>
@@ -792,7 +794,7 @@ Rare Events.”</span> <em>Biometrics</em> 39: 193–205.
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>

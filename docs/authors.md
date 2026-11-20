@@ -30,6 +30,9 @@
 - **Dewey Dunnington**. Contributor.
   [](https://orcid.org/0000-0002-9415-4582)
 
+- **Diego Giuliani**. Contributor.
+  [](https://orcid.org/0000-0002-7198-6714)
+
 - **Virgilio Gómez-Rubio**. Contributor.
 
 - **Malabika Koley**. Contributor.

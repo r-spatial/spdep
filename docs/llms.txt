@@ -323,6 +323,15 @@ Moved from [R-Forge](https://r-forge.r-project.org/projects/spdep/)
   [`complement.nb()`](https://r-spatial.github.io/spdep/reference/nboperations.md)
   : Set operations on neighborhood objects
 
+- [`normalized.moran()`](https://r-spatial.github.io/spdep/reference/normalized.moran.md)
+  : Compute Normalized Moran's \\I\\
+
+- [`normalized.moran.mc()`](https://r-spatial.github.io/spdep/reference/normalized.moran.mc.md)
+  : Permutation test for normalized Moran's \\I\\ statistic
+
+- [`normalized.moran.test()`](https://r-spatial.github.io/spdep/reference/normalized.moran.test.md)
+  : Normalized Moran's \\I\\ test for spatial autocorrelation
+
 - [`p.adjustSP()`](https://r-spatial.github.io/spdep/reference/p.adjustSP.md)
   : Adjust local association measures' p-values
 

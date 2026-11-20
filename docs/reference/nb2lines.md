@@ -96,13 +96,13 @@ columbus <- st_read(system.file("shapes/columbus.gpkg", package="spData")[1], qu
 col.gal.nb <- read.gal(system.file("weights/columbus.gal", package="spData")[1])
 res <- listw2lines(nb2listw(col.gal.nb), st_geometry(columbus))
 summary(res)
-#>        i               j             i_ID               j_ID          
-#>  Min.   : 1.00   Min.   : 1.00   Length:230         Length:230        
-#>  1st Qu.:13.00   1st Qu.:13.00   Class :character   Class :character  
-#>  Median :24.00   Median :24.00   Mode  :character   Mode  :character  
-#>  Mean   :24.19   Mean   :24.19                                        
-#>  3rd Qu.:35.00   3rd Qu.:35.00                                        
-#>  Max.   :49.00   Max.   :49.00                                        
+#>        i               j                i_ID            j_ID    
+#>  Min.   : 1.00   Min.   : 1.00   Length   :230   Length   :230  
+#>  1st Qu.:13.00   1st Qu.:13.00   N.unique : 49   N.unique : 49  
+#>  Median :24.00   Median :24.00   N.blank  :  0   N.blank  :  0  
+#>  Mean   :24.19   Mean   :24.19   Min.nchar:  1   Min.nchar:  1  
+#>  3rd Qu.:35.00   3rd Qu.:35.00   Max.nchar:  2   Max.nchar:  2  
+#>  Max.   :49.00   Max.   :49.00                                  
 #>        wt               geometry  
 #>  Min.   :0.1000   LINESTRING:230  
 #>  1st Qu.:0.1429   epsg:NA   :  0  
@@ -112,25 +112,25 @@ summary(res)
 #>  Max.   :0.5000                   
 tf <- paste0(tempfile(), ".gpkg")
 st_write(res, dsn=tf, driver="GPKG")
-#> Writing layer `file2abe4b3d895056' to data source 
-#>   `/tmp/RtmpdZ48NN/file2abe4b3d895056.gpkg' using driver `GPKG'
+#> Writing layer `file326b0598c953' to data source 
+#>   `/tmp/RtmpxcJzF5/file326b0598c953.gpkg' using driver `GPKG'
 #> Writing 230 features with 5 fields and geometry type Line String.
 inMap <- st_read(tf)
-#> Reading layer `file2abe4b3d895056' from data source 
-#>   `/tmp/RtmpdZ48NN/file2abe4b3d895056.gpkg' using driver `GPKG'
+#> Reading layer `file326b0598c953' from data source 
+#>   `/tmp/RtmpxcJzF5/file326b0598c953.gpkg' using driver `GPKG'
 #> Simple feature collection with 230 features and 5 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
 #> Bounding box:  xmin: 6.165913 ymin: 11.04088 xmax: 10.96206 ymax: 14.43766
 #> Projected CRS: Undefined Cartesian SRS with unknown unit
 summary(inMap)
-#>        i               j             i_ID               j_ID          
-#>  Min.   : 1.00   Min.   : 1.00   Length:230         Length:230        
-#>  1st Qu.:13.00   1st Qu.:13.00   Class :character   Class :character  
-#>  Median :24.00   Median :24.00   Mode  :character   Mode  :character  
-#>  Mean   :24.19   Mean   :24.19                                        
-#>  3rd Qu.:35.00   3rd Qu.:35.00                                        
-#>  Max.   :49.00   Max.   :49.00                                        
+#>        i               j                i_ID            j_ID    
+#>  Min.   : 1.00   Min.   : 1.00   Length   :230   Length   :230  
+#>  1st Qu.:13.00   1st Qu.:13.00   N.unique : 49   N.unique : 49  
+#>  Median :24.00   Median :24.00   N.blank  :  0   N.blank  :  0  
+#>  Mean   :24.19   Mean   :24.19   Min.nchar:  1   Min.nchar:  1  
+#>  3rd Qu.:35.00   3rd Qu.:35.00   Max.nchar:  2   Max.nchar:  2  
+#>  Max.   :49.00   Max.   :49.00                                  
 #>        wt                 geom    
 #>  Min.   :0.1000   LINESTRING:230  
 #>  1st Qu.:0.1429   epsg:NA   :  0  
@@ -161,13 +161,13 @@ summary(res1)
 #> Is projected: TRUE 
 #> proj4string : [NA]
 #> Data attributes:
-#>        i               j             i_ID               j_ID          
-#>  Min.   : 1.00   Min.   : 1.00   Length:230         Length:230        
-#>  1st Qu.:13.00   1st Qu.:13.00   Class :character   Class :character  
-#>  Median :24.00   Median :24.00   Mode  :character   Mode  :character  
-#>  Mean   :24.19   Mean   :24.19                                        
-#>  3rd Qu.:35.00   3rd Qu.:35.00                                        
-#>  Max.   :49.00   Max.   :49.00                                        
+#>        i               j                i_ID            j_ID    
+#>  Min.   : 1.00   Min.   : 1.00   Length   :230   Length   :230  
+#>  1st Qu.:13.00   1st Qu.:13.00   N.unique : 49   N.unique : 49  
+#>  Median :24.00   Median :24.00   N.blank  :  0   N.blank  :  0  
+#>  Mean   :24.19   Mean   :24.19   Min.nchar:  1   Min.nchar:  1  
+#>  3rd Qu.:35.00   3rd Qu.:35.00   Max.nchar:  2   Max.nchar:  2  
+#>  Max.   :49.00   Max.   :49.00                                  
 #>        wt        
 #>  Min.   :0.1000  
 #>  1st Qu.:0.1429  
