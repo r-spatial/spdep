@@ -158,8 +158,8 @@ moran.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
 	res[nsim+1] <- moran(x, listw, n, S0, zero.policy)$I
 	rankres <- rank(res)
 	xrank <- rankres[length(res)]
-	diff <- nsim - xrank
-	diff <- ifelse(diff > 0, diff, 0)
+	diff <- (nsim+1) - xrank
+#	diff <- ifelse(diff > 0, diff, 0)
 	if (alternative == "less") 
         	pval <- punif((diff + 1)/(nsim + 1), lower.tail=FALSE)
     	else if (alternative == "greater") 

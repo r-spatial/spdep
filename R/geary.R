@@ -173,8 +173,8 @@ geary.mc <- function(x, listw, nsim, zero.policy=attr(listw, "zero.policy"),
             scale=scale)$C
 	rankres <- rank(res)
 	xrank <- rankres[length(res)]
-	diff <- nsim - xrank
-	diff <- ifelse(diff > 0, diff, 0)
+	diff <- (nsim+1) - xrank
+#	diff <- ifelse(diff > 0, diff, 0)
 # order changed 110411 RSB (C&O 1973, p. 21) Thanks to Daniel Garavito
         if (alternative == "greater") 
         	pval <- punif((diff + 1)/(nsim + 1), lower.tail=FALSE)
