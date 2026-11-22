@@ -68,7 +68,7 @@ run_perm <- function(fun, idx, env, iseed, varlist) {
 }
 
 probs_lut <- function(stat="I", nsim, alternative) {
-    gr <- punif((1:(nsim+1))/(nsim+1), 0, 1)
+    gr <- punif((1:(nsim+1))/(nsim+1), 0, 1, lower.tail=FALSE)
     ls <- rev(gr)
     ts <- (ifelse(gr > ls, ls, gr))*2
     if (alternative == "two.sided") {

@@ -25,7 +25,7 @@ localmoran.sad(model, select, nb, glist=NULL, style="W",
  resfun=weighted.residuals, save.Vi=FALSE,
  tol = .Machine$double.eps^0.5, maxiter = 1000, tol.bounds=0.0001,
  save.M=FALSE, Omega = NULL)
-%as.data.frame.localmoransad(x, row.names=NULL, optional=FALSE) 
+\method{as.data.frame}{localmoransad}(x, row.names=NULL, optional=FALSE, ...) 
 \method{print}{localmoransad}(x, ...)
 \method{summary}{localmoransad}(object, ...)
 \method{print}{summary.localmoransad}(x, ...)
@@ -52,10 +52,10 @@ tested}
   \item{save.M}{if TRUE, save a list of left and right M products in a list for the conditional tests, or a list of the regression model matrix components}
   \item{Omega}{A SAR process matrix may be passed in to test an alternative hypothesis, for example \code{Omega <- invIrW(listw, rho=0.1); Omega <- tcrossprod(Omega)}, \code{chol()} is taken internally}
   \item{x}{object to be printed}
-%  \item{row.names}{ignored argument to \code{as.data.frame.localmoransad};
-%row names assigned from localmoransad object}
-%  \item{optional}{ignored argument to \code{as.data.frame.localmoransad};
-%row names assigned from localmoransad object}
+  \item{row.names}{ignored argument to \code{as.data.frame.localmoransad};
+row names assigned from localmoransad object}
+  \item{optional}{ignored argument to \code{as.data.frame.localmoransad};
+row names assigned from localmoransad object}
   \item{object}{object to be summarised}
   \item{...}{arguments to be passed through}
   \item{listw}{a \code{listw} object created for example by \code{nb2listw}}

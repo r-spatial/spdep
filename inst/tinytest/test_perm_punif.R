@@ -1,0 +1,8 @@
+library(spdep)
+data(afcon, package = "spData")
+resIg <- localmoran_perm(afcon$totcon, nb2listw(paper.nb), alternative = "greater", iseed=3456)
+resIl <- localmoran_perm(afcon$totcon, nb2listw(paper.nb), alternative = "less", iseed=3456)
+resIts <- localmoran_perm(afcon$totcon, nb2listw(paper.nb), alternative = "two.sided", iseed=3456)
+expect_true(cor(resIg[, "Pr(z > E(Ii))"], resIg[, "Pr(z > E(Ii)) Sim"]) > 0.98)
+expect_true(cor(resIl[, "Pr(z < E(Ii))"], resIl[, "Pr(z < E(Ii)) Sim"]) > 0.98)
+expect_true(cor(resIts[, "Pr(z != E(Ii))"], resIts[, "Pr(z != E(Ii)) Sim"]) > 0.95)
