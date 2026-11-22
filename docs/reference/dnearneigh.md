@@ -243,7 +243,7 @@ system.time(o <- nbdists(gck1b, xy1))
 system.time(gc.nb.dwithin <- dnearneigh(xy1, 0, all.linked, use_s2=TRUE, dwithin=TRUE))
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.013   0.000   0.013 
+#>   0.012   0.001   0.013 
 summary(gc.nb, xy1, scale=0.5)
 #> Neighbour list object:
 #> Number of regions: 48 
@@ -265,13 +265,13 @@ if (packageVersion("s2") > "1.0.7") {
 }
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.011   0.000   0.011 
+#>   0.011   0.000   0.010 
 if (packageVersion("s2") > "1.0.7") {
 system.time(gc.nb.dwithin <- dnearneigh(xy1, 0, all.linked, use_s2=TRUE, dwithin=TRUE))
 }
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.013   0.000   0.013 
+#>   0.013   0.001   0.014 
 if (packageVersion("s2") > "1.0.7") {
 summary(gc.nb.dwithin, xy1, scale=0.5)
 }
@@ -314,7 +314,7 @@ summary(gc.nb.closest, xy1, scale=0.5)
 system.time(gc.nb.legacy <- dnearneigh(xy1, 0, all.linked, use_s2=FALSE))
 #> Warning: neighbour object has 3 sub-graphs
 #>    user  system elapsed 
-#>   0.006   0.000   0.006 
+#>   0.005   0.000   0.005 
 summary(gc.nb, xy1, scale=0.5)
 #> Neighbour list object:
 #> Number of regions: 48 

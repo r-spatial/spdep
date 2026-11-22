@@ -71,7 +71,7 @@ if (GDAL37) {
     bh <- st_read(target)
 }
 #> Reading layer `bhicv' from data source 
-#>   `/tmp/RtmplCSFTs/temp_libpath3214367cc040f/spdep/etc/shapes/bhicv.gpkg.zip' 
+#>   `/tmp/RtmpzMop8z/temp_libpath7017b6e219454/spdep/etc/shapes/bhicv.gpkg.zip' 
 #>   using driver `GPKG'
 #> Simple feature collection with 98 features and 8 fields
 #> Geometry type: POLYGON
@@ -93,7 +93,7 @@ nb.w <- nb2listw(bh.nb, lcosts, style="B")
 ### find a minimum spanning tree
 system.time(mst.bh <- mstree(nb.w,5))
 #>    user  system elapsed 
-#>   0.002   0.000   0.002 
+#>   0.001   0.000   0.001 
 dim(mst.bh)
 #> [1] 97  3
 head(mst.bh)

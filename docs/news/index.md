@@ -2,13 +2,22 @@
 
 ## Version 1.4-3 (development)
 
-- Moran scatterplot enhancements were contributed by René Westerholt
+- [\#185](https://github.com/r-spatial/spdep/issues/185) Quoc Hoang
+  Nguyen kindly reported that one-sided local permutation tests reversed
+  the meaning of less and greater, for example in `localmoran_perm` and
+  elsewhere, where `probs_lut` was used. In most cases, default
+  two-sided permutation tests were used, so the only output affected
+  would be when a user chose a non-default alternative argument value. A
+  test was added to check that analytical and permutation p-values are
+  correctly correlated.
+
+- Moran scatterplot enhancements were contributed by René Westerholt.
 
 - add `NO_LEGACY_NONAP`
 
-- add `normalized.moran.test` and `normalized.moran.mc` to compute the I
-  6 normalized Moran’s I index and perform the associated tests by Tillé
-  et al. (2026)
+- add `normalized.moran.test` and `normalized.moran.mc` to compute the
+  `I_6` normalized Moran’s I index and perform the associated tests by
+  Tillé et al. (2026)
 
 ## Version 1.4-2 (2026-02-13)
 

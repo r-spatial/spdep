@@ -189,6 +189,7 @@
   : Exact local Moran's Ii tests
 
 - [`localmoran.sad()`](https://r-spatial.github.io/spdep/reference/localmoran.sad.md)
+  [`as.data.frame(`*`<localmoransad>`*`)`](https://r-spatial.github.io/spdep/reference/localmoran.sad.md)
   [`print(`*`<localmoransad>`*`)`](https://r-spatial.github.io/spdep/reference/localmoran.sad.md)
   [`summary(`*`<localmoransad>`*`)`](https://r-spatial.github.io/spdep/reference/localmoran.sad.md)
   [`print(`*`<summary.localmoransad>`*`)`](https://r-spatial.github.io/spdep/reference/localmoran.sad.md)

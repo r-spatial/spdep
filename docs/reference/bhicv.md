@@ -52,7 +52,7 @@ if (GDAL37) {
     bh <- st_read(target)
 }
 #> Reading layer `bhicv' from data source 
-#>   `/tmp/RtmplCSFTs/temp_libpath3214367cc040f/spdep/etc/shapes/bhicv.gpkg.zip' 
+#>   `/tmp/RtmpzMop8z/temp_libpath7017b6e219454/spdep/etc/shapes/bhicv.gpkg.zip' 
 #>   using driver `GPKG'
 #> Simple feature collection with 98 features and 8 fields
 #> Geometry type: POLYGON

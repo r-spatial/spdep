@@ -13,19 +13,22 @@ approximation - is based on the randomisation assumption.
 
 ## Usage
 
-    localmoran.sad(model, select, nb, glist=NULL, style="W",
-     zero.policy=NULL, alternative="two.sided", spChk=NULL,
-     resfun=weighted.residuals, save.Vi=FALSE,
-     tol = .Machine$double.eps^0.5, maxiter = 1000, tol.bounds=0.0001,
-     save.M=FALSE, Omega = NULL)
-    <!-- %as.data.frame.localmoransad(x, row.names=NULL, optional=FALSE)  -->
-    # S3 method for class 'localmoransad'
-    print(x, ...)
-    # S3 method for class 'localmoransad'
-    summary(object, ...)
-    # S3 method for class 'summary.localmoransad'
-    print(x, ...)
-    listw2star(listw, ireg, style, n, D, a, zero.policy=attr(listw, "zero.policy"))
+``` r
+localmoran.sad(model, select, nb, glist=NULL, style="W",
+ zero.policy=NULL, alternative="two.sided", spChk=NULL,
+ resfun=weighted.residuals, save.Vi=FALSE,
+ tol = .Machine$double.eps^0.5, maxiter = 1000, tol.bounds=0.0001,
+ save.M=FALSE, Omega = NULL)
+# S3 method for class 'localmoransad'
+as.data.frame(x, row.names=NULL, optional=FALSE, ...) 
+# S3 method for class 'localmoransad'
+print(x, ...)
+# S3 method for class 'localmoransad'
+summary(object, ...)
+# S3 method for class 'summary.localmoransad'
+print(x, ...)
+listw2star(listw, ireg, style, n, D, a, zero.policy=attr(listw, "zero.policy"))
+```
 
 ## Arguments
 
@@ -110,7 +113,15 @@ approximation - is based on the randomisation assumption.
 
   object to be printed
 
-&nbsp;
+- row.names:
+
+  ignored argument to `as.data.frame.localmoransad`; row names assigned
+  from localmoransad object
+
+- optional:
+
+  ignored argument to `as.data.frame.localmoransad`; row names assigned
+  from localmoransad object
 
 - object:
 

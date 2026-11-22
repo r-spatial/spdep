@@ -135,7 +135,7 @@ sim1
 #> weights: nb2listw(COL.nb, style = "W")  
 #> number of simulations + 1: 100 
 #> 
-#> statistic = 0.52987, observed rank = 1, p-value = 0.99
+#> statistic = 0.52987, observed rank = 1, p-value = 1
 #> alternative hypothesis: less
 #> 
 mean(sim1$res)
@@ -156,7 +156,7 @@ sim2
 #> weights: nb2listw(colold.lags[[2]], style = "W")  
 #> number of simulations + 1: 100 
 #> 
-#> statistic = 0.81129, observed rank = 1, p-value = 0.01
+#> statistic = 0.81129, observed rank = 1, p-value < 2.2e-16
 #> alternative hypothesis: greater
 #> 
 summary(sim2$res)
@@ -172,7 +172,7 @@ sim3
 #> weights: nb2listw(colold.lags[[3]], style = "W")  
 #> number of simulations + 1: 100 
 #> 
-#> statistic = 1.1303, observed rank = 89, p-value = 0.89
+#> statistic = 1.1303, observed rank = 89, p-value = 0.88
 #> alternative hypothesis: greater
 #> 
 summary(sim3$res)
@@ -194,7 +194,7 @@ geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
 #> omitted: 14, 16, 17, 21, 24, 31, 32, 42, 44, 47 
 #> number of simulations + 1: 100 
 #> 
-#> statistic = 0.49368, observed rank = 1, p-value = 0.01
+#> statistic = 0.49368, observed rank = 1, p-value < 2.2e-16
 #> alternative hypothesis: greater
 #> 
 geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
@@ -225,7 +225,7 @@ geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,
 #> omitted: 14, 16, 17, 21, 24, 31, 32, 42, 44, 47 
 #> number of simulations + 1: 100 
 #> 
-#> statistic = 0.49368, observed rank = 1, p-value = 0.01
+#> statistic = 0.49368, observed rank = 1, p-value < 2.2e-16
 #> alternative hypothesis: greater
 #> 
 geary.mc(crime, nb2listw(COL.nb, style="W"), nsim=99, zero.policy=TRUE,

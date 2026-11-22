@@ -112,12 +112,12 @@ summary(res)
 #>  Max.   :0.5000                   
 tf <- paste0(tempfile(), ".gpkg")
 st_write(res, dsn=tf, driver="GPKG")
-#> Writing layer `file326b0598c953' to data source 
-#>   `/tmp/RtmpxcJzF5/file326b0598c953.gpkg' using driver `GPKG'
+#> Writing layer `file70369182bae1e' to data source 
+#>   `/tmp/RtmpmOgqQg/file70369182bae1e.gpkg' using driver `GPKG'
 #> Writing 230 features with 5 fields and geometry type Line String.
 inMap <- st_read(tf)
-#> Reading layer `file326b0598c953' from data source 
-#>   `/tmp/RtmpxcJzF5/file326b0598c953.gpkg' using driver `GPKG'
+#> Reading layer `file70369182bae1e' from data source 
+#>   `/tmp/RtmpmOgqQg/file70369182bae1e.gpkg' using driver `GPKG'
 #> Simple feature collection with 230 features and 5 fields
 #> Geometry type: LINESTRING
 #> Dimension:     XY
